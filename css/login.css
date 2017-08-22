@@ -1,0 +1,141 @@
+.div_normal {
+    display: block;
+    height: 30%;
+    width: 100%;
+    background-color: lightblue;
+    border-color: red;
+}
+
+#div_fondo {
+    background: url(../img/fondo-login.jpg);
+    background-size: cover;
+    margin: auto;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+}
+
+#div_footer_IS {
+    position: absolute;
+    width: 100%;
+    height: 45px;
+    bottom: 0%;
+    left: 0%;
+    background-color: #215E3E;
+    color: white;
+    font-family: Arial;
+    font-size: 9pt;
+    text-align: center;
+}
+
+#div_dataLogin_IS {
+    width: 350px;
+    height: 400px;
+    margin: auto;
+    background-color: #215E3E;
+    border: solid 3.0pt #4A8265;
+    border-radius: 25px;
+    opacity: 0.85;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
+}
+
+#div_titulo_IS {
+    height: 20%;
+    background: transparent;
+}
+
+#div_titulo_IS > p {
+    text-align: center;
+    font-size: 32pt;
+    margin-top: 3%;
+    /*text-shadow: 1px -3px 20px rgba(18,107,0,1);*/
+    font-weight:bold;
+    color:darkgreen;
+    text-shadow: 2px 2px 0px azure, 8px 8px 0px rgba(0,0,0,0.15);
+    font-family:helvetica;
+}
+
+.label_datos_IS {
+    display: block;
+    color: beige;
+    font-size: 15pt;
+    text-align: center;
+    font-weight: bold;
+    font-family: Arial;
+    transition: 0.3s ease-in;
+    opacity: 0;
+    visibility: hidden;
+    text-shadow: 0px -2px 5px black;
+}
+
+.input_datos_IS {
+    display: block;
+    color: black;
+    height: 45px;
+    width: 275px;
+    font-size: 15pt;
+    font-family: Arial;
+    text-align: center;
+    border-radius: 5px;
+    margin: auto;
+    margin-bottom: 10%;
+    margin-top: -10%;
+    transition: 0.3s ease-in;
+    padding-top: 5px;
+}
+
+#div_dataLogin_IS > p {
+    text-align: center;
+    font-size: 25pt;
+    font-weight: bold;
+    font-family: Arial;
+    text-decoration: underline;
+    margin-bottom: 13%;
+    color: azure;
+    text-shadow: 10px 10px 20px rgba(0, 0, 0,1)
+}
+
+#div_dataLogin_IS > button {
+    width: 150px;
+    height: 40px;
+    display: block;
+    margin: auto;
+    font-size: 18pt;
+    color: azure;
+    background-color: #1B9258;
+    border-radius: 20px;
+    margin-top: 13%;
+    transition: 0.3s ease-in;
+    cursor: hand;
+}
+
+#div_banner_IS {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0%;
+    left: 0%;
+    opacity: 0.9;
+    background: url(../img/loading.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: white;
+    transition: 1s ease-in;
+}
+#div_banner_IS > p {
+    text-align: center;
+    text-align-last: center;
+    top: 70%;
+    position: relative;
+    font-family: Arial;
+    font-size: 20pt;
+    text-shadow: 1px 1px 1px darkgreen;
+}
+
+html {
+    overflow: hidden;
+}

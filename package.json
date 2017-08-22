@@ -1,0 +1,19 @@
+{
+  "name": "escenarios-mtr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./js/main.js",
+  "scripts": {
+    "test": "electron .",
+    "package-win": "electron-packager . Analizador --overwrite --platform=win32 --arch=x64 --icon=img/icono.ico --out=../ --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Analizador\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^1.7.5",
+    "electron-packager": "^8.7.2",
+    "electron-rebuild": "^1.6.0",
+    "electron-squirrel-startup": "^1.0.0"
+  }
+}
