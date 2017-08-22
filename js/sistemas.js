@@ -23,9 +23,15 @@ class Sistemas {
 
                 if (stdout.startsWith('ERROR')) {
                     console.log('-reject-');
-                    //reject({'mensaje': stdout.split(':')[1]});
-                    resolve({
-                        sistemas: [
+                    var jsonErr = {
+                        mensaje: stdout.split('->')[1],
+                        estado: false,
+                        sistemas: []
+                    };
+                    console.log(jsonErr);
+                    reject(jsonErr);
+                    /*resolve({
+                        /*sistemas: [
                             {
                                 nombre: 'BCAx',
                                 estado: 1
@@ -39,10 +45,13 @@ class Sistemas {
                                 estado: 1
                             }
                         ]
-                    });
+                    });*/
                 } else {
                     console.log('-envia JSON-');
                     const json = JSON.parse(stdout);
+                    json.estado = true;
+                    json.mensaje = 'Consulta realizada correctamente';
+                    console.log(JSON.stringify(json));
                     resolve(json);
                 }
             });

@@ -1,5 +1,5 @@
 const electron = require('electron');
-const{ app, BrowserWindow, Menu, ipcMain } = electron;
+const { app, BrowserWindow, Menu, ipcMain } = electron;
 const Sistemas = require('./sistemas.js');
 const sistemas = new Sistemas();
 const crearMenu = require('./menuTemplate.js');
@@ -7,6 +7,7 @@ const TO_BD = 2000;
 let win;
 
 
+/////////          Para la generacion del instalador             //////////////
 
 // this should be placed at top of main.js to handle setup events quickly
 if (handleSquirrelEvent(app)) {
@@ -21,7 +22,6 @@ function handleSquirrelEvent(application) {
 
     const ChildProcess = require('child_process');
     const path = require('path');
-
     const appFolder = path.resolve(process.execPath, '..');
     const rootAtomFolder = path.resolve(appFolder, '..');
     const updateDotExe = path.resolve(path.join(rootAtomFolder, 'Update.exe'));
@@ -51,7 +51,6 @@ function handleSquirrelEvent(application) {
             // - Add your .exe to the PATH
             // - Write to the registry for things like file associations and
             //   explorer context menus
-
             // Install desktop and start menu shortcuts
             spawnUpdate(['--createShortcut', exeName]);
 
@@ -78,12 +77,18 @@ function handleSquirrelEvent(application) {
     }
 };
 
+////////////////////////////////////////////////////////////////////////////////
 
+/***********************/
+/*       IPC MAIN      */
+/***********************/
 
 app.on('ready', () => {
     win = new BrowserWindow({
         width: 1200,
         height: 800,
+        minWidth: 1200,
+        minHeight: 800,
         webPreferences: {
             devTools: true
         }
@@ -93,52 +98,42 @@ app.on('ready', () => {
         win.show();
     });
 
-    win.loadURL(`file://${__dirname}/../login.html`);
     win.on('close', () => {
-        console.log("cerrando");
         app.quit();
     });
 
     win.on('unload', () => {
-        console.log('beforeunload');
         app.quit();
     });
 
+    // Carga la página principal
+    win.loadURL(`file://${__dirname}/../login.html`);
+
+    // Inserta Menú de la ventana
     const mainMenu = Menu.buildFromTemplate(crearMenu(app, win));
     Menu.setApplicationMenu(mainMenu);
 });
 
 app.on('will-quit', () => {
-    console.log('Finalizando aplicación');
-
     app.exit(0);
     app.quit();
-    console.log('Debería terminar');
 });
 
+// Consulta de sistemas a la base de datos
 ipcMain.on('body:load', (event, mensaje) => {
     console.log(`Login cargado, sistemas solicitados...`);
 
-    pedirSistemas();
-});
-
-function pedirSistemas() {
     // conexión con la BD
     sistemas.obtenerSistemas().then((json) => {
+        console.log('Sistemas obtenidos');
         console.log(json);
 
         // Avisa a la página para notificación
-        win.webContents.send('bd:sistemas', {
-            estado: true,
-            sistemas: json.sistemas
-        });
-    }, (error) => {
-        console.log(`Error obteniendo los sistemas: ${error.mensaje}`);
+        win.webContents.send('bd:sistemas', json);
+    }, (jsonError) => {
+        console.log(`Error obteniendo los sistemas: ${jsonError.mensaje}`);
 
         // Avisa a la página para notificación
-        win.webContents.send('bd:sistemas', {
-            estado: false,
-            mensaje: error
-        });
+        win.webContents.send('bd:sistemas', jsonError);
     });
-}
+});

@@ -99,12 +99,13 @@
     text-shadow: 10px 10px 20px rgba(0, 0, 0,1)
 }
 
-#div_dataLogin_IS > button {
+.button_login_IS {
     width: 150px;
     height: 40px;
     display: block;
     margin: auto;
     font-size: 18pt;
+    font-weight: bold;
     color: azure;
     background-color: #1B9258;
     border-radius: 20px;
@@ -113,19 +114,34 @@
     cursor: hand;
 }
 
+.button_login_IS:hover {
+    background-color: antiquewhite;
+    text-decoration:underline;
+    transition: 0.1s ease-in;
+    color: #1B9258;
+}
+
 #div_banner_IS {
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0%;
     left: 0%;
-    opacity: 0.9;
-    background: url(../img/loading.gif);
+    opacity: 0.8;
     background-repeat: no-repeat;
     background-position: center;
     background-color: white;
     transition: 1s ease-in;
 }
+
+.div_banner_IS_loading {
+    background: url(../img/loading.gif);
+}
+
+.div_banner_IS_error {
+    background: url(../img/error.png);
+}
+
 #div_banner_IS > p {
     text-align: center;
     text-align-last: center;

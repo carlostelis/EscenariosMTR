@@ -1,10 +1,11 @@
 {
-  "name": "escenarios-mtr",
+  "name": "escenarios_mtr",
   "version": "1.0.0",
-  "description": "",
+  "description": "Analisis de Escenarios MTR",
   "main": "./js/main.js",
   "scripts": {
     "test": "electron .",
+    "start": "electron .",
     "package-win": "electron-packager . Analizador --overwrite --platform=win32 --arch=x64 --icon=img/icono.ico --out=../ --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Analizador\""
   },
   "author": "",

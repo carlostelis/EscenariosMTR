@@ -21,13 +21,13 @@
             <select id="select_sistema_IS" class="input_datos_IS"  onfocus="onFocusInput(this, 'label_sistema_IS')" onblur="lostFocusInput(this, 'label_sistema_IS');"  style="background: white url(img/display32.png) no-repeat scroll 7px 7px; text-align-last: center;">
                 <option value="Sistema" disabled selected>&nbsp;&nbsp;Sistema</option>
             </select>
-            <button id="button_entrar_IS" onclick="botonEntrar();">Entrar</button>
+            <button id="button_entrar_IS" class="button_login_IS" onclick="solicitarAutenticacion();">Entrar</button>
         </div>
         <div id="div_footer_IS" class="div_normal">
             <p>Centro Nacional de Control de Energía, Don Manuelito #32, Col. Olivar de los Padres, CP. 01780 México DF.<br>Desarrollado por el Instituto de Investigaciones Eléctricas, Versión 2.0.4 del 19 de Mayo del 2017 (PRODUCCIÓN_CENACE)</p>
         </div>
-        <div id="div_banner_IS">
-            <p id="p_banner_IS">Conectando con la base de datos</p>
+        <div id="div_banner_IS" class="div_banner_IS_loading">
+            <p id="p_banner_IS">... Inicializando ...</p>
         </div>
     </body>
     <script src="./js/login.js" async></script>
