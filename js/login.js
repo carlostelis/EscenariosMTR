@@ -85,6 +85,12 @@ function solicitarSistemas() {
     div_banner_IS.classList.add('div_banner_IS_loading');
     banner.innerHTML = "";
 
+    // Muestra parrafo
+    const parrafo = document.querySelector("#p_banner_IS");
+    parrafo.classList.remove('p_invisible');
+    parrafo.classList.add('p_visible');
+    console.log('visible');
+
     setTimeout(() => {
         banner.innerHTML = " Inicializando ";
         ipcRenderer.send('body:load', 'Conectar');

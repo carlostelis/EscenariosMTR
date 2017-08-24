@@ -152,6 +152,15 @@
     text-shadow: 1px 1px 1px darkgreen;
 }
 
+.p_invisible {
+    opacity: 0;
+}
+
+.p_visible {
+    transition: 3s ease-in;
+    opacity: 1;
+}
+
 html {
     overflow: hidden;
 }
