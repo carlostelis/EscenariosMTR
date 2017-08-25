@@ -120,7 +120,7 @@ app.on('will-quit', () => {
 });
 
 // Consulta de sistemas a la base de datos
-ipcMain.on('body:load', (event, mensaje) => {
+ipcMain.on('sistemas:solicitar', (event, mensaje) => {
     console.log(`Login cargado, sistemas solicitados...`);
 
     // conexión con la BD
@@ -136,4 +136,11 @@ ipcMain.on('body:load', (event, mensaje) => {
         // Avisa a la página para notificación
         win.webContents.send('bd:sistemas', jsonError);
     });
+});
+
+ipcMain.on('sesion:entrar', () => {
+    console.log("Cargando pagina");
+    setTimeout(() => {
+        win.loadURL(`file://${__dirname}/../layout.html`);
+    }, 1000);
 });

@@ -37,7 +37,10 @@ public class main {
             }
         }
         
-        //params.forEach((k,v) -> System.out.println("Key: " + k + ": Value: " + v));
+        if (params.containsKey("--dev")) {
+            params.forEach((k,v) -> System.out.println("Key: " + k + ": Value: " + v));
+        }
+        
         String url = params.get("--url");
         String esquema = params.get("--esq");
         String password = params.get("--pass");

@@ -1,5 +1,5 @@
 const { execFile } = require('child_process');
-const dbConfig = require('./dbconfig.js');
+const db = require('./dbconfig.js');
 const path = require('path');
 
 class Sistemas {
@@ -11,9 +11,9 @@ class Sistemas {
         let that = this;
 
         return new Promise((resolve, reject) => {
-            let ruta = path.join(__dirname, '..', 'jar', 'ObtenerSistemas.jar');
+            let ruta = path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
             console.log(ruta);
-            const jar = execFile('java', ['-jar', ruta], (error, stdout, stderr) => {
+            const jar = execFile('java', ['-jar', ruta, `--url=${db.url}`, `--esq=${db.bd}`, `--pass=${db.password}`, '--opc=sistemas'], (error, stdout, stderr) => {
                 if (error) {
                     console.log(`Error: ${error}`);
                     reject({'error': error});
@@ -30,29 +30,17 @@ class Sistemas {
                     };
                     console.log(jsonErr);
                     reject(jsonErr);
-                    /*resolve({
-                        /*sistemas: [
-                            {
-                                nombre: 'BCAx',
-                                estado: 1
-                            },
-                            {
-                                nombre: 'SINx',
-                                estado: 0
-                            },
-                            {
-                                nombre: 'BCSx',
-                                estado: 1
-                            }
-                        ]
-                    });*/
                 } else {
-                    console.log('-envia JSON-');
-                    const json = JSON.parse(stdout);
-                    json.estado = true;
-                    json.mensaje = 'Consulta realizada correctamente';
-                    console.log(JSON.stringify(json));
-                    resolve(json);
+                    try {
+                        console.log('-envia JSON-');
+                        const json = JSON.parse(stdout);
+                        json.estado = true;
+                        json.mensaje = 'Consulta realizada correctamente';
+                        console.log(JSON.stringify(json));
+                        resolve(json);
+                    } catch (e) {
+                        reject({error: e});
+                    }
                 }
             });
         });

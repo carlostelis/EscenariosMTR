@@ -1,17 +1,15 @@
 const electron = require('electron');
 const { ipcRenderer } = electron;
 
-const body = document.querySelector("body");
 let intervaloCarga;
+const body = document.querySelector("body");
 
 body.onload = () => {
-    console.log(__dirname);
-    // espera 1 seg para que el cambio sea más suave
+    body.style.opacity = '1';
     solicitarSistemas();
 };
 
-const banner = document.querySelector("#p_banner_IS");
-const div_banner_IS = document.querySelector("#div_banner_IS");
+const banner = new Banner(body);
 
 ipcRenderer.on('bd:sistemas', (event, json) => {
     console.log(JSON.stringify(json));
@@ -20,16 +18,29 @@ ipcRenderer.on('bd:sistemas', (event, json) => {
     // Elimina intervalo de cadena de carga
     clearInterval(intervaloCarga);
 
+    // Estado = NO
     if (!json.hasOwnProperty('estado') || !json.estado) {
         console.log('Consulta fallida');
         // Mensaje y botón retry
-        banner.innerHTML = json.mensaje + '<br><button class="button_login_IS" style="margin-top:3%; width:200px; height:70px;" onclick="solicitarSistemas();">Intentar otra vez</button>';
-        // Cambia imagen
-        //div_banner_IS.classList.toggle('div_banner_IS_error');
-        if (div_banner_IS.classList.contains('div_banner_IS_loading')) {
-            div_banner_IS.classList.remove('div_banner_IS_loading');
-        }
-        div_banner_IS.classList.add('div_banner_IS_error');
+        banner.error();
+        banner.setMensaje(json.mensaje);
+        banner.mostrarBoton();
+        banner.setBoton('Reintentar', () => {
+            solicitarSistemas();
+        });
+
+        return;
+    }
+
+    // Estado = OK, pero no hay sistemas
+    if (!json.hasOwnProperty('sistemas')) {
+        console.log("No hay sistemas");
+        banner.error();
+        banner.setMensaje('No se encontraron sistemas disponibles en la base de datos.', () => {
+            solicitarSistemas();
+        });
+        banner.mostrarBoton();
+        banner.setBoton('Reintentar');
 
         return;
     }
@@ -40,17 +51,12 @@ ipcRenderer.on('bd:sistemas', (event, json) => {
 
     // Crea nodo placeholder
     let opcion = document.createElement("option");
-    let texto = document.createTextNode(`\u00A0\u00A0- Selecciona -`);
+    let texto = document.createTextNode(`\u00A0\u00A0Seleccionar`);
     opcion.disabled = true;
     opcion.selected = true;
 
     opcion.appendChild(texto);
     select.appendChild(opcion);
-
-    if (!json.hasOwnProperty('sistemas')) {
-        console.log("No hay sistemas");
-        return;
-    }
 
     // Agrega los sistemas disponibles
     json.sistemas.forEach((sistema) => {
@@ -58,7 +64,6 @@ ipcRenderer.on('bd:sistemas', (event, json) => {
         if (parseInt(sistema.estado) === 1) {
             opcion = document.createElement("option");
             texto = document.createTextNode(`\u00A0\u00A0${sistema.nombre}`);
-
             opcion.disabled = false;
             opcion.selected = false;
             opcion.appendChild(texto);
@@ -68,40 +73,25 @@ ipcRenderer.on('bd:sistemas', (event, json) => {
 
     // Oculta banner
     setTimeout(() => {
-        const banner = document.querySelector("#div_banner_IS");
-        banner.style.opacity = '0';
-        setTimeout(() => {
-            banner.style.display = 'none';
-        }, 1000);
+        banner.ocultar();
     }, 1000);
 });
 
 function solicitarSistemas() {
-    //div_banner_IS.classList.toggle('div_banner_IS_loading');
-    if (div_banner_IS.classList.contains('div_banner_IS_error')) {
-        div_banner_IS.classList.remove('div_banner_IS_error');
-    }
+    banner.mostrar();
+    banner.ocultarBoton();
+    banner.setMensaje(' Inicializando ');
+    banner.cargando();
 
-    div_banner_IS.classList.add('div_banner_IS_loading');
-    banner.innerHTML = "";
+    // Solicitud de sistemas
+    ipcRenderer.send('sistemas:solicitar');
 
-    // Muestra parrafo
-    const parrafo = document.querySelector("#p_banner_IS");
-    parrafo.classList.remove('p_invisible');
-    parrafo.classList.add('p_visible');
-    console.log('visible');
+    intervaloCarga = setInterval(() => {
+        if (banner.getMensaje().length >= 30) {
+            banner.setMensaje(' Inicializando ');
+        }
 
-    setTimeout(() => {
-        banner.innerHTML = " Inicializando ";
-        ipcRenderer.send('body:load', 'Conectar');
-
-        intervaloCarga = setInterval(() => {
-            if (banner.innerHTML.length >= 30) {
-                banner.innerHTML = " Inicializando ";
-            }
-
-            banner.innerHTML = '. ' + banner.innerHTML + ' .';
-        }, 1000);
+        banner.setMensaje('.' + banner.getMensaje() + '.');
     }, 1000);
 }
 
@@ -156,6 +146,14 @@ function solicitarAutenticacion() {
     inputContrasena.style.borderColor = 'white';
 
     const selectSistema = document.querySelector('#select_sistema_IS');
+    if (selectSistema.value === 'Selecciona' || selectSistema.disabled) {
+        console.log("sistema");
+        selectSistema.focus();
+        return;
+    }
     // Logear
-    alert(`${inputNombre.value}//${inputContrasena.value}//${selectSistema.value}`);
+    //alert(`${inputNombre.value}//${inputContrasena.value}//${selectSistema.value}`);
+
+    ipcRenderer.send('sesion:entrar');
+    body.style.opacity = '0';
 }

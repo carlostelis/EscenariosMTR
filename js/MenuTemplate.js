@@ -5,6 +5,16 @@ module.exports = function(app, win) {
             label: 'Archivo',
             submenu: [
                 {
+                    label: 'Cerrar Sesión',
+                    accelerator: process.platform === 'darwin' ? 'Command+S' : 'Ctrl+S',
+                    click() {
+                        win.webContents.send('sesion:cerrar');
+                        setTimeout(() => {
+                            win.loadURL(`file://${__dirname}/../login.html`);
+                        }, 1500);
+                    }
+                },
+                {
                     label: 'Salir',
                     accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Ctrl+Q',
                     click() {

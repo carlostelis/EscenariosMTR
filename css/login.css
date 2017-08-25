@@ -25,7 +25,8 @@
     height: 45px;
     bottom: 0%;
     left: 0%;
-    background-color: #215E3E;
+    /*background-color: #215E3E;*/
+    background: linear-gradient(to bottom, #215e3e 0%,#347c58 50%,#215e3e 100%);
     color: white;
     font-family: Arial;
     font-size: 9pt;
@@ -119,6 +120,10 @@
     text-decoration:underline;
     transition: 0.1s ease-in;
     color: #1B9258;
+}
+
+.button_login_IS:active {
+    color: white;
 }
 
 #div_banner_IS {
