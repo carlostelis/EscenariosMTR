@@ -71,6 +71,7 @@
     opacity: 0;
     visibility: hidden;
     text-shadow: 0px -2px 5px black;
+    margin-top: 3%;
 }
 
 .input_datos_IS {
@@ -83,8 +84,9 @@
     text-align: center;
     border-radius: 5px;
     margin: auto;
-    margin-bottom: 10%;
-    margin-top: -10%;
+    /*margin-bottom: 10%;*/
+    /*margin-top: -10%;*/
+    margin-bottom: 5px;
     transition: 0.3s ease-in;
     padding-top: 5px;
 }
@@ -95,77 +97,8 @@
     font-weight: bold;
     font-family: Arial;
     text-decoration: underline;
-    margin-bottom: 13%;
+    margin-bottom: 5%;
+    margin-top: 5%;
     color: azure;
     text-shadow: 10px 10px 20px rgba(0, 0, 0,1)
-}
-
-.button_login_IS {
-    width: 150px;
-    height: 40px;
-    display: block;
-    margin: auto;
-    font-size: 18pt;
-    font-weight: bold;
-    color: azure;
-    background-color: #1B9258;
-    border-radius: 20px;
-    margin-top: 13%;
-    transition: 0.3s ease-in;
-    cursor: hand;
-}
-
-.button_login_IS:hover {
-    background-color: antiquewhite;
-    text-decoration:underline;
-    transition: 0.1s ease-in;
-    color: #1B9258;
-}
-
-.button_login_IS:active {
-    color: white;
-}
-
-#div_banner_IS {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0%;
-    left: 0%;
-    opacity: 0.8;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-color: white;
-    transition: 1s ease-in;
-}
-
-.div_banner_IS_loading {
-    background: url(../img/loading.gif);
-}
-
-.div_banner_IS_error {
-    background: url(../img/error.png);
-}
-
-#div_banner_IS > p {
-    text-align: center;
-    text-align-last: center;
-    top: 70%;
-    position: relative;
-    font-family: Arial;
-    font-size: 20pt;
-    text-shadow: 1px 1px 1px darkgreen;
-}
-
-.p_invisible {
-    opacity: 0;
-}
-
-.p_visible {
-    transition: 3s ease-in;
-    opacity: 1;
-}
-
-html {
-    overflow: hidden;
 }

@@ -85,10 +85,10 @@ function handleSquirrelEvent(application) {
 
 app.on('ready', () => {
     win = new BrowserWindow({
-        width: 1200,
-        height: 800,
-        minWidth: 1200,
-        minHeight: 800,
+        width: 1440,
+        height: 900,
+        minWidth: 1440,
+        minHeight: 900,
         webPreferences: {
             devTools: true
         }
@@ -108,9 +108,12 @@ app.on('ready', () => {
 
     // Carga la página principal
     win.loadURL(`file://${__dirname}/../login.html`);
+    setTimeout(() => {
+        win.setTitle(`Analizador de escenarios del MTR - Login`);
+    }, 2000);
 
     // Inserta Menú de la ventana
-    const mainMenu = Menu.buildFromTemplate(crearMenu(app, win));
+    const mainMenu = Menu.buildFromTemplate(crearMenu(app, win, ipcMain));
     Menu.setApplicationMenu(mainMenu);
 });
 
@@ -138,9 +141,13 @@ ipcMain.on('sistemas:solicitar', (event, mensaje) => {
     });
 });
 
-ipcMain.on('sesion:entrar', () => {
+ipcMain.on('sesion:entrar', (event, params) => {
     console.log("Cargando pagina");
     setTimeout(() => {
         win.loadURL(`file://${__dirname}/../layout.html`);
+
+        setTimeout(() => {
+            win.setTitle(`Analizador de escenarios del MTR - ${params.usuario} / ${params.sistema}`);
+        }, 2000);
     }, 1000);
 });

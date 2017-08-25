@@ -19,12 +19,21 @@ class Sistemas {
                     reject({'error': error});
                 }
 
-                console.log(`Resultado: ${stdout}`);
+                console.log(`Resultado: ${stdout}<`);
 
                 if (stdout.startsWith('ERROR')) {
                     console.log('-reject-');
                     var jsonErr = {
                         mensaje: stdout.split('->')[1],
+                        estado: false,
+                        sistemas: []
+                    };
+                    console.log(jsonErr);
+                    reject(jsonErr);
+                } else if (stdout.trim().length === 0) {
+                    console.log('-reject-');
+                    var jsonErr = {
+                        mensaje: 'No fue posible establecer una conexión con la base de dato0s.',
                         estado: false,
                         sistemas: []
                     };

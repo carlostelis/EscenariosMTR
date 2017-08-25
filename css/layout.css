@@ -58,16 +58,20 @@
 }
 
 #div_menu_layout > ul {
+    display: table;
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
     background: linear-gradient(to bottom, #215e3e 0%,#347c58 50%,#215e3e 100%);
     user-select: none;
+    width: 100%;
+    height: 100%;
 }
 
 #div_menu_layout > ul > li {
-    display: inline-block;
+    display: table-cell;
+    vertical-align: middle;
     color: azure;
     text-align: center;
     padding: 14px 16px;
@@ -125,6 +129,14 @@
     font-family: Arial;
     font-size: 20pt;
     text-shadow: 1px 1px 1px darkgreen;
+}
+
+#div_panel_trabajo {
+    width: calc(99% + 10px);
+    height: calc(100% - 110px);
+    margin-top: 65px;
+    background-color: white;
+    opacity: 0.8;
 }
 
 .p_invisible {

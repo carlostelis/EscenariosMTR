@@ -47,8 +47,10 @@ public class BD {
         } catch (ClassNotFoundException ex) {
             this.con = null;
             this.error = "ERROR -> Driver de conectividad no encontrado";
+            System.out.println("ERROR -> Driver de conectividad no encontrado");
         } catch (SQLException ex) {
             this.error = "ERROR -> " + ex.getMessage();
+            System.out.println("ERROR -> " + ex.getMessage());
             this.con = null;
         }
         

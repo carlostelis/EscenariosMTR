@@ -54,6 +54,7 @@ ipcRenderer.on('bd:sistemas', (event, json) => {
     let texto = document.createTextNode(`\u00A0\u00A0Seleccionar`);
     opcion.disabled = true;
     opcion.selected = true;
+    opcion.value = 'Seleccionar';
 
     opcion.appendChild(texto);
     select.appendChild(opcion);
@@ -66,6 +67,7 @@ ipcRenderer.on('bd:sistemas', (event, json) => {
             texto = document.createTextNode(`\u00A0\u00A0${sistema.nombre}`);
             opcion.disabled = false;
             opcion.selected = false;
+            opcion.value = sistema.nombre;
             opcion.appendChild(texto);
             select.appendChild(opcion);
         }
@@ -98,32 +100,32 @@ function solicitarSistemas() {
 function onFocusInput(input, label) {
     input.respaldo = input.placeholder;
     input.placeholder = "";
-    input.style.marginTop = "0%";
+    // input.style.marginTop = "0%";
 
     var label = document.getElementById(label);
     label.style.opacity = "1";
     label.style.visibility = "visible";
 
-    var select = document.getElementById("select_sistema_IS");
-    select.style.marginBottom = "0%";
-
-    var boton = document.getElementById("button_entrar_IS");
-    boton.style.marginTop = "3%";
+    // var select = document.getElementById("select_sistema_IS");
+    // select.style.marginBottom = "0%";
+    //
+    // var boton = document.getElementById("button_entrar_IS");
+    // boton.style.marginTop = "3%";
 }
 
 function lostFocusInput(input, label) {
     input.placeholder = input.respaldo;
-    input.style.marginTop = "-10%";
+    // input.style.marginTop = "-10%";
 
     var label = document.getElementById(label);
     label.style.opacity = "0";
     label.style.visibility = "hidden";
 
-    var select = document.getElementById("select_sistema_IS");
-    select.style.marginBottom = "10%";
-
-    var boton = document.getElementById("button_entrar_IS");
-    boton.style.marginTop = "13%";
+    // var select = document.getElementById("select_sistema_IS");
+    // select.style.marginBottom = "10%";
+    //
+    // var boton = document.getElementById("button_entrar_IS");
+    // boton.style.marginTop = "13%";
 }
 
 function solicitarAutenticacion() {
@@ -146,14 +148,18 @@ function solicitarAutenticacion() {
     inputContrasena.style.borderColor = 'white';
 
     const selectSistema = document.querySelector('#select_sistema_IS');
-    if (selectSistema.value === 'Selecciona' || selectSistema.disabled) {
-        console.log("sistema");
+    console.log(selectSistema.value+"-");
+    if (selectSistema.value.trim() === 'Seleccionar' || selectSistema.disabled) {
         selectSistema.focus();
         return;
     }
-    // Logear
-    //alert(`${inputNombre.value}//${inputContrasena.value}//${selectSistema.value}`);
 
-    ipcRenderer.send('sesion:entrar');
+    // Logear
+    ipcRenderer.send('sesion:entrar', {
+        usuario: inputNombre.value.trim(),
+        contrasena: inputContrasena.value.trim(),
+        sistema: selectSistema.value.trim()
+    });
+
     body.style.opacity = '0';
 }

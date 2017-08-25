@@ -1,4 +1,8 @@
 
+html {
+    overflow: hidden;
+}
+
 body {
     transition: 1.5s opacity;
 }

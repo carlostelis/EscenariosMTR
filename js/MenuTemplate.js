@@ -1,5 +1,5 @@
 
-module.exports = function(app, win) {
+module.exports = function(app, win, ipcMain) {
     var menuTemplate = [
         {
             label: 'Archivo',
@@ -8,10 +8,14 @@ module.exports = function(app, win) {
                     label: 'Cerrar Sesión',
                     accelerator: process.platform === 'darwin' ? 'Command+S' : 'Ctrl+S',
                     click() {
-                        win.webContents.send('sesion:cerrar');
-                        setTimeout(() => {
-                            win.loadURL(`file://${__dirname}/../login.html`);
-                        }, 1500);
+                        if (!win.webContents.getURL().endsWith('login.html')) {
+                            win.webContents.send('sesion:cerrar');
+                            setTimeout(() => {
+                                win.loadURL(`file://${__dirname}/../login.html`);
+                            }, 1500);
+                        } else {
+                            console.log('Ya estoy en login, STFU...');
+                        }
                     }
                 },
                 {

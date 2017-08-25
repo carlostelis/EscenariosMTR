@@ -9,7 +9,7 @@
 
 
 
-    <!-- style="opacity: 1" -->
+    <!-- style="opacity: 0" -->
 
 
 
@@ -24,16 +24,16 @@
         </div>
         <div id="div_dataLogin_IS" class="div_normal">
             <p>Iniciar Sesi&oacute;n</p>
-            <label id="label_nombre_IS" class="label_datos_IS">Nombre</label>
-            <input id="input_nombre_IS" class="input_datos_IS" type="text" placeholder="Nombre" onfocus="onFocusInput(this, 'label_nombre_IS')" onblur="lostFocusInput(this, 'label_nombre_IS');" style="background: white url(img/user32_2.png) no-repeat scroll 7px 7px;" maxlength="20"/>
+            <label id="label_nombre_IS" class="label_datos_IS">Usuario</label>
+            <input id="input_nombre_IS" class="input_datos_IS" type="text" placeholder="Usuario" onfocus="onFocusInput(this, 'label_nombre_IS')" onblur="lostFocusInput(this, 'label_nombre_IS');" style="background: white url(img/user32_2.png) no-repeat scroll 7px 7px;" maxlength="20"/>
             <label id="label_contrasena_IS" class="label_datos_IS">Contrase&ntilde;a</label>
             <input id="input_contrasena_IS" class="input_datos_IS" type="password" placeholder="Contrase&ntilde;a" onfocus="onFocusInput(this, 'label_contrasena_IS')" onblur="lostFocusInput(this, 'label_contrasena_IS');" style="background: white url(img/key32.png) no-repeat scroll 7px 7px;" maxlength="20"/>
 
             <label id="label_sistema_IS" class="label_datos_IS">Sistema</label>
             <select id="select_sistema_IS" class="input_datos_IS"  onfocus="onFocusInput(this, 'label_sistema_IS')" onblur="lostFocusInput(this, 'label_sistema_IS');"  style="background: white url(img/display32.png) no-repeat scroll 7px 7px; text-align-last: center;">
-                <option value="Sistema" disabled selected>&nbsp;&nbsp;Sistema</option>
+                <option value="Seleccionar" disabled selected value>&nbsp;&nbsp;Seleccionar</option>
             </select>
-            <button id="button_entrar_IS" class="button_login_IS" onclick="solicitarAutenticacion();">Entrar</button>
+            <button id="button_entrar_IS" class="button_gral" style="margin-top:10%;" onclick="solicitarAutenticacion();">Entrar</button>
         </div>
         <div id="div_footer_IS" class="div_normal">
             <p>Centro Nacional de Control de Energía, Don Manuelito #32, Col. Olivar de los Padres, CP. 01780 México DF.<br>Desarrollado por el Instituto de Investigaciones Eléctricas, Versión 2.0.4 del 19 de Mayo del 2017 (PRODUCCIÓN_CENACE)</p>
