@@ -94,43 +94,29 @@ function solicitarSistemas() {
         }
 
         banner.setMensaje('.' + banner.getMensaje() + '.');
-    }, 1000);
+    }, 500);
 }
 
 function onFocusInput(input, label) {
     input.respaldo = input.placeholder;
     input.placeholder = "";
-    // input.style.marginTop = "0%";
 
     var label = document.getElementById(label);
     label.style.opacity = "1";
     label.style.visibility = "visible";
-
-    // var select = document.getElementById("select_sistema_IS");
-    // select.style.marginBottom = "0%";
-    //
-    // var boton = document.getElementById("button_entrar_IS");
-    // boton.style.marginTop = "3%";
 }
 
 function lostFocusInput(input, label) {
     input.placeholder = input.respaldo;
-    // input.style.marginTop = "-10%";
 
     var label = document.getElementById(label);
     label.style.opacity = "0";
     label.style.visibility = "hidden";
-
-    // var select = document.getElementById("select_sistema_IS");
-    // select.style.marginBottom = "10%";
-    //
-    // var boton = document.getElementById("button_entrar_IS");
-    // boton.style.marginTop = "13%";
 }
 
 function solicitarAutenticacion() {
+    // Valida nombre
     const inputNombre = document.querySelector('#input_nombre_IS');
-
     if (inputNombre.value.trim().length === 0) {
         inputNombre.style.borderColor = 'red';
         inputNombre.focus();
@@ -138,8 +124,8 @@ function solicitarAutenticacion() {
     }
     inputNombre.style.borderColor = 'white';
 
+    // Valida password
     const inputContrasena = document.querySelector('#input_contrasena_IS');
-
     if (inputContrasena.value.trim().length === 0) {
         inputContrasena.style.borderColor = 'red';
         inputContrasena.focus();
@@ -147,6 +133,7 @@ function solicitarAutenticacion() {
     }
     inputContrasena.style.borderColor = 'white';
 
+    // Valida select
     const selectSistema = document.querySelector('#select_sistema_IS');
     console.log(selectSistema.value+"-");
     if (selectSistema.value.trim() === 'Seleccionar' || selectSistema.disabled) {

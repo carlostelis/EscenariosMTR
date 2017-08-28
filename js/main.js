@@ -1,5 +1,5 @@
 const electron = require('electron');
-const { app, BrowserWindow, Menu, ipcMain } = electron;
+const { app, BrowserWindow, Menu, ipcMain, remote, dialog } = electron;
 const Sistemas = require('./sistemas.js');
 const sistemas = new Sistemas();
 const crearMenu = require('./menuTemplate.js');
@@ -98,8 +98,21 @@ app.on('ready', () => {
         win.show();
     });
 
-    win.on('close', () => {
-        app.quit();
+    win.on('close', (event) => {
+        var confirmacion = dialog.showMessageBox(win, {
+                type: 'question',
+                buttons: ['Aceptar', 'Cancelar'],
+                title: 'Salir de la aplicación',
+                message: '¿Confirma que desea Salir?'
+            }
+        );
+        console.log(`confirmacion ${confirmacion}`);
+
+        if (confirmacion === 0) {
+            app.exit();
+        } else {
+            event.preventDefault();
+        }
     });
 
     win.on('unload', () => {
@@ -107,13 +120,13 @@ app.on('ready', () => {
     });
 
     // Carga la página principal
-    win.loadURL(`file://${__dirname}/../login.html`);
+    win.loadURL(`file://${__dirname}/../html/login.html`);
     setTimeout(() => {
         win.setTitle(`Analizador de escenarios del MTR - Login`);
     }, 2000);
 
     // Inserta Menú de la ventana
-    const mainMenu = Menu.buildFromTemplate(crearMenu(app, win, ipcMain));
+    const mainMenu = Menu.buildFromTemplate(crearMenu(app, win, dialog));
     Menu.setApplicationMenu(mainMenu);
 });
 
@@ -144,7 +157,7 @@ ipcMain.on('sistemas:solicitar', (event, mensaje) => {
 ipcMain.on('sesion:entrar', (event, params) => {
     console.log("Cargando pagina");
     setTimeout(() => {
-        win.loadURL(`file://${__dirname}/../layout.html`);
+        win.loadURL(`file://${__dirname}/../html/layout.html`);
 
         setTimeout(() => {
             win.setTitle(`Analizador de escenarios del MTR - ${params.usuario} / ${params.sistema}`);

@@ -1,12 +1,11 @@
 class Banner {
     constructor(parent) {
-        console.log(parent);
         if (typeof parent !== 'object') {
             this.contenedor = document.querySelector('#' + parent);
         } else {
             this.contenedor = parent;
         }
-        console.log(this.contenedor);
+
         // Crea div
         this.divBanner = document.createElement('div');
         this.divBanner.classList.add('banner');
@@ -34,16 +33,13 @@ class Banner {
 
     mostrar() {
         this.contenedor.appendChild(this.divBanner);
-        console.log('muestra');
     }
 
     ocultar() {
         setTimeout(() => {
             this.divBanner.style.opacity = '0';
-            console.log('opaca');
             setTimeout(() => {
                 this.contenedor.removeChild(this.divBanner);;
-                console.log('quita');
             }, 1000);
         }, 1000);
     }

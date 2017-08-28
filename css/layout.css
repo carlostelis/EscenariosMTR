@@ -81,7 +81,7 @@
     line-height: 30px;
     background: linear-gradient(to bottom, #215e3e 0%,#347c58 50%,#215e3e 100%);
     text-shadow: 2px 2px 2px rgba(0, 45, 0, 1);
-    cursor:hand;
+    cursor: pointer;
     width: calc(100% / 5 - 32px);
     font-family: Arial;
     font-size: 20px;
@@ -98,6 +98,14 @@
 #div_menu_layout > ul > li:active {
     color: darkseagreen;
     background: #215e3e;
+    text-shadow: none;
+}
+
+#div_menu_layout > ul > li.disabled {
+    color: darkseagreen;
+    background: #215e3e;
+    text-shadow: none;
+    cursor: default;
 }
 
 #div_banner_layout {
@@ -133,9 +141,28 @@
 
 #div_panel_trabajo {
     width: calc(99% + 10px);
-    height: calc(100% - 110px);
+    /*width: calc(100% * 5);*/
+    height: calc(100% - 105px);
     margin-top: 65px;
+    /*background-color: white;*/
+    background: none;
+}
+
+.div_innerPanel {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
     background-color: white;
+    border-radius: 5px;
+    transition: 0.5s ease-in;
+    opacity: 0;
+}
+
+.div_innerPanel.oculto {
+    display:none
+}
+
+.div_innerPanel.activo {
     opacity: 0.8;
 }
 
