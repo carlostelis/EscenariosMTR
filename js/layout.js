@@ -1,91 +1,42 @@
-const electron = require('electron');
-const { ipcRenderer } = electron;
+// Al ser la misma página, los objetos se
+// comparten entre scripts
+// electron, ipcRenderer y body definidos en general
 
-let intervaloCarga;
-const body = document.querySelector("body");
+// Espera definicion
+while (typeof ipcRenderer === 'undefined') {
+    console.log('Espera definicion');
+}
 
-body.onload = () => {
-    body.style.opacity = '1';
-};
-
-window.onbeforeunload = function(e) {
-    body.style.opacity = '0';
-};
-
-const banner = new Banner(body);
-
+// Escucha instruccion para cerrar sesion,
+// carga los componentes de login
 ipcRenderer.on('sesion:cerrar', (event) => {
+    console.log('sesion cerrar');
     body.style.opacity = '0';
+
+    solicitarSistemas();
+
+    setTimeout(() => {
+        var divLogin = document.querySelector('#div-layout');
+        divLogin.classList.add('d-none');
+
+        var divLayout = document.querySelector('#div-login');
+        divLayout.classList.remove('d-none');
+    }, 1500);
+
+    setTimeout(() => {
+        body.style.opacity = '1';
+        paginaActual = 'login';
+    }, 1600);
 });
 
-function cargarPanel(elem) {
-    // Si está deshabilitado no hace nada
-    if (elem.classList.contains('disabled')) {
-        return;
-    }
-
-    let arrLi = document.getElementsByClassName('elemento_mainenu');
-    let arrPanel = document.getElementsByClassName('div_innerPanel');
-    let divAnterior;
-    console.log(arrPanel);
-
-    // arr es una colección, no un arreglo
-
-    // Oculta panel
-    Array.prototype.forEach.call(arrPanel, (div) => {
-        if (div.classList.contains('activo')) {
-            divAnterior = div;
-            div.classList.remove('activo');
-            setTimeout(() => {
-                div.classList.add('oculto');
-            }, 500);
-        }
-    });
-
-    // Muestra nuevo panel
-    setTimeout(() => {
-        Array.prototype.forEach.call(arrPanel, (div) => {
-            console.log(div.getAttribute("value") + " " + elem.value);
-            if (parseInt(div.getAttribute("value")) === elem.value) {
-                div.classList.remove('oculto');
-                setTimeout(() => {
-                    div.classList.add('activo');
-                }, 100);
-                console.log("pone activo");
+// Lee los datos de las paginas para los paneles
+ipcRenderer.on('paginas:envia', (event, paginas) => {
+    let vistas = document.getElementsByClassName('opc-vista');
+    paginas.forEach((pagina) => {
+        Array.from(vistas).forEach((vista) => {
+            if (vista.dataset.opc === pagina.id) {
+                vista.innerHTML = pagina.data;
             }
         });
-    }, (divAnterior ? 550 : 1));
-
-
-    Array.prototype.forEach.call(arrLi, (li) => {
-        // console.log(`Value: ${li.value}`);
-        if (li.value === elem.value) {
-            elem.disabled = true;
-            elem.classList.add('disabled');
-        } else {
-            li.disabled = false;
-            li.classList.remove('disabled');
-        }
     });
-
-    console.log(`Elem opcion: ${elem.value}`);
-    // Selecciona opcion
-    switch (elem.value) {
-        case 1:
-
-            break;
-        case 2:
-
-            break;
-        case 3:
-
-            break;
-        case 4:
-
-            break;
-        case 5:
-
-            break;
-        default:
-    }
-}
+});

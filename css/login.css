@@ -1,41 +1,25 @@
-.div_normal {
-    display: block;
-    height: 30%;
+
+.login-row {
+    display: flex;
+    align-items: center;
+    height:73%;
+}
+
+.titulo-app {
+    background: transparent;
+    height:20%;
+}
+
+.titulo-app > h1 {
+    font-size: 32pt;
+    font-weight:bold;
+    color:darkgreen;
+    text-shadow: 2px 2px 0px azure, 8px 8px 0px rgba(0,0,0,0.15);
     width: 100%;
-    background-color: lightblue;
-    border-color: red;
 }
 
-#div_fondo {
-    background: url(../img/fondo-login.jpg);
-    background-size: cover;
-    margin: auto;
-    position: absolute;
-    text-align: center;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: -1;
-}
-
-#div_footer_IS {
-    position: absolute;
-    width: 100%;
-    height: 45px;
-    bottom: 0%;
-    left: 0%;
-    background: linear-gradient(to bottom, #215e3e 0%,#347c58 50%,#215e3e 100%);
-    color: white;
-    font-family: Arial;
-    font-size: 9pt;
-    text-align: center;
-}
-
-#div_dataLogin_IS {
-    width: 350px;
-    height: 400px;
-    margin: auto;
+.div_data-login {
+    padding: 1% 2% 2% 2%;
     background-color: #215E3E;
     border: solid 3.0pt #4A8265;
     border-radius: 25px;
@@ -43,22 +27,17 @@
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
 }
 
-#div_titulo_IS {
-    height: 20%;
-    background: transparent;
+.div_data-login > h1 {
+    font-size: 4vh;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 6%;
+    margin-top: 0%;
+    color: azure;
+    text-shadow: 10px 10px 20px rgba(0, 0, 0,1)
 }
 
-#div_titulo_IS > p {
-    text-align: center;
-    font-size: 32pt;
-    margin-top: 3%;
-    font-weight:bold;
-    color:darkgreen;
-    text-shadow: 2px 2px 0px azure, 8px 8px 0px rgba(0,0,0,0.15);
-    font-family:helvetica;
-}
-
-.label_datos_IS {
+.label_data-login_IS {
     display: block;
     color: beige;
     font-size: 15pt;
@@ -66,35 +45,17 @@
     font-weight: bold;
     font-family: Arial;
     transition: 0.3s ease-in;
+    text-shadow: 0px -2px 5px black;
+    margin: 0% 0% 0% 0%;
     opacity: 0;
     visibility: hidden;
-    text-shadow: 0px -2px 5px black;
-    margin-top: 3%;
 }
 
-.input_datos_IS {
-    display: block;
-    color: black;
-    height: 45px;
-    width: 275px;
+.form-group {
+    margin-bottom: 1%;
+}
+
+.login-input {
+    height: 5vh;
     font-size: 15pt;
-    font-family: Arial;
-    text-align: center;
-    border-radius: 5px;
-    margin: auto;
-    margin-bottom: 5px;
-    transition: 0.3s ease-in;
-    padding-top: 5px;
-}
-
-#div_dataLogin_IS > p {
-    text-align: center;
-    font-size: 25pt;
-    font-weight: bold;
-    font-family: Arial;
-    text-decoration: underline;
-    margin-bottom: 5%;
-    margin-top: 5%;
-    color: azure;
-    text-shadow: 10px 10px 20px rgba(0, 0, 0,1)
 }

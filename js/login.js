@@ -1,17 +1,19 @@
-const electron = require('electron');
-const { ipcRenderer } = electron;
+// Al ser la misma página, los objetos se
+// comparten entre scripts
+// electron, ipcRenderer y body definidos en general
 
-let intervaloCarga;
-const body = document.querySelector("body");
+// Espera definicion
+while (typeof ipcRenderer === 'undefined') {
+    console.log('Espera definicion');
+}
 
-body.onload = () => {
-    body.style.opacity = '1';
-    solicitarSistemas();
-};
+// Respuesta de pagina actual para cierre de sesion
+ipcRenderer.on('paginaActual:consulta', (event, json) => {
+    ipcRenderer.send('paginaActual:respuesta', paginaActual);
+});
 
-const banner = new Banner(body);
-
-ipcRenderer.on('bd:sistemas', (event, json) => {
+// Respuesta de ipcMain con los sistemas consultado
+ipcRenderer.on('sistemas:obtenidos', (event, json) => {
     console.log(JSON.stringify(json));
     console.log(`estado: ${json.estado}`);
 
@@ -79,6 +81,7 @@ ipcRenderer.on('bd:sistemas', (event, json) => {
     }, 1000);
 });
 
+// habilitar banner
 function solicitarSistemas() {
     banner.mostrar();
     banner.ocultarBoton();
@@ -97,6 +100,7 @@ function solicitarSistemas() {
     }, 500);
 }
 
+// para validacion de entrada
 function onFocusInput(input, label) {
     input.respaldo = input.placeholder;
     input.placeholder = "";
@@ -106,6 +110,7 @@ function onFocusInput(input, label) {
     label.style.visibility = "visible";
 }
 
+// para validacion de entrada
 function lostFocusInput(input, label) {
     input.placeholder = input.respaldo;
 
@@ -114,6 +119,7 @@ function lostFocusInput(input, label) {
     label.style.visibility = "hidden";
 }
 
+// para validacion de entrada y acceso a las funciones
 function solicitarAutenticacion() {
     // Valida nombre
     const inputNombre = document.querySelector('#input_nombre_IS');
@@ -148,5 +154,46 @@ function solicitarAutenticacion() {
         sistema: selectSistema.value.trim()
     });
 
-    body.style.opacity = '0';
+    //Muestra banner y Espera respuesta de main
+    banner.mostrar();
+    banner.ocultarBoton();
+    banner.setMensaje('Autenticando');
+    banner.cargando();
+
+    console.log('envia');
 }
+
+ipcRenderer.on('sesion:aceptada', (event) => {
+    console.log('SEsion aceptada');
+    banner.setMensaje('Autenticación exitosa');
+
+    setTimeout(() => {
+        banner.ocultar();
+        body.style.opacity = '0';
+
+        setTimeout(() => {
+            var divLogin = document.querySelector('#div-login');
+            divLogin.classList.add('d-none');
+            //divLogin.style.display = 'none';
+
+            var divLayout = document.querySelector('#div-layout');
+             divLayout.classList.remove('d-none');
+            //divLayout.style.display = 'block';
+        }, 1500);
+
+        setTimeout(() => {
+            body.style.opacity = '1';
+            paginaActual = 'layout';
+        }, 1600);
+    }, 1000);
+});
+
+ipcRenderer.on('sesion:rechazada', (event, error) => {
+    banner.mostrarBoton();
+    banner.setMensaje(`Autenticación fallida: ${error}`);
+    banner.error();
+    banner.setBoton('Aceptar', () => {
+        banner.ocultar();
+        console.log('oculta');
+    });
+});

@@ -1,8 +1,12 @@
 const electron = require('electron');
+const fs = require('fs');
 const { app, BrowserWindow, Menu, ipcMain, remote, dialog } = electron;
 const Sistemas = require('./sistemas.js');
 const sistemas = new Sistemas();
 const crearMenu = require('./menuTemplate.js');
+const ListaArchivos = require('./ListaArchivos.js');
+const listaArchivos = new ListaArchivos('C:\\Oracle');
+
 const TO_BD = 2000;
 let win;
 
@@ -87,8 +91,8 @@ app.on('ready', () => {
     win = new BrowserWindow({
         width: 1440,
         height: 900,
-        minWidth: 1440,
-        minHeight: 900,
+        // minWidth: 1440,
+        // minHeight: 900,
         webPreferences: {
             devTools: true
         }
@@ -99,28 +103,15 @@ app.on('ready', () => {
     });
 
     win.on('close', (event) => {
-        var confirmacion = dialog.showMessageBox(win, {
-                type: 'question',
-                buttons: ['Aceptar', 'Cancelar'],
-                title: 'Salir de la aplicación',
-                message: '¿Confirma que desea Salir?'
-            }
-        );
-        console.log(`confirmacion ${confirmacion}`);
-
-        if (confirmacion === 0) {
-            app.exit();
-        } else {
+        if (!app.finalizar()) {
             event.preventDefault();
         }
     });
 
-    win.on('unload', () => {
-        app.quit();
-    });
-
     // Carga la página principal
-    win.loadURL(`file://${__dirname}/../html/login.html`);
+    // Solo se cargará una vez y el contenido se administrará
+    // de manera dinamica
+    win.loadURL(`file://${__dirname}/../html/index.html`);
     setTimeout(() => {
         win.setTitle(`Analizador de escenarios del MTR - Login`);
     }, 2000);
@@ -128,7 +119,34 @@ app.on('ready', () => {
     // Inserta Menú de la ventana
     const mainMenu = Menu.buildFromTemplate(crearMenu(app, win, dialog));
     Menu.setApplicationMenu(mainMenu);
+
+    // listaArchivos.html().then((res) => {
+    //     //console.log(JSON.stringify(res));
+    //     console.log(res);
+    // }, (err) => {
+    //     //console.log(JSON.stringify(err));
+    //     console.log(err);
+    // });
 });
+
+// Función para finalizar, se invoca al cerrar la ventana y al cerrar sesion
+// desde el menu
+app.finalizar = function () {
+    var confirmacion = dialog.showMessageBox(win, {
+            type: 'question',
+            buttons: ['Aceptar', 'Cancelar'],
+            title: 'Salir de la aplicación',
+            message: '¿Confirma que desea Salir?'
+        }
+    );
+    console.log(`confirmacion ${confirmacion}`);
+
+    if (confirmacion === 0) {
+        app.exit();
+    }
+
+    return false;
+}
 
 app.on('will-quit', () => {
     app.exit(0);
@@ -138,6 +156,7 @@ app.on('will-quit', () => {
 // Consulta de sistemas a la base de datos
 ipcMain.on('sistemas:solicitar', (event, mensaje) => {
     console.log(`Login cargado, sistemas solicitados...`);
+    win.setTitle(`Analizador de escenarios del MTR - Login`);
 
     // conexión con la BD
     sistemas.obtenerSistemas().then((json) => {
@@ -145,22 +164,79 @@ ipcMain.on('sistemas:solicitar', (event, mensaje) => {
         console.log(json);
 
         // Avisa a la página para notificación
-        win.webContents.send('bd:sistemas', json);
+        //win.webContents.send('sistemas:obtenidos', json);
+        win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
     }, (jsonError) => {
         console.log(`Error obteniendo los sistemas: ${jsonError.mensaje}`);
 
         // Avisa a la página para notificación
-        win.webContents.send('bd:sistemas', jsonError);
+        // win.webContents.send('sistemas:obtenidos', jsonError);
+        win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
     });
 });
 
+// Leer de disco los docs html para las funciones
+ipcMain.on('paginas:leer', (event) => {
+    let paginas = [];
+
+    paginas.push({
+        id: '1',
+        data: fs.readFileSync('./html/CargaEscenario.html', 'utf8')
+    });
+
+    win.webContents.send('paginas:envia', paginas);
+});
+
+// Iniciar sesion
 ipcMain.on('sesion:entrar', (event, params) => {
-    console.log("Cargando pagina");
-    setTimeout(() => {
-        win.loadURL(`file://${__dirname}/../html/layout.html`);
+    // Verifica credenciales
+    console.log('Inicio de sesion');
+    console.log(params);
+    if (params.usuario === 'carlos' && params.contrasena === 'asd') {
+        console.log("Credenciales válidas");
 
         setTimeout(() => {
+            win.webContents.send('sesion:aceptada');
             win.setTitle(`Analizador de escenarios del MTR - ${params.usuario} / ${params.sistema}`);
-        }, 2000);
-    }, 1000);
+        }, 3000);
+    } else {
+        setTimeout(() => {
+            console.log('rechazada');
+            win.webContents.send('sesion:rechazada', 'Credenciales inválidas');
+        }, 3000);
+    }
+});
+
+// Consultar si es login o layout para cierre de sesion
+ipcMain.on('paginaActual:respuesta', (event, pagina) => {
+    // ya esta en login
+    if (pagina === 'login') {
+        // nada
+        console.log('Ya estoy en login, STFU...');
+    } else {
+        var confirmacion = dialog.showMessageBox(win, {
+                type: 'question',
+                buttons: ['Aceptar', 'Cancelar'],
+                title: 'Cerrar sesión',
+                message: '¿Confirma que desea cerrar sesión?'
+            }
+        );
+        console.log(`confirmacion ${confirmacion}`);
+
+        if (confirmacion === 0) {
+            win.webContents.send('sesion:cerrar');
+        }
+    }
+});
+
+// Lista de archivos de directorio
+ipcMain.on('listaHtml:solicita', () => {
+    listaArchivos.update().then((res) => {
+        console.log("Envia lista archivos");
+        win.webContents.send('listaHtml:recibe', res);
+    }, (err) => {
+        //console.log(err);
+        console.log("Error lista archivos");
+        win.webContents.send('listaHtml:recibe', err);
+    });
 });

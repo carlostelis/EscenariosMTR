@@ -1,180 +1,72 @@
-#div_fondo_layout {
-    background: url(../img/fondo-login.jpg);
-    background-size: cover;
-    margin: auto;
-    position: absolute;
-    text-align: center;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: -1;
+
+.menu-principal {
+    height: 7%;
 }
 
-#div_footer_layout {
-    position: absolute;
-    width: 100%;
-    height: 45px;
-    bottom: 0%;
-    left: 0%;
-    /*background-color: #215E3E;*/
-    background: linear-gradient(to bottom, #215e3e 0%,#347c58 50%,#215e3e 100%);
-    color: white;
-    font-family: Arial;
-    font-size: 9pt;
-    text-align: center;
+.workspace-row {
+    display: flex;
+    align-items: center;
+    height:86%;
 }
 
-.button_layout {
-    width: 150px;
-    height: 40px;
-    display: block;
-    margin: auto;
-    font-size: 18pt;
-    font-weight: bold;
-    color: azure;
-    background-color: #1B9258;
-    border-radius: 20px;
-    margin-top: 13%;
-    transition: 0.3s ease-in;
-    cursor: hand;
-}
-
-.button_layout:hover {
-    background-color: antiquewhite;
-    text-decoration:underline;
-    transition: 0.1s ease-in;
-    color: #1B9258;
-}
-
-#div_menu_layout {
-    position: absolute;
-    width: 100%;
-    height: 30px;
-    left: 0px;
-    top: 0px;
-    /*background-color: #215E3E;*/
-    background: linear-gradient(to bottom, #215e3e 0%,#347c58 50%,#215e3e 100%)
-}
-
-#div_menu_layout > ul {
-    display: table;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background: linear-gradient(to bottom, #215e3e 0%,#347c58 50%,#215e3e 100%);
+.opcion-menu {
+    height:100%;
+    cursor:pointer;
     user-select: none;
-    width: 100%;
-    height: 100%;
 }
 
-#div_menu_layout > ul > li {
-    display: table-cell;
-    vertical-align: middle;
-    color: azure;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    height: 100%;
-    float: right;
-    line-height: 30px;
+.opcion-menu > div {
     background: linear-gradient(to bottom, #215e3e 0%,#347c58 50%,#215e3e 100%);
+    height:100%;
+    cursor:pointer;
+    color: azure;
     text-shadow: 2px 2px 2px rgba(0, 45, 0, 1);
-    cursor: pointer;
-    width: calc(100% / 5 - 32px);
-    font-family: Arial;
-    font-size: 20px;
-    text-align: center;
+    font-size: 1.5vw;
+    text-align:center;
 }
 
-#div_menu_layout > ul > li:hover {
+.opcion-menu > div:hover {
     font-weight: bold;
-    font-size: 20px;
+    /*font-size: 20px;*/
     background: linear-gradient(to bottom, #185135 0%,#48966b 50%,#185135 100%);
-    text-shadow: 4px 5px 2px rgba(0, 45, 0, 1)
+    /*text-shadow: 4px 5px 2px rgba(0, 45, 0, 1)*/
+    text-shadow: 2px 2px 2px rgba(0, 45, 0, 1);
+    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
 }
 
-#div_menu_layout > ul > li:active {
+.opcion-menu > div:active {
     color: darkseagreen;
     background: #215e3e;
     text-shadow: none;
 }
 
-#div_menu_layout > ul > li.disabled {
+.opcion-menu > div.deshabilitado {
     color: darkseagreen;
     background: #215e3e;
     text-shadow: none;
     cursor: default;
 }
 
-#div_banner_layout {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0%;
-    left: 0%;
-    opacity: 0.8;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-color: white;
-    transition: 1s ease-in;
+.opcion-menu > div.deshabilitado:hover {
+    font-weight: normal;
+    text-shadow: none;
+    box-shadow: none;
 }
 
-.div_banner_layout_loading {
-    background: url(../img/loading.gif);
+.opcion-menu > div > p {
+    margin: 0px 0px;
+    line-height: 20px;
 }
 
-.div_banner_layout_error {
-    background: url(../img/error.png);
-}
-
-#div_banner_layout > p {
-    text-align: center;
-    text-align-last: center;
-    top: 70%;
-    position: relative;
-    font-family: Arial;
-    font-size: 20pt;
-    text-shadow: 1px 1px 1px darkgreen;
-}
-
-#div_panel_trabajo {
-    width: calc(99% + 10px);
-    /*width: calc(100% * 5);*/
-    height: calc(100% - 105px);
-    margin-top: 65px;
-    /*background-color: white;*/
-    background: none;
-}
-
-.div_innerPanel {
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    background-color: white;
+.opc-vista {
+    /*background: white;*/
     border-radius: 5px;
-    transition: 0.5s ease-in;
+    padding: 1% 0%;
     opacity: 0;
+    transition: 0.3s opacity;
+    /*transition-delay: 0.5s;*/
 }
 
-.div_innerPanel.oculto {
-    display:none
-}
-
-.div_innerPanel.activo {
-    opacity: 0.8;
-}
-
-.p_invisible {
-    opacity: 0;
-}
-
-.p_visible {
-    transition: 3s ease-in;
+.opc-vista.visible {
     opacity: 1;
-}
-
-html {
-    overflow: hidden;
 }

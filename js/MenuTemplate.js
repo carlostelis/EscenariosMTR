@@ -8,43 +8,15 @@ module.exports = function(app, win, dialog) {
                     label: 'Cerrar Sesión',
                     accelerator: process.platform === 'darwin' ? 'Command+S' : 'Ctrl+S',
                     click() {
-                        if (!win.webContents.getURL().endsWith('login.html')) {
-                            var confirmacion = dialog.showMessageBox(win, {
-                                    type: 'question',
-                                    buttons: ['Aceptar', 'Cancelar'],
-                                    title: 'Cerrar sesión',
-                                    message: '¿Confirma que desea cerrar sesión?'
-                                }
-                            );
-                            console.log(`confirmacion ${confirmacion}`);
-
-                            if (confirmacion === 0) {
-                                win.webContents.send('sesion:cerrar');
-                                setTimeout(() => {
-                                    win.loadURL(`file://${__dirname}/../html/login.html`);
-                                }, 1500);
-                            }
-                        } else {
-                            console.log('Ya estoy en login, STFU...');
-                        }
+                        console.log('cerrar sesion');
+                        win.webContents.send('paginaActual:consulta');
                     }
                 },
                 {
                     label: 'Salir',
                     accelerator: process.platform === 'darwin' ? 'Command+Q' : 'Ctrl+Q',
                     click() {
-                        var confirmacion = dialog.showMessageBox(win, {
-                                type: 'question',
-                                buttons: ['Aceptar', 'Cancelar'],
-                                title: 'Salir de la aplicación',
-                                message: '¿Confirma que desea Salir?'
-                            }
-                        );
-                        console.log(`confirmacion ${confirmacion}`);
-
-                        if (confirmacion === 0) {
-                            app.quit();
-                        }
+                        app.finalizar();
                     }
                 }
             ]
@@ -64,7 +36,6 @@ module.exports = function(app, win, dialog) {
         {
             label: 'Vista',
             submenu: [
-                {role: 'reload', label: 'Recargar'},
                 {role: 'toggledevtools', label: 'Deshacer'},
                 {type: 'separator'},
                 {role: 'resetzoom', label: 'Zoom original'},
@@ -110,6 +81,7 @@ module.exports = function(app, win, dialog) {
         menuTemplate.push({
             label: 'Desarrollador',
             submenu: [
+                {role: 'reload', label: 'Recargar'},
                 {
                     label: 'Mostrar DevTools',
                     accelerator: process.platform === 'darwin' ? 'Command+Alt+I' : 'Ctrl+Shift+I',

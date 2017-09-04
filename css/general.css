@@ -4,7 +4,25 @@ html {
 }
 
 body {
-    transition: 1.5s opacity;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background: url('../img/fondo-login.jpg');
+    background-size: cover;
+    transition: 1.5s;
+}
+
+.footer {
+    background: linear-gradient(to bottom, #215e3e 0%,#347c58 50%,#215e3e 100%);
+    color: white;
+    font-family: Arial;
+    font-size: 9pt;
+    text-align: center;
+    height:7%;
+}
+
+.footer > p {
+    margin-bottom: 0px;
 }
 
 .banner {
@@ -17,15 +35,16 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     background-color: white;
-    transition: 1s ease-in;
+    transition: 0.5s opacity;
+    z-index: 10;
 }
 
 .banner_loading {
-    background-image: url(../img/loading.gif);
+    background-image: url('../img/loading.gif');
 }
 
 .banner_error {
-    background-image: url(../img/error.png);
+    background-image: url('../img/error.png');
 }
 
 .banner > div {
@@ -52,7 +71,7 @@ body {
     height: 40px;
     display: block;
     margin: auto;
-    font-size: 18pt;
+    font-size: 16pt;
     font-weight: bold;
     color: azure;
     background-color: #1B9258;
@@ -66,8 +85,22 @@ body {
     text-decoration:underline;
     transition: 0.1s ease-in;
     color: #1B9258;
+    cursor: pointer;
 }
 
 .button_gral:active {
     color: white;
+}
+
+li.vista-archivos.carpeta {
+    list-style-image: url('../img/folder16.png');
+}
+
+li.vista-archivos.archivo {
+    list-style-image: url('../img/minus16.png');
+}
+
+.fill {
+    min-height: 100%;
+    height: 100%;
 }

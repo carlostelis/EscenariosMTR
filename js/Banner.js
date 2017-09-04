@@ -26,22 +26,28 @@ class Banner {
         this.divDatos.appendChild(this.parrafo);
         this.divDatos.appendChild(this.boton);
         this.divBanner.appendChild(this.divDatos);
-
+        this.divBanner.style.opacity = '0';
         // No lo agrega hasta indicar show()
         //this.contenedor.appendChild(divBanner);
     }
 
     mostrar() {
         this.contenedor.appendChild(this.divBanner);
+        // setTimeout(() => {
+            this.divBanner.style.opacity = '0.8';
+        // }, 500);
     }
 
     ocultar() {
-        setTimeout(() => {
-            this.divBanner.style.opacity = '0';
+        var that = this;
+        // setTimeout(() => {
+            that.divBanner.style.opacity = '0';
             setTimeout(() => {
-                this.contenedor.removeChild(this.divBanner);;
-            }, 1000);
-        }, 1000);
+                try {
+                    that.contenedor.removeChild(that.divBanner);;
+                } catch (e) {}
+            }, 600);
+        // }, 500);
     }
 
     cargando() {
@@ -61,11 +67,12 @@ class Banner {
     }
 
     setMensaje(mensaje) {
+        var that = this;
         this.parrafo.classList.remove('parrafo_invisible');
         this.parrafo.innerHTML = mensaje;
 
         setTimeout(() => {
-            this.parrafo.classList.add('parrafo_visible');
+            that.parrafo.classList.add('parrafo_visible');
         }, 1000);
     }
 
