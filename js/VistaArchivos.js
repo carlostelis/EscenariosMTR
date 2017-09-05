@@ -39,6 +39,7 @@ class VistaArchivos {
         this.contenedor.classList.add('row');
         this.contenedor.classList.add('align-items-start');
         this.contenedor.classList.add('contenedor_vista-archivos');
+
         this.banner = new Banner(this.contenedor);
         this.ipcRenderer = ipcRenderer;
 
@@ -120,14 +121,32 @@ class VistaArchivos {
         };
 
         if (elemento.tipo === 'directorio' && elemento.elementos.length > 0) {
+            // folder abierto
             nodo_i.classList.add('fa-folder-open');
             nodo_i.classList.add('folder');
 
             // Inserta elemento UL
-            nodo_li.appendChild(this.toUL(elemento.elementos, nodo_li.ruta));
+            let nodo_ul = this.toUL(elemento.elementos, nodo_li.ruta);
+            nodo_ul.oculto = false;
+            nodo_li.appendChild(nodo_ul);
+            nodo_label.ondblclick = () => {
+                if (nodo_ul.oculto) {
+                    nodo_ul.style.display = 'block';
+                    nodo_ul.oculto = false;
+
+                    nodo_i.classList.add('fa-folder-open');
+                    nodo_i.classList.remove('fa-folder');
+                } else {
+                    nodo_ul.style.display = 'none';
+                    nodo_ul.oculto = true;
+
+                    nodo_i.classList.remove('fa-folder-open');
+                    nodo_i.classList.add('fa-folder');
+                }
+            };
         } else {
             nodo_i.classList.add('file');
-            nodo_i.classList.add('fa-file-picture-o');
+            nodo_i.classList.add('fa-file-text');
         }
 
         return nodo_li;

@@ -75,10 +75,14 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
         }
     });
 
+    // Icono ok
+    banner.ok();
+    banner.setMensaje('Hecho');
+
     // Oculta banner
     setTimeout(() => {
         banner.ocultar();
-    }, 1000);
+    }, 1500);
 });
 
 // habilitar banner
@@ -141,11 +145,12 @@ function solicitarAutenticacion() {
 
     // Valida select
     const selectSistema = document.querySelector('#select_sistema_IS');
-    console.log(selectSistema.value+"-");
     if (selectSistema.value.trim() === 'Seleccionar' || selectSistema.disabled) {
+        selectSistema.style.borderColor = 'red';
         selectSistema.focus();
         return;
     }
+    selectSistema.style.borderColor = 'white';
 
     // Logear
     ipcRenderer.send('sesion:entrar', {
@@ -159,12 +164,10 @@ function solicitarAutenticacion() {
     banner.ocultarBoton();
     banner.setMensaje('Autenticando');
     banner.cargando();
-
-    console.log('envia');
 }
 
 ipcRenderer.on('sesion:aceptada', (event) => {
-    console.log('SEsion aceptada');
+    banner.ok();
     banner.setMensaje('Autenticación exitosa');
 
     setTimeout(() => {
@@ -174,11 +177,9 @@ ipcRenderer.on('sesion:aceptada', (event) => {
         setTimeout(() => {
             var divLogin = document.querySelector('#div-login');
             divLogin.classList.add('d-none');
-            //divLogin.style.display = 'none';
 
             var divLayout = document.querySelector('#div-layout');
              divLayout.classList.remove('d-none');
-            //divLayout.style.display = 'block';
         }, 1500);
 
         setTimeout(() => {
@@ -194,6 +195,5 @@ ipcRenderer.on('sesion:rechazada', (event, error) => {
     banner.error();
     banner.setBoton('Aceptar', () => {
         banner.ocultar();
-        console.log('oculta');
     });
 });

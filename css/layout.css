@@ -1,12 +1,12 @@
 
 .menu-principal {
-    height: 7%;
+    height: 6%;
 }
 
 .workspace-row {
     display: flex;
     align-items: center;
-    height:86%;
+    height:87%;
 }
 
 .opcion-menu {
@@ -21,7 +21,7 @@
     cursor:pointer;
     color: azure;
     text-shadow: 2px 2px 2px rgba(0, 45, 0, 1);
-    font-size: 1.5vw;
+    font-size: 1.1vw;
     text-align:center;
 }
 

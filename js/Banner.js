@@ -10,9 +10,16 @@ class Banner {
         this.divBanner = document.createElement('div');
         this.divBanner.classList.add('banner');
 
+        // Para icono
+        this.divIcono = document.createElement('div');
+        this.divBanner.appendChild(this.divIcono);
+        this.divIcono.innerHTML = "";
+        this.divIcono.classList.add('banner_icon');
+
         // crea parrafo
         this.divDatos = document.createElement('div');
         this.divDatos.innerHTML = "";
+        this.divDatos.classList.add('banner_datos');
         // parrafo
         this.parrafo = document.createElement('p');
 
@@ -20,6 +27,8 @@ class Banner {
         this.boton = document.createElement('button');
         this.boton.classList.add('button_gral');
         this.boton.style.display = 'none';
+        this.boton.style.width = '10%';
+        this.boton.style.fontSize = '1.2vw';
         this.boton.value = 'Botón';
 
         // Inserta
@@ -51,19 +60,24 @@ class Banner {
     }
 
     cargando() {
-        if (!this.divBanner.classList.contains('banner_loading')) {
-            this.divBanner.classList.add('banner_loading');
-
-            this.divBanner.classList.remove('banner_error');
-        }
+        this.divIcono.innerHTML = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>';
+        this.divIcono.classList.remove('banner_error');
+        this.divIcono.classList.remove('banner_ok');
+        this.divIcono.classList.add('banner_loading');
     }
 
     error() {
-        if (!this.divBanner.classList.contains('banner_error')) {
-            this.divBanner.classList.add('banner_error');
+        this.divIcono.innerHTML = '<i class="fa fa-warning"></i>';
+        this.divIcono.classList.remove('banner_loading');
+        this.divIcono.classList.remove('banner_ok');
+        this.divIcono.classList.add('banner_error');
+    }
 
-            this.divBanner.classList.remove('banner_loading');
-        }
+    ok() {
+        this.divIcono.innerHTML = '<i class="fa fa-check-square"></i>';
+        this.divIcono.classList.remove('banner_loading');
+        this.divIcono.classList.remove('banner_error');
+        this.divIcono.classList.add('banner_ok');
     }
 
     setMensaje(mensaje) {

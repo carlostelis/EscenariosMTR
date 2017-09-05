@@ -10,11 +10,17 @@ class ListaArchivos {
     update() {
         var that = this;
         return new Promise((resolve, reject) => {
+            let elementos_dir = that.leerDirectorio(this.rutaInit);
+
+            if (elementos_dir.length === 0) {
+                reject(`No fue posible obtener elementos en: ${_ruta}`);
+            }
+
             that.json = {
                 nombre: path.basename(this.rutaInit),
                 ruta: this.rutaInit,
                 tipo: 'directorio',
-                elementos: that.leerDirectorio(this.rutaInit)
+                elementos: elementos_dir
             };
 
             resolve(that.json);
@@ -25,10 +31,15 @@ class ListaArchivos {
         var that = this;
         var elementos = [];
 
+        if (!fs.existsSync(_ruta)) {
+            console.log(`Generando directorio local ${_ruta}: ${fs.mkdirSync(_ruta)}`);
+        }
+
         // Llamado sincronizado
         let items = fs.readdirSync(_ruta);
 
         if (!items) {
+            console.log('No hay items en el directorio');
             return elementos;
         }
 

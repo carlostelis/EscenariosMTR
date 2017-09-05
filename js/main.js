@@ -5,7 +5,7 @@ const Sistemas = require('./sistemas.js');
 const sistemas = new Sistemas();
 const crearMenu = require('./menuTemplate.js');
 const ListaArchivos = require('./ListaArchivos.js');
-const listaArchivos = new ListaArchivos('C:\\Intel');
+const listaArchivos = new ListaArchivos('C:\\AppAnalizadorEscenarios');
 
 const TO_BD = 2000;
 let win;
@@ -164,14 +164,14 @@ ipcMain.on('sistemas:solicitar', (event, mensaje) => {
         console.log(json);
 
         // Avisa a la página para notificación
-        //win.webContents.send('sistemas:obtenidos', json);
-        win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
+        win.webContents.send('sistemas:obtenidos', json);
+        //win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
     }, (jsonError) => {
         console.log(`Error obteniendo los sistemas: ${jsonError.mensaje}`);
 
         // Avisa a la página para notificación
-        // win.webContents.send('sistemas:obtenidos', jsonError);
-        win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
+        win.webContents.send('sistemas:obtenidos', jsonError);
+        //win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
     });
 });
 

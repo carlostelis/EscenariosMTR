@@ -40,22 +40,46 @@ body {
     z-index: 10;
 }
 
-.banner_loading {
+/*.banner_loading {
     background-image: url('../img/loading.gif');
 }
 
 .banner_error {
     background-image: url('../img/error.png');
-}
+}*/
 
-.banner > div {
+.banner_datos {
     text-align: center;
     text-align-last: center;
-    top: 70%;
+    /*top: 70%;*/
     position: relative;
     font-family: Arial;
     font-size: 20pt;
     text-shadow: 1px 1px 1px darkgreen;
+}
+
+.banner_icon {
+    height: 75%;
+    padding-top: 35vh;
+    font-size: 3vh;
+    text-align: center;
+    transition: 0.3s font-size;
+    /*color: orange;*/
+}
+
+.banner_error {
+    color: orange;
+    font-size: 20vh;
+}
+
+.banner_loading {
+    color: blue;
+    font-size: 8vh;
+}
+
+.banner_ok {
+    color: green;
+    font-size: 20vh;
 }
 
 .parrafo_invisible {
@@ -72,7 +96,7 @@ body {
     height: 5vh;
     display: block;
     margin: auto;
-    font-size: 1.5vw;
+    font-size: 1.1vw;
     font-weight: bold;
     color: azure;
     background-color: #1B9258;
@@ -107,12 +131,12 @@ body {
 
 .li_vista-archivos {
     list-style-type: none;
-    font-size: 2vh;
+    font-size: 1vw;
 }
 
 .li_vista-archivos > i {
     user-select: none;
-    font-size: 2vh;
+    font-size: 1.2vw;
 }
 
 .li_vista-archivos > label {
@@ -125,11 +149,11 @@ body {
 }
 
 .li_vista-archivos > i.folder {
-    color: moccasin;
+    color: darkorange;
     margin-right: 0.5vw;
 }
 
 .li_vista-archivos > i.file {
-    color: darkgray;
+    color: darkslategray;
     margin-right: 0.5vw;
 }
