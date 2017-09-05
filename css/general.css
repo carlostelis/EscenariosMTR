@@ -32,21 +32,14 @@ body {
     height: 100%;
     top: 0%;
     left: 0%;
-    opacity: 0.8;
+    /*opacity: 0.1;*/
+    background-color: rgba(255, 255, 255, 0.8) !important;
     background-repeat: no-repeat;
     background-position: center;
     background-color: white;
-    transition: 0.5s opacity;
+    transition: 0.5s;
     z-index: 10;
 }
-
-/*.banner_loading {
-    background-image: url('../img/loading.gif');
-}
-
-.banner_error {
-    background-image: url('../img/error.png');
-}*/
 
 .banner_datos {
     text-align: center;
@@ -59,12 +52,12 @@ body {
 }
 
 .banner_icon {
-    height: 75%;
-    padding-top: 35vh;
+    height: 60%;
+    padding-top: 30vh;
     font-size: 3vh;
     text-align: center;
     transition: 0.3s font-size;
-    /*color: orange;*/
+    text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
 }
 
 .banner_error {
@@ -73,13 +66,17 @@ body {
 }
 
 .banner_loading {
-    color: blue;
+    color: dodgerblue;
     font-size: 8vh;
 }
 
 .banner_ok {
     color: green;
     font-size: 20vh;
+}
+
+.banner_datos > p {
+    font-weight: bold;
 }
 
 .parrafo_invisible {
@@ -125,8 +122,9 @@ body {
 .contenedor_vista-archivos {
     background-color: white;
     height: 95%;
-    padding: 1vh 0px 0px 0px;
+    padding: 0vh 0px 0px 0px;
     user-select: none;
+    margin-top: 1vh;
 }
 
 .li_vista-archivos {
@@ -137,6 +135,7 @@ body {
 .li_vista-archivos > i {
     user-select: none;
     font-size: 1.2vw;
+    margin-right: 3px;
 }
 
 .li_vista-archivos > label {
@@ -150,10 +149,28 @@ body {
 
 .li_vista-archivos > i.folder {
     color: darkorange;
-    margin-right: 0.5vw;
 }
 
 .li_vista-archivos > i.file {
     color: darkslategray;
-    margin-right: 0.5vw;
+
+}
+
+.col_recarca_vista-archivos {
+    padding: 1.5vh 1vw 0px 0px !important;
+}
+
+.col_recarca_vista-archivos > i {
+    font-size: 3vh;
+    color: darkblue;
+    float: right;
+    font-weight: bold;
+}
+
+.col_recarca_vista-archivos > i:hover {
+    color: blue;
+}
+
+.col_recarca_vista-archivos > i:active {
+    color: aqua;
 }

@@ -96,6 +96,7 @@ class Banner {
 
     mostrarBoton() {
         this.boton.style.display = 'initial';
+        this.boton.focus();
     }
 
     ocultarBoton() {

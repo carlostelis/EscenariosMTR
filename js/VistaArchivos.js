@@ -2,31 +2,70 @@
 class VistaArchivos {
 
     constructor(parent, ipcRenderer) {
-        if (typeof parent === 'undefined' && typeof ipcRenderer === 'undefined') {
-            console.log('Sin init');
-            return;
-        }
-
-        this.contenedor = parent;
-        this.contenedor.classList.add('row');
-        this.contenedor.classList.add('align-items-start');
-        this.contenedor.classList.add('contenedor_vista-archivos');
-        this.banner = new Banner(this.contenedor);
-        this.ipcRenderer = ipcRenderer;
-
-        this.ipcRenderer.send('listaHtml:solicita');
-
-        this.ipcRenderer.on('listaHtml:recibe', (event, respuesta) => {
-            console.log(respuesta);
-
-            this.html(respuesta).then((code) => {
-                this.banner.ocultar();
-                this.contenedor.innerHTML = code;
-            }, (err) => {
-                this.banner.ocultar();
-                this.contenedor.innerHTML = err;
-            });
-        });
+        this.set(parent, ipcRenderer);
+        // if (typeof parent === 'undefined' && typeof ipcRenderer === 'undefined') {
+        //     console.log('Sin init');
+        //     return;
+        // }
+        //
+        // this.contenedor = parent;
+        // this.contenedor.classList.add('row');
+        //
+        // this.col = document.createElement('div');
+        // this.col.classList.add('col');
+        // this.col.style.height = '100%';
+        //
+        // // Divide contenedor en 2 filas,
+        // // la primera contiene el icono de recarga
+        // // la segunda contiene el arbol
+        // this.div_recarga = document.createElement('div');
+        // this.div_recarga.classList.add('row');
+        // this.div_recarga.style.height = '0px';
+        //
+        // this.col_recarga = document.createElement('div');
+        // this.col_recarga.classList.add('col');
+        // this.col_recarga.classList.add('col_recarca_vista-archivos');
+        //
+        // this.recarga = document.createElement('i');
+        // this.recarga.classList.add('fa');
+        // this.recarga.classList.add('fa-refresh');
+        // this.recarga.onclick = () => {
+        //     // Solicita lista de archivos
+        //     this.ipcRenderer.send('listaHtml:solicita');
+        // };
+        //
+        // this.col_recarga.appendChild(this.recarga);
+        // this.div_recarga.appendChild(this.col_recarga);
+        //
+        // this.col.appendChild(this.div_recarga);
+        //
+        // this.div_arbol = document.createElement('div');
+        // this.div_arbol.classList.add('row');
+        // this.div_arbol.style.height = '93%';
+        // this.div_arbol.classList.add('align-items-start');
+        // this.div_arbol.classList.add('contenedor_vista-archivos');
+        // this.col.appendChild(this.div_arbol);
+        //
+        // this.contenedor.appendChild(this.col);
+        //
+        // this.banner = new Banner(this.contenedor);
+        // this.ipcRenderer = ipcRenderer;
+        //
+        // console.log('pide archivos');
+        // this.ipcRenderer.send('listaHtml:solicita');
+        //
+        // this.ipcRenderer.on('listaHtml:recibe', (event, respuesta) => {
+        //     console.log(respuesta);
+        //
+        //     this.html(respuesta).then((code) => {
+        //         this.banner.ocultar();
+        //
+        //         this.div_arbol.innerHTML = "";
+        //         this.div_arbol.appendChild(code);
+        //     }, (err) => {
+        //         this.div_arbol.innerHTML = err;
+        //     });
+        // });
     }
 
     set(parent, ipcRenderer) {
@@ -37,11 +76,54 @@ class VistaArchivos {
 
         this.contenedor = parent;
         this.contenedor.classList.add('row');
-        this.contenedor.classList.add('align-items-start');
-        this.contenedor.classList.add('contenedor_vista-archivos');
+        this.contenedor.style.borderStyle = 'dashed';
 
-        this.banner = new Banner(this.contenedor);
+        this.col = document.createElement('div');
+        this.col.classList.add('col');
+        this.col.style.height = '100%';
+
+        // Divide contenedor en 2 filas,
+        // la primera contiene el icono de recarga
+        // la segunda contiene el arbol
+        this.div_recarga = document.createElement('div');
+        this.div_recarga.classList.add('row');
+        this.div_recarga.style.height = '0px';
+
+        this.col_recarga = document.createElement('div');
+        this.col_recarga.classList.add('col');
+        this.col_recarga.classList.add('col_recarca_vista-archivos');
+
+        this.recarga = document.createElement('i');
+        this.recarga.classList.add('fa');
+        this.recarga.classList.add('fa-refresh');
+
+        this.col_recarga.appendChild(this.recarga);
+        this.div_recarga.appendChild(this.col_recarga);
+
+        this.col.appendChild(this.div_recarga);
+
+        this.div_arbol = document.createElement('div');
+        this.div_arbol.classList.add('row');
+        this.div_arbol.style.height = '93%';
+        this.div_arbol.classList.add('align-items-start');
+        this.div_arbol.classList.add('contenedor_vista-archivos');
+        this.col.appendChild(this.div_arbol);
+
+        this.contenedor.appendChild(this.col);
+
+        this.banner = new Banner(this.div_arbol);
+        this.banner.mostrar();
+        this.banner.cargando();
+
         this.ipcRenderer = ipcRenderer;
+
+        // Boton de recarga
+        this.recarga.onclick = () => {
+            // Solicita lista de archivos
+            this.banner.mostrar();
+            this.banner.cargando();
+            this.ipcRenderer.send('listaHtml:solicita');
+        };
 
         console.log('pide archivos');
         this.ipcRenderer.send('listaHtml:solicita');
@@ -50,13 +132,16 @@ class VistaArchivos {
             console.log(respuesta);
 
             this.html(respuesta).then((code) => {
-                this.banner.ocultar();
-                //this.contenedor.innerHTML = code;
-                this.contenedor.appendChild(code);
+                setTimeout(() => {
+                    this.div_arbol.innerHTML = "";
+                    this.div_arbol.appendChild(code);
+                    this.banner.ocultar();
+                }, 1000);
             }, (err) => {
-                this.banner.ocultar();
-                this.contenedor.innerHTML = err;
-                this.contenedor.appendChild(err);
+                setTimeout(() => {
+                    this.div_arbol.innerHTML = err;
+                    this.banner.ocultar();
+                }, 1000);
             });
         });
     }
@@ -124,6 +209,7 @@ class VistaArchivos {
             // folder abierto
             nodo_i.classList.add('fa-folder-open');
             nodo_i.classList.add('folder');
+            nodo_label.style.textDecoration = 'underline';
 
             // Inserta elemento UL
             let nodo_ul = this.toUL(elemento.elementos, nodo_li.ruta);
