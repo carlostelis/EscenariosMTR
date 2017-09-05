@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "electron-context-menu": "^0.9.1",
     "jQuery": "^1.7.4",
     "path": "^0.12.7"
   },

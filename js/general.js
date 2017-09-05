@@ -4,11 +4,20 @@
 
 const electron = require('electron');
 const { ipcRenderer } = electron;
+
+require('electron-context-menu')({
+	prepend: (params, browserWindow) => [{
+		label: 'Rainbow',
+		// Only show it when right-clicking images
+		visible: params.mediaType === 'image'
+	}]
+});
+
 let paginaActual = 'login';
 let intervaloCarga;
 const body = document.querySelector("body");
 const banner = new Banner(body);
-
+const visor_archivos = new VistaArchivos();
 // Al cargar la pagina es inicio de sesion, se consultan
 // sistemas disponibles y cargan documentos en el area de trabajo
 body.onload = () => {

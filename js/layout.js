@@ -39,4 +39,17 @@ ipcRenderer.on('paginas:envia', (event, paginas) => {
             }
         });
     });
+
+    setTimeout(() => {
+        cargaComponentes();
+    }, 100);
 });
+
+function cargaComponentes() {
+    let div_archivos = document.getElementById('div_visor-archivos');
+
+    visor_archivos.set(div_archivos, ipcRenderer);
+
+    // selecciona el primero
+    document.querySelector('.opc-menu').click();
+}

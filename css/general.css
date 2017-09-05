@@ -8,7 +8,8 @@ body {
     width: 100vw;
     height: 100vh;
     background: url('../img/fondo-login.jpg');
-    background-size: cover;
+    background-size: 100vw 100vh;
+    background-repeat: no-repeat;
     transition: 1.5s opacity;
 }
 
@@ -92,15 +93,43 @@ body {
     color: white;
 }
 
-li.vista-archivos.carpeta {
-    list-style-image: url('../img/folder16.png');
-}
-
-li.vista-archivos.archivo {
-    list-style-image: url('../img/minus16.png');
-}
-
 .fill {
     min-height: 100%;
     height: 100%;
+}
+
+.contenedor_vista-archivos {
+    background-color: white;
+    height: 95%;
+    padding: 1vh 0px 0px 0px;
+    user-select: none;
+}
+
+.li_vista-archivos {
+    list-style-type: none;
+    font-size: 2vh;
+}
+
+.li_vista-archivos > i {
+    user-select: none;
+    font-size: 2vh;
+}
+
+.li_vista-archivos > label {
+    margin-bottom: 0px;
+}
+
+.li_vista-archivos > label.seleccionado {
+    color: white;
+    background-color: darkblue;
+}
+
+.li_vista-archivos > i.folder {
+    color: moccasin;
+    margin-right: 0.5vw;
+}
+
+.li_vista-archivos > i.file {
+    color: darkgray;
+    margin-right: 0.5vw;
 }

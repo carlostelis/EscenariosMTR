@@ -5,7 +5,7 @@ const Sistemas = require('./sistemas.js');
 const sistemas = new Sistemas();
 const crearMenu = require('./menuTemplate.js');
 const ListaArchivos = require('./ListaArchivos.js');
-const listaArchivos = new ListaArchivos('C:\\Oracle');
+const listaArchivos = new ListaArchivos('C:\\Intel');
 
 const TO_BD = 2000;
 let win;
@@ -236,7 +236,7 @@ ipcMain.on('listaHtml:solicita', () => {
         win.webContents.send('listaHtml:recibe', res);
     }, (err) => {
         //console.log(err);
-        console.log("Error lista archivos");
+        console.log("Error lista archivos " + err);
         win.webContents.send('listaHtml:recibe', err);
     });
 });
