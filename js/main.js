@@ -158,6 +158,12 @@ ipcMain.on('sistemas:solicitar', (event, mensaje) => {
     console.log(`Login cargado, sistemas solicitados...`);
     win.setTitle(`Analizador de escenarios del MTR - Login`);
 
+    // Sin red cenace
+    // win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
+    // return;
+
+
+
     // conexión con la BD
     sistemas.obtenerSistemas().then((json) => {
         console.log('Sistemas obtenidos');
@@ -165,13 +171,13 @@ ipcMain.on('sistemas:solicitar', (event, mensaje) => {
 
         // Avisa a la página para notificación
         win.webContents.send('sistemas:obtenidos', json);
-        //win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
+        // win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
     }, (jsonError) => {
         console.log(`Error obteniendo los sistemas: ${jsonError.mensaje}`);
 
         // Avisa a la página para notificación
         win.webContents.send('sistemas:obtenidos', jsonError);
-        //win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
+        // win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
     });
 });
 

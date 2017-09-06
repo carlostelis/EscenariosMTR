@@ -1,76 +1,15 @@
-
+const path = require('path');
 class VistaArchivos {
 
     constructor(parent, ipcRenderer) {
+        // Ruta base, para windows
+        this.rutaBase = 'C:/';
+        this.rutaSeleccionada = '';
         this.set(parent, ipcRenderer);
-        // if (typeof parent === 'undefined' && typeof ipcRenderer === 'undefined') {
-        //     console.log('Sin init');
-        //     return;
-        // }
-        //
-        // this.contenedor = parent;
-        // this.contenedor.classList.add('row');
-        //
-        // this.col = document.createElement('div');
-        // this.col.classList.add('col');
-        // this.col.style.height = '100%';
-        //
-        // // Divide contenedor en 2 filas,
-        // // la primera contiene el icono de recarga
-        // // la segunda contiene el arbol
-        // this.div_recarga = document.createElement('div');
-        // this.div_recarga.classList.add('row');
-        // this.div_recarga.style.height = '0px';
-        //
-        // this.col_recarga = document.createElement('div');
-        // this.col_recarga.classList.add('col');
-        // this.col_recarga.classList.add('col_recarca_vista-archivos');
-        //
-        // this.recarga = document.createElement('i');
-        // this.recarga.classList.add('fa');
-        // this.recarga.classList.add('fa-refresh');
-        // this.recarga.onclick = () => {
-        //     // Solicita lista de archivos
-        //     this.ipcRenderer.send('listaHtml:solicita');
-        // };
-        //
-        // this.col_recarga.appendChild(this.recarga);
-        // this.div_recarga.appendChild(this.col_recarga);
-        //
-        // this.col.appendChild(this.div_recarga);
-        //
-        // this.div_arbol = document.createElement('div');
-        // this.div_arbol.classList.add('row');
-        // this.div_arbol.style.height = '93%';
-        // this.div_arbol.classList.add('align-items-start');
-        // this.div_arbol.classList.add('contenedor_vista-archivos');
-        // this.col.appendChild(this.div_arbol);
-        //
-        // this.contenedor.appendChild(this.col);
-        //
-        // this.banner = new Banner(this.contenedor);
-        // this.ipcRenderer = ipcRenderer;
-        //
-        // console.log('pide archivos');
-        // this.ipcRenderer.send('listaHtml:solicita');
-        //
-        // this.ipcRenderer.on('listaHtml:recibe', (event, respuesta) => {
-        //     console.log(respuesta);
-        //
-        //     this.html(respuesta).then((code) => {
-        //         this.banner.ocultar();
-        //
-        //         this.div_arbol.innerHTML = "";
-        //         this.div_arbol.appendChild(code);
-        //     }, (err) => {
-        //         this.div_arbol.innerHTML = err;
-        //     });
-        // });
     }
 
     set(parent, ipcRenderer) {
         if (typeof parent === 'undefined' && typeof ipcRenderer === 'undefined') {
-            console.log('Sin init');
             return;
         }
 
@@ -91,7 +30,7 @@ class VistaArchivos {
 
         this.col_recarga = document.createElement('div');
         this.col_recarga.classList.add('col');
-        this.col_recarga.classList.add('col_recarca_vista-archivos');
+        this.col_recarga.classList.add('col_recarga_vista-archivos');
 
         this.recarga = document.createElement('i');
         this.recarga.classList.add('fa');
@@ -121,7 +60,7 @@ class VistaArchivos {
         this.recarga.onclick = () => {
             // Solicita lista de archivos
             this.banner.mostrar();
-            this.banner.cargando();
+            this.banner.cargando('darkgray');
             this.ipcRenderer.send('listaHtml:solicita');
         };
 
@@ -129,8 +68,6 @@ class VistaArchivos {
         this.ipcRenderer.send('listaHtml:solicita');
 
         this.ipcRenderer.on('listaHtml:recibe', (event, respuesta) => {
-            console.log(respuesta);
-
             this.html(respuesta).then((code) => {
                 setTimeout(() => {
                     this.div_arbol.innerHTML = "";
@@ -151,10 +88,7 @@ class VistaArchivos {
             let nodo_ul = document.createElement('ul');
             nodo_ul.style.paddingLeft = '1vw';
 
-            nodo_ul.appendChild(this.toLI(json, 'C:/'));
-            nodo_ul.onclick = () => {
-                console.log('ul');
-            };
+            nodo_ul.appendChild(this.toLI(json, this.rutaBase));
 
             resolve(nodo_ul);
         });
@@ -181,28 +115,31 @@ class VistaArchivos {
     }
 
     toLI(elemento, rutaDir) {
+        // crea elemento li
         let nodo_li = document.createElement('li');
         nodo_li.classList.add('li_vista-archivos');
+        // crea icono
         let nodo_i = document.createElement('i');
         nodo_i.classList.add('fa');
         nodo_li.appendChild(nodo_i);
+        // crea etiqueta
         let nodo_label = document.createElement('label');
         let nodo_texto = document.createTextNode(elemento.nombre);
         nodo_label.appendChild(nodo_texto);
         nodo_label.seleccionado = false;
-
         nodo_li.appendChild(nodo_label);
-        nodo_li.nombre = elemento.nombre;
-        nodo_li.ruta = rutaDir + '/' + elemento.nombre;
+        // atributos extra
+        nodo_label.nombre = elemento.nombre;
+        nodo_label.ruta = path.join(rutaDir, elemento.nombre); //rutaDir + '/' + elemento.nombre;
+        // metodo click
         nodo_label.onclick = () => {
-            if (nodo_label.seleccionado) {
-                nodo_label.classList.remove('seleccionado');
-                nodo_label.seleccionado = false;
-            } else {
-                nodo_label.classList.add('seleccionado');
-                nodo_label.seleccionado = true;
-            }
-            console.log('label');
+            // quita seleccion de otros elementos
+            this.quitarSeleccion();
+            // selecciona a si mismo
+            nodo_label.classList.add('seleccionado');
+            nodo_label.seleccionado = true;
+            // console.log(`Seleccionado ${nodo_label.ruta}`);
+            this.rutaSeleccionada = nodo_label.ruta;
         };
 
         if (elemento.tipo === 'directorio' && elemento.elementos.length > 0) {
@@ -211,23 +148,40 @@ class VistaArchivos {
             nodo_i.classList.add('folder');
             nodo_label.style.textDecoration = 'underline';
 
-            // Inserta elemento UL
-            let nodo_ul = this.toUL(elemento.elementos, nodo_li.ruta);
+            // Crea icono +/-
+            let nodo_signo = document.createElement('i');
+            nodo_signo.classList.add('fa');
+            nodo_signo.classList.add('fa-minus-square-o');
+            nodo_signo.style.fontSize = '1vw';
+            nodo_li.insertBefore(nodo_signo, nodo_i);
+
+            // Inserta elemento UL lista
+            let nodo_ul = this.toUL(elemento.elementos, nodo_label.ruta);
             nodo_ul.oculto = false;
             nodo_li.appendChild(nodo_ul);
-            nodo_label.ondblclick = () => {
+            // doble click
+            // nodo_label.ondblclick = () => {
+            nodo_signo.onclick = () => {
                 if (nodo_ul.oculto) {
                     nodo_ul.style.display = 'block';
                     nodo_ul.oculto = false;
 
+                    // cambia icono de folder
                     nodo_i.classList.add('fa-folder-open');
                     nodo_i.classList.remove('fa-folder');
+                    // cambia icono +/-
+                    nodo_signo.classList.remove('fa-plus-square-o');
+                    nodo_signo.classList.add('fa-minus-square-o');
                 } else {
                     nodo_ul.style.display = 'none';
                     nodo_ul.oculto = true;
 
+                    // cambia icono de folder
                     nodo_i.classList.remove('fa-folder-open');
                     nodo_i.classList.add('fa-folder');
+                    // cambia icono +/-
+                    nodo_signo.classList.add('fa-plus-square-o');
+                    nodo_signo.classList.remove('fa-minus-square-o');
                 }
             };
         } else {
@@ -238,12 +192,37 @@ class VistaArchivos {
         return nodo_li;
     }
 
+    quitarSeleccion(elemento) {
+        if (elemento) {
+            if (elemento.hasOwnProperty('seleccionado')) {
+                elemento.classList.remove('seleccionado');
+                elemento.seleccionado = false;
+            }
+
+            // Si tiene hijos los procesa
+            Array.from(elemento.childNodes).forEach((e) => {
+                this.quitarSeleccion(e);
+            });
+        } else {
+            Array.from(this.div_arbol.childNodes).forEach((e) => {
+                this.quitarSeleccion(e)
+            });
+        }
+    }
+
     actualizar() {
         this.banner.cargando();
         this.banner.mostrar();
         return new Promise((resolve, reject) => {
-            console.log("manda");
             ipcRenderer.send('listaHtml:solicita');
         });
+    }
+
+    getRutaBase() {
+        return this.rutaBase;
+    }
+
+    getRutaSeleccionada() {
+        return this.rutaSeleccionada;
     }
 }

@@ -125,6 +125,7 @@ body {
     padding: 0vh 0px 0px 0px;
     user-select: none;
     margin-top: 1vh;
+    overflow-y: auto;
 }
 
 .li_vista-archivos {
@@ -156,21 +157,21 @@ body {
 
 }
 
-.col_recarca_vista-archivos {
-    padding: 1.5vh 1vw 0px 0px !important;
+.col_recarga_vista-archivos {
+    padding: 1.5vh 2vw 0px 0px !important;
 }
 
-.col_recarca_vista-archivos > i {
+.col_recarga_vista-archivos > i {
     font-size: 3vh;
     color: darkblue;
     float: right;
     font-weight: bold;
 }
 
-.col_recarca_vista-archivos > i:hover {
+.col_recarga_vista-archivos > i:hover {
     color: blue;
 }
 
-.col_recarca_vista-archivos > i:active {
+.col_recarga_vista-archivos > i:active {
     color: aqua;
 }

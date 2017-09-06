@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <style>
+            .label_dato_ce {
+                margin: 0px 0px 0px 10px;
+                font-size:1.1vw;
+            }
+        </style>
+    </head>
     <body style="opacity: 1">
         <div class="container-fluid fill">
             <div class="row align-items-center" style="height:5%">
                 <div class="col-5" style="background-color:orange; height:100%;">
                     <div class="row align-items-center" style="height:100%">
-                        <p style="margin: 0px 0px; font-size:12pt; font-weight:bold;">Bienvenido usuario fulano</p>
+                        <!-- <p style="margin: 0px 0px; font-size:12pt; font-weight:bold;">Bienvenido usuario fulano</p> -->
+                        <label class="label_dato_ce" style="font-weight:bold;">Bienvenido usuario:</label>
+                        <label id="label_usuario_ce" class="label_dato_ce" style="text-decoration: underline;">asd</label>
                     </div>
                 </div>
                 <div class="col" style="background-color:orange; height:100%;">
                     <div class="row align-items-center" style="height:100%">
-                        <p style="margin: 0px 0px; font-size:12pt; font-weight:bold;">Sistema: ---</p>
+                        <!-- <p style="margin: 0px 0px; font-size:12pt; font-weight:bold;">Sistema: ---</p> -->
+                        <label class="label_dato_ce" style="font-weight:bold;">Sistema:</label>
+                        <label id="label_sistema_ce" class="label_dato_ce" style="text-decoration: underline;">asd</label>
                     </div>
                 </div>
             </div>
             <div class="row align-items-center" style="height: 95%;">
                 <div class="col-5"  style="height:100%;">
                     <div class="row align-items-center" style="height:5%; background-color:yellow;">
-                        <p style="margin: 0px 0px; font-size:12pt">Escenarios almacenados en local</p>
+                        <label class="label_dato_ce" style="font-weight:bold;">Escenarios almacenados en local:</label>
+                        <label id="label_ruta_local_ce" class="label_dato_ce" style="text-decoration: underline;">asd</label>
                     </div>
                     <div id="div_visor-archivos" style="height:95%;">
                     </div>

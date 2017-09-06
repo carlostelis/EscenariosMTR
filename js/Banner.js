@@ -59,11 +59,15 @@ class Banner {
         // }, 500);
     }
 
-    cargando() {
+    cargando(color) {
         this.divIcono.innerHTML = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>';
         this.divIcono.classList.remove('banner_error');
         this.divIcono.classList.remove('banner_ok');
         this.divIcono.classList.add('banner_loading');
+
+        if (typeof color === 'string') {
+            this.divIcono.style.color = color;
+        }
     }
 
     error() {
