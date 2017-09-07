@@ -66,13 +66,23 @@ body {
 }
 
 .banner_loading {
-    color: dodgerblue;
+    color: LightSeaGreen;
     font-size: 8vh;
 }
 
 .banner_ok {
     color: green;
     font-size: 20vh;
+}
+
+.banner_actualiza {
+    color: darkviolet;
+    font-size: 8vh;
+}
+
+.banner_trabaja {
+    color: tomato;
+    font-size: 8vh;
 }
 
 .banner_datos > p {
@@ -120,12 +130,21 @@ body {
 }
 
 .contenedor_vista-archivos {
-    background-color: white;
+    /*background-color: white;*/
+
     height: 95%;
     padding: 0vh 0px 0px 0px;
     user-select: none;
     margin-top: 1vh;
     overflow-y: auto;
+
+    height: 91%!important;
+    border-style: dashed;
+    margin: auto!important;
+    margin-top: 1%!important;
+    padding-top: 1%;
+    width: 95%;
+    border-color: darkslategray;
 }
 
 .li_vista-archivos {
@@ -141,6 +160,7 @@ body {
 
 .li_vista-archivos > label {
     margin-bottom: 0px;
+    font-weight: 600;
 }
 
 .li_vista-archivos > label.seleccionado {
@@ -158,20 +178,51 @@ body {
 }
 
 .col_recarga_vista-archivos {
-    padding: 1.5vh 2vw 0px 0px !important;
+    /*padding: 1.5vh 2vw 0px 0px !important;*/
 }
 
 .col_recarga_vista-archivos > i {
     font-size: 3vh;
-    color: darkblue;
+    color: darkslategray;
     float: right;
     font-weight: bold;
+    margin-top: -3vh;
 }
 
 .col_recarga_vista-archivos > i:hover {
-    color: blue;
+    color: gray;
 }
 
 .col_recarga_vista-archivos > i:active {
-    color: aqua;
+    color: darkgray;
+}
+
+.subseccion {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 5px;
+    border-style: ridge;
+}
+
+.contenedor_vista-archivos::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+	background-color: #F5F5F5;
+	/*border-radius: 5px;*/
+}
+
+.contenedor_vista-archivos::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: #F5F5F5;
+}
+
+.contenedor_vista-archivos::-webkit-scrollbar-thumb
+{
+	/*border-radius: 5px;*/
+	background-color: #FFF;
+	background-image: -webkit-linear-gradient(bottom,#215e3e 0%,#347c58 50%,#215e3e 100%);
+											  /*#ECFCE4 0%,
+											  #ADD3A2 50%,
+											  #659254 51%,
+											  #185600 100%);*/
 }

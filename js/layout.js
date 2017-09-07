@@ -48,6 +48,7 @@ ipcRenderer.on('paginas:envia', (event, paginas) => {
 function cargaComponentes() {
     let div_archivos = document.getElementById('div_visor-archivos');
 
+    // Cargar escenario
     visor_archivos.set(div_archivos, ipcRenderer);
 
     // selecciona el primero

@@ -63,6 +63,8 @@ class Banner {
         this.divIcono.innerHTML = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>';
         this.divIcono.classList.remove('banner_error');
         this.divIcono.classList.remove('banner_ok');
+        this.divIcono.classList.remove('banner_actualiza');
+        this.divIcono.classList.remove('banner_trabaja');
         this.divIcono.classList.add('banner_loading');
 
         if (typeof color === 'string') {
@@ -70,18 +72,56 @@ class Banner {
         }
     }
 
-    error() {
+    actualizando(color) {
+        this.divIcono.innerHTML = '<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>';
+        this.divIcono.classList.remove('banner_error');
+        this.divIcono.classList.remove('banner_ok');
+        this.divIcono.classList.add('banner_actualiza');
+        this.divIcono.classList.remove('banner_trabaja');
+        this.divIcono.classList.remove('banner_loading');
+
+        if (typeof color === 'string') {
+            this.divIcono.style.color = color;
+        }
+    }
+
+    trabajando(color) {
+        this.divIcono.innerHTML = '<i class="fa fa-cog fa-spin fa-3x fa-fw"></i>';
+        this.divIcono.classList.remove('banner_error');
+        this.divIcono.classList.remove('banner_ok');
+        this.divIcono.classList.remove('banner_actualiza');
+        this.divIcono.classList.add('banner_trabaja');
+        this.divIcono.classList.remove('banner_loading');
+console.log('trabaja');
+        if (typeof color === 'string') {
+            this.divIcono.style.color = color;
+        }
+    }
+
+    error(color) {
         this.divIcono.innerHTML = '<i class="fa fa-warning"></i>';
         this.divIcono.classList.remove('banner_loading');
         this.divIcono.classList.remove('banner_ok');
         this.divIcono.classList.add('banner_error');
+        this.divIcono.classList.remove('banner_actualiza');
+        this.divIcono.classList.remove('banner_trabaja');
+
+        if (typeof color === 'string') {
+            this.divIcono.style.color = color;
+        }
     }
 
-    ok() {
+    ok(color) {
         this.divIcono.innerHTML = '<i class="fa fa-check-square"></i>';
         this.divIcono.classList.remove('banner_loading');
         this.divIcono.classList.remove('banner_error');
         this.divIcono.classList.add('banner_ok');
+        this.divIcono.classList.remove('banner_actualiza');
+        this.divIcono.classList.remove('banner_trabaja');
+
+        if (typeof color === 'string') {
+            this.divIcono.style.color = color;
+        }
     }
 
     setMensaje(mensaje) {

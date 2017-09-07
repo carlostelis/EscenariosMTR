@@ -18,6 +18,11 @@ let intervaloCarga;
 const body = document.querySelector("body");
 const banner = new Banner(body);
 const visor_archivos = new VistaArchivos();
+const SESION = {
+	usuario: '',
+	sistema: ''
+}
+
 // Al cargar la pagina es inicio de sesion, se consultan
 // sistemas disponibles y cargan documentos en el area de trabajo
 body.onload = () => {

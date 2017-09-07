@@ -204,7 +204,7 @@ ipcMain.on('sesion:entrar', (event, params) => {
         setTimeout(() => {
             win.webContents.send('sesion:aceptada');
             win.setTitle(`Analizador de escenarios del MTR - ${params.usuario} / ${params.sistema}`);
-        }, 3000);
+        }, 1000);
     } else {
         setTimeout(() => {
             console.log('rechazada');

@@ -4,48 +4,106 @@
         <style>
             .label_dato_ce {
                 margin: 0px 0px 0px 10px;
-                font-size:1.1vw;
+                font-size:1.2vw;
+            }
+
+            .info_ce {
+                font-weight:bold;
+            }
+
+            .info_ce + select {
+                height:5vh!important;
+            }
+
+            .dato_ce {
+                text-decoration: underline;
+            }
+
+            .label_form_dato_ce {
+                font-size:1.2vw;
+            }
+
+            .form-label-ce {
+                font-size:2vw;
+                margin-bottom:2vh;
+                text-shadow: 1px 1px 5px darkgrey;
+                text-decoration: underline;
+            }
+
+            .form-ce {
+                background-color: mistyrose;
+                padding: 3vh 1vh;
+                border-radius: 10px;
+                border-style: groove;
+            }
+
+            .form-fila {
+                height: 6vh;
+                margin-bottom: 2vh;
             }
         </style>
     </head>
     <body style="opacity: 1">
         <div class="container-fluid fill">
-            <div class="row align-items-center" style="height:5%">
-                <div class="col-5" style="background-color:orange; height:100%;">
+            <div class="row align-items-center subseccion" style="height:5%;margin-bottom: 5px;">
+                <div class="col" style="height:100%;">
                     <div class="row align-items-center" style="height:100%">
-                        <!-- <p style="margin: 0px 0px; font-size:12pt; font-weight:bold;">Bienvenido usuario fulano</p> -->
-                        <label class="label_dato_ce" style="font-weight:bold;">Bienvenido usuario:</label>
-                        <label id="label_usuario_ce" class="label_dato_ce" style="text-decoration: underline;">asd</label>
+                        <label class="label_dato_ce info_ce">Bienvenido usuario:</label>
+                        <label id="label_usuario_ce" class="label_dato_ce dato_ce">asd</label>
                     </div>
                 </div>
-                <div class="col" style="background-color:orange; height:100%;">
+                <div class="col" style="height:100%;">
                     <div class="row align-items-center" style="height:100%">
-                        <!-- <p style="margin: 0px 0px; font-size:12pt; font-weight:bold;">Sistema: ---</p> -->
-                        <label class="label_dato_ce" style="font-weight:bold;">Sistema:</label>
-                        <label id="label_sistema_ce" class="label_dato_ce" style="text-decoration: underline;">asd</label>
+                        <label class="label_dato_ce info_ce">Sistema:</label>
+                        <label id="label_sistema_ce" class="label_dato_ce dato_ce">asd</label>
                     </div>
                 </div>
             </div>
             <div class="row align-items-center" style="height: 95%;">
-                <div class="col-5"  style="height:100%;">
-                    <div class="row align-items-center" style="height:5%; background-color:yellow;">
-                        <label class="label_dato_ce" style="font-weight:bold;">Escenarios almacenados en local:</label>
-                        <label id="label_ruta_local_ce" class="label_dato_ce" style="text-decoration: underline;">asd</label>
-                    </div>
-                    <div id="div_visor-archivos" style="height:95%;">
-                    </div>
+                <div class="col subseccion" style="height:100%; margin-right: 5px;">
+                    <div id="div_visor-archivos" style="height:100%;"></div>
                 </div>
-                <div class="col" style="height: 100%; background-color:aqua;">
-                    <div class="row align-items-center" style="height:100%">
-                        <p style="margin: 0px 0px">Buscar Escenario</p>
+                <div class="col subseccion" style="height: 100%;">
+                    <div class="row" style="padding-top: 5vh;">
+                        <div class="col-md-8" style="float:none; margin:auto;">
+                            <h1 class="text-center form-label-ce">Buscar escenario</h1>
+                            <form class="form-ce" >
+                                <div class="form-group row justify-content-around align-items-center form-fila" style="">
+                                    <label class="col-form-label col-3 label_form_dato_ce info_ce">Algoritmo:</label>
+                                    <select id="" class="form-control col-6" style="text-align-last:center;">
+                                    </select>
+                                </div>
+                                <div class="form-group row justify-content-around align-items-center form-fila" style="">
+                                    <label class="col-form-label col-3 label_form_dato_ce info_ce">Fecha:</label>
+                                    <select id="" class="form-control col-6" style="text-align-last:center;">
+                                    </select>
+                                </div>
+                                <div class="form-group row justify-content-around align-items-center form-fila" style="">
+                                    <label class="col-form-label col-3 label_form_dato_ce info_ce">Hora:</label>
+                                    <select id="" class="form-control col-6" style="text-align-last:center;">
+                                    </select>
+                                </div>
+                                <div class="form-group row justify-content-around align-items-center form-fila" style="">
+                                    <label class="col-form-label col-3 label_form_dato_ce info_ce">Periodo:</label>
+                                    <select id="" class="form-control col-6" style="text-align-last:center;">
+                                    </select>
+                                </div>
+                                <div class="form-group row justify-content-around align-items-centerform-fila">
+                                    <label class="col-form-label col-12 label_form_dato_ce info_ce text-center" style="font-style: italic;">Consultar escenarios modificados</label>
+                                </div>
+                                <div class="form-group row justify-content-around align-items-centerform-fila" style="">
+                                    <label class="col-form-label col-3 label_form_dato_ce info_ce">Folio:</label>
+                                    <select id="" class="form-control col-6" style="text-align-last:center;">
+                                    </select>
+                                </div>
+                                <div class="form-group" style="margin-top:7%; margin-bottom: 0px;">
+                                    <input type="button" value="Cargar" class="button_gral btn-block col-10"  onclick=""/>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- <script src="../js/Banner.js"></script>
-        <script src="../js/loginTest.js" async></script> -->
-
     </body>
-
 </html>

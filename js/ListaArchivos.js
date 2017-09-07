@@ -9,6 +9,12 @@ class ListaArchivos {
 
     update() {
         var that = this;
+
+        // Verifica que exista la carpeta original
+        if (!fs.existsSync(this.rutaInit)) {
+            console.log(`Generando directorio local ${_ruta}: ${fs.mkdirSync(this.rutaInit)}`);
+        }
+
         return new Promise((resolve, reject) => {
             let elementos_dir = that.leerDirectorio(this.rutaInit);
 
@@ -18,7 +24,7 @@ class ListaArchivos {
 
             that.json = {
                 nombre: path.basename(this.rutaInit),
-                ruta: this.rutaInit,
+                rutaBase: this.rutaInit,
                 tipo: 'directorio',
                 elementos: elementos_dir
             };
@@ -30,10 +36,6 @@ class ListaArchivos {
     leerDirectorio(_ruta) {
         var that = this;
         var elementos = [];
-
-        if (!fs.existsSync(_ruta)) {
-            console.log(`Generando directorio local ${_ruta}: ${fs.mkdirSync(_ruta)}`);
-        }
 
         // Llamado sincronizado
         let items = fs.readdirSync(_ruta);

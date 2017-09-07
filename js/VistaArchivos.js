@@ -1,9 +1,10 @@
 const path = require('path');
+const MAX_NIVEL = 2;
+
 class VistaArchivos {
 
     constructor(parent, ipcRenderer) {
         // Ruta base, para windows
-        this.rutaBase = 'C:/';
         this.rutaSeleccionada = '';
         this.set(parent, ipcRenderer);
     }
@@ -15,15 +16,34 @@ class VistaArchivos {
 
         this.contenedor = parent;
         this.contenedor.classList.add('row');
-        this.contenedor.style.borderStyle = 'dashed';
+        // this.contenedor.style.borderStyle = 'dashed';
 
         this.col = document.createElement('div');
         this.col.classList.add('col');
         this.col.style.height = '100%';
 
-        // Divide contenedor en 2 filas,
-        // la primera contiene el icono de recarga
-        // la segunda contiene el arbol
+        // Divide contenedor en 3 filas,
+        // la primera contiene la ruta base
+        this.div_rutaBase = document.createElement('div');
+        this.div_rutaBase.classList.add('row');
+        this.div_rutaBase.classList.add('align-items-center');
+        this.div_rutaBase.style.height = '5%';
+
+        this.label_rutaBase = document.createElement('label');
+        this.label_rutaBase.classList.add('label_dato_ce');
+        this.label_rutaBase.classList.add('info_ce');
+        this.label_rutaBase.appendChild(document.createTextNode('Escenarios locales almacenados en: '));
+
+        this.label_rutaBaseDato = document.createElement('label');
+        this.label_rutaBaseDato.classList.add('label_dato_ce');
+        this.label_rutaBaseDato.classList.add('dato_ce');
+        this.label_rutaBaseDato.appendChild(document.createTextNode('lala'));
+
+        this.div_rutaBase.appendChild(this.label_rutaBase);
+        this.div_rutaBase.appendChild(this.label_rutaBaseDato);
+        this.col.appendChild(this.div_rutaBase);
+
+        // la segunda contiene el icono de recarga
         this.div_recarga = document.createElement('div');
         this.div_recarga.classList.add('row');
         this.div_recarga.style.height = '0px';
@@ -41,6 +61,7 @@ class VistaArchivos {
 
         this.col.appendChild(this.div_recarga);
 
+        // la tercera contiene el arbol
         this.div_arbol = document.createElement('div');
         this.div_arbol.classList.add('row');
         this.div_arbol.style.height = '93%';
@@ -60,11 +81,11 @@ class VistaArchivos {
         this.recarga.onclick = () => {
             // Solicita lista de archivos
             this.banner.mostrar();
-            this.banner.cargando('darkgray');
+            // this.banner.cargando('darkgray');
+            this.banner.trabajando();
             this.ipcRenderer.send('listaHtml:solicita');
         };
 
-        console.log('pide archivos');
         this.ipcRenderer.send('listaHtml:solicita');
 
         this.ipcRenderer.on('listaHtml:recibe', (event, respuesta) => {
@@ -72,6 +93,9 @@ class VistaArchivos {
                 setTimeout(() => {
                     this.div_arbol.innerHTML = "";
                     this.div_arbol.appendChild(code);
+
+                    this.label_rutaBaseDato.innerHTML = this.rutaBase;
+
                     this.banner.ocultar();
                 }, 1000);
             }, (err) => {
@@ -88,13 +112,13 @@ class VistaArchivos {
             let nodo_ul = document.createElement('ul');
             nodo_ul.style.paddingLeft = '1vw';
 
-            nodo_ul.appendChild(this.toLI(json, this.rutaBase));
+            nodo_ul.appendChild(this.toLI(json, '', 0));
 
             resolve(nodo_ul);
         });
     }
 
-    toUL(dir, ruta) {
+    toUL(dir, ruta, nivel) {
         if (typeof ruta === 'undefined' || ruta === undefined) {
             ruta = '';
         }
@@ -103,7 +127,7 @@ class VistaArchivos {
 
         try {
             dir.forEach((elemento) => {
-                let nodo_li = this.toLI(elemento, ruta);
+                let nodo_li = this.toLI(elemento, ruta, nivel);
 
                 nodo_ul.appendChild(nodo_li);
             });
@@ -114,7 +138,7 @@ class VistaArchivos {
         return nodo_ul;
     }
 
-    toLI(elemento, rutaDir) {
+    toLI(elemento, rutaDir, nivel) {
         // crea elemento li
         let nodo_li = document.createElement('li');
         nodo_li.classList.add('li_vista-archivos');
@@ -130,7 +154,14 @@ class VistaArchivos {
         nodo_li.appendChild(nodo_label);
         // atributos extra
         nodo_label.nombre = elemento.nombre;
-        nodo_label.ruta = path.join(rutaDir, elemento.nombre); //rutaDir + '/' + elemento.nombre;
+
+        if (typeof elemento.rutaBase === 'string') {
+            this.rutaBase = elemento.rutaBase;
+            nodo_label.ruta = this.rutaBase;
+        } else {
+            nodo_label.ruta = path.join(rutaDir, elemento.nombre);
+        }
+
         // metodo click
         nodo_label.onclick = () => {
             // quita seleccion de otros elementos
@@ -138,26 +169,50 @@ class VistaArchivos {
             // selecciona a si mismo
             nodo_label.classList.add('seleccionado');
             nodo_label.seleccionado = true;
-            // console.log(`Seleccionado ${nodo_label.ruta}`);
+            console.log(`Seleccionado ${nodo_label.ruta}`);
             this.rutaSeleccionada = nodo_label.ruta;
         };
 
         if (elemento.tipo === 'directorio' && elemento.elementos.length > 0) {
-            // folder abierto
-            nodo_i.classList.add('fa-folder-open');
+            if (nivel < MAX_NIVEL) {
+                // folder abierto
+                nodo_i.classList.add('fa-folder-open');
+            } else {
+                // folder cerradp
+                nodo_i.classList.add('fa-folder');
+            }
+
             nodo_i.classList.add('folder');
             nodo_label.style.textDecoration = 'underline';
 
             // Crea icono +/-
             let nodo_signo = document.createElement('i');
             nodo_signo.classList.add('fa');
-            nodo_signo.classList.add('fa-minus-square-o');
+
+            if (nivel < MAX_NIVEL) {
+                // +
+                nodo_signo.classList.add('fa-minus-square-o');
+            } else {
+                // -
+                nodo_signo.classList.add('fa-plus-square-o');
+            }
+
             nodo_signo.style.fontSize = '1vw';
             nodo_li.insertBefore(nodo_signo, nodo_i);
 
             // Inserta elemento UL lista
-            let nodo_ul = this.toUL(elemento.elementos, nodo_label.ruta);
-            nodo_ul.oculto = false;
+            let nodo_ul = this.toUL(elemento.elementos, nodo_label.ruta, nivel + 1);
+
+            if (nivel < MAX_NIVEL) {
+                // visible
+                nodo_ul.oculto = false;
+                nodo_ul.style.display = 'block';
+            } else {
+                // oculto
+                nodo_ul.oculto = true;
+                nodo_ul.style.display = 'none';
+            }
+
             nodo_li.appendChild(nodo_ul);
             // doble click
             // nodo_label.ondblclick = () => {

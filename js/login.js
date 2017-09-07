@@ -159,6 +159,10 @@ function solicitarAutenticacion() {
         sistema: selectSistema.value.trim()
     });
 
+    // Guarda datos de sesion
+    SESION.usuario = inputNombre.value.trim();
+    SESION.sistema = selectSistema.value.trim();
+
     //Muestra banner y Espera respuesta de main
     banner.mostrar();
     banner.ocultarBoton();
@@ -169,6 +173,10 @@ function solicitarAutenticacion() {
 ipcRenderer.on('sesion:aceptada', (event) => {
     banner.ok();
     banner.setMensaje('Autenticación exitosa');
+
+    // Elementos con informacion de sesion
+    document.querySelector('#label_usuario_ce').innerHTML = SESION.usuario;
+    document.querySelector('#label_sistema_ce').innerHTML = SESION.sistema;
 
     setTimeout(() => {
         banner.ocultar();
@@ -196,4 +204,8 @@ ipcRenderer.on('sesion:rechazada', (event, error) => {
     banner.setBoton('Aceptar', () => {
         banner.ocultar();
     });
+
+    // Reset datos de sesion
+    SESION.usuario = '';
+    SESION.sistema = '';
 });
