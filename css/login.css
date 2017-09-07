@@ -51,7 +51,7 @@
     transition: 0.3s ease-in;
     text-shadow: 0px -2px 5px black;
     margin: 0% 0% 0% 0%;
-    opacity: 0;
+    opacity: 1;
     visibility: hidden;
 }
 
@@ -61,6 +61,15 @@
 
 .login-input {
     height: 5vh !important;
-    font-size: 1.1vw !important;
+    font-size: 1.2vw !important;
     background-size: 4vh !important;
+    /*padding: 1vh 0px 0px 1vw !important;*/
+}
+
+.input-normal {
+    border-color: darkgray !important;
+}
+
+.input-error {
+    border-color: red !important;
 }

@@ -53,10 +53,10 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
 
     // Crea nodo placeholder
     let opcion = document.createElement("option");
-    let texto = document.createTextNode(`\u00A0\u00A0Seleccionar`);
+    let texto = document.createTextNode(`Sistema`);
     opcion.disabled = true;
     opcion.selected = true;
-    opcion.value = 'Seleccionar';
+    opcion.value = 'Sistema';
 
     opcion.appendChild(texto);
     select.appendChild(opcion);
@@ -66,7 +66,7 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
         // sistema disponible, 1 = true, 0 = false
         if (parseInt(sistema.estado) === 1) {
             opcion = document.createElement("option");
-            texto = document.createTextNode(`\u00A0\u00A0${sistema.nombre}`);
+            texto = document.createTextNode(sistema.nombre);
             opcion.disabled = false;
             opcion.selected = false;
             opcion.value = sistema.nombre;
@@ -105,22 +105,22 @@ function solicitarSistemas() {
 }
 
 // para validacion de entrada
-function onFocusInput(input, label) {
-    input.respaldo = input.placeholder;
-    input.placeholder = "";
+function onFocusInput(input, icono) {
+    // input.respaldo = input.placeholder;
+    // input.placeholder = "";
 
-    var label = document.getElementById(label);
-    label.style.opacity = "1";
-    label.style.visibility = "visible";
+    var icono = document.getElementById(icono);
+    icono.style.color = "darkblue";
+    icono.style.fontWeight = "bold";
 }
 
 // para validacion de entrada
-function lostFocusInput(input, label) {
-    input.placeholder = input.respaldo;
+function lostFocusInput(input, icono) {
+    // input.placeholder = input.respaldo;
 
-    var label = document.getElementById(label);
-    label.style.opacity = "0";
-    label.style.visibility = "hidden";
+    var icono = document.getElementById(icono);
+    icono.style.color = "#464a4c";
+    icono.style.fontWeight = "normal";
 }
 
 // para validacion de entrada y acceso a las funciones
@@ -128,29 +128,36 @@ function solicitarAutenticacion() {
     // Valida nombre
     const inputNombre = document.querySelector('#input_nombre_IS');
     if (inputNombre.value.trim().length === 0) {
-        inputNombre.style.borderColor = 'red';
+        inputNombre.classList.remove('input-normal');
+        inputNombre.classList.add('input-error');
         inputNombre.focus();
         return;
     }
-    inputNombre.style.borderColor = 'white';
+    inputNombre.classList.remove('input-error');
+    inputNombre.classList.add('input-normal');
 
     // Valida password
     const inputContrasena = document.querySelector('#input_contrasena_IS');
     if (inputContrasena.value.trim().length === 0) {
-        inputContrasena.style.borderColor = 'red';
+        inputContrasena.classList.remove('input-normal');
+        inputContrasena.classList.add('input-error');
         inputContrasena.focus();
         return;
     }
-    inputContrasena.style.borderColor = 'white';
+    inputContrasena.classList.remove('input-error');
+    inputContrasena.classList.add('input-normal');
 
     // Valida select
     const selectSistema = document.querySelector('#select_sistema_IS');
-    if (selectSistema.value.trim() === 'Seleccionar' || selectSistema.disabled) {
-        selectSistema.style.borderColor = 'red';
+    console.log(selectSistema.value.trim());
+    if (selectSistema.value.trim() === 'Sistema' || selectSistema.disabled) {
+        selectSistema.classList.remove('input-normal');
+        selectSistema.classList.add('input-error');
         selectSistema.focus();
         return;
     }
-    selectSistema.style.borderColor = 'white';
+    selectSistema.classList.remove('input-error');
+    selectSistema.classList.add('input-normal');
 
     // Logear
     ipcRenderer.send('sesion:entrar', {

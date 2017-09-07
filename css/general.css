@@ -130,21 +130,18 @@ body {
 }
 
 .contenedor_vista-archivos {
-    /*background-color: white;*/
-
-    height: 95%;
-    padding: 0vh 0px 0px 0px;
+    padding: 1vh 0px 0px 1vw;
     user-select: none;
-    margin-top: 1vh;
     overflow-y: auto;
-
     height: 91%!important;
     border-style: dashed;
     margin: auto!important;
     margin-top: 1%!important;
-    padding-top: 1%;
     width: 95%;
     border-color: darkslategray;
+
+    background-color: rgba(255, 230, 230, 0.7);
+    border-radius: 5px;
 }
 
 .li_vista-archivos {
@@ -174,7 +171,6 @@ body {
 
 .li_vista-archivos > i.file {
     color: darkslategray;
-
 }
 
 .col_recarga_vista-archivos {

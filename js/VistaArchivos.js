@@ -183,11 +183,11 @@ class VistaArchivos {
             }
 
             nodo_i.classList.add('folder');
-            nodo_label.style.textDecoration = 'underline';
 
             // Crea icono +/-
             let nodo_signo = document.createElement('i');
             nodo_signo.classList.add('fa');
+            nodo_signo.style.marginLeft = '-1vw';
 
             if (nivel < MAX_NIVEL) {
                 // +

@@ -18,21 +18,36 @@
                 <div class="col-md-3 div_data-login" style="float:none; margin:auto;">
                     <h1 class="text-center">Iniciar Sesi&oacute;n</h1>
                     <form action="">
-                        <div class="form-group" style="margin-bottom: 3%;">
-                            <label id="label_nombre_IS" class="text-center label_data-login_IS">Usuario</label>
-                            <input id="input_nombre_IS" type="text" name="nombre" placeholder="Usuario" class="login-input form-control text-center" style="background: white url(../img/user32.png) no-repeat scroll 7px 5px;" onfocus="onFocusInput(this, 'label_nombre_IS')" onblur="lostFocusInput(this, 'label_nombre_IS');"  maxlength="20" value="carlos"></input>
+                        <div class="form-group" style="margin-top: 4vh;">
+                            <!-- <label id="label_nombre_IS" class="text-center label_data-login_IS">Usuario</label> -->
+                            <div class="input-group">
+                                <span class="input-group-addon" style="height: 5vh;">
+                                    <i id="i_usuario" class="fa fa-user-circle" style="font-size: 1.5vw;"></i>
+                                </span>
+                                <input id="input_nombre_IS" type="text" name="nombre" placeholder="Usuario" class="login-input form-control  input-normal" onfocus="onFocusInput(this, 'i_usuario')" onblur="lostFocusInput(this, 'i_usuario');"  maxlength="20" value="carlos"></input>
+                            </div>
                         </div>
-                        <div class="form-group" style="margin-bottom: 3%;">
-                            <label id="label_contrasena_IS" class="text-center label_data-login_IS">Contrase&ntilde;a</label>
-                            <input id="input_contrasena_IS" type="password" name="contrasena" placeholder="Contraseña" class="login-input form-control text-center" style="background: white url(../img/lock32.png) no-repeat scroll 13px 5px;" onfocus="onFocusInput(this, 'label_contrasena_IS')" onblur="lostFocusInput(this, 'label_contrasena_IS');" maxlength="20" value="asd"/>
+                        <div class="form-group" style="margin-top: 3vh;">
+                            <!-- <label id="label_contrasena_IS" class="text-center label_data-login_IS">Contrase&ntilde;a</label> -->
+                            <div class="input-group">
+                                <span class="input-group-addon" style="height: 5vh;">
+                                    <i id="i_contrasena" class="fa fa-key" style="font-size: 1.5vw;"></i>
+                                </span>
+                                <input id="input_contrasena_IS" type="password" name="contrasena" placeholder="Contraseña" class="login-input form-control input-normal"  onfocus="onFocusInput(this, 'i_contrasena')" onblur="lostFocusInput(this, 'i_contrasena');" maxlength="20" value="asd"/>
+                            </div>
                         </div>
-                        <div class="form-group" style="margin-bottom: 3%;">
-                            <label id="label_sistema_IS" class="text-center label_data-login_IS">Sistema</label>
-                            <select id="select_sistema_IS" class="login-input form-control text-center" style="text-align-last:center; background: white url(../img/display32.png) no-repeat scroll 7px 5px;" onfocus="onFocusInput(this, 'label_sistema_IS')" onblur="lostFocusInput(this, 'label_sistema_IS');">
-                                <option value="Seleccionar" disabled selected value>&nbsp;&nbsp;Seleccionar</option>
-                            </select>
+                        <div class="form-group" style="margin-top: 3vh;">
+                            <!-- <label id="label_sistema_IS" class="text-center label_data-login_IS">Sistema</label> -->
+                            <div class="input-group">
+                                <span class="input-group-addon" style="height: 5vh;">
+                                    <i id="i_sistema" class="fa fa-gears" style="font-size: 1.5vw;"></i>
+                                </span>
+                                <select id="select_sistema_IS" class="login-input form-control  input-normal" style="padding: 1vh 0px 0px 0vw" onfocus="onFocusInput(this, 'i_sistema')" onblur="lostFocusInput(this, 'i_sistema');">
+                                    <option value="Sistema" disabled selected>Sistema</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group" style="margin-top:7%; margin-bottom: 0px;">
+                        <div class="form-group" style="margin-top: 4vh;">
                             <input type="button" value="Entrar" class="button_gral btn-block"  onclick="solicitarAutenticacion();"/>
                         </div>
                     </form>
