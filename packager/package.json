@@ -1,5 +1,8 @@
 {
   "name": "escenarios_mtr",
   "version": "1.0.0",
-  "description": "Prueba_Installer"
+  "description": "Prueba_Installer",
+  "dependencies": {
+    "electron-winstaller": "^2.6.3"
+  }
 }

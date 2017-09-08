@@ -8,33 +8,26 @@ class ListaArchivos {
     }
 
     update() {
-        var that = this;
-
         // Verifica que exista la carpeta original
         if (!fs.existsSync(this.rutaInit)) {
-            console.log(`Generando directorio local ${_ruta}: ${fs.mkdirSync(this.rutaInit)}`);
+            console.log(`Generando directorio local ${this.rutaInit}: ${fs.mkdirSync(this.rutaInit)}`);
         }
 
         return new Promise((resolve, reject) => {
-            let elementos_dir = that.leerDirectorio(this.rutaInit);
+            let elementos_dir = this.leerDirectorio(this.rutaInit);
 
-            if (elementos_dir.length === 0) {
-                reject(`No fue posible obtener elementos en: ${_ruta}`);
-            }
-
-            that.json = {
+            this.json = {
                 nombre: path.basename(this.rutaInit),
                 rutaBase: this.rutaInit,
                 tipo: 'directorio',
                 elementos: elementos_dir
             };
 
-            resolve(that.json);
+            resolve(this.json);
         });
     }
 
     leerDirectorio(_ruta) {
-        var that = this;
         var elementos = [];
 
         // Llamado sincronizado
@@ -62,7 +55,7 @@ class ListaArchivos {
                     elementos.push(itemObject);
                 } else if (stats.isDirectory()) {
                     itemObject.tipo = 'directorio';
-                    itemObject.elementos = that.leerDirectorio(rutaCompleta);
+                    itemObject.elementos = this.leerDirectorio(rutaCompleta);
                     elementos.push(itemObject);
                 }
             }

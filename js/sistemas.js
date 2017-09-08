@@ -16,13 +16,16 @@ class Sistemas {
             const jar = execFile('java', ['-jar', ruta, `--url=${db.url}`, `--esq=${db.bd}`, `--pass=${db.password}`, '--opc=sistemas'], (error, stdout, stderr) => {
                 if (error) {
                     console.log(`Error: ${error}`);
-                    reject({'error': error});
+                    reject({
+                        mensaje: `No fue posible establecer una conexión con la base de datos; errno = ${error.code}`,
+                        estado: false,
+                        sistemas: []
+                    });
                 }
 
                 console.log(`Resultado: ${stdout}<`);
 
                 if (stdout.startsWith('ERROR')) {
-                    console.log('-reject-');
                     var jsonErr = {
                         mensaje: stdout.split('->')[1],
                         estado: false,
@@ -31,13 +34,12 @@ class Sistemas {
                     console.log(jsonErr);
                     reject(jsonErr);
                 } else if (stdout.trim().length === 0) {
-                    console.log('-reject-');
                     var jsonErr = {
-                        mensaje: 'No fue posible establecer una conexión con la base de dato0s.',
+                        mensaje: 'No fue posible establecer una conexión con la base de datos; falla de ejecución',
                         estado: false,
                         sistemas: []
                     };
-                    console.log(jsonErr);
+
                     reject(jsonErr);
                 } else {
                     try {

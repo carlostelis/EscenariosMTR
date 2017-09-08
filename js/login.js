@@ -23,6 +23,7 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
     // Estado = NO
     if (!json.hasOwnProperty('estado') || !json.estado) {
         console.log('Consulta fallida');
+        console.log(json.mensaje);
         // Mensaje y botón retry
         banner.error();
         banner.setMensaje(json.mensaje);

@@ -35,28 +35,20 @@ class Banner {
         this.divDatos.appendChild(this.parrafo);
         this.divDatos.appendChild(this.boton);
         this.divBanner.appendChild(this.divDatos);
-        this.divBanner.style.opacity = '0';
-        // No lo agrega hasta indicar show()
-        //this.contenedor.appendChild(divBanner);
     }
 
     mostrar() {
         this.contenedor.appendChild(this.divBanner);
-        // setTimeout(() => {
-            this.divBanner.style.opacity = '0.8';
-        // }, 500);
+        this.divBanner.style.opacity = '1';
     }
 
     ocultar() {
-        var that = this;
-        // setTimeout(() => {
-            that.divBanner.style.opacity = '0';
-            setTimeout(() => {
-                try {
-                    that.contenedor.removeChild(that.divBanner);;
-                } catch (e) {}
-            }, 600);
-        // }, 500);
+        this.divBanner.style.opacity = '0';
+        setTimeout(() => {
+            try {
+                this.contenedor.removeChild(this.divBanner);;
+            } catch (e) {}
+        }, 600);
     }
 
     cargando(color) {
@@ -92,7 +84,7 @@ class Banner {
         this.divIcono.classList.remove('banner_actualiza');
         this.divIcono.classList.add('banner_trabaja');
         this.divIcono.classList.remove('banner_loading');
-console.log('trabaja');
+
         if (typeof color === 'string') {
             this.divIcono.style.color = color;
         }
@@ -125,12 +117,11 @@ console.log('trabaja');
     }
 
     setMensaje(mensaje) {
-        var that = this;
         this.parrafo.classList.remove('parrafo_invisible');
         this.parrafo.innerHTML = mensaje;
 
         setTimeout(() => {
-            that.parrafo.classList.add('parrafo_visible');
+            this.parrafo.classList.add('parrafo_visible');
         }, 1000);
     }
 

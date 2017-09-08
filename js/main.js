@@ -159,8 +159,8 @@ ipcMain.on('sistemas:solicitar', (event, mensaje) => {
     win.setTitle(`Analizador de escenarios del MTR - Login`);
 
     // Sin red cenace
-    // win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
-    // return;
+    win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
+    return;
 
 
 
@@ -184,7 +184,7 @@ ipcMain.on('sistemas:solicitar', (event, mensaje) => {
 // Leer de disco los docs html para las funciones
 ipcMain.on('paginas:leer', (event) => {
     let paginas = [];
-
+    
     paginas.push({
         id: '1',
         data: fs.readFileSync('./html/CargaEscenario.html', 'utf8')

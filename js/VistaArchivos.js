@@ -139,6 +139,7 @@ class VistaArchivos {
     }
 
     toLI(elemento, rutaDir, nivel) {
+        console.log(elemento);
         // crea elemento li
         let nodo_li = document.createElement('li');
         nodo_li.classList.add('li_vista-archivos');
@@ -173,7 +174,8 @@ class VistaArchivos {
             this.rutaSeleccionada = nodo_label.ruta;
         };
 
-        if (elemento.tipo === 'directorio' && elemento.elementos.length > 0) {
+        if (elemento.tipo === 'directorio') {
+            console.log('directorio');
             if (nivel < MAX_NIVEL) {
                 // folder abierto
                 nodo_i.classList.add('fa-folder-open');
