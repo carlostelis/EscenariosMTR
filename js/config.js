@@ -13,5 +13,27 @@ module.exports = {
         query: {
             sistemasString: "SELECT * FROM ESC_SISTEMAS"
         }
-    }
+    },
+    sistemas: [
+        { nombre: "BCA" },
+        { nombre: "BCS" },
+        { nombre: "SIN" }
+    ],
+    algoritmos: [
+        {
+            nombre: "DERS-I",
+            periodos: 1,
+            intervalos: 12
+        },
+        {
+            nombre: "DERS-MI",
+            periodos: 4,
+            intervalos: 4
+        },
+        {
+            nombre: "AUTR",
+            periodos: 8,
+            intervalos: 1
+        }
+    ]
 };

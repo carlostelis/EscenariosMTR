@@ -11,6 +11,27 @@ class ListaArchivos {
         // Verifica que exista la carpeta original
         if (!fs.existsSync(this.rutaInit)) {
             console.log(`Generando directorio local ${this.rutaInit}: ${fs.mkdirSync(this.rutaInit)}`);
+
+            let ruta = path.join(this.rutaInit, 'dersi');
+            console.log(`Generando subdirectorio local ${ruta}: ${fs.mkdirSync(ruta)}`);
+            let subruta = path.join(ruta, 'escenario_original');
+            console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
+            subruta = path.join(ruta, 'escenario_modificado');
+            console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
+
+            ruta = path.join(this.rutaInit, 'dersmi');
+            console.log(`Generando subdirectorio local ${ruta}: ${fs.mkdirSync(ruta)}`);
+            subruta = path.join(ruta, 'escenario_original');
+            console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
+            subruta = path.join(ruta, 'escenario_modificado');
+            console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
+
+            ruta = path.join(this.rutaInit, 'autr');
+            console.log(`Generando subdirectorio local ${ruta}: ${fs.mkdirSync(ruta)}`);
+            subruta = path.join(ruta, 'escenario_original');
+            console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
+            subruta = path.join(ruta, 'escenario_modificado');
+            console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
         }
 
         return new Promise((resolve, reject) => {

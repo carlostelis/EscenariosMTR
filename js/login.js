@@ -15,35 +15,20 @@ ipcRenderer.on('paginaActual:consulta', (event, json) => {
 // Respuesta de ipcMain con los sistemas consultado
 ipcRenderer.on('sistemas:obtenidos', (event, json) => {
     console.log(JSON.stringify(json));
-    console.log(`estado: ${json.estado}`);
 
     // Elimina intervalo de cadena de carga
     clearInterval(intervaloCarga);
 
     // Estado = NO
-    if (!json.hasOwnProperty('estado') || !json.estado) {
+    if (!json.hasOwnProperty('sistemas') || typeof json.sistemas === 'undefined') {
         console.log('Consulta fallida');
-        console.log(json.mensaje);
         // Mensaje y botón retry
         banner.error();
-        banner.setMensaje(json.mensaje);
+        banner.setMensaje('No se encontraron en la configuración de la aplicación');
         banner.mostrarBoton();
         banner.setBoton('Reintentar', () => {
             solicitarSistemas();
         });
-
-        return;
-    }
-
-    // Estado = OK, pero no hay sistemas
-    if (!json.hasOwnProperty('sistemas')) {
-        console.log("No hay sistemas");
-        banner.error();
-        banner.setMensaje('No se encontraron sistemas disponibles en la base de datos.', () => {
-            solicitarSistemas();
-        });
-        banner.mostrarBoton();
-        banner.setBoton('Reintentar');
 
         return;
     }
@@ -64,48 +49,16 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
 
     // Agrega los sistemas disponibles
     json.sistemas.forEach((sistema) => {
-        // sistema disponible, 1 = true, 0 = false
-        if (parseInt(sistema.estado) === 1) {
-            opcion = document.createElement("option");
-            texto = document.createTextNode(sistema.nombre);
-            opcion.disabled = false;
-            opcion.selected = false;
-            opcion.value = sistema.nombre;
-            opcion.appendChild(texto);
-            select.appendChild(opcion);
-        }
-    });
-
-    // algoritmos
-    // Estado = OK, pero no hay sistemas
-    if (json.hasOwnProperty('algoritmos')) {
-        // Obtiene la lista y la limpia
-        const select = document.querySelector("#sel_algoritmo_ce");
-        select.innerHTML = "";
-
-        // Crea nodo placeholder
-        let opcion = document.createElement("option");
-        let texto = document.createTextNode(`Algoritmo`);
-        opcion.disabled = true;
-        opcion.selected = true;
-        opcion.value = 'Algoritmo';
-
+        opcion = document.createElement("option");
+        texto = document.createTextNode(sistema.nombre);
+        opcion.disabled = false;
+        opcion.selected = false;
+        opcion.value = sistema.nombre;
         opcion.appendChild(texto);
         select.appendChild(opcion);
+    });
 
-        // Agrega los sistemas disponibles
-        json.algoritmos.forEach((algoritmo) => {
-            opcion = document.createElement("option");
-            texto = document.createTextNode(algoritmo.nombre);
-            opcion.disabled = false;
-            opcion.selected = false;
-            opcion.value = algoritmo.nombre;
-            opcion.appendChild(texto);
-            select.appendChild(opcion);
-        });
-
-        SESION.algoritmos = json.algoritmos;
-    }
+    SESION.algoritmos = json.algoritmos;
 
     // Icono ok
     banner.ok();
@@ -138,9 +91,6 @@ function solicitarSistemas() {
 
 // para validacion de entrada
 function onFocusInput(input, icono) {
-    // input.respaldo = input.placeholder;
-    // input.placeholder = "";
-
     var icono = document.getElementById(icono);
     icono.style.color = "darkblue";
     icono.style.fontWeight = "bold";
@@ -148,8 +98,6 @@ function onFocusInput(input, icono) {
 
 // para validacion de entrada
 function lostFocusInput(input, icono) {
-    // input.placeholder = input.respaldo;
-
     var icono = document.getElementById(icono);
     icono.style.color = "#464a4c";
     icono.style.fontWeight = "normal";

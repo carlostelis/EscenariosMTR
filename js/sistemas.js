@@ -85,7 +85,7 @@ class Sistemas {
                     reject(jsonErr);
                 } else if (stdout.trim().length === 0) {
                     var jsonErr = {
-                        mensaje: 'No fue posible establecer una conexión con la base de datos; falla de ejecución',
+                        mensaje: 'No fue posible obtener los algoritmos',
                         estado: false,
                         sistemas: []
                     };

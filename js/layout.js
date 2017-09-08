@@ -48,33 +48,62 @@ ipcRenderer.on('paginas:envia', (event, paginas) => {
 function cargaComponentes() {
     let div_archivos = document.getElementById('div_visor-archivos');
 
+    // Carga algoritmos
+    // algoritmos
+    if (typeof SESION.algoritmos !== 'undefined' && SESION.algoritmos) {
+        // Obtiene la lista y la limpia
+        const select = document.querySelector("#sel_algoritmo_ce");
+        select.innerHTML = "";
+
+        // Crea nodo placeholder
+        let opcion = document.createElement("option");
+        let texto = document.createTextNode(`Algoritmo`);
+        opcion.disabled = true;
+        opcion.selected = true;
+        opcion.value = 'Algoritmo';
+
+        opcion.appendChild(texto);
+        select.appendChild(opcion);
+
+        // Agrega los sistemas disponibles
+        SESION.algoritmos.forEach((algoritmo) => {
+            opcion = document.createElement("option");
+            texto = document.createTextNode(algoritmo.nombre);
+            opcion.disabled = false;
+            opcion.selected = false;
+            opcion.value = algoritmo.nombre;
+            opcion.appendChild(texto);
+            select.appendChild(opcion);
+        });
+    }
+
     // Cargar escenario
     visor_archivos.set(div_archivos, ipcRenderer);
 
-    let max_periodos;
+    let max_intervalos;
     let sel_algoritmo_ce = document.querySelector('#sel_algoritmo_ce');
-    let sel_periodo_ce = document.querySelector('#sel_periodo_ce');
-    let periodos_fun = (event) => {
+    let sel_intervalo_ce = document.querySelector('#sel_intervalo_ce');
+    let intervalos_fun = (event) => {
         SESION.algoritmos.forEach((algoritmo) => {
             if (algoritmo.nombre === sel_algoritmo_ce.value) {
-                max_periodos = algoritmo.periodos;
+                max_intervalos = algoritmo.intervalos;
             }
         })
 
         // Ingresa los periodos en el combo
-        sel_periodo_ce.innerHTML = "";
+        sel_intervalo_ce.innerHTML = "";
 
-        for (let i = 1; i <= max_periodos; i++) {
+        for (let i = 1; i <= max_intervalos; i++) {
             let nodo_opc = document.createElement('option');
             let nodo_txt = document.createTextNode(`${i}`);
 
             nodo_opc.appendChild(nodo_txt);
-            sel_periodo_ce.appendChild(nodo_opc);
+            sel_intervalo_ce.appendChild(nodo_opc);
         }
     }
 
-    sel_algoritmo_ce.onmouseup = periodos_fun;
-    sel_algoritmo_ce.onkeyup = periodos_fun;
+    sel_algoritmo_ce.onmouseup = intervalos_fun;
+    sel_algoritmo_ce.onkeyup = intervalos_fun;
 
     // selecciona el primero
     document.querySelector('.opc-menu').click();

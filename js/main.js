@@ -6,6 +6,7 @@ const sistemas = new Sistemas();
 const crearMenu = require('./menuTemplate.js');
 const ListaArchivos = require('./ListaArchivos.js');
 const listaArchivos = new ListaArchivos('C:\\AppAnalizadorEscenarios');
+const config = require('./config.js');
 const path = require('path');
 
 const TO_BD = 2000;
@@ -58,25 +59,19 @@ function handleSquirrelEvent(application) {
             //   explorer context menus
             // Install desktop and start menu shortcuts
             spawnUpdate(['--createShortcut', exeName]);
-
             setTimeout(application.quit, 1000);
             return true;
-
         case '--squirrel-uninstall':
             // Undo anything you did in the --squirrel-install and
             // --squirrel-updated handlers
-
             // Remove desktop and start menu shortcuts
             spawnUpdate(['--removeShortcut', exeName]);
-
             setTimeout(application.quit, 1000);
             return true;
-
         case '--squirrel-obsolete':
             // This is called on the outgoing version of your app before
             // we update to the new version - it's the opposite of
             // --squirrel-updated
-
             application.quit();
             return true;
     }
@@ -120,14 +115,6 @@ app.on('ready', () => {
     // Inserta Menú de la ventana
     const mainMenu = Menu.buildFromTemplate(crearMenu(app, win, dialog));
     Menu.setApplicationMenu(mainMenu);
-
-    // listaArchivos.html().then((res) => {
-    //     //console.log(JSON.stringify(res));
-    //     console.log(res);
-    // }, (err) => {
-    //     //console.log(JSON.stringify(err));
-    //     console.log(err);
-    // });
 });
 
 // Función para finalizar, se invoca al cerrar la ventana y al cerrar sesion
@@ -156,7 +143,7 @@ app.on('will-quit', () => {
 });
 
 // Consulta de sistemas a la base de datos
-ipcMain.on('sistemas:solicitar', (event, mensaje) => {
+ipcMain.on('sistemas:solicitar', (event) => {
     console.log(`Login cargado, sistemas solicitados...`);
     win.setTitle(`Analizador de escenarios del MTR - Login`);
 
@@ -164,22 +151,10 @@ ipcMain.on('sistemas:solicitar', (event, mensaje) => {
     // win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
     // return;
 
-
-
-    // conexión con la BD
-    sistemas.obtenerSistemas().then((json) => {
-        console.log('Sistemas obtenidos');
-        console.log(json);
-
-        // Avisa a la página para notificación
-        win.webContents.send('sistemas:obtenidos', json);
-        // win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
-    }, (jsonError) => {
-        console.log(`Error obteniendo los sistemas: ${jsonError.mensaje}`);
-
-        // Avisa a la página para notificación
-        win.webContents.send('sistemas:obtenidos', jsonError);
-        // win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
+    // Ahora los sistemas se toman local
+    win.webContents.send('sistemas:obtenidos', {
+        sistemas: config.sistemas,
+        algoritmos: config.algoritmos
     });
 });
 
