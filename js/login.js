@@ -49,7 +49,7 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
     }
 
     // Obtiene la lista y la limpia
-    const select = document.querySelector("select");
+    const select = document.querySelector("#select_sistema_IS");
     select.innerHTML = "";
 
     // Crea nodo placeholder
@@ -75,6 +75,37 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
             select.appendChild(opcion);
         }
     });
+
+    // algoritmos
+    // Estado = OK, pero no hay sistemas
+    if (json.hasOwnProperty('algoritmos')) {
+        // Obtiene la lista y la limpia
+        const select = document.querySelector("#sel_algoritmo_ce");
+        select.innerHTML = "";
+
+        // Crea nodo placeholder
+        let opcion = document.createElement("option");
+        let texto = document.createTextNode(`Algoritmo`);
+        opcion.disabled = true;
+        opcion.selected = true;
+        opcion.value = 'Algoritmo';
+
+        opcion.appendChild(texto);
+        select.appendChild(opcion);
+
+        // Agrega los sistemas disponibles
+        json.algoritmos.forEach((algoritmo) => {
+            opcion = document.createElement("option");
+            texto = document.createTextNode(algoritmo.nombre);
+            opcion.disabled = false;
+            opcion.selected = false;
+            opcion.value = algoritmo.nombre;
+            opcion.appendChild(texto);
+            select.appendChild(opcion);
+        });
+
+        SESION.algoritmos = json.algoritmos;
+    }
 
     // Icono ok
     banner.ok();
@@ -161,14 +192,11 @@ function solicitarAutenticacion() {
     selectSistema.classList.add('input-normal');
 
     // Logear
-    ipcRenderer.send('sesion:entrar', {
-        usuario: inputNombre.value.trim(),
-        contrasena: inputContrasena.value.trim(),
-        sistema: selectSistema.value.trim()
-    });
+    ipcRenderer.send('usuario:solicitar', inputNombre.value.trim());
 
     // Guarda datos de sesion
     SESION.usuario = inputNombre.value.trim();
+    SESION.contrasena = inputContrasena.value.trim();
     SESION.sistema = selectSistema.value.trim();
 
     //Muestra banner y Espera respuesta de main
@@ -178,36 +206,45 @@ function solicitarAutenticacion() {
     banner.cargando();
 }
 
-ipcRenderer.on('sesion:aceptada', (event) => {
-    banner.ok();
-    banner.setMensaje('Autenticación exitosa');
+ipcRenderer.on('usuario:obtenido', (event, json) => {
+    console.log('usuario obtenido');
+    console.log(json);
+    if (json.estado) {
+        if (json.contrasena === SESION.contrasena) {
+            banner.ok();
+            banner.setMensaje('Autenticación exitosa');
 
-    // Elementos con informacion de sesion
-    document.querySelector('#label_usuario_ce').innerHTML = SESION.usuario;
-    document.querySelector('#label_sistema_ce').innerHTML = SESION.sistema;
+            // Elementos con informacion de sesion
+            document.querySelector('#label_usuario_ce').innerHTML = SESION.usuario;
+            document.querySelector('#label_sistema_ce').innerHTML = SESION.sistema;
 
-    setTimeout(() => {
-        banner.ocultar();
-        body.style.opacity = '0';
+            setTimeout(() => {
+                banner.ocultar();
+                body.style.opacity = '0';
 
-        setTimeout(() => {
-            var divLogin = document.querySelector('#div-login');
-            divLogin.classList.add('d-none');
+                setTimeout(() => {
+                    var divLogin = document.querySelector('#div-login');
+                    divLogin.classList.add('d-none');
 
-            var divLayout = document.querySelector('#div-layout');
-             divLayout.classList.remove('d-none');
-        }, 1500);
+                    var divLayout = document.querySelector('#div-layout');
+                     divLayout.classList.remove('d-none');
+                }, 1500);
 
-        setTimeout(() => {
-            body.style.opacity = '1';
-            paginaActual = 'layout';
-        }, 1600);
-    }, 1000);
-});
+                setTimeout(() => {
+                    body.style.opacity = '1';
+                    paginaActual = 'layout';
+                }, 1600);
+            }, 1000);
 
-ipcRenderer.on('sesion:rechazada', (event, error) => {
+            return;
+        } else {
+            banner.setMensaje(`Autenticación fallida: contraseña incorrecta para usuario <b>${SESION.usuario}</b>`);
+        }
+    } else {
+        banner.setMensaje(`Autenticación fallida: ${json.mensaje}`);
+    }
+
     banner.mostrarBoton();
-    banner.setMensaje(`Autenticación fallida: ${error}`);
     banner.error();
     banner.setBoton('Aceptar', () => {
         banner.ocultar();
@@ -216,4 +253,5 @@ ipcRenderer.on('sesion:rechazada', (event, error) => {
     // Reset datos de sesion
     SESION.usuario = '';
     SESION.sistema = '';
+    SESION.contrasena = '';
 });

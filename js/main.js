@@ -6,6 +6,7 @@ const sistemas = new Sistemas();
 const crearMenu = require('./menuTemplate.js');
 const ListaArchivos = require('./ListaArchivos.js');
 const listaArchivos = new ListaArchivos('C:\\AppAnalizadorEscenarios');
+const path = require('path');
 
 const TO_BD = 2000;
 let win;
@@ -136,7 +137,8 @@ app.finalizar = function () {
             type: 'question',
             buttons: ['Aceptar', 'Cancelar'],
             title: 'Salir de la aplicación',
-            message: '¿Confirma que desea Salir?'
+            message: '¿Confirma que desea Salir?',
+            cancelId: 1
         }
     );
     console.log(`confirmacion ${confirmacion}`);
@@ -159,8 +161,8 @@ ipcMain.on('sistemas:solicitar', (event, mensaje) => {
     win.setTitle(`Analizador de escenarios del MTR - Login`);
 
     // Sin red cenace
-    win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
-    return;
+    // win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
+    // return;
 
 
 
@@ -181,36 +183,42 @@ ipcMain.on('sistemas:solicitar', (event, mensaje) => {
     });
 });
 
+ipcMain.on('usuario:solicitar', (event, usuario) => {
+    console.log(`Solicitando usuario ${usuario}`);
+
+    // Sin red cenace
+    // win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'Carlos Telis', perfil: 'Super Usuario', contrasena:'asd', estado:true, Mensaje: 'Consulta realizada correctamente'});
+    // return;
+
+    // conexión con la BD
+    sistemas.obtenerUsuario(usuario).then((json) => {
+        console.log('Usuario consultado');
+        console.log(json);
+
+        // Avisa a la página para notificación
+        win.webContents.send('usuario:obtenido', json);
+        // win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
+    }, (jsonError) => {
+        console.log(`Error obteniendo usuario: ${jsonError.mensaje}`);
+
+        // Avisa a la página para notificación
+        win.webContents.send('usuario:obtenido', jsonError);
+        // win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
+    });
+});
+
 // Leer de disco los docs html para las funciones
 ipcMain.on('paginas:leer', (event) => {
     let paginas = [];
-    
+    let ruta = path.join(__dirname, '../html/CargaEscenario.html');
+    console.log(ruta);
     paginas.push({
         id: '1',
-        data: fs.readFileSync('./html/CargaEscenario.html', 'utf8')
+        // data: fs.readFileSync(`file://${__dirname}/../html/CargaEscenario.html`, 'utf8')
+        data: fs.readFileSync(ruta, 'utf8')
     });
 
     win.webContents.send('paginas:envia', paginas);
-});
-
-// Iniciar sesion
-ipcMain.on('sesion:entrar', (event, params) => {
-    // Verifica credenciales
-    console.log('Inicio de sesion');
-    console.log(params);
-    if (params.usuario === 'carlos' && params.contrasena === 'asd') {
-        console.log("Credenciales válidas");
-
-        setTimeout(() => {
-            win.webContents.send('sesion:aceptada');
-            win.setTitle(`Analizador de escenarios del MTR - ${params.usuario} / ${params.sistema}`);
-        }, 1000);
-    } else {
-        setTimeout(() => {
-            console.log('rechazada');
-            win.webContents.send('sesion:rechazada', 'Credenciales inválidas');
-        }, 3000);
-    }
 });
 
 // Consultar si es login o layout para cierre de sesion
@@ -224,7 +232,8 @@ ipcMain.on('paginaActual:respuesta', (event, pagina) => {
                 type: 'question',
                 buttons: ['Aceptar', 'Cancelar'],
                 title: 'Cerrar sesión',
-                message: '¿Confirma que desea cerrar sesión?'
+                message: '¿Confirma que desea cerrar sesión?',
+                cancelId: 1
             }
         );
         console.log(`confirmacion ${confirmacion}`);

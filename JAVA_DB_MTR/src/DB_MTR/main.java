@@ -5,15 +5,8 @@
  */
 package DB_MTR;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Arrays;
 import java.util.HashMap;
-import org.json.JSONException;
-import org.json.JSONObject;
+
 
 /**
  *
@@ -57,6 +50,10 @@ public class main {
         switch (opc) {
             case "sistemas":
                 bd.obtenerSistemas();
+                break;
+            case "usuarios":
+                String usuario = params.get("--usr");
+                bd.obtenerUsuarios(usuario);
                 break;
         }
     }

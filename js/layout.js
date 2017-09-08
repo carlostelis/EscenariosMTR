@@ -51,6 +51,31 @@ function cargaComponentes() {
     // Cargar escenario
     visor_archivos.set(div_archivos, ipcRenderer);
 
+    let max_periodos;
+    let sel_algoritmo_ce = document.querySelector('#sel_algoritmo_ce');
+    let sel_periodo_ce = document.querySelector('#sel_periodo_ce');
+    let periodos_fun = (event) => {
+        SESION.algoritmos.forEach((algoritmo) => {
+            if (algoritmo.nombre === sel_algoritmo_ce.value) {
+                max_periodos = algoritmo.periodos;
+            }
+        })
+
+        // Ingresa los periodos en el combo
+        sel_periodo_ce.innerHTML = "";
+
+        for (let i = 1; i <= max_periodos; i++) {
+            let nodo_opc = document.createElement('option');
+            let nodo_txt = document.createTextNode(`${i}`);
+
+            nodo_opc.appendChild(nodo_txt);
+            sel_periodo_ce.appendChild(nodo_opc);
+        }
+    }
+
+    sel_algoritmo_ce.onmouseup = periodos_fun;
+    sel_algoritmo_ce.onkeyup = periodos_fun;
+
     // selecciona el primero
     document.querySelector('.opc-menu').click();
 }

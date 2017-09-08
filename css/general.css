@@ -133,12 +133,11 @@ body {
     user-select: none;
     overflow-y: auto;
     height: 91%!important;
-    border-style: dashed;
+    border-style: double;
     margin: auto!important;
     margin-top: 1%!important;
     width: 95%;
     border-color: darkslategray;
-
     background-color: rgba(255, 230, 230, 0.7);
     border-radius: 5px;
 }
@@ -202,7 +201,7 @@ body {
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
 	background-color: #F5F5F5;
-	/*border-radius: 5px;*/
+	border-radius: 5px;
 }
 
 .contenedor_vista-archivos::-webkit-scrollbar
@@ -213,7 +212,7 @@ body {
 
 .contenedor_vista-archivos::-webkit-scrollbar-thumb
 {
-	/*border-radius: 5px;*/
+	border-radius: 5px;
 	background-color: #FFF;
 	background-image: -webkit-linear-gradient(bottom,#215e3e 0%,#347c58 50%,#215e3e 100%);
 											  /*#ECFCE4 0%,

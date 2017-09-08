@@ -81,21 +81,72 @@ public class BD {
         try {
             this.stmt = this.con.createStatement(); 
 
-            ResultSet rs = this.stmt.executeQuery("SELECT * FROM SISTEMAS");
-
             // Construyo objeto JSON
             JSONObject json = new JSONObject();
+            
+            // sistemas
+            ResultSet rs = this.stmt.executeQuery("SELECT NOMBRE, ESTADO FROM ESC_SISTEMAS");
 
             while (rs.next()) {
                 JSONObject sistema = new JSONObject();
-                sistema.put("id", rs.getInt(1));
-                sistema.put("nombre", rs.getString(2));
-                sistema.put("estado", rs.getInt(3));
+                sistema.put("nombre", rs.getString("NOMBRE"));
+                sistema.put("estado", rs.getInt("ESTADO"));
 
                 json.append("sistemas", sistema);
             }
+            
+            rs = this.stmt.executeQuery("SELECT NOMBRE, PERIODOS FROM ESC_ALGORITMOS"); 
+            
+            while (rs.next()) {
+                JSONObject sistema = new JSONObject();
+                sistema.put("nombre", rs.getString("NOMBRE"));
+                sistema.put("periodos", rs.getInt("PERIODOS"));
+
+                json.append("algoritmos", sistema);
+            }
 
             System.out.println(json.toString());
+        } catch (SQLException ex) {
+            System.out.println("ERROR -> " + ex.getMessage() + "; " + ex.getCause());
+        } finally {
+            this.desconectar();
+        }
+    }
+    
+    public void obtenerUsuarios(String usuario) {
+        if (this.con == null) {
+            if (!this.conectar()) {
+                return;
+            }
+        }
+        
+        try {
+            this.stmt = this.con.createStatement(); 
+
+            String query = "SELECT ESC_CTRL_USUARIOS.NOMBRE, ESC_CTRL_USUARIOS.CONTRASENA, ESC_CTRL_USUARIOS.SIS_ACC, ESC_PERFILES.PERFIL, ESC_PERFILES.CARACTERISTICAS "
+                    + "FROM ESC_CTRL_USUARIOS INNER JOIN ESC_PERFILES " 
+                    + "ON ESC_CTRL_USUARIOS.FK_PERFIL = ESC_PERFILES.ID_PERFIL WHERE ESC_CTRL_USUARIOS.ID_USUARIO = '" + usuario + "'";
+            //System.out.println(query);
+            ResultSet rs = this.stmt.executeQuery(query);
+            // Construyo objeto JSON
+            JSONObject json = new JSONObject();
+
+            if (rs.next()) {
+                json.put("nombre", rs.getString(1));
+                json.put("contrasena", rs.getString(2));
+                json.put("sis_acc", rs.getString(3));
+                json.put("perfil", rs.getString(4));
+                json.put("caracteristicas", rs.getString(5));
+            }
+
+            String output = json.toString();
+            
+            if (output.isEmpty() || output.equals("{}")) {
+                System.out.println("ERROR -> El usuario <b>" + usuario + "</b> no se encuentra en la base de datos");
+                return;
+            }
+            
+            System.out.println(output);
         } catch (SQLException ex) {
             System.out.println("ERROR -> " + ex.getMessage() + "; " + ex.getCause());
         } finally {
