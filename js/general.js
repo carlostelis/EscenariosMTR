@@ -66,6 +66,19 @@ body.onload = () => {
                     }, 300);
                 }
             }
+
+			// Define evento de teclado para campos de login
+			document.querySelector('#input_nombre_IS').addEventListener('keydown', (evt) => {
+				if (evt.key === 'Enter') {
+					solicitarAutenticacion();
+				}
+			});
+
+			document.querySelector('#input_contrasena_IS').addEventListener('keydown', (evt) => {
+				if (evt.key === 'Enter') {
+					solicitarAutenticacion();
+				}
+			});
         };
     });
 

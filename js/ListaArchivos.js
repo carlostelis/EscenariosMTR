@@ -11,26 +11,43 @@ class ListaArchivos {
         // Verifica que exista la carpeta original
         if (!fs.existsSync(this.rutaInit)) {
             console.log(`Generando directorio local ${this.rutaInit}: ${fs.mkdirSync(this.rutaInit)}`);
+        }
 
-            let ruta = path.join(this.rutaInit, 'dersi');
+        // crea sub carpetas
+        let ruta = path.join(this.rutaInit, 'dersi');
+        if (!fs.existsSync(ruta)) {
             console.log(`Generando subdirectorio local ${ruta}: ${fs.mkdirSync(ruta)}`);
-            let subruta = path.join(ruta, 'escenario_original');
+        }
+        let subruta = path.join(ruta, 'escenario_original');
+        if (!fs.existsSync(subruta)) {
             console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
-            subruta = path.join(ruta, 'escenario_modificado');
+        }
+        subruta = path.join(ruta, 'escenario_modificado');
+        if (!fs.existsSync(subruta)) {
             console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
-
-            ruta = path.join(this.rutaInit, 'dersmi');
+        }
+        ruta = path.join(this.rutaInit, 'dersmi');
+        if (!fs.existsSync(ruta)) {
             console.log(`Generando subdirectorio local ${ruta}: ${fs.mkdirSync(ruta)}`);
-            subruta = path.join(ruta, 'escenario_original');
+        }
+        subruta = path.join(ruta, 'escenario_original');
+        if (!fs.existsSync(subruta)) {
             console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
-            subruta = path.join(ruta, 'escenario_modificado');
+        }
+        subruta = path.join(ruta, 'escenario_modificado');
+        if (!fs.existsSync(subruta)) {
             console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
-
-            ruta = path.join(this.rutaInit, 'autr');
+        }
+        ruta = path.join(this.rutaInit, 'autr');
+        if (!fs.existsSync(ruta)) {
             console.log(`Generando subdirectorio local ${ruta}: ${fs.mkdirSync(ruta)}`);
-            subruta = path.join(ruta, 'escenario_original');
+        }
+        subruta = path.join(ruta, 'escenario_original');
+        if (!fs.existsSync(subruta)) {
             console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
-            subruta = path.join(ruta, 'escenario_modificado');
+        }
+        subruta = path.join(ruta, 'escenario_modificado');
+        if (!fs.existsSync(subruta)) {
             console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
         }
 

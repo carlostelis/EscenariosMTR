@@ -1,8 +1,8 @@
 const electron = require('electron');
 const fs = require('fs');
 const { app, BrowserWindow, Menu, ipcMain, remote, dialog } = electron;
-const Sistemas = require('./sistemas.js');
-const sistemas = new Sistemas();
+const Comandos = require('./Comandos.js');
+const comandos = new Comandos();
 const crearMenu = require('./menuTemplate.js');
 const ListaArchivos = require('./ListaArchivos.js');
 const listaArchivos = new ListaArchivos('C:\\AppAnalizadorEscenarios');
@@ -166,7 +166,7 @@ ipcMain.on('usuario:solicitar', (event, usuario) => {
     // return;
 
     // conexión con la BD
-    sistemas.obtenerUsuario(usuario).then((json) => {
+    comandos.obtenerUsuario(usuario).then((json) => {
         console.log('Usuario consultado');
         console.log(json);
 
