@@ -107,7 +107,7 @@ body {
     color: azure;
     background-color: #1B9258;
     border-radius: 20px;
-    transition: 0.3s ease-in;
+    transition: 0.1s ease-in;
     cursor: pointer;
 }
 

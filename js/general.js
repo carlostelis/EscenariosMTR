@@ -18,6 +18,7 @@ let intervaloCarga;
 const body = document.querySelector("body");
 const banner = new Banner(body);
 const visor_archivos = new VistaArchivos();
+const moment = require('moment');
 const SESION = {
 	usuario: '',
 	sistema: ''

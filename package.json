@@ -13,8 +13,11 @@
   "license": "ISC",
   "dependencies": {
     "electron-context-menu": "^0.9.1",
+    "ftp": "^0.3.10",
     "jQuery": "^1.7.4",
-    "path": "^0.12.7"
+    "moment": "^2.18.1",
+    "path": "^0.12.7",
+    "tar.gz": "^1.0.5"
   },
   "devDependencies": {
     "electron": "^1.7.5",

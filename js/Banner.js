@@ -31,8 +31,35 @@ class Banner {
         this.boton.style.fontSize = '1.2vw';
         this.boton.value = 'Botón';
 
+        // Crea progreso
+        this.divProgreso = document.createElement('div');
+        this.divProgreso.classList.add('progress');
+        this.divProgreso.style.height = '3vh';
+        this.divProgreso.style.width = '50%';
+        this.divProgreso.style.margin = 'auto';
+        this.divBarraProgreso = document.createElement('div');
+        this.divBarraProgreso.classList.add('progress-bar');
+        this.divBarraProgreso.classList.add('progress-bar-striped');
+        this.divBarraProgreso.classList.add('progress-bar-animated');
+        this.divBarraProgreso.setAttribute('aria-valuenow', "60");
+        this.divBarraProgreso.setAttribute('aria-valuemin', "0");
+        this.divBarraProgreso.setAttribute('aria-valuemax', "100");
+        this.divBarraProgreso.style.width = '0%';
+        this.divBarraProgreso.style.height = '100%';
+        this.divBarraProgreso.style.fontSize = '2vh';
+        this.divBarraProgreso.style.fontWeight = 'bold';
+        this.divBarraProgreso.style.margin = 'auto';
+        this.divBarraProgreso.style.paddingTop = '0.5vh';
+        this.divBarraProgreso.style.borderRadius = '10px';
+        this.divBarraProgreso.style.transition = '0.5s ease-in';
+
+        this.divProgreso.appendChild(this.divBarraProgreso);
+        // Por defecto ocultarBoton
+        this.divProgreso.style.visibility = 'hidden';
+
         // Inserta
         this.divDatos.appendChild(this.parrafo);
+        this.divDatos.appendChild(this.divProgreso);
         this.divDatos.appendChild(this.boton);
         this.divBanner.appendChild(this.divDatos);
     }
@@ -58,6 +85,7 @@ class Banner {
         this.divIcono.classList.remove('banner_actualiza');
         this.divIcono.classList.remove('banner_trabaja');
         this.divIcono.classList.add('banner_loading');
+        this.divIcono.style.color = 'slateblue';
 
         if (typeof color === 'string') {
             this.divIcono.style.color = color;
@@ -71,6 +99,7 @@ class Banner {
         this.divIcono.classList.add('banner_actualiza');
         this.divIcono.classList.remove('banner_trabaja');
         this.divIcono.classList.remove('banner_loading');
+        this.divIcono.style.color = 'deepskyblue';
 
         if (typeof color === 'string') {
             this.divIcono.style.color = color;
@@ -84,6 +113,7 @@ class Banner {
         this.divIcono.classList.remove('banner_actualiza');
         this.divIcono.classList.add('banner_trabaja');
         this.divIcono.classList.remove('banner_loading');
+        this.divIcono.style.color = 'tomato';
 
         if (typeof color === 'string') {
             this.divIcono.style.color = color;
@@ -91,12 +121,27 @@ class Banner {
     }
 
     error(color) {
+        this.divIcono.innerHTML = '<i class="fa fa-times"></i>';
+        this.divIcono.classList.remove('banner_loading');
+        this.divIcono.classList.remove('banner_ok');
+        this.divIcono.classList.add('banner_error');
+        this.divIcono.classList.remove('banner_actualiza');
+        this.divIcono.classList.remove('banner_trabaja');
+        this.divIcono.style.color = 'darkred';
+
+        if (typeof color === 'string') {
+            this.divIcono.style.color = color;
+        }
+    }
+
+    alerta(color) {
         this.divIcono.innerHTML = '<i class="fa fa-warning"></i>';
         this.divIcono.classList.remove('banner_loading');
         this.divIcono.classList.remove('banner_ok');
         this.divIcono.classList.add('banner_error');
         this.divIcono.classList.remove('banner_actualiza');
         this.divIcono.classList.remove('banner_trabaja');
+        this.divIcono.style.color = 'gold';
 
         if (typeof color === 'string') {
             this.divIcono.style.color = color;
@@ -110,6 +155,7 @@ class Banner {
         this.divIcono.classList.add('banner_ok');
         this.divIcono.classList.remove('banner_actualiza');
         this.divIcono.classList.remove('banner_trabaja');
+        this.divIcono.style.color = 'darkgreen';
 
         if (typeof color === 'string') {
             this.divIcono.style.color = color;
@@ -144,5 +190,29 @@ class Banner {
         if (call) {
             this.boton.onclick = call;
         }
+    }
+
+    mostrarProgreso(color) {
+        this.divProgreso.style.visibility = 'visible';
+
+        if (typeof color !== 'undefined') {
+            this.divBarraProgreso.style.backgroundColor = color;
+        }
+    }
+
+    ocultarProgreso() {
+        this.divProgreso.style.visibility = 'hidden';
+    }
+
+    setProgreso(progreso) {
+        if (progreso > 1) {
+            if (progreso < 100) {
+                this.divBarraProgreso.innerHTML = `${progreso.toFixed(0)}%`;
+            } else {
+                this.divBarraProgreso.innerHTML = '<b>Completado</b>';
+            }
+        }
+        this.divBarraProgreso.style.width = `${progreso}%`;
+        // this.spanProgreso.innerHTML = `${progreso.toFixed(2)}%`;
     }
 }

@@ -45,52 +45,93 @@ ipcRenderer.on('paginas:envia', (event, paginas) => {
     }, 100);
 });
 
+ipcRenderer.on('directorio:progreso', (event, res) => {
+    banner.mostrarProgreso('darkgreen');
+    banner.setMensaje(res.mensaje);
+    banner.setProgreso(res.progreso);
+});
+
+ipcRenderer.on('directorio:descargado', (event, res) => {
+    if (res.estado) {
+        if (res.error) {
+            banner.setMensaje(res.error);
+            if (typeof res.targz !== 'undefined' && res.targz) {
+                banner.trabajando('lightseagreen');
+            }
+        } else {
+            banner.setProgreso(100);
+            banner.ok('darkgreen');
+            banner.setMensaje('Escenario descargado correctamente');
+            visor_archivos.actualizar();
+            setTimeout(() => {
+                banner.ocultar();
+            }, 2000);
+        }
+    } else {
+        banner.ocultarProgreso();
+        banner.setMensaje(res.error);
+        banner.error('darkred');
+        banner.setBoton('Aceptar', () => {
+            banner.ocultar();
+        });
+        banner.mostrarBoton();
+    }
+});
+
 function cargaComponentes() {
     let div_archivos = document.getElementById('div_visor-archivos');
 
+    // Fecha actual
+    let hora = moment().format('YYYY-MM-DD');
+    console.log(hora);
+    let input_fecha_ce = document.querySelector('#input_fecha_ce');
+    input_fecha_ce.value = hora;
+
     // Carga algoritmos
     // algoritmos
-    if (typeof SESION.algoritmos !== 'undefined' && SESION.algoritmos) {
+    let sel_algoritmo_ce = document.querySelector('#sel_algoritmo_ce');
+    if (typeof SESION.config.algoritmos !== 'undefined' && SESION.config.algoritmos) {
         // Obtiene la lista y la limpia
-        const select = document.querySelector("#sel_algoritmo_ce");
-        select.innerHTML = "";
+        sel_algoritmo_ce.innerHTML = "";
 
-        // Crea nodo placeholder
-        let opcion = document.createElement("option");
-        let texto = document.createTextNode(`Algoritmo`);
-        opcion.disabled = true;
-        opcion.selected = true;
-        opcion.value = 'Algoritmo';
-
-        opcion.appendChild(texto);
-        select.appendChild(opcion);
-
-        // Agrega los sistemas disponibles
-        SESION.algoritmos.forEach((algoritmo) => {
+        // Agrega los algoritmos disponibles
+        SESION.config.algoritmos.forEach((algoritmo) => {
             opcion = document.createElement("option");
             texto = document.createTextNode(algoritmo.nombre);
             opcion.disabled = false;
             opcion.selected = false;
-            opcion.value = algoritmo.nombre;
+            opcion.value = algoritmo.carpeta;
+            opcion.name = algoritmo.nombre;
             opcion.appendChild(texto);
-            select.appendChild(opcion);
+            sel_algoritmo_ce.appendChild(opcion);
         });
     }
 
     // Cargar escenario
     visor_archivos.set(div_archivos, ipcRenderer);
 
-    let max_intervalos;
-    let sel_algoritmo_ce = document.querySelector('#sel_algoritmo_ce');
-    let sel_intervalo_ce = document.querySelector('#sel_intervalo_ce');
+    // Carga horas
+    let sel_hora_ce = document.querySelector('#sel_hora_ce');
+    for (var i = 0; i < 24; i++) {
+        let nodo_opc = document.createElement('option');
+        let nodo_txt = document.createTextNode(`${i}`);
+
+        nodo_opc.appendChild(nodo_txt);
+        sel_hora_ce.appendChild(nodo_opc);
+    }
+
+    // Carga intervalos
     let intervalos_fun = (event) => {
-        SESION.algoritmos.forEach((algoritmo) => {
-            if (algoritmo.nombre === sel_algoritmo_ce.value) {
+        let max_intervalos;
+        let sel_intervalo_ce = document.querySelector('#sel_intervalo_ce');
+        SESION.config.algoritmos.forEach((algoritmo) => {
+
+            if (algoritmo.nombre.toLowerCase().replace('-', '') === sel_algoritmo_ce.value) {
                 max_intervalos = algoritmo.intervalos;
             }
-        })
+        });
 
-        // Ingresa los periodos en el combo
+        // Ingresa los intervalos en el combo
         sel_intervalo_ce.innerHTML = "";
 
         for (let i = 1; i <= max_intervalos; i++) {
@@ -100,11 +141,73 @@ function cargaComponentes() {
             nodo_opc.appendChild(nodo_txt);
             sel_intervalo_ce.appendChild(nodo_opc);
         }
-    }
+    };
 
     sel_algoritmo_ce.onmouseup = intervalos_fun;
     sel_algoritmo_ce.onkeyup = intervalos_fun;
+    sel_algoritmo_ce.onkeyup();
 
     // selecciona el primero
     document.querySelector('.opc-menu').click();
+}
+
+function cargarEscenario() {
+    let {rutaId, dia, mes, anio} = generarRutaEscenario();
+
+    let sistemaObj;
+    SESION.config.sistemas.forEach((sistema) => {
+        if (sistema.nombre === SESION.sistema) {
+            sistemaObj = sistema;
+        }
+    });
+
+    let sel_algoritmo_ce = document.querySelector('#sel_algoritmo_ce');
+
+    let obj = {
+        dirRemoto: `${SESION.config.exalogic.base}${sistemaObj.carpeta}/${sel_algoritmo_ce.value}/datosh/${rutaId}`,
+        pathLocal: `${sel_algoritmo_ce.value}/escenario_original/`,
+        dia: dia,
+        mes: mes,
+        anio: anio
+    };
+    // let cadena = `${SESION.config.exalogic.base}${sistemaObj.carpeta}/${sel_algoritmo_ce.value}/datosh/${rutaId}`;
+    console.log(dia, obj.dia);
+    ipcRenderer.send('directorio:descarga', obj);
+    banner.actualizando('coral');
+    banner.setMensaje('Descargando escenario');
+    banner.setProgreso(0);
+    banner.ocultarBoton();
+    banner.mostrar();
+}
+
+function generarRutaEscenario() {
+    let input_fecha_ce = document.querySelector('#input_fecha_ce');
+    let fecha = input_fecha_ce.value;
+
+    if (fecha.trim() === '') {
+        input_fecha_ce.bordeOriginal = input_fecha_ce.style.borderColor;
+        input_fecha_ce.style.borderColor = 'red';
+        input_fecha_ce.focus();
+        return;
+    }
+    input_fecha_ce.style.borderColor = input_fecha_ce.bordeOriginal;
+
+    let hora = document.querySelector('#sel_hora_ce').value;
+    if (hora.length === 1) {
+        hora = `0${hora}`;
+    }
+
+    let intervalo = document.querySelector('#sel_intervalo_ce').value;
+    if (intervalo.length === 1) {
+        intervalo = `0${intervalo}`;
+    }
+
+    let [ anio, mes, dia ] = fecha.split('-');
+    let utc = `${new Date(anio, mes, dia).getTimezoneOffset() / 60}`;
+    if (utc.length === 1) {
+        utc = `0${utc}`;
+    }
+    let id = `${anio}${mes}${dia}${hora}${intervalo}_-${utc}`;
+
+    return {rutaId: `${anio}/${mes}/${dia}/${id}`, dia: dia, mes: mes, anio: anio};
 }

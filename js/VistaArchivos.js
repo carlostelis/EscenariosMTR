@@ -79,11 +79,12 @@ class VistaArchivos {
 
         // Boton de recarga
         this.recarga.onclick = () => {
-            // Solicita lista de archivos
-            this.banner.mostrar();
-            // this.banner.cargando('darkgray');
-            this.banner.trabajando();
-            this.ipcRenderer.send('listaHtml:solicita');
+            // // Solicita lista de archivos
+            // this.banner.mostrar();
+            // // this.banner.cargando('darkgray');
+            // this.banner.trabajando();
+            // this.ipcRenderer.send('listaHtml:solicita');
+            this.actualizar();
         };
 
         this.ipcRenderer.send('listaHtml:solicita');
@@ -267,7 +268,7 @@ class VistaArchivos {
     }
 
     actualizar() {
-        this.banner.cargando();
+        this.banner.trabajando();
         this.banner.mostrar();
         return new Promise((resolve, reject) => {
             ipcRenderer.send('listaHtml:solicita');

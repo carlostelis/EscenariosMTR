@@ -12,13 +12,16 @@ module.exports = {
         }
     },
     exalogic: {
-        direccion: '10.71.14.73',
-        base: "/pruebas"
+        host: '10.71.14.73',
+        user: 'historicomtr',
+        password: 'historicomtr01',
+        base: "/pruebas/"
     },
     sistemas: [
         {
             nombre: "BCA",
-            carpeta: "mtrbcaems"
+            //carpeta: "mtrbcaems"
+            carpeta: "historicomtr"
         },
         {
             nombre: "BCS",
@@ -49,4 +52,8 @@ module.exports = {
             carpeta: 'autr'
         }
     ],
+    local: {
+        reemplazo: '/pruebas/historicomtr/dersmi/datosh/',
+        escenarios: 'C:/AppAnalizadorEscenarios'
+    }
 };

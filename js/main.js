@@ -8,9 +8,17 @@ const ListaArchivos = require('./ListaArchivos.js');
 const listaArchivos = new ListaArchivos('C:\\AppAnalizadorEscenarios');
 const config = require('./config.js');
 const path = require('path');
+const FTP = require('./FTP.js');
+const targz = require('tar.gz');
 
 const TO_BD = 2000;
 let win;
+
+let ftp = new FTP({
+    host: config.exalogic.host,
+    user: config.exalogic.user,
+    password: config.exalogic.password
+}, config.local.escenarios);
 
 
 /////////          Para la generacion del instalador             //////////////
@@ -154,7 +162,8 @@ ipcMain.on('sistemas:solicitar', (event) => {
     // Ahora los sistemas se toman local
     win.webContents.send('sistemas:obtenidos', {
         sistemas: config.sistemas,
-        algoritmos: config.algoritmos
+        algoritmos: config.algoritmos,
+        exalogic: config.exalogic
     });
 });
 
@@ -228,5 +237,151 @@ ipcMain.on('listaHtml:solicita', () => {
         //console.log(err);
         console.log("Error lista archivos " + err);
         win.webContents.send('listaHtml:recibe', err);
+    });
+});
+
+ipcMain.on('directorio:descarga', (event, data) => {
+    let dirRemoto = data.dirRemoto;
+    let replace = config.local.reemplazo;
+    let rutaLocal = path.join(config.local.escenarios, data.pathLocal);
+
+    let listaDir = [];
+
+    console.log('Descarga: ', dirRemoto, replace, rutaLocal);
+
+    ftp.conectar().then(() => {
+        ftp.obtenerListaDirectorio(dirRemoto, replace, rutaLocal, listaDir).then(() => {
+            if (listaDir.length === 0) {
+                console.log(`El directorio no existe o esta vacio`);
+                win.webContents.send('directorio:descargado', {estado: true, error: `El escenario <b>${path.basename(dirRemoto)}</b> no existe en carpeta, buscando tar.gz...`});
+
+                let dia = data.dia;
+                let anio = data.anio;
+                let mes = data.mes;
+
+                // buscar tar.gz
+                let dirRemotoAlt = dirRemoto.slice(0, dirRemoto.length - 20);
+                console.log('Buscar en: ', dirRemotoAlt, 'dia', dia);
+
+                let listaAlt = [];
+                let archivoTar = '';
+
+                try {
+                    ftp.obtenerListaArchivosDir(dirRemotoAlt, replace, rutaLocal, listaAlt).then(() => {
+                        listaAlt.forEach((item) => {
+                            let rango = item.nombre.slice(0, item.nombre.indexOf('_')).split('-');
+                            let limInf = parseInt(rango[0], 10);
+                            let limSup = parseInt(rango[1], 10);
+                            console.log(' + ', item.nombre, ' de ', limInf, 'a', limSup);
+
+                            if (dia >= limInf && dia <= limSup) {
+                                archivoTar = item.nombre;
+                                console.log('ArchivoTAR', archivoTar);
+                            }
+                        });
+
+                        if (archivoTar !== '') {
+                            console.log('Descargar: ', archivoTar);
+                            win.webContents.send('directorio:descargado', {estado: true, error: `Descargando escenarios comprimidos <b>${archivoTar}</b>`});
+
+                            // Descarga tar
+                            let obj = {
+                                rutaRemota: path.join(dirRemotoAlt, archivoTar),
+                                rutaLocal: path.normalize(path.join(rutaLocal, anio, mes, archivoTar))
+                            };
+                            console.log('>>>>', obj.rutaRemota, obj.rutaLocal);
+                            ftp.obtenerTamanoArchivoFTP(obj).then(() => {
+                                console.log(obj);
+
+                                let progresoAnterior = 0;
+                                let progreso = 0;
+                                let interval = setInterval(() => {
+                                    progresoAnterior = progreso;
+                                    progreso = ftp.getProgresoArchivo();
+
+                                    if ((progreso - progresoAnterior) >= 1) {
+                                        console.log(' > Progreso: ', progreso.toFixed(2));
+                                        win.webContents.send('directorio:progreso', {progreso:progreso, mensaje:`Descargando archivo comprimido de escenarios <b>${archivoTar}</b>`});
+                                    }
+                                }, 1000);
+
+                                ftp.descargarArchivoFTP(obj).then(() => {
+                                    console.log('listo');
+                                    clearInterval(interval);
+                                    win.webContents.send('directorio:progreso', {progreso:100, mensaje:`Descargando archivo comprimido de escenarios <b>${archivoTar}</b>`});
+
+                                    // Espera de 1s para reflejar porcentaje
+                                    setTimeout(() => {
+                                        console.log('Descomprimiendo');
+                                        win.webContents.send('directorio:descargado', {estado:true, error:`Descomprimiendo <b>${archivoTar}</b>`, targz:true});
+                                        let carpeta = path.dirname(obj.rutaLocal);
+                                        console.log('archivo', obj.rutaLocal, 'carpeta', carpeta);
+                                        try {
+                                            targz().extract(obj.rutaLocal, carpeta, (err) => {
+                                                if (err) {
+                                                    console.log('Falla en la extraccion ', err.stack);
+                                                    win.webContents.send('directorio:descargado', {estado:true, error:`Error descomprimiendo el archivo ${archivoTar}: ${err.message}`});
+                                                } else {
+                                                    win.webContents.send('directorio:descargado', {estado:true});
+                                                    console.log('Extraccion correcta');
+                                                }
+                                            });
+                                        } catch (err) {
+                                            console.log("cacha descomprime ", err);
+                                        }
+
+                                        ftp.desconectar();
+                                    }, 1000);
+                                }, () => {
+                                    console.log('Error: ', err);
+                                    clearInterval(interval);
+                                    ftp.desconectar();
+                                });
+
+                            }, (err) => {
+                                console.log('**Error**', '(tamaño archivo tar)', err.message);
+                                ftp.desconectar();
+                            });
+                        } else {
+                            win.webContents.send('directorio:descargado', {estado:false, error: 'Escenario no encontrado'});
+                            ftp.desconectar();
+                        }
+                    }, () => {
+                        console.log('**Error**', '(tamaño archivo tar)', err.message);
+                        win.webContents.send('directorio:descargado', {estado:false, error: 'Error durante la conexión con el servidor FTP'});
+
+                        ftp.desconectar();
+                    });
+                } catch (err) {
+                    console.log('cachado', err);
+                }
+            } else {
+                let interval = setInterval(() => {
+                    let progreso = ftp.getProgresoLista();
+                    console.log(' > Progreso: ', progreso.toFixed(2));
+                    win.webContents.send('directorio:progreso', {progreso:progreso, mensaje:'Descargando directorio de escenario'});
+                }, 1000);
+
+                ftp.descargarDirectorioFTP(listaDir).then(() => {
+                    console.log('Archivos descargados correctamente');
+                    clearInterval(interval);
+                    ftp.desconectar();
+
+                    win.webContents.send('directorio:descargado', {estado:true});
+                }, () => {
+                    console.log('error descargando archivos');
+                    clearInterval(interval);
+                    ftp.desconectar();
+                    win.webContents.send('directorio:descargado', {estado: false, error: 'Error en la conexión durante la descarga de los archivos del escenario.'});
+                });
+            }
+        }, () => {
+            console.log('error obteniendo lista');
+            ftp.desconectar();
+            win.webContents.send('directorio:descargado', {estado: false, error: 'Error en la conexión durante la consulta del escenario por directorio.'});
+        });
+    }, () => {
+        win.webContents.send('directorio:descargado', {estado: false, error: 'No fue posible conectar con el servidor FTP'});
+        console.log('Error conectando');
     });
 });

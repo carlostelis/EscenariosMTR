@@ -58,16 +58,19 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
         select.appendChild(opcion);
     });
 
-    SESION.algoritmos = json.algoritmos;
+    SESION.config = json;
+    // SESION.algoritmos = json.algoritmos;
+    // SESION.sistemas = json.sistemas;
+    // SESION.exalogic = json.exalogic;
 
     // Icono ok
     banner.ok();
-    banner.setMensaje('Hecho');
+    banner.setMensaje('OK');
 
     // Oculta banner
     setTimeout(() => {
         banner.ocultar();
-    }, 1500);
+    }, 1000);
 });
 
 // habilitar banner
@@ -151,19 +154,23 @@ function solicitarAutenticacion() {
     banner.mostrar();
     banner.ocultarBoton();
     banner.setMensaje('Autenticando');
-    banner.cargando();
+    banner.cargando('slateblue');
 }
 
 ipcRenderer.on('usuario:obtenido', (event, json) => {
     console.log('usuario obtenido');
-    console.log(json);
+    //console.log(json);
     if (json.estado) {
         if (json.contrasena === SESION.contrasena) {
             banner.ok();
             banner.setMensaje('Autenticación exitosa');
 
+            // Guarda el resto de los datos
+            SESION.nombre = json.nombre;
+            SESION.perfil = json.perfil;
+
             // Elementos con informacion de sesion
-            document.querySelector('#label_usuario_ce').innerHTML = SESION.usuario;
+            document.querySelector('#label_usuario_ce').innerHTML = SESION.nombre;
             document.querySelector('#label_sistema_ce').innerHTML = SESION.sistema;
 
             setTimeout(() => {
@@ -193,7 +200,7 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
     }
 
     banner.mostrarBoton();
-    banner.error();
+    banner.error('darkred');
     banner.setBoton('Aceptar', () => {
         banner.ocultar();
     });
