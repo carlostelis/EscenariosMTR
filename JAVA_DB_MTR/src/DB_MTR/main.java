@@ -5,7 +5,11 @@
  */
 package DB_MTR;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -54,6 +58,12 @@ public class main {
             case "usuarios":
                 String usuario = params.get("--usr");
                 bd.obtenerUsuarios(usuario);
+                break;
+            case "tar":
+                String archivo = params.get("--archivo");
+                String escenario = params.get("--escenario");
+                String dia = params.get("--dia");
+                bd.extractTarGZ(archivo, dia, escenario);
                 break;
         }
     }

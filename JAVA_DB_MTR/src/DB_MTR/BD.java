@@ -5,6 +5,12 @@
  */
 package DB_MTR;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,6 +18,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -151,6 +160,100 @@ public class BD {
             System.out.println("ERROR -> " + ex.getMessage() + "; " + ex.getCause());
         } finally {
             this.desconectar();
+        }
+    }
+    
+    public void extractTarGZ(String archivoTar, String dia, String escenario) {
+        GzipCompressorInputStream gzipIn = null;
+        try {
+            gzipIn = new GzipCompressorInputStream(new FileInputStream(archivoTar));
+        } catch (IOException ex) {
+            System.out.println("ERROR -> Falla al crear descompresor de archivo tar");
+            return;
+        }
+        
+        if (!escenario.endsWith("/")) {
+            escenario += "/";
+        }
+        
+        if (!dia.endsWith("/")) {
+            dia += "/";
+        }
+        
+        String ruta_escenario = dia + escenario;
+        //System.out.println("Buscando " + ruta_escenario);
+        
+        boolean dia_encontrado = false;
+        boolean escenario_encontrado = false;
+        
+        boolean flag_dirdat = false;
+        boolean flag_dirres = false;
+        boolean flag_ems = false;
+        
+        boolean flag_procesar_dir = false;
+        boolean flag_procesar_file = false;
+        
+        try (TarArchiveInputStream tarIn = new TarArchiveInputStream(gzipIn)) {
+            TarArchiveEntry entry;
+
+            while ((entry = (TarArchiveEntry) tarIn.getNextEntry()) != null) {
+                /**
+                 * If the entry is a directory, create the directory. *
+                 */
+                if (entry.isDirectory()) {
+                    // Busca escenario
+                    flag_procesar_dir = false;
+                    
+                    // Si se encuentra el dia correcto
+                    if (entry.getName().equals(dia)) {
+                        flag_procesar_dir = true;
+                    }
+                    
+                    if (entry.getName().equals(ruta_escenario)) {
+                        escenario_encontrado = true;
+                        flag_procesar_dir = true;
+                    } else {
+                        if (escenario_encontrado) {
+                            if (entry.getName().contains(ruta_escenario)) {
+                                flag_procesar_dir = true;
+                            }
+                        }
+                    }
+                    
+                    if (flag_procesar_dir) {
+                        File f = new File(entry.getName());
+                        //System.out.println("Directorio: " + entry.getName() + "  " + f.getAbsolutePath());
+                        boolean created = f.mkdir();
+                        if (!created) {
+                            //System.out.printf("Unable to create directory '%s', during extraction of archive contents.\n", f.getAbsolutePath());
+                        } else {
+                            if (escenario_encontrado) {
+                                flag_procesar_file = true;
+                            }
+                        }
+                    } else {
+                        flag_procesar_file = false;
+                    }
+                    
+                } else {
+                    if (flag_procesar_file) {
+                        int count;
+                        int BUFFER_SIZE = 1024;
+                        byte data[] = new byte[BUFFER_SIZE];
+                        FileOutputStream fos = new FileOutputStream(entry.getName(), false);
+                        try (BufferedOutputStream dest = new BufferedOutputStream(fos, BUFFER_SIZE)) {
+                            while ((count = tarIn.read(data, 0, BUFFER_SIZE)) != -1) {
+                                dest.write(data, 0, count);
+                            }
+                            dest.close();
+                        }
+                    }
+                }
+            }
+
+            tarIn.close();
+        } catch (IOException ex) {
+            System.out.println("ERROR -> Falla durante la descompresión del archivo tar.gz");
         }
     }
 }

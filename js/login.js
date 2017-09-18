@@ -169,6 +169,17 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
             SESION.nombre = json.nombre;
             SESION.perfil = json.perfil;
 
+            // Obtiene la carpeta del sistema
+            let sistemaObj;
+            SESION.config.sistemas.forEach((sistema) => {
+                if (sistema.nombre === SESION.sistema) {
+                    SESION.sistemaCarpeta = sistema.carpeta;
+                }
+            });
+
+            // Envia a electron la informacion de sesion
+            ipcRenderer.send('info:sesion', SESION);
+
             // Elementos con informacion de sesion
             document.querySelector('#label_usuario_ce').innerHTML = SESION.nombre;
             document.querySelector('#label_sistema_ce').innerHTML = SESION.sistema;

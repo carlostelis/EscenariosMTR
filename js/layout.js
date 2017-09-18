@@ -154,23 +154,17 @@ function cargaComponentes() {
 function cargarEscenario() {
     let {rutaId, dia, mes, anio} = generarRutaEscenario();
 
-    let sistemaObj;
-    SESION.config.sistemas.forEach((sistema) => {
-        if (sistema.nombre === SESION.sistema) {
-            sistemaObj = sistema;
-        }
-    });
-
     let sel_algoritmo_ce = document.querySelector('#sel_algoritmo_ce');
 
     let obj = {
-        dirRemoto: `${SESION.config.exalogic.base}${sistemaObj.carpeta}/${sel_algoritmo_ce.value}/datosh/${rutaId}`,
+        dirRemoto: `${SESION.config.exalogic.base}${SESION.sistemaCarpeta}/${sel_algoritmo_ce.value}/datosh/${rutaId}`,
         pathLocal: `${sel_algoritmo_ce.value}/escenario_original/`,
         dia: dia,
         mes: mes,
-        anio: anio
+        anio: anio,
+        algoritmo: sel_algoritmo_ce.value
     };
-    // let cadena = `${SESION.config.exalogic.base}${sistemaObj.carpeta}/${sel_algoritmo_ce.value}/datosh/${rutaId}`;
+
     console.log(dia, obj.dia);
     ipcRenderer.send('directorio:descarga', obj);
     banner.actualizando('coral');

@@ -215,8 +215,18 @@ body {
 	border-radius: 5px;
 	background-color: #FFF;
 	background-image: -webkit-linear-gradient(bottom,#215e3e 0%,#347c58 50%,#215e3e 100%);
-											  /*#ECFCE4 0%,
-											  #ADD3A2 50%,
-											  #659254 51%,
-											  #185600 100%);*/
+}
+
+.contenedor_vista-archivos::-webkit-scrollbar-thumb:hover
+{
+	border-radius: 5px;
+	background-color: #FFF;
+	background-image: -webkit-linear-gradient(bottom,yellowgreen 0%,#347c58 50%,yellowgreen 100%);
+}
+
+.contenedor_vista-archivos::-webkit-scrollbar-thumb:active
+{
+	border-radius: 5px;
+	background-color: #FFF;
+	background-image: -webkit-linear-gradient(bottom,azure 0%,#347c58 50%,azure 100%);
 }

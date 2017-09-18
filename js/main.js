@@ -20,6 +20,8 @@ let ftp = new FTP({
     password: config.exalogic.password
 }, config.local.escenarios);
 
+let SESION;
+
 
 /////////          Para la generacion del instalador             //////////////
 
@@ -240,9 +242,18 @@ ipcMain.on('listaHtml:solicita', () => {
     });
 });
 
+// Lista de archivos de directorio
+ipcMain.on('info:sesion', (event, info) => {
+    if (typeof info !== 'undefined') {
+        SESION = info;
+        console.log('Informacion de sesion actualizada en electron');
+        console.log(SESION);
+    }
+});
+
 ipcMain.on('directorio:descarga', (event, data) => {
     let dirRemoto = data.dirRemoto;
-    let replace = config.local.reemplazo;
+    let replace = path.join(SESION.config.exalogic.base, SESION.sistemaCarpeta, data.algoritmo, 'datosh').replace(new RegExp('\\' + path.sep, 'g'), '/'); //config.local.reemplazo;
     let rutaLocal = path.join(config.local.escenarios, data.pathLocal);
 
     let listaDir = [];
