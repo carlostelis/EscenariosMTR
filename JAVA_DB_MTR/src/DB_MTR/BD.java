@@ -163,35 +163,33 @@ public class BD {
         }
     }
     
-    public void extractTarGZ(String archivoTar, String dia, String escenario) {
-        GzipCompressorInputStream gzipIn = null;
+    public void extractTarGZ(String archivoTar, String dia, String escenario, String carpeta) {
+        if (!carpeta.endsWith(File.separator)) {
+            carpeta += File.separator;
+        }
+        
+        GzipCompressorInputStream gzipIn;
         try {
             gzipIn = new GzipCompressorInputStream(new FileInputStream(archivoTar));
         } catch (IOException ex) {
-            System.out.println("ERROR -> Falla al crear descompresor de archivo tar");
+            System.out.println("ERROR -> Falla al crear descompresor de archivo tar: " + ex);
             return;
-        }
-        
-        if (!escenario.endsWith("/")) {
-            escenario += "/";
         }
         
         if (!dia.endsWith("/")) {
             dia += "/";
         }
         
-        String ruta_escenario = dia + escenario;
-        //System.out.println("Buscando " + ruta_escenario);
-        
-        boolean dia_encontrado = false;
+        // El compresor maneja rutas tipo linux
+        String ruta_escenario = dia + escenario + "/";
+        //System.out.println("Ruta: " + ruta_escenario);
         boolean escenario_encontrado = false;
-        
-        boolean flag_dirdat = false;
-        boolean flag_dirres = false;
-        boolean flag_ems = false;
-        
-        boolean flag_procesar_dir = false;
+        boolean flag_procesar_dir;
         boolean flag_procesar_file = false;
+        
+        int cont_archivos = 0;
+        int cont_directorios = 0;
+        
         
         try (TarArchiveInputStream tarIn = new TarArchiveInputStream(gzipIn)) {
             TarArchiveEntry entry;
@@ -203,30 +201,24 @@ public class BD {
                 if (entry.isDirectory()) {
                     // Busca escenario
                     flag_procesar_dir = false;
-                    
+                    //System.out.println("Directorio: " + entry.getName() + " ~ " + ruta_escenario);
                     // Si se encuentra el dia correcto
                     if (entry.getName().equals(dia)) {
                         flag_procesar_dir = true;
                     }
                     
-                    if (entry.getName().equals(ruta_escenario)) {
+                    if (entry.getName().contains(ruta_escenario)) {
+                        //System.out.println("Escenario encontrado");
                         escenario_encontrado = true;
                         flag_procesar_dir = true;
-                    } else {
-                        if (escenario_encontrado) {
-                            if (entry.getName().contains(ruta_escenario)) {
-                                flag_procesar_dir = true;
-                            }
-                        }
                     }
                     
                     if (flag_procesar_dir) {
-                        File f = new File(entry.getName());
-                        //System.out.println("Directorio: " + entry.getName() + "  " + f.getAbsolutePath());
+                        File f = new File(carpeta + entry.getName());
+                        //System.out.println("Creando Directorio: " + entry.getName() + "  " + f.getAbsolutePath());
                         boolean created = f.mkdir();
-                        if (!created) {
-                            //System.out.printf("Unable to create directory '%s', during extraction of archive contents.\n", f.getAbsolutePath());
-                        } else {
+                        if (created) {
+                            cont_directorios++;
                             if (escenario_encontrado) {
                                 flag_procesar_file = true;
                             }
@@ -234,26 +226,34 @@ public class BD {
                     } else {
                         flag_procesar_file = false;
                     }
-                    
                 } else {
                     if (flag_procesar_file) {
                         int count;
                         int BUFFER_SIZE = 1024;
                         byte data[] = new byte[BUFFER_SIZE];
-                        FileOutputStream fos = new FileOutputStream(entry.getName(), false);
+                        FileOutputStream fos = new FileOutputStream(carpeta + entry.getName(), false);
                         try (BufferedOutputStream dest = new BufferedOutputStream(fos, BUFFER_SIZE)) {
                             while ((count = tarIn.read(data, 0, BUFFER_SIZE)) != -1) {
                                 dest.write(data, 0, count);
                             }
                             dest.close();
+                            cont_archivos++;
                         }
                     }
                 }
             }
 
             tarIn.close();
+            
+            JSONObject json = new JSONObject();
+            json.put("carpetas", cont_directorios);
+            json.put("archivos", cont_archivos);
+            json.put("escenario", escenario);
+            json.put("dia", dia);
+            json.put("rutaLocal", carpeta + ruta_escenario);
+            System.out.println(json.toString());
         } catch (IOException ex) {
-            System.out.println("ERROR -> Falla durante la descompresión del archivo tar.gz");
+            System.out.println("ERROR -> Falla durante la descompresión del archivo tar.gz " + ex);
         }
     }
 }

@@ -29,7 +29,7 @@ class FTP {
             });
 
             this.c.on('error', (err) => {
-                this.conectado = false;
+                //this.conectado = false;
                 console.log('**ERROR**', '(conectar)', `Código: ${err.code}`);
                 console.log('FTP desconectado');
                 reject();
@@ -135,7 +135,7 @@ class FTP {
                 let rutaTemp = carpetas[0];
                 for (let i = 1; i < carpetas.length; i++) {
                     rutaTemp = this.path.join(rutaTemp, carpetas[i]);
-                    console.log(rutaTemp);
+                    //console.log(rutaTemp);
                     if (!this.fs.existsSync(rutaTemp)) {
                         // console.log(`Creando carpeta: ${rutaTemp}`);
                         this.fs.mkdirSync(rutaTemp);
@@ -145,7 +145,7 @@ class FTP {
 
             this.c.get(info.rutaRemota, (err, stream) => {
                 if (err) {
-                    console.log('**ERROR**', '(descargar archivo)', info.rutaRemota, err);
+                    console.log('**ERROR**', '(descargar archivo)', info.rutaRemota, err.message);
                     reject(err);
                 } else {
                     stream.on('data', (chunk) => {
@@ -158,6 +158,8 @@ class FTP {
                         // Archivo completo
                         if (this.progresoArchivo >= 100) {
                             info.completado = true;
+                        } else {
+                            info.completado = false;
                         }
 
                         resolve();
@@ -174,7 +176,6 @@ class FTP {
 
         return new Promise((resolve, reject) => {
             let prom_listaDir = [];
-
             prom_listaDir.push(new Promise((resolve, reject) => {
                 this.c.list(ruta, (err, list) => {
                     if (err) {
@@ -182,20 +183,26 @@ class FTP {
                         reject(err);
                     };
 
-                    list.forEach((element, index, array) => {
-                        if (element.type === 'd') {
-                            prom_listaDir.push(this.obtenerListaDirectorio(this.path.join(ruta, element.name), rutaReplace, rutaLocal, listaDir));
-                        } else {
-                            listaDir.push({
-                                rutaRemota: this.path.join(ruta, element.name).replace(new RegExp('\\' + this.path.sep, 'g'), '/'),
-                                rutaLocal: this.path.normalize(this.path.join(ruta, element.name).replace(this.path.normalize(rutaReplace), rutaLocal)),
-                                nombre: element.name,
-                                directorio: ruta,
-                                tamano: element.size
-                            });
-                        }
-                    });
-                    resolve();
+                    if (typeof list === 'undefined') {
+                        console.log('**ERROR**', '(lista directorio indefinida)');
+                        reject();
+                        return;
+                    } else {
+                        list.forEach((element, index, array) => {
+                            if (element.type === 'd') {
+                                prom_listaDir.push(this.obtenerListaDirectorio(this.path.join(ruta, element.name), rutaReplace, rutaLocal, listaDir));
+                            } else {
+                                listaDir.push({
+                                    rutaRemota: this.path.join(ruta, element.name).replace(new RegExp('\\' + this.path.sep, 'g'), '/'),
+                                    rutaLocal: this.path.normalize(this.path.join(ruta, element.name).replace(this.path.normalize(rutaReplace), rutaLocal)),
+                                    nombre: element.name,
+                                    directorio: ruta,
+                                    tamano: element.size
+                                });
+                            }
+                        });
+                        resolve();
+                    }
                 });
             }));
 
@@ -221,7 +228,7 @@ class FTP {
                 };
 
                 list.forEach((element, index, array) => {
-                    console.log('Elemento', element.name);
+                    //console.log('Elemento', element.name);
                     // Obtiene solo archivos
                     if (element.type !== 'd') {
                         listaDir.push({

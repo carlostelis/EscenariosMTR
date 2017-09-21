@@ -251,6 +251,17 @@ ipcMain.on('info:sesion', (event, info) => {
     }
 });
 
+// Consulta de UTC
+ipcMain.on('utc:consulta', (event, fecha) => {
+    comandos.obtenerUTC(fecha).then((json) => {
+        console.log("UTC obtenido", json.utc);
+        win.webContents.send('utc:respuesta', json);
+    }, (json) => {
+        console.log("Error obteniendo UTC", json.mensaje);
+        win.webContents.send('utc:respuesta', json);
+    });
+});
+
 ipcMain.on('directorio:descarga', (event, data) => {
     let dirRemoto = data.dirRemoto;
     let replace = path.join(SESION.config.exalogic.base, SESION.sistemaCarpeta, data.algoritmo, 'datosh').replace(new RegExp('\\' + path.sep, 'g'), '/'); //config.local.reemplazo;
@@ -259,7 +270,7 @@ ipcMain.on('directorio:descarga', (event, data) => {
     let listaDir = [];
 
     console.log('Descarga: ', dirRemoto, replace, rutaLocal);
-
+    dirRemoto = dirRemoto.trim();
     ftp.conectar().then(() => {
         ftp.obtenerListaDirectorio(dirRemoto, replace, rutaLocal, listaDir).then(() => {
             if (listaDir.length === 0) {
@@ -269,9 +280,10 @@ ipcMain.on('directorio:descarga', (event, data) => {
                 let dia = data.dia;
                 let anio = data.anio;
                 let mes = data.mes;
+                let id_escenario = data.id_escenario;
 
                 // buscar tar.gz
-                let dirRemotoAlt = dirRemoto.slice(0, dirRemoto.length - 20);
+                let dirRemotoAlt = path.dirname(path.dirname(dirRemoto)); //dirRemoto.slice(0, dirRemoto.length - 20);
                 console.log('Buscar en: ', dirRemotoAlt, 'dia', dia);
 
                 let listaAlt = [];
@@ -328,27 +340,27 @@ ipcMain.on('directorio:descarga', (event, data) => {
                                         let carpeta = path.dirname(obj.rutaLocal);
                                         console.log('archivo', obj.rutaLocal, 'carpeta', carpeta);
                                         try {
-                                            targz().extract(obj.rutaLocal, carpeta, (err) => {
-                                                if (err) {
-                                                    console.log('Falla en la extraccion ', err.stack);
-                                                    win.webContents.send('directorio:descargado', {estado:true, error:`Error descomprimiendo el archivo ${archivoTar}: ${err.message}`});
+                                            // descompresión a través de Java
+
+                                            console.log('+++++', obj.rutaLocal, dia, id_escenario);
+                                            comandos.descomprimir(obj.rutaLocal, dia, id_escenario, carpeta).then((res) => {
+                                                console.log('res', res);
+                                                if (res.estado) {
+                                                    console.log(res.mensaje);
                                                 } else {
-                                                    win.webContents.send('directorio:descargado', {estado:true});
-                                                    console.log('Extraccion correcta');
+                                                    console.log('Error al descomprimir archivo');
                                                 }
+                                                win.webContents.send('directorio:descargado', res);
                                             });
                                         } catch (err) {
                                             console.log("cacha descomprime ", err);
                                         }
-
-                                        ftp.desconectar();
                                     }, 1000);
-                                }, () => {
+                                }, (err) => {
                                     console.log('Error: ', err);
                                     clearInterval(interval);
                                     ftp.desconectar();
                                 });
-
                             }, (err) => {
                                 console.log('**Error**', '(tamaño archivo tar)', err.message);
                                 ftp.desconectar();
@@ -374,11 +386,12 @@ ipcMain.on('directorio:descarga', (event, data) => {
                 }, 1000);
 
                 ftp.descargarDirectorioFTP(listaDir).then(() => {
-                    console.log('Archivos descargados correctamente');
+                    let rutaEscenario = path.normalize(dirRemoto.replace(replace, rutaLocal)).trim();
+                    console.log('Archivos descargados correctamente', rutaEscenario);
                     clearInterval(interval);
                     ftp.desconectar();
 
-                    win.webContents.send('directorio:descargado', {estado:true});
+                    win.webContents.send('directorio:descargado', {estado:true, rutaLocal:rutaEscenario});
                 }, () => {
                     console.log('error descargando archivos');
                     clearInterval(interval);

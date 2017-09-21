@@ -62,6 +62,7 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
             banner.setProgreso(100);
             banner.ok('darkgreen');
             banner.setMensaje('Escenario descargado correctamente');
+            console.log('Ruta de escenario:', res.rutaLocal);
             visor_archivos.actualizar();
             setTimeout(() => {
                 banner.ocultar();
@@ -152,11 +153,37 @@ function cargaComponentes() {
 }
 
 function cargarEscenario() {
-    let {rutaId, dia, mes, anio} = generarRutaEscenario();
+    // manda a obtener el utc de la fecha seleccionada
+    let input_fecha_ce = document.querySelector('#input_fecha_ce');
+    let sel_hora_ce = document.querySelector('#sel_hora_ce');
+    banner.mostrar();
+    banner.actualizando('coral');
+    banner.setMensaje('Consultando UTC');
+    banner.ocultarProgreso();
+    banner.ocultarBoton();
+
+    ipcRenderer.send('utc:consulta', `${input_fecha_ce.value} ${sel_hora_ce.value}:00`);
+}
+
+ipcRenderer.on('utc:respuesta', (event, json) => {
+    console.log('UTC => ', json);
+
+    if (!json.estado || typeof json.utc === 'undefined') {
+        banner.error('darkred');
+        banner.setMensaje(json.mensaje);
+        banner.setBoton('Aceptar', () => {
+            banner.ocultar();
+        });
+
+        return;
+    }
+
+    let {rutaId, dia, mes, anio, id} = generarRutaEscenario(json.utc);
 
     let sel_algoritmo_ce = document.querySelector('#sel_algoritmo_ce');
 
     let obj = {
+        id_escenario: id,
         dirRemoto: `${SESION.config.exalogic.base}${SESION.sistemaCarpeta}/${sel_algoritmo_ce.value}/datosh/${rutaId}`,
         pathLocal: `${sel_algoritmo_ce.value}/escenario_original/`,
         dia: dia,
@@ -167,14 +194,13 @@ function cargarEscenario() {
 
     console.log(dia, obj.dia);
     ipcRenderer.send('directorio:descarga', obj);
-    banner.actualizando('coral');
+
     banner.setMensaje('Descargando escenario');
     banner.setProgreso(0);
-    banner.ocultarBoton();
-    banner.mostrar();
-}
+    banner.mostrarProgreso();
+});
 
-function generarRutaEscenario() {
+function generarRutaEscenario(utc) {
     let input_fecha_ce = document.querySelector('#input_fecha_ce');
     let fecha = input_fecha_ce.value;
 
@@ -196,12 +222,14 @@ function generarRutaEscenario() {
         intervalo = `0${intervalo}`;
     }
 
+    console.log('fecha', fecha);
     let [ anio, mes, dia ] = fecha.split('-');
-    let utc = `${new Date(anio, mes, dia).getTimezoneOffset() / 60}`;
-    if (utc.length === 1) {
-        utc = `0${utc}`;
-    }
-    let id = `${anio}${mes}${dia}${hora}${intervalo}_-${utc}`;
+    // let utc = `${new Date(anio, mes, dia).getTimezoneOffset() / 60}`;
+    // if (utc.length === 1) {
+    //     utc = `0${utc}`;
+    // }
+    console.log('UTC: ', utc);
+    let id = `${anio}${mes}${dia}${hora}${intervalo}_${utc}`;
 
-    return {rutaId: `${anio}/${mes}/${dia}/${id}`, dia: dia, mes: mes, anio: anio};
+    return {rutaId: `${anio}/${mes}/${dia}/${id}`, dia: dia, mes: mes, anio: anio, id: id};
 }

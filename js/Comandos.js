@@ -55,6 +55,100 @@ class Comandos {
             });
         });
     }
+
+    descomprimir(archivoTar, dia, id_escenario, carpeta) {
+        let that = this;
+
+        return new Promise((resolve, reject) => {
+            let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
+
+            const jar = execFile('java', ['-jar', ruta, '--opc=tar', `--archivo=${archivoTar}`, `--escenario=${id_escenario}`, `--dia=${dia}`, `--carpeta=${carpeta}`], (error, stdout, stderr) => {
+                if (error) {
+                    console.log(`Error: ${error}`);
+                    reject({
+                        mensaje: `No fue posible invocar descompresor; errno = ${error.code}`,
+                        estado: false
+                    });
+                }
+
+                console.log(`Resultado: ${stdout}<`);
+
+                if (stdout.startsWith('ERROR')) {
+                    var jsonErr = {
+                        mensaje: stdout.split('->')[1],
+                        estado: false,
+                    };
+                    console.log(jsonErr);
+                    reject(jsonErr);
+                } else if (stdout.trim().length === 0) {
+                    var jsonErr = {
+                        mensaje: 'No fue posible realizar la descompresión del escenario',
+                        estado: false,
+                    };
+
+                    reject(jsonErr);
+                } else {
+                    try {
+                        console.log('-envia JSON-');
+                        const json = JSON.parse(stdout);
+                        json.estado = true;
+                        json.mensaje = 'Extracción realizada correctamente';
+                        if (typeof json.rutaLocal === 'string') {
+                            json.rutaLocal = this.path.normalize(json.rutaLocal).trim();
+                        }
+
+                        console.log(JSON.stringify(json));
+                        resolve(json);
+                    } catch (e) {
+                        reject({error: e});
+                    }
+                }
+            });
+        });
+    }
+
+    obtenerUTC(fecha) {
+        let that = this;
+
+        return new Promise((resolve, reject) => {
+            let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
+
+            const jar = execFile('java', ['-jar', ruta, '--opc=utc', `--fecha=${fecha}`], (error, stdout, stderr) => {
+                if (error) {
+                    console.log(`Error: ${error}`);
+                    reject({
+                        mensaje: `No fue posible consultar UTC; errno = ${error.code}`,
+                        estado: false
+                    });
+                }
+
+                console.log(`Resultado: ${stdout}<`);
+
+                if (stdout.startsWith('ERROR')) {
+                    var jsonErr = {
+                        mensaje: stdout.split('->')[1],
+                        estado: false,
+                    };
+                    console.log(jsonErr);
+                    reject(jsonErr);
+                } else  {
+                    try {
+                        console.log('-envia JSON-');
+                        const json = {
+                            estado: true,
+                            utc: stdout,
+                            mensaje: 'Extracción realizada correctamente'
+                        };
+
+                        console.log(JSON.stringify(json));
+                        resolve(json);
+                    } catch (e) {
+                        reject({error: e});
+                    }
+                }
+            });
+        });
+    }
 }
 
 module.exports = Comandos;

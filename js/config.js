@@ -53,7 +53,6 @@ module.exports = {
         }
     ],
     local: {
-        reemplazo: '/pruebas/historicomtr/dersmi/datosh/',
         escenarios: 'C:/AppAnalizadorEscenarios'
     }
 };
