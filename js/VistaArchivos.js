@@ -7,6 +7,7 @@ class VistaArchivos {
         // Ruta base, para windows
         this.rutaSeleccionada = '';
         this.set(parent, ipcRenderer);
+        this.seleccionAnterior = undefined;
     }
 
     set(parent, ipcRenderer) {
@@ -167,12 +168,20 @@ class VistaArchivos {
         // metodo click
         nodo_label.onclick = () => {
             // quita seleccion de otros elementos
-            this.quitarSeleccion();
+            // this.quitarSeleccion();
             // selecciona a si mismo
+            if (typeof this.seleccionAnterior !== 'undefined') {
+                this.seleccionAnterior.classList.remove('seleccionado');
+                this.seleccionAnterior.seleccionado = false;
+            }
+
             nodo_label.classList.add('seleccionado');
             nodo_label.seleccionado = true;
             console.log(`Seleccionado ${nodo_label.ruta}`);
             this.rutaSeleccionada = nodo_label.ruta;
+
+            // Nuevo seleccionado
+            this.seleccionAnterior = nodo_label;
         };
 
         if (elemento.tipo === 'directorio') {

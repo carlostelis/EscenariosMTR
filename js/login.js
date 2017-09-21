@@ -174,6 +174,7 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
             SESION.config.sistemas.forEach((sistema) => {
                 if (sistema.nombre === SESION.sistema) {
                     SESION.sistemaCarpeta = sistema.carpeta;
+                    SESION.sistemaZona = sistema.zona;
                 }
             });
 

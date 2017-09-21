@@ -72,6 +72,7 @@ class Banner {
     ocultar() {
         this.divBanner.style.opacity = '0';
         setTimeout(() => {
+            this.setProgreso(0);
             try {
                 this.contenedor.removeChild(this.divBanner);;
             } catch (e) {}

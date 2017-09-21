@@ -162,7 +162,7 @@ function cargarEscenario() {
     banner.ocultarProgreso();
     banner.ocultarBoton();
 
-    ipcRenderer.send('utc:consulta', `${input_fecha_ce.value} ${sel_hora_ce.value}:00`);
+    ipcRenderer.send('utc:consulta', `${input_fecha_ce.value} ${sel_hora_ce.value}:00`, SESION.sistemaZona);
 }
 
 ipcRenderer.on('utc:respuesta', (event, json) => {

@@ -26,32 +26,43 @@ public class test {
         long offsetInMilliseconds = tz.getOffset(instant);
         long hours = TimeUnit.MILLISECONDS.toHours( offsetInMilliseconds );
         String offset = Long.toString( hours );*/
+        
+        /*bcs("America/Mazatlan"),
+        bca("America/Tijuana"), 
+        sin("America/Mexico_City"), */
+        //String zona = "America/Mazatlan";
+        String zona = "America/Tijuana";
+        //String zona = "America/Mexico_City";
+        
         String fecha = "2017-02-26 00:00";
-        String utc = getUTC(fecha);
+        String utc = getUTC(fecha, zona);
         System.out.println(fecha + " (" + utc + " Hours)");
         
-        fecha = "2017-03-26 00:00";
-        utc = getUTC(fecha);
+        fecha = "2017-04-26 00:00";
+        utc = getUTC(fecha, zona);
+        System.out.println(fecha + " (" + utc + " Hours)");
+        fecha = "2017-04-02 02:00";
+        utc = getUTC(fecha, zona);
         System.out.println(fecha + " (" + utc + " Hours)");
         
         fecha = "2017-03-12 00:00";
-        utc = getUTC(fecha);
+        utc = getUTC(fecha, zona);
         System.out.println(fecha + " (" + utc + " Hours)");
         
         fecha = "2017-03-12 03:00";
-        utc = getUTC(fecha);
+        utc = getUTC(fecha, zona);
         System.out.println(fecha + " (" + utc + " Hours)");
         
         fecha = "2017-03-12 01:00";
-        utc = getUTC(fecha);
+        utc = getUTC(fecha, zona);
         System.out.println(fecha + " (" + (utc.isEmpty() ? "no existe" : utc) + " Hours)");
         
         fecha = "2017-03-12 02:00";
-        utc = getUTC(fecha);
+        utc = getUTC(fecha, zona);
         System.out.println(fecha + " (" + (utc.isEmpty() ? "no existe" : utc) + " Hours)");
     }
     
-    static String getUTC(String fecha) {
+    static String getUTC(String fecha, String zona) {
         String a[] = fecha.split("\\s");
         if (a.length < 2) {
             return "-06";
@@ -66,13 +77,14 @@ public class test {
         int hora = Integer.parseInt(h[0]);
         int min = Integer.parseInt(h[1]);
         
-        DateTimeZone tz = DateTimeZone.getDefault();
+        DateTimeZone tz = DateTimeZone.forID(zona);
         DateTime dt;
 
         try {
             dt = new DateTime(anio, mes, dia, hora, dia);
         } catch (IllegalInstantException iie) {
             // La hora no existe por el cambio de horario
+            System.out.println(iie);
             return "";
         }
         

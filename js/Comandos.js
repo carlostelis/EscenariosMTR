@@ -91,10 +91,13 @@ class Comandos {
                     try {
                         console.log('-envia JSON-');
                         const json = JSON.parse(stdout);
-                        json.estado = true;
-                        json.mensaje = 'Extracción realizada correctamente';
-                        if (typeof json.rutaLocal === 'string') {
-                            json.rutaLocal = this.path.normalize(json.rutaLocal).trim();
+                        if (json.estado) {
+                            json.mensaje = 'Extracción realizada correctamente';
+                            if (typeof json.rutaLocal === 'string') {
+                                json.rutaLocal = this.path.normalize(json.rutaLocal).trim();
+                            }
+                        } else {
+                            json.error = `Escenario ${id_escenario} no encontrado en ${this.path.basename(archivoTar)}`;
                         }
 
                         console.log(JSON.stringify(json));
@@ -107,13 +110,13 @@ class Comandos {
         });
     }
 
-    obtenerUTC(fecha) {
+    obtenerUTC(fecha, zona) {
         let that = this;
 
         return new Promise((resolve, reject) => {
             let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
 
-            const jar = execFile('java', ['-jar', ruta, '--opc=utc', `--fecha=${fecha}`], (error, stdout, stderr) => {
+            const jar = execFile('java', ['-jar', ruta, '--opc=utc', `--fecha=${fecha}`, `--zona=${zona}`], (error, stdout, stderr) => {
                 if (error) {
                     console.log(`Error: ${error}`);
                     reject({
@@ -136,7 +139,7 @@ class Comandos {
                         console.log('-envia JSON-');
                         const json = {
                             estado: true,
-                            utc: stdout,
+                            utc: stdout.trim(),
                             mensaje: 'Extracción realizada correctamente'
                         };
 

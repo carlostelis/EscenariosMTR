@@ -68,11 +68,12 @@ public class main {
                 break;
             case "utc":
                 String fecha = params.get("--fecha");
-                System.out.println(getUTC(fecha));
+                String zona = params.get("--zona");
+                System.out.println(getUTC(fecha, zona));
         }
     }
     
-    static String getUTC(String fecha) {
+    static String getUTC(String fecha, String zona) {
         String a[] = fecha.split("\\s");
         if (a.length < 2) {
             return "ERROR -> Fecha mal formada: " + fecha;
@@ -87,7 +88,7 @@ public class main {
         int hora = Integer.parseInt(h[0]);
         int min = Integer.parseInt(h[1]);
         
-        DateTimeZone tz = DateTimeZone.getDefault();
+        DateTimeZone tz = DateTimeZone.forID(zona);//.getDefault();
         DateTime dt;
 
         try {

@@ -252,8 +252,9 @@ ipcMain.on('info:sesion', (event, info) => {
 });
 
 // Consulta de UTC
-ipcMain.on('utc:consulta', (event, fecha) => {
-    comandos.obtenerUTC(fecha).then((json) => {
+ipcMain.on('utc:consulta', (event, fecha, zona) => {
+    console.log(fecha, zona);
+    comandos.obtenerUTC(fecha, zona).then((json) => {
         console.log("UTC obtenido", json.utc);
         win.webContents.send('utc:respuesta', json);
     }, (json) => {
@@ -350,6 +351,9 @@ ipcMain.on('directorio:descarga', (event, data) => {
                                                 } else {
                                                     console.log('Error al descomprimir archivo');
                                                 }
+                                                // Marca el escenario como descargado
+                                                listaArchivos.marcarDescargado(res.rutaLocal);
+                                                // Envia respuesta
                                                 win.webContents.send('directorio:descargado', res);
                                             });
                                         } catch (err) {
@@ -390,6 +394,9 @@ ipcMain.on('directorio:descarga', (event, data) => {
                     console.log('Archivos descargados correctamente', rutaEscenario);
                     clearInterval(interval);
                     ftp.desconectar();
+
+                    // Marca el escenario como descargado
+                    listaArchivos.marcarDescargado(rutaEscenario);
 
                     win.webContents.send('directorio:descargado', {estado:true, rutaLocal:rutaEscenario});
                 }, () => {

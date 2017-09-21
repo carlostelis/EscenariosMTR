@@ -21,15 +21,20 @@ module.exports = {
         {
             nombre: "BCA",
             //carpeta: "mtrbcaems"
-            carpeta: "historicomtr"
+            carpeta: "historicomtr",
+            zona: "America/Tijuana"
         },
         {
             nombre: "BCS",
-            carpeta: "mtrbcsems"
+            //carpeta: "mtrbcsems",
+            carpeta: "historicomtr",
+            zona: "America/Mazatlan"
         },
         {
             nombre: "SIN",
-            carpeta: "mtrsinems"
+            //carpeta: "mtrsinems",
+            carpeta: "historicomtr",
+            zona: "America/Mexico_City"
         }
     ],
     algoritmos: [

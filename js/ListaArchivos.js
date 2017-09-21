@@ -101,6 +101,14 @@ class ListaArchivos {
 
         return elementos;
     }
+
+    marcarDescargado(ruta) {
+        fs.writeFileSync(path.join(ruta, '.descargado'), `Descargado ${ruta}`);
+    }
+
+    isDescargado(ruta) {
+        return fs.existsSync(path.join(ruta, '.descargado'));
+    }
 }
 
 module.exports = ListaArchivos;

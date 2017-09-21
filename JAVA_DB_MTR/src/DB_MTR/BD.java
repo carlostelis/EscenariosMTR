@@ -246,11 +246,16 @@ public class BD {
             tarIn.close();
             
             JSONObject json = new JSONObject();
-            json.put("carpetas", cont_directorios);
-            json.put("archivos", cont_archivos);
-            json.put("escenario", escenario);
-            json.put("dia", dia);
-            json.put("rutaLocal", carpeta + ruta_escenario);
+            json.put("estado", escenario_encontrado);
+                
+            if (escenario_encontrado) {
+                json.put("carpetas", cont_directorios);
+                json.put("archivos", cont_archivos);
+                json.put("escenario", escenario);
+                json.put("dia", dia);
+                json.put("rutaLocal", carpeta + ruta_escenario);
+            }
+            
             System.out.println(json.toString());
         } catch (IOException ex) {
             System.out.println("ERROR -> Falla durante la descompresión del archivo tar.gz " + ex);
