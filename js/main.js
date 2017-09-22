@@ -200,7 +200,6 @@ ipcMain.on('paginas:leer', (event) => {
     console.log(ruta);
     paginas.push({
         id: '1',
-        // data: fs.readFileSync(`file://${__dirname}/../html/CargaEscenario.html`, 'utf8')
         data: fs.readFileSync(ruta, 'utf8')
     });
 

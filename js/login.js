@@ -65,7 +65,7 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
 
     // Icono ok
     banner.ok();
-    banner.setMensaje('OK');
+    banner.setMensaje('Carga completa');
 
     // Oculta banner
     setTimeout(() => {
@@ -75,21 +75,24 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
 
 // habilitar banner
 function solicitarSistemas() {
-    banner.mostrar();
-    banner.ocultarBoton();
-    banner.setMensaje(' Inicializando ');
-    banner.cargando();
+    if (primeraVez) {
+        banner.mostrar();
+        banner.ocultarBoton();
+        banner.setMensaje(' Inicializando ');
+        banner.cargando();
 
-    // Solicitud de sistemas
-    ipcRenderer.send('sistemas:solicitar');
+        // Solicitud de sistemas
+        ipcRenderer.send('sistemas:solicitar');
 
-    intervaloCarga = setInterval(() => {
-        if (banner.getMensaje().length >= 30) {
-            banner.setMensaje(' Inicializando ');
-        }
+        intervaloCarga = setInterval(() => {
+            if (banner.getMensaje().length >= 30) {
+                banner.setMensaje(' Inicializando ');
+            }
 
-        banner.setMensaje('.' + banner.getMensaje() + '.');
-    }, 500);
+            banner.setMensaje('.' + banner.getMensaje() + '.');
+        }, 500);
+        primeraVez = false;
+    }
 }
 
 // para validacion de entrada
@@ -184,6 +187,9 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
             // Elementos con informacion de sesion
             document.querySelector('#label_usuario_ce').innerHTML = SESION.nombre;
             document.querySelector('#label_sistema_ce').innerHTML = SESION.sistema;
+
+            // Actualiza vista archivos
+            visor_archivos.actualizar();
 
             setTimeout(() => {
                 banner.ocultar();

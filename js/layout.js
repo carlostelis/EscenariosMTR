@@ -13,7 +13,7 @@ ipcRenderer.on('sesion:cerrar', (event) => {
     console.log('sesion cerrar');
     body.style.opacity = '0';
 
-    solicitarSistemas();
+    //solicitarSistemas();
 
     setTimeout(() => {
         var divLogin = document.querySelector('#div-layout');

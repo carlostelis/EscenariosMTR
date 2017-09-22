@@ -14,6 +14,7 @@ require('electron-context-menu')({
 });
 
 let paginaActual = 'login';
+let primeraVez = true; // Para carga de sistemas
 let intervaloCarga;
 const body = document.querySelector("body");
 const banner = new Banner(body);

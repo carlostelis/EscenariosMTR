@@ -80,15 +80,10 @@ class VistaArchivos {
 
         // Boton de recarga
         this.recarga.onclick = () => {
-            // // Solicita lista de archivos
-            // this.banner.mostrar();
-            // // this.banner.cargando('darkgray');
-            // this.banner.trabajando();
-            // this.ipcRenderer.send('listaHtml:solicita');
             this.actualizar();
         };
 
-        this.ipcRenderer.send('listaHtml:solicita');
+        //this.ipcRenderer.send('listaHtml:solicita');
 
         this.ipcRenderer.on('listaHtml:recibe', (event, respuesta) => {
             this.html(respuesta).then((code) => {
@@ -168,7 +163,6 @@ class VistaArchivos {
         // metodo click
         nodo_label.onclick = () => {
             // quita seleccion de otros elementos
-            // this.quitarSeleccion();
             // selecciona a si mismo
             if (typeof this.seleccionAnterior !== 'undefined') {
                 this.seleccionAnterior.classList.remove('seleccionado');
@@ -256,24 +250,6 @@ class VistaArchivos {
         }
 
         return nodo_li;
-    }
-
-    quitarSeleccion(elemento) {
-        if (elemento) {
-            if (elemento.hasOwnProperty('seleccionado')) {
-                elemento.classList.remove('seleccionado');
-                elemento.seleccionado = false;
-            }
-
-            // Si tiene hijos los procesa
-            Array.from(elemento.childNodes).forEach((e) => {
-                this.quitarSeleccion(e);
-            });
-        } else {
-            Array.from(this.div_arbol.childNodes).forEach((e) => {
-                this.quitarSeleccion(e)
-            });
-        }
     }
 
     actualizar() {
