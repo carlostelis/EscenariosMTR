@@ -1,0 +1,44 @@
+.label_dato_ce {
+    margin: 0px 0px 0px 10px;
+    font-size:1.2vw;
+}
+
+.info_ce {
+    font-weight:bold;
+}
+
+.dato_ce {
+    text-decoration: underline;
+}
+
+.label_form_dato_ce {
+    font-size:1.2vw;
+    /*height: 2vh;*/
+    padding:0;
+    margin:auto;
+}
+
+.form-label-ce {
+    font-size:3vh;
+    /*height: :2vw;*/
+    /*margin-bottom:2vh;*/
+    text-shadow: 1px 1px 5px darkgrey;
+    text-decoration: underline;
+}
+
+.form-ce {
+    background-color: rgba(255, 245, 230, 0.7);
+    padding: 3vh 2vw;
+    border-radius: 10px;
+    border-style: groove;
+}
+
+.form-fila {
+    height: 7vh;
+    margin-bottom: 1.3vh;
+}
+
+.form-valor-ce {
+    height: 5vh !important;
+    font-size: 1.3vw !important;
+}

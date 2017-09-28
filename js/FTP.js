@@ -2,26 +2,27 @@ var Client = require('ftp');
 
 class FTP {
     constructor (config, base) {
-        this.c = new Client();
         this.config = config;
         this.fs = require('fs');
         this.path = require('path');
-        this.conectado = false;
         this.interval = null;
         this.progresoLista = 0;
         this.progresoArchivo = 0;
+        this.c = null;
     }
 
     conectar() {
         return new Promise((resolve, reject) => {
+            if (this.c !== null) {
+                this.desconectar();
+            }
+            this.c = new Client();
             this.c.connect(this.config);
             this.c.on('ready', () => {
-                this.conectado = true;
                 this.interval = null;
                 console.log('FTP conectado');
 
                 this.c.on('end', () => {
-                    this.conectado = false;
                     console.log('FTP desconectado');
                 });
 
@@ -29,7 +30,6 @@ class FTP {
             });
 
             this.c.on('error', (err) => {
-                //this.conectado = false;
                 console.log('**ERROR**', '(conectar)', `Código: ${err.code}`);
                 console.log('FTP desconectado');
                 reject();
@@ -38,7 +38,11 @@ class FTP {
     }
 
     desconectar() {
+        this.reset();
         this.c.end();
+        this.c = null;
+        this.progresoLista = 0;
+        this.progresoArchivo = 0;
     }
 
     obtenerTamanoArchivoFTP(obj) {
@@ -109,11 +113,6 @@ class FTP {
 
     descargarArchivoFTP(info) {
         return new Promise((resolve, reject) => {
-            if (!this.conectado) {
-                console.log('No hay conexion');
-                reject();
-            }
-
             if (typeof info.rutaRemota === 'undefined') {
                 console.log('No hay ruta remota');
                 reject();

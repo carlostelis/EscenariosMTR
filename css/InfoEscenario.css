@@ -1,0 +1,183 @@
+.div-tabla {
+    margin-top: 1vh;
+}
+
+.tabla-info {
+    font-size: 0.8vw;
+}
+
+.tabla-head {
+    background-color: sienna;
+    color: black;
+}
+
+.tabla-head > tr {
+    background-color: #ffeeba;
+}
+
+.tabla-head > tr > th{
+    font-weight: bold;
+    text-align: center;
+    user-select: none;
+    vertical-align: middle;
+    line-height: 1.5;
+    text-shadow: 2px 2px 2px gray;
+}
+
+.tabla-body > tr > td {
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1.5;
+}
+
+.tabla-body > tr:hover {
+    background-color: honeydew !important;
+}
+
+.tabla-body > tr > td > input {
+    height:3vh !important;
+    border-radius: 10px;
+    width:70%;
+    text-align:center;
+    font-size:0.8vw;
+}
+
+.div-contenedor-mediana {
+    overflow-x:scroll !important;
+}
+
+.tabla-mediana {
+    width: 200% !important;
+    display: inline-table;
+}
+
+.div-contenedor-mediana::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+    background-color: #F5F5F5;
+    border-radius: 5px;
+}
+
+.div-contenedor-mediana::-webkit-scrollbar {
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+.div-contenedor-mediana::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #FFF;
+    background-image: -webkit-linear-gradient(bottom,#215e3e 0%,#347c58 50%,#215e3e 100%);
+}
+
+.div-contenedor-mediana::-webkit-scrollbar-thumb:hover {
+    border-radius: 5px;
+    background-color: #FFF;
+    background-image: -webkit-linear-gradient(bottom,yellowgreen 0%,#347c58 50%,yellowgreen 100%);
+}
+
+.div-contenedor-mediana::-webkit-scrollbar-thumb:active {
+    border-radius: 5px;
+    background-color: #FFF;
+    background-image: -webkit-linear-gradient(bottom,azure 0%,#347c58 50%,azure 100%);
+}
+
+.div-contenedor-gral-vertical {
+    overflow-y: scroll;
+    height: 100%;
+}
+
+.div-contenedor-gral-vertical::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+    background-color: #F5F5F5;
+    border-radius: 5px;
+}
+
+.div-contenedor-gral-vertical::-webkit-scrollbar {
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+.div-contenedor-gral-vertical::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #FFF;
+    background-image: -webkit-linear-gradient(bottom,#215e3e 0%,#347c58 50%,#215e3e 100%);
+}
+
+.div-contenedor-gral-vertical::-webkit-scrollbar-thumb:hover {
+    border-radius: 5px;
+    background-color: #FFF;
+    background-image: -webkit-linear-gradient(bottom,yellowgreen 0%,#347c58 50%,yellowgreen 100%);
+}
+
+.div-contenedor-gral-vertical::-webkit-scrollbar-thumb:active {
+    border-radius: 5px;
+    background-color: #FFF;
+    background-image: -webkit-linear-gradient(bottom,azure 0%,#347c58 50%,azure 100%);
+}
+
+.celda-header-info {
+    cursor: pointer;
+    color: white;
+    text-align: center;
+    font-size: 1vw;
+    font-weight: bold;
+    height: 4vh;
+    line-height: 4vh;
+    background: #347c58;
+    border-radius: 5px;
+    text-align: center;
+    border-style: outset;
+    border-color: rgba(255, 255, 255, 1);
+    user-select: none;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+}
+
+.celda-header-info:hover {
+    text-shadow: 2px 2px 2px rgba(125, 125, 0, 1);
+}
+
+.celda-header-info:active {
+    color: darkgreen;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+}
+
+#menu-info > button > span > i {
+    font-size: 1.3vw;
+    margin-right: 5px;
+    width: 1.5vw;
+}
+
+#menu-info > button > span {
+    font-size: 1vw;
+    font-weight: bold;
+}
+
+#menu-info > button {
+    padding-right: 1vw;
+    padding-left: 1vw;
+}
+
+#menu-info > button.active {
+    background-color: indianred;
+    border-color: indianred;
+    outline-color: indianred;
+}
+
+#menu-info > button:focus {
+    outline: 5px auto indianred;
+}
+
+.colapsable {
+    line-height:3vh;
+    min-height: 3vh;
+    overflow: hidden;
+}
+
+.colapsable.visible {
+    opacity: 1;
+}
+
+.colapsable.invisible {
+    opacity: 0;
+    display:none;
+}

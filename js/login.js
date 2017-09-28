@@ -201,13 +201,13 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
 
                     var divLayout = document.querySelector('#div-layout');
                      divLayout.classList.remove('d-none');
-                }, 1500);
+                }, 1000);
 
                 setTimeout(() => {
                     body.style.opacity = '1';
                     paginaActual = 'layout';
-                }, 1600);
-            }, 1000);
+                }, 1100);
+            }, 500);
 
             return;
         } else {

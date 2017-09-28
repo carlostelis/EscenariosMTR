@@ -203,6 +203,13 @@ ipcMain.on('paginas:leer', (event) => {
         data: fs.readFileSync(ruta, 'utf8')
     });
 
+    ruta = path.join(__dirname, '../html/InfoEscenario.html');
+    console.log(ruta);
+    paginas.push({
+        id: '2',
+        data: fs.readFileSync(ruta, 'utf8')
+    });
+
     win.webContents.send('paginas:envia', paginas);
 });
 
@@ -347,20 +354,30 @@ ipcMain.on('directorio:descarga', (event, data) => {
                                                 console.log('res', res);
                                                 if (res.estado) {
                                                     console.log(res.mensaje);
+                                                    // Marca el escenario como descargado
+                                                    listaArchivos.marcarDescargado(res.rutaLocal);
                                                 } else {
                                                     console.log('Error al descomprimir archivo');
                                                 }
-                                                // Marca el escenario como descargado
-                                                listaArchivos.marcarDescargado(res.rutaLocal);
+                                                // Elimina el archivo comprimido
+                                                try {
+                                                    fs.unlink(obj.rutaLocal, () => {
+                                                        console.log(`Archivo ${obj.rutaLocal} eliminado correctamente`);
+                                                    });
+                                                } catch (err) {
+                                                    console.log('Error borrando archivo', err.message);
+                                                }
+
                                                 // Envia respuesta
                                                 win.webContents.send('directorio:descargado', res);
+                                                ftp.desconectar();
                                             });
                                         } catch (err) {
                                             console.log("cacha descomprime ", err);
                                         }
                                     }, 1000);
                                 }, (err) => {
-                                    console.log('Error: ', err);
+                                    console.log('**Error**: ', err);
                                     clearInterval(interval);
                                     ftp.desconectar();
                                 });

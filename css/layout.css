@@ -40,14 +40,14 @@
     text-shadow: none;
 }
 
-.opcion-menu > div.deshabilitado {
+.opcion-menu.deshabilitado > div {
     color: darkseagreen;
     background: #215e3e;
     text-shadow: none;
     cursor: default;
 }
 
-.opcion-menu > div.deshabilitado:hover {
+.opcion-menu.deshabilitado > div:hover {
     font-weight: normal;
     text-shadow: none;
     box-shadow: none;

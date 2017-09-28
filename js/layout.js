@@ -13,20 +13,18 @@ ipcRenderer.on('sesion:cerrar', (event) => {
     console.log('sesion cerrar');
     body.style.opacity = '0';
 
-    //solicitarSistemas();
-
     setTimeout(() => {
         var divLogin = document.querySelector('#div-layout');
         divLogin.classList.add('d-none');
 
         var divLayout = document.querySelector('#div-login');
         divLayout.classList.remove('d-none');
-    }, 1500);
+    }, 1000);
 
     setTimeout(() => {
         body.style.opacity = '1';
         paginaActual = 'login';
-    }, 1600);
+    }, 1100);
 });
 
 // Lee los datos de las paginas para los paneles
@@ -45,12 +43,14 @@ ipcRenderer.on('paginas:envia', (event, paginas) => {
     }, 100);
 });
 
+// Progreso de descarga de directorio
 ipcRenderer.on('directorio:progreso', (event, res) => {
     banner.mostrarProgreso('darkgreen');
     banner.setMensaje(res.mensaje);
     banner.setProgreso(res.progreso);
 });
 
+// Descarga finalizada (?)
 ipcRenderer.on('directorio:descargado', (event, res) => {
     if (res.estado) {
         if (res.error) {
@@ -66,6 +66,7 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
             visor_archivos.actualizar();
             setTimeout(() => {
                 banner.ocultar();
+                menuInfo.onclick();
             }, 2000);
         }
     } else {
@@ -79,6 +80,7 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
     }
 });
 
+// Inicializa componentes, listas, combos, vistas, etc.
 function cargaComponentes() {
     let div_archivos = document.getElementById('div_visor-archivos');
 
@@ -115,9 +117,15 @@ function cargaComponentes() {
     let sel_hora_ce = document.querySelector('#sel_hora_ce');
     for (var i = 0; i < 24; i++) {
         let nodo_opc = document.createElement('option');
-        let nodo_txt = document.createTextNode(`${i}`);
+        let hora_txt = `${i}`;
+        if (hora_txt.trim().length === 1) {
+            hora_txt = `0${hora_txt}`;
+        }
+
+        let nodo_txt = document.createTextNode(`${hora_txt}:00`);
 
         nodo_opc.appendChild(nodo_txt);
+        nodo_opc.value = i;
         sel_hora_ce.appendChild(nodo_opc);
     }
 
@@ -152,6 +160,7 @@ function cargaComponentes() {
     document.querySelector('.opc-menu').click();
 }
 
+// Inicia la busqueda del escenario, primero obtiene UTC de la fecha solicitada
 function cargarEscenario() {
     // manda a obtener el utc de la fecha seleccionada
     let input_fecha_ce = document.querySelector('#input_fecha_ce');
@@ -165,6 +174,7 @@ function cargarEscenario() {
     ipcRenderer.send('utc:consulta', `${input_fecha_ce.value} ${sel_hora_ce.value}:00`, SESION.sistemaZona);
 }
 
+// Recibe UTC de Java
 ipcRenderer.on('utc:respuesta', (event, json) => {
     console.log('UTC => ', json);
 
@@ -192,14 +202,14 @@ ipcRenderer.on('utc:respuesta', (event, json) => {
         algoritmo: sel_algoritmo_ce.value
     };
 
-    console.log(dia, obj.dia);
     ipcRenderer.send('directorio:descarga', obj);
 
-    banner.setMensaje('Descargando escenario');
+    banner.setMensaje('Buscando escenario');
     banner.setProgreso(0);
     banner.mostrarProgreso();
 });
 
+// Construye el nombre del escenario
 function generarRutaEscenario(utc) {
     let input_fecha_ce = document.querySelector('#input_fecha_ce');
     let fecha = input_fecha_ce.value;
@@ -224,12 +234,42 @@ function generarRutaEscenario(utc) {
 
     console.log('fecha', fecha);
     let [ anio, mes, dia ] = fecha.split('-');
-    // let utc = `${new Date(anio, mes, dia).getTimezoneOffset() / 60}`;
-    // if (utc.length === 1) {
-    //     utc = `0${utc}`;
-    // }
+
     console.log('UTC: ', utc);
     let id = `${anio}${mes}${dia}${hora}${intervalo}_${utc}`;
 
     return {rutaId: `${anio}/${mes}/${dia}/${id}`, dia: dia, mes: mes, anio: anio, id: id};
+}
+
+function colapsar(id) {
+
+    var div = document.getElementById(id);
+    if (div) {
+        if (div.classList.contains('visible')) {
+            div.classList.remove('visible');
+            div.classList.add('invisible');
+            div.style.display = 'none';
+        } else {
+            div.style.display = 'flex';
+            div.classList.remove('invisible');
+            div.classList.add('visible');
+        }
+    }
+}
+
+function mostrarContenedor(id, trigger) {
+    let contenedores = document.getElementsByClassName('contenedor-info');
+    for (let cont of contenedores) {
+        if (cont.id === id) {
+            cont.style.display = 'block';
+        } else {
+            cont.style.display = 'none';
+        }
+    }
+
+    let opciones = document.getElementsByClassName('opcion-menu-info');
+    for (let opc of opciones) {
+        opc.classList.remove('active');
+    }
+    trigger.classList.add('active');
 }

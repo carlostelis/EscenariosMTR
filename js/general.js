@@ -25,6 +25,12 @@ const SESION = {
 	sistema: ''
 }
 
+let menuCarga;
+let menuInfo;
+let menuModifica;
+let menuCompara;
+let menuAdmin;
+
 // Al cargar la pagina es inicio de sesion, se consultan
 // sistemas disponibles y cargan documentos en el area de trabajo
 body.onload = () => {
@@ -32,57 +38,21 @@ body.onload = () => {
 
     solicitarSistemas();
 
-    let menus = document.getElementsByClassName('opc-menu');
-
-    Array.from(menus).forEach((menu) => {
-        menu.onclick = () => {
-            if (menu.classList.contains('deshabilitado')) {
-                console.log('nada');
-                return;
-            }
-
-            // Habilita todos
-            Array.from(menus).forEach((menu) => {
-                menu.classList.remove('deshabilitado');
-            });
-
-            let vistas = document.getElementsByClassName('opc-vista');
-            //console.log(vistas);
-            for (let vista of vistas) {
-                if (vista.dataset.opc === menu.dataset.opc) {
-                    // Aca está opaco aun
-                    setTimeout(() => {
-                        vista.style.display = 'initial';
-                        setTimeout(() => {
-                            vista.classList.add('visible');
-                        }, 310);
-                    }, 300);
-
-                    // deshabilita el correcto
-                    menu.classList.add('deshabilitado');
-                } else {
-                    //vista.style.display = 'none';
-                    vista.classList.remove('visible');
-                    setTimeout(() => {
-                        vista.style.display = 'none';
-                    }, 300);
-                }
-            }
-
-			// Define evento de teclado para campos de login
-			document.querySelector('#input_nombre_IS').addEventListener('keydown', (evt) => {
-				if (evt.key === 'Enter') {
-					solicitarAutenticacion();
-				}
-			});
-
-			document.querySelector('#input_contrasena_IS').addEventListener('keydown', (evt) => {
-				if (evt.key === 'Enter') {
-					solicitarAutenticacion();
-				}
-			});
-        };
-    });
+	menuCarga = document.getElementById('menu-esc-carga');
+	menuCarga.onclick = fn_menuCarga;
+	menuCarga.deshabilitado = false;
+	menuInfo = document.getElementById('menu-esc-info');
+	menuInfo.onclick = fn_menuInfo;
+	menuInfo.deshabilitado = false;
+	menuModifica = document.getElementById('menu-esc-modifica');
+	menuModifica.onclick = fn_menuModifica;
+	menuModifica.deshabilitado = false;
+	menuCompara = document.getElementById('menu-esc-compara');
+	menuCompara.onclick = fn_menuCompara;
+	menuCompara.deshabilitado = false;
+	menuAdmin = document.getElementById('menu-esc-admin');
+	menuAdmin.onclick = fn_menuAdmin;
+	menuAdmin.deshabilitado = false;
 
     ipcRenderer.send('paginas:leer');
 };
@@ -90,3 +60,81 @@ body.onload = () => {
 window.onbeforeunload = function(e) {
     body.style.opacity = '0';
 };
+
+function fn_menuCarga() {
+	if (menuCarga.deshabilitado) {
+		return;
+	}
+	// oculta las vistas
+	let vista = document.getElementById('vista-esc-carga');
+	mostrarVista(vista, menuCarga);
+}
+
+function fn_menuInfo() {
+	if (menuInfo.deshabilitado) {
+		return;
+	}
+	// oculta las vistas
+	let vista = document.getElementById('vista-esc-info');
+	mostrarVista(vista, menuInfo);
+}
+
+function fn_menuModifica() {
+	if (menuModifica.deshabilitado) {
+		return;
+	}
+	// oculta las vistas
+	let vista = document.getElementById('vista-esc-modifica');
+	mostrarVista(vista, menuModifica);
+}
+
+function fn_menuCompara() {
+	if (menuCompara.deshabilitado) {
+		return;
+	}
+	// oculta las vistas
+	let vista = document.getElementById('vista-esc-compara');
+	mostrarVista(vista, menuCompara);
+}
+
+function fn_menuAdmin() {
+	if (menuAdmin.deshabilitado) {
+		return;
+	}
+	// oculta las vistas
+	let vista = document.getElementById('vista-esc-admin');
+	mostrarVista(vista, menuAdmin);
+}
+
+function mostrarVista(vistaMostrar, menu) {
+	let vistas = document.getElementsByClassName('opc-vista');
+	let menus = document.getElementsByClassName('opcion-menu');
+
+	for (let menuItem of menus) {
+		menuItem.classList.remove('deshabilitado');
+		menuItem.deshabilitado = false;
+	}
+
+	for (let vista of vistas) {
+		if (vista === vistaMostrar) {
+			// Aca está opaco aun
+			setTimeout(() => {
+				vista.style.display = 'initial';
+				setTimeout(() => {
+					vista.classList.add('visible');
+				}, 310);
+			}, 300);
+
+			// deshabilita el boton
+			console.log('deshabilita', menu);
+			menu.classList.add('deshabilitado');
+			menu.deshabilitado = true;
+		} else {
+			//vista.style.display = 'none';
+			vista.classList.remove('visible');
+			setTimeout(() => {
+				vista.style.display = 'none';
+			}, 300);
+		}
+	}
+}

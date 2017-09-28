@@ -56,7 +56,7 @@ class Comandos {
         });
     }
 
-    descomprimir(archivoTar, dia, id_escenario, carpeta) {
+    descomprimir(archivoTar, dia, id_escenario, carpeta, eliminar) {
         let that = this;
 
         return new Promise((resolve, reject) => {
