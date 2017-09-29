@@ -26,11 +26,17 @@
                         <button type="button" class="list-group-item list-group-item-action opcion-menu-info" onclick="mostrarContenedor('cont-hidros-info', this);">
                             <span><i class="fa fa-shower"></i>Hidros</span>
                         </button>
+                        <button type="button" class="list-group-item list-group-item-action opcion-menu-info" onclick="mostrarContenedor('cont-renovables-info', this);">
+                            <span><i class="fa fa-recycle"></i>Renovables</span>
+                        </button>
+                        <button type="button" class="list-group-item list-group-item-action opcion-menu-info" onclick="mostrarContenedor('cont-no-programables-info', this);">
+                            <span><i class="fa fa-bell-slash"></i>No Programables</span>
+                        </button>
                     </div>
                 </div>
 
                 <!-- CONTENEDOR INFORMACION GENERAL -->
-                <div id="cont-info-general-info" class="col-10 contenedor-info" style="height:100%;">
+                <div id="cont-info-general-info" class="col-10 contenedor-info" style="display:block;">
                     <div class="container-fluid div-contenedor-gral-vertical">
 
                         <!-- PRIMER TABLA -->
@@ -383,7 +389,7 @@
                 <!-- FIN DE CONTENEDOR INFORMACION GENERAL -->
 
                 <!-- CONTENEDOR RED Y ENLACES -->
-                <div id="cont-red-enlaces-info" class="col-10 contenedor-info" style="height:100%; display:none">
+                <div id="cont-red-enlaces-info" class="col-10 contenedor-info">
                     <div class="container-fluid div-contenedor-gral-vertical">
 
                         <!-- DATOS DE NODOS -->
@@ -1416,7 +1422,7 @@
                 <!-- FIN DE CONTENEDOR RED Y ENLACES -->
 
                 <!-- CONTENEDOR DEMANDA -->
-                <div id="cont-demanda-info" class="col-10 contenedor-info" style="height:100%; display:none;">
+                <div id="cont-demanda-info" class="col-10 contenedor-info">
                     <div class="container-fluid div-contenedor-gral-vertical">
 
                         <!-- FACTORES DE DISTRIBUCION DE GENERACION POR NODO -->
@@ -1929,7 +1935,7 @@
                 <!-- FIN DE CONTENEDOR DEMANDA -->
 
                 <!-- CONTENEDOR RANGO CONTINUO -->
-                <div id="cont-rango-continuo-info" class="col-10 contenedor-info" style="height:100%; display:none;">
+                <div id="cont-rango-continuo-info" class="col-10 contenedor-info">
                     <div class="container-fluid div-contenedor-gral-vertical">
 
                         <!-- DATOS DE UNIDADES -->
@@ -5812,7 +5818,7 @@
                 <!-- FIN DE CONTENEDOR RANGO CONTINUO -->
 
                 <!-- CONTENEDOR RANGO DISCONTINUO -->
-                <div id="cont-rango-discontinuo-info" class="col-10 contenedor-info" style="height:100%; display:none;">
+                <div id="cont-rango-discontinuo-info" class="col-10 contenedor-info">
                     <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
 
                         <!-- DATOS DE UNIDADES PLANTA DE CICLO COMBINADO -->
@@ -7033,34 +7039,1866 @@
                 <!-- FIN DE CONTENEDOR RANGO DISCONTINUO -->
 
                 <!-- CONTENEDOR HIDROS -->
-                <div id="cont-hidros-info" class="col-10 contenedor-info" style="height:100%; display:none;">
-                    <div class="container-fluid" style="overflow-y: scroll; height: 100%;">
+                <div id="cont-hidros-info" class="col-10 contenedor-info">
+                    <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
 
-                        <!-- COSTO DE TRANSICION  -->
+                        <!-- DATOS DE EMBALSES  -->
                         <div class="row justify-content-center celda-header-info" style="text-align:center;">
-                            <div class="col"  onclick="colapsar('info_costo_transicion_rd');">Costo de Transición<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                            <div class="col"  onclick="colapsar('info_datos_embalses_hi');">Datos de Embalses<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
-                        <div class="row colapsable div-tabla invisible" id="info_costo_transicion_rd">
+                        <div class="row colapsable div-tabla invisible" id="info_datos_embalses_hi">
                             <div class="col-12 table-responsive">
                                 <table class="table table-sm table-condensed table-bordered tabla-info">
                                     <thead class="tabla-head">
                                         <tr>
-                                            <th>Transición modo 1 a modo 1</th>
-                                            <th>Transición modo 1 a modo 2</th>
-                                            <th>Transición modo 1 a modo 3</th>
-                                            <th>Transición modo 1 a modo 4</th>
-                                            <th>Transición modo 1 a modo 5</th>
-                                            <th>Transición modo 1 a modo 6</th>
-                                            <th>Transición modo 1 a modo 7</th>
-                                            <th>Transición modo 1 a modo 8</th>
-                                            <th>Transición modo 1 a modo 9</th>
-                                            <th>Transición modo 1 a modo 10</th>
+                                            <th>Nombre</th>
                                         </tr>
                                     </thead>
                                     <tbody class="tabla-body">
                                         <tr>
-                                            <td><input type="text" disabled value="---"/></td>
-                                            <td><input type="text" disabled value="---"/></td>
+                                            <td><input type="text" disabled value="HTS"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="EFU"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="NVL"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="MZT"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="TMU"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="CRL"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="INF"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="VIL"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="ANG"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="MMT"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="MPS"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="PEA"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="LYE"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="CJN"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="AGM"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="ZMN"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- LIMITACION DE ENERGIA EN EMBALSES  -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_limitacion_energia_embalses_hi');">Limitación de Energía en Embalses<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_limitacion_energia_embalses_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Límite mínimo</th>
+                                            <th>Límite máximo</th>
+                                            <th>Restricción activa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="0.492"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="0.492"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- DATOS DE PLANTAS HIDROELECTRICAS  -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_datos_plantas_hidro_hi');">Datos de Plantas Hidroeléctricas<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_datos_plantas_hidro_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Número de la vía en agua</th>
+                                            <th>Número del embalse</th>
+                                            <th>Número de unidades</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" disabled value="04HTS"/></td>
+                                            <td><input type="text" disabled value=""/></td>
+                                            <td><input type="text" disabled value="2"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="04HTS"/></td>
+                                            <td><input type="text" disabled value=""/></td>
+                                            <td><input type="text" disabled value="2"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="04HTS"/></td>
+                                            <td><input type="text" disabled value=""/></td>
+                                            <td><input type="text" disabled value="2"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="04HTS"/></td>
+                                            <td><input type="text" disabled value=""/></td>
+                                            <td><input type="text" disabled value="2"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="04HTS"/></td>
+                                            <td><input type="text" disabled value=""/></td>
+                                            <td><input type="text" disabled value="2"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="04HTS"/></td>
+                                            <td><input type="text" disabled value=""/></td>
+                                            <td><input type="text" disabled value="2"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="04HTS"/></td>
+                                            <td><input type="text" disabled value=""/></td>
+                                            <td><input type="text" disabled value="2"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="04HTS"/></td>
+                                            <td><input type="text" disabled value=""/></td>
+                                            <td><input type="text" disabled value="2"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="04HTS"/></td>
+                                            <td><input type="text" disabled value=""/></td>
+                                            <td><input type="text" disabled value="2"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="04HTS"/></td>
+                                            <td><input type="text" disabled value=""/></td>
+                                            <td><input type="text" disabled value="2"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="04HTS"/></td>
+                                            <td><input type="text" disabled value=""/></td>
+                                            <td><input type="text" disabled value="2"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="04HTS"/></td>
+                                            <td><input type="text" disabled value=""/></td>
+                                            <td><input type="text" disabled value="2"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="04HTS"/></td>
+                                            <td><input type="text" disabled value=""/></td>
+                                            <td><input type="text" disabled value="2"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="04HTS"/></td>
+                                            <td><input type="text" disabled value=""/></td>
+                                            <td><input type="text" disabled value="2"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="04HTS"/></td>
+                                            <td><input type="text" disabled value=""/></td>
+                                            <td><input type="text" disabled value="2"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- DATOS DE UNIDADES HIDROELECTRICAS  -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_datos_unidades_hidro_hi');">Datos de Unidades Hidroeléctricas<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_datos_unidades_hidro_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Modelo</th>
+                                            <th>Propiedad</th>
+                                            <th>Dueño</th>
+                                            <th>Número de nodo asociado</th>
+                                            <th>Máximo número de paros en DO</th>
+                                            <th>???</th>
+                                            <th>???</th>
+                                            <th>???</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="04HTS-U1"/></td>
+                                            <td><input type="text" value="HI"/></td>
+                                            <td><input type="text" value=""/></td>
+                                            <td><input type="text" value=""/></td>
+                                            <td><input type="text" value="3488"/></td>
+                                            <td><input type="text" value="4"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="04HTS-U1"/></td>
+                                            <td><input type="text" value="HI"/></td>
+                                            <td><input type="text" value=""/></td>
+                                            <td><input type="text" value=""/></td>
+                                            <td><input type="text" value="3488"/></td>
+                                            <td><input type="text" value="4"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- DATOS DE UNIDADES HIDROELECTRICAS 2 ?????? -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_datos_unidades_hidro2_hi');">Datos de Unidades Hidroeléctricas 2<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_datos_unidades_hidro2_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Estado</th>
+                                            <th>Número de periodos</th>
+                                            <th>Generación</th>
+                                            <th>Máximo número de paros en DO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="15"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="15"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- COSTO DE OPORTUNIDAD -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_costo_oportunidad_hi');">Costo de Oportunidad<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_costo_oportunidad_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- LIMITE INFERIOR DE GENERACION -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_limite_inferior_generacion_hi');">Límite Inferior de Generación<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_limite_inferior_generacion_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- LIMITE SUPERIOR DE GENERACION -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_limite_superior_generacion_hi');">Límite Superior de Generación<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_limite_superior_generacion_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                            <td><input type="text" value="1514.86"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- DISPONIBILIDAD -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_disponibilidad_hi');">Disponibilidad (1 - Disponible, 0 - No Disponible)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_disponibilidad_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- ASIGNABILIDAD -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_asignabilidad_hi');">Asignabilidad (1 - Asignable, 0 - No Asignable)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_asignabilidad_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- COORDINABILIDAD -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_coordinabilidad_hi');">Coordinabilidad (1 - Coordinable, 0 - No Coordinable)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_coordinabilidad_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- NODOS POR PERIODO DE UNIDADES -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_nodos_periodo_unidades_hi');">Nodos por Periodo de Unidades<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_nodos_periodo_unidades_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" disabled value="1123"/></td>
+                                            <td><input type="text" disabled value="1123"/></td>
+                                            <td><input type="text" disabled value="1123"/></td>
+                                            <td><input type="text" disabled value="1123"/></td>
+                                            <td><input type="text" disabled value="1123"/></td>
+                                            <td><input type="text" disabled value="1123"/></td>
+                                            <td><input type="text" disabled value="1123"/></td>
+                                            <td><input type="text" disabled value="1123"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="1234"/></td>
+                                            <td><input type="text" disabled value="1234"/></td>
+                                            <td><input type="text" disabled value="1234"/></td>
+                                            <td><input type="text" disabled value="1234"/></td>
+                                            <td><input type="text" disabled value="1234"/></td>
+                                            <td><input type="text" disabled value="1234"/></td>
+                                            <td><input type="text" disabled value="1234"/></td>
+                                            <td><input type="text" disabled value="1234"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- BANDERA DE COMPENSADORES SINCRONOS -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_bandera_compensadores_sinc_hi');">Bandera de Compensadores Síncronos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_bandera_compensadores_sinc_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- RAMPAS DE UNIDADES -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_rampas_unidades_hi');">Rampas de Unidades<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_rampas_unidades_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Rampa de emergencia</th>
+                                            <th>Rampa de regulación</th>
+                                            <th>Límite mínimo de la primera zona prohibida</th>
+                                            <th>Límite máximo de la primera zona prohibida</th>
+                                            <th>Límite mínimo de la segunda zona prohibida</th>
+                                            <th>Límite máximo de la segunda zona prohibida</th>
+                                            <th>Límite mínimo de la tercera zona prohibida</th>
+                                            <th>Límite máximo de la tercera zona prohibida</th>
+                                            <th>Límite mínimo de la cuarta zona prohibida</th>
+                                            <th>Límite máximo de la cuarta zona prohibida</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" disabled value="15"/></td>
+                                            <td><input type="text" disabled value="15"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="15"/></td>
+                                            <td><input type="text" disabled value="15"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- UNIDADES POR ZONA DE RESERVA -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_unidades_zona_reserva_hi');">Unidades por Zona de Reserva (1 - Pertenece, 0 - No Pertenece)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_unidades_zona_reserva_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Zona 1</th>
+                                            <th>Zona 2</th>
+                                            <th>Zona 3</th>
+                                            <th>Zona 4</th>
+                                            <th>Zona 5</th>
+                                            <th>Zona 6</th>
+                                            <th>Zona 7</th>
+                                            <th>Zona 8</th>
+                                            <th>Zona 9</th>
+                                            <th>Zona 10</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- POTENCIA DE RESERVA RODANTE 10 MIN -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_potencia_reserva_rodante_10min_hi');">Potencia de Reserva Rodante de 10 Minutos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_rodante_10min_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- PRECIO DE RESERVA RODANTE 10 MIN -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_precio_reserva_rodante_10min_hi');">Precio de Reserva Rodante de 10 Minutos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_precio_reserva_rodante_10min_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- POTENCIA DE RESERVA NO RODANTE 10 MIN -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_potencia_reserva_norodante_10min_hi');">Potencia de Reserva No Rodante de 10 Minutos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_norodante_10min_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- PRECIO DE RESERVA NO RODANTE 10 MIN -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_precio_reserva_norodante_10min_hi');">Precio de Reserva No Rodante de 10 Minutos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_precio_reserva_norodante_10min_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- POTENCIA DE RESERVA RODANTE SUPLEMENTARIA -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_potencia_reserva_rodante_suplementaria_hi');">Potencia de Reserva Rodante Suplementaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_rodante_suplementaria_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- PRECIO DE RESERVA RODANTE SUPLEMENTARIA -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_precio_reserva_rodante_suplementaria_hi');">Precio de Reserva Rodante Suplementaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_precio_reserva_rodante_suplementaria_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- POTENCIA DE RESERVA NO RODANTE SUPLEMENTARIA -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_potencia_reserva_norodante_suplementaria_hi');">Potencia de Reserva No Rodante Suplementaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_norodante_suplementaria_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- PRECIO DE RESERVA NO RODANTE SUPLEMENTARIA -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_precio_reserva_norodante_suplementaria_hi');">Precio de Reserva No Rodante Suplementaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_precio_reserva_norodante_suplementaria_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- POTENCIA DE RESERVA REGULACION SECUNDARIA -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_potencia_reserva_regulacion_secundaria_hi');">Potencia de Reserva de Regulación Secundaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_regulacion_secundaria_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                            <td><input type="text" value="64"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- PRECIO DE RESERVA REGULACION SECUNDARIA -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_precio_reserva_regulacion_secundaria_hi');">Precio de Reserva de Regulación Secundaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_precio_reserva_regulacion_secundaria_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                            <td><input type="text" value="6412"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                            <td><input type="text" value="6434"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <!-- FIN DE CONTENEDOR HIDROS -->
+
+                <!-- CONTENEDOR RENOVABLES -->
+                <div id="cont-renovables-info" class="col-10 contenedor-info">
+                    <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
+
+                        <!-- DATOS DE UNIDADES -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_datos_unidades_re');">Datos de Unidades<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_datos_unidades_re">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Tipo de unidad</th>
+                                            <th>Propiedad</th>
+                                            <th>Dueño</th>
+                                            <th>Número de nodo asociado</th>
+                                            <th>???</th>
+                                            <th>???</th>
+                                            <th>???</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" disabled value="01IUN-AUT"/></td>
+                                            <td><input type="text" disabled value="FV"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="01IUN-AUT"/></td>
+                                            <td><input type="text" disabled value="FV"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- POTENCIA DE VENTA -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_potencia_venta_re');">Potencia de Venta<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_potencia_venta_re">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="5123.9"/></td>
+                                            <td><input type="text" value="8.16"/></td>
+                                            <td><input type="text" value="8034.1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="11.95"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="5.17"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="5123.9"/></td>
+                                            <td><input type="text" value="8.16"/></td>
+                                            <td><input type="text" value="8034.1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="11.95"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="5.17"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- PRECIO DE VENTA -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_precio_venta_re');">Precio de Venta<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_precio_venta_re">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="5123.9"/></td>
+                                            <td><input type="text" value="8.16"/></td>
+                                            <td><input type="text" value="8034.1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="11.95"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="5.17"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="5123.9"/></td>
+                                            <td><input type="text" value="8.16"/></td>
+                                            <td><input type="text" value="8034.1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="11.95"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="5.17"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- LIMITE INFERIOR DE GENERACION -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_limite_inf_generacion_re');">Límite Inferior de Generación<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_limite_inf_generacion_re">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="5123.9"/></td>
+                                            <td><input type="text" value="8.16"/></td>
+                                            <td><input type="text" value="8034.1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="11.95"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="5.17"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="5123.9"/></td>
+                                            <td><input type="text" value="8.16"/></td>
+                                            <td><input type="text" value="8034.1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="11.95"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="5.17"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- LIMITE SUPERIOR DE GENERACION -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_limite_sup_generacion_re');">Límite Superior de Generación<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_limite_sup_generacion_re">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="5123.9"/></td>
+                                            <td><input type="text" value="8.16"/></td>
+                                            <td><input type="text" value="8034.1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="11.95"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="5.17"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="5123.9"/></td>
+                                            <td><input type="text" value="8.16"/></td>
+                                            <td><input type="text" value="8034.1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="11.95"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="5.17"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- ASIGNABILIDAD -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_asignabilidad_re');">Asignabilidad (1 - Asignable, 0 - No Asignable)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_asignabilidad_re">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- NODOS POR PERIODOS DE UNIDADES -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_nodos_periodos_unidades_hi');">Nodos por Periodos de Unidades<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_nodos_periodos_unidades_hi">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- DISPONIBILIDAD -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_disponibilidad_re');">Disponibilidad (1 - Disponible, 0 - No Disponible)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_disponibilidad_re">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                            <td><input type="text" value="1"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+                <!-- FIN DE CONTENEDOR RENOVABLES -->
+
+                <!-- CONTENEDOR NO PROGRAMABLES -->
+                <div id="cont-no-programables-info" class="col-10 contenedor-info">
+                    <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
+
+                        <!-- DATOS DE UNIDADES -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_datos_unidades_np');">Datos de Unidades<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_datos_unidades_np">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Tipo de unidad</th>
+                                            <th>Propiedad</th>
+                                            <th>Dueño</th>
+                                            <th>Número de nodo asociado</th>
+                                            <th>Bandera de nodo distribuido</th>
+                                            <th>Índice de los factores de distribución de generación</th>
+                                            <th>Número de componente</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" disabled value="01IUN-AUT"/></td>
+                                            <td><input type="text" disabled value="FV"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="01IUN-AUT"/></td>
+                                            <td><input type="text" disabled value="FV"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                            <td><input type="text" disabled value="1"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- POTENCIA -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_potencia_np');">Potencia de Venta<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_potencia_np">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" value="5123.9"/></td>
+                                            <td><input type="text" value="8.16"/></td>
+                                            <td><input type="text" value="8034.1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="11.95"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="5.17"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="5123.9"/></td>
+                                            <td><input type="text" value="8.16"/></td>
+                                            <td><input type="text" value="8034.1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="11.95"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="5.17"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="5123.9"/></td>
+                                            <td><input type="text" value="8.16"/></td>
+                                            <td><input type="text" value="8034.1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="11.95"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="5.17"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="5123.9"/></td>
+                                            <td><input type="text" value="8.16"/></td>
+                                            <td><input type="text" value="8034.1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="11.95"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="5.17"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="5123.9"/></td>
+                                            <td><input type="text" value="8.16"/></td>
+                                            <td><input type="text" value="8034.1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="11.95"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="5.17"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="5123.9"/></td>
+                                            <td><input type="text" value="8.16"/></td>
+                                            <td><input type="text" value="8034.1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="11.95"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="5.17"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="5123.9"/></td>
+                                            <td><input type="text" value="8.16"/></td>
+                                            <td><input type="text" value="8034.1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="11.95"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="5.17"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" value="5123.9"/></td>
+                                            <td><input type="text" value="8.16"/></td>
+                                            <td><input type="text" value="8034.1"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="11.95"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                            <td><input type="text" value="5.17"/></td>
+                                            <td><input type="text" value="0"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- NODOS POR PERIODO -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_nodos_periodo_np');">Nodos por Periodo<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_nodos_periodo_np">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
+                                            <td><input type="text" disabled value="12"/></td>
+                                            <td><input type="text" disabled value="234"/></td>
+                                            <td><input type="text" disabled value="345"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="1234"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="67"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="12"/></td>
+                                            <td><input type="text" disabled value="234"/></td>
+                                            <td><input type="text" disabled value="345"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="1234"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="67"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="12"/></td>
+                                            <td><input type="text" disabled value="234"/></td>
+                                            <td><input type="text" disabled value="345"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="1234"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="67"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="12"/></td>
+                                            <td><input type="text" disabled value="234"/></td>
+                                            <td><input type="text" disabled value="345"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="1234"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="67"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="12"/></td>
+                                            <td><input type="text" disabled value="234"/></td>
+                                            <td><input type="text" disabled value="345"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="1234"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="67"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="12"/></td>
+                                            <td><input type="text" disabled value="234"/></td>
+                                            <td><input type="text" disabled value="345"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="1234"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="67"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="12"/></td>
+                                            <td><input type="text" disabled value="234"/></td>
+                                            <td><input type="text" disabled value="345"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="1234"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="67"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><input type="text" disabled value="12"/></td>
+                                            <td><input type="text" disabled value="234"/></td>
+                                            <td><input type="text" disabled value="345"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                            <td><input type="text" disabled value="1234"/></td>
+                                            <td><input type="text" disabledvalue="0"/></td>
+                                            <td><input type="text" disabled value="67"/></td>
+                                            <td><input type="text" disabled value="0"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- IMPORTACION Y EXPORTACION -->
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;">
+                            <div class="col"  onclick="colapsar('info_imp_exp_nodos_periodo_intercambio_pot_np');">Importación y Exportación: Nodos por Periodo de Intercambio de Potencia<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
+                        </div>
+                        <div class="row colapsable div-tabla invisible" id="info_imp_exp_nodos_periodo_intercambio_pot_np">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-sm table-condensed table-bordered tabla-info">
+                                    <thead class="tabla-head">
+                                        <tr>
+                                            <th>Periodo 1</th>
+                                            <th>Periodo 2</th>
+                                            <th>Periodo 3</th>
+                                            <th>Periodo 4</th>
+                                            <th>Periodo 5</th>
+                                            <th>Periodo 6</th>
+                                            <th>Periodo 7</th>
+                                            <th>Periodo 8</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tabla-body">
+                                        <tr>
                                             <td><input type="text" disabled value="---"/></td>
                                             <td><input type="text" disabled value="---"/></td>
                                             <td><input type="text" disabled value="---"/></td>
@@ -7077,9 +8915,10 @@
 
 
 
+
                     </div>
                 </div>
-                <!-- FIN DE CONTENEDOR HIDROS -->
+                <!-- FIN DE CONTENEDOR NO PROGRAMABLES -->
 
                 <!-- FIN DE CONTENEDORES -->
             </div>

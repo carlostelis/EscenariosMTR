@@ -43,6 +43,12 @@
     font-size:0.8vw;
 }
 
+.contenedor-info {
+    height: 100%;
+    display: none;
+    padding: 1vh 1vw;
+}
+
 .div-contenedor-mediana {
     overflow-x:scroll !important;
 }

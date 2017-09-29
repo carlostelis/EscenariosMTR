@@ -173,8 +173,8 @@ ipcMain.on('usuario:solicitar', (event, usuario) => {
     console.log(`Solicitando usuario ${usuario}`);
 
     // Sin red cenace
-    // win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'Carlos Telis', perfil: 'Super Usuario', contrasena:'asd', estado:true, Mensaje: 'Consulta realizada correctamente'});
-    // return;
+    win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'Carlos Telis', perfil: 'Super Usuario', contrasena:'asd', estado:true, Mensaje: 'Consulta realizada correctamente'});
+    return;
 
     // conexión con la BD
     comandos.obtenerUsuario(usuario).then((json) => {
