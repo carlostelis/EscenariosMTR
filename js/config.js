@@ -20,8 +20,8 @@ module.exports = {
     sistemas: [
         {
             nombre: "BCA",
-            //carpeta: "mtrbcaems"
-            carpeta: "historicomtr",
+            carpeta: "mtrbcaems",
+            //carpeta: "historicomtr",
             zona: "America/Tijuana"
         },
         {
@@ -32,8 +32,8 @@ module.exports = {
         },
         {
             nombre: "SIN",
-            //carpeta: "mtrsinems",
-            carpeta: "historicomtr",
+            carpeta: "mtrsinems",
+            //carpeta: "historicomtr",
             zona: "America/Mexico_City"
         }
     ],

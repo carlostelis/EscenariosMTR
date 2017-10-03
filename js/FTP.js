@@ -38,7 +38,6 @@ class FTP {
     }
 
     desconectar() {
-        this.reset();
         this.c.end();
         this.c = null;
         this.progresoLista = 0;

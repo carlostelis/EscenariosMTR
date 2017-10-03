@@ -10,6 +10,8 @@ const config = require('./config.js');
 const path = require('path');
 const FTP = require('./FTP.js');
 const targz = require('tar.gz');
+const Escenario = require('./Escenario.js');
+const escenario = new Escenario();
 
 const TO_BD = 2000;
 let win;
@@ -173,7 +175,7 @@ ipcMain.on('usuario:solicitar', (event, usuario) => {
     console.log(`Solicitando usuario ${usuario}`);
 
     // Sin red cenace
-    // win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'Carlos Telis', perfil: 'Super Usuario', contrasena:'asd', estado:true, Mensaje: 'Consulta realizada correctamente'});
+    // win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'Carlos Telis', perfil: 'Super Usuario', contrasena:'asdasd', estado:true, Mensaje: 'Consulta realizada correctamente'});
     // return;
 
     // conexión con la BD
@@ -275,6 +277,16 @@ ipcMain.on('directorio:descarga', (event, data) => {
     let rutaLocal = path.join(config.local.escenarios, data.pathLocal);
 
     let listaDir = [];
+
+    let rutaEscenario = path.normalize(dirRemoto.replace(replace, rutaLocal)).trim();
+    let archivoDescargado = path.join(rutaEscenario, '.descargado');
+
+    console.log('Descargado: ', archivoDescargado);
+    if (fs.existsSync(archivoDescargado)) {
+        console.log('Escenario no requiere descarga');
+        win.webContents.send('directorio:descargado', {estado:true, rutaLocal:rutaEscenario});
+        return;
+    }
 
     console.log('Descarga: ', dirRemoto, replace, rutaLocal);
     dirRemoto = dirRemoto.trim();
@@ -406,7 +418,6 @@ ipcMain.on('directorio:descarga', (event, data) => {
                 }, 1000);
 
                 ftp.descargarDirectorioFTP(listaDir).then(() => {
-                    let rutaEscenario = path.normalize(dirRemoto.replace(replace, rutaLocal)).trim();
                     console.log('Archivos descargados correctamente', rutaEscenario);
                     clearInterval(interval);
                     ftp.desconectar();
@@ -430,5 +441,13 @@ ipcMain.on('directorio:descarga', (event, data) => {
     }, () => {
         win.webContents.send('directorio:descargado', {estado: false, error: 'No fue posible conectar con el servidor FTP'});
         console.log('Error conectando');
+    });
+});
+
+ipcMain.on('escenario:leer', (event, ruta_escenario, algoritmo) => {
+    escenario.parseEscenario(ruta_escenario, algoritmo).then((obj) => {
+        win.webContents.send('escenario:leido', obj);
+    }, () => {
+        console.log('Error leyendo los archivos');
     });
 });

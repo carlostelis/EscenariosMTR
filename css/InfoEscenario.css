@@ -38,9 +38,10 @@
 .tabla-body > tr > td > input {
     height:3vh !important;
     border-radius: 10px;
-    width:60%;
+    width:100%;
     text-align:center;
     font-size:0.8vw;
+    background-color: rgba(235, 235, 228, 1);
 }
 
 .contenedor-info {

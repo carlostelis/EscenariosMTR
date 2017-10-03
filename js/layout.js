@@ -65,7 +65,9 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
             console.log('Ruta de escenario:', res.rutaLocal);
             visor_archivos.actualizar();
             setTimeout(() => {
-                banner.ocultar();
+                // banner.ocultar();
+                // Pasa al menu de información
+                ipcRenderer.send('escenario:leer', res.rutaLocal, SESION.algoritmo);
                 menuInfo.onclick();
             }, 2000);
         }
@@ -202,6 +204,8 @@ ipcRenderer.on('utc:respuesta', (event, json) => {
         algoritmo: sel_algoritmo_ce.value
     };
 
+    SESION.algoritmo = sel_algoritmo_ce.value;
+
     ipcRenderer.send('directorio:descarga', obj);
 
     banner.setMensaje('Buscando escenario');
@@ -239,37 +243,4 @@ function generarRutaEscenario(utc) {
     let id = `${anio}${mes}${dia}${hora}${intervalo}_${utc}`;
 
     return {rutaId: `${anio}/${mes}/${dia}/${id}`, dia: dia, mes: mes, anio: anio, id: id};
-}
-
-function colapsar(id) {
-
-    var div = document.getElementById(id);
-    if (div) {
-        if (div.classList.contains('visible')) {
-            div.classList.remove('visible');
-            div.classList.add('invisible');
-            div.style.display = 'none';
-        } else {
-            div.style.display = 'flex';
-            div.classList.remove('invisible');
-            div.classList.add('visible');
-        }
-    }
-}
-
-function mostrarContenedor(id, trigger) {
-    let contenedores = document.getElementsByClassName('contenedor-info');
-    for (let cont of contenedores) {
-        if (cont.id === id) {
-            cont.style.display = 'block';
-        } else {
-            cont.style.display = 'none';
-        }
-    }
-
-    let opciones = document.getElementsByClassName('opcion-menu-info');
-    for (let opc of opciones) {
-        opc.classList.remove('active');
-    }
-    trigger.classList.add('active');
 }
