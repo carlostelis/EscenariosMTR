@@ -65,12 +65,12 @@
                     <div class="container-fluid div-contenedor-gral-vertical">
 
                         <!-- PRIMER TABLA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_general');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_general');" id="col_info_general">
                             <div class="col" >Información General<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_general">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="HORIZODERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="HORIZODERS" contenedor="info_general" colapso="col_info_general">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -84,12 +84,12 @@
                         </div>
 
                         <!-- SUBSISTEMA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info-subsistema');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_subsistema');" id="col_info_subsistema">
                             <div class="col" >Subsistema<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
-                        <div class="row colapsable div-tabla invisible" id="info-subsistema">
+                        <div class="row colapsable div-tabla invisible" id="info_subsistema">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="AUSUBSIS_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="AUSUBSIS_DERS" contenedor="info_subsistema" colapso="col_info_subsistema">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -104,11 +104,11 @@
                         </div>
 
                         <!-- AREAS -->
-                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_areas');">
+                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_areas');" id="col_info_areas">
                             <div class="col">&Aacute;reas<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row div-tabla colapsable invisible" id="info_areas" >
-                            <table class="table table-sm table-striped table-bordered tabla-info" id="AREAS_DERS">
+                            <table class="table table-sm table-striped table-bordered tabla-info" id="AREAS_DERS" contenedor="info_areas" colapso="col_info_areas">
                                 <thead class="tabla-head">
                                     <tr>
                                         <th></th>
@@ -121,11 +121,11 @@
                         </div>
 
                         <!-- ZONAS DE CARGA -->
-                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_zonas_carga');">
+                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_zonas_carga');" id="col_info_zonas_carga">
                             <div class="col">Zonas de Carga<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row div-tabla colapsable invisible" id="info_zonas_carga" >
-                            <table class="table table-sm table-striped table-bordered tabla-info" id="ZONAS_CARGA">
+                            <table class="table table-sm table-striped table-bordered tabla-info" id="ZONAS_CARGA" contendor="info_zonas_carga" colapso="col_info_zonas_carga">
                                 <thead class="tabla-head">
                                     <tr>
                                         <th></th>
@@ -139,11 +139,11 @@
                         </div>
 
                         <!-- ZONAS DE RESERVA -->
-                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_zonas_reserva');">
+                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_zonas_reserva');" id="col_info_zonas_reserva">
                             <div class="col">Zonas de Reserva<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row div-tabla colapsable invisible" id="info_zonas_reserva" >
-                            <table class="table table-sm table-striped table-bordered tabla-info" id="ZONASRES_DERS">
+                            <table class="table table-sm table-striped table-bordered tabla-info" id="ZONASRES_DERS" contenedor="info_zonas_reserva" colapso="col_info_zonas_reserva">
                                 <thead class="tabla-head">
                                     <tr>
                                         <th></th>
@@ -156,12 +156,12 @@
                         </div>
 
                         <!-- PRECIOS TOPE Y PISOS -->
-                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_precios_tope');">
+                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_precios_tope');" id="col_info_precios_tope">
                             <div class="col">Precios tope y pisos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precios_tope" >
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-striped table-condensed table-bordered tabla-info" id="PRETOPEPISO">
+                                <table class="table table-sm table-striped table-condensed table-bordered tabla-info" id="PRETOPEPISO" contenedor="info_precios_tope" colapso="col_info_precios_tope">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -174,11 +174,11 @@
                         </div>
 
                         <!-- REGIONES DE PRECIOS DE ENERGIA -->
-                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_regiones_precio_energia');">
+                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_regiones_precio_energia');" id="col_info_regiones_precio_energia">
                             <div class="col">Regiones de Precios de Energía<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_regiones_precio_energia" >
-                            <table class="table table-sm table-striped table-bordered tabla-info" id="REGIONPRECIOS_DERS">
+                            <table class="table table-sm table-striped table-bordered tabla-info" id="REGIONPRECIOS_DERS" contenedor="info_regiones_precio_energia" colapso="col_info_regiones_precio_energia">
                                 <thead class="tabla-head">
                                     <tr>
                                         <th></th>
@@ -191,10 +191,10 @@
                         </div>
 
                         <!-- MAPËO DE LOS ARCHIVOS RAW Y NODOS PRECIO -->
-                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_mapeo_archvios_raw_nodos_precios');">
+                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_mapeo_archvios_raw_nodos_precios');" id="col_info_mapeo_archvios_raw_nodos_precios">
                             <div class="col">Mapeo de los Archivos RAW y Nodos de Precios<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
-                        <div class="row colapsable div-tabla invisible" id="info_mapeo_archvios_raw_nodos_precios" >
+                        <div class="row colapsable div-tabla invisible" id="info_mapeo_archvios_raw_nodos_precios" contenedor="info_mapeo_archvios_raw_nodos_precios" colapso="col_info_mapeo_archvios_raw_nodos_precios">
                             <table class="table table-sm table-striped table-bordered tabla-info" id="NODOSP">
                                 <thead class="tabla-head">
                                     <tr>
@@ -208,11 +208,11 @@
                         </div>
 
                         <!-- PARAMETROS DE SINTONIZACION -->
-                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_param_sintonizacion');">
+                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_param_sintonizacion');" id="col_info_param_sintonizacion">
                             <div class="col">Par&aacute;metros de sintonizaci&oacute;n<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_param_sintonizacion" >
-                            <table class="table table-sm table-striped table-bordered tabla-info" id="DERSPRMTS">
+                            <table class="table table-sm table-striped table-bordered tabla-info" id="DERSPRMTS" contenedor="info_param_sintonizacion" colapso="col_info_param_sintonizacion">
                                 <thead class="tabla-head">
                                     <tr>
                                         <th></th>
@@ -224,11 +224,11 @@
                         </div>
 
                         <!-- BANDERAS PARA INDICAR PROBLEMAS EN LA SOLUCION -->
-                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_banderas_problemas');">
+                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_banderas_problemas');" id="col_info_banderas_problemas">
                             <div class="col">Banderas para Indicar Problemas en la Solución<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_banderas_problemas" >
-                            <table class="table table-sm table-striped table-bordered tabla-info" id="SEMAFOROSDERS">
+                            <table class="table table-sm table-striped table-bordered tabla-info" id="SEMAFOROSDERS" contenedor="info_banderas_problemas" colapso="col_info_banderas_problemas">
                                 <thead class="tabla-head">
                                     <tr>
                                         <th></th>
@@ -248,12 +248,12 @@
                     <div class="container-fluid div-contenedor-gral-vertical">
 
                         <!-- DATOS DE NODOS -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_nodos');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_nodos');" id="info_datos_nodos">
                             <div class="col">Datos de Nodos <span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla div-contenedor-mediana invisible" id="info_datos_nodos">
                             <div class="table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NODOSDERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NODOSDERS" contenedor="info_datos_nodos" colapso="col_info_datos_nodos">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -278,11 +278,11 @@
                         </div>
 
                         <!-- DATOS DE CARGAS PARTICIPANTES -->
-                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_cargas_participantes');">
+                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_cargas_participantes');" id="info_cargas_participantes">
                             <div class="col">Datos de Cargas Participantes<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_cargas_participantes" >
-                            <table class="table table-sm table-striped table-bordered tabla-info" id="CARGAS_DERS">
+                            <table class="table table-sm table-striped table-bordered tabla-info" id="CARGAS_DERS" contenedor="info_cargas_participantes" colapso="col_info_cargas_participantes">
                                 <thead class="tabla-head">
                                     <tr>
                                         <th></th>
@@ -298,11 +298,11 @@
                         </div>
 
                         <!-- NODOS POR PERIODOS DE CARGAS PARTICIPANTES -->
-                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_nodos_periodos_cargas_participantes');">
+                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_nodos_periodos_cargas_participantes');" id="col_info_nodos_periodos_cargas_participantes">
                             <div class="col">Nodos por Periodos de Cargas Participantes<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_nodos_periodos_cargas_participantes" >
-                            <table class="table table-sm table-striped table-bordered tabla-info" id="NODOSCAR_DERS">
+                            <table class="table table-sm table-striped table-bordered tabla-info" id="NODOSCAR_DERS" contenedor="info_nodos_periodos_cargas_participantes" colapso="col_info_nodos_periodos_cargas_participantes">
                                 <thead class="tabla-head">
                                     <tr>
                                         <th></th>
@@ -320,11 +320,11 @@
                         </div>
 
                         <!-- NODOS CON CAMBIO DE DISPONIBILIDAD -->
-                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_nodos_cambio_disponibilidad');">
+                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_nodos_cambio_disponibilidad');" id="col_info_nodos_cambio_disponibilidad">
                             <div class="col">Nodos con Cambio de Disponibilidad<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_nodos_cambio_disponibilidad" >
-                            <table class="table table-sm table-striped table-bordered tabla-info" id="NODOSDERSD">
+                            <table class="table table-sm table-striped table-bordered tabla-info" id="NODOSDERSD" contenedor="info_nodos_cambio_disponibilidad" colapso="col_info_nodos_cambio_disponibilidad">
                                 <thead class="tabla-head">
                                     <tr>
                                         <th></th>
@@ -339,11 +339,11 @@
 
 
                         <!-- DATOS DE RAMAS -->
-                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_datos_ramas');">
+                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_datos_ramas');" id="col_info_datos_ramas">
                             <div class="col">Datos de Ramas<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_datos_ramas" >
-                            <table class="table table-sm table-striped table-bordered tabla-info" id="RAMAS_DERS">
+                            <table class="table table-sm table-striped table-bordered tabla-info" id="RAMAS_DERS" contenedor="info_datos_ramas" colapso="col_info_datos_ramas">
                                 <thead class="tabla-head">
                                     <tr>
                                         <th></th>
@@ -363,11 +363,11 @@
                         </div>
 
                         <!-- DATOS DE DISPONIBILIDAD DE RAMAS -->
-                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_datos_disponibilidad_ramas');">
+                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_datos_disponibilidad_ramas');" id="info_datos_disponibilidad_ramas">
                             <div class="col">Datos de Disponibilidad de Ramas<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_datos_disponibilidad_ramas" >
-                            <table class="table table-sm table-striped table-bordered tabla-info" id="RAMASD_DERS">
+                            <table class="table table-sm table-striped table-bordered tabla-info" id="RAMASD_DERS" contenedor="info_datos_disponibilidad_ramas" colapso="col_info_datos_disponibilidad_ramas">
                                 <thead class="tabla-head">
                                     <tr>
                                         <th></th>
@@ -381,11 +381,11 @@
                         </div>
 
                         <!-- DATOS DE GRUPOS DE RAMAS RESTRINGIDAS -->
-                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_datos_grupos_ramas_restringidas');">
+                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_datos_grupos_ramas_restringidas');" id="info_datos_grupos_ramas_restringidas">
                             <div class="col">Datos de Grupos de Ramas Restringidas<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_datos_grupos_ramas_restringidas" >
-                            <table class="table table-sm table-striped table-bordered tabla-info" id="GRUPOSRAMAS_DERS">
+                            <table class="table table-sm table-striped table-bordered tabla-info" id="GRUPOSRAMAS_DERS" contenedor="info_datos_grupos_ramas_restringidas" colapso="col_info_datos_grupos_ramas_restringidas">
                                 <thead class="tabla-head">
                                     <tr>
                                         <th></th>
@@ -398,11 +398,11 @@
                         </div>
 
                         <!-- DATOS DE LIMITES de GRUPOS DE RAMAS RESTRINGIDAS POR INTERVALO -->
-                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_datos_limites_grupos_ramas_restringidas_intervalo');">
+                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_datos_limites_grupos_ramas_restringidas_intervalo');" id="col_info_datos_limites_grupos_ramas_restringidas_intervalo">
                             <div class="col">Datos de Límites de Grupos de Ramas Restringidas por Intervalo<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_datos_limites_grupos_ramas_restringidas_intervalo" >
-                            <table class="table table-sm table-striped table-bordered tabla-info" id="GRUPOSRAMASLIM_DERS">
+                            <table class="table table-sm table-striped table-bordered tabla-info" id="GRUPOSRAMASLIM_DERS" contenedor="info_datos_limites_grupos_ramas_restringidas_intervalo" colapso="col_info_datos_limites_grupos_ramas_restringidas_intervalo">
                                 <thead class="tabla-head">
                                     <tr>
                                         <th></th>
@@ -428,11 +428,11 @@
                         </div>
 
                         <!-- DATOS ELEMENTOS DE GRUPOS DE RAMAS RESTRINGIDAS -->
-                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_datos_elementos_grupos_ramas_restringidas');">
+                        <div class="row justify-content-center celda-header-info" onclick="colapsar('info_datos_elementos_grupos_ramas_restringidas');" id="col_info_datos_elementos_grupos_ramas_restringidas">
                             <div class="col">Datos  de Elementos de Grupos de Ramas Restringidas<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_datos_elementos_grupos_ramas_restringidas" >
-                            <table class="table table-sm table-striped table-bordered tabla-info" id="ELEGRURAM_DERS">
+                            <table class="table table-sm table-striped table-bordered tabla-info" id="ELEGRURAM_DERS" contenedor="info_datos_elementos_grupos_ramas_restringidas" colapso="col_info_datos_elementos_grupos_ramas_restringidas">
                                 <thead class="tabla-head">
                                     <tr>
                                         <th></th>
@@ -460,12 +460,12 @@
                     <div class="container-fluid div-contenedor-gral-vertical">
 
                         <!-- FACTORES DE DISTRIBUCION DE GENERACION POR NODO -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_factores_dist_generacion_nodo');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_factores_dist_generacion_nodo');" id="col_info_factores_dist_generacion_nodo">
                             <div class="col">Factores de Distribución de Generación por Nodo <span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_factores_dist_generacion_nodo">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="FACDISGEN">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="FACDISGEN" contenedor="info_factores_dist_generacion_nodo" colapso="col_info_factores_dist_generacion_nodo">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -488,12 +488,12 @@
                         </div>
 
                         <!-- FACTORES DE DISTRIBUCION DE CARGA POR NODO -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;"  onclick="colapsar('info_factores_dist_carga_nodo');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;"  onclick="colapsar('info_factores_dist_carga_nodo');" id="col_info_factores_dist_carga_nodo">
                             <div class="col">Factores de Distribución de Carga por Nodo <span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_factores_dist_carga_nodo">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="FACDISCAR1">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="FACDISCAR1" contenedor="info_factores_dist_carga_nodo" colapso="col_info_factores_dist_carga_nodo">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -512,12 +512,12 @@
                         </div>
 
                         <!-- NODOS DE GENERACION -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_nodos_generacion');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_nodos_generacion');" id="col_info_nodos_generacion">
                             <div class="col">Nodos de Generación <span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_nodos_generacion">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NODDISGEN">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NODDISGEN" contenedor="info_nodos_generacion" colapso="col_info_nodos_generacion">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -536,12 +536,12 @@
                         </div>
 
                         <!-- NODOS DE CARGA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_nodos_carga');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_nodos_carga');" id="col_info_nodos_carga">
                             <div class="col">Nodos de Carga <span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_nodos_carga">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NODDISCAR1">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NODDISCAR1" contenedor="info_nodos_carga" colapso="col_info_nodos_carga">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -560,12 +560,12 @@
                         </div>
 
                         <!-- PRONOSTICO DE DEMANDA DE CARGAS PARTICIPANTES -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_prono_demanda_cargas_participantes');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_prono_demanda_cargas_participantes');" id="col_info_prono_demanda_cargas_participantes">
                             <div class="col">Pronóstico de Demanda de Cargas Participantes<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_prono_demanda_cargas_participantes">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRODEM_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRODEM_DERS" contenedor="info_prono_demanda_cargas_participantes" colapso="col_info_prono_demanda_cargas_participantes">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -594,12 +594,12 @@
                     <div class="container-fluid div-contenedor-gral-vertical">
 
                         <!-- DATOS DE UNIDADES -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_unidades_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_unidades_rc');" id="col_info_datos_unidades_rc">
                             <div class="col">Datos de Unidades <span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_datos_unidades_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="UNITRC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="UNITRC_DERS" contenedor="info_datos_unidades_rc" colapso="col_info_datos_unidades_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -619,12 +619,12 @@
                         </div>
 
                         <!-- OPERACION Y PARO -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_operacion_paro_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_operacion_paro_rc');" id="col_info_operacion_paro_rc">
                             <div class="col">Operación y Paro <span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_operacion_paro_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="OPPARORC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="OPPARORC_DERS" contenedor="info_operacion_paro_rc" colapso="col_info_operacion_paro_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -638,12 +638,12 @@
                         </div>
 
                         <!-- DATOS DE ARRANQUE -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_arranque_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_arranque_rc');" id="col_info_datos_arranque_rc">
                             <div class="col">Datos de Arranque <span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_datos_arranque_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ARRARC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ARRARC_DERS" contenedor="info_datos_arranque_rc" colapso="col_info_datos_arranque_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -660,12 +660,12 @@
                         </div>
 
                         <!-- CONDICIONES INICIALES -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_condiciones_iniciales_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_condiciones_iniciales_rc');" id="col_info_condiciones_iniciales_rc">
                             <div class="col">Condiciones Iniciales<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_condiciones_iniciales_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="UNITRCCI_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="UNITRCCI_DERS" contenedor="info_condiciones_iniciales_rc" colapso="col_info_condiciones_iniciales_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -680,12 +680,12 @@
                         </div>
 
                         <!-- COSTO DE GENERACION MINIMO -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_costo_generacion_minimo_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_costo_generacion_minimo_rc');" id="col_info_costo_generacion_minimo_rc">
                             <div class="col">Costo de Generación Mínimo<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_costo_generacion_minimo_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="CGMRC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="CGMRC_DERS" contenedor="info_costo_generacion_minimo_rc" colapso="col_info_costo_generacion_minimo_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -704,12 +704,12 @@
                         </div>
 
                         <!-- POTENCIA DE VENTA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_venta_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_venta_rc');" id="col_info_potencia_venta_rc">
                             <div class="col">Potencia de Venta<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_venta_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTVERC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTVERC_DERS" contenedor="info_potencia_venta_rc" colapso="col_info_potencia_venta_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -728,12 +728,12 @@
                         </div>
 
                         <!-- PRECIO DE VENTA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_venta_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_venta_rc');" id="col_info_precio_venta_rc">
                             <div class="col">Precio de Venta<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_venta_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PREVERC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PREVERC_DERS" contenedor="info_precio_venta_rc" colapso="col_info_precio_venta_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -752,12 +752,12 @@
                         </div>
 
                         <!-- LIMITE INFERIOR DE GENERACION -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_lim_inf_generacion_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_lim_inf_generacion_rc');" id="col_info_lim_inf_generacion_rc">
                             <div class="col">Límite Inferior de Generación<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_lim_inf_generacion_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LIUNITRC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LIUNITRC_DERS" contenedor="info_lim_inf_generacion_rc" col="col_info_lim_inf_generacion_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -776,12 +776,12 @@
                         </div>
 
                         <!-- LIMITE SUPERIOR DE GENERACION -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_lim_sup_generacion_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_lim_sup_generacion_rc');" id="col_info_lim_sup_generacion_rc">
                             <div class="col">Límite Superior de Generación<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_lim_sup_generacion_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LSUNITRC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LSUNITRC_DERS" contenedor="info_lim_sup_generacion_rc" colapso="col_info_lim_sup_generacion_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -800,12 +800,12 @@
                         </div>
 
                         <!-- DISPONIBILIDAD -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_disponibilidad_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_disponibilidad_rc');" id="col_info_disponibilidad_rc">
                             <div class="col">Disponibilidad (1 - Disponible, 0 - No Disponible)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_disponibilidad_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="DISPORC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="DISPORC_DERS" contenedor="info_disponibilidad_rc" colapso="col_info_disponibilidad_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -824,12 +824,12 @@
                         </div>
 
                         <!-- ASIGNABILIDAD -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_asignabilidad_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_asignabilidad_rc');" id="col_info_asignabilidad_rc">
                             <div class="col">Asignabilidad (1 - Asignable, 0 - No Asignable)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_asignabilidad_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ASIGNRC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ASIGNRC_DERS" contenedor="info_asignabilidad_rc" colapso="col_info_asignabilidad_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -848,12 +848,12 @@
                         </div>
 
                         <!-- COORDINABILIDAD -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_coordinabilidad_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_coordinabilidad_rc');" id="col_info_coordinabilidad_rc">
                             <div class="col">Coordinabilidad (1 - Coordinable, 0 - No Coordinable)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_coordinabilidad_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COORDRC">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COORDRC" contenedor="info_coordinabilidad_rc" colapso="col_info_coordinabilidad_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -872,12 +872,12 @@
                         </div>
 
                         <!-- NODOS POR PERIODO DE UNIDADES -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_nodos_periodo_unidades_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_nodos_periodo_unidades_rc');" id="col_info_nodos_periodo_unidades_rc">
                             <div class="col">Nodos por Periodo de Unidades<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_nodos_periodo_unidades_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NODOSRC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NODOSRC_DERS" contenedor="info_nodos_periodo_unidades_rc" colapso="col_info_nodos_periodo_unidades_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -896,12 +896,12 @@
                         </div>
 
                         <!-- UNIDADES POR GRUPO CON LIMITACION DE ENERGIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_unidades_grupo_lim_energia_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_unidades_grupo_lim_energia_rc');" id="col_info_unidades_grupo_lim_energia_rc">
                             <div class="col">Unidades por Grupo con Limitación de Energía (1 - Pertenece, 0 - No Pertenece)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla div-contenedor-mediana invisible" id="info_unidades_grupo_lim_energia_rc">
                             <div class="col-12 table-responsive tabla-mediana">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="GPORC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="GPORC_DERS" contenedor="info_unidades_grupo_lim_energia_rc" colapso="col_info_unidades_grupo_lim_energia_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -972,12 +972,12 @@
                         </div>
 
                         <!-- RAMPAS DE UNIDADES DE RC, ZONAS PROHIBIDAS -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_rampas_unidades_rc_zonas_prohibidas_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_rampas_unidades_rc_zonas_prohibidas_rc');" id="col_info_rampas_unidades_rc_zonas_prohibidas_rc">
                             <div class="col"> Rampas de Unidades de Rango Continuo, Zonas Prohibidas <span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_rampas_unidades_rc_zonas_prohibidas_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RAMPASRC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RAMPASRC_DERS" contenedor="info_rampas_unidades_rc_zonas_prohibidas_rc" colapso="col_info_rampas_unidades_rc_zonas_prohibidas_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1000,12 +1000,12 @@
                         </div>
 
                         <!-- UNIDADES DE RC POR ZONA DE RESERVA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_unidades_rc_zona_reserva_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_unidades_rc_zona_reserva_rc');" id="col_info_unidades_rc_zona_reserva_rc">
                             <div class="col"> Unidades de Rango Continuo por Zona de Reserva (1 - Pertenece, 0 - No Pertenece)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_unidades_rc_zona_reserva_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ZONASRESURC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ZONASRESURC_DERS" contenedor="info_unidades_rc_zona_reserva_rc" colapso="col_info_unidades_rc_zona_reserva_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1026,12 +1026,12 @@
                         </div>
 
                         <!-- POTENCIA DE RESERVA RODANTE 10 MIN -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_rodante_10min_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_rodante_10min_rc');" id="col_info_potencia_reserva_rodante_10min_rc">
                             <div class="col"> Potencia de Reserva Rodante de 10 Minutos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_rodante_10min_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESRO10RC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESRO10RC_DERS" contenedor="info_potencia_reserva_rodante_10min_rc" colapso="col_info_potencia_reserva_rodante_10min_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1050,12 +1050,12 @@
                         </div>
 
                         <!-- PRECIO DE RESERVA RODANTE 10 MIN -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_rodante_10min_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_rodante_10min_rc');" id="col_info_precio_reserva_rodante_10min_rc">
                             <div class="col"> Precio de Reserva Rodante de 10 Minutos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_reserva_rodante_10min_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESRO10RC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESRO10RC_DERS" contenedor="info_precio_reserva_rodante_10min_rc" colapso="col_info_precio_reserva_rodante_10min_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1074,12 +1074,12 @@
                         </div>
 
                         <!-- POTENCIA DE RESERVA NO RODANTE 10 MIN -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_norodante_10min_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_norodante_10min_rc');" id="col_info_potencia_reserva_norodante_10min_rc">
                             <div class="col"> Potencia de Reserva No Rodante de 10 Minutos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_norodante_10min_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESNR10RC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESNR10RC_DERS" contenedor="info_potencia_reserva_norodante_10min_rc" colapso="col_info_potencia_reserva_norodante_10min_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1098,12 +1098,12 @@
                         </div>
 
                         <!-- PRECIO DE RESERVA NO RODANTE 10 MIN -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_norodante_10min_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_norodante_10min_rc');" id="col_info_precio_reserva_norodante_10min_rc">
                             <div class="col"> Precio de Reserva No Rodante de 10 Minutos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_reserva_norodante_10min_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESNR10RC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESNR10RC_DERS" contenedor="info_precio_reserva_norodante_10min_rc" colapso="col_info_precio_reserva_norodante_10min_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1122,12 +1122,12 @@
                         </div>
 
                         <!-- POTENCIA DE RESERVA RODANTE SUPLEMENTARIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_rodante_suplementaria_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_rodante_suplementaria_rc');" id="col_info_potencia_reserva_rodante_suplementaria_rc">
                             <div class="col"> Potencia de Reserva Rodante Suplementaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_rodante_suplementaria_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESROSURC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESROSURC_DERS" contenedor="info_potencia_reserva_rodante_suplementaria_rc" colapso="col_info_potencia_reserva_rodante_suplementaria_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1146,12 +1146,12 @@
                         </div>
 
                         <!-- PRECIO DE RESERVA RODANTE SUPLEMENTARIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_rodante_suplementaria_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_rodante_suplementaria_rc');" id="col_info_precio_reserva_rodante_suplementaria_rc">
                             <div class="col"> Precio de Reserva Rodante Suplementaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_reserva_rodante_suplementaria_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESROSURC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESROSURC_DERS" contenedor="info_precio_reserva_rodante_suplementaria_rc" colapso="col_info_precio_reserva_rodante_suplementaria_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1170,12 +1170,12 @@
                         </div>
 
                         <!-- POTENCIA DE RESERVA NO RODANTE SUPLEMENTARIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_norodante_suplementaria_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_norodante_suplementaria_rc');" id="col_info_potencia_reserva_norodante_suplementaria_rc">
                             <div class="col"> Potencia de Reserva No Rodante Suplementaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_norodante_suplementaria_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESNRSURC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESNRSURC_DERS" contenedor="info_potencia_reserva_norodante_suplementaria_rc" colapso="col_info_potencia_reserva_norodante_suplementaria_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1194,12 +1194,12 @@
                         </div>
 
                         <!-- PRECIO DE RESERVA NO RODANTE SUPLEMENTARIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_norodante_suplementaria_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_norodante_suplementaria_rc');" id="col_info_precio_reserva_norodante_suplementaria_rc">
                             <div class="col"> Precio de Reserva No Rodante Suplementaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_reserva_norodante_suplementaria_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESNRSURC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESNRSURC_DERS" contenedor="info_precio_reserva_norodante_suplementaria_rc" colapso="col_info_precio_reserva_norodante_suplementaria_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1218,12 +1218,12 @@
                         </div>
 
                         <!-- POTENCIA DE RESERVA DE REGULACION SECUNDARIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_regulacion_secundaria_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_regulacion_secundaria_rc');" id="col_info_potencia_reserva_regulacion_secundaria_rc">
                             <div class="col"> Potencia de Reserva de Regulación Secundaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_regulacion_secundaria_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESRESERC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESRESERC_DERS" contenedor="info_potencia_reserva_regulacion_secundaria_rc" colapso="col_info_potencia_reserva_regulacion_secundaria_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1242,12 +1242,12 @@
                         </div>
 
                         <!-- PRECIO DE RESERVA DE REGULACION SECUNDARIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_regulacion_secundaria_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_regulacion_secundaria_rc');" id="col_info_precio_reserva_regulacion_secundaria_rc">
                             <div class="col"> Precio de Reserva De Regulación Secundaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_reserva_regulacion_secundaria_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESRESERC_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESRESERC_DERS" contenedor="info_precio_reserva_regulacion_secundaria_rc" colapso="col_info_precio_reserva_regulacion_secundaria_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1266,12 +1266,12 @@
                         </div>
 
                         <!-- GRUPOS DE UNIDADES TERMICAS CON LIMITACION DE ENERGIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_grupos_unidades_termicas_lim_energia_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_grupos_unidades_termicas_lim_energia_rc');" id="col_info_grupos_unidades_termicas_lim_energia_rc">
                             <div class="col"> Grupos de Unidades Térmicas con Limitaciones de Energía<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_grupos_unidades_termicas_lim_energia_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="GPOUTER_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="GPOUTER_DERS" contenedor="info_grupos_unidades_termicas_lim_energia_rc" colapso="col_info_grupos_unidades_termicas_lim_energia_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1286,12 +1286,12 @@
                         </div>
 
                         <!-- BANDERAS DE COMPENSADORES SINCRONOS -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_banderas_compensadores_sinc_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_banderas_compensadores_sinc_rc');" id="col_info_banderas_compensadores_sinc_rc">
                             <div class="col"> Banderas de Compensadores Síncronos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_banderas_compensadores_sinc_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COMPSRC">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COMPSRC" contenedor="info_banderas_compensadores_sinc_rc" colapso="col_info_banderas_compensadores_sinc_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1310,12 +1310,12 @@
                         </div>
 
                         <!-- UNIDADES DE PROPIEDAD CONJUNTA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_unidades_propiedad_conjunta_rc');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_unidades_propiedad_conjunta_rc');" id="col_info_unidades_propiedad_conjunta_rc">
                             <div class="col"> Unidades de Propiedad Conjunta<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_unidades_propiedad_conjunta_rc">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="UPCONJRC">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="UPCONJRC" contenedor="info_unidades_propiedad_conjunta_rc" colapso="col_info_unidades_propiedad_conjunta_rc">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1336,12 +1336,12 @@
                     <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
 
                         <!-- DATOS DE UNIDADES PLANTA DE CICLO COMBINADO -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_unidades_planta_ciclo_combinado_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_unidades_planta_ciclo_combinado_rd');" id="col_info_datos_unidades_planta_ciclo_combinado_rd">
                             <div class="col" >Datos de Unidades (Planta de Ciclo Combinado)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_datos_unidades_planta_ciclo_combinado_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="UNITRD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="UNITRD_DERS" contenedor="info_datos_unidades_planta_ciclo_combinado_rd" colapso="col_info_datos_unidades_planta_ciclo_combinado_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1363,12 +1363,12 @@
                         </div>
 
                         <!-- DATOS DE ARRANQUE RD -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_arranque_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_arranque_rd');" id="col_info_datos_arranque_rd">
                             <div class="col">Datos de Arranque<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_datos_arranque_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ARRARD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ARRARD_DERS" contenedor="info_datos_arranque_rd" colapso="col_info_datos_arranque_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1383,12 +1383,12 @@
                         </div>
 
                         <!-- CONDICIONES INICIALES RD -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_condiciones_iniciales_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_condiciones_iniciales_rd');" id="col_info_condiciones_iniciales_rd">
                             <div class="col">Condiciones Iniciales<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_condiciones_iniciales_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="UNITRDCI_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="UNITRDCI_DERS" contenedor="info_condiciones_iniciales_rd" colapso="col_info_condiciones_iniciales_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1402,12 +1402,12 @@
                         </div>
 
                         <!-- COSTO DE GENERACION MINIMO -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_costo_generacion_minimo_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_costo_generacion_minimo_rd');" id="col_info_costo_generacion_minimo_rd">
                             <div class="col">Costo de Generación Mínimo<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_costo_generacion_minimo_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="CGMRD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="CGMRD_DERS" contenedor="info_costo_generacion_minimo_rd" colapso="col_info_costo_generacion_minimo_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1426,12 +1426,12 @@
                         </div>
 
                         <!-- POTENCIA DE VENTA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_venta_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_venta_rd');" id="col_info_potencia_venta_rd">
                             <div class="col">Potencia de Venta<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_venta_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTVERD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTVERD_DERS" contenedor="info_potencia_venta_rd" colapso="col_info_potencia_venta_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1450,12 +1450,12 @@
                         </div>
 
                         <!-- PRECIO DE VENTA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_venta_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_venta_rd');" id="col_info_precio_venta_rd">
                             <div class="col">Precio de Venta<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_venta_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PREVERD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PREVERD_DERS" contenedor="info_precio_venta_rd" colapso="col_info_precio_venta_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1474,12 +1474,12 @@
                         </div>
 
                         <!-- LIMITE INFERIOR DE GENERACION -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_lim_inf_generacion_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_lim_inf_generacion_rd');" id="col_info_lim_inf_generacion_rd">
                             <div class="col">Límite Inferior de Generación<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_lim_inf_generacion_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LIUNITRD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LIUNITRD_DERS" contenedor="info_lim_inf_generacion_rd" colapso="col_info_lim_inf_generacion_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1498,12 +1498,12 @@
                         </div>
 
                         <!-- LIMITE SUPERIOR DE GENERACION -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_lim_sup_generacion_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_lim_sup_generacion_rd');" id="col_info_lim_sup_generacion_rd">
                             <div class="col">Límite Superior de Generación<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_lim_sup_generacion_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LSUNITRD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LSUNITRD_DERS" contenedor="info_lim_sup_generacion_rd" colapso="col_info_lim_sup_generacion_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1522,12 +1522,12 @@
                         </div>
 
                         <!-- DISPONIBILIDAD -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_disponibilidad_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_disponibilidad_rd');" id="col_info_disponibilidad_rd">
                             <div class="col">Disponibilidad (1 - Disponible, 0 - No Disponible)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_disponibilidad_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="DISPORD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="DISPORD_DERS" contenedor="info_disponibilidad_rd" colapso="col_info_disponibilidad_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1546,12 +1546,12 @@
                         </div>
 
                         <!-- ASIGNABILIDAD -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_asignabilidad_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_asignabilidad_rd');" id="col_info_asignabilidad_rd">
                             <div class="col" >Asignabilidad (1 - Asignable, 0 - No Asignable)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_asignabilidad_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ASIGNRD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ASIGNRD_DERS" contenedor="info_asignabilidad_rd" colapso="col_info_asignabilidad_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1570,12 +1570,12 @@
                         </div>
 
                         <!-- COORDINABILIDAD -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_coordinabilidad_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_coordinabilidad_rd');" id="col_info_coordinabilidad_rd">
                             <div class="col">Coordinabilidad (1 - Coordinable, 0 - No Coordinable)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_coordinabilidad_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COORDRD">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COORDRD" contenedor="info_coordinabilidad_rd" colapso="col_info_coordinabilidad_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1594,12 +1594,12 @@
                         </div>
 
                         <!-- UNIDADES POR GRUPO CON LIMITACION DE ENERGIA  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_unidades_grupo_lim_energia_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_unidades_grupo_lim_energia_rd');" id="col_info_unidades_grupo_lim_energia_rd">
                             <div class="col">Unidades por Grupo con Limitación de Energía (1 - Pertenece, 0 - No Pertenece)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_unidades_grupo_lim_energia_rd">
                             <div class="col-12 table-responsive div-contenedor-mediana">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="GPORD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="GPORD_DERS" contenedor="info_unidades_grupo_lim_energia_rd" colapso="col_info_unidades_grupo_lim_energia_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1670,12 +1670,12 @@
                         </div>
 
                         <!-- RAMPAS UNIDADES DE RANGO NO CONTINUO ZONAS PROHIBIDAS -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_rampas_unidades_rango_nocontinuo_zonas_prohibidas_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_rampas_unidades_rango_nocontinuo_zonas_prohibidas_rd');" id="col_info_rampas_unidades_rango_nocontinuo_zonas_prohibidas_rd">
                             <div class="col">Rampas de Unidades de Rango No Continuo, Zonas Prohibidas<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_rampas_unidades_rango_nocontinuo_zonas_prohibidas_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RAMPASRD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RAMPASRD_DERS" contenedor="info_rampas_unidades_rango_nocontinuo_zonas_prohibidas_rd" colapso="col_info_rampas_unidades_rango_nocontinuo_zonas_prohibidas_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1694,12 +1694,12 @@
                         </div>
 
                         <!-- UNIDADES DE RANGO NO CONTINUO POR ZONAS DE RESERVA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_unidades_rango_nocontinuo_zonas_reserva_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_unidades_rango_nocontinuo_zonas_reserva_rd');" id="col_info_unidades_rango_nocontinuo_zonas_reserva_rd">
                             <div class="col">Unidades de Rango No Continuo por Zonas de Reserva (1 - Pertenece, 0 - No Pertenece)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_unidades_rango_nocontinuo_zonas_reserva_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ZONASRESURD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ZONASRESURD_DERS" contenedor="info_unidades_rango_nocontinuo_zonas_reserva_rd" colapso="col_info_unidades_rango_nocontinuo_zonas_reserva_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1718,12 +1718,12 @@
                         </div>
 
                         <!-- POTENCIA DE RESERVA RODANTE DE 10 MIN -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_rodante_10min_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_rodante_10min_rd');" id="col_info_potencia_reserva_rodante_10min_rd">
                             <div class="col">Potencia de Reserva Rodante de 10 Minutos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_rodante_10min_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESRO10RD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESRO10RD_DERS" contenedor="info_potencia_reserva_rodante_10min_rd" colapso="col_info_potencia_reserva_rodante_10min_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1742,12 +1742,12 @@
                         </div>
 
                         <!-- PRECIO DE RESERVA RODANTE DE 10 MIN -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_rodante_10min_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_rodante_10min_rd');" id="col_info_precio_reserva_rodante_10min_rd">
                             <div class="col">Precio de Reserva Rodante de 10 Minutos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_reserva_rodante_10min_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESRO10RD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESRO10RD_DERS" contenedor="info_precio_reserva_rodante_10min_rd" colapso="col_info_precio_reserva_rodante_10min_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1766,12 +1766,12 @@
                         </div>
 
                         <!-- POTENCIA DE RESERVA NO RODANTE DE 10 MIN -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_norodante_10min_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_norodante_10min_rd');" id="col_info_potencia_reserva_norodante_10min_rd">
                             <div class="col">Potencia de Reserva No Rodante de 10 Minutos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_norodante_10min_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESNR10RD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESNR10RD_DERS" contenedor="info_potencia_reserva_norodante_10min_rd" colapso="col_info_potencia_reserva_norodante_10min_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1790,12 +1790,12 @@
                         </div>
 
                         <!-- PRECIO DE RESERVA NO RODANTE DE 10 MIN -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_norodante_10min_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_norodante_10min_rd');" id="col_info_precio_reserva_norodante_10min_rd">
                             <div class="col">Precio de Reserva No Rodante de 10 Minutos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_reserva_norodante_10min_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESNR10RD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESNR10RD_DERS" contenedor="info_precio_reserva_norodante_10min_rd" colapso="col_info_precio_reserva_norodante_10min_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1814,12 +1814,12 @@
                         </div>
 
                         <!-- POTENCIA DE RESERVA RODANTE SUPLEMENTARIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_rodante_suplementaria_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_rodante_suplementaria_rd');" id="col_info_potencia_reserva_rodante_suplementaria_rd">
                             <div class="col" >Potencia de Reserva Rodante Suplementaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_rodante_suplementaria_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESROSURD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESROSURD_DERS" contenedor="info_potencia_reserva_rodante_suplementaria_rd" colapso="col_info_potencia_reserva_rodante_suplementaria_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1838,12 +1838,12 @@
                         </div>
 
                         <!-- PRECIO DE RESERVA RODANTE SUPLEMENTARIA  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_rodante_suplementaria_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_rodante_suplementaria_rd');" id="col_info_precio_reserva_rodante_suplementaria_rd">
                             <div class="col">Precio de Reserva Rodante Suplementaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_reserva_rodante_suplementaria_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESROSURD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESROSURD_DERS" contenedor="info_precio_reserva_rodante_suplementaria_rd" colapso="col_info_precio_reserva_rodante_suplementaria_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1862,12 +1862,12 @@
                         </div>
 
                         <!-- POTENCIA DE RESERVA NO RODANTE SUPLEMENTARIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_norodante_suplementaria_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_norodante_suplementaria_rd');" id="col_info_potencia_reserva_norodante_suplementaria_rd">
                             <div class="col">Potencia de Reserva No Rodante Suplementaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_norodante_suplementaria_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESNRSURD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESNRSURD_DERS" contenedor="info_potencia_reserva_norodante_suplementaria_rd" colapso="col_info_potencia_reserva_norodante_suplementaria_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1886,12 +1886,12 @@
                         </div>
 
                         <!-- PRECIO DE RESERVA NO RODANTE SUPLEMENTARIA  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_norodante_suplementaria_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_norodante_suplementaria_rd');" id="col_info_precio_reserva_norodante_suplementaria_rd">
                             <div class="col">Precio de Reserva No Rodante Suplementaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_reserva_norodante_suplementaria_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESNRSURD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESNRSURD_DERS" contenedor="info_precio_reserva_norodante_suplementaria_rd" colapso="col_info_precio_reserva_norodante_suplementaria_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1910,12 +1910,12 @@
                         </div>
 
                         <!-- POTENCIA DE RESERVA REGULACION SECUNDARIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_regulacion_secundaria_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_regulacion_secundaria_rd');" id="col_info_potencia_reserva_regulacion_secundaria_rd">
                             <div class="col">Potencia de Reserva de Regulación Secundaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_regulacion_secundaria_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESRESERD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESRESERD_DERS" contenedor="info_potencia_reserva_regulacion_secundaria_rd" colapso="col_info_potencia_reserva_regulacion_secundaria_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1934,12 +1934,12 @@
                         </div>
 
                         <!-- PRECIO DE RESERVA REGULACION SECUNDARIA  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_regulacion_secundaria_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_regulacion_secundaria_rd');" id="col_info_precio_reserva_regulacion_secundaria_rd">
                             <div class="col">Precio de Reserva de Regulación Secundaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_reserva_regulacion_secundaria_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESRESERD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESRESERD_DERS" contenedor="info_precio_reserva_regulacion_secundaria_rd" colapso="col_info_precio_reserva_regulacion_secundaria_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1958,12 +1958,12 @@
                         </div>
 
                         <!-- COSTO DE TRANSICION  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_costo_transicion_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_costo_transicion_rd');" id="col_info_costo_transicion_rd">
                             <div class="col">Costo de Transición<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_costo_transicion_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COSTRANSRD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COSTRANSRD_DERS" contenedor="info_costo_transicion_rd" colapso="col_info_costo_transicion_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -1984,12 +1984,12 @@
                         </div>
 
                         <!-- TIEMPO DE TRANSICION  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_tiempo_transicion_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_tiempo_transicion_rd');" id="col_info_tiempo_transicion_rd">
                             <div class="col">Tiempo de Transición<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_tiempo_transicion_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="TIETRANSRD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="TIETRANSRD_DERS" contenedor="info_tiempo_transicion_rd" colapso="col_info_tiempo_transicion_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2010,12 +2010,12 @@
                         </div>
 
                         <!-- TIEMPOS MINIMOS DE OPERACION DE LOS MODOS  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_tiempos_minimos_operacion_modos_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_tiempos_minimos_operacion_modos_rd');" id="col_info_tiempos_minimos_operacion_modos_rd">
                             <div class="col">Tiempos Mínimos de Operación de los Modos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_tiempos_minimos_operacion_modos_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="TMINMODRD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="TMINMODRD_DERS" contenedor="info_tiempos_minimos_operacion_modos_rd" colapso="col_info_tiempos_minimos_operacion_modos_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2037,12 +2037,12 @@
                         </div>
 
                         <!-- TRANSICIONES FACTIBLES  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_transiciones_factibles_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_transiciones_factibles_rd');" id="col_info_transiciones_factibles_rd">
                             <div class="col">Transiciones Factibles<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_transiciones_factibles_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="TRANSRD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="TRANSRD_DERS" contenedor="info_transiciones_factibles_rd" colapso="col_info_transiciones_factibles_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2063,12 +2063,12 @@
                         </div>
 
                         <!-- COMPONENTES  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_componentes_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_componentes_rd');" id="col_info_componentes_rd">
                             <div class="col">Componentes<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_componentes_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COMPOURD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COMPOURD_DERS" contenedor="info_componentes_rd" colapso="col_info_componentes_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2082,12 +2082,12 @@
                         </div>
 
                         <!-- NODOS POR PERIODO DE COMPONENTES -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_nodos_periodos_componentes_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_nodos_periodos_componentes_rd');" id="col_info_nodos_periodos_componentes_rd">
                             <div class="col">Nodos por Periodos de Componentes<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_nodos_periodos_componentes_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NODOSCOMPOURD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NODOSCOMPOURD_DERS" contenedor="info_nodos_periodos_componentes_rd" colapso="col_info_nodos_periodos_componentes_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2106,12 +2106,12 @@
                         </div>
 
                         <!-- COMPONENTES POR MODO  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_componentes_modo_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_componentes_modo_rd');" id="col_info_componentes_modo_rd">
                             <div class="col">Componentes por Modo<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_componentes_modo_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COMPXMODO_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COMPXMODO_DERS" contenedor="info_componentes_modo_rd" colapso="col_info_componentes_modo_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2128,12 +2128,12 @@
                         </div>
 
                         <!-- FRACCION DE GENERACION POR COMPONENTE POR MODO  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_fraccion_generacion_componente_modo_rd');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_fraccion_generacion_componente_modo_rd');" id="col_info_fraccion_generacion_componente_modo_rd">
                             <div class="col">Fraccion de Generación por Componente por Modo<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_fraccion_generacion_componente_modo_rd">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="GECOXMOD_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="GECOXMOD_DERS" contenedor="info_fraccion_generacion_componente_modo_rd" colapso="col_info_fraccion_generacion_componente_modo_rd">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2160,12 +2160,12 @@
                     <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
 
                         <!-- DATOS DE EMBALSES  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_embalses_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_embalses_hi');" id="col_info_datos_embalses_hi">
                             <div class="col">Datos de Embalses<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_datos_embalses_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="EMBALSES_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="EMBALSES_DERS" contenedor="info_datos_embalses_hi" colapso="col_info_datos_embalses_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2177,12 +2177,12 @@
                         </div>
 
                         <!-- LIMITACION DE ENERGIA EN EMBALSES  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_limitacion_energia_embalses_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_limitacion_energia_embalses_hi');" id="col_info_limitacion_energia_embalses_hi">
                             <div class="col">Limitación de Energía en Embalses<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_limitacion_energia_embalses_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LIMENEREMB_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LIMENEREMB_DERS" contenedor="info_limitacion_energia_embalses_hi" colapso="col_info_limitacion_energia_embalses_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2196,12 +2196,12 @@
                         </div>
 
                         <!-- DATOS DE PLANTAS HIDROELECTRICAS  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_plantas_hidro_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_plantas_hidro_hi');" id="col_info_datos_plantas_hidro_hi">
                             <div class="col">Datos de Plantas Hidroeléctricas<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_datos_plantas_hidro_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PLAHDERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PLAHDERS" contenedor="info_datos_plantas_hidro_hi" colapso="col_info_datos_plantas_hidro_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2216,12 +2216,12 @@
                         </div>
 
                         <!-- DATOS DE UNIDADES HIDROELECTRICAS  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_unidades_hidro_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_unidades_hidro_hi');" id="col_info_datos_unidades_hidro_hi">
                             <div class="col">Datos de Unidades Hidroeléctricas<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_datos_unidades_hidro_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="UNIHDERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="UNIHDERS" contenedor="info_datos_unidades_hidro_hi" colapso="col_info_datos_unidades_hidro_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2241,12 +2241,12 @@
                         </div>
 
                         <!-- DATOS DE UNIDADES HIDROELECTRICAS 2 ?????? -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_unidades_hidro2_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_unidades_hidro2_hi');" id="col_info_datos_unidades_hidro2_hi">
                             <div class="col">Datos de Unidades Hidroeléctricas 2<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_datos_unidades_hidro2_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="UNIHCI_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="UNIHCI_DERS" contenedor="info_datos_unidades_hidro2_hi" colapso="col_info_datos_unidades_hidro2_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2261,12 +2261,12 @@
                         </div>
 
                         <!-- COSTO DE OPORTUNIDAD -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_costo_oportunidad_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_costo_oportunidad_hi');" id="col_info_costo_oportunidad_hi">
                             <div class="col">Costo de Oportunidad<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_costo_oportunidad_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COSTOPHID_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COSTOPHID_DERS" contenedor="info_costo_oportunidad_hi" colapso="col_info_costo_oportunidad_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2285,12 +2285,12 @@
                         </div>
 
                         <!-- LIMITE INFERIOR DE GENERACION -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_limite_inferior_generacion_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_limite_inferior_generacion_hi');" id="col_info_limite_inferior_generacion_hi">
                             <div class="col">Límite Inferior de Generación<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_limite_inferior_generacion_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LIUNIH_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LIUNIH_DERS" contenedor="info_limite_inferior_generacion_hi" colapso="col_info_limite_inferior_generacion_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2309,12 +2309,12 @@
                         </div>
 
                         <!-- LIMITE SUPERIOR DE GENERACION -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_limite_superior_generacion_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_limite_superior_generacion_hi');" id="col_info_limite_superior_generacion_hi">
                             <div class="col">Límite Superior de Generación<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_limite_superior_generacion_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LSUNIH_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LSUNIH_DERS" contenedor="info_limite_superior_generacion_hi" colapso="col_info_limite_superior_generacion_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2333,12 +2333,12 @@
                         </div>
 
                         <!-- DISPONIBILIDAD -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_disponibilidad_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_disponibilidad_hi');" id="col_info_disponibilidad_hi">
                             <div class="col">Disponibilidad (1 - Disponible, 0 - No Disponible)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_disponibilidad_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="DISPOH_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="DISPOH_DERS" contenedor="info_disponibilidad_hi" colapso="col_info_disponibilidad_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2357,12 +2357,12 @@
                         </div>
 
                         <!-- ASIGNABILIDAD -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_asignabilidad_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_asignabilidad_hi');" id="col_info_asignabilidad_hi">
                             <div class="col">Asignabilidad (1 - Asignable, 0 - No Asignable)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_asignabilidad_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ASIGNH_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ASIGNH_DERS" contenedor="info_asignabilidad_hi" colapso="col_info_asignabilidad_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2381,12 +2381,12 @@
                         </div>
 
                         <!-- COORDINABILIDAD -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_coordinabilidad_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_coordinabilidad_hi');" id="col_info_coordinabilidad_hi">
                             <div class="col">Coordinabilidad (1 - Coordinable, 0 - No Coordinable)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_coordinabilidad_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COORDH">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COORDH" contenedor="info_coordinabilidad_hi" colapso="col_info_coordinabilidad_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2405,12 +2405,12 @@
                         </div>
 
                         <!-- NODOS POR PERIODO DE UNIDADES -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_nodos_periodo_unidades_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_nodos_periodo_unidades_hi');" id="col_info_nodos_periodo_unidades_hi">
                             <div class="col">Nodos por Periodo de Unidades<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_nodos_periodo_unidades_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NODOSH_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NODOSH_DERS" contenedor="info_nodos_periodo_unidades_hi" colapso="col_info_nodos_periodo_unidades_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2429,12 +2429,12 @@
                         </div>
 
                         <!-- BANDERA DE COMPENSADORES SINCRONOS -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_bandera_compensadores_sinc_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_bandera_compensadores_sinc_hi');" id="col_info_bandera_compensadores_sinc_hi">
                             <div class="col">Bandera de Compensadores Síncronos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_bandera_compensadores_sinc_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COMPSH">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="COMPSH" contenedor="info_bandera_compensadores_sinc_hi" colapso="col_info_bandera_compensadores_sinc_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2453,12 +2453,12 @@
                         </div>
 
                         <!-- RAMPAS DE UNIDADES -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_rampas_unidades_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_rampas_unidades_hi');" id="col_info_rampas_unidades_hi">
                             <div class="col">Rampas de Unidades<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_rampas_unidades_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RAMPASH_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RAMPASH_DERS" contenedor="info_rampas_unidades_hi" colapso="col_info_rampas_unidades_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2479,12 +2479,12 @@
                         </div>
 
                         <!-- UNIDADES POR ZONA DE RESERVA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_unidades_zona_reserva_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_unidades_zona_reserva_hi');" id="col_info_unidades_zona_reserva_hi">
                             <div class="col">Unidades por Zona de Reserva (1 - Pertenece, 0 - No Pertenece)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_unidades_zona_reserva_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ZONASRESUH_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ZONASRESUH_DERS" contenedor="info_unidades_zona_reserva_hi" colapso="col_info_unidades_zona_reserva_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2505,12 +2505,12 @@
                         </div>
 
                         <!-- POTENCIA DE RESERVA RODANTE 10 MIN -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_rodante_10min_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_rodante_10min_hi');" id="col_info_potencia_reserva_rodante_10min_hi">
                             <div class="col">Potencia de Reserva Rodante de 10 Minutos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_rodante_10min_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESRO10H_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESRO10H_DERS" contenedor="info_potencia_reserva_rodante_10min_hi" colapso="col_info_potencia_reserva_rodante_10min_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2529,12 +2529,12 @@
                         </div>
 
                         <!-- PRECIO DE RESERVA RODANTE 10 MIN -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_rodante_10min_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_rodante_10min_hi');" id="col_info_precio_reserva_rodante_10min_hi">
                             <div class="col">Precio de Reserva Rodante de 10 Minutos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_reserva_rodante_10min_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESRO10H_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESRO10H_DERS" contenedor="info_precio_reserva_rodante_10min_hi" colapso="col_info_precio_reserva_rodante_10min_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2553,12 +2553,12 @@
                         </div>
 
                         <!-- POTENCIA DE RESERVA NO RODANTE 10 MIN -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_norodante_10min_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_norodante_10min_hi');" id="col_info_potencia_reserva_norodante_10min_hi">
                             <div class="col">Potencia de Reserva No Rodante de 10 Minutos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_norodante_10min_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESNR10H_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESNR10H_DERS" contenedor="info_potencia_reserva_norodante_10min_hi" colapso="col_info_potencia_reserva_norodante_10min_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2577,12 +2577,12 @@
                         </div>
 
                         <!-- PRECIO DE RESERVA NO RODANTE 10 MIN -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_norodante_10min_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_norodante_10min_hi');" id="col_info_precio_reserva_norodante_10min_hi">
                             <div class="col">Precio de Reserva No Rodante de 10 Minutos<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_reserva_norodante_10min_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESNR10H_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESNR10H_DERS" contenedor="info_precio_reserva_norodante_10min_hi" colapso="col_info_precio_reserva_norodante_10min_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2601,12 +2601,12 @@
                         </div>
 
                         <!-- POTENCIA DE RESERVA RODANTE SUPLEMENTARIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_rodante_suplementaria_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_rodante_suplementaria_hi');" id="col_info_potencia_reserva_rodante_suplementaria_hi">
                             <div class="col">Potencia de Reserva Rodante Suplementaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_rodante_suplementaria_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESROSUH_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESROSUH_DERS" contenedor="info_potencia_reserva_rodante_suplementaria_hi" colapso="col_info_potencia_reserva_rodante_suplementaria_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2625,12 +2625,12 @@
                         </div>
 
                         <!-- PRECIO DE RESERVA RODANTE SUPLEMENTARIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_rodante_suplementaria_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_rodante_suplementaria_hi');" id="col_info_precio_reserva_rodante_suplementaria_hi">
                             <div class="col">Precio de Reserva Rodante Suplementaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_reserva_rodante_suplementaria_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESROSUH_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESROSUH_DERS" contenedor="info_precio_reserva_rodante_suplementaria_hi" colapso="col_info_precio_reserva_rodante_suplementaria_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2649,12 +2649,12 @@
                         </div>
 
                         <!-- POTENCIA DE RESERVA NO RODANTE SUPLEMENTARIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_norodante_suplementaria_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_norodante_suplementaria_hi');" id="col_info_potencia_reserva_norodante_suplementaria_hi">
                             <div class="col">Potencia de Reserva No Rodante Suplementaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_norodante_suplementaria_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESNRSUH_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESNRSUH_DERS" contenedor="info_potencia_reserva_norodante_suplementaria_hi" colapso="col_info_potencia_reserva_norodante_suplementaria_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2673,12 +2673,12 @@
                         </div>
 
                         <!-- PRECIO DE RESERVA NO RODANTE SUPLEMENTARIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_norodante_suplementaria_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_norodante_suplementaria_hi');" id="col_info_precio_reserva_norodante_suplementaria_hi">
                             <div class="col">Precio de Reserva No Rodante Suplementaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_reserva_norodante_suplementaria_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESNRSUH_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESNRSUH_DERS" contenedor="info_precio_reserva_norodante_suplementaria_hi" colapso="col_info_precio_reserva_norodante_suplementaria_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2697,12 +2697,12 @@
                         </div>
 
                         <!-- POTENCIA DE RESERVA REGULACION SECUNDARIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_regulacion_secundaria_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_reserva_regulacion_secundaria_hi');" id="col_info_potencia_reserva_regulacion_secundaria_hi">
                             <div class="col">Potencia de Reserva de Regulación Secundaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_reserva_regulacion_secundaria_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESRESEH_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTRESRESEH_DERS" contenedor="info_potencia_reserva_regulacion_secundaria_hi" colapso="col_info_potencia_reserva_regulacion_secundaria_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2721,12 +2721,12 @@
                         </div>
 
                         <!-- PRECIO DE RESERVA REGULACION SECUNDARIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_regulacion_secundaria_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_reserva_regulacion_secundaria_hi');" id="col_info_precio_reserva_regulacion_secundaria_hi">
                             <div class="col">Precio de Reserva de Regulación Secundaria<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_reserva_regulacion_secundaria_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESRESEH_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESRESEH_DERS" contenedor="info_precio_reserva_regulacion_secundaria_hi" colapso="col_info_precio_reserva_regulacion_secundaria_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2755,12 +2755,12 @@
                     <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
 
                         <!-- DATOS DE UNIDADES -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_unidades_re');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_unidades_re');" id="col_info_datos_unidades_re">
                             <div class="col">Datos de Unidades<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_datos_unidades_re">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="UNITRE_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="UNITRE_DERS" contenedor="info_datos_unidades_re" colapsar="col_info_datos_unidades_re">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2779,12 +2779,12 @@
                         </div>
 
                         <!-- POTENCIA DE VENTA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_venta_re');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_venta_re');" id="col_info_potencia_venta_re">
                             <div class="col">Potencia de Venta<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_venta_re">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTVERE_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTVERE_DERS" contenedor="info_potencia_venta_re" colapsar="col_info_potencia_venta_re">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2803,12 +2803,12 @@
                         </div>
 
                         <!-- PRECIO DE VENTA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_venta_re');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_venta_re');" id="col_info_precio_venta_re">
                             <div class="col">Precio de Venta<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_venta_re">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PREVERE_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PREVERE_DERS" contenedor="info_precio_venta_re" colapso="col_info_precio_venta_re">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2827,12 +2827,12 @@
                         </div>
 
                         <!-- LIMITE INFERIOR DE GENERACION -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_limite_inf_generacion_re');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_limite_inf_generacion_re');" id="col_info_limite_inf_generacion_re">
                             <div class="col">Límite Inferior de Generación<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_limite_inf_generacion_re">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LIUNITRE_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LIUNITRE_DERS" contenedor="info_limite_inf_generacion_re" colapso="col_info_limite_inf_generacion_re">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2851,12 +2851,12 @@
                         </div>
 
                         <!-- LIMITE SUPERIOR DE GENERACION -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_limite_sup_generacion_re');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_limite_sup_generacion_re');" id="col_info_limite_sup_generacion_re">
                             <div class="col">Límite Superior de Generación<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_limite_sup_generacion_re">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LSUNITRE_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="LSUNITRE_DERS" contenedor="info_limite_sup_generacion_re" colapso="col_info_limite_sup_generacion_re">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2875,12 +2875,12 @@
                         </div>
 
                         <!-- ASIGNABILIDAD -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_asignabilidad_re');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_asignabilidad_re');" id="col_info_asignabilidad_re">
                             <div class="col">Asignabilidad (1 - Asignable, 0 - No Asignable)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_asignabilidad_re">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ASIGNRE_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="ASIGNRE_DERS" contenedor="info_asignabilidad_re" colapso="col_info_asignabilidad_re">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2899,12 +2899,12 @@
                         </div>
 
                         <!-- NODOS POR PERIODOS DE UNIDADES -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_nodos_periodos_unidades_hi');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_nodos_periodos_unidades_hi');" id="col_info_nodos_periodos_unidades_hi">
                             <div class="col">Nodos por Periodos de Unidades<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_nodos_periodos_unidades_hi">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NODOSRE_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NODOSRE_DERS" contenedor="info_nodos_periodos_unidades_hi" colapso="col_info_nodos_periodos_unidades_hi">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2923,12 +2923,12 @@
                         </div>
 
                         <!-- DISPONIBILIDAD -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_disponibilidad_re');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_disponibilidad_re');" id="col_info_disponibilidad_re">
                             <div class="col">Disponibilidad (1 - Disponible, 0 - No Disponible)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_disponibilidad_re">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="DISPORE_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="DISPORE_DERS" contenedor="info_disponibilidad_re" colapso="col_info_disponibilidad_re">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2958,12 +2958,12 @@
                     <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
 
                         <!-- DATOS DE UNIDADES -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_unidades_np');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_datos_unidades_np');" id="col_info_datos_unidades_np">
                             <div class="col">Datos de Unidades<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_datos_unidades_np">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PLNOPRDERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PLNOPRDERS" contenedor="info_datos_unidades_np" colapso="col_info_datos_unidades_np">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -2982,12 +2982,12 @@
                         </div>
 
                         <!-- POTENCIA -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_np');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_potencia_np');" id="col_info_potencia_np">
                             <div class="col">Potencia<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_potencia_np">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTPLNOPR_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="POTPLNOPR_DERS" contenedor="info_potencia_np" colapso="col_info_potencia_np">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3006,12 +3006,12 @@
                         </div>
 
                         <!-- NODOS POR PERIODO -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_nodos_periodo_np');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_nodos_periodo_np');" id="col_info_nodos_periodo_np">
                             <div class="col">Nodos por Periodo<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_nodos_periodo_np">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NODOSPLNOPR_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NODOSPLNOPR_DERS" contenedor="info_nodos_periodo_np" colapso="col_info_nodos_periodo_np">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3030,12 +3030,12 @@
                         </div>
 
                         <!-- IMPORTACION Y EXPORTACION -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_imp_exp_nodos_periodo_intercambio_pot_np');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_imp_exp_nodos_periodo_intercambio_pot_np');" id="col_info_imp_exp_nodos_periodo_intercambio_pot_np">
                             <div class="col">Importación y Exportación: Nodos por Periodo de Intercambio de Potencia<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_imp_exp_nodos_periodo_intercambio_pot_np">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NOINPADERS_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="NOINPADERS_DERS" contenedor="info_imp_exp_nodos_periodo_intercambio_pot_np" colapso="col_info_imp_exp_nodos_periodo_intercambio_pot_np">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3065,12 +3065,12 @@
                     <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
 
                         <!-- REQUERIMIENTO DE RESERVA RODANTE DE 10 MIN  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_req_reserva_rodante_10min_zr');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_req_reserva_rodante_10min_zr');" id="col_info_req_reserva_rodante_10min_zr">
                             <div class="col">Requerimiento de Reserva Rodante de 10 Minutos (3 Segmentos por Zona de Reserva)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_req_reserva_rodante_10min_zr">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RRERO10Z_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RRERO10Z_DERS" contenedor="info_req_reserva_rodante_10min_zr" colapso="col_info_req_reserva_rodante_10min_zr">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3089,12 +3089,12 @@
                         </div>
 
                         <!-- PRECIO DEL REQUERIMIENTO DE RESERVA RODANTE DE 10 MIN  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_req_reserva_rodante_10min_zr');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_req_reserva_rodante_10min_zr');" id="col_info_precio_req_reserva_rodante_10min_zr">
                             <div class="col">Precio de Requerimiento de Reserva Rodante de 10 Minutos (3 Segmentos por Zona de Reserva)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_req_reserva_rodante_10min_zr">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERO10Z_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERO10Z_DERS" contenedor="info_precio_req_reserva_rodante_10min_zr" colapso="col_info_precio_req_reserva_rodante_10min_zr">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3113,12 +3113,12 @@
                         </div>
 
                         <!-- REQUERIMIENTO DE RESERVA DE 10 MIN  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_req_reserva_10min_zr');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_req_reserva_10min_zr');" id="col_info_req_reserva_10min_zr">
                             <div class="col">Requerimiento de Reserva de 10 Minutos (3 Segmentos por Zona de Reserva)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_req_reserva_10min_zr">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RRE10Z_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RRE10Z_DERS" contenedor="info_req_reserva_10min_zr" colapso="col_info_req_reserva_10min_zr">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3137,12 +3137,12 @@
                         </div>
 
                         <!-- PRECIO DEL REQUERIMIENTO DE RESERVA DE 10 MIN  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_req_reserva_10min_zr');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_req_reserva_10min_zr');" id="col_info_precio_req_reserva_10min_zr">
                             <div class="col">Precio de Requerimiento de Reserva de 10 Minutos (3 Segmentos por Zona de Reserva)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_req_reserva_10min_zr">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRE10Z_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRE10Z_DERS" contenedor="info_precio_req_reserva_10min_zr" colapso="col_info_precio_req_reserva_10min_zr">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3161,12 +3161,12 @@
                         </div>
 
                         <!-- REQUERIMIENTO DE RESERVA SUPLEMENTARIA  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_req_reserva_suplementaria_zr');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_req_reserva_suplementaria_zr');" id="col_info_req_reserva_suplementaria_zr">
                             <div class="col">Requerimiento de Reserva Suplementaria (3 Segmentos por Zona de Reserva)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_req_reserva_suplementaria_zr">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RRESUZ_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RRESUZ_DERS" contenedor="info_req_reserva_suplementaria_zr" colapso="col_info_req_reserva_suplementaria_zr">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3185,12 +3185,12 @@
                         </div>
 
                         <!-- PRECIO DEL REQUERIMIENTO DE RESERVA SUPLEMENTARIA  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_req_reserva_suplementaria_zr');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_req_reserva_suplementaria_zr');" id="col_info_precio_req_reserva_suplementaria_zr">
                             <div class="col">Precio de Requerimiento de Reserva Suplementaria (3 Segmentos por Zona de Reserva)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_req_reserva_suplementaria_zr">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRESUZ_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRESUZ_DERS" contenedor="info_precio_req_reserva_suplementaria_zr" colapso="col_info_precio_req_reserva_suplementaria_zr">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3209,12 +3209,12 @@
                         </div>
 
                         <!-- REQUERIMIENTO DE RESERVA DE REGULACION SECUNDARIA  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_req_reserva_regulacion_secundaria_zr');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_req_reserva_regulacion_secundaria_zr');" id="col_info_req_reserva_regulacion_secundaria_zr">
                             <div class="col">Requerimiento de Reserva de Regulación Secundaria (3 Segmentos por Zona de Reserva)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_req_reserva_regulacion_secundaria_zr">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RRERESEZ_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RRERESEZ_DERS" contenedor="info_req_reserva_regulacion_secundaria_zr" colapso="col_info_req_reserva_regulacion_secundaria_zr">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3233,12 +3233,12 @@
                         </div>
 
                         <!-- PRECIO DEL REQUERIMIENTO DE RESERVA DE REGULACION SECUNDARIA  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_req_reserva_regulacion_secundaria_zr');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_req_reserva_regulacion_secundaria_zr');" id="col_info_precio_req_reserva_regulacion_secundaria_zr">
                             <div class="col">Precio de Requerimiento de Reserva de Regulación Secundaria (3 Segmentos por Zona de Reserva)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_req_reserva_regulacion_secundaria_zr">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESEZ_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESEZ_DERS" contenedor="info_precio_req_reserva_regulacion_secundaria_zr" colapso="col_info_precio_req_reserva_regulacion_secundaria_zr">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3268,12 +3268,12 @@
                     <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
 
                         <!-- REQUERIMIENTO DE RESERVA RODANTE DE 10 MIN  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_req_reserva_rodante_10min_s');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_req_reserva_rodante_10min_s');" id="col_info_req_reserva_rodante_10min_s">
                             <div class="col">Requerimiento de Reserva Rodante de 10 Minutos (3 Segmentos por Subsistema)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_req_reserva_rodante_10min_s">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RRERO10S_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RRERO10S_DERS" contenedor="info_req_reserva_rodante_10min_s" colapso="col_info_req_reserva_rodante_10min_s">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3292,12 +3292,12 @@
                         </div>
 
                         <!-- PRECIO DEL REQUERIMIENTO DE RESERVA RODANTE DE 10 MIN  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_req_reserva_rodante_10min_s');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_req_reserva_rodante_10min_s');" id="col_info_precio_req_reserva_rodante_10min_s">
                             <div class="col">Precio de Requerimiento de Reserva Rodante de 10 Minutos (3 Segmentos por Subsistema)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_req_reserva_rodante_10min_s">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERO10S_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERO10S_DERS" contenedor="info_precio_req_reserva_rodante_10min_s" colapso="col_info_precio_req_reserva_rodante_10min_s">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3316,12 +3316,12 @@
                         </div>
 
                         <!-- REQUERIMIENTO DE RESERVA DE 10 MIN  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_req_reserva_10min_s');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_req_reserva_10min_s');" id="col_info_req_reserva_10min_s">
                             <div class="col">Requerimiento de Reserva de 10 Minutos (3 Segmentos por Subsistema)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_req_reserva_10min_s">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RRE10S_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RRE10S_DERS" contenedor="info_req_reserva_10min_s" colapso="col_info_req_reserva_10min_s">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3340,12 +3340,12 @@
                         </div>
 
                         <!-- PRECIO DEL REQUERIMIENTO DE RESERVA DE 10 MIN  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_req_reserva_10min_s');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_req_reserva_10min_s');" id="col_info_precio_req_reserva_10min_s">
                             <div class="col">Precio de Requerimiento de Reserva de 10 Minutos (3 Segmentos por Subsistema)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_req_reserva_10min_s">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRE10S_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRE10S_DERS" contenedor="info_precio_req_reserva_10min_s" colapso="col_info_precio_req_reserva_10min_s">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3364,12 +3364,12 @@
                         </div>
 
                         <!-- REQUERIMIENTO DE RESERVA SUPLEMENTARIA  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_req_reserva_suplementaria_s');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_req_reserva_suplementaria_s');" id="col_info_req_reserva_suplementaria_s">
                             <div class="col">Requerimiento de Reserva Suplementaria (3 Segmentos por Subsistema)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_req_reserva_suplementaria_s">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RRESUS_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RRESUS_DERS" contenedor="info_req_reserva_suplementaria_s" colapso="col_info_req_reserva_suplementaria_s">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3388,12 +3388,12 @@
                         </div>
 
                         <!-- PRECIO DEL REQUERIMIENTO DE RESERVA SUPLEMENTARIA  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_req_reserva_suplementaria_s');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_req_reserva_suplementaria_s');" id="col_info_precio_req_reserva_suplementaria_s">
                             <div class="col">Precio de Requerimiento de Reserva Suplementaria (3 Segmentos por Subsistema)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_req_reserva_suplementaria_s">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRESUS_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRESUS_DERS" contenedor="info_precio_req_reserva_suplementaria_s" colapso="col_info_precio_req_reserva_suplementaria_s">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3412,12 +3412,12 @@
                         </div>
 
                         <!-- REQUERIMIENTO DE RESERVA DE REGULACION SECUNDARIA  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_req_reserva_regulacion_secundaria_s');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_req_reserva_regulacion_secundaria_s');" id="col_info_req_reserva_regulacion_secundaria_s">
                             <div class="col">Requerimiento de Reserva de Regulación Secundaria (3 Segmentos por Subsistema)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_req_reserva_regulacion_secundaria_s">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RRERESES_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="RRERESES_DERS" contenedor="info_req_reserva_regulacion_secundaria_s" colapso="col_info_req_reserva_regulacion_secundaria_s">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
@@ -3436,12 +3436,12 @@
                         </div>
 
                         <!-- PRECIO DEL REQUERIMIENTO DE RESERVA DE REGULACION SECUNDARIA  -->
-                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_req_reserva_regulacion_secundaria_s');">
+                        <div class="row justify-content-center celda-header-info" style="text-align:center;" onclick="colapsar('info_precio_req_reserva_regulacion_secundaria_s');" id="col_info_precio_req_reserva_regulacion_secundaria_s">
                             <div class="col">Precio de Requerimiento de Reserva de Regulación Secundaria (3 Segmentos por Subsistema)<span style="float:right;"><i class="fa fa-caret-square-o-down"></i></span></div>
                         </div>
                         <div class="row colapsable div-tabla invisible" id="info_precio_req_reserva_regulacion_secundaria_s">
                             <div class="col-12 table-responsive">
-                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESES_DERS">
+                                <table class="table table-sm table-condensed table-bordered tabla-info" id="PRERESES_DERS" contenedor="info_precio_req_reserva_regulacion_secundaria_s" colapso="col_info_precio_req_reserva_regulacion_secundaria_s">
                                     <thead class="tabla-head">
                                         <tr>
                                             <th></th>
