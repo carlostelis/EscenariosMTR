@@ -129,14 +129,13 @@
 .celda-header-info {
     cursor: pointer;
     color: white;
-    text-align: center;
     font-size: 1vw;
     font-weight: bold;
     height: 4vh;
     line-height: 4vh;
     background: #347c58;
     border-radius: 10px;
-    text-align: center;
+    text-align: center !important;
     border-style: outset;
     border-color: rgba(255, 255, 255, 1);
     user-select: none;
@@ -152,8 +151,27 @@
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
 }
 
+.celda-header-info.inactivo {
+    background: gray;
+    text-shadow: none;
+    cursor:initial;
+}
+
+.celda-header-info.inactivo:hover {
+    text-shadow: none;
+}
+
+.celda-header-info.inactivo:active {
+    color: white;
+}
+
+.celda-header-info > div > span {
+    float:right;
+}
+
 #menu-info {
     height: 100%;
+    margin: 0% 3% 0% 0%;
 }
 
 #menu-info > button > span > i {

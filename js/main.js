@@ -2,16 +2,20 @@ const electron = require('electron');
 const fs = require('fs');
 const { app, BrowserWindow, Menu, ipcMain, remote, dialog } = electron;
 const Comandos = require('./Comandos.js');
-const comandos = new Comandos();
 const crearMenu = require('./menuTemplate.js');
 const ListaArchivos = require('./ListaArchivos.js');
-const listaArchivos = new ListaArchivos('C:\\AppAnalizadorEscenarios');
 const config = require('./config.js');
 const path = require('path');
 const FTP = require('./FTP.js');
 const targz = require('tar.gz');
 const Escenario = require('./Escenario.js');
+const BitacoraUsuario = require('./BitacoraUsuario.js');
+
+// Objetos
+const comandos = new Comandos();
+const listaArchivos = new ListaArchivos('C:\\AppAnalizadorEscenarios');
 const escenario = new Escenario();
+const bitacoraUsuario = new BitacoraUsuario(config.local.escenarios);
 
 const TO_BD = 2000;
 let win;
@@ -154,6 +158,11 @@ app.on('will-quit', () => {
     app.quit();
 });
 
+// Bitacora de usuario
+ipcMain.on('bitacora:escribir', (event, mensaje) => {
+    bitacoraUsuario.escribir(mensaje);
+});
+
 // Consulta de sistemas a la base de datos
 ipcMain.on('sistemas:solicitar', (event) => {
     console.log(`Login cargado, sistemas solicitados...`);
@@ -284,7 +293,7 @@ ipcMain.on('directorio:descarga', (event, data) => {
     console.log('Descargado: ', archivoDescargado);
     if (fs.existsSync(archivoDescargado)) {
         console.log('Escenario no requiere descarga');
-        win.webContents.send('directorio:descargado', {estado:true, rutaLocal:rutaEscenario});
+        win.webContents.send('directorio:descargado', {estado:true, rutaLocal:rutaEscenario, flagLocal:true});
         return;
     }
 

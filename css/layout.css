@@ -1,12 +1,12 @@
 
 .menu-principal {
-    height: 6%;
+    height: 5%;
 }
 
 .workspace-row {
     display: flex;
     align-items: center;
-    height:87%;
+    height:90%;
 }
 
 .opcion-menu {

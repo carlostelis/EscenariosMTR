@@ -59,13 +59,12 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
     });
 
     SESION.config = json;
-    // SESION.algoritmos = json.algoritmos;
-    // SESION.sistemas = json.sistemas;
-    // SESION.exalogic = json.exalogic;
 
     // Icono ok
     banner.ok();
     banner.setMensaje('Carga completa');
+
+    mensajeConsola('Inicialización completa');
 
     // Oculta banner
     setTimeout(() => {
@@ -157,7 +156,7 @@ function solicitarAutenticacion() {
     banner.mostrar();
     banner.ocultarBoton();
     banner.setMensaje('Autenticando');
-    banner.cargando('slateblue');
+    banner.cargando('salmon');
 }
 
 ipcRenderer.on('usuario:obtenido', (event, json) => {
@@ -168,6 +167,7 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
             banner.ok();
             banner.setMensaje('Autenticación exitosa');
 
+            mensajeConsola(`Usuario Autenticado exitosamente: ${json.nombre} en ${SESION.sistema}`);
             // Guarda el resto de los datos
             SESION.nombre = json.nombre;
             SESION.perfil = json.perfil;

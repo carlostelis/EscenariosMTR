@@ -57,6 +57,24 @@ body.onload = () => {
     ipcRenderer.send('paginas:leer');
 };
 
+function mensajeConsola(mensaje) {
+	// Agrega la estampa de tiempo
+	let mensaje_consola = `<b>[${moment().format('YYYY-MM-DD HH:mm:ss')}]</b>\t${mensaje}`;
+
+	// Escribe Mensaje a la consola
+	let div_msg_consola = document.getElementById('div_msg_consola');
+	let nodo_span = document.createElement('span');
+	nodo_span.innerHTML = mensaje_consola;
+
+	div_msg_consola.appendChild(nodo_span);
+	div_msg_consola.scrollTop = div_msg_consola.scrollHeight;
+
+	let mensaje_bitacora = moment().format('YYYY-MM-DD HH:mm:ss') + '\t' + mensaje;
+
+	// Manda mensaje a la bitacora
+	ipcRenderer.send('bitacora:escribir', mensaje_bitacora);
+}
+
 window.onbeforeunload = function(e) {
     body.style.opacity = '0';
 };

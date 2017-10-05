@@ -12,16 +12,13 @@
 }
 
 .label_form_dato_ce {
-    font-size:1.2vw;
-    /*height: 2vh;*/
+    font-size:1.1vw;
     padding:0;
     margin:auto;
 }
 
 .form-label-ce {
-    font-size:3vh;
-    /*height: :2vw;*/
-    /*margin-bottom:2vh;*/
+    font-size:2.5vh;
     text-shadow: 1px 1px 5px darkgrey;
     text-decoration: underline;
 }
@@ -31,14 +28,17 @@
     padding: 3vh 2vw;
     border-radius: 10px;
     border-style: groove;
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+    width:80%;
+    margin:auto;
 }
 
 .form-fila {
     height: 7vh;
-    margin-bottom: 1.3vh;
+    margin-bottom: 0.5vh;
 }
 
 .form-valor-ce {
-    height: 5vh !important;
-    font-size: 1.3vw !important;
+    height: 4vh !important;
+    font-size: 1.2vw !important;
 }

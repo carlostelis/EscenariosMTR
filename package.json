@@ -7,6 +7,7 @@
   "scripts": {
     "test": "electron .",
     "start": "electron .",
+    "instalador": "node ./packager/build.js",
     "empaquetar": "electron-packager . Escenarios_MTR --overwrite --platform=win32 --arch=x64 --icon=img/icono.ico --prune=false --ignore=JAVA_DB_MTR --out=./built_app --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"escenarios_mtr\""
   },
   "author": "",
@@ -14,10 +15,8 @@
   "dependencies": {
     "electron-context-menu": "^0.9.1",
     "ftp": "^0.3.10",
-    "jQuery": "^1.7.4",
     "moment": "^2.18.1",
-    "path": "^0.12.7",
-    "tar.gz": "^1.0.5"
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "electron": "^1.7.5",

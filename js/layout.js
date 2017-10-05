@@ -61,11 +61,24 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
         } else {
             banner.setProgreso(100);
             banner.ok('darkgreen');
-            banner.setMensaje('Escenario descargado correctamente');
+            banner.mostrarProgreso('darkgreen');
+
+            if (typeof res.flagLocal === 'undefined') {
+                banner.setMensaje('Escenario descargado correctamente');
+            } else {
+                banner.setMensaje('Escenario encontrado localmente');
+            }
+
             console.log('Ruta de escenario:', res.rutaLocal);
+
+            mensajeConsola(`Escenario cargado localmente: ${res.rutaLocal}`);
+
             visor_archivos.actualizar();
             setTimeout(() => {
                 // banner.ocultar();
+                banner.trabajando();
+                banner.setMensaje('Leyendo información');
+                banner.ocultarProgreso();
                 // Pasa al menu de información
                 ipcRenderer.send('escenario:leer', res.rutaLocal, SESION.algoritmo);
                 menuInfo.onclick();
@@ -204,13 +217,15 @@ ipcRenderer.on('utc:respuesta', (event, json) => {
         algoritmo: sel_algoritmo_ce.value
     };
 
+    mensajeConsola(`Solicitando escenario ${id}`);
+
     SESION.algoritmo = sel_algoritmo_ce.value;
 
     ipcRenderer.send('directorio:descarga', obj);
 
     banner.setMensaje('Buscando escenario');
     banner.setProgreso(0);
-    banner.mostrarProgreso();
+    //banner.mostrarProgreso();
 });
 
 // Construye el nombre del escenario
