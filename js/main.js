@@ -7,9 +7,41 @@ const ListaArchivos = require('./ListaArchivos.js');
 const config = require('./config.js');
 const path = require('path');
 const FTP = require('./FTP.js');
-const targz = require('tar.gz');
 const Escenario = require('./Escenario.js');
 const BitacoraUsuario = require('./BitacoraUsuario.js');
+const SQL = require('./sql.js');
+//const db = new SQL.Database();
+
+// Execute some sql
+/*sqlstr = `DROP TABLE IF EXISTS orders;
+CREATE TABLE orders(order_id integer, customer_id integer, fecha date);
+
+INSERT INTO orders VALUES (10308, 2, '1996-09-18');
+INSERT INTO orders VALUES (10309, 1, '1996-09-19');
+INSERT INTO orders VALUES (10310, 3, '1996-09-20');
+
+DROP TABLE IF EXISTS customers;
+CREATE TABLE customers(customer_id integer, customer_name text, contact_name text, country text);
+
+INSERT INTO customers VALUES (1, 'Alfreds Futterkiste', 'Maria Anders', 'Germany');
+INSERT INTO customers VALUES (2, 'Ana Trujillo Emparedados y helados', 'Ana Trujillo',	'Mexico');
+INSERT INTO customers VALUES (3, 'Antonio Moreno Taquería', 'Antonio Moreno', 'Mexico');`;
+
+db.run(sqlstr); // Run the query without returning anything
+
+var res = db.exec("SELECT * FROM orders ORDER BY fecha;");
+console.log(res[0]);
+
+console.log('---');
+
+var res = db.exec("SELECT * FROM customers;");
+console.log(res[0]);
+console.log('---');
+
+var res = db.exec("SELECT orders.order_id, customers.customer_name, orders.fecha FROM orders INNER JOIN customers ON orders.customer_id=customers.customer_id;");
+console.log(res[0]);
+console.log('---');*/
+
 
 // Objetos
 const comandos = new Comandos();

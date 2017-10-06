@@ -61,10 +61,10 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
         } else {
             banner.setProgreso(100);
             banner.ok('darkgreen');
-            banner.mostrarProgreso('darkgreen');
 
             if (typeof res.flagLocal === 'undefined') {
                 banner.setMensaje('Escenario descargado correctamente');
+                banner.mostrarProgreso('darkgreen');
             } else {
                 banner.setMensaje('Escenario encontrado localmente');
             }
@@ -75,6 +75,12 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
 
             visor_archivos.actualizar();
             setTimeout(() => {
+                // Habilita los menus
+                menuInfo.classList.remove('invalido');
+                menuModifica.classList.remove('invalido');
+                menuCompara.classList.remove('invalido');
+                menuAdmin.classList.remove('invalido');
+
                 // banner.ocultar();
                 banner.trabajando();
                 banner.setMensaje('Leyendo información');
@@ -177,12 +183,22 @@ function cargaComponentes() {
 
 // Inicia la busqueda del escenario, primero obtiene UTC de la fecha solicitada
 function cargarEscenario() {
+    // Deshabilita los menus
+    menuInfo.classList.add('invalido');
+    menuModifica.classList.add('invalido');
+    menuCompara.classList.add('invalido');
+    menuAdmin.classList.add('invalido');
+
+    // Elimina el objeto anterior
+    objArchivos = null;
+
     // manda a obtener el utc de la fecha seleccionada
     let input_fecha_ce = document.querySelector('#input_fecha_ce');
     let sel_hora_ce = document.querySelector('#sel_hora_ce');
     banner.mostrar();
-    banner.actualizando('coral');
+    banner.actualizando('steelblue');
     banner.setMensaje('Consultando UTC');
+    banner.setProgreso(0);
     banner.ocultarProgreso();
     banner.ocultarBoton();
 
@@ -224,8 +240,6 @@ ipcRenderer.on('utc:respuesta', (event, json) => {
     ipcRenderer.send('directorio:descarga', obj);
 
     banner.setMensaje('Buscando escenario');
-    banner.setProgreso(0);
-    //banner.mostrarProgreso();
 });
 
 // Construye el nombre del escenario

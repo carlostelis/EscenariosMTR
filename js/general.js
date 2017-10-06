@@ -25,6 +25,8 @@ const SESION = {
 	sistema: ''
 }
 
+let objArchivos;
+
 let menuCarga;
 let menuInfo;
 let menuModifica;
@@ -83,6 +85,11 @@ function fn_menuCarga() {
 	if (menuCarga.deshabilitado) {
 		return;
 	}
+
+	if (menuCarga.classList.contains('invalido')) {
+		return;
+	}
+
 	// oculta las vistas
 	let vista = document.getElementById('vista-esc-carga');
 	mostrarVista(vista, menuCarga);
@@ -92,6 +99,11 @@ function fn_menuInfo() {
 	if (menuInfo.deshabilitado) {
 		return;
 	}
+
+	if (menuInfo.classList.contains('invalido')) {
+		return;
+	}
+
 	// oculta las vistas
 	let vista = document.getElementById('vista-esc-info');
 	mostrarVista(vista, menuInfo);
@@ -101,6 +113,11 @@ function fn_menuModifica() {
 	if (menuModifica.deshabilitado) {
 		return;
 	}
+
+	if (menuModifica.classList.contains('invalido')) {
+		return;
+	}
+
 	// oculta las vistas
 	let vista = document.getElementById('vista-esc-modifica');
 	mostrarVista(vista, menuModifica);
@@ -110,6 +127,11 @@ function fn_menuCompara() {
 	if (menuCompara.deshabilitado) {
 		return;
 	}
+
+	if (menuCompara.classList.contains('invalido')) {
+		return;
+	}
+
 	// oculta las vistas
 	let vista = document.getElementById('vista-esc-compara');
 	mostrarVista(vista, menuCompara);
@@ -119,6 +141,11 @@ function fn_menuAdmin() {
 	if (menuAdmin.deshabilitado) {
 		return;
 	}
+
+	if (menuAdmin.classList.contains('invalido')) {
+		return;
+	}
+
 	// oculta las vistas
 	let vista = document.getElementById('vista-esc-admin');
 	mostrarVista(vista, menuAdmin);

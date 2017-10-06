@@ -124,8 +124,15 @@ class Escenario {
                         if (valor !== 'IGNORAR') {
                             let dato = {
                                 valor: valor.replace(new RegExp('\\"' , 'g'), ''),
-                                editado: false
+                                editado: false,
+                                tipo: 'number'
                             };
+
+                            // Confirma el tipo de dato
+                            if (isNaN(dato.valor)) {
+                                dato.tipo = 'string';
+                            }
+
                             filaObj.push(dato);
                         }
                     });

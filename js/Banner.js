@@ -114,7 +114,7 @@ class Banner {
         this.divIcono.classList.remove('banner_actualiza');
         this.divIcono.classList.add('banner_trabaja');
         this.divIcono.classList.remove('banner_loading');
-        this.divIcono.style.color = 'tomato';
+        this.divIcono.style.color = 'brown';
 
         if (typeof color === 'string') {
             this.divIcono.style.color = color;

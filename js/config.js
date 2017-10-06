@@ -12,10 +12,10 @@ module.exports = {
         }
     },
     exalogic: {
-        host: '10.71.14.73',
+        host: '10.71.14.72',
         user: 'historicomtr',
         password: 'historicomtr01',
-        base: "/pruebas/"
+        base: "/calculos1/"
     },
     sistemas: [
         {

@@ -156,7 +156,7 @@ function solicitarAutenticacion() {
     banner.mostrar();
     banner.ocultarBoton();
     banner.setMensaje('Autenticando');
-    banner.cargando('salmon');
+    banner.cargando('darkorange');
 }
 
 ipcRenderer.on('usuario:obtenido', (event, json) => {

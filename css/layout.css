@@ -47,6 +47,22 @@
     cursor: default;
 }
 
+.opcion-menu.invalido > div:hover {
+    font-weight: normal;
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.opcion-menu.invalido > div {
+    background: linear-gradient(to bottom, #215e3e 0%,#347c58 50%,#215e3e 100%) !important;
+    height:100% !important;
+    cursor:default !important;
+    color: #347c58 !important;
+    font-size: 1.1vw !important;
+    text-align:center !important;
+    text-shadow: none !important;
+}
+
 .opcion-menu.deshabilitado > div:hover {
     font-weight: normal;
     text-shadow: none;

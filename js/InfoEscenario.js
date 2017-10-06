@@ -76,6 +76,8 @@ ipcRenderer.on('escenario:leido', (event, obj) => {
     console.log('---- JSON -----');
     console.log(obj);
 
+    objArchivos = obj;
+
     // Obtiene los colpase de las tablas
     let colapsos = document.getElementsByClassName('celda-header-info');
     for (let col of colapsos) {
@@ -103,7 +105,83 @@ ipcRenderer.on('escenario:leido', (event, obj) => {
         }
     }
 
-    obj.lista.forEach((archivo) => {
+    // Obtiene el numero de periodos por algoritmo
+    let periodos = 0;
+    SESION.config.algoritmos.forEach((algoritmo) => {
+        if (algoritmo.carpeta === SESION.algoritmo) {
+            periodos = algoritmo.periodos;
+        }
+    });
+    console.log('>>> Periodos:', periodos);
+
+    // Verifica si las columnas dependen de periodos por algoritmo
+
+    // Borra los nodos anteriores
+    let th_periodos = document.getElementsByClassName('th-periodo');
+
+    // Se asegura de borrar todos los th-periodo
+    // No se borran todos a la primer pasada
+    do {
+        console.log('periodos a borrar', th_periodos.length);
+        for (let thp of th_periodos) {
+            if (thp.nodeName.toLowerCase() === 'th') {
+                thp.parentNode.removeChild(thp);
+            }
+        }
+
+        th_periodos = document.getElementsByClassName('th-periodo');
+    } while (th_periodos.length > 0);
+
+    // Tablas de Periodos 1-N
+    let tablas_periodo = document.getElementsByClassName('alg-dep');
+
+    for (let tabla of tablas_periodo) {
+        for (let nodoA of tabla.childNodes) {
+            if (nodoA.nodeName.toLowerCase() === 'tr') {
+                // Agrega las cabeceras de los periodos
+                for (let i = 1; i <= periodos; i++) {
+                    let th = document.createElement('th');
+                    th.classList.add('th-periodo');
+                    let texto = document.createTextNode(`Periodo ${i}`);
+                    // console.log('Agrega',texto);
+                    th.appendChild(texto);
+                    nodoA.appendChild(th);
+                }
+                break;
+            }
+        }
+    }
+
+    // Tablas de de intervalos min y max 1-N
+    tablas_periodo = document.getElementsByClassName('alg-dep-i');
+
+    for (let tabla of tablas_periodo) {
+        for (let nodoA of tabla.childNodes) {
+            if (nodoA.nodeName.toLowerCase() === 'tr') {
+                // Agrega las cabeceras de los periodos
+                for (let i = 1; i <= periodos; i++) {
+                    let thmin = document.createElement('th');
+                    let thmax = document.createElement('th');
+
+                    thmin.classList.add('th-periodo');
+                    thmax.classList.add('th-periodo');
+
+                    let texto_min = document.createTextNode(`Flujo mínimo en I_${i}`);
+                    let texto_max = document.createTextNode(`Flujo máximo en I_${i}`);
+
+                    thmin.appendChild(texto_min);
+                    thmax.appendChild(texto_max);
+
+                    nodoA.appendChild(thmin);
+                    nodoA.appendChild(thmax);
+                }
+                break;
+            }
+        }
+    }
+
+    // Crea la tabla de cada archivo
+    objArchivos.lista.forEach((archivo) => {
         crearTabla(archivo);
     });
 
@@ -112,11 +190,18 @@ ipcRenderer.on('escenario:leido', (event, obj) => {
 
 function crearTabla(objArchivo) {
     let id = objArchivo.archivo.toUpperCase().split('.CSV')[0];
-    console.log('tabla', id);
+    // console.log('tabla', id);
     let tabla = document.getElementById(id);
     if (typeof tabla === 'undefined' || tabla === null) {
         console.log('No existe la tabla', id);
         return;
+    }
+
+    // Borra el tbody anterior
+    for (let nodo of tabla.childNodes) {
+        if (nodo.nodeName.toLowerCase() === 'tbody') {
+            tabla.removeChild(nodo);
+        }
     }
 
     // Crea tbody
@@ -153,8 +238,25 @@ function crearTabla(objArchivo) {
                 input.onblur = () => {
                     // Si hubo cambio, se notifica
                     if (input.value != input.original) {
-                        objDato.valor = input.value;
-                        mensajeConsola(`Modificación de ${id}.csv en (${input.fila}, ${input.columna}) de "${input.original}" a "${input.value}"`);
+                        if (objDato.tipo === 'number') {
+                            if (isNaN(input.value)) {
+                                objDato.valor = input.value;
+                                alert(`Error en el valor "${input.value}": se requiere un valor numérico en la columna ${input.columna}`);
+                                mensajeConsola(`Error en el valor "${input.value}": se requiere un valor numérico en la columna ${input.columna}`);
+                                input.classList.add('input-error');
+                                setTimeout(() => {
+                                    input.focus();
+                                }, 100);
+                            } else {
+                                objDato.valor = input.value;
+                                mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${input.original}" a "${input.value}" (${id}.csv)`);
+                                input.classList.remove('input-error');
+                            }
+                        } else {
+                            objDato.valor = input.value;
+                            mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${input.original}" a "${input.value}" (${id}.csv)`);
+                            input.classList.remove('input-error');
+                        }
                     }
                 };
 
