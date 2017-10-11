@@ -209,6 +209,20 @@
     float:right;
 }
 
+.celda-header-info.vacio {
+    background: rosybrown;
+    text-shadow: none;
+    cursor:initial;
+}
+
+.celda-header-info.vacio:hover {
+    text-shadow: none;
+}
+
+.celda-header-info.vacio:active {
+    color: white;
+}
+
 #menu-info {
     height: 100%;
     margin: 0% 3% 0% 0%;
@@ -266,6 +280,7 @@ span.menu-boton-texto {
 
 .colapsable.visible {
     opacity: 1;
+    display:flex;
 }
 
 .colapsable.invisible {

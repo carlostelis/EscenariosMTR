@@ -5,23 +5,53 @@ while (typeof ipcRenderer === 'undefined') {
 
 function colapsar(trigger, id) {
     // Si esta inactivo no hace nada
-    if (trigger.classList.contains('inactivo')) {
+    if (trigger.classList.contains('inactivo') || trigger.classList.contains('vacio')) {
+        trigger.desplegado = false;
         return;
     }
 
-    let div = document.getElementById(id);
-    let iconoAbajo;
-    if (div) {
-        if (div.classList.contains('visible')) {
-            div.classList.remove('visible');
-            div.classList.add('invisible');
-            div.style.display = 'none';
-            iconoAbajo = true;
-        } else {
-            div.style.display = 'flex';
-            div.classList.remove('invisible');
-            div.classList.add('visible');
-            iconoAbajo = false;
+    let iconoAbajo = false;
+    let tabla_buscada;
+
+    for (tabla of tablas_info) {
+        if (tabla.id === id) {
+            tabla_buscada = tabla;
+            break;
+        }
+    }
+
+    // Si no la encontró en la lista la busca en el dom
+    if (!tabla_buscada) {
+        tabla_buscada = document.getElementById(id);
+    }
+
+    if (tabla_buscada) {
+        let contenedor = document.getElementById(tabla_buscada.dataset.contenedor);
+        if (contenedor) {
+            // La muestra
+            if (!tabla_buscada.elementoVisible) {
+                for (let nodo of contenedor.childNodes) {
+                    if (nodo.nodeName.toLowerCase() === 'div') {
+                        nodo.appendChild(tabla_buscada);
+                        contenedor.classList.remove('invisible');
+                        contenedor.classList.add('visible');
+                        tabla_buscada.elementoVisible = true;
+                        iconoAbajo = false;
+                    }
+                }
+            }
+            // la oculta
+            else {
+                for (let nodo of contenedor.childNodes) {
+                    if (nodo.nodeName.toLowerCase() === 'div') {
+                        nodo.removeChild(tabla_buscada);
+                        contenedor.classList.add('invisible');
+                        contenedor.classList.remove('visible');
+                        tabla_buscada.elementoVisible = false;
+                        iconoAbajo = true;
+                    }
+                }
+            }
         }
     }
 
@@ -49,6 +79,9 @@ function colapsar(trigger, id) {
             break;
         }
     }
+
+    // Marca el div como colapsado
+    trigger.desplegado = !iconoAbajo;
 }
 
 function mostrarContenedor(id, trigger) {
@@ -68,55 +101,61 @@ function mostrarContenedor(id, trigger) {
     trigger.classList.add('active');
 }
 
-function leerEscenario(ruta_escenario) {
-
-}
-
-ipcRenderer.on('escenario:leido', (event, obj) => {
-    console.log('---- JSON -----');
-    console.log(obj);
-
-    objArchivos = obj;
-
-    // Obtiene los colpase de las tablas
+function mostrarTodas() {
+    // Reestablece los colapsos
     let colapsos = document.getElementsByClassName('celda-header-info');
     for (let col of colapsos) {
-        // Los deshabilita
-        col.classList.add('inactivo');
+        col.classList.remove('inactivo');
+        col.classList.remove('vacio');
+        // col.desplegado = false;
 
-        // Cambia el icono a flecha hacia abajo
-        for (let nodoA of col.childNodes) {
-            // div hijo
-            if (nodoA.nodeName.toLowerCase() === 'div') {
-                for (let nodoB of nodoA.childNodes) {
-                    if (nodoB.nodeName.toLowerCase() === 'span') {
-                        for (let nodoC of nodoB.childNodes) {
-                            if (nodoC.nodeName.toLowerCase() === 'i') {
-                                nodoC.classList.add('fa-caret-square-o-down');
-                                nodoC.classList.remove('fa-caret-square-o-up');
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
-                break;
+        // Busca su tabla
+        // Si no existe la propiedad o esta colapsado, activa su funcion
+        if (typeof col.desplegado === 'undefined' || col.desplegado === false) {
+            col.onclick();
+        }
+    }
+}
+
+function colapsarTodas(flagClass) {
+    let colapsos = document.getElementsByClassName('celda-header-info');
+    for (let col of colapsos) {
+        let flagInactivo = col.classList.contains('inactivo');
+        let flagVacio = col.classList.contains('vacio');
+
+        // Forzar inactivos y vacio
+        if (typeof flagClass !== 'undefined' && flagClass === true) {
+            col.classList.remove('inactivo');
+            col.classList.remove('vacio');
+        }
+
+        // Busca su tabla
+        // Si existe la propiedad y esta desplegado, activa su funcion
+        if (typeof col.desplegado !== 'undefined' && col.desplegado === true) {
+            col.onclick();
+        }
+
+        if (typeof flagClass !== 'undefined' && flagClass === true) {
+            if (flagInactivo) {
+                col.classList.add('inactivo');
+            }
+            if (flagVacio) {
+                col.classList.add('vacio');
             }
         }
     }
+}
 
-    // Obtiene el numero de periodos por algoritmo
-    let periodos = 0;
-    SESION.config.algoritmos.forEach((algoritmo) => {
-        if (algoritmo.carpeta === SESION.algoritmo) {
-            periodos = algoritmo.periodos;
-        }
-    });
-    console.log('>>> Periodos:', periodos);
+function desactivarColapsos() {
+    // Reestablece los colapsos
+    let colapsos = document.getElementsByClassName('celda-header-info');
+    for (let col of colapsos) {
+        col.classList.add('inactivo');
+    }
+}
 
-    // Verifica si las columnas dependen de periodos por algoritmo
-
-    // Borra los nodos anteriores
+function borrarThPeriodos() {
+    // Borra los periodos anteriores
     let th_periodos = document.getElementsByClassName('th-periodo');
 
     // Se asegura de borrar todos los th-periodo
@@ -131,19 +170,55 @@ ipcRenderer.on('escenario:leido', (event, obj) => {
 
         th_periodos = document.getElementsByClassName('th-periodo');
     } while (th_periodos.length > 0);
+}
+
+function vaciarTablas() {
+    let tablas = document.getElementsByClassName('tabla-info');
+
+    // Tablas del dom
+    for (let tabla of tablas) {
+        for (let nodo of tabla.childNodes) {
+            if (nodo.nodeName.toLowerCase() === 'tbody') {
+                tabla.removeChild(nodo);
+                break;
+            }
+        }
+    }
+}
+
+ipcRenderer.on('escenario:leido', (event, obj) => {
+    console.log('---- JSON -----');
+    console.log(obj);
+
+    objArchivos = obj;
+
+    // Muestra las tablas para que esten en el dom
+    mostrarTodas();
+    // Borra los periodos
+    borrarThPeriodos();
+    // Vacia los datos de las tablas (desde el dom)
+    vaciarTablas();
+
+    // Obtiene el numero de periodos por algoritmo
+    let periodos = 0;
+    SESION.config.algoritmos.forEach((algoritmo) => {
+        if (algoritmo.carpeta === SESION.algoritmo) {
+            periodos = algoritmo.periodos;
+        }
+    });
+    console.log('>>> Periodos:', periodos);
 
     // Tablas de Periodos 1-N
-    let tablas_periodo = document.getElementsByClassName('alg-dep');
-
-    for (let tabla of tablas_periodo) {
-        for (let nodoA of tabla.childNodes) {
+    let thead_periodo = document.getElementsByClassName('alg-dep');
+    for (let thead of thead_periodo) {
+        for (let nodoA of thead.childNodes) {
             if (nodoA.nodeName.toLowerCase() === 'tr') {
                 // Agrega las cabeceras de los periodos
                 for (let i = 1; i <= periodos; i++) {
                     let th = document.createElement('th');
                     th.classList.add('th-periodo');
                     let texto = document.createTextNode(`Periodo ${i}`);
-                    // console.log('Agrega',texto);
+
                     th.appendChild(texto);
                     nodoA.appendChild(th);
                 }
@@ -153,9 +228,9 @@ ipcRenderer.on('escenario:leido', (event, obj) => {
     }
 
     // Tablas de de intervalos min y max 1-N
-    tablas_periodo = document.getElementsByClassName('alg-dep-i');
+    thead_periodo = document.getElementsByClassName('alg-dep-i');
 
-    for (let tabla of tablas_periodo) {
+    for (let tabla of thead_periodo) {
         for (let nodoA of tabla.childNodes) {
             if (nodoA.nodeName.toLowerCase() === 'tr') {
                 // Agrega las cabeceras de los periodos
@@ -181,17 +256,40 @@ ipcRenderer.on('escenario:leido', (event, obj) => {
     }
 
     // Crea la tabla de cada archivo
+    // Las guarda en tablas_info
+
+    // Desactiva todos los colapsos
+    desactivarColapsos();
+
+    // Crea las nuevas tablas
     objArchivos.lista.forEach((archivo) => {
         crearTabla(archivo);
     });
+    console.log('Tablas:', tablas_info.length);
+    console.log('MAX ROWS', MAX_ROWS);
+    // Oculta todas
+    colapsarTodas(true);
 
     banner.ocultar();
 });
 
 function crearTabla(objArchivo) {
     let id = objArchivo.archivo.toUpperCase().split('.CSV')[0];
-    // console.log('tabla', id);
+
+    // Busca la tabla en el dom
     let tabla = document.getElementById(id);
+
+    if (typeof tabla === 'undefined' || tabla === null) {
+        // Si no la encuentra la busca en la lista
+        for (let t of tablas_info) {
+            if (t.id === id) {
+                tabla = t;
+                console.log('tabla encontrada en la lista', id);
+                break;
+            }
+        }
+    }
+
     if (typeof tabla === 'undefined' || tabla === null) {
         console.log('No existe la tabla', id);
         return;
@@ -218,6 +316,8 @@ function crearTabla(objArchivo) {
         let td_fila = document.createElement('td');
         let texto_fila = document.createTextNode(num_fila);
         td_fila.appendChild(texto_fila);
+        td_fila.style.fontWeight = 'bold';
+        td_fila.style.textShadow = '1px 1px 1px';
         tr.appendChild(td_fila);
 
         // Crea columnas
@@ -276,11 +376,46 @@ function crearTabla(objArchivo) {
 
     tabla.appendChild(tbody);
 
-    // Habilita su colapso si hubo datos
-    if (objArchivo.numFilas > 0) {
-        let colapso = document.getElementById(tabla.dataset.colapso);
-        if (colapso) {
-            colapso.classList.remove('inactivo');
+    if (objArchivo.filas.length > MAX_ROWS) {
+        tabla.paginacion = new Paginacion(tabla);
+    }
+
+    // Remueve la tabla del dom por defecto
+    // Al dar click al colapso se reinserta
+    // tabla.elementoVisible = false;
+
+    // Se reinserta en su parent
+    let id_parent = tabla.dataset.contenedor;
+    if (id_parent) {
+        let parent = document.getElementById(id_parent);
+        if (parent) {
+            for (let nodo of parent.childNodes) {
+                if (nodo.nodeName.toLowerCase() === 'div') {
+                    nodo.appendChild(tabla);
+                }
+            }
         }
     }
+
+    // Agrega la tabla a la lista
+    if (!tablas_info.some((t) => {
+        return t.id === tabla.id;
+    })) {
+        tablas_info.push(tabla);
+    }
+
+    let colapso = document.getElementById(tabla.dataset.colapso);
+    // Habilita su colapso si hubo datos
+    if (colapso) {
+        if (objArchivo.numFilas > 0) {
+            colapso.classList.remove('inactivo');
+            colapso.classList.remove('vacio');
+        } else {
+            console.log(id, 'no tiene datos');
+            colapso.classList.remove('inactivo');
+            colapso.classList.add('vacio');
+        }
+    }
+
+    return tabla;
 }

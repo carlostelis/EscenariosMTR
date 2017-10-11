@@ -70,6 +70,23 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
     setTimeout(() => {
         banner.ocultar();
     }, 1000);
+
+    // banner.setMensaje('Creando contenedores de datos');
+    // ipcRenderer.send('bds:init');
+});
+
+ipcRenderer.on('bd_autr:progreso', (event, progreso) => {
+    banner.mostrarProgreso();
+    banner.setProgreso(progreso);
+});
+
+ipcRenderer.on('bd_autr:creada', (event, res) => {
+    banner.ok();
+    banner.setMensaje('Carga completa');
+    // Oculta banner
+    setTimeout(() => {
+        banner.ocultar();
+    }, 1000);
 });
 
 // habilitar banner

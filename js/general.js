@@ -24,6 +24,7 @@ const SESION = {
 	usuario: '',
 	sistema: ''
 }
+const tablas_info = [];
 
 let objArchivos;
 

@@ -9,45 +9,18 @@ const path = require('path');
 const FTP = require('./FTP.js');
 const Escenario = require('./Escenario.js');
 const BitacoraUsuario = require('./BitacoraUsuario.js');
-const SQL = require('./sql.js');
-//const db = new SQL.Database();
 
-// Execute some sql
-/*sqlstr = `DROP TABLE IF EXISTS orders;
-CREATE TABLE orders(order_id integer, customer_id integer, fecha date);
-
-INSERT INTO orders VALUES (10308, 2, '1996-09-18');
-INSERT INTO orders VALUES (10309, 1, '1996-09-19');
-INSERT INTO orders VALUES (10310, 3, '1996-09-20');
-
-DROP TABLE IF EXISTS customers;
-CREATE TABLE customers(customer_id integer, customer_name text, contact_name text, country text);
-
-INSERT INTO customers VALUES (1, 'Alfreds Futterkiste', 'Maria Anders', 'Germany');
-INSERT INTO customers VALUES (2, 'Ana Trujillo Emparedados y helados', 'Ana Trujillo',	'Mexico');
-INSERT INTO customers VALUES (3, 'Antonio Moreno Taquería', 'Antonio Moreno', 'Mexico');`;
-
-db.run(sqlstr); // Run the query without returning anything
-
-var res = db.exec("SELECT * FROM orders ORDER BY fecha;");
-console.log(res[0]);
-
-console.log('---');
-
-var res = db.exec("SELECT * FROM customers;");
-console.log(res[0]);
-console.log('---');
-
-var res = db.exec("SELECT orders.order_id, customers.customer_name, orders.fecha FROM orders INNER JOIN customers ON orders.customer_id=customers.customer_id;");
-console.log(res[0]);
-console.log('---');*/
-
+// Queda para BD a futuro
+// const BDLocal = require('./BDLocal.js');
 
 // Objetos
 const comandos = new Comandos();
 const listaArchivos = new ListaArchivos('C:\\AppAnalizadorEscenarios');
 const escenario = new Escenario();
 const bitacoraUsuario = new BitacoraUsuario(config.local.escenarios);
+
+// Queda para BD a futuro
+// const bd_autr = new BDLocal();
 
 const TO_BD = 2000;
 let win;
@@ -59,7 +32,6 @@ let ftp = new FTP({
 }, config.local.escenarios);
 
 let SESION;
-
 
 /////////          Para la generacion del instalador             //////////////
 
@@ -135,8 +107,8 @@ app.on('ready', () => {
     win = new BrowserWindow({
         width: 1440,
         height: 900,
-        // minWidth: 1440,
-        // minHeight: 900,
+        minWidth: 1440,
+        minHeight: 900,
         webPreferences: {
             devTools: true
         }
@@ -163,6 +135,10 @@ app.on('ready', () => {
     // Inserta Menú de la ventana
     const mainMenu = Menu.buildFromTemplate(crearMenu(app, win, dialog));
     Menu.setApplicationMenu(mainMenu);
+
+    // BDs
+    // Queda para BD a futuro
+    // bd_autr.set(require('./archivos_autr.js'), win, 'autr');
 });
 
 // Función para finalizar, se invoca al cerrar la ventana y al cerrar sesion
@@ -211,6 +187,20 @@ ipcMain.on('sistemas:solicitar', (event) => {
         exalogic: config.exalogic
     });
 });
+
+
+// Queda para BD a futuro
+// ipcMain.on('bds:init', () => {
+//     console.log('Creando BD Autr');
+//     // Carga las bases de datos
+//     bd_autr.init().then(() => {
+//         console.log("BD Creada");
+//         win.webContents.send('bd_autr:creada', {id:'autr', estado:true});
+//     }, (e) => {
+//         console.log('BD fallida', e);
+//         win.webContents.send('bd_autr:creada', {id:'autr', estado:false});
+//     });
+// });
 
 ipcMain.on('usuario:solicitar', (event, usuario) => {
     console.log(`Solicitando usuario ${usuario}`);

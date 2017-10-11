@@ -31,12 +31,18 @@ class Escenario {
             };
 
             this.fs.readdir((ruta_dirdat), (err, files) => {
-                files.forEach((file) => {
+                // files.forEach((file) => {
+                //     //console.log('>>', file);
+                //     setTimeout(() => {
+                //         promesas.push(this.parseArchivoCSV(this.path.join(ruta_dirdat, file), archivosJSON));
+                //     }, i * 10);
+                // });
+                for (let i = 0; i < files.length; i++) {
                     //console.log('>>', file);
-                    if (contador < 10) {
-                        promesas.push(this.parseArchivoCSV(this.path.join(ruta_dirdat, file), archivosJSON));
-                    }
-                });
+                    setTimeout(() => {
+                        promesas.push(this.parseArchivoCSV(this.path.join(ruta_dirdat, files[i]), archivosJSON));
+                    }, i * 10);
+                }
             });
 
             // Espera creacion de promesas
@@ -46,7 +52,7 @@ class Escenario {
                 }, () => {
                     reject();
                 });
-            }, 1000);
+            }, 2000);
         });
     }
 

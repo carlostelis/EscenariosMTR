@@ -24,6 +24,14 @@ ipcRenderer.on('sesion:cerrar', (event) => {
     setTimeout(() => {
         body.style.opacity = '1';
         paginaActual = 'login';
+        // Habilita los menus
+        menuInfo.classList.add('invalido');
+        menuModifica.classList.add('invalido');
+        menuCompara.classList.add('invalido');
+        menuAdmin.classList.add('invalido');
+
+        // Regresa al menu de carga escenario
+        menuCarga.onclick();
     }, 1100);
 });
 
@@ -84,6 +92,7 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
                 // banner.ocultar();
                 banner.trabajando();
                 banner.setMensaje('Leyendo información');
+                banner.setProgreso(0);
                 banner.ocultarProgreso();
                 // Pasa al menu de información
                 ipcRenderer.send('escenario:leer', res.rutaLocal, SESION.algoritmo);

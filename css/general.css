@@ -284,3 +284,27 @@ body {
 	background-color: #FFF;
 	background-image: -webkit-linear-gradient(bottom,azure 0%,#347c58 50%,azure 100%);
 }
+
+.li-pagina {
+    color: darksalmon;
+    font-weight: bold;
+    cursor: pointer;
+    width: 1.9vw;
+}
+
+.li-pagina > a {
+    padding-left: 0px;
+    padding-right: 0px;
+    text-align: center;
+}
+
+.li-pagina:hover {
+    text-shadow: 1px 1px 1px;
+}
+
+.li-pagina.disabled {
+    color: black;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: crosshair;
+}
