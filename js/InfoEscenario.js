@@ -25,17 +25,21 @@ function colapsar(trigger, id) {
         tabla_buscada = document.getElementById(id);
     }
 
+    if (!typeof trigger.desplegado === 'undefined') {
+        trigger.desplegado = false;
+    }
+
     if (tabla_buscada) {
         let contenedor = document.getElementById(tabla_buscada.dataset.contenedor);
         if (contenedor) {
             // La muestra
-            if (!tabla_buscada.elementoVisible) {
+            if (!trigger.desplegado) {
                 for (let nodo of contenedor.childNodes) {
                     if (nodo.nodeName.toLowerCase() === 'div') {
                         nodo.appendChild(tabla_buscada);
                         contenedor.classList.remove('invisible');
                         contenedor.classList.add('visible');
-                        tabla_buscada.elementoVisible = true;
+                        // tabla_buscada.elementoVisible = true;
                         iconoAbajo = false;
                     }
                 }
@@ -47,7 +51,7 @@ function colapsar(trigger, id) {
                         nodo.removeChild(tabla_buscada);
                         contenedor.classList.add('invisible');
                         contenedor.classList.remove('visible');
-                        tabla_buscada.elementoVisible = false;
+                        // tabla_buscada.elementoVisible = false;
                         iconoAbajo = true;
                     }
                 }
@@ -187,7 +191,7 @@ function vaciarTablas() {
 }
 
 ipcRenderer.on('escenario:leido', (event, obj) => {
-    console.log('---- JSON -----');
+    console.log('Recibe archivos:', obj.lista.length);
     console.log(obj);
 
     objArchivos = obj;
@@ -263,7 +267,7 @@ ipcRenderer.on('escenario:leido', (event, obj) => {
 
     // Crea las nuevas tablas
     objArchivos.lista.forEach((archivo) => {
-        crearTabla(archivo);
+        crearTablaInfo(archivo);
     });
     console.log('Tablas:', tablas_info.length);
     console.log('MAX ROWS', MAX_ROWS);
@@ -273,8 +277,14 @@ ipcRenderer.on('escenario:leido', (event, obj) => {
     banner.ocultar();
 });
 
-function crearTabla(objArchivo) {
+function crearTablaInfo(objArchivo, copia) {
     let id = objArchivo.archivo.toUpperCase().split('.CSV')[0];
+
+    // REvisa si es copia
+    if (typeof copia !== 'undefined' && copia === true) {
+        // Agrega copia del identificador
+        id += '_COPIA';
+    }
 
     // Busca la tabla en el dom
     let tabla = document.getElementById(id);
@@ -284,7 +294,6 @@ function crearTabla(objArchivo) {
         for (let t of tablas_info) {
             if (t.id === id) {
                 tabla = t;
-                console.log('tabla encontrada en la lista', id);
                 break;
             }
         }
@@ -349,13 +358,15 @@ function crearTabla(objArchivo) {
                                 }, 100);
                             } else {
                                 objDato.valor = input.value;
-                                mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${input.original}" a "${input.value}" (${id}.csv)`);
+                                mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${input.original}" a "${input.value}" (${objArchivo.archivo})`);
                                 input.classList.remove('input-error');
+                                objArchivo.editado = true;
                             }
                         } else {
                             objDato.valor = input.value;
-                            mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${input.original}" a "${input.value}" (${id}.csv)`);
+                            mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${input.original}" a "${input.value}" (${objArchivo.archivo})`);
                             input.classList.remove('input-error');
+                            objArchivo.editado = true;
                         }
                     }
                 };
@@ -377,7 +388,12 @@ function crearTabla(objArchivo) {
     tabla.appendChild(tbody);
 
     if (objArchivo.filas.length > MAX_ROWS) {
-        tabla.paginacion = new Paginacion(tabla);
+        // Si ya existe el objeto, solo reconstruye
+        if (typeof tabla.paginacion !== 'undefined') {
+            tabla.paginacion.init();
+        } else {
+            tabla.paginacion = new Paginacion(tabla);
+        }
     }
 
     // Remueve la tabla del dom por defecto
@@ -417,5 +433,49 @@ function crearTabla(objArchivo) {
         }
     }
 
-    return tabla;
+    /* ********************** */
+    /* Busca copias de tabla  */
+    /* ********************** */
+    if (id === 'ZONASRES_DERS') {
+        console.log('Copiando ZONASRES_DERS');
+        crearTablaInfo(objArchivo, true);
+    }
+
+    if (id === 'AUSUBSIS_DERS') {
+        console.log('Copiando AUSUBSIS_DERS_COPIA');
+        crearTablaInfo(objArchivo, true);
+    }
 }
+
+function guardarEscenario() {
+    let nuevo_folio = moment().format('YYYYMMDDHHmm');
+    console.log('folio',nuevo_folio);
+
+    banner.setMensaje(`Generando escenario con folio ${nuevo_folio}`);
+    banner.trabajando();
+    banner.mostrar();
+
+    setTimeout(() => {
+        ipcRenderer.send('escenario-original:copiar', rutaEscenarioOriginal, nuevo_folio, objArchivos);
+    }, 500);
+}
+
+ipcRenderer.on('escenario-original:copiado', (event, res) => {
+    if (res.estado) {
+        banner.ok();
+        mensajeConsola(`Se generó un escenario modificado con folio ${res.folio} a partir de ${res.id}`);
+        setTimeout(() => {
+            banner.ocultar();
+        }, 1000);
+
+        // Habilita el menu modificados
+        menuModifica.classList.remove('invalido');
+    } else {
+        banner.error();
+        mensajeConsola(`Ocurrió un problema al generar el escenario modificado: ${res.error}`);
+        banner.setMensaje(res.error);
+        banner.setBoton('Aceptar', () => {
+            banner.ocultar();
+        });
+    }
+});

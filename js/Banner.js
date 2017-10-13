@@ -207,11 +207,15 @@ class Banner {
 
     setProgreso(progreso) {
         // if (progreso > 1) {
-            if (progreso < 100) {
+        if (progreso < 100) {
+            if (progreso > 0) {
                 this.divBarraProgreso.innerHTML = `${progreso.toFixed(0)}%`;
             } else {
-                this.divBarraProgreso.innerHTML = '<b>Completado</b>';
+                this.divBarraProgreso.innerHTML = '';
             }
+        } else {
+            this.divBarraProgreso.innerHTML = '<b>Completado</b>';
+        }
         // }
         this.divBarraProgreso.style.width = `${progreso}%`;
         // this.spanProgreso.innerHTML = `${progreso.toFixed(2)}%`;

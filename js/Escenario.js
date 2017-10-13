@@ -30,29 +30,25 @@ class Escenario {
                 lista: []
             };
 
+            let to;
+
             this.fs.readdir((ruta_dirdat), (err, files) => {
-                // files.forEach((file) => {
-                //     //console.log('>>', file);
-                //     setTimeout(() => {
-                //         promesas.push(this.parseArchivoCSV(this.path.join(ruta_dirdat, file), archivosJSON));
-                //     }, i * 10);
-                // });
                 for (let i = 0; i < files.length; i++) {
-                    //console.log('>>', file);
+                    to = i * 10;
                     setTimeout(() => {
                         promesas.push(this.parseArchivoCSV(this.path.join(ruta_dirdat, files[i]), archivosJSON));
-                    }, i * 10);
+                    }, to);
                 }
-            });
 
-            // Espera creacion de promesas
-            setTimeout(() => {
-                Promise.all(promesas).then(() => {
-                    resolve(archivosJSON);
-                }, () => {
-                    reject();
-                });
-            }, 2000);
+                // Espera creacion de promesas
+                setTimeout(() => {
+                    Promise.all(promesas).then(() => {
+                        resolve(archivosJSON);
+                    }, () => {
+                        reject();
+                    });
+                }, to + 100);
+            });
         });
     }
 
@@ -119,7 +115,7 @@ class Escenario {
                             if (i < (fila.length - 1)) {
                                 if (fila[i + 1].endsWith('"')) {
                                     console.log('Uniendo', fila[i], fila[i + 1]);
-                                    fila[i] = fila[i] + fila[i + 1];
+                                    fila[i] = `${fila[i]},${fila[i + 1]}`;
                                     fila[i + 1] = 'IGNORAR';
                                 }
                             }
@@ -129,15 +125,10 @@ class Escenario {
                     fila.forEach((valor) => {
                         if (valor !== 'IGNORAR') {
                             let dato = {
-                                valor: valor.replace(new RegExp('\\"' , 'g'), ''),
+                                valor: valor.replace(new RegExp('\\"' , 'g'), '').trim(),
                                 editado: false,
-                                tipo: 'number'
+                                tipo: ((valor.startsWith('"') && valor.endsWith('"')) ? 'string' : 'number')
                             };
-
-                            // Confirma el tipo de dato
-                            if (isNaN(dato.valor)) {
-                                dato.tipo = 'string';
-                            }
 
                             filaObj.push(dato);
                         }

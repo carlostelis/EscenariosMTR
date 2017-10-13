@@ -365,7 +365,7 @@ module.exports = [
     },
     {
         "nombre":"ZONASRES_DERS.csv",
-        "editable": true,
+        "editable": false,
         "campos":[
             { "nombre":"NUMERO_ZR", "tipo":"REAL"},
             { "nombre":"NOMBRE_ZR", "tipo":"REAL"},

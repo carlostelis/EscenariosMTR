@@ -1,5 +1,7 @@
 const electron = require('electron');
 const fs = require('fs');
+const fse = require('fs-extra');
+const moment = require('moment');
 const { app, BrowserWindow, Menu, ipcMain, remote, dialog } = electron;
 const Comandos = require('./Comandos.js');
 const crearMenu = require('./menuTemplate.js');
@@ -475,10 +477,257 @@ ipcMain.on('directorio:descarga', (event, data) => {
     });
 });
 
+ipcMain.on('algoritmo:descarga', (event, ruta_escenario, algoritmo) => {
+    let alg;
+    if (algoritmo === 'dersi') {
+        alg = 'DERSI';
+    } else {
+        alg = 'DERS';
+    }
+
+    let eje = `${alg}.exe`;
+    console.log(ruta_escenario, algoritmo);
+    let ruta_algoritmo_local = path.join(ruta_escenario, eje);
+    if (fs.existsSync(ruta_algoritmo_local)) {
+        console.log('Algoritmo ya existe local');
+        win.webContents.send('algoritmo:descargado', {estado:true});
+        return;
+    }
+
+    console.log('No existe el algoritmo', ruta_algoritmo_local);
+
+    let carpeta_algoritmo = path.join(`${SESION.config.exalogic.base}`, `${SESION.sistemaCarpeta}`, SESION.config.exalogic.algoritmos, 'WINDOWS', SESION.sistema, alg);
+    console.log('Carpeta algoritmo', carpeta_algoritmo);
+
+    // Obtiene la lista de directorios
+    let lista_rangos = [];
+    // Obtiene la fecha del escenario
+    let id_escenario = path.basename(ruta_escenario);
+    let fecha = {
+        dia: id_escenario.substr(6, 2),
+        mes: id_escenario.substr(4, 2),
+        anio: id_escenario.substr(0, 4),
+        hora: id_escenario.substr(8, 2),
+        int: id_escenario.substr(10, 2)
+    };
+
+    if (algoritmo === 'dersi') {
+        fecha.min = `${((fecha.int - 1) * 5)}`;
+    } else {
+        fecha.min = `${((fecha.int - 1) * 15)}`;
+    }
+
+    if (fecha.min.length < 2) {
+        fecha.min = `0${fecha.min}`;
+    }
+
+    let fecha_str = `${fecha.anio}-${fecha.mes}-${fecha.dia}`;
+    fecha_str += `T${fecha.hora}:${fecha.min}:00`;
+    console.log(fecha);
+    console.log(fecha_str);
+
+    ftp.conectar().then(() => {
+        ftp.obtenerListaDirectorioSimple(carpeta_algoritmo).then((lista) => {
+            lista.forEach((item) => {
+                console.log(item.name);
+                lista_rangos.push(parseFechaAlgoritmo(item.name));
+
+            });
+
+            // Busca el caso
+            let rango_valido = null;
+            for (let rango of lista_rangos) {
+                let inicio = rango.inicio;
+                let fin = rango.fin;
+                let inicio_str = `${inicio.anio}-${inicio.mes}-${inicio.dia}`;
+                inicio_str += `T${inicio.hora}:${inicio.min}:00`;
+                let fin_str = `${fin.anio}-${fin.mes}-${fin.dia}`;
+                fin_str += `T${fin.hora}:${fin.min}:00`;
+
+                console.log('>>',inicio_str, fin_str);
+                if (moment(fecha_str).isBetween(inicio_str, fin_str)) {
+                    rango_valido = rango;
+                    break;
+                }
+            }
+
+            if (rango_valido !== null) {
+                // Complementa la ruta
+                carpeta_algoritmo = path.join(carpeta_algoritmo, rango_valido.id, eje);
+                console.log('Descargando algoritmo: ', carpeta_algoritmo);
+
+                ftp.descargarArchivoFTPSimple(carpeta_algoritmo, ruta_algoritmo_local).then(() => {
+                    console.log('Algoritmo descargado correctamente');
+                    ftp.desconectar();
+                    win.webContents.send('algoritmo:descargado', {estado:true});
+                }, (err) => {
+                    console.log('Error descargando algoritmo', {estado:false, error:err});
+                    ftp.desconectar();
+                });
+            } else {
+                console.log('No se encontro una fecha de algoritmo valida');
+            }
+        }, (err) => {
+            console.log('Error', err);
+        });
+    }, () => {
+        console.log('Error conectando');
+    });
+
+    // let obj = {
+    //     rutaRemota: ),
+    //     rutaLocal: path.join(ruta_escenario, `${alg}.exe`)
+    // };
+}) ;
+
+function parseFechaAlgoritmo(id) {
+    let inicio = {};
+    let fin = {};
+
+    let [inicio_str, fin_str] = id.split('_');
+
+    if (inicio_str.length >= 12) {
+        inicio.dia = inicio_str.substr(0, 2);
+        inicio.mes = inicio_str.substr(2, 2);
+        inicio.anio = inicio_str.substr(4, 4);
+        inicio.hora = inicio_str.substr(8, 2);
+        inicio.min = inicio_str.substr(10, 2);
+    } else {
+        console.log('inicio sin long 12');
+    }
+
+    if (fin_str.length >= 12) {
+        fin.dia = fin_str.substr(0, 2);
+        fin.mes = fin_str.substr(2, 2);
+        fin.anio = fin_str.substr(4, 4);
+        fin.hora = fin_str.substr(8, 2);
+        fin.min = fin_str.substr(10, 2);
+    } else if (fin_str.length === 4) {
+        fin.dia = '01';
+        fin.mes = '01';
+        fin.anio = fin_str.substr(0, 4);
+        fin.hora = '00';
+        fin.min = '00';
+    } else {
+        console.log('Fin sin long 12 ni 4');
+    }
+
+    return {id:id, inicio: inicio, fin: fin};
+}
+
 ipcMain.on('escenario:leer', (event, ruta_escenario, algoritmo) => {
     escenario.parseEscenario(ruta_escenario, algoritmo).then((obj) => {
+        console.log('Manda', obj.lista.length, 'archivos');
         win.webContents.send('escenario:leido', obj);
     }, () => {
         console.log('Error leyendo los archivos');
     });
 });
+
+ipcMain.on('escenario-original:copiar', (event, ruta_original, nuevo_folio, objArchivos) => {
+    // Construye la ruta nueva
+
+    let id_escenario = path.basename(ruta_original);
+    let ruta_modificado = path.join(ruta_original.replace('escenario_original', 'escenario_modificado'), nuevo_folio);
+    let carpetas_nuevo = ruta_modificado.split(path.sep);
+    let rutaTemp = carpetas_nuevo[0];
+
+    console.log(nuevo_folio);
+    console.log(id_escenario);
+
+    // Verifica que las carpetas existan
+    for (let i = 1; i < carpetas_nuevo.length; i++) {
+        rutaTemp = path.join(rutaTemp, carpetas_nuevo[i]);
+
+        if (!fs.existsSync(rutaTemp)) {
+            fs.mkdirSync(rutaTemp);
+        }
+    }
+
+    console.log('copiando');
+    console.log(ruta_original);
+    console.log(ruta_modificado);
+
+    let dialog_config = {
+        buttons: ['Aceptar'],
+        title: 'Escenario Modificado',
+        cancelId: 1
+    };
+
+    // Copia el directorio completo
+    fse.copy(ruta_original, ruta_modificado).then(() => {
+        console.log('Directorio copiado correctamente');
+
+        // Verifica los archivos modificados y actualiza en el nuevo directorio
+        let promesas = [];
+        objArchivos.lista.forEach((archivo) => {
+            if (typeof archivo.editado !== 'undefined' && archivo.editado === true) {
+                let ruta_archivo_mod = path.join(ruta_modificado, 'dirdat', archivo.archivo);
+
+                // Actualiza el archivo
+                promesas.push(modificarArchivo(ruta_archivo_mod, archivo));
+            }
+        });
+
+        Promise.all(promesas).then(() => {
+            dialog_config.type = 'info';
+            dialog_config.message = `Se ha generado el escenario modificado con el folio ${nuevo_folio}`;
+            // dialog.showMessageBox(win, dialog_config);
+            win.webContents.send('escenario-original:copiado', {estado:true, folio:nuevo_folio, ruta:ruta_modificado, id:id_escenario});
+        }, () => {
+            dialog_config.type = 'warning';
+            dialog_config.message = `Se ha generado el escenario modificado con el folio ${nuevo_folio} pero ocurrió un error actualizando los datos`;
+            // dialog.showMessageBox(win, dialog_config);
+            win.webContents.send('escenario-original:copiado', {estado:true, id:id_escenario, folio:nuevo_folio, ruta:ruta_modificado, error:'Error de escritura en disco'});
+        });
+    }).catch((err) => {
+        console.log('Error copiando el directorio', err);
+        dialog_config.type = 'error';
+        dialog_config.message = `Error generando el escenario modificado: ${err}`;
+        // dialog.showMessageBox(win, dialog_config);
+        win.webContents.send('escenario-original:copiado', {estado:false, folio:nuevo_folio, ruta:ruta_modificado, error:err, id:id_escenario});
+    });
+});
+
+function modificarArchivo(ruta, obj) {
+    console.log('Modificado: ', ruta);
+    return new Promise((resolve, reject) => {
+        // Abre
+        try {
+            let cadena = '';
+            obj.filas.forEach((fila) => {
+                let linea = '';
+                for (let i = 0; i < fila.length; i++) {
+                    let columna = fila[i];
+                    // Si es string agrega comillas
+                    if (columna.tipo === 'string') {
+                        linea += `\"${(columna.valor === '' ? ' ' : columna.valor)}\"`;
+                    } else {
+                        linea += `${columna.valor}`;
+                    }
+
+                    // coma
+                    if (i < (fila.length - 1)) {
+                        linea += ',';
+                    }
+                }
+                cadena += `${linea}\n`;
+            });
+
+            // Escribe los datos
+            fs.writeFile(ruta, cadena, (err) => {
+                // Libera la variable
+                cadena = null;
+
+                if (err) {
+                    reject();
+                } else {
+                    resolve();
+                }
+            });
+        } catch (e) {
+            console.log(e);
+        }
+
+    });
+}

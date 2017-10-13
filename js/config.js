@@ -15,7 +15,8 @@ module.exports = {
         host: '10.71.14.72',
         user: 'historicomtr',
         password: 'historicomtr01',
-        base: "/calculos1/"
+        base: "/calculos1/",
+        algoritmos: 'VERS_ALGORITMOS'
     },
     sistemas: [
         {

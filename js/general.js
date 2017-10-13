@@ -34,6 +34,8 @@ let menuModifica;
 let menuCompara;
 let menuAdmin;
 
+let rutaEscenarioOriginal;
+
 // Al cargar la pagina es inicio de sesion, se consultan
 // sistemas disponibles y cargan documentos en el area de trabajo
 body.onload = () => {

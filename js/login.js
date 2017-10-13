@@ -169,11 +169,13 @@ function solicitarAutenticacion() {
     SESION.contrasena = inputContrasena.value.trim();
     SESION.sistema = selectSistema.value.trim();
 
-    //Muestra banner y Espera respuesta de main
-    banner.mostrar();
-    banner.ocultarBoton();
-    banner.setMensaje('Autenticando');
-    banner.cargando('darkorange');
+    setTimeout(() => {
+        //Muestra banner y Espera respuesta de main
+        banner.mostrar();
+        banner.ocultarBoton();
+        banner.setMensaje('Autenticando');
+        banner.cargando('darkorange');
+    }, 50);
 }
 
 ipcRenderer.on('usuario:obtenido', (event, json) => {

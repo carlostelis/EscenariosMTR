@@ -2,10 +2,12 @@
 <html>
     <head>
         <link rel="stylesheet" href="../css/InfoEscenario.css" type="text/css"/>
+        <link rel="stylesheet" href="../css/fontello.css" type="text/css"/>
     </head>
     <body>
         <div class="container-fluid" style="height:100%;">
             <div class="row" style="height:101%;">
+                <!-- MENU -->
                 <div class="col-2" style="height:100%; padding: 0px 0px 0px 0px;">
                     <div id="menu-info" class="list-group subseccion">
                         <button type="button" class="success list-group-item list-group-item-action active opcion-menu-info" onclick="mostrarContenedor('cont-info-general-info', this);">
@@ -13,46 +15,73 @@
                             <span class="menu-boton-texto">Información General</span>
                         </button>
                         <button type="button" class="list-group-item list-group-item-action opcion-menu-info" onclick="mostrarContenedor('cont-red-enlaces-info', this)">
-                            <span class="menu-boton-icono"><i class="fa fa-link"></i></span>
+                            <span class="menu-boton-icono" style="margin-left:-4px; margin-right: calc(1vw + 4px);">
+                                <i class="demo-icon icon-network"></i>
+                            </span>
                             <span class="menu-boton-texto">Red y Enlaces</span>
                         </button>
                         <button type="button" class="list-group-item list-group-item-action opcion-menu-info" onclick="mostrarContenedor('cont-demanda-info', this);">
-                            <span class="menu-boton-icono"><i class="fa fa-handshake-o"></i></span>
+                            <span class="menu-boton-icono" style="margin-left:-4px; margin-right: calc(1vw + 4px);">
+                                <i class="demo-icon icon-plug"></i>
+                            </span>
                             <span class="menu-boton-texto">Demanda</span>
                         </button>
                         <button type="button" class="list-group-item list-group-item-action opcion-menu-info" onclick="mostrarContenedor('cont-rango-continuo-info', this);">
-                            <span class="menu-boton-icono"><i class="fa fa-gg"></i></span>
-                            <span class="menu-boton-texto">Rango Continuo</span>
+                            <span class="menu-boton-icono"><i class="fa fa-thermometer-3"></i></span>
+                            <span class="menu-boton-texto">Unidades Térmicas</span>
                         </button>
                         <button type="button" class="list-group-item list-group-item-action opcion-menu-info" onclick="mostrarContenedor('cont-rango-discontinuo-info', this);">
-                            <span class="menu-boton-icono"><i class="fa fa-gg-circle"></i></span>
-                            <span class="menu-boton-texto">Rango Discontinuo</span>
+                            <span class="menu-boton-icono"><i class="fa fa-random"></i></span>
+                            <span class="menu-boton-texto">Unidades Ciclo Combinado</span>
                         </button>
                         <button type="button" class="list-group-item list-group-item-action opcion-menu-info" onclick="mostrarContenedor('cont-hidros-info', this);">
-                            <span class="menu-boton-icono"><i class="fa fa-shower"></i></span>
-                            <span class="menu-boton-texto">Hidroeléctricos</span>
+                            <span class="menu-boton-icono" style="margin-left:-4px; margin-right: calc(1vw + 4px);">
+                                <i class="demo-icon icon-water"></i>
+                            </span>
+                            <span class="menu-boton-texto">Unidades Hidroeléctricas</span>
                         </button>
                         <button type="button" class="list-group-item list-group-item-action opcion-menu-info" onclick="mostrarContenedor('cont-renovables-info', this);">
                             <span class="menu-boton-icono"><i class="fa fa-recycle"></i></span>
-                            <span class="menu-boton-texto">Renovables</span>
+                            <span class="menu-boton-texto">Unidades Renovables</span>
                         </button>
                         <button type="button" class="list-group-item list-group-item-action opcion-menu-info" onclick="mostrarContenedor('cont-no-programables-info', this);">
-                            <span class="menu-boton-icono"><i class="fa fa-bell-slash"></i></span>
-                            <span class="menu-boton-texto">No Programables</span>
+                            <span class="menu-boton-icono fa-stack" style="margin-left:-4px; margin-right: calc(1vw + 4px);">
+                                <i class="demo-icon fa fa-stack-1x icon-keyboard"></i>
+                                <i class="demo-icon icon-block fa-stack-2x text-danger"></i>
+                            </span>
+                            <span class="menu-boton-texto">Unidades No Programables</span>
                         </button>
                         <button type="button" class="list-group-item list-group-item-action opcion-menu-info" onclick="mostrarContenedor('cont-req-cenace-zonas-reserva-info', this);">
                             <span class="menu-boton-icono"><i class="fa fa-industry"></i></span>
                             <span class="menu-boton-texto">Requerimientos CENACE<br><u>Zonas de Reserva</u></span>
                         </button>
                         <button type="button" class="list-group-item list-group-item-action opcion-menu-info" onclick="mostrarContenedor('cont-req-cenace-subsistema-info', this);">
-                            <span class="menu-boton-icono"><i class="fa fa-cog"></i></span>
+                            <span class="menu-boton-icono" style="margin-left:-4px; margin-right: calc(1vw + 4px);">
+                                <i class="demo-icon icon-server"></i>
+                            </span>
                             <span class="menu-boton-texto">Requerimientos CENACE:<br> <u>Subsistemas</u></span>
+                        </button>
+                        <button type="button" class="list-group-item list-group-item-action opcion-menu-info" onclick="mostrarContenedor('cont-otros-info', this);">
+                            <span class="menu-boton-icono" style="margin-left:-4px; margin-right: calc(1vw + 4px);">
+                                <i class="demo-icon icon-list-add"></i>
+                            </span>
+                            <span class="menu-boton-texto">Otros</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- CONTENEDOR DE CONTENEDORES -->
                 <div class="col-10">
+                    <!-- TOP -->
+                    <div class="row subseccion contenedor-datos-escenario">
+                        <label class="col-2 label-algoritmo-esc"></label>
+                        <label class="col-2 label-fecha-esc"></label>
+                        <label class="col-2 label-hora-esc"></label>
+                        <label class="col-2 label-intervalo-esc"></label>
+                        <label class="col-4 label-folio-esc"></label>
+                        
+                    </div>
+
                     <!-- CONTENEDOR INFORMACION GENERAL -->
                     <div id="cont-info-general-info" class="row contenedor-info subseccion" style="display:block;">
                         <div class="container-fluid div-contenedor-gral-vertical">
@@ -2444,22 +2473,6 @@
                                 </div>
                             </div>
 
-                            <!-- IMPORTACION Y EXPORTACION -->
-                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NOINPADERS');" id="col_info_imp_exp_nodos_periodo_intercambio_pot_np">
-                                <div class="col">Importación y Exportación: Nodos por Periodo de Intercambio de Potencia<span><i class="fa fa-caret-square-o-down"></i></span></div>
-                            </div>
-                            <div class="row colapsable div-tabla invisible" id="info_imp_exp_nodos_periodo_intercambio_pot_np">
-                                <div class="col-12 table-responsive">
-                                    <table class="table table-sm table-condensed table-bordered tabla-info" id="NOINPADERS" data-contenedor="info_imp_exp_nodos_periodo_intercambio_pot_np" data-colapso="col_info_imp_exp_nodos_periodo_intercambio_pot_np">
-                                        <thead class="tabla-head alg-dep">
-                                            <tr>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-
 
 
 
@@ -2468,8 +2481,27 @@
                     <!-- FIN DE CONTENEDOR NO PROGRAMABLES -->
 
                     <!-- CONTENEDOR REQ. CENACE ZONAS RESERVA -->
-                    <div id="cont-req-cenace-zonas-reserva-info" class="row contenedor-info subseccion" style="height:100%; display:none;">
+                    <div id="cont-req-cenace-zonas-reserva-info" class="row contenedor-info subseccion">
                         <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
+
+                            <!-- ZONAS DE RESERVA COPIA -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'ZONASRES_DERS_COPIA');" id="col_info_zonas_reserva_copia">
+                                <div class="col">Zonas de Reserva<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla colapsable invisible" id="info_zonas_reserva_copia" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info" id="ZONASRES_DERS_COPIA" data-contenedor="info_zonas_reserva_copia" data-colapso="col_info_zonas_reserva_copia">
+                                        <thead class="tabla-head">
+                                            <tr>
+                                                <th></th>
+                                                <th>Número</th>
+                                                <th>Nombre</th>
+                                                <th>Nombre del Subsistema Asociado</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
 
                             <!-- REQUERIMIENTO DE RESERVA RODANTE DE 10 MIN  -->
                             <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'RRERO10Z_DERS');" id="col_info_req_reserva_rodante_10min_zr">
@@ -2607,8 +2639,28 @@
                     <!-- FIN DE CONTENEDOR REQ CENACE ZONAS RESERVA -->
 
                     <!-- CONTENEDOR REQ. CENACE SUBSISTEMA -->
-                    <div id="cont-req-cenace-subsistema-info" class="row contenedor-info subseccion" style="height:100%; display:none;">
+                    <div id="cont-req-cenace-subsistema-info" class="row contenedor-info subseccion">
                         <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
+
+                            <!-- SUBSISTEMA COPIA -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'AUSUBSIS_DERS_COPIA');" id="col_info_subsistema_copia">
+                                <div class="col" >Subsistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_subsistema_copia">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-condensed table-bordered tabla-info" id="AUSUBSIS_DERS_COPIA" data-contenedor="info_subsistema_copia" data-colapso="col_info_subsistema_copia">
+                                        <thead class="tabla-head">
+                                            <tr>
+                                                <th></th>
+                                                <th>Número</th>
+                                                <th>Nombre</th>
+                                                <th>Estado</th>
+                                                <th>Nodo de Referencia</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
 
                             <!-- REQUERIMIENTO DE RESERVA RODANTE DE 10 MIN  -->
                             <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'RRERO10S_DERS');" id="col_info_req_reserva_rodante_10min_s">
@@ -2745,6 +2797,32 @@
                     </div>
                     <!-- FIN DE CONTENEDOR REQ. CENACE POR SUBSISTEMA -->
 
+
+                    <!-- CONTENEDOR OTROS -->
+                    <div id="cont-otros-info" class="row contenedor-info subseccion">
+                        <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
+
+                            <!-- IMPORTACION Y EXPORTACION -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NOINPADERS');" id="col_info_imp_exp_nodos_periodo_intercambio_pot_np">
+                                <div class="col">Importación y Exportación: Nodos por Periodo de Intercambio de Potencia<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_imp_exp_nodos_periodo_intercambio_pot_np">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-condensed table-bordered tabla-info" id="NOINPADERS" data-contenedor="info_imp_exp_nodos_periodo_intercambio_pot_np" data-colapso="col_info_imp_exp_nodos_periodo_intercambio_pot_np">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- FIN DE CONTENEDOR OTROS -->
+
                     <!-- COMENTARIOS Y BOTONES -->
                     <div class="row subseccion contenedor-comentarios">
                         <div class="row container">
@@ -2756,7 +2834,7 @@
                             </div>
                         </div>
                         <div class="row container">
-                            <button class="button_gral">Guardar Cambios</button>
+                            <button class="button_gral" onclick="guardarEscenario();">Guardar Cambios</button>
                             <button class="button_gral">Ejecutar Escenario</button>
                         </div>
                     </div>

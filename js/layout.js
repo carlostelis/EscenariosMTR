@@ -71,38 +71,99 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
             banner.ok('darkgreen');
 
             if (typeof res.flagLocal === 'undefined') {
-                banner.setMensaje('Escenario descargado correctamente');
+                // banner.setMensaje('Escenario descargado correctamente');
                 banner.mostrarProgreso('darkgreen');
             } else {
-                banner.setMensaje('Escenario encontrado localmente');
+                // banner.setMensaje('Escenario encontrado localmente');
             }
 
-            console.log('Ruta de escenario:', res.rutaLocal);
-
-            mensajeConsola(`Escenario cargado localmente: ${res.rutaLocal}`);
-
-            visor_archivos.actualizar();
+            // OCulta banner
             setTimeout(() => {
-                // Habilita los menus
-                menuInfo.classList.remove('invalido');
-                menuModifica.classList.remove('invalido');
-                menuCompara.classList.remove('invalido');
-                menuAdmin.classList.remove('invalido');
-
-                // banner.ocultar();
-                banner.trabajando();
-                banner.setMensaje('Leyendo información');
                 banner.setProgreso(0);
+            }, 500);
+
+            setTimeout(() => {
                 banner.ocultarProgreso();
-                // Pasa al menu de información
-                ipcRenderer.send('escenario:leer', res.rutaLocal, SESION.algoritmo);
-                menuInfo.onclick();
-            }, 2000);
+            }, 1000);
+
+            rutaEscenarioOriginal = res.rutaLocal;
+            console.log('Ruta de escenario:', rutaEscenarioOriginal);
+
+            mensajeConsola(`Escenario cargado localmente: ${rutaEscenarioOriginal}`);
+
+            // Descarga algoritmo
+            banner.setMensaje('Descargando algoritmo');
+            ipcRenderer.send('algoritmo:descarga', rutaEscenarioOriginal, document.querySelector('#sel_algoritmo_ce').value);
         }
     } else {
         banner.ocultarProgreso();
         banner.setMensaje(res.error);
         banner.error('darkred');
+        banner.setBoton('Aceptar', () => {
+            banner.ocultar();
+        });
+        banner.mostrarBoton();
+    }
+});
+
+ipcRenderer.on('algoritmo:descargado', (event, res) => {
+    if (res.estado) {
+        visor_archivos.actualizar();
+        setTimeout(() => {
+            // Habilita el menu info
+            menuInfo.classList.remove('invalido');
+
+            // banner.ocultar();
+            banner.trabajando();
+            banner.setMensaje('Leyendo información');
+
+            // Despliega los datos en la siguiente seccion
+            let div = document.querySelector('.contenedor-datos-escenario');
+            if (div) {
+                let sel_algoritmo_ce = document.querySelector('#sel_algoritmo_ce').value.toUpperCase();
+                let algoritmo_labels = document.getElementsByClassName('label-algoritmo-esc');
+                for (let label of algoritmo_labels) {
+                    label.innerHTML = `Algoritmo: <b>${sel_algoritmo_ce}</b>`;
+                }
+
+                let input_fecha_ce = document.querySelector('#input_fecha_ce').value;
+                let fecha_labels = document.getElementsByClassName('label-fecha-esc');
+                for (let label of fecha_labels) {
+                    label.innerHTML = `Fecha: <b>${input_fecha_ce}</b>`;
+                }
+
+                let sel_hora_ce = document.querySelector('#sel_hora_ce').value + '';
+                if (sel_hora_ce.length < 2) {
+                    sel_hora_ce = `0${sel_hora_ce}`;
+                }
+                let hora_labels = document.getElementsByClassName('label-hora-esc');
+                for (let label of hora_labels) {
+                    label.innerHTML = `Hora: <b>${sel_hora_ce}</b>`;
+                }
+
+                let sel_intervalo_ce = document.querySelector('#sel_intervalo_ce').value;
+                if (sel_intervalo_ce.length < 2) {
+                    sel_intervalo_ce = `0${sel_intervalo_ce}`;
+                }
+                let intervalo_labels = document.getElementsByClassName('label-intervalo-esc');
+                for (let label of intervalo_labels) {
+                    label.innerHTML = `Intervalo: <b>${sel_intervalo_ce}</b>`;
+                }
+
+                let folio = `12345689`;
+                let folio_labels = document.getElementsByClassName('label-folio-esc');
+                for (let label of folio_labels) {
+                    label.innerHTML = `Folio: <b>${folio}</b>`;
+                }
+            }
+
+            // Pasa al menu de información
+            ipcRenderer.send('escenario:leer', rutaEscenarioOriginal, SESION.algoritmo);
+            menuInfo.onclick();
+        }, 1500);
+    } else {
+        banner.error();
+        banner.setMensaje('Error durante la descarga del algoritmo');
         banner.setBoton('Aceptar', () => {
             banner.ocultar();
         });

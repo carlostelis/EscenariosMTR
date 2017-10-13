@@ -168,6 +168,35 @@ class FTP {
         });
     }
 
+    descargarArchivoFTPSimple(rutaRemota, rutaLocal) {
+        return new Promise((resolve, reject) => {
+            if (typeof rutaRemota === 'undefined') {
+                console.log('No hay ruta remota');
+                reject();
+            }
+
+            if (typeof rutaLocal === 'undefined') {
+                console.log('No hay ruta local');
+                reject();
+            }
+
+            rutaRemota = rutaRemota.replace(new RegExp('\\' + this.path.sep, 'g'), '/');
+            console.log('Busca', rutaRemota);
+            this.c.get(rutaRemota, (err, stream) => {
+                if (err) {
+                    console.log('**ERROR**', '(descargar archivo simple)', rutaRemota, err.message);
+                    reject(err);
+                } else {
+                    stream.on('close', () => {
+                        resolve();
+                    });
+                    console.log('Sin error');
+                    stream.pipe(this.fs.createWriteStream(rutaLocal));
+                }
+            });
+        });
+    }
+
     obtenerListaDirectorio(ruta, rutaReplace, rutaLocal, listaDir) {
         // forzar separador linux
         ruta = ruta.replace(new RegExp('\\' + this.path.sep, 'g'), '/');
@@ -212,6 +241,22 @@ class FTP {
                     reject();
                 });
             }, 500);
+        });
+    }
+
+    obtenerListaDirectorioSimple(ruta) {
+        // forzar separador linux
+        ruta = ruta.replace(new RegExp('\\' + this.path.sep, 'g'), '/');
+
+        return new Promise((resolve, reject) => {
+            this.c.list(ruta, (err, list) => {
+                if (err) {
+                    console.log('**ERROR** ', '(lista directorio)', ruta, err.message);
+                    reject(err);
+                };
+
+                resolve(list);
+            });
         });
     }
 
