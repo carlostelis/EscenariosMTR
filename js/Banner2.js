@@ -107,6 +107,16 @@ class Banner2 {
         this.divTexto.classList.remove('compacto');
     }
 
+    promptEspera() {
+        this.divSalidaTxt.innerHTML = `<div class="prompt-espera"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><div>`;
+        this.divSalidaTxt.classList.add('espera');
+    }
+
+    promptQuitaEspera() {
+        this.divSalidaTxt.innerHTML = '';
+        this.divSalidaTxt.classList.remove('espera');
+    }
+
     prompt() {
         try {
             // Quita el div mensajes
@@ -186,6 +196,14 @@ class Banner2 {
         this.divBotones.style.display = 'none';
     }
 
+    habilitarBoton() {
+        this.botonAceptar.disabled = false;
+    }
+
+    deshabilitarBoton() {
+        this.botonAceptar.disabled = true;
+    }
+
     setBoton(mensaje, call) {
         this.botonAceptar.innerHTML = mensaje;
 
@@ -220,6 +238,7 @@ class Banner2 {
     };
 
     setTextoPrompt(texto) {
+        this.divSalidaTxt.classList.remove('espera');
         this.divSalidaTxt.innerHTML = `${texto}`;
         this.divSalidaTxt.scrollTop = this.divSalidaTxt.scrollHeight;
     }

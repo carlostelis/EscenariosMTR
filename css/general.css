@@ -261,10 +261,6 @@ body {
     line-height: 1.3;
 }
 
-#div_msg_consola > span {
-    display:block;
-}
-
 #div_msg_consola::-webkit-scrollbar-track {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
 	background-color: #F5F5F5;
@@ -367,7 +363,7 @@ body {
     width: 30%;
     border-style: outset;
     background-color: #215E3E;
-    border: solid 3.0pt #4A8265;
+    border: solid 3.0pt darkseagreen;
     border-radius: 25px;
     opacity: 0.85;
     transition: 0.3s ease-in;
@@ -400,7 +396,7 @@ body {
     height: 100%;
     width: 100%;
     font-size: 13vh;
-    text-shadow: 2px 2px black;
+    text-shadow: 0px 0px 20px black;
     color: yellowgreen;
     text-align: center;
 }
@@ -440,14 +436,14 @@ body {
     text-align: center;
     color: white;
     font-weight: bold;
-    font-size: 1.4vw;
+    font-size: 1.2vw;
     text-shadow: 2px 2px black;
 }
 
 .botones-banner2 {
     width: 100%;
     margin-bottom: 0%;
-    height: 10%;
+    height: 9%;
 }
 
 .botones-banner2 > button {
@@ -485,12 +481,15 @@ body {
     text-shadow: 2px 2px black;
     text-align: center;
     user-select: none;
+    margin-bottom: 2%;
+    margin-top: 1%;
+    font-weight: bold;
 }
 
 .salida-txt-banner2 {
+    display:block;
     width: 90%;
-    height: 80%;
-    /*background-color: ghostwhite;*/
+    height: 78%;
     margin: auto;
     margin-top: 1%;
     margin-bottom: 2%;
@@ -503,6 +502,22 @@ body {
     background-color: rgba(0, 0, 0, 1);
     color: white;
     font-weight: bolder;
+}
+
+.salida-txt-banner2.espera {
+    display:table;
+}
+
+.prompt-espera {
+    height: 10vh;
+    width: 10vh;
+    margin: auto;
+    vertical-align: middle;
+    display: table-cell;
+    text-align: center;
+    font-size: 5vh;
+    text-shadow: 0px 0px 20px white;
+    color: azure;
 }
 
 .salida-txt-banner2::-webkit-scrollbar-track {

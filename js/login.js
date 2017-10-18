@@ -24,10 +24,10 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
         console.log('Consulta fallida');
         // Mensaje y botón retry
 
-        banner2.error();
-        banner2.setMensaje('No se encontraron en la configuración de la aplicación');
-        banner2.mostrarBoton();
-        banner2.setBoton('Reintentar', () => {
+        banner.error();
+        banner.setMensaje('No se encontraron en la configuración de la aplicación');
+        banner.mostrarBoton();
+        banner.setBoton('Reintentar', () => {
             solicitarSistemas();
         });
 
@@ -62,57 +62,57 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
     SESION.config = json;
 
     // Icono ok
-    banner2.ok();
-    banner2.setMensaje('Carga completa');
+    banner.ok();
+    banner.setMensaje('Carga completa');
 
     mensajeConsola('Inicialización completa');
 
     // Oculta banner
     setTimeout(() => {
-        banner2.ocultar();
+        banner.ocultar();
     }, 1000);
 
-    // banner2.setMensaje('Creando contenedores de datos');
+    // banner.setMensaje('Creando contenedores de datos');
     // ipcRenderer.send('bds:init');
 });
 
 // BD SQLITE
 ipcRenderer.on('bd_autr:progreso', (event, progreso) => {
-    banner2.mostrarProgreso();
-    banner2.setProgreso(progreso);
+    banner.mostrarProgreso();
+    banner.setProgreso(progreso);
 });
 
 // BD SQLITE
 ipcRenderer.on('bd_autr:creada', (event, res) => {
-    banner2.ok();
-    banner2.setMensaje('Carga completa');
+    banner.ok();
+    banner.setMensaje('Carga completa');
 
     // Oculta banner
     setTimeout(() => {
-        banner2.ocultar();
+        banner.ocultar();
     }, 1000);
 });
 
 // habilitar banner
 function solicitarSistemas() {
     if (primeraVez) {
-        banner2.vistaCompacta(); //
+        banner.vistaCompacta(); //
 
-        banner2.mostrar();
-        banner2.ocultarBoton();
-        banner2.ocultarProgreso();
-        banner2.setMensaje(' Inicializando ');
-        banner2.cargando();
+        banner.mostrar();
+        banner.ocultarBoton();
+        banner.ocultarProgreso();
+        banner.setMensaje(' Inicializando ');
+        banner.cargando();
 
         // Solicitud de sistemas
         ipcRenderer.send('sistemas:solicitar');
 
         intervaloCarga = setInterval(() => {
-            if (banner2.getMensaje().length >= 30) {
-                banner2.setMensaje(' Inicializando ');
+            if (banner.getMensaje().length >= 30) {
+                banner.setMensaje(' Inicializando ');
             }
 
-            banner2.setMensaje('.' + banner2.getMensaje() + '.');
+            banner.setMensaje('.' + banner.getMensaje() + '.');
         }, 500);
         primeraVez = false;
     }
@@ -135,7 +135,6 @@ function lostFocusInput(input, icono) {
 // para validacion de entrada y acceso a las funciones
 function solicitarAutenticacion() {
     // Valida nombre
-    const inputNombre = document.querySelector('#input_nombre_IS');
     if (inputNombre.value.trim().length === 0) {
         inputNombre.classList.remove('input-normal');
         inputNombre.classList.add('input-error');
@@ -146,7 +145,6 @@ function solicitarAutenticacion() {
     inputNombre.classList.add('input-normal');
 
     // Valida password
-    const inputContrasena = document.querySelector('#input_contrasena_IS');
     if (inputContrasena.value.trim().length === 0) {
         inputContrasena.classList.remove('input-normal');
         inputContrasena.classList.add('input-error');
@@ -157,8 +155,6 @@ function solicitarAutenticacion() {
     inputContrasena.classList.add('input-normal');
 
     // Valida select
-    const selectSistema = document.querySelector('#select_sistema_IS');
-    console.log(selectSistema.value.trim());
     if (selectSistema.value.trim() === 'Sistema' || selectSistema.disabled) {
         selectSistema.classList.remove('input-normal');
         selectSistema.classList.add('input-error');
@@ -178,11 +174,11 @@ function solicitarAutenticacion() {
 
     setTimeout(() => {
         //Muestra banner y Espera respuesta de main
-        banner2.vistaCompacta(); //
-        banner2.mostrar();
-        banner2.ocultarBoton();
-        banner2.setMensaje('Autenticando');
-        banner2.cargando('darkorange');
+        banner.vistaCompacta(); //
+        banner.mostrar();
+        banner.ocultarBoton();
+        banner.setMensaje('Autenticando');
+        banner.cargando();
     }, 50);
 }
 
@@ -191,8 +187,8 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
     //console.log(json);
     if (json.estado) {
         if (json.contrasena === SESION.contrasena) {
-            banner2.ok();
-            banner2.setMensaje('Autenticación exitosa');
+            banner.ok();
+            banner.setMensaje('Autenticación exitosa');
 
             mensajeConsola(`Usuario Autenticado exitosamente: ${json.nombre} en ${SESION.sistema}`);
             // Guarda el resto de los datos
@@ -219,15 +215,12 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
             visor_archivos.actualizar();
 
             setTimeout(() => {
-                banner2.ocultar();
+                banner.ocultar();
                 body.style.opacity = '0';
 
                 setTimeout(() => {
-                    var divLogin = document.querySelector('#div-login');
                     divLogin.classList.add('d-none');
-
-                    var divLayout = document.querySelector('#div-layout');
-                     divLayout.classList.remove('d-none');
+                    divLayout.classList.remove('d-none');
                 }, 1000);
 
                 setTimeout(() => {
@@ -238,16 +231,16 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
 
             return;
         } else {
-            banner2.setMensaje(`Autenticación fallida: contraseña incorrecta para usuario <b>${SESION.usuario}</b>`);
+            banner.setMensaje(`Autenticación fallida: contraseña incorrecta para usuario <b>${SESION.usuario}</b>`);
         }
     } else {
-        banner2.setMensaje(`Autenticación fallida: ${json.mensaje}`);
+        banner.setMensaje(`Autenticación fallida: ${json.mensaje}`);
     }
 
-    banner2.mostrarBoton();
-    banner2.error('darkred');
-    banner2.setBoton('Aceptar', () => {
-        banner2.ocultar();
+    banner.mostrarBoton();
+    banner.error();
+    banner.setBoton('Aceptar', () => {
+        banner.ocultar();
     });
 
     // Reset datos de sesion

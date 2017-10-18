@@ -13,16 +13,12 @@ function colapsar(trigger, id) {
     let iconoAbajo = false;
     let tabla_buscada;
 
-    for (tabla of tablas_info) {
+    // La busca en el arreglo en vez de ir al dom
+    for (let tabla of tablas_info) {
         if (tabla.id === id) {
             tabla_buscada = tabla;
             break;
         }
-    }
-
-    // Si no la encontró en la lista la busca en el dom
-    if (!tabla_buscada) {
-        tabla_buscada = document.getElementById(id);
     }
 
     if (!typeof trigger.desplegado === 'undefined') {
@@ -36,10 +32,8 @@ function colapsar(trigger, id) {
             if (!trigger.desplegado) {
                 for (let nodo of contenedor.childNodes) {
                     if (nodo.nodeName.toLowerCase() === 'div') {
-                        nodo.appendChild(tabla_buscada);
                         contenedor.classList.remove('invisible');
                         contenedor.classList.add('visible');
-                        // tabla_buscada.elementoVisible = true;
                         iconoAbajo = false;
                     }
                 }
@@ -48,10 +42,8 @@ function colapsar(trigger, id) {
             else {
                 for (let nodo of contenedor.childNodes) {
                     if (nodo.nodeName.toLowerCase() === 'div') {
-                        nodo.removeChild(tabla_buscada);
                         contenedor.classList.add('invisible');
                         contenedor.classList.remove('visible');
-                        // tabla_buscada.elementoVisible = false;
                         iconoAbajo = true;
                     }
                 }
@@ -89,8 +81,7 @@ function colapsar(trigger, id) {
 }
 
 function mostrarContenedor(id, trigger) {
-    let contenedores = document.getElementsByClassName('contenedor-info');
-    for (let cont of contenedores) {
+    for (let cont of contenedores_info) {
         if (cont.id === id) {
             cont.style.display = 'block';
         } else {
@@ -98,8 +89,7 @@ function mostrarContenedor(id, trigger) {
         }
     }
 
-    let opciones = document.getElementsByClassName('opcion-menu-info');
-    for (let opc of opciones) {
+    for (let opc of opciones_menu_info) {
         opc.classList.remove('active');
     }
     trigger.classList.add('active');
@@ -107,11 +97,9 @@ function mostrarContenedor(id, trigger) {
 
 function mostrarTodas() {
     // Reestablece los colapsos
-    let colapsos = document.getElementsByClassName('celda-header-info');
     for (let col of colapsos) {
         col.classList.remove('inactivo');
         col.classList.remove('vacio');
-        // col.desplegado = false;
 
         // Busca su tabla
         // Si no existe la propiedad o esta colapsado, activa su funcion
@@ -122,7 +110,6 @@ function mostrarTodas() {
 }
 
 function colapsarTodas(flagClass) {
-    let colapsos = document.getElementsByClassName('celda-header-info');
     for (let col of colapsos) {
         let flagInactivo = col.classList.contains('inactivo');
         let flagVacio = col.classList.contains('vacio');
@@ -152,7 +139,6 @@ function colapsarTodas(flagClass) {
 
 function desactivarColapsos() {
     // Reestablece los colapsos
-    let colapsos = document.getElementsByClassName('celda-header-info');
     for (let col of colapsos) {
         col.classList.add('inactivo');
     }
@@ -160,8 +146,6 @@ function desactivarColapsos() {
 
 function borrarThPeriodos() {
     // Borra los periodos anteriores
-    let th_periodos = document.getElementsByClassName('th-periodo');
-
     // Se asegura de borrar todos los th-periodo
     // No se borran todos a la primer pasada
     do {
@@ -177,10 +161,8 @@ function borrarThPeriodos() {
 }
 
 function vaciarTablas() {
-    let tablas = document.getElementsByClassName('tabla-info');
-
     // Tablas del dom
-    for (let tabla of tablas) {
+    for (let tabla of tablas_info) {
         for (let nodo of tabla.childNodes) {
             if (nodo.nodeName.toLowerCase() === 'tbody') {
                 tabla.removeChild(nodo);
@@ -192,89 +174,85 @@ function vaciarTablas() {
 
 ipcRenderer.on('escenario:leido', (event, obj) => {
     console.log('Recibe archivos:', obj.lista.length);
-    console.log(obj);
 
-    objEscOriginal = obj;
+    new Promise((resolve, reject) => {
+        objEscOriginal = obj;
 
-    // Muestra las tablas para que esten en el dom
-    mostrarTodas();
-    // Borra los periodos
-    borrarThPeriodos();
-    // Vacia los datos de las tablas (desde el dom)
-    vaciarTablas();
+        // Muestra las tablas para que esten en el dom
+        mostrarTodas();
+        // Borra los periodos
+        borrarThPeriodos();
+        // Vacia los datos de las tablas (desde el dom)
+        vaciarTablas();
 
-    // Obtiene el numero de periodos por algoritmo
-    let periodos = 0;
-    SESION.config.algoritmos.forEach((algoritmo) => {
-        if (algoritmo.carpeta === SESION.algoritmo) {
-            periodos = algoritmo.periodos;
-        }
-    });
-    console.log('>>> Periodos:', periodos);
+        // Obtiene el numero de periodos por algoritmo
+        let periodos = 0;
+        SESION.config.algoritmos.forEach((algoritmo) => {
+            if (algoritmo.carpeta === SESION.algoritmo) {
+                periodos = algoritmo.periodos;
+            }
+        });
+        console.log('>>> Periodos:', periodos);
 
-    // Tablas de Periodos 1-N
-    let thead_periodo = document.getElementsByClassName('alg-dep');
-    for (let thead of thead_periodo) {
-        for (let nodoA of thead.childNodes) {
-            if (nodoA.nodeName.toLowerCase() === 'tr') {
-                // Agrega las cabeceras de los periodos
-                for (let i = 1; i <= periodos; i++) {
-                    let th = document.createElement('th');
-                    th.classList.add('th-periodo');
-                    let texto = document.createTextNode(`Periodo ${i}`);
+        // Tablas de Periodos 1-N
+        for (let thead of thead_periodo) {
+            for (let nodoA of thead.childNodes) {
+                if (nodoA.nodeName.toLowerCase() === 'tr') {
+                    // Agrega las cabeceras de los periodos
+                    for (let i = 1; i <= periodos; i++) {
+                        let th = document.createElement('th');
+                        th.classList.add('th-periodo');
+                        let texto = document.createTextNode(`Periodo ${i}`);
 
-                    th.appendChild(texto);
-                    nodoA.appendChild(th);
+                        th.appendChild(texto);
+                        nodoA.appendChild(th);
+                    }
+                    break;
                 }
-                break;
             }
         }
-    }
 
-    // Tablas de de intervalos min y max 1-N
-    thead_periodo = document.getElementsByClassName('alg-dep-i');
+        // Tablas de de intervalos min y max 1-N
+        for (let tabla of thead_periodo_i) {
+            for (let nodoA of tabla.childNodes) {
+                if (nodoA.nodeName.toLowerCase() === 'tr') {
+                    // Agrega las cabeceras de los periodos
+                    for (let i = 1; i <= periodos; i++) {
+                        let thmin = document.createElement('th');
+                        let thmax = document.createElement('th');
 
-    for (let tabla of thead_periodo) {
-        for (let nodoA of tabla.childNodes) {
-            if (nodoA.nodeName.toLowerCase() === 'tr') {
-                // Agrega las cabeceras de los periodos
-                for (let i = 1; i <= periodos; i++) {
-                    let thmin = document.createElement('th');
-                    let thmax = document.createElement('th');
+                        thmin.classList.add('th-periodo');
+                        thmax.classList.add('th-periodo');
 
-                    thmin.classList.add('th-periodo');
-                    thmax.classList.add('th-periodo');
+                        let texto_min = document.createTextNode(`Flujo mínimo en I_${i}`);
+                        let texto_max = document.createTextNode(`Flujo máximo en I_${i}`);
 
-                    let texto_min = document.createTextNode(`Flujo mínimo en I_${i}`);
-                    let texto_max = document.createTextNode(`Flujo máximo en I_${i}`);
+                        thmin.appendChild(texto_min);
+                        thmax.appendChild(texto_max);
 
-                    thmin.appendChild(texto_min);
-                    thmax.appendChild(texto_max);
-
-                    nodoA.appendChild(thmin);
-                    nodoA.appendChild(thmax);
+                        nodoA.appendChild(thmin);
+                        nodoA.appendChild(thmax);
+                    }
+                    break;
                 }
-                break;
             }
         }
-    }
 
-    // Crea la tabla de cada archivo
-    // Las guarda en tablas_info
+        // Desactiva todos los colapsos
+        desactivarColapsos();
 
-    // Desactiva todos los colapsos
-    desactivarColapsos();
+        // Crea las nuevas tablas
+        objEscOriginal.lista.forEach((archivo) => {
+            crearTablaInfo(archivo);
+        });
 
-    // Crea las nuevas tablas
-    objEscOriginal.lista.forEach((archivo) => {
-        crearTablaInfo(archivo);
+        resolve();
+    }).then(() => {
+        // Oculta todas
+        colapsarTodas(true);
+
+        banner.ocultar();
     });
-    console.log('Tablas:', tablas_info.length);
-    console.log('MAX ROWS', MAX_ROWS);
-    // Oculta todas
-    colapsarTodas(true);
-
-    banner2.ocultar();
 });
 
 function crearTablaInfo(objArchivo, copia) {
@@ -286,16 +264,12 @@ function crearTablaInfo(objArchivo, copia) {
         id += '_COPIA';
     }
 
-    // Busca la tabla en el dom
-    let tabla = document.getElementById(id);
-
-    if (typeof tabla === 'undefined' || tabla === null) {
-        // Si no la encuentra la busca en la lista
-        for (let t of tablas_info) {
-            if (t.id === id) {
-                tabla = t;
-                break;
-            }
+    // Busca la tabla en la lista, no en el dom
+    let tabla = null;
+    for (let t of tablas_info) {
+        if (t.id === id) {
+            tabla = t;
+            break;
         }
     }
 
@@ -326,7 +300,7 @@ function crearTablaInfo(objArchivo, copia) {
         let texto_fila = document.createTextNode(num_fila);
         td_fila.appendChild(texto_fila);
         td_fila.style.fontWeight = 'bold';
-        td_fila.style.textShadow = '1px 1px 1px';
+        td_fila.style.textShadow = '0px 0px 1px';
         tr.appendChild(td_fila);
 
         // Crea columnas
@@ -387,6 +361,7 @@ function crearTablaInfo(objArchivo, copia) {
 
     tabla.appendChild(tbody);
 
+    // Verifica si require paginacion
     if (objArchivo.filas.length > MAX_ROWS) {
         // Si ya existe el objeto, solo reconstruye
         if (typeof tabla.paginacion !== 'undefined') {
@@ -398,31 +373,14 @@ function crearTablaInfo(objArchivo, copia) {
 
     }
 
-    // Remueve la tabla del dom por defecto
-    // Al dar click al colapso se reinserta
-    // tabla.elementoVisible = false;
-
-    // Se reinserta en su parent
-    let id_parent = tabla.dataset.contenedor;
-    if (id_parent) {
-        let parent = document.getElementById(id_parent);
-        if (parent) {
-            for (let nodo of parent.childNodes) {
-                if (nodo.nodeName.toLowerCase() === 'div') {
-                    nodo.appendChild(tabla);
-                }
-            }
+    let colapso = null;
+    for (let col of colapsos) {
+        if (col.id === tabla.dataset.colapso) {
+            colapso = col;
+            break;
         }
     }
 
-    // Agrega la tabla a la lista
-    if (!tablas_info.some((t) => {
-        return t.id === tabla.id;
-    })) {
-        tablas_info.push(tabla);
-    }
-
-    let colapso = document.getElementById(tabla.dataset.colapso);
     // Habilita su colapso si hubo datos
     if (colapso) {
         if (objArchivo.numFilas > 0) {
@@ -457,20 +415,20 @@ function guardarEscenario() {
     if (typeof objEscModificado === 'undefined' || objEscModificado === null) {
         folio = moment().format('YYYYMMDDHHmm');
         flag_copiar = true;
-        banner2.setMensaje(`Generando escenario modificado`);
+        banner.setMensaje(`Generando escenario modificado`);
     } else {
         folio = objEscModificado.folio;
         flag_copiar = false;
-        banner2.setMensaje(`Actualizando escenario`);
+        banner.setMensaje(`Actualizando escenario`);
     }
 
     console.log('folio',folio);
 
-    banner2.vistaCompacta();
-    banner2.normal();
-    banner2.ocultarBoton();
-    banner2.trabajando();
-    banner2.mostrar();
+    banner.vistaCompacta();
+    banner.normal();
+    banner.ocultarBoton();
+    banner.trabajando();
+    banner.mostrar();
 
     setTimeout(() => {
         ipcRenderer.send('escenario-original:copiar', rutaEscenarioOriginal, folio, objEscOriginal, flag_copiar);
@@ -479,14 +437,14 @@ function guardarEscenario() {
 
 ipcRenderer.on('escenario-original:copiado', (event, res) => {
     if (res.estado) {
-        banner2.ok();
+        banner.ok();
 
         if (typeof objEscModificado !== 'undefined' && objEscModificado !== null && objEscModificado.folio === res.folio) {
             mensajeConsola(`Se actualizó el escenario modificado con folio ${res.folio} a partir de ${res.id}`);
-            banner2.setMensaje(`Actualización completada. Folio del escenario: <font style="color:lightgreen; text-decoration:underline;">${res.folio}</font>`);
+            banner.setMensaje(`Actualización completada. Folio del escenario: <font style="color:lightgreen; text-decoration:underline;">${res.folio}</font>`);
         } else {
             mensajeConsola(`Se generó un escenario modificado con folio ${res.folio} a partir de ${res.id}`);
-            banner2.setMensaje(`Copia completada. Folio del escenario: <font style="color:lightgreen; text-decoration:underline;">${res.folio}</font>`);
+            banner.setMensaje(`Copia completada. Folio del escenario: <font style="color:lightgreen; text-decoration:underline;">${res.folio}</font>`);
         }
 
         // Actualiza las etiquetas
@@ -508,23 +466,23 @@ ipcRenderer.on('escenario-original:copiado', (event, res) => {
             }
         });
 
-        let boton_ejecutarEscenario = document.getElementById('boton_ejecutarEscenario');
+        // Habilita el boton de ejecutar
         if (boton_ejecutarEscenario) {
             boton_ejecutarEscenario.disabled = false;
         }
 
         setTimeout(() => {
-            banner2.ocultar();
+            banner.ocultar();
         }, 2000);
 
         // Habilita el menu modificados
         menuModifica.classList.remove('invalido');
     } else {
-        banner2.error();
+        banner.error();
         mensajeConsola(`Ocurrió un problema al generar el escenario modificado: ${res.error}`);
-        banner2.setMensaje(res.error);
-        banner2.setBoton('Aceptar', () => {
-            banner2.ocultar();
+        banner.setMensaje(res.error);
+        banner.setBoton('Aceptar', () => {
+            banner.ocultar();
         });
     }
 });
@@ -533,65 +491,38 @@ function ejecutarAlgoritmo() {
     console.log('Ejecuta', objEscModificado.ruta, SESION.algoritmo);
     ipcRenderer.send('algoritmo:ejecutar', objEscModificado.ruta, SESION.algoritmo);
 
+    mensajeConsola(`Ejecutando algoritmo ${SESION.algoritmo} para folio ${objEscModificado.folio}`);
+
     // Vista prompt
-    banner2.prompt();
-    banner2.setTituloPrompt(`Ejecución de algoritmo ${SESION.algoritmo} para folio ${objEscModificado.folio}`);
-    banner2.setTextoPrompt('');
-    banner2.ocultarBoton();
-    banner2.setBoton('Hecho', () => {
-        banner2.ocultar();
+    banner.prompt();
+    banner.setTituloPrompt(`Ejecución de algoritmo ${SESION.algoritmo} para folio ${objEscModificado.folio}`);
+    banner.setTextoPrompt('');
+    banner.promptEspera();
+    banner.mostrarBoton();
+    banner.deshabilitarBoton();
+    banner.setBoton('Hecho', () => {
+        banner.ocultar();
     });
-    banner2.mostrar();
-}
-
-ipcRenderer.on('algoritmo:salida', (event, mensajes) => {
-    mostrarMensajes(mensajes).then(() => {
-        setTimeout(() => {
-            ipcRenderer.send('algoritmo:salidaSiguiente');
-        }, 100);
-    }, () => {
-        setTimeout(() => {
-            ipcRenderer.send('algoritmo:salidaSiguiente');
-        }, 100);
-    });
-});
-
-function mostrarMensajes(mensajes) {
-    return new Promise((resolve, reject) => {
-        mensajes.forEach((mensaje) => {
-            try {
-                let lineas = mensaje.split('\n');
-                lineas.forEach((linea) => {
-                    banner2.appendTextoPrompt(linea);
-
-                    // Verifica si la linea contiene el mensaje de terminacion exitosa del algoritmo
-                    if (linea.includes('TERMINACION NORMAL')) {
-                        objEscModificado.exito = true;
-                    }
-                });
-
-                resolve();
-            } catch (e) {
-                reject();
-            }
-        });
-    });
+    banner.mostrar();
 }
 
 ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
-    console.log(res);
-    banner2.setTextoPrompt(res.cadena);
-    banner2.saltoPrompt();
+    banner.promptQuitaEspera();
+    banner.setTextoPrompt(res.cadena);
+    banner.saltoPrompt();
 
     if (res.exito === true) {
-        banner2.appendTextoPrompt(`<font color='lawngreen'>Fin de ejecución del algoritmo con código local: ${res.codigo}</font>`);
+        banner.appendTextoPrompt(`<font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`);
+        mensajeConsola(`Fin de ejecución del algoritmo; terminación normal`);
     } else {
         if (res.codigo < 0) {
-            banner2.appendTextoPrompt(`<font color='red'>Error de ejecución del algoritmo: ${res.mensaje}</font>`);
+            banner.appendTextoPrompt(`<font color='red'>Error de ejecución del algoritmo: ${res.mensaje}</font>`);
+            mensajeConsola(`Error de ejecución del algoritmo: ${res.mensaje}`);
         } else {
-            banner2.appendTextoPrompt(`<font color='red'>Fin de ejecución del algoritmo con código local: ${res.codigo}</font>`);
+            banner.appendTextoPrompt(`<font color='red'>Fin de ejecución del algoritmo. Se presentan errores en el resultado.</font>`);
+            mensajeConsola(`Fin de ejecución del algoritmo; se presentan errores en el resultado.`);
         }
     }
 
-    banner2.mostrarBoton();
+    banner.habilitarBoton();
 });

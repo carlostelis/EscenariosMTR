@@ -14,11 +14,8 @@ ipcRenderer.on('sesion:cerrar', (event) => {
     body.style.opacity = '0';
 
     setTimeout(() => {
-        var divLogin = document.querySelector('#div-layout');
-        divLogin.classList.add('d-none');
-
-        var divLayout = document.querySelector('#div-login');
-        divLayout.classList.remove('d-none');
+        divLogin.classList.remove('d-none');
+        divLayout.classList.add('d-none');
     }, 1000);
 
     setTimeout(() => {
@@ -53,39 +50,39 @@ ipcRenderer.on('paginas:envia', (event, paginas) => {
 
 // Progreso de descarga de directorio
 ipcRenderer.on('directorio:progreso', (event, res) => {
-    banner2.vistaNormal();
-    banner2.mostrarProgreso();
-    banner2.setMensaje(res.mensaje);
-    banner2.setProgreso(res.progreso);
+    banner.vistaNormal();
+    banner.mostrarProgreso();
+    banner.setMensaje(res.mensaje);
+    banner.setProgreso(res.progreso);
 });
 
 // Descarga finalizada (?)
 ipcRenderer.on('directorio:descargado', (event, res) => {
     if (res.estado) {
         if (res.error) {
-            banner2.setMensaje(res.error);
+            banner.setMensaje(res.error);
             if (typeof res.targz !== 'undefined' && res.targz) {
-                banner2.trabajando();
+                banner.trabajando();
             }
         } else {
-            banner2.setProgreso(100);
-            banner2.ok();
+            banner.setProgreso(100);
+            banner.ok();
 
             if (typeof res.flagLocal === 'undefined') {
-                banner2.setMensaje('Escenario descargado correctamente');
-                banner2.mostrarProgreso();
+                banner.setMensaje('Escenario descargado correctamente');
+                banner.mostrarProgreso();
             } else {
-                banner2.setMensaje('Escenario encontrado localmente');
+                banner.setMensaje('Escenario encontrado localmente');
             }
 
             // OCulta banner
             setTimeout(() => {
-                banner2.setProgreso(0);
+                banner.setProgreso(0);
             }, 500);
 
             setTimeout(() => {
-                banner2.ocultarProgreso();
-                banner2.vistaCompacta();
+                banner.ocultarProgreso();
+                banner.vistaCompacta();
             }, 600);
 
             rutaEscenarioOriginal = res.rutaLocal;
@@ -94,18 +91,18 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
             mensajeConsola(`Escenario cargado localmente: ${rutaEscenarioOriginal}`);
 
             // Descarga algoritmo
-            banner2.setMensaje('Verificando algoritmo');
-            banner2.actualizando();
-            ipcRenderer.send('algoritmo:descarga', rutaEscenarioOriginal, document.querySelector('#sel_algoritmo_ce').value);
+            banner.setMensaje('Verificando algoritmo');
+            banner.actualizando();
+            ipcRenderer.send('algoritmo:descarga', rutaEscenarioOriginal, select_algoritmo.value);
         }
     } else {
-        banner2.ocultarProgreso();
-        banner2.setMensaje(res.error);
-        banner2.error('darkred');
-        banner2.setBoton('Aceptar', () => {
-            banner2.ocultar();
+        banner.ocultarProgreso();
+        banner.setMensaje(res.error);
+        banner.error();
+        banner.setBoton('Aceptar', () => {
+            banner.ocultar();
         });
-        banner2.mostrarBoton();
+        banner.mostrarBoton();
     }
 });
 
@@ -116,45 +113,42 @@ ipcRenderer.on('algoritmo:descargado', (event, res) => {
             // Habilita el menu info
             menuInfo.classList.remove('invalido');
 
-            // banner2.ocultar();
-            banner2.trabajando();
-            banner2.vistaCompacta();
-            banner2.setMensaje('Leyendo información');
+            // banner.ocultar();
+            banner.trabajando();
+            banner.vistaCompacta();
+            banner.setMensaje('Leyendo información');
 
             // Despliega los datos en la siguiente seccion
             let div = document.querySelector('.contenedor-datos-escenario');
             if (div) {
-                let sel_algoritmo_ce = document.querySelector('#sel_algoritmo_ce').value.toUpperCase();
-                let algoritmo_labels = document.getElementsByClassName('label-algoritmo-esc');
+                let algoritmo_val = select_algoritmo.value.toUpperCase();
                 for (let label of algoritmo_labels) {
-                    label.innerHTML = `Algoritmo: <b>${sel_algoritmo_ce}</b>`;
+                    label.innerHTML = `Algoritmo: <b>${algoritmo_val}</b>`;
                 }
 
-                let input_fecha_ce = document.querySelector('#input_fecha_ce').value;
-                let fecha_labels = document.getElementsByClassName('label-fecha-esc');
+                let fecha_val = input_fecha.value;
                 for (let label of fecha_labels) {
-                    label.innerHTML = `Fecha: <b>${input_fecha_ce}</b>`;
+                    label.innerHTML = `Fecha: <b>${fecha_val}</b>`;
                 }
 
-                let sel_hora_ce = document.querySelector('#sel_hora_ce').value + '';
-                if (sel_hora_ce.length < 2) {
-                    sel_hora_ce = `0${sel_hora_ce}`;
+                let hora_val = select_hora.value + '';
+                if (hora_val.length < 2) {
+                    hora_val = `0${hora_val}`;
                 }
-                let hora_labels = document.getElementsByClassName('label-hora-esc');
+
                 for (let label of hora_labels) {
-                    label.innerHTML = `Hora: <b>${sel_hora_ce}</b>`;
+                    label.innerHTML = `Hora: <b>${hora_val}</b>`;
                 }
 
-                let sel_intervalo_ce = document.querySelector('#sel_intervalo_ce').value;
-                if (sel_intervalo_ce.length < 2) {
-                    sel_intervalo_ce = `0${sel_intervalo_ce}`;
+                let intervalo_val = select_intervalo.value;
+                if (intervalo_val.length < 2) {
+                    intervalo_val = `0${intervalo_val}`;
                 }
-                let intervalo_labels = document.getElementsByClassName('label-intervalo-esc');
+
                 for (let label of intervalo_labels) {
-                    label.innerHTML = `Intervalo: <b>${sel_intervalo_ce}</b>`;
+                    label.innerHTML = `Intervalo: <b>${intervalo_val}</b>`;
                 }
 
-                let folio_labels = document.getElementsByClassName('label-folio-esc');
                 for (let label of folio_labels) {
                     label.innerHTML = `Folio: <b>- ORIGINAL -</b>`;
                 }
@@ -162,34 +156,59 @@ ipcRenderer.on('algoritmo:descargado', (event, res) => {
 
             // Pasa al menu de información
             ipcRenderer.send('escenario:leer', rutaEscenarioOriginal, SESION.algoritmo);
+
+            // Primer menú, informacion general
+            opciones_menu_info[0].onclick();
+            // Despliegua la seccion
             menuInfo.onclick();
         }, 1500);
     } else {
-        banner2.error();
-        banner2.setMensaje(`Error durante la descarga del algoritmo: ${res.error}`);
-        banner2.setBoton('Aceptar', () => {
-            banner2.ocultar();
+        banner.error();
+        banner.setMensaje(`Error durante la descarga del algoritmo: ${res.error}`);
+        banner.setBoton('Aceptar', () => {
+            banner.ocultar();
         });
-        banner2.mostrarBoton();
+        banner.mostrarBoton();
     }
 });
 
 // Inicializa componentes, listas, combos, vistas, etc.
 function cargaComponentes() {
+    // Obtiene las referencias de los componentes globales
+    select_algoritmo = document.getElementById('sel_algoritmo_ce');
+    input_fecha = document.getElementById('input_fecha_ce');
+    select_hora = document.getElementById('sel_hora_ce');
+    select_intervalo = document.getElementById('sel_intervalo_ce');
+    select_folio = document.getElementById('sel_folio_ce');
+
+    // Informacion de escenario
+    contenedores_info = document.getElementsByClassName('contenedor-info');
+    opciones_menu_info = document.getElementsByClassName('opcion-menu-info');
+    colapsos = document.getElementsByClassName('celda-header-info');
+    th_periodos = document.getElementsByClassName('th-periodo');
+    tablas_info = document.getElementsByClassName('tabla-info');
+    thead_periodo = document.getElementsByClassName('alg-dep');
+    thead_periodo_i = document.getElementsByClassName('alg-dep-i');
+
+    // Etiquetas comunes
+    algoritmo_labels = document.getElementsByClassName('label-algoritmo-esc');
+    fecha_labels = document.getElementsByClassName('label-fecha-esc');
+    hora_labels = document.getElementsByClassName('label-hora-esc');
+    intervalo_labels = document.getElementsByClassName('label-intervalo-esc');
+    folio_labels = document.getElementsByClassName('label-folio-esc');
+
+    boton_ejecutarEscenario = document.getElementById('boton_ejecutarEscenario');
+
     let div_archivos = document.getElementById('div_visor-archivos');
 
     // Fecha actual
-    let hora = moment().format('YYYY-MM-DD');
-    console.log(hora);
-    let input_fecha_ce = document.querySelector('#input_fecha_ce');
-    input_fecha_ce.value = hora;
+    input_fecha.value = moment().format('YYYY-MM-DD');
 
     // Carga algoritmos
     // algoritmos
-    let sel_algoritmo_ce = document.querySelector('#sel_algoritmo_ce');
     if (typeof SESION.config.algoritmos !== 'undefined' && SESION.config.algoritmos) {
         // Obtiene la lista y la limpia
-        sel_algoritmo_ce.innerHTML = "";
+        select_algoritmo.innerHTML = "";
 
         // Agrega los algoritmos disponibles
         SESION.config.algoritmos.forEach((algoritmo) => {
@@ -200,7 +219,7 @@ function cargaComponentes() {
             opcion.value = algoritmo.carpeta;
             opcion.name = algoritmo.nombre;
             opcion.appendChild(texto);
-            sel_algoritmo_ce.appendChild(opcion);
+            select_algoritmo.appendChild(opcion);
         });
     }
 
@@ -208,7 +227,6 @@ function cargaComponentes() {
     visor_archivos.set(div_archivos, ipcRenderer);
 
     // Carga horas
-    let sel_hora_ce = document.querySelector('#sel_hora_ce');
     for (var i = 0; i < 24; i++) {
         let nodo_opc = document.createElement('option');
         let hora_txt = `${i}`;
@@ -220,35 +238,34 @@ function cargaComponentes() {
 
         nodo_opc.appendChild(nodo_txt);
         nodo_opc.value = i;
-        sel_hora_ce.appendChild(nodo_opc);
+        select_hora.appendChild(nodo_opc);
     }
 
     // Carga intervalos
     let intervalos_fun = (event) => {
         let max_intervalos;
-        let sel_intervalo_ce = document.querySelector('#sel_intervalo_ce');
         SESION.config.algoritmos.forEach((algoritmo) => {
 
-            if (algoritmo.nombre.toLowerCase().replace('-', '') === sel_algoritmo_ce.value) {
+            if (algoritmo.nombre.toLowerCase().replace('-', '') === select_algoritmo.value) {
                 max_intervalos = algoritmo.intervalos;
             }
         });
 
         // Ingresa los intervalos en el combo
-        sel_intervalo_ce.innerHTML = "";
+        select_intervalo.innerHTML = "";
 
         for (let i = 1; i <= max_intervalos; i++) {
             let nodo_opc = document.createElement('option');
             let nodo_txt = document.createTextNode(`${i}`);
 
             nodo_opc.appendChild(nodo_txt);
-            sel_intervalo_ce.appendChild(nodo_opc);
+            select_intervalo.appendChild(nodo_opc);
         }
     };
 
-    sel_algoritmo_ce.onmouseup = intervalos_fun;
-    sel_algoritmo_ce.onkeyup = intervalos_fun;
-    sel_algoritmo_ce.onkeyup();
+    select_algoritmo.onmouseup = intervalos_fun;
+    select_algoritmo.onkeyup = intervalos_fun;
+    select_algoritmo.onkeyup();
 
     // selecciona el primero
     document.querySelector('.opc-menu').click();
@@ -270,31 +287,26 @@ function cargarEscenario() {
     objArchivos = null;
 
     // manda a obtener el utc de la fecha seleccionada
-    let input_fecha_ce = document.querySelector('#input_fecha_ce');
-    let sel_hora_ce = document.querySelector('#sel_hora_ce');
-
     // Comienza con vista compacta
-    banner2.normal();
-    banner2.vistaCompacta();
-    banner2.mostrar();
-    banner2.actualizando('steelblue');
-    banner2.setMensaje('Consultando UTC');
-    banner2.setProgreso(0);
-    banner2.ocultarProgreso();
-    banner2.ocultarBoton();
+    banner.normal();
+    banner.vistaCompacta();
+    banner.mostrar();
+    banner.actualizando();
+    banner.setMensaje('Consultando UTC');
+    banner.setProgreso(0);
+    banner.ocultarProgreso();
+    banner.ocultarBoton();
 
-    ipcRenderer.send('utc:consulta', `${input_fecha_ce.value} ${sel_hora_ce.value}:00`, SESION.sistemaZona);
+    ipcRenderer.send('utc:consulta', `${input_fecha.value} ${select_hora.value}:00`, SESION.sistemaZona);
 }
 
 // Recibe UTC de Java
 ipcRenderer.on('utc:respuesta', (event, json) => {
-    console.log('UTC => ', json);
-
     if (!json.estado || typeof json.utc === 'undefined') {
-        banner2.error('darkred');
-        banner2.setMensaje(json.mensaje);
-        banner2.setBoton('Aceptar', () => {
-            banner2.ocultar();
+        banner.error();
+        banner.setMensaje(json.mensaje);
+        banner.setBoton('Aceptar', () => {
+            banner.ocultar();
         });
 
         return;
@@ -302,46 +314,42 @@ ipcRenderer.on('utc:respuesta', (event, json) => {
 
     let {rutaId, dia, mes, anio, id} = generarRutaEscenario(json.utc);
 
-    let sel_algoritmo_ce = document.querySelector('#sel_algoritmo_ce');
-
     let obj = {
         id_escenario: id,
-        dirRemoto: `${SESION.config.exalogic.base}${SESION.sistemaCarpeta}/${sel_algoritmo_ce.value}/datosh/${rutaId}`,
-        pathLocal: `${sel_algoritmo_ce.value}/escenario_original/`,
+        dirRemoto: `${SESION.config.exalogic.base}${SESION.sistemaCarpeta}/${select_algoritmo.value}/datosh/${rutaId}`,
+        pathLocal: `${select_algoritmo.value}/escenario_original/`,
         dia: dia,
         mes: mes,
         anio: anio,
-        algoritmo: sel_algoritmo_ce.value
+        algoritmo: select_algoritmo.value
     };
 
     mensajeConsola(`Solicitando escenario ${id}`);
 
-    SESION.algoritmo = sel_algoritmo_ce.value;
+    SESION.algoritmo = select_algoritmo.value;
 
     ipcRenderer.send('directorio:descarga', obj);
-
-    banner2.setMensaje('Buscando escenario');
+    banner.setMensaje('Buscando escenario');
 });
 
 // Construye el nombre del escenario
 function generarRutaEscenario(utc) {
-    let input_fecha_ce = document.querySelector('#input_fecha_ce');
-    let fecha = input_fecha_ce.value;
+    let fecha = input_fecha.value;
 
     if (fecha.trim() === '') {
-        input_fecha_ce.bordeOriginal = input_fecha_ce.style.borderColor;
-        input_fecha_ce.style.borderColor = 'red';
-        input_fecha_ce.focus();
+        input_fecha.bordeOriginal = input_fecha.style.borderColor;
+        input_fecha.style.borderColor = 'red';
+        input_fecha.focus();
         return;
     }
-    input_fecha_ce.style.borderColor = input_fecha_ce.bordeOriginal;
+    input_fecha.style.borderColor = input_fecha.bordeOriginal;
 
-    let hora = document.querySelector('#sel_hora_ce').value;
+    let hora = select_hora.value;
     if (hora.length === 1) {
         hora = `0${hora}`;
     }
 
-    let intervalo = document.querySelector('#sel_intervalo_ce').value;
+    let intervalo = select_intervalo.value;
     if (intervalo.length === 1) {
         intervalo = `0${intervalo}`;
     }

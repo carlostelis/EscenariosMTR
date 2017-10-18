@@ -13,35 +13,67 @@ require('electron-context-menu')({
 	}]
 });
 
-let paginaActual = 'login';
-let primeraVez = true; // Para carga de sistemas
-let intervaloCarga;
 const body = document.querySelector("body");
-const banner = new Banner(body);
-const banner2 = new Banner2(body);
+const div_msg_consola = document.getElementById('div_msg_consola');
+const banner = new Banner2(body);
 const visor_archivos = new VistaArchivos();
 const moment = require('moment');
 const SESION = {
 	usuario: '',
 	sistema: ''
 }
-const tablas_info = [];
 
-let objEscOriginal;
-let objEscModificado;
+// Login
+const inputNombre = document.querySelector('#input_nombre_IS');
+const inputContrasena = document.querySelector('#input_contrasena_IS');
+const selectSistema = document.querySelector('#select_sistema_IS');
+const divLogin = document.querySelector('#div-login');
+const divLayout = document.querySelector('#div-layout');
 
-let menuCarga;
-let menuInfo;
-let menuModifica;
-let menuCompara;
-let menuAdmin;
+let paginaActual = 'login';
+let primeraVez = true; // Para carga de sistemas
+let intervaloCarga = null;
+let objEscOriginal = null;
+let objEscModificado = null;
+let rutaEscenarioOriginal = null;
 
-let rutaEscenarioOriginal;
+// Elementos del menu general
+let menuCarga = null;
+let menuInfo = null;
+let menuModifica = null;
+let menuCompara = null;
+let menuAdmin = null;
+
+// Elementos del formulario de carga
+let select_algoritmo = null;
+let input_fecha = null;
+let select_hora = null;
+let select_intervalo = null;
+let select_folio = null;
+
+// Informacion de escenario
+let contenedores_info = null;
+let opciones_menu_info = null;
+let colapsos = null;
+let th_periodos = null;
+let tablas_info = null;
+let thead_periodo = null;
+let thead_periodo_i = null;
+
+// Etiquetas comunes
+let algoritmo_labels = null;
+let fecha_labels = null;
+let hora_labels = null;
+let intervalo_labels = null;
+let folio_labels = null;
+
+let boton_ejecutarEscenario = null;
 
 // Al cargar la pagina es inicio de sesion, se consultan
 // sistemas disponibles y cargan documentos en el area de trabajo
 body.onload = () => {
     body.style.opacity = '1';
+	div_msg_consola.innerHTML = '';
 
     solicitarSistemas();
 
@@ -69,11 +101,12 @@ function mensajeConsola(mensaje) {
 	let mensaje_consola = `<b>[${moment().format('YYYY-MM-DD HH:mm:ss')}]</b>\t${mensaje}`;
 
 	// Escribe Mensaje a la consola
-	let div_msg_consola = document.getElementById('div_msg_consola');
-	let nodo_span = document.createElement('span');
-	nodo_span.innerHTML = mensaje_consola;
+	if (div_msg_consola.innerHTML === '') {
+		div_msg_consola.innerHTML += `${mensaje_consola}`;
+	} else {
+		div_msg_consola.innerHTML += `<br>${mensaje_consola}`;
+	}
 
-	div_msg_consola.appendChild(nodo_span);
 	div_msg_consola.scrollTop = div_msg_consola.scrollHeight;
 
 	let mensaje_bitacora = moment().format('YYYY-MM-DD HH:mm:ss') + '\t' + mensaje;
@@ -182,7 +215,6 @@ function mostrarVista(vistaMostrar, menu) {
 			}, 300);
 
 			// deshabilita el boton
-			console.log('deshabilita', menu);
 			menu.classList.add('deshabilitado');
 			menu.deshabilitado = true;
 		} else {
