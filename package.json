@@ -17,7 +17,8 @@
     "fs-extra": "^4.0.2",
     "ftp": "^0.3.10",
     "moment": "^2.18.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "text-encoding": "^0.6.4"
   },
   "devDependencies": {
     "electron": "^1.8.1",

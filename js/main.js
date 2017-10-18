@@ -26,6 +26,7 @@ const bitacoraUsuario = new BitacoraUsuario(config.local.escenarios);
 
 const TO_BD = 2000;
 let win;
+let res_eje;
 
 let ftp = new FTP({
     host: config.exalogic.host,
@@ -562,10 +563,13 @@ ipcMain.on('algoritmo:descarga', (event, ruta_escenario, algoritmo) => {
                     win.webContents.send('algoritmo:descargado', {estado:true});
                 }, (err) => {
                     console.log('Error descargando algoritmo', {estado:false, error:err});
+                    win.webContents.send('algoritmo:descargado',  {estado:false, error:err});
                     ftp.desconectar();
                 });
             } else {
                 console.log('No se encontro una fecha de algoritmo valida');
+                win.webContents.send('algoritmo:descargado', {estado:false, error:'No se encuentró un algoritmo para el escenario'});
+                ftp.desconectar();
             }
         }, (err) => {
             console.log('Error', err);
@@ -624,7 +628,7 @@ ipcMain.on('escenario:leer', (event, ruta_escenario, algoritmo) => {
     });
 });
 
-ipcMain.on('escenario-original:copiar', (event, ruta_original, nuevo_folio, objArchivos) => {
+ipcMain.on('escenario-original:copiar', (event, ruta_original, nuevo_folio, objArchivos, flag_copiar) => {
     // Construye la ruta nueva
 
     let id_escenario = path.basename(ruta_original);
@@ -644,21 +648,12 @@ ipcMain.on('escenario-original:copiar', (event, ruta_original, nuevo_folio, objA
         }
     }
 
-    console.log('copiando');
+    console.log('copiando', flag_copiar);
     console.log(ruta_original);
     console.log(ruta_modificado);
 
-    let dialog_config = {
-        buttons: ['Aceptar'],
-        title: 'Escenario Modificado',
-        cancelId: 1
-    };
-
-    // Copia el directorio completo
-    fse.copy(ruta_original, ruta_modificado).then(() => {
-        console.log('Directorio copiado correctamente');
-
-        // Verifica los archivos modificados y actualiza en el nuevo directorio
+    verificarModificados = () => {
+        console.log('Verificando modificados');
         let promesas = [];
         objArchivos.lista.forEach((archivo) => {
             if (typeof archivo.editado !== 'undefined' && archivo.editado === true) {
@@ -670,24 +665,32 @@ ipcMain.on('escenario-original:copiar', (event, ruta_original, nuevo_folio, objA
         });
 
         Promise.all(promesas).then(() => {
-            dialog_config.type = 'info';
-            dialog_config.message = `Se ha generado el escenario modificado con el folio ${nuevo_folio}`;
-            // dialog.showMessageBox(win, dialog_config);
-            win.webContents.send('escenario-original:copiado', {estado:true, folio:nuevo_folio, ruta:ruta_modificado, id:id_escenario});
+            win.webContents.send('escenario-original:copiado', {estado:true, folio:nuevo_folio, ruta:ruta_modificado, id:id_escenario, obj:objArchivos});
         }, () => {
-            dialog_config.type = 'warning';
-            dialog_config.message = `Se ha generado el escenario modificado con el folio ${nuevo_folio} pero ocurrió un error actualizando los datos`;
-            // dialog.showMessageBox(win, dialog_config);
             win.webContents.send('escenario-original:copiado', {estado:true, id:id_escenario, folio:nuevo_folio, ruta:ruta_modificado, error:'Error de escritura en disco'});
         });
-    }).catch((err) => {
-        console.log('Error copiando el directorio', err);
-        dialog_config.type = 'error';
-        dialog_config.message = `Error generando el escenario modificado: ${err}`;
-        // dialog.showMessageBox(win, dialog_config);
-        win.webContents.send('escenario-original:copiado', {estado:false, folio:nuevo_folio, ruta:ruta_modificado, error:err, id:id_escenario});
-    });
+    };
+
+    // Si es un nuevo modificado, copia toda la carpeta
+    // de lo contrario, solo modifica los archivos
+    if (flag_copiar) {
+        // Copia el directorio completo
+        fse.copy(ruta_original, ruta_modificado).then(() => {
+            console.log('Directorio copiado correctamente');
+
+            // Verifica modificados
+            verificarModificados();
+        }).catch((err) => {
+            console.log('Error al copiar el escenario', err);
+            win.webContents.send('escenario-original:copiado', {estado:false, folio:nuevo_folio, ruta:ruta_modificado, error:err, id:id_escenario});
+        });
+    } else {
+        // Verifica modificados
+        verificarModificados();
+    }
 });
+
+function verificarModificados() {}
 
 function modificarArchivo(ruta, obj) {
     console.log('Modificado: ', ruta);
@@ -725,9 +728,28 @@ function modificarArchivo(ruta, obj) {
                     resolve();
                 }
             });
+
+            // Sin modificaciones
+            obj.editado = false;
         } catch (e) {
             console.log(e);
         }
 
     });
 }
+
+ipcMain.on('algoritmo:ejecutar', (event, ruta_escenario, algoritmo) => {
+    let archivo_eje;
+    if (algoritmo === 'dersi') {
+        archivo_eje = 'DERSI.exe'
+    } else {
+        archivo_eje = 'DERS.exe'
+    }
+
+    console.log('Ejecutando', ruta_escenario, archivo_eje, algoritmo);
+    comandos.ejecutarAlgoritmo(ruta_escenario, archivo_eje).then((obj) => {
+        win.webContents.send('algoritmo:ejecutado', obj);
+    }, (obj) => {
+        win.webContents.send('algoritmo:ejecutado', obj);
+    });
+});

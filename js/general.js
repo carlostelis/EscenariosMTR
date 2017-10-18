@@ -18,6 +18,7 @@ let primeraVez = true; // Para carga de sistemas
 let intervaloCarga;
 const body = document.querySelector("body");
 const banner = new Banner(body);
+const banner2 = new Banner2(body);
 const visor_archivos = new VistaArchivos();
 const moment = require('moment');
 const SESION = {
@@ -26,7 +27,8 @@ const SESION = {
 }
 const tablas_info = [];
 
-let objArchivos;
+let objEscOriginal;
+let objEscModificado;
 
 let menuCarga;
 let menuInfo;
@@ -109,6 +111,12 @@ function fn_menuInfo() {
 
 	// oculta las vistas
 	let vista = document.getElementById('vista-esc-info');
+	// Deshabilita botón ejecutar
+	let boton_ejecutarEscenario = document.getElementById('boton_ejecutarEscenario');
+	if (boton_ejecutarEscenario) {
+		boton_ejecutarEscenario.disabled = true;
+	}
+	// Deshabilita
 	mostrarVista(vista, menuInfo);
 }
 

@@ -53,38 +53,40 @@ ipcRenderer.on('paginas:envia', (event, paginas) => {
 
 // Progreso de descarga de directorio
 ipcRenderer.on('directorio:progreso', (event, res) => {
-    banner.mostrarProgreso('darkgreen');
-    banner.setMensaje(res.mensaje);
-    banner.setProgreso(res.progreso);
+    banner2.vistaNormal();
+    banner2.mostrarProgreso();
+    banner2.setMensaje(res.mensaje);
+    banner2.setProgreso(res.progreso);
 });
 
 // Descarga finalizada (?)
 ipcRenderer.on('directorio:descargado', (event, res) => {
     if (res.estado) {
         if (res.error) {
-            banner.setMensaje(res.error);
+            banner2.setMensaje(res.error);
             if (typeof res.targz !== 'undefined' && res.targz) {
-                banner.trabajando('lightseagreen');
+                banner2.trabajando();
             }
         } else {
-            banner.setProgreso(100);
-            banner.ok('darkgreen');
+            banner2.setProgreso(100);
+            banner2.ok();
 
             if (typeof res.flagLocal === 'undefined') {
-                // banner.setMensaje('Escenario descargado correctamente');
-                banner.mostrarProgreso('darkgreen');
+                banner2.setMensaje('Escenario descargado correctamente');
+                banner2.mostrarProgreso();
             } else {
-                // banner.setMensaje('Escenario encontrado localmente');
+                banner2.setMensaje('Escenario encontrado localmente');
             }
 
             // OCulta banner
             setTimeout(() => {
-                banner.setProgreso(0);
+                banner2.setProgreso(0);
             }, 500);
 
             setTimeout(() => {
-                banner.ocultarProgreso();
-            }, 1000);
+                banner2.ocultarProgreso();
+                banner2.vistaCompacta();
+            }, 600);
 
             rutaEscenarioOriginal = res.rutaLocal;
             console.log('Ruta de escenario:', rutaEscenarioOriginal);
@@ -92,17 +94,18 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
             mensajeConsola(`Escenario cargado localmente: ${rutaEscenarioOriginal}`);
 
             // Descarga algoritmo
-            banner.setMensaje('Descargando algoritmo');
+            banner2.setMensaje('Verificando algoritmo');
+            banner2.actualizando();
             ipcRenderer.send('algoritmo:descarga', rutaEscenarioOriginal, document.querySelector('#sel_algoritmo_ce').value);
         }
     } else {
-        banner.ocultarProgreso();
-        banner.setMensaje(res.error);
-        banner.error('darkred');
-        banner.setBoton('Aceptar', () => {
-            banner.ocultar();
+        banner2.ocultarProgreso();
+        banner2.setMensaje(res.error);
+        banner2.error('darkred');
+        banner2.setBoton('Aceptar', () => {
+            banner2.ocultar();
         });
-        banner.mostrarBoton();
+        banner2.mostrarBoton();
     }
 });
 
@@ -113,9 +116,10 @@ ipcRenderer.on('algoritmo:descargado', (event, res) => {
             // Habilita el menu info
             menuInfo.classList.remove('invalido');
 
-            // banner.ocultar();
-            banner.trabajando();
-            banner.setMensaje('Leyendo información');
+            // banner2.ocultar();
+            banner2.trabajando();
+            banner2.vistaCompacta();
+            banner2.setMensaje('Leyendo información');
 
             // Despliega los datos en la siguiente seccion
             let div = document.querySelector('.contenedor-datos-escenario');
@@ -150,10 +154,9 @@ ipcRenderer.on('algoritmo:descargado', (event, res) => {
                     label.innerHTML = `Intervalo: <b>${sel_intervalo_ce}</b>`;
                 }
 
-                let folio = `12345689`;
                 let folio_labels = document.getElementsByClassName('label-folio-esc');
                 for (let label of folio_labels) {
-                    label.innerHTML = `Folio: <b>${folio}</b>`;
+                    label.innerHTML = `Folio: <b>- ORIGINAL -</b>`;
                 }
             }
 
@@ -162,12 +165,12 @@ ipcRenderer.on('algoritmo:descargado', (event, res) => {
             menuInfo.onclick();
         }, 1500);
     } else {
-        banner.error();
-        banner.setMensaje('Error durante la descarga del algoritmo');
-        banner.setBoton('Aceptar', () => {
-            banner.ocultar();
+        banner2.error();
+        banner2.setMensaje(`Error durante la descarga del algoritmo: ${res.error}`);
+        banner2.setBoton('Aceptar', () => {
+            banner2.ocultar();
         });
-        banner.mostrarBoton();
+        banner2.mostrarBoton();
     }
 });
 
@@ -259,18 +262,26 @@ function cargarEscenario() {
     menuCompara.classList.add('invalido');
     menuAdmin.classList.add('invalido');
 
+    // Borra los objetos de escenarios anteriores
+    objEscOriginal = null;
+    objEscModificado = null;
+
     // Elimina el objeto anterior
     objArchivos = null;
 
     // manda a obtener el utc de la fecha seleccionada
     let input_fecha_ce = document.querySelector('#input_fecha_ce');
     let sel_hora_ce = document.querySelector('#sel_hora_ce');
-    banner.mostrar();
-    banner.actualizando('steelblue');
-    banner.setMensaje('Consultando UTC');
-    banner.setProgreso(0);
-    banner.ocultarProgreso();
-    banner.ocultarBoton();
+
+    // Comienza con vista compacta
+    banner2.normal();
+    banner2.vistaCompacta();
+    banner2.mostrar();
+    banner2.actualizando('steelblue');
+    banner2.setMensaje('Consultando UTC');
+    banner2.setProgreso(0);
+    banner2.ocultarProgreso();
+    banner2.ocultarBoton();
 
     ipcRenderer.send('utc:consulta', `${input_fecha_ce.value} ${sel_hora_ce.value}:00`, SESION.sistemaZona);
 }
@@ -280,10 +291,10 @@ ipcRenderer.on('utc:respuesta', (event, json) => {
     console.log('UTC => ', json);
 
     if (!json.estado || typeof json.utc === 'undefined') {
-        banner.error('darkred');
-        banner.setMensaje(json.mensaje);
-        banner.setBoton('Aceptar', () => {
-            banner.ocultar();
+        banner2.error('darkred');
+        banner2.setMensaje(json.mensaje);
+        banner2.setBoton('Aceptar', () => {
+            banner2.ocultar();
         });
 
         return;
@@ -309,7 +320,7 @@ ipcRenderer.on('utc:respuesta', (event, json) => {
 
     ipcRenderer.send('directorio:descarga', obj);
 
-    banner.setMensaje('Buscando escenario');
+    banner2.setMensaje('Buscando escenario');
 });
 
 // Construye el nombre del escenario

@@ -1,9 +1,11 @@
-const { execFile } = require('child_process');
+const { execFile, spawn } = require('child_process');
 
 class Comandos {
     constructor() {
         this.config = require('./config.js');
         this.path = require('path');
+        const {TextDecoder} = require('text-encoding');
+        this.decoder = new TextDecoder();
     }
 
     obtenerUsuario(usuario) {
@@ -150,6 +152,63 @@ class Comandos {
                     }
                 }
             });
+        });
+    }
+
+    ejecutarAlgoritmo(ruta_escenario, archivo_exe) {
+        return new Promise((resolve, reject) => {
+            try {
+                let ruta_actual = process.cwd();
+                process.chdir(ruta_escenario);
+                console.log(`Moviendo a escenario: ${process.cwd()}`);
+
+                let resultado = '';
+                let codigo;
+                let mensaje;
+                let exito = false;
+
+                const exe = spawn(archivo_exe);
+
+                exe.stdout.on('data', (data) => {
+                    let salida = this.decoder.decode(data).replace(new RegExp('\n+\s*', 'g'), '<br>');
+
+                    if (salida.includes('TERMINACION NORMAL')) {
+                        exito = true;
+                    }
+
+                    resultado += salida;
+                });
+
+                exe.stderr.on('data', (data) => {
+                    let salida = this.decoder.decode(data).replace(new RegExp('\n+\s*', 'g'), '<br>');
+
+                    if (salida.includes('TERMINACION NORMAL')) {
+                        exito = true;
+                    }
+
+                    resultado += salida;
+                });
+
+                exe.on('close', (code) => {
+                    console.log(`Finaliza ejecución, código: ${code}`);
+
+                    codigo = code;
+                    mensaje = '';
+
+                    // Regresa a la ubicación
+                    process.chdir(ruta_actual);
+
+                    resolve({codigo:codigo, mensaje:mensaje, cadena:resultado, exito: exito});
+                });
+            } catch (e) {
+                codigo = -12345;
+                mensaje = `Error de ejecución ${e.message}`;
+
+                // Regresa a la ubicación
+                process.chdir(ruta_actual);
+
+                reject({codigo:codigo, mensaje:mensaje, cadena:resultado, exito: exito});
+            }
         });
     }
 }

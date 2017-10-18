@@ -194,7 +194,7 @@ ipcRenderer.on('escenario:leido', (event, obj) => {
     console.log('Recibe archivos:', obj.lista.length);
     console.log(obj);
 
-    objArchivos = obj;
+    objEscOriginal = obj;
 
     // Muestra las tablas para que esten en el dom
     mostrarTodas();
@@ -266,7 +266,7 @@ ipcRenderer.on('escenario:leido', (event, obj) => {
     desactivarColapsos();
 
     // Crea las nuevas tablas
-    objArchivos.lista.forEach((archivo) => {
+    objEscOriginal.lista.forEach((archivo) => {
         crearTablaInfo(archivo);
     });
     console.log('Tablas:', tablas_info.length);
@@ -274,7 +274,7 @@ ipcRenderer.on('escenario:leido', (event, obj) => {
     // Oculta todas
     colapsarTodas(true);
 
-    banner.ocultar();
+    banner2.ocultar();
 });
 
 function crearTablaInfo(objArchivo, copia) {
@@ -300,7 +300,7 @@ function crearTablaInfo(objArchivo, copia) {
     }
 
     if (typeof tabla === 'undefined' || tabla === null) {
-        console.log('No existe la tabla', id);
+        // console.log('No existe la tabla', id);
         return;
     }
 
@@ -394,6 +394,8 @@ function crearTablaInfo(objArchivo, copia) {
         } else {
             tabla.paginacion = new Paginacion(tabla);
         }
+    } else {
+
     }
 
     // Remueve la tabla del dom por defecto
@@ -427,7 +429,7 @@ function crearTablaInfo(objArchivo, copia) {
             colapso.classList.remove('inactivo');
             colapso.classList.remove('vacio');
         } else {
-            console.log(id, 'no tiene datos');
+            // console.log(id, 'no tiene datos');
             colapso.classList.remove('inactivo');
             colapso.classList.add('vacio');
         }
@@ -448,34 +450,148 @@ function crearTablaInfo(objArchivo, copia) {
 }
 
 function guardarEscenario() {
-    let nuevo_folio = moment().format('YYYYMMDDHHmm');
-    console.log('folio',nuevo_folio);
+    let folio;
+    let flag_copiar;
 
-    banner.setMensaje(`Generando escenario con folio ${nuevo_folio}`);
-    banner.trabajando();
-    banner.mostrar();
+    // Si no esta definido se crea un nuevo folio,
+    if (typeof objEscModificado === 'undefined' || objEscModificado === null) {
+        folio = moment().format('YYYYMMDDHHmm');
+        flag_copiar = true;
+        banner2.setMensaje(`Generando escenario modificado`);
+    } else {
+        folio = objEscModificado.folio;
+        flag_copiar = false;
+        banner2.setMensaje(`Actualizando escenario`);
+    }
+
+    console.log('folio',folio);
+
+    banner2.vistaCompacta();
+    banner2.normal();
+    banner2.ocultarBoton();
+    banner2.trabajando();
+    banner2.mostrar();
 
     setTimeout(() => {
-        ipcRenderer.send('escenario-original:copiar', rutaEscenarioOriginal, nuevo_folio, objArchivos);
+        ipcRenderer.send('escenario-original:copiar', rutaEscenarioOriginal, folio, objEscOriginal, flag_copiar);
     }, 500);
 }
 
 ipcRenderer.on('escenario-original:copiado', (event, res) => {
     if (res.estado) {
-        banner.ok();
-        mensajeConsola(`Se generó un escenario modificado con folio ${res.folio} a partir de ${res.id}`);
+        banner2.ok();
+
+        if (typeof objEscModificado !== 'undefined' && objEscModificado !== null && objEscModificado.folio === res.folio) {
+            mensajeConsola(`Se actualizó el escenario modificado con folio ${res.folio} a partir de ${res.id}`);
+            banner2.setMensaje(`Actualización completada. Folio del escenario: <font style="color:lightgreen; text-decoration:underline;">${res.folio}</font>`);
+        } else {
+            mensajeConsola(`Se generó un escenario modificado con folio ${res.folio} a partir de ${res.id}`);
+            banner2.setMensaje(`Copia completada. Folio del escenario: <font style="color:lightgreen; text-decoration:underline;">${res.folio}</font>`);
+        }
+
+        // Actualiza las etiquetas
+        let folio_labels = document.getElementsByClassName('label-folio-esc');
+        for (let label of folio_labels) {
+            label.innerHTML = `Folio: <b>${res.folio}</b>`;
+        }
+
+        // Asigna el nuevo objeto acarreado
+        objEscModificado = null;
+        objEscModificado = res.obj;
+        objEscModificado.folio = res.folio;
+        objEscModificado.ruta = res.ruta;
+
+        // Desmarca el escenario original
+        objEscOriginal.lista.forEach((archivo) => {
+            if (typeof archivo.editado !== 'undefined' && archivo.editado === true) {
+                archivo.editado = false;
+            }
+        });
+
+        let boton_ejecutarEscenario = document.getElementById('boton_ejecutarEscenario');
+        if (boton_ejecutarEscenario) {
+            boton_ejecutarEscenario.disabled = false;
+        }
+
         setTimeout(() => {
-            banner.ocultar();
-        }, 1000);
+            banner2.ocultar();
+        }, 2000);
 
         // Habilita el menu modificados
         menuModifica.classList.remove('invalido');
     } else {
-        banner.error();
+        banner2.error();
         mensajeConsola(`Ocurrió un problema al generar el escenario modificado: ${res.error}`);
-        banner.setMensaje(res.error);
-        banner.setBoton('Aceptar', () => {
-            banner.ocultar();
+        banner2.setMensaje(res.error);
+        banner2.setBoton('Aceptar', () => {
+            banner2.ocultar();
         });
     }
+});
+
+function ejecutarAlgoritmo() {
+    console.log('Ejecuta', objEscModificado.ruta, SESION.algoritmo);
+    ipcRenderer.send('algoritmo:ejecutar', objEscModificado.ruta, SESION.algoritmo);
+
+    // Vista prompt
+    banner2.prompt();
+    banner2.setTituloPrompt(`Ejecución de algoritmo ${SESION.algoritmo} para folio ${objEscModificado.folio}`);
+    banner2.setTextoPrompt('');
+    banner2.ocultarBoton();
+    banner2.setBoton('Hecho', () => {
+        banner2.ocultar();
+    });
+    banner2.mostrar();
+}
+
+ipcRenderer.on('algoritmo:salida', (event, mensajes) => {
+    mostrarMensajes(mensajes).then(() => {
+        setTimeout(() => {
+            ipcRenderer.send('algoritmo:salidaSiguiente');
+        }, 100);
+    }, () => {
+        setTimeout(() => {
+            ipcRenderer.send('algoritmo:salidaSiguiente');
+        }, 100);
+    });
+});
+
+function mostrarMensajes(mensajes) {
+    return new Promise((resolve, reject) => {
+        mensajes.forEach((mensaje) => {
+            try {
+                let lineas = mensaje.split('\n');
+                lineas.forEach((linea) => {
+                    banner2.appendTextoPrompt(linea);
+
+                    // Verifica si la linea contiene el mensaje de terminacion exitosa del algoritmo
+                    if (linea.includes('TERMINACION NORMAL')) {
+                        objEscModificado.exito = true;
+                    }
+                });
+
+                resolve();
+            } catch (e) {
+                reject();
+            }
+        });
+    });
+}
+
+ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
+    console.log(res);
+    banner2.setTextoPrompt(res.cadena);
+    banner2.saltoPrompt();
+
+    if (res.exito === true) {
+        banner2.appendTextoPrompt(`<font color='lawngreen'>Fin de ejecución del algoritmo con código local: ${res.codigo}</font>`);
+    } else {
+        if (res.codigo < 0) {
+            banner2.appendTextoPrompt(`<font color='red'>Error de ejecución del algoritmo: ${res.mensaje}</font>`);
+        } else {
+            banner2.appendTextoPrompt(`<font color='red'>Fin de ejecución del algoritmo con código local: ${res.codigo}</font>`);
+        }
+    }
+
+    banner2.mostrarBoton();
 });

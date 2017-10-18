@@ -6,6 +6,7 @@ class FTP {
         this.fs = require('fs');
         this.path = require('path');
         this.interval = null;
+        this.timeout = null;
         this.progresoLista = 0;
         this.progresoArchivo = 0;
         this.c = null;
@@ -72,25 +73,7 @@ class FTP {
                 promesas.push(this.descargarArchivoFTP(archivo));
             });
 
-            // Interval para actualizar el progreso de la lista
-            if (this.interval === null) {
-                console.log('Activando interval progreso');
-                this.interval = setInterval(() => {
-                    let cont = 0;
-                    listaDir.forEach((item) => {
-                        if (typeof item.completado !== 'undefined' && item.completado) {
-                            cont++;
-                        }
-                    });
-
-                    this.progresoLista = (cont / listaDir.length * 100.0);
-                    if (this.progresoLista >= 100) {
-                        clearInterval(this.interval);
-                        console.log('desactivando interval progreso');
-                        this.interval = null;
-                    }
-                }, 1000);
-            }
+            this.verificarProgresoDescarga(listaDir);
 
             setTimeout(() => {
                 Promise.all(promesas).then(() => {
@@ -100,6 +83,24 @@ class FTP {
                 });
             }, 3000);
         });
+    }
+
+    verificarProgresoDescarga(listaDir) {
+        setTimeout(() => {
+            let cont = 0;
+            listaDir.forEach((item) => {
+                if (typeof item.completado !== 'undefined' && item.completado) {
+                    cont++;
+                }
+            });
+
+            this.progresoLista = (cont / listaDir.length * 100.0);
+            if (this.progresoLista >= 100) {
+                console.log('desactivando timeout progreso');
+            } else {
+                this.verificarProgresoDescarga(listaDir);
+            }
+        }, 1000);
     }
 
     getProgresoLista() {

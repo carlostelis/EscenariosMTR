@@ -23,10 +23,11 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
     if (!json.hasOwnProperty('sistemas') || typeof json.sistemas === 'undefined') {
         console.log('Consulta fallida');
         // Mensaje y botón retry
-        banner.error();
-        banner.setMensaje('No se encontraron en la configuración de la aplicación');
-        banner.mostrarBoton();
-        banner.setBoton('Reintentar', () => {
+
+        banner2.error();
+        banner2.setMensaje('No se encontraron en la configuración de la aplicación');
+        banner2.mostrarBoton();
+        banner2.setBoton('Reintentar', () => {
             solicitarSistemas();
         });
 
@@ -61,51 +62,57 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
     SESION.config = json;
 
     // Icono ok
-    banner.ok();
-    banner.setMensaje('Carga completa');
+    banner2.ok();
+    banner2.setMensaje('Carga completa');
 
     mensajeConsola('Inicialización completa');
 
     // Oculta banner
     setTimeout(() => {
-        banner.ocultar();
+        banner2.ocultar();
     }, 1000);
 
-    // banner.setMensaje('Creando contenedores de datos');
+    // banner2.setMensaje('Creando contenedores de datos');
     // ipcRenderer.send('bds:init');
 });
 
+// BD SQLITE
 ipcRenderer.on('bd_autr:progreso', (event, progreso) => {
-    banner.mostrarProgreso();
-    banner.setProgreso(progreso);
+    banner2.mostrarProgreso();
+    banner2.setProgreso(progreso);
 });
 
+// BD SQLITE
 ipcRenderer.on('bd_autr:creada', (event, res) => {
-    banner.ok();
-    banner.setMensaje('Carga completa');
+    banner2.ok();
+    banner2.setMensaje('Carga completa');
+
     // Oculta banner
     setTimeout(() => {
-        banner.ocultar();
+        banner2.ocultar();
     }, 1000);
 });
 
 // habilitar banner
 function solicitarSistemas() {
     if (primeraVez) {
-        banner.mostrar();
-        banner.ocultarBoton();
-        banner.setMensaje(' Inicializando ');
-        banner.cargando();
+        banner2.vistaCompacta(); //
+
+        banner2.mostrar();
+        banner2.ocultarBoton();
+        banner2.ocultarProgreso();
+        banner2.setMensaje(' Inicializando ');
+        banner2.cargando();
 
         // Solicitud de sistemas
         ipcRenderer.send('sistemas:solicitar');
 
         intervaloCarga = setInterval(() => {
-            if (banner.getMensaje().length >= 30) {
-                banner.setMensaje(' Inicializando ');
+            if (banner2.getMensaje().length >= 30) {
+                banner2.setMensaje(' Inicializando ');
             }
 
-            banner.setMensaje('.' + banner.getMensaje() + '.');
+            banner2.setMensaje('.' + banner2.getMensaje() + '.');
         }, 500);
         primeraVez = false;
     }
@@ -171,10 +178,11 @@ function solicitarAutenticacion() {
 
     setTimeout(() => {
         //Muestra banner y Espera respuesta de main
-        banner.mostrar();
-        banner.ocultarBoton();
-        banner.setMensaje('Autenticando');
-        banner.cargando('darkorange');
+        banner2.vistaCompacta(); //
+        banner2.mostrar();
+        banner2.ocultarBoton();
+        banner2.setMensaje('Autenticando');
+        banner2.cargando('darkorange');
     }, 50);
 }
 
@@ -183,8 +191,8 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
     //console.log(json);
     if (json.estado) {
         if (json.contrasena === SESION.contrasena) {
-            banner.ok();
-            banner.setMensaje('Autenticación exitosa');
+            banner2.ok();
+            banner2.setMensaje('Autenticación exitosa');
 
             mensajeConsola(`Usuario Autenticado exitosamente: ${json.nombre} en ${SESION.sistema}`);
             // Guarda el resto de los datos
@@ -211,7 +219,7 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
             visor_archivos.actualizar();
 
             setTimeout(() => {
-                banner.ocultar();
+                banner2.ocultar();
                 body.style.opacity = '0';
 
                 setTimeout(() => {
@@ -226,20 +234,20 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
                     body.style.opacity = '1';
                     paginaActual = 'layout';
                 }, 1100);
-            }, 500);
+            }, 1000);
 
             return;
         } else {
-            banner.setMensaje(`Autenticación fallida: contraseña incorrecta para usuario <b>${SESION.usuario}</b>`);
+            banner2.setMensaje(`Autenticación fallida: contraseña incorrecta para usuario <b>${SESION.usuario}</b>`);
         }
     } else {
-        banner.setMensaje(`Autenticación fallida: ${json.mensaje}`);
+        banner2.setMensaje(`Autenticación fallida: ${json.mensaje}`);
     }
 
-    banner.mostrarBoton();
-    banner.error('darkred');
-    banner.setBoton('Aceptar', () => {
-        banner.ocultar();
+    banner2.mostrarBoton();
+    banner2.error('darkred');
+    banner2.setBoton('Aceptar', () => {
+        banner2.ocultar();
     });
 
     // Reset datos de sesion

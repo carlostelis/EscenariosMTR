@@ -1,6 +1,8 @@
 const MAX_ROWS = 50;
 const MAX_ROWS_MED = 100;
 const MAX_ROWS_BIG = 200;
+const LIM_INF_SIZE = 1000;
+const LIM_MED_SIZE = 2000;
 
 class Paginacion {
     constructor (tabla) {
@@ -17,6 +19,14 @@ class Paginacion {
     }
 
     init() {
+        this.tfoot = null;
+        this.totalRows = 0;
+        this.totalPaginas = 0;
+        this.totalColumnas = 0;
+        this.limite = 0;
+        this.filas = [];
+        this.lis = [];
+
         if (typeof this.tabla === 'undefined') {
             return;
         }
@@ -65,9 +75,9 @@ class Paginacion {
         this.tfoot.innerHTML = "";
 
         // Determina el limite en funcion del numero de filas para evitar overflow de paginado
-        if (this.totalRows < 750) {
+        if (this.totalRows < LIM_INF_SIZE) {
             this.limite = MAX_ROWS;
-        } else if (this.totalRows >= 750 && this.totalRows < 2000) {
+        } else if (this.totalRows >= LIM_INF_SIZE && this.totalRows < LIM_MED_SIZE) {
             this.limite = MAX_ROWS_MED;
         } else {
             this.limite = MAX_ROWS_BIG;
@@ -112,6 +122,7 @@ class Paginacion {
                 if (li.classList.contains('disabled')) {
                     return;
                 }
+                // console.log(this.tabla.id, ' pagina ', i);
 
                 // Establece limites
                 let lim_inf = (i - 1) * this.limite;

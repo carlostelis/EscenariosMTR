@@ -72,7 +72,10 @@ class VistaArchivos {
 
         this.contenedor.appendChild(this.col);
 
-        this.banner = new Banner(this.div_arbol);
+        this.banner = new Banner2(this.div_arbol);
+        this.banner.vistaIcono(); //
+        this.banner.ocultarBoton();
+        this.banner.ocultarProgreso();
         this.banner.mostrar();
         this.banner.cargando();
 
@@ -255,9 +258,13 @@ class VistaArchivos {
     actualizar() {
         this.banner.trabajando();
         this.banner.mostrar();
-        return new Promise((resolve, reject) => {
+
+        setTimeout(() => {
             ipcRenderer.send('listaHtml:solicita');
-        });
+        }, 100);
+        // return new Promise((resolve, reject) => {
+            // ipcRenderer.send('listaHtml:solicita');
+        // });
     }
 
     getRutaBase() {
