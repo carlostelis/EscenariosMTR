@@ -9,7 +9,7 @@ class Escenario {
         this.archivosPtr;
     }
 
-    parseEscenario(ruta_escenario, algoritmo) {
+    parseEscenarioEntradas(ruta_escenario, algoritmo) {
         console.log(ruta_escenario, algoritmo);
 
         // Selecciona la lista de archivos acorde al algoritmo
@@ -26,6 +26,8 @@ class Escenario {
             console.log('parsing:', ruta_dirdat);
             let contador = 0;
             let archivosJSON = {
+                ruta: ruta_escenario,
+                algoritmo: algoritmo,
                 numArchivos: 0,
                 lista: []
             };
@@ -34,6 +36,67 @@ class Escenario {
 
             this.fs.readdir((ruta_dirdat), (err, files) => {
                 for (let i = 0; i < files.length; i++) {
+                    /* *************************************************** */
+                    /* Temporal mientras queda el archivo de configuracion */
+                    /* *************************************************** */
+                    if (files[i].startsWith('DTR') || files[i].startsWith('DERS_MI_TOTALES_1') || files[i].startsWith('RESUMEN_UNIDADES')) {
+                        console.log('Ignorando resultado', files[i]);
+                        continue;
+                    }
+
+                    to = i * 10;
+                    setTimeout(() => {
+                        promesas.push(this.parseArchivoCSV(this.path.join(ruta_dirdat, files[i]), archivosJSON));
+                    }, to);
+                }
+
+                // Espera creacion de promesas
+                setTimeout(() => {
+                    Promise.all(promesas).then(() => {
+                        resolve(archivosJSON);
+                    }, () => {
+                        reject();
+                    });
+                }, to + 100);
+            });
+        });
+    }
+
+    parseEscenarioResultados(ruta_escenario, algoritmo) {
+        console.log(ruta_escenario, algoritmo);
+
+        // Selecciona la lista de archivos acorde al algoritmo
+        switch (algoritmo) {
+            case 'dersi': this.archivosPtr = this.archivosDersi; break;
+            case 'dersmi': this.archivosPtr = this.archivosDersmi; break;
+            case 'autr': this.archivosPtr = this.archivosAutr; break;
+        }
+
+        return new Promise((resolve, reject) => {
+            let promesas = [];
+            // Establece la carpeta dirdat, donde se encuentran los archivos csv
+            let ruta_dirdat = this.path.join(ruta_escenario, 'dirdat');
+            console.log('parsing:', ruta_dirdat);
+            let contador = 0;
+            let archivosJSON = {
+                ruta: ruta_escenario,
+                algoritmo: algoritmo,
+                numArchivos: 0,
+                lista: []
+            };
+
+            let to;
+
+            this.fs.readdir((ruta_dirdat), (err, files) => {
+                for (let i = 0; i < files.length; i++) {
+                    /* *************************************************** */
+                    /* Temporal mientras queda el archivo de configuracion */
+                    /* *************************************************** */
+                    if (!files[i].startsWith('DTR') & !files[i].startsWith('DERS_MI_TOTALES_1') && !files[i].startsWith('RESUMEN_UNIDADES')) {
+                        console.log('Ignorando entrada', files[i]);
+                        continue;
+                    }
+
                     to = i * 10;
                     setTimeout(() => {
                         promesas.push(this.parseArchivoCSV(this.path.join(ruta_dirdat, files[i]), archivosJSON));

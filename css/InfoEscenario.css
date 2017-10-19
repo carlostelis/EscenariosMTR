@@ -45,7 +45,7 @@
 }
 
 .contenedor-info {
-    height: 80%;
+    height: 85%;
     display: none;
     padding: 1vh 1vw;
 }
@@ -63,7 +63,7 @@
 }
 
 .contenedor-comentarios {
-    height: 13.3%;
+    height: calc(15% - 1vh);
     margin-top: 1vh;
     padding-top: 0.5%;
 }
@@ -103,7 +103,7 @@
 }
 
 .div-contenedor-mediana {
-    overflow-x:scroll !important;
+    overflow-x:auto !important;
 }
 
 .tabla-mediana {

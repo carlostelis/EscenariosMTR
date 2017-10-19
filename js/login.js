@@ -96,11 +96,12 @@ ipcRenderer.on('bd_autr:creada', (event, res) => {
 // habilitar banner
 function solicitarSistemas() {
     if (primeraVez) {
-        banner.vistaCompacta(); //
-
         banner.mostrar();
         banner.ocultarBoton();
         banner.ocultarProgreso();
+        banner.modoNormal();
+        banner.vistaCompacta(); //
+
         banner.setMensaje(' Inicializando ');
         banner.cargando();
 
@@ -174,6 +175,7 @@ function solicitarAutenticacion() {
 
     setTimeout(() => {
         //Muestra banner y Espera respuesta de main
+        banner.modoNormal();
         banner.vistaCompacta(); //
         banner.mostrar();
         banner.ocultarBoton();
@@ -208,8 +210,13 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
             ipcRenderer.send('info:sesion', SESION);
 
             // Elementos con informacion de sesion
-            document.querySelector('#label_usuario_ce').innerHTML = SESION.nombre;
-            document.querySelector('#label_sistema_ce').innerHTML = SESION.sistema;
+            for (let label of usuario_labels) {
+                label.innerHTML = `Usuario: <b>${SESION.nombre}</b>`;
+            }
+
+            for (let label of sistema_labels) {
+                label.innerHTML = `Sistema: <b>${SESION.sistema}</b>`;
+            }
 
             // Actualiza vista archivos
             visor_archivos.actualizar();

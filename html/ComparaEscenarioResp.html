@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../css/ComparaEscenario.css" type="text/css"/>
+    </head>
+    <body>
+        <div class="container-fluid" style="height:100%; margin-top:-0.5vh;">
+            <div class="row subseccion" style="height:10%; margin-bottom:1vh;">
+                <div class="col-6" style="padding-top: 1.5vh; padding-left:3vw;">
+                    <label style="display:inline-block;font-weight:bold;">Escenario:</label>
+                    <select style="width:30%;"></select>
+                </div>
+                <div class="col-6" style="padding-top: 1.5vh; padding-left:3vw;">
+                    <label style="display:inline-block;font-weight:bold;">Escenario:</label>
+                    <select style="width:30%;"></select>
+                </div>
+            </div>
+            <div class="row" style="height:calc(91% - 1vh);">
+                <div class="col-6">
+                    <div class="row subseccion" style="height:100%; margin-right:-1vh;">
+                        <div class="container-fluid" style="width: 95%;padding-top: 1vh;">
+
+                            <!-- RESUMEN DE RESULTADOS GLOBALES -->
+                            <div class="row justify-content-center celda-header-res" onclick="colapsar(this,'DERS_MI_TOTALES_X');" id="col_info_general">
+                                <div class="col">Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla invisible" id="info_general">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-condensed table-bordered tabla-info" id="DERS_MI_TOTALES_X" data-contenedor="info_general" data-colapso="col_info_general">
+                                        <thead class="tabla-head">
+                                            <tr>
+                                                <th></th>
+                                                <th>Intervalo de planeación</th>
+                                                <th>Demanda Total</th>
+                                                <th>Generación programable total (MW)</th>
+                                                <th>Generación no programable total (MW)</th>
+                                                <th>Intercambio de pontencia total neto (MW)</th>
+                                                <th>Valor de la variable dual asociado a la restricción de balance de potencia ($/MW)</th>
+                                                <th>Corte o excedente (MW)</th>
+                                                <th>Cantidad estimada de pérdidas en transmisión (MW)</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultado de reservas del CENACE por zona -->
+                            <div class="row justify-content-center celda-header-res" onclick="colapsar(this,'DTR_ZONAS_RESERVA_X');" id="col_info_subsistema">
+                                <div class="col" >Resultado de reservas del CENACE por zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla invisible" id="info_subsistema">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-condensed table-bordered tabla-info" id="DTR_ZONAS_RESERVA_X" data-contenedor="info_subsistema" data-colapso="col_info_subsistema">
+                                        <thead class="tabla-head">
+                                            <tr>
+                                                <th></th>
+                                                <th>Intervalo de planeación</th>
+                                                <th>Requerimiento de reserva de regulación secundaria (MW) de la zona 1</th>
+                                                <th>Cantidad aceptada de reserva de regulación secundaria (MW) de la zona 1</th>
+                                                <th>Variable dual de la reserva de regulación secundaria ($/MW) de la zona 1</th>
+                                                <th>Requerimiento de reserva rodante de 10 minutos (MW) de la zona 1</th>
+                                                <th>Cantidad aceptada de reserva rodante de 10 minutos (MW) de la zona 1</th>
+                                                <th>Variable dual de la reserva rodante de 10 minutos ($/MW) de la zona 1</th>
+                                                <th>Requerimiento de reserva de 10 minutos (MW) de la zona 1</th>
+                                                <th>Cantidad aceptada de reserva de 10 minutos (MW) de la zona 1</th>
+                                                <th>Variable dual de la reserva de 10 minutos ($/MW) de la zona 1</th>
+                                                <th>Requerimiento de reserva suplementaria (MW) de la zona 1</th>
+                                                <th>Cantidad aceptada de reserva suplementaria (MW) de la zona 1</th>
+                                                <th>Variable dual de la reserva suplementaria ($/MW) de la zona 1</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultado de reservas del CENACE por sistema -->
+                            <div class="row justify-content-center celda-header-res" onclick="colapsar(this,'DTR_SISTEMA_RESERVA_X');" id="col_info_areas">
+                                <div class="col">Resultado de reservas del CENACE por sistema<i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla colapsable-res invisible" id="info_areas" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info" id="DTR_SISTEMA_RESERVA_X" data-contenedor="info_areas" data-colapso="col_info_areas">
+                                        <thead class="tabla-head">
+                                            <tr>
+                                                <th></th>
+                                                <th>Intervalo de planeación</th>
+                                                <th>Nombre corto del sistema</th>
+                                                <th>Cantidad aceptada de reserva de regulación secundaria (MW)</th>
+                                                <th>Variable dual de la reserva de regulación secundaria ($/MW)</th>
+                                                <th>Requerimiento de reserva rodante de 10 minutos (MW)</th>
+                                                <th>Cantidad aceptada de reserva rodante de 10 minutos (MW)</th>
+                                                <th>Variable dual de la reserva rodante de 10 minutos ($/MW)</th>
+                                                <th>Requerimiento de reserva de 10 minutos (MW)</th>
+                                                <th>Cantidad aceptada de reserva de 10 minutos (MW)</th>
+                                                <th>Variable dual de la reserva de 10 minutos ($/MW)</th>
+                                                <th>Requerimiento de reserva suplementaria (MW)</th>
+                                                <th>Cantidad aceptada de reserva suplementaria (MW)</th>
+                                                <th>Variable dual de la reserva suplementaria ($/MW)</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de flujos en grupos de ramas restringidas -->
+                            <div class="row justify-content-center celda-header-res" onclick="colapsar(this,'DTR_ENLACES_X');" id="col_info_zonas_carga">
+                                <div class="col">Resultados de flujos en grupos de ramas restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla colapsable-res invisible" id="info_zonas_carga" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info" id="DTR_ENLACES_X" data-contenedor="info_zonas_carga" data-colapso="col_info_zonas_carga">
+                                        <thead class="tabla-head">
+                                            <tr>
+                                                <th></th>
+                                                <th>Intervalo de planeación</th>
+                                                <th>Nombre corto del grupo 1</th>
+                                                <th>Límite superior en el flujo (MW) del grupo 1</th>
+                                                <th>Límite inferior en el flujo (MW) del grupo 1</th>
+                                                <th>Variable dual ($/MW) en el grupo 1</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de flujos en las ramas que conforman los grupos de ramas restringidas -->
+                            <div class="row justify-content-center celda-header-res" onclick="colapsar(this,'DTR_RAMAS_ENL_X');" id="col_info_zonas_reserva">
+                                <div class="col">Resultados de flujos en las ramas que conforman los grupos de ramas restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla colapsable-res invisible" id="info_zonas_reserva" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info" id="DTR_RAMAS_ENL_X" data-contenedor="info_zonas_reserva" data-colapso="col_info_zonas_reserva">
+                                        <thead class="tabla-head">
+                                            <tr>
+                                                <th></th>
+                                                <th>Intervalo de planeación</th>
+                                                <th>Nombre corto del grupo 1</th>
+                                                <th>Nombre corto de la rama 1 en el grupo 1</th>
+                                                <th>Nombre de nodo origen de la rama 1 del grupo 1</th>
+                                                <th>Sentido (1=origen-destino, -1=destino-origen) de la rama 1 del grupo 1</th>
+                                                <th>Flujo (MW) en la rama 1 del grupo 1</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- ????????????????????????? -->
+                            <div class="row justify-content-center celda-header-res" onclick="colapsar(this,'PRETOPEPISO');" id="col_info_precios_tope">
+                                <div class="col">Precios tope y pisos<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla invisible" id="info_precios_tope" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-condensed table-bordered tabla-info" id="PRETOPEPISO" data-contenedor="info_precios_tope" data-colapso="col_info_precios_tope">
+                                        <thead class="tabla-head">
+                                            <tr>
+                                                <th></th>
+                                                <th>Precio máximo:</th>
+                                                <th>Precio Mínimo:</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de las unidades programables -->
+                            <div class="row justify-content-center celda-header-res" onclick="colapsar(this,'DTR_UNIDADES_X');" id="col_info_regiones_precio_energia">
+                                <div class="col">Resultados de las unidades programables<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla invisible" id="info_regiones_precio_energia" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info" id="DTR_UNIDADES_X" data-contenedor="info_regiones_precio_energia" data-colapso="col_info_regiones_precio_energia">
+                                        <thead class="tabla-head">
+                                            <tr>
+                                                <th></th>
+                                                <th >Intervalo de planeación</th>
+                                                <th >Nombre corto de la unidad 1</th>
+                                                <th >Nombre corto del nodo de la unidad 1</th>
+                                                <th >Tipo de oferta de la unidad 1 (RC = Rango Continuo, RD = Rango Discontinuo, H = Hidro, RE = renovable)</th>
+                                                <th >Modo de la unidad 1 (RD: 11=sincronización, 0=apagada, 1=encendida, otro valor si la unidad está en algún otro modo; RC: 11=sincronización, 0=apagada, 1=encendida; H y RE: 0=apagada, 1=encendida)</th>
+                                                <th >Estado de la unidad 1 (1=operación, 0=apagada)</th>
+                                                <th >Potencia (MW) de la unidad 1</th>
+                                                <th >Reserva rodante de 10 minutos (MW) asignada a la unidad 1</th>
+                                                <th >Reserva no rodante de 10 minutos (MW) asignada a la unidad 1</th>
+                                                <th >Reserva rodante suplementaria (MW) asignada a la unidad 1</th>
+                                                <th >Reserva no rodante suplementaria (MW) asignada a la unidad 1</th>
+                                                <th >Reserva de regulación secundaria (MW) asignada a la unidad 1</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de las regiones de precios -->
+                            <div class="row justify-content-center celda-header-res" onclick="colapsar(this,'DTR_REGIONES_X');" id="col_info_mapeo_archivos_raw_nodos_precios">
+                                <div class="col">Resultados de las regiones de precios<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla invisible" id="info_mapeo_archivos_raw_nodos_precios">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info" id="DTR_REGIONES_X" data-contenedor="info_mapeo_archivos_raw_nodos_precios" data-colapso="col_info_mapeo_archivos_raw_nodos_precios">
+                                        <thead class="tabla-head">
+                                            <tr>
+                                                <th></th>
+                                                <th >Intervalo de planeación</th>
+                                                <th >Nombre de la región1</th>
+                                                <th >Nombre corto del área en donde se ubica la región 1</th>
+                                                <th >Precio marginal promedio total ($/MW) en la región 1</th>
+                                                <th >Precio marginal promedio de energía ($/MW) en la región 1</th>
+                                                <th >Precio marginal promedio de pérdidas ($/MW) en la región 1</th>
+                                                <th >Precio marginal promedio de congestión ($/MW) en la región 1</th>
+                                                <th >Precio marginal promedio total ponderado por generación ($/MW) en la región 1</th>
+                                                <th >Precio marginal promedio total ponderado por carga ($/MW) en la región 1</th>
+                                                <th >Corte de carga (MW) en la región 1</th>
+                                                <th >Excedente (MW) en la región 1</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de los nodos eléctricos de la red -->
+                            <div class="row justify-content-center celda-header-res" onclick="colapsar(this,'DTR_NODOS_X');" id="col_info_param_sintonizacion">
+                                <div class="col">Resultados de los nodos eléctricos de la red<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla invisible" id="info_param_sintonizacion" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info" id="DTR_NODOS_X" data-contenedor="info_param_sintonizacion" data-colapso="col_info_param_sintonizacion">
+                                        <thead class="tabla-head">
+                                            <tr>
+                                                <th></th>
+                                                <th >Intervalo de planeación</th>
+                                                <th >Nombre del nodo1</th>
+                                                <th>Tipo del nodo 1</th>
+                                                <th >Nombre corto del área en donde se ubica el nodo 1</th>
+                                                <th >Nombre de la región en donde se ubica el nodo 1</th>
+                                                <th>Precio marginal nodal total ($/MW) en el nodo 1</th>
+                                                <th >Componente de energía del precio marginal nodal ($/MW) en el nodo 1</th>
+                                                <th >Componente de pérdidas del precio marginal nodal ($/MW) en el nodo 1</th>
+                                                <th>Componente de congestión del precio marginal nodal ($/MW) en el nodo 1</th>
+                                                <th >Demanda (MW) total en el nodo 1</th>
+                                                <th >Corte de carga (MW) en el nodo 1</th>
+                                                <th>Excedente (MW) en el nodo 1</th>
+                                                <th >Precio marginal nodal total original ($/MW) en el nodo 1</th>
+                                                <th >Componente de energía original del precio marginal nodal ($/MW) en el nodo 1</th>
+                                                <th>Componente de pérdidas original del precio marginal nodal ($/MW) en el nodo 1</th>
+                                                <th >Componente de congestión original del precio marginal nodal ($/MW) en el nodo 1</th>
+                                                <th >Bandera de disponibilidad del nodo</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resumen de unidades de generación -->
+                            <div class="row justify-content-center celda-header-res" onclick="colapsar(this,'RESUMEN_UNIDADES');" id="col_info_banderas_problemas">
+                                <div class="col">Resumen de unidades de generación<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla invisible" id="info_banderas_problemas" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info" id="RESUMEN_UNIDADES" data-contenedor="info_banderas_problemas" data-colapso="col_info_banderas_problemas">
+                                        <thead class="tabla-head">
+                                            <tr>
+                                                <th></th>
+                                                <th>Nombre de la unidad</th>
+                                                <th>Tipo de la unidad</th>
+                                                <th>Condición inicial (Mw)</th>
+                                                <th>Número de intervalo</th>
+                                                <th>Potencia (Mw)</th>
+                                                <th>Límite inferior de potencia activa (Mw)</th>
+                                                <th>Límite superior de potencia activa (Mw)</th>
+                                                <th>Reserva de regulación (Mw)</th>
+                                                <th>Reserva rodante de 10 minutos (Mw)</th>
+                                                <th>Reserva rodante suplementaria (Mw)</th>
+                                                <th>Reserva no rodante de 10 minutos (Mw)</th>
+                                                <th>Reserva no rodante suplementaria (Mw)</th>
+                                                <th>Bandera de disponibilidad de la unidad</th>
+                                                <th>Bandera de asignación de la unidad</th>
+                                                <th>Bandera de coordinación de la unidad</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- FIN DE CONTENEDOR INFORMACION GENERAL -->
+
+                    </div>
+
+                </div>
+                <div class="col-6">
+                    <div class="row subseccion" style="height:100%; margin-left:-1vh;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

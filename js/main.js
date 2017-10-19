@@ -246,6 +246,13 @@ ipcMain.on('paginas:leer', (event) => {
         data: fs.readFileSync(ruta, 'utf8')
     });
 
+    ruta = path.join(__dirname, '../html/ComparaEscenario.html');
+    console.log(ruta);
+    paginas.push({
+        id: '3',
+        data: fs.readFileSync(ruta, 'utf8')
+    });
+
     win.webContents.send('paginas:envia', paginas);
 });
 
@@ -619,10 +626,19 @@ function parseFechaAlgoritmo(id) {
     return {id:id, inicio: inicio, fin: fin};
 }
 
-ipcMain.on('escenario:leer', (event, ruta_escenario, algoritmo) => {
-    escenario.parseEscenario(ruta_escenario, algoritmo).then((obj) => {
-        console.log('Manda', obj.lista.length, 'archivos');
-        win.webContents.send('escenario:leido', obj);
+ipcMain.on('escenario_entradas:leer', (event, ruta_escenario, algoritmo) => {
+    escenario.parseEscenarioEntradas(ruta_escenario, algoritmo).then((obj) => {
+        console.log('Manda', obj.lista.length, 'archivos de entrada');
+        win.webContents.send('escenario_entradas:leido', obj);
+    }, () => {
+        console.log('Error leyendo los archivos');
+    });
+});
+
+ipcMain.on('escenario_resultados:leer', (event, ruta_escenario, algoritmo) => {
+    escenario.parseEscenarioResultados(ruta_escenario, algoritmo).then((obj) => {
+        console.log('Manda', obj.lista.length, 'archivos de entrada');
+        win.webContents.send('escenario_resultados:leido', obj);
     }, () => {
         console.log('Error leyendo los archivos');
     });

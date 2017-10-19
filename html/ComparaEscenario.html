@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="../css/ComparaEscenario.css" type="text/css"/>
+    </head>
+    <body>
+        <div class="container-fluid" style="height:100%; margin-top:-0.5vh;">
+            <div class="row subseccion" style="height:10%; margin-bottom:1vh;">
+                <div class="col-6" style="padding-top: 1.5vh; padding-left:3vw;">
+                    <label style="display:inline-block;font-weight:bold;">Escenario:</label>
+                    <select style="width:30%;"></select>
+                </div>
+                <div class="col-6" style="padding-top: 1.5vh; padding-left:3vw;">
+                    <label style="display:inline-block;font-weight:bold;">Escenario:</label>
+                    <select style="width:30%;"></select>
+                </div>
+            </div>
+            <div class="row" style="height:calc(91% - 1vh);">
+                <div class="col-6">
+                    <div class="row subseccion" style="height:100%; margin-right:-1vh;">
+                        <div class="container-fluid div-scroll-res" style=""  onscroll="scrollContenedor(this);">
+
+                            <!-- RESUMEN DE RESULTADOS GLOBALES -->
+                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DERS_MI_TOTALES_');" id="col_res_global">
+                                <div class="col">Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla-res invisible CONT-DERS_MI_TOTALES_" id="res_global">
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-condensed table-bordered tabla-res DERS_MI_TOTALES_ A" id="DERS_MI_TOTALES_$" data-contenedor="res_global" data-colapso="col_res_global">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultado de reservas del CENACE por zona -->
+                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_ZONAS_RESERVA_');" id="col_res_reeservas_zona">
+                                <div class="col" >Resultado de reservas del CENACE por zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_ZONAS_RESERVA_" id="res_reeservas_zona">
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-condensed table-bordered tabla-res DTR_ZONAS_RESERVA_ A" id="DTR_ZONAS_RESERVA_$" data-contenedor="res_reeservas_zona" data-colapso="col_res_reeservas_zona">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultado de reservas del CENACE por sistema -->
+                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_SISTEMA_RESERVA_');" id="col_res_reservas_sistema">
+                                <div class="col">Resultado de reservas del CENACE por sistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_SISTEMA_RESERVA_" id="res_reservas_sistema" >
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_SISTEMA_RESERVA_ A" id="DTR_SISTEMA_RESERVA_$" data-contenedor="res_reservas_sistema" data-colapso="col_res_reservas_sistema">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- DTR AREAS -->
+                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_AREAS_');" id="col_res_dtr_areas">
+                                <div class="col">DTR AREAS<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_AREAS_" id="res_dtr_areas" >
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_AREAS_ A" id="DTR_AREAS_$" data-contenedor="res_dtr_areas" data-colapso="col_res_dtr_areas">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- DTR SISTEMA -->
+                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_SISTEMA_');" id="col_res_dtr_sistemas">
+                                <div class="col">DTR SISTEMA<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_SISTEMA_" id="res_dtr_sistemas" >
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_SISTEMA_ A" id="DTR_SISTEMA_$" data-contenedor="res_dtr_sistemas" data-colapso="col_res_dtr_sistemas">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de flujos en grupos de ramas restringidas -->
+                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_ENLACES_');" id="col_res_flujo_ramas_res">
+                                <div class="col">Resultados de flujos en grupos de ramas restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_ENLACES_" id="res_flujo_ramas_res" >
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_ENLACES_ A" id="DTR_ENLACES_$" data-contenedor="res_flujo_ramas_res" data-colapso="col_res_flujo_ramas_res">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de flujos en las ramas que conforman los grupos de ramas restringidas -->
+                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_RAMAS_ENL_');" id="col_res_flujos_com_ramas_res">
+                                <div class="col">Resultados de flujos en las ramas que conforman los grupos de ramas restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_RAMAS_ENL_" id="res_flujos_com_ramas_res" >
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_RAMAS_ENL_ A" id="DTR_RAMAS_ENL_$" data-contenedor="res_flujos_com_ramas_res" data-colapso="col_res_flujos_com_ramas_res">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de las unidades programables -->
+                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_UNIDADES_');" id="col_res_unidades_prog">
+                                <div class="col">Resultados de las unidades programables<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_UNIDADES_" id="res_unidades_prog" >
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_UNIDADES_ A" id="DTR_UNIDADES_$" data-contenedor="res_unidades_prog" data-colapso="col_res_unidades_prog">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de las regiones de precios -->
+                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_REGIONES_');" id="col_res_region_precios">
+                                <div class="col">Resultados de las regiones de precios<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_REGIONES_" id="res_region_precios">
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_REGIONES_ A" id="DTR_REGIONES_$" data-contenedor="res_region_precios" data-colapso="col_res_region_precios">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de los nodos eléctricos de la red -->
+                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_NODOS_');" id="col_res_nodos_elec_red">
+                                <div class="col">Resultados de los nodos eléctricos de la red<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_NODOS_" id="res_nodos_elec_red" >
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_NODOS_ A" id="DTR_NODOS_$" data-contenedor="res_nodos_elec_red" data-colapso="col_res_nodos_elec_red">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resumen de unidades de generación -->
+                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'RESUMEN_UNIDADES');" id="col_res_unidades_gen">
+                                <div class="col">Resumen de unidades de generación<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla-res div-contenedor-mediana invisible CONT-RESUMEN_UNIDADES" id="res_unidades_gen" >
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res RESUMEN_UNIDADES A" id="RESUMEN_UNIDADES" data-contenedor="res_unidades_gen" data-colapso="col_res_unidades_gen">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- FIN DE CONTENEDOR INFORMACION GENERAL -->
+
+                    </div>
+
+                </div>
+                <div class="col-6">
+                    <div class="row subseccion" style="height:100%; margin-left:-1vh;">
+                        <div class="container-fluid div-scroll-res" style="" onscroll="scrollContenedor(this);">
+
+                            <!-- RESUMEN DE RESULTADOS GLOBALES -->
+                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DERS_MI_TOTALES_');" id="col_res_global">
+                                <div class="col">Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla-res invisible CONT-DERS_MI_TOTALES_" id="res_global">
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-condensed table-bordered tabla-res DERS_MI_TOTALES_ B" id="DERS_MI_TOTALES_$" data-contenedor="res_global" data-colapso="col_res_global">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultado de reservas del CENACE por zona -->
+                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_ZONAS_RESERVA_');" id="col_res_reeservas_zona">
+                                <div class="col" >Resultado de reservas del CENACE por zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_ZONAS_RESERVA_" id="res_reeservas_zona">
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-condensed table-bordered tabla-res DTR_ZONAS_RESERVA_ B" id="DTR_ZONAS_RESERVA_$" data-contenedor="res_reeservas_zona" data-colapso="col_res_reeservas_zona">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultado de reservas del CENACE por sistema -->
+                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_SISTEMA_RESERVA_');" id="col_res_reservas_sistema">
+                                <div class="col">Resultado de reservas del CENACE por sistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_SISTEMA_RESERVA_" id="res_reservas_sistema" >
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_SISTEMA_RESERVA_ B" id="DTR_SISTEMA_RESERVA_$" data-contenedor="res_reservas_sistema" data-colapso="col_res_reservas_sistema">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- DTR AREAS -->
+                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_AREAS_');" id="col_res_dtr_areas">
+                                <div class="col">DTR AREAS<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_AREAS_" id="res_dtr_areas" >
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_AREAS_ B" id="DTR_AREAS_$" data-contenedor="res_dtr_areas" data-colapso="col_res_dtr_areas">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- DTR SISTEMAS -->
+                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_SISTEMA_');" id="col_res_dtr_sistemas">
+                                <div class="col">DTR SISTEMAS<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_SISTEMA_" id="res_dtr_sistemas" >
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_SISTEMA_ B" id="DTR_SISTEMA_$" data-contenedor="res_dtr_sistemas" data-colapso="col_res_dtr_sistemas">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de flujos en grupos de ramas restringidas -->
+                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_ENLACES_');" id="col_res_flujo_ramas_res">
+                                <div class="col">Resultados de flujos en grupos de ramas restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_ENLACES_" id="res_flujo_ramas_res" >
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_ENLACES_ B" id="DTR_ENLACES_$" data-contenedor="res_flujo_ramas_res" data-colapso="col_res_flujo_ramas_res">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de flujos en las ramas que conforman los grupos de ramas restringidas -->
+                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_RAMAS_ENL_');" id="col_res_flujos_com_ramas_res">
+                                <div class="col">Resultados de flujos en las ramas que conforman los grupos de ramas restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_RAMAS_ENL_" id="res_flujos_com_ramas_res" >
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_RAMAS_ENL_ B" id="DTR_RAMAS_ENL_$" data-contenedor="res_flujos_com_ramas_res" data-colapso="col_res_flujos_com_ramas_res">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de las unidades programables -->
+                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_UNIDADES_');" id="col_res_unidades_prog">
+                                <div class="col">Resultados de las unidades programables<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_UNIDADES_" id="res_unidades_prog" >
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_UNIDADES_ B" id="DTR_UNIDADES_$" data-contenedor="res_unidades_prog" data-colapso="col_res_unidades_prog">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de las regiones de precios -->
+                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_REGIONES_');" id="col_res_region_precios">
+                                <div class="col">Resultados de las regiones de precios<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_REGIONES_" id="res_region_precios">
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_REGIONES_ B" id="DTR_REGIONES_$" data-contenedor="res_region_precios" data-colapso="col_res_region_precios">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de los nodos eléctricos de la red -->
+                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_NODOS_');" id="col_res_nodos_elec_red">
+                                <div class="col">Resultados de los nodos eléctricos de la red<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_NODOS_" id="res_nodos_elec_red" >
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_NODOS_ B" id="DTR_NODOS_$" data-contenedor="res_nodos_elec_red" data-colapso="col_res_nodos_elec_red">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resumen de unidades de generación -->
+                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'RESUMEN_UNIDADES');" id="col_res_unidades_gen">
+                                <div class="col">Resumen de unidades de generación<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla-res invisible CONT-RESUMEN_UNIDADES" id="res_unidades_gen" >
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res RESUMEN_UNIDADES B" id="RESUMEN_UNIDADES" data-contenedor="res_unidades_gen" data-colapso="col_res_unidades_gen">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- FIN DE CONTENEDOR INFORMACION GENERAL -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

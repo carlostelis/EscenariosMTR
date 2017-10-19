@@ -117,7 +117,7 @@ class Banner2 {
         this.divSalidaTxt.classList.remove('espera');
     }
 
-    prompt() {
+    modoPrompt() {
         try {
             // Quita el div mensajes
             this.divBanner.removeChild(this.divMsg);
@@ -127,7 +127,7 @@ class Banner2 {
         } catch (e) {}
     }
 
-    normal() {
+    modoNormal() {
         try {
             // Quita el div mensajes
             this.divBanner.removeChild(this.divSalida);

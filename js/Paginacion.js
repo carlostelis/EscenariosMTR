@@ -5,7 +5,7 @@ const LIM_INF_SIZE = 1000;
 const LIM_MED_SIZE = 2000;
 
 class Paginacion {
-    constructor (tabla) {
+    constructor (tabla, flagPar) {
         this.tabla = tabla;
         this.tbody;
         this.tfoot = null;
@@ -15,6 +15,8 @@ class Paginacion {
         this.limite = 0;
         this.filas = [];
         this.lis = [];
+        this.flagPar = flagPar;
+        this.flagRebote = false;
         this.init();
     }
 
@@ -119,6 +121,7 @@ class Paginacion {
 
             // Agrega el evento al li
             li.onclick = () => {
+                // console.log('Muestro', i, this.tabla);
                 if (li.classList.contains('disabled')) {
                     return;
                 }
@@ -147,6 +150,16 @@ class Paginacion {
                 });
                 // Se desactiva
                 li.classList.add('disabled');
+
+                // Si tiene tabla par, da click también en su paginacion
+                if (typeof this.flagPar !== 'undefined' && this.flagPar && !this.flagRebote) {
+                    if (this.tabla.tabla_par) {
+                        if (this.tabla.tabla_par.paginacion) {
+                            this.tabla.tabla_par.paginacion.click(i);
+                        }
+                    }
+                }
+
             };
 
             a.appendChild(texto);
@@ -164,5 +177,17 @@ class Paginacion {
 
         // Activa el primero de la lista
         this.lis[0].onclick();
+    }
+
+    click(pagina) {
+        if (pagina < 1 || pagina > this.lis.length) {
+            return;
+        }
+
+        setTimeout(() => {
+            this.flagRebote = true;
+            this.lis[pagina - 1].onclick();
+            this.flagRebote = false;
+        }, 100);
     }
 }

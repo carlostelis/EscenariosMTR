@@ -252,6 +252,21 @@ body {
     margin-bottom: 0;
 }
 
+#div_cabecera_sesion {
+    height: calc(5% - 2vh);;
+    margin-bottom: 0vh;
+    width: 99%;
+    margin: auto;
+    margin-bottom: 1vh;
+    margin-top: 1vh;
+}
+
+#div_cabecera_sesion > label {
+    padding-top: 8px;
+    font-size: 1.5vh;
+}
+
+
 #div_msg_consola {
     height: 75%;
     margin: auto;
@@ -375,7 +390,7 @@ body {
 }
 
 .caja-banner.solo-icono {
-    height: 23%;
+    height: 24%;
     width: 20%;
 }
 

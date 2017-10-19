@@ -60,7 +60,21 @@ let tablas_info = null;
 let thead_periodo = null;
 let thead_periodo_i = null;
 
+// Comparacion de resultados
+let tablas_res = null;
+let divs_res = null;
+let colapsos_res = null;
+let objEscA_res = null;
+let objEscB_res = null;
+let marcoSeleccionado = null;
+let divsScrollRes = [];
+let banner_resA = null;
+let banner_resB = null;
+let flag_espera_esc = false;
+
 // Etiquetas comunes
+let usuario_labels = null;
+let sistema_labels = null;
 let algoritmo_labels = null;
 let fecha_labels = null;
 let hora_labels = null;
@@ -144,11 +158,7 @@ function fn_menuInfo() {
 
 	// oculta las vistas
 	let vista = document.getElementById('vista-esc-info');
-	// Deshabilita botón ejecutar
-	let boton_ejecutarEscenario = document.getElementById('boton_ejecutarEscenario');
-	if (boton_ejecutarEscenario) {
-		boton_ejecutarEscenario.disabled = true;
-	}
+
 	// Deshabilita
 	mostrarVista(vista, menuInfo);
 }

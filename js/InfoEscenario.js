@@ -172,7 +172,7 @@ function vaciarTablas() {
     }
 }
 
-ipcRenderer.on('escenario:leido', (event, obj) => {
+ipcRenderer.on('escenario_entradas:leido', (event, obj) => {
     console.log('Recibe archivos:', obj.lista.length);
 
     new Promise((resolve, reject) => {
@@ -425,7 +425,7 @@ function guardarEscenario() {
     console.log('folio',folio);
 
     banner.vistaCompacta();
-    banner.normal();
+    banner.modoNormal();
     banner.ocultarBoton();
     banner.trabajando();
     banner.mostrar();
@@ -474,9 +474,6 @@ ipcRenderer.on('escenario-original:copiado', (event, res) => {
         setTimeout(() => {
             banner.ocultar();
         }, 2000);
-
-        // Habilita el menu modificados
-        menuModifica.classList.remove('invalido');
     } else {
         banner.error();
         mensajeConsola(`Ocurrió un problema al generar el escenario modificado: ${res.error}`);
@@ -494,13 +491,14 @@ function ejecutarAlgoritmo() {
     mensajeConsola(`Ejecutando algoritmo ${SESION.algoritmo} para folio ${objEscModificado.folio}`);
 
     // Vista prompt
-    banner.prompt();
+    banner.modoPrompt();
     banner.setTituloPrompt(`Ejecución de algoritmo ${SESION.algoritmo} para folio ${objEscModificado.folio}`);
     banner.setTextoPrompt('');
     banner.promptEspera();
     banner.mostrarBoton();
     banner.deshabilitarBoton();
     banner.setBoton('Hecho', () => {
+        mostrarResultados();
         banner.ocultar();
     });
     banner.mostrar();
@@ -512,6 +510,9 @@ ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
     banner.saltoPrompt();
 
     if (res.exito === true) {
+        // Habilita el menu para comparar resultados
+        menuCompara.classList.remove('invalido');
+
         banner.appendTextoPrompt(`<font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`);
         mensajeConsola(`Fin de ejecución del algoritmo; terminación normal`);
     } else {
@@ -523,6 +524,10 @@ ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
             mensajeConsola(`Fin de ejecución del algoritmo; se presentan errores en el resultado.`);
         }
     }
+
+    // Habilita el menu modificados
+    //menuModifica.classList.remove('invalido');
+    menuCompara.classList.remove('invalido');
 
     banner.habilitarBoton();
 });

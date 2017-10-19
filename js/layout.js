@@ -118,47 +118,51 @@ ipcRenderer.on('algoritmo:descargado', (event, res) => {
             banner.vistaCompacta();
             banner.setMensaje('Leyendo información');
 
-            // Despliega los datos en la siguiente seccion
-            let div = document.querySelector('.contenedor-datos-escenario');
-            if (div) {
-                let algoritmo_val = select_algoritmo.value.toUpperCase();
-                for (let label of algoritmo_labels) {
-                    label.innerHTML = `Algoritmo: <b>${algoritmo_val}</b>`;
-                }
+            // Actualiza las etiquetas
+            let algoritmo_val = select_algoritmo.value.toUpperCase();
+            for (let label of algoritmo_labels) {
+                label.innerHTML = `Algoritmo: <b>${algoritmo_val}</b>`;
+            }
 
-                let fecha_val = input_fecha.value;
-                for (let label of fecha_labels) {
-                    label.innerHTML = `Fecha: <b>${fecha_val}</b>`;
-                }
+            let fecha_val = input_fecha.value;
+            for (let label of fecha_labels) {
+                label.innerHTML = `Fecha: <b>${fecha_val}</b>`;
+            }
 
-                let hora_val = select_hora.value + '';
-                if (hora_val.length < 2) {
-                    hora_val = `0${hora_val}`;
-                }
+            let hora_val = select_hora.value + '';
+            if (hora_val.length < 2) {
+                hora_val = `0${hora_val}`;
+            }
 
-                for (let label of hora_labels) {
-                    label.innerHTML = `Hora: <b>${hora_val}</b>`;
-                }
+            for (let label of hora_labels) {
+                label.innerHTML = `Hora: <b>${hora_val}</b>`;
+            }
 
-                let intervalo_val = select_intervalo.value;
-                if (intervalo_val.length < 2) {
-                    intervalo_val = `0${intervalo_val}`;
-                }
+            let intervalo_val = select_intervalo.value;
+            if (intervalo_val.length < 2) {
+                intervalo_val = `0${intervalo_val}`;
+            }
 
-                for (let label of intervalo_labels) {
-                    label.innerHTML = `Intervalo: <b>${intervalo_val}</b>`;
-                }
+            for (let label of intervalo_labels) {
+                label.innerHTML = `Intervalo: <b>${intervalo_val}</b>`;
+            }
 
-                for (let label of folio_labels) {
-                    label.innerHTML = `Folio: <b>- ORIGINAL -</b>`;
-                }
+            for (let label of folio_labels) {
+                label.innerHTML = `Folio: <b>- ORIGINAL -</b>`;
             }
 
             // Pasa al menu de información
-            ipcRenderer.send('escenario:leer', rutaEscenarioOriginal, SESION.algoritmo);
+            ipcRenderer.send('escenario_entradas:leer', rutaEscenarioOriginal, SESION.algoritmo);
 
             // Primer menú, informacion general
             opciones_menu_info[0].onclick();
+
+            // Deshabilita botón ejecutar
+        	let boton_ejecutarEscenario = document.getElementById('boton_ejecutarEscenario');
+        	if (boton_ejecutarEscenario) {
+        		boton_ejecutarEscenario.disabled = true;
+        	}
+
             // Despliegua la seccion
             menuInfo.onclick();
         }, 1500);
@@ -190,7 +194,61 @@ function cargaComponentes() {
     thead_periodo = document.getElementsByClassName('alg-dep');
     thead_periodo_i = document.getElementsByClassName('alg-dep-i');
 
+    // Comparacion de resultados
+    tablas_res = document.getElementsByClassName('tabla-res');
+    divs_res = document.getElementsByClassName('div-tabla-res');
+    colapsos_res = document.getElementsByClassName('celda-header-res');
+    divsScrollRes = document.getElementsByClassName('div-scroll-res');
+
+    // Empareja tablas para resultados
+    let tablas_res_a = [];
+    let tablas_res_b = [];
+    for (let tabla of tablas_res) {
+        if (tabla.classList.contains('A')) {
+            tablas_res_a.push(tabla);
+            tabla.marco = 'A';
+        } else if (tabla.classList.contains('B')) {
+            tablas_res_b.push(tabla);
+            tabla.marco = 'B';
+        }
+    }
+
+    tablas_res_a.forEach((tabla_a) => {
+        tablas_res_b.forEach((tabla_b) => {
+            if (tabla_a.id === tabla_b.id) {
+                tabla_a.tabla_par = tabla_b;
+                tabla_b.tabla_par = tabla_a;
+            }
+        });
+    });
+    tablas_res_a = null;
+    tablas_res_b = null;
+
+    // EMpareja divs scroll res
+    if (divsScrollRes.length > 1) {
+        divsScrollRes[0].div_par = divsScrollRes[1];
+        divsScrollRes[0].isScrolling = false;
+        divsScrollRes[1].div_par = divsScrollRes[0];
+        divsScrollRes[1].isScrolling = false;
+
+        // Agrega banner a cada div
+        banner_resA = new Banner2(divsScrollRes[0]);
+        banner_resB = new Banner2(divsScrollRes[1]);
+        // Pre-configura
+        banner_resA.ocultarBoton()
+        banner_resA.ocultarProgreso()
+        banner_resA.vistaIcono();
+        banner_resA.cargando();
+
+        banner_resB.ocultarBoton()
+        banner_resB.ocultarProgreso()
+        banner_resB.vistaIcono();
+        banner_resB.cargando();
+    }
+
     // Etiquetas comunes
+    usuario_labels = document.getElementsByClassName('label-usuario-esc');
+    sistema_labels = document.getElementsByClassName('label-sistema-esc');
     algoritmo_labels = document.getElementsByClassName('label-algoritmo-esc');
     fecha_labels = document.getElementsByClassName('label-fecha-esc');
     hora_labels = document.getElementsByClassName('label-hora-esc');
@@ -288,7 +346,7 @@ function cargarEscenario() {
 
     // manda a obtener el utc de la fecha seleccionada
     // Comienza con vista compacta
-    banner.normal();
+    banner.modoNormal();
     banner.vistaCompacta();
     banner.mostrar();
     banner.actualizando();
