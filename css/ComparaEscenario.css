@@ -166,3 +166,28 @@
 tr.hover-simulado {
     background-color: darkseagreen !important;
 }
+
+.div-header-res {
+    padding-top: 1.5vh;
+    padding-left:1vw;
+}
+
+.div-header-res > label {
+    display: inline-block;
+    font-weight: bold;
+    height: 3vh;
+}
+
+.div-header-res > select {
+    width:25%;
+    font-size: 1.5vh;
+    height: 3vh;
+    text-align: center;
+    text-align-last: center;
+}
+
+.div-header-res > button {
+    display: inline-block;
+    height: 3vh;
+    font-size: 1.5vh;
+}

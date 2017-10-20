@@ -71,6 +71,8 @@ let divsScrollRes = [];
 let banner_resA = null;
 let banner_resB = null;
 let flag_espera_esc = false;
+let folios_mod = null;
+let botones_folio_res = null;
 
 // Etiquetas comunes
 let usuario_labels = null;

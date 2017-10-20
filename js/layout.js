@@ -82,7 +82,6 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
 
             setTimeout(() => {
                 banner.ocultarProgreso();
-                banner.vistaCompacta();
             }, 600);
 
             rutaEscenarioOriginal = res.rutaLocal;
@@ -91,6 +90,7 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
             mensajeConsola(`Escenario cargado localmente: ${rutaEscenarioOriginal}`);
 
             // Descarga algoritmo
+            banner.vistaCompacta();
             banner.setMensaje('Verificando algoritmo');
             banner.actualizando();
             ipcRenderer.send('algoritmo:descarga', rutaEscenarioOriginal, select_algoritmo.value);
@@ -168,6 +168,7 @@ ipcRenderer.on('algoritmo:descargado', (event, res) => {
         }, 1500);
     } else {
         banner.error();
+        banner.vistaNormal();
         banner.setMensaje(`Error durante la descarga del algoritmo: ${res.error}`);
         banner.setBoton('Aceptar', () => {
             banner.ocultar();
@@ -199,6 +200,8 @@ function cargaComponentes() {
     divs_res = document.getElementsByClassName('div-tabla-res');
     colapsos_res = document.getElementsByClassName('celda-header-res');
     divsScrollRes = document.getElementsByClassName('div-scroll-res');
+    folios_mod = document.getElementsByClassName('sel-folios-mod');
+    botones_folio_res = document.getElementsByClassName('btn-folio-res');
 
     // Empareja tablas para resultados
     let tablas_res_a = [];
@@ -244,6 +247,35 @@ function cargaComponentes() {
         banner_resB.ocultarProgreso()
         banner_resB.vistaIcono();
         banner_resB.cargando();
+    }
+
+    // Funcion de los combos de folios
+    let folio_res_fun = (sel, marco) => {
+        let folio;
+        let boton;
+        if (marco === 'A') {
+            folio = sel.value;
+            boton = botones_folio_res[0];
+        } else {
+            folio = sel.value;
+            boton = botones_folio_res[1];
+        }
+
+        console.log(folio, marco);
+        console.log(objEscA_res.ruta);
+        console.log(objEscB_res.ruta);
+
+        if (objEscA_res.ruta.endsWith(folio) || objEscB_res.ruta.endsWith(folio)) {
+            boton.disabled = true;
+        } else {
+            boton.disabled = false;
+        }
+    };
+
+    // Asigna evento
+    for (let i = 0; i < 2; i++) {
+        folios_mod[i].onmouseup = function() { folio_res_fun(this, (i === 0 ? 'A' : 'B')); };
+        folios_mod[i].onkeyup = function() { folio_res_fun(this, (i === 0 ? 'A' : 'B')); };
     }
 
     // Etiquetas comunes

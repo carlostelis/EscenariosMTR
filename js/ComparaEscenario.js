@@ -166,13 +166,18 @@ ipcRenderer.on('escenario_resultados:leido', (event, obj) => {
             flag_espera_esc = false;
             marcoSeleccionado = 'B';
             ipcRenderer.send('escenario_resultados:leer', objEscModificado.ruta, SESION.algoritmo);
+
+            // 3 segundos después del segundo resultado, solicita la lista de modificados
+            setTimeout(() => {
+                ipcRenderer.send('escenarios_mod:leer', objEscOriginal.ruta.replace('escenario_original', 'escenario_modificado'));
+            }, 3000);
         }
     });
 });
 
 function crearTablaResultado(objArchivo) {
     let id = objArchivo.archivo.toUpperCase().split('.CSV')[0];
-    
+
     // Busca la tabla en la lista, no en el dom
     let tabla = null;
     for (let t of tablas_res) {
@@ -352,3 +357,25 @@ function mostrarResultados() {
     marcoSeleccionado = 'A';
     ipcRenderer.send('escenario_resultados:leer', objEscOriginal.ruta, SESION.algoritmo);
 }
+
+ipcRenderer.on('escenarios_mod:leidos', (event, res) => {
+    if (res.estado === true) {
+        for (let sel of folios_mod) {
+            sel.innerHTML = '';
+
+            let txt = document.createTextNode('- Folio -');
+            let opt = document.createElement('option');
+            opt.disabled = true;
+            opt.selected = true;
+            opt.appendChild(txt);
+            sel.appendChild(opt);
+
+            for (let folio of res.lista) {
+                txt = document.createTextNode(folio);
+                opt = document.createElement('option');
+                opt.appendChild(txt);
+                sel.appendChild(opt);
+            }
+        }
+    }
+});

@@ -769,3 +769,13 @@ ipcMain.on('algoritmo:ejecutar', (event, ruta_escenario, algoritmo) => {
         win.webContents.send('algoritmo:ejecutado', obj);
     });
 });
+
+ipcMain.on('escenarios_mod:leer', (event, ruta_escenario_mod) => {
+    console.log('Folios de', ruta_escenario_mod);
+    escenario.leerEscenariosModificados(ruta_escenario_mod).then((lista) => {
+        win.webContents.send('escenarios_mod:leidos', {estado:true, lista:lista});
+    }, (err) => {
+        console.log(err);
+        win.webContents.send('escenarios_mod:leidos', {estado:false, error:err});
+    });
+});

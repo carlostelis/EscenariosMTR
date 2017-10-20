@@ -218,12 +218,15 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
                 label.innerHTML = `Sistema: <b>${SESION.sistema}</b>`;
             }
 
-            // Actualiza vista archivos
-            visor_archivos.actualizar();
-
             setTimeout(() => {
                 banner.ocultar();
                 body.style.opacity = '0';
+
+
+                // Actualiza vista archivos
+                visor_archivos.actualizar();
+
+
 
                 setTimeout(() => {
                     divLogin.classList.add('d-none');

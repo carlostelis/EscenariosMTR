@@ -204,6 +204,19 @@ class Escenario {
 
         return filas;
     }
+
+    leerEscenariosModificados(ruta_escenario_mod) {
+        return new Promise((resolve, reject) => {
+            this.fs.readdir(ruta_escenario_mod, (err, files) => {
+                if (err) {
+                    console.log('Error leyendo escenarios modificados');
+                    reject(err);
+                } else {
+                    resolve(files);
+                }
+            });
+        });
+    }
 }
 
 module.exports = Escenario;
