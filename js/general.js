@@ -16,7 +16,7 @@ require('electron-context-menu')({
 const body = document.querySelector("body");
 const div_msg_consola = document.getElementById('div_msg_consola');
 const banner = new Banner2(body);
-const visor_archivos = new VistaArchivos();
+const visor_archivos = new VistaArchivosMod();
 const moment = require('moment');
 const SESION = {
 	usuario: '',

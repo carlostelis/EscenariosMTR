@@ -65,6 +65,15 @@ class ListaArchivos {
         });
     }
 
+    generarBase() {
+        return {
+            nombre: path.basename(this.rutaInit),
+            ruta: this.rutaInit,
+            tipo: 'directorio',
+            elementos: []
+        };
+    }
+
     leerDirectorio(_ruta) {
         var elementos = [];
 
@@ -93,7 +102,8 @@ class ListaArchivos {
                     elementos.push(itemObject);
                 } else if (stats.isDirectory()) {
                     itemObject.tipo = 'directorio';
-                    itemObject.elementos = this.leerDirectorio(rutaCompleta);
+                    // itemObject.elementos = this.leerDirectorio(rutaCompleta);
+                    itemObject.elementos = [];
                     elementos.push(itemObject);
                 }
             }

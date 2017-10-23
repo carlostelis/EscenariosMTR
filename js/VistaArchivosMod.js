@@ -1,13 +1,15 @@
 const path = require('path');
-const MAX_NIVEL = 2;
+const MAX_NIVEL = 0;
 
-class VistaArchivos {
+class VistaArchivosMod {
 
     constructor(parent, ipcRenderer) {
         // Ruta base, para windows
         this.rutaSeleccionada = '';
         this.set(parent, ipcRenderer);
         this.seleccionAnterior = undefined;
+        this.arbol = null;
+        this.folderListener = null;
     }
 
     set(parent, ipcRenderer) {
@@ -17,7 +19,6 @@ class VistaArchivos {
 
         this.contenedor = parent;
         this.contenedor.classList.add('row');
-        // this.contenedor.style.borderStyle = 'dashed';
 
         this.col = document.createElement('div');
         this.col.classList.add('col');
@@ -72,7 +73,7 @@ class VistaArchivos {
 
         this.contenedor.appendChild(this.col);
 
-        this.banner = new Banner2(this.div_arbol);
+        this.banner = new Banner2(this.col);
         this.banner.vistaIcono(); //
         this.banner.ocultarBoton();
         this.banner.ocultarProgreso();
@@ -86,26 +87,24 @@ class VistaArchivos {
             this.actualizar();
         };
 
-        //this.ipcRenderer.send('listaHtml:solicita');
+        this.ipcRenderer.on('listaHtml:recibeBase', (event, respuesta) => {
+            this.arbol = respuesta;
+            console.log(respuesta);
+            this.html(respuesta).then((code) => {
+                setTimeout(() => {
+                    this.div_arbol.innerHTML = "";
+                    this.div_arbol.appendChild(code);
 
-        this.ipcRenderer.on('listaHtml:recibe', (event, respuesta) => {
-            setTimeout(() => {
-                this.html(respuesta).then((code) => {
-                    setTimeout(() => {
-                        this.div_arbol.innerHTML = "";
-                        this.div_arbol.appendChild(code);
+                    this.label_rutaBaseDato.innerHTML = this.rutaBase;
 
-                        this.label_rutaBaseDato.innerHTML = this.rutaBase;
-
-                        this.banner.ocultar();
-                    }, 1000);
-                }, (err) => {
-                    setTimeout(() => {
-                        this.div_arbol.innerHTML = err;
-                        this.banner.ocultar();
-                    }, 1000);
-                });
-            }, 500);
+                    this.banner.ocultar();
+                }, 1000);
+            }, (err) => {
+                setTimeout(() => {
+                    this.div_arbol.innerHTML = err;
+                    this.banner.ocultar();
+                }, 1000);
+            });
         });
     }
 
@@ -114,133 +113,117 @@ class VistaArchivos {
             let nodo_ul = document.createElement('ul');
             nodo_ul.style.paddingLeft = '1vw';
 
-            // nodo_ul.appendChild(this.toLI(json, '', 0));
-            this.toLI(json, '', 0, nodo_ul).then(() => {
-                resolve(nodo_ul);
-            });
+            nodo_ul.appendChild(this.toLI(json, ''));
+            resolve(nodo_ul);
         });
     }
 
-    toUL(dir, ruta, nivel, contenedor) {
-        return new Promise((resolve, reject) => {
-            if (typeof ruta === 'undefined' || ruta === undefined) {
-                ruta = '';
+    toLI(elemento, nivel) {
+        let promesas = [];
+        // console.log(elemento);
+        // crea elemento li
+        let nodo_li = document.createElement('li');
+        nodo_li.classList.add('li_vista-archivos');
+        // crea icono
+        let nodo_i = document.createElement('i');
+        nodo_i.classList.add('fa');
+        nodo_li.appendChild(nodo_i);
+        // crea etiqueta
+        let nodo_label = document.createElement('label');
+        let nodo_texto = document.createTextNode(elemento.nombre);
+        nodo_label.appendChild(nodo_texto);
+        nodo_label.seleccionado = false;
+        nodo_li.appendChild(nodo_label);
+        // atributos extra
+        nodo_label.nombre = elemento.nombre;
+
+        if (typeof elemento.rutaBase === 'string') {
+            this.rutaBase = elemento.rutaBase;
+            nodo_label.ruta = this.rutaBase;
+        } else {
+            nodo_label.ruta = path.join(elemento.ruta, elemento.nombre);
+        }
+
+        // metodo click
+        nodo_label.onclick = () => {
+            // quita seleccion de otros elementos
+            // selecciona a si mismo
+            if (typeof this.seleccionAnterior !== 'undefined') {
+                this.seleccionAnterior.classList.remove('seleccionado');
+                this.seleccionAnterior.seleccionado = false;
             }
 
-            let nodo_ul = document.createElement('ul');
-            let promesas = [];
+            nodo_label.classList.add('seleccionado');
+            nodo_label.seleccionado = true;
+            console.log(`Seleccionado ${nodo_label.ruta}`);
+            this.rutaSeleccionada = nodo_label.ruta;
 
-            try {
-                dir.forEach((elemento) => {
-                    // let nodo_li = this.toLI(elemento, ruta, nivel, nodo_ul);
-                    promesas.push(this.toLI(elemento, ruta, nivel, nodo_ul));
+            // Nuevo seleccionado
+            this.seleccionAnterior = nodo_label;
+        };
 
-                    // nodo_ul.appendChild(nodo_li);
-                });
-            } catch (e) {
-                console.log(e);
-            }
-
-            Promise.all(promesas).then(() => {
-                contenedor.appendChild(nodo_ul);
-                resolve();
-            });
-        });
-    }
-
-    toLI(elemento, rutaDir, nivel, contenedor) {
-        return new Promise((reject, resolve) => {
-            let promesas = [];
-            // console.log(elemento);
-            // crea elemento li
-            let nodo_li = document.createElement('li');
-            nodo_li.classList.add('li_vista-archivos');
-            // crea icono
-            let nodo_i = document.createElement('i');
-            nodo_i.classList.add('fa');
-            nodo_li.appendChild(nodo_i);
-            // crea etiqueta
-            let nodo_label = document.createElement('label');
-            let nodo_texto = document.createTextNode(elemento.nombre);
-            nodo_label.appendChild(nodo_texto);
-            nodo_label.seleccionado = false;
-            nodo_li.appendChild(nodo_label);
-            // atributos extra
-            nodo_label.nombre = elemento.nombre;
-
-            if (typeof elemento.rutaBase === 'string') {
-                this.rutaBase = elemento.rutaBase;
-                nodo_label.ruta = this.rutaBase;
+        if (elemento.tipo === 'directorio') {
+            if (nivel < MAX_NIVEL) {
+                // folder abierto
+                nodo_i.classList.add('fa-folder-open');
             } else {
-                nodo_label.ruta = path.join(rutaDir, elemento.nombre);
+                // folder cerradp
+                nodo_i.classList.add('fa-folder');
             }
 
-            // metodo click
-            nodo_label.onclick = () => {
-                // quita seleccion de otros elementos
-                // selecciona a si mismo
-                if (typeof this.seleccionAnterior !== 'undefined') {
-                    this.seleccionAnterior.classList.remove('seleccionado');
-                    this.seleccionAnterior.seleccionado = false;
-                }
+            nodo_i.classList.add('folder');
 
-                nodo_label.classList.add('seleccionado');
-                nodo_label.seleccionado = true;
-                console.log(`Seleccionado ${nodo_label.ruta}`);
-                this.rutaSeleccionada = nodo_label.ruta;
+            // Crea icono +/-
+            let nodo_signo = document.createElement('i');
+            nodo_signo.classList.add('fa');
+            nodo_signo.style.marginLeft = '-1vw';
 
-                // Nuevo seleccionado
-                this.seleccionAnterior = nodo_label;
-            };
+            if (nivel < MAX_NIVEL) {
+                // +
+                nodo_signo.classList.add('fa-minus-square-o');
+            } else {
+                // -
+                nodo_signo.classList.add('fa-plus-square-o');
+            }
 
-            if (elemento.tipo === 'directorio') {
-                if (nivel < MAX_NIVEL) {
-                    // folder abierto
-                    nodo_i.classList.add('fa-folder-open');
-                } else {
-                    // folder cerradp
-                    nodo_i.classList.add('fa-folder');
-                }
+            nodo_signo.style.fontSize = '1vw';
+            nodo_li.insertBefore(nodo_signo, nodo_i);
+            nodo_signo.cargado = false;
+            nodo_signo.visible = false;
+            nodo_signo.elementos = elemento.elementos;
 
-                nodo_i.classList.add('folder');
+            nodo_li.ul = document.createElement('ul');
+            nodo_li.ul.style.display = 'none';
+            nodo_li.appendChild(nodo_li.ul);
+            // Cuando de click en el signo se cargaran y crearán sus hijos
+            nodo_signo.onclick = () => {
+                new Promise((resolve, reject) => {
+                    if (!nodo_signo.cargado) {
+                        ipcRenderer.send('listaHtml:solicitaDirectorio', elemento.ruta);
 
-                // Crea icono +/-
-                let nodo_signo = document.createElement('i');
-                nodo_signo.classList.add('fa');
-                nodo_signo.style.marginLeft = '-1vw';
+                        // Remueve el anterior listener
+                        if (this.folderListener !== null) {
+                            this.ipcRenderer.removeListener('listaHtml:recibeDirectorio', this.folderListener);
+                        }
 
-                if (nivel < MAX_NIVEL) {
-                    // +
-                    nodo_signo.classList.add('fa-minus-square-o');
-                } else {
-                    // -
-                    nodo_signo.classList.add('fa-plus-square-o');
-                }
-
-                nodo_signo.style.fontSize = '1vw';
-                nodo_li.insertBefore(nodo_signo, nodo_i);
-
-                // Inserta elemento UL lista
-                // let nodo_ul = this.toUL(elemento.elementos, nodo_label.ruta, nivel + 1, nodo_li).then(() => {
-                this.toUL(elemento.elementos, nodo_label.ruta, nivel + 1, nodo_li).then(() => {
-                    if (nivel < MAX_NIVEL) {
-                        // visible
-                        nodo_ul.oculto = false;
-                        nodo_ul.style.display = 'block';
+                        this.folderListener = (event, elementos) => {
+                            console.log('Cargando', elemento.ruta, elementos);
+                            nodo_signo.elementos = elementos;
+                            nodo_signo.elementos.forEach((elemento) => {
+                                // console.log('elemento', elemento.nombre);
+                                nodo_li.ul.appendChild(this.toLI(elemento));
+                            });
+                            nodo_signo.cargado = true;
+                            resolve();
+                        };
+                        this.ipcRenderer.on('listaHtml:recibeDirectorio', this.folderListener);
                     } else {
-                        // oculto
-                        nodo_ul.oculto = true;
-                        nodo_ul.style.display = 'none';
+                        resolve();
                     }
-                });
-
-                // nodo_li.appendChild(nodo_ul);
-                // doble click
-                // nodo_label.ondblclick = () => {
-                nodo_signo.onclick = () => {
-                    if (nodo_ul.oculto) {
-                        nodo_ul.style.display = 'block';
-                        nodo_ul.oculto = false;
+                }).then(() => {
+                    if (!nodo_signo.visible) {
+                        nodo_li.ul.style.display = 'block';
+                        nodo_signo.visible = true;
 
                         // cambia icono de folder
                         nodo_i.classList.add('fa-folder-open');
@@ -249,8 +232,8 @@ class VistaArchivos {
                         nodo_signo.classList.remove('fa-plus-square-o');
                         nodo_signo.classList.add('fa-minus-square-o');
                     } else {
-                        nodo_ul.style.display = 'none';
-                        nodo_ul.oculto = true;
+                        nodo_li.ul.style.display = 'none';
+                        nodo_signo.visible = false;
 
                         // cambia icono de folder
                         nodo_i.classList.remove('fa-folder-open');
@@ -259,28 +242,25 @@ class VistaArchivos {
                         nodo_signo.classList.add('fa-plus-square-o');
                         nodo_signo.classList.remove('fa-minus-square-o');
                     }
-                };
-            } else {
-                nodo_i.classList.add('file');
-                nodo_i.classList.add('fa-file-text');
-            }
+                });
+            };
 
-            // return nodo_li;
-            contenedor.appendChild(nodo_li);
-            resolve();
-        });
+        } else {
+            nodo_i.classList.add('file');
+            nodo_i.classList.add('fa-file-text');
+        }
+
+        return nodo_li;
     }
 
     actualizar() {
         this.banner.trabajando();
         this.banner.mostrar();
+        this.div_arbol.innerHTML = "";
 
         setTimeout(() => {
-            ipcRenderer.send('listaHtml:solicita');
-        }, 100);
-        // return new Promise((resolve, reject) => {
-            // ipcRenderer.send('listaHtml:solicita');
-        // });
+            ipcRenderer.send('listaHtml:solicitaBase');
+        }, 500);
     }
 
     getRutaBase() {

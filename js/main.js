@@ -291,6 +291,16 @@ ipcMain.on('listaHtml:solicita', () => {
     });
 });
 
+ipcMain.on('listaHtml:solicitaDirectorio', (event, directorio) => {
+    console.log("Envia lista archivos", directorio);
+    win.webContents.send('listaHtml:recibeDirectorio', listaArchivos.leerDirectorio(directorio));
+});
+
+ipcMain.on('listaHtml:solicitaBase', () => {
+    console.log("Envia lista archivos");
+    win.webContents.send('listaHtml:recibeBase', listaArchivos.generarBase());
+});
+
 // Lista de archivos de directorio
 ipcMain.on('info:sesion', (event, info) => {
     if (typeof info !== 'undefined') {
