@@ -28,7 +28,9 @@
     font-weight: normal;
     text-align: center;
     vertical-align: middle;
-    line-height: 1.5;
+    line-height: 1;
+    font-size: 0.7vw;
+    height: 2.3vh;
 }
 
 .tabla-body > tr:hover {

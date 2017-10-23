@@ -8,205 +8,219 @@ class Banner {
 
         // Crea div
         this.divBanner = document.createElement('div');
-        this.divBanner.classList.add('banner');
+        this.divBanner.classList.add('banner2');
+        this.divBanner.classList.add('center');
 
-        // Para icono
+        // BLur de fondo
+        this.divBlur = document.createElement('div');
+        this.divBlur.classList.add('blur');
+
+        /* ******************** */
+        /* Marco para mensajes  */
+        /* ******************** */
+        this.divMsg = document.createElement('div');
+        this.divMsg.classList.add('caja-banner');
+        this.divMsg.classList.add('center');
+
+        // Icono
         this.divIcono = document.createElement('div');
-        this.divBanner.appendChild(this.divIcono);
-        this.divIcono.innerHTML = "";
-        this.divIcono.classList.add('banner_icon');
+        this.divIcono.classList.add('icono-banner2');
 
-        // crea parrafo
-        this.divDatos = document.createElement('div');
-        this.divDatos.innerHTML = "";
-        this.divDatos.classList.add('banner_datos');
-        // parrafo
-        this.parrafo = document.createElement('p');
+        this.divAuxIcono = document.createElement('div');
+        this.divAuxIcono.innerHTML = `<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>`;
+        this.divIcono.appendChild(this.divAuxIcono);
 
-        // crea boton
-        this.boton = document.createElement('button');
-        this.boton.classList.add('button_gral');
-        this.boton.style.display = 'none';
-        this.boton.style.width = '10%';
-        this.boton.style.fontSize = '1.2vw';
-        this.boton.value = 'Botón';
+        this.divMsg.appendChild(this.divIcono);
+
+        // Mensaje
+        this.divTexto = document.createElement('div');
+        this.divTexto.classList.add('texto-banner2');
+        this.divAuxTexto = document.createElement('span');
+        this.divTexto.appendChild(this.divAuxTexto);
+        this.divMsg.appendChild(this.divTexto);
 
         // Crea progreso
         this.divProgreso = document.createElement('div');
         this.divProgreso.classList.add('progress');
-        this.divProgreso.style.height = '3vh';
-        this.divProgreso.style.width = '50%';
-        this.divProgreso.style.margin = 'auto';
+        this.divProgreso.classList.add('progreso-banner2');
         this.divBarraProgreso = document.createElement('div');
         this.divBarraProgreso.classList.add('progress-bar');
         this.divBarraProgreso.classList.add('progress-bar-striped');
         this.divBarraProgreso.classList.add('progress-bar-animated');
+        this.divBarraProgreso.classList.add('barra-progreso-banner2');
         this.divBarraProgreso.setAttribute('aria-valuenow', "60");
         this.divBarraProgreso.setAttribute('aria-valuemin', "0");
         this.divBarraProgreso.setAttribute('aria-valuemax', "100");
-        this.divBarraProgreso.style.width = '0%';
-        this.divBarraProgreso.style.height = '100%';
-        this.divBarraProgreso.style.fontSize = '2vh';
-        this.divBarraProgreso.style.fontWeight = 'bold';
-        this.divBarraProgreso.style.margin = 'auto';
-        this.divBarraProgreso.style.paddingTop = '0.5vh';
-        this.divBarraProgreso.style.borderRadius = '10px';
-        this.divBarraProgreso.style.transition = '0.5s ease-in';
-
         this.divProgreso.appendChild(this.divBarraProgreso);
-        // Por defecto ocultarBoton
-        this.divProgreso.style.visibility = 'hidden';
+        this.divMsg.appendChild(this.divProgreso);
 
-        // Inserta
-        this.divDatos.appendChild(this.parrafo);
-        this.divDatos.appendChild(this.divProgreso);
-        this.divDatos.appendChild(this.boton);
-        this.divBanner.appendChild(this.divDatos);
+        // Botones
+        this.divBotones = document.createElement('div');
+        this.divBotones.classList.add('botones-banner2');
+        this.divBotones.classList.add('container');
+
+        this.botonAceptar = document.createElement('button');
+        let textoBoton = document.createTextNode('Aceptar');
+        this.botonAceptar.appendChild(textoBoton);
+        this.botonAceptar.classList.add('button_gral');
+
+        this.divBotones.appendChild(this.botonAceptar);
+        this.divMsg.appendChild(this.divBotones);
+
+        this.divBanner.appendChild(this.divBlur);
+        this.divBanner.appendChild(this.divMsg);
+
+        /* ******************** */
+        /* Marco para Salida  */
+        /* ******************** */
+        this.divSalida = document.createElement('div');
+        this.divSalida.classList.add('caja-banner');
+        this.divSalida.classList.add('caja-prompt');
+        this.divSalida.classList.add('center');
+
+        this.divTituloSalida = document.createElement('div');
+        this.divTituloSalida.classList.add('salida-titulo-banner2');
+        this.divTituloSalida.innerHTML = "Titulo de salida";
+        this.divSalida.appendChild(this.divTituloSalida);
+
+        this.divSalidaTxt = document.createElement('div');
+        this.divSalidaTxt.classList.add('salida-txt-banner2');
+        this.divSalidaTxt.innerHTML = `Texto <br> texto asdasd`;
+        this.divSalida.appendChild(this.divSalidaTxt);
+
+    }
+
+    vistaCompacta() {
+        this.divMsg.classList.add('compacto');
+        this.divMsg.classList.remove('solo-icono');
+        this.divTexto.classList.add('compacto');
+    }
+
+    vistaIcono() {
+        this.divMsg.classList.remove('compacto');
+        this.divMsg.classList.add('solo-icono');
+    }
+
+    vistaNormal() {
+        this.divMsg.classList.remove('compacto');
+        this.divMsg.classList.remove('solo-icono');
+        this.divTexto.classList.remove('compacto');
+    }
+
+    promptEspera() {
+        this.divSalidaTxt.innerHTML = `<div class="prompt-espera"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><div>`;
+        this.divSalidaTxt.classList.add('espera');
+    }
+
+    promptQuitaEspera() {
+        this.divSalidaTxt.innerHTML = '';
+        this.divSalidaTxt.classList.remove('espera');
+    }
+
+    modoPrompt() {
+        try {
+            // Quita el div mensajes
+            this.divBanner.removeChild(this.divMsg);
+            // Agrega el div prompt
+            this.divBanner.appendChild(this.divSalida);
+            this.divSalida.appendChild(this.divBotones);
+        } catch (e) {}
+    }
+
+    modoNormal() {
+        try {
+            // Quita el div mensajes
+            this.divBanner.removeChild(this.divSalida);
+            // Agrega el div prompt
+            this.divBanner.appendChild(this.divMsg);
+            this.divMsg.appendChild(this.divBotones);
+        } catch (e) {}
     }
 
     mostrar() {
         this.contenedor.appendChild(this.divBanner);
-        this.divBanner.style.opacity = '1';
+        setTimeout(() => {
+            try {
+                this.divBanner.style.opacity = '1';
+            } catch (e) {}
+        }, 25);
     }
 
     ocultar() {
         this.divBanner.style.opacity = '0';
+        this.setProgreso(0);
         setTimeout(() => {
-            this.setProgreso(0);
             try {
                 this.contenedor.removeChild(this.divBanner);;
             } catch (e) {}
-        }, 600);
+        }, 300);
     }
 
     cargando(color) {
-        this.divIcono.innerHTML = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>';
-        this.divIcono.classList.remove('banner_error');
-        this.divIcono.classList.remove('banner_ok');
-        this.divIcono.classList.remove('banner_actualiza');
-        this.divIcono.classList.remove('banner_trabaja');
-        this.divIcono.classList.add('banner_loading');
-        this.divIcono.style.color = 'slateblue';
-
-        if (typeof color === 'string') {
-            this.divIcono.style.color = color;
-        }
+        this.divAuxIcono.innerHTML = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>';
     }
 
     actualizando(color) {
-        this.divIcono.innerHTML = '<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>';
-        this.divIcono.classList.remove('banner_error');
-        this.divIcono.classList.remove('banner_ok');
-        this.divIcono.classList.add('banner_actualiza');
-        this.divIcono.classList.remove('banner_trabaja');
-        this.divIcono.classList.remove('banner_loading');
-        this.divIcono.style.color = 'deepskyblue';
-
-        if (typeof color === 'string') {
-            this.divIcono.style.color = color;
-        }
+        this.divAuxIcono.innerHTML = '<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i>';
     }
 
     trabajando(color) {
-        this.divIcono.innerHTML = '<i class="fa fa-cog fa-spin fa-3x fa-fw"></i>';
-        this.divIcono.classList.remove('banner_error');
-        this.divIcono.classList.remove('banner_ok');
-        this.divIcono.classList.remove('banner_actualiza');
-        this.divIcono.classList.add('banner_trabaja');
-        this.divIcono.classList.remove('banner_loading');
-        this.divIcono.style.color = 'brown';
-
-        if (typeof color === 'string') {
-            this.divIcono.style.color = color;
-        }
+        this.divAuxIcono.innerHTML = '<i class="fa fa-cog fa-spin fa-3x fa-fw"></i>';
     }
 
     error(color) {
-        this.divIcono.innerHTML = '<i class="fa fa-times"></i>';
-        this.divIcono.classList.remove('banner_loading');
-        this.divIcono.classList.remove('banner_ok');
-        this.divIcono.classList.add('banner_error');
-        this.divIcono.classList.remove('banner_actualiza');
-        this.divIcono.classList.remove('banner_trabaja');
-        this.divIcono.style.color = 'darkred';
-
-        if (typeof color === 'string') {
-            this.divIcono.style.color = color;
-        }
+        this.divAuxIcono.innerHTML = '<i class="fa fa-times error"></i>';
     }
 
     alerta(color) {
-        this.divIcono.innerHTML = '<i class="fa fa-warning"></i>';
-        this.divIcono.classList.remove('banner_loading');
-        this.divIcono.classList.remove('banner_ok');
-        this.divIcono.classList.add('banner_error');
-        this.divIcono.classList.remove('banner_actualiza');
-        this.divIcono.classList.remove('banner_trabaja');
-        this.divIcono.style.color = 'gold';
-
-        if (typeof color === 'string') {
-            this.divIcono.style.color = color;
-        }
+        this.divAuxIcono.innerHTML = '<i class="fa fa-warning alerta"></i>';
     }
 
     ok(color) {
-        this.divIcono.innerHTML = '<i class="fa fa-check-square"></i>';
-        this.divIcono.classList.remove('banner_loading');
-        this.divIcono.classList.remove('banner_error');
-        this.divIcono.classList.add('banner_ok');
-        this.divIcono.classList.remove('banner_actualiza');
-        this.divIcono.classList.remove('banner_trabaja');
-        this.divIcono.style.color = 'darkgreen';
-
-        if (typeof color === 'string') {
-            this.divIcono.style.color = color;
-        }
+        this.divAuxIcono.innerHTML = '<i class="fa fa-check-square ok"></i>';
     }
 
     setMensaje(mensaje) {
-        this.parrafo.classList.remove('parrafo_invisible');
-        this.parrafo.innerHTML = mensaje;
-
-        setTimeout(() => {
-            this.parrafo.classList.add('parrafo_visible');
-        }, 1000);
+        this.divAuxTexto.innerHTML = mensaje;
     }
 
     getMensaje() {
-        return this.parrafo.innerHTML;
+        return this.divAuxTexto.innerHTML;
     }
 
     mostrarBoton() {
-        this.boton.style.display = 'initial';
-        this.boton.focus();
+        this.divBotones.style.display = 'block';
     }
 
     ocultarBoton() {
-        this.boton.style.display = 'none';
+        this.divBotones.style.display = 'none';
+    }
+
+    habilitarBoton() {
+        this.botonAceptar.disabled = false;
+    }
+
+    deshabilitarBoton() {
+        this.botonAceptar.disabled = true;
     }
 
     setBoton(mensaje, call) {
-        this.boton.innerHTML = mensaje;
+        this.botonAceptar.innerHTML = mensaje;
 
         if (call) {
-            this.boton.onclick = call;
+            this.botonAceptar.onclick = call;
         }
     }
 
-    mostrarProgreso(color) {
-        this.divProgreso.style.visibility = 'visible';
-
-        if (typeof color !== 'undefined') {
-            this.divBarraProgreso.style.backgroundColor = color;
-        }
+    mostrarProgreso() {
+        this.divProgreso.style.display = 'flex';
     }
 
     ocultarProgreso() {
-        this.divProgreso.style.visibility = 'hidden';
+        this.divProgreso.style.display = 'none';
     }
 
     setProgreso(progreso) {
-        // if (progreso > 1) {
         if (progreso < 100) {
             if (progreso > 0) {
                 this.divBarraProgreso.innerHTML = `${progreso.toFixed(0)}%`;
@@ -215,9 +229,27 @@ class Banner {
             }
         } else {
             this.divBarraProgreso.innerHTML = '<b>Completado</b>';
-        }
-        // }
+        }// }
         this.divBarraProgreso.style.width = `${progreso}%`;
-        // this.spanProgreso.innerHTML = `${progreso.toFixed(2)}%`;
+    }
+
+    setTituloPrompt(titulo) {
+        this.divTituloSalida.innerHTML = titulo;
+    };
+
+    setTextoPrompt(texto) {
+        this.divSalidaTxt.classList.remove('espera');
+        this.divSalidaTxt.innerHTML = `${texto}`;
+        this.divSalidaTxt.scrollTop = this.divSalidaTxt.scrollHeight;
+    }
+
+    appendTextoPrompt(texto) {
+        this.divSalidaTxt.innerHTML += `<br>${texto}`;
+        this.divSalidaTxt.scrollTop = this.divSalidaTxt.scrollHeight;
+    }
+
+    saltoPrompt() {
+        this.divSalidaTxt.innerHTML += `<br>`;
+        this.divSalidaTxt.scrollTop = this.divSalidaTxt.scrollHeight;
     }
 }

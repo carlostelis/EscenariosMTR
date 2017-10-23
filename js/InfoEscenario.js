@@ -278,8 +278,30 @@ function crearTablaInfo(objArchivo, copia) {
         return;
     }
 
+    // Nodo tr anterior
+    let tr_anterior = null;
+
     // Borra el tbody anterior
     for (let nodo of tabla.childNodes) {
+        if (nodo.nodeName.toLowerCase() === 'thead') {
+            for (let nodoA of nodo.childNodes) {
+                if (nodoA.nodeName.toLowerCase() === 'tr') {
+                    // Clona el encabezado
+                    objArchivo.trHeader_aux = document.createElement('tr');
+                    objArchivo.trHeader_aux.classList.add('tr-aux');
+
+                    for (let nodoB of nodoA.childNodes) {
+                        if (nodoB.nodeName.toLowerCase() === 'th') {
+                            // Inserta a auxiliar
+                            let td = document.createElement('td');
+                            td.innerHTML = nodoB.innerHTML;
+                            objArchivo.trHeader_aux.appendChild(td);
+                        }
+                    }
+                }
+            }
+        }
+
         if (nodo.nodeName.toLowerCase() === 'tbody') {
             tabla.removeChild(nodo);
         }
@@ -294,6 +316,9 @@ function crearTablaInfo(objArchivo, copia) {
     objArchivo.filas.forEach((fila) => {
         // Fila
         let tr = document.createElement('tr');
+
+        // Fila aux
+        tr.tr_anterior = tr_anterior;
 
         // Agrega numero de registro
         let td_fila = document.createElement('td');
@@ -352,11 +377,46 @@ function crearTablaInfo(objArchivo, copia) {
                 td.appendChild(texto);
             }
 
+            // Eventos mouse
+            // hover
+            tr.onmouseover = () => {
+                // Inserta header para guia
+                if (objArchivo.trHeader_aux && tr.tr_anterior != null) {
+                    // Si no es la fila proxima al header principal
+                    if (tr.flagTop === false) {
+                        tbody.insertBefore(objArchivo.trHeader_aux, tr.tr_anterior);
+                        // tr.tr_anterior.style.display = 'none';
+                        tbody.removeChild(tr.tr_anterior);
+                    }
+                }
+            };
+
+            tr.onmouseout = () => {
+                // Inserta header para guia
+                if (objArchivo.trHeader_aux && tr.tr_anterior != null) {
+                    // Si no es la fila proxima al header principal
+                    if (tr.flagTop === false) {
+                        // Reinserta la fila antes del header aux
+                        tbody.insertBefore(tr.tr_anterior, objArchivo.trHeader_aux);
+
+                        try {
+                            // Quita  el header aux del dom
+                            tbody.removeChild(objArchivo.trHeader_aux);
+                        } catch (e) {}
+
+                        // tr.tr_anterior.style.display = 'table-row';
+                    }
+                }
+            };
+
             tr.appendChild(td);
         });
 
         num_fila++;
         tbody.appendChild(tr);
+
+        // Fila auxiliar
+        tr_anterior = tr;
     });
 
     tabla.appendChild(tbody);
@@ -497,7 +557,7 @@ function ejecutarAlgoritmo() {
     banner.promptEspera();
     banner.mostrarBoton();
     banner.deshabilitarBoton();
-    banner.setBoton('Hecho', () => {
+    banner.setBoton('Resultados', () => {
         mostrarResultados();
         banner.ocultar();
     });

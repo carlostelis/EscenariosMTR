@@ -220,6 +220,9 @@ function crearTablaResultado(objArchivo) {
     // Crea arreglo de filas para referencias en hover
     tabla.filas = [];
 
+    // Nodo tr anterior
+    let tr_anterior = null;
+
     // Crea las filas
     objArchivo.filas.forEach((fila) => {
         // si es la primer fila, procesa las cabeceras
@@ -228,17 +231,30 @@ function crearTablaResultado(objArchivo) {
                 if (nodoA.nodeName.toLowerCase() === 'thead') {
                     for (let nodoB of nodoA.childNodes) {
                         if (nodoB.nodeName.toLowerCase() === 'tr') {
+                            // Clona el encabezado
+                            objArchivo.trHeader_aux = document.createElement('tr');
+                            objArchivo.trHeader_aux.classList.add('tr-aux');
+
                             nodoB.innerHTML = "";
                             // Inserta los valores en la fila
                             // La primer columna es el número de fila
                             let th = document.createElement('th');
                             nodoB.appendChild(th);
 
+                            // Inserta a auxiliar
+                            let td = document.createElement('td');
+                            objArchivo.trHeader_aux.appendChild(td);
+
                             fila.forEach((objHeader) => {
                                 th = document.createElement('th');
                                 let texto = document.createTextNode(objHeader.valor);
                                 th.appendChild(texto);
                                 nodoB.appendChild(th);
+
+                                // Inserta a auxiliar
+                                td = document.createElement('td');
+                                td.appendChild(document.createTextNode(objHeader.valor));
+                                objArchivo.trHeader_aux.appendChild(td);
                             });
 
                             break;
@@ -253,6 +269,10 @@ function crearTablaResultado(objArchivo) {
             // Inserta las filas de datos
             // Agrega numero de registro
             let tr = document.createElement('tr');
+
+            // Fila aux
+            tr.tr_anterior = tr_anterior;
+
             // Agrega numero de registro
             let td = document.createElement('td');
             let texto = document.createTextNode(num_fila);
@@ -272,14 +292,49 @@ function crearTablaResultado(objArchivo) {
             });
 
             // hover
-            tr.onmouseover = () => {
+            tr.onmouseover = (event, flagRebote) => {
+                // Inserta header para guia
+                if (objArchivo.trHeader_aux && tr.tr_anterior != null) {
+                    // Si no es la fila proxima al header principal
+                    if (tr.flagTop === false) {
+                        tbody.insertBefore(objArchivo.trHeader_aux, tr.tr_anterior);
+                        // tr.tr_anterior.style.display = 'none';
+                        tbody.removeChild(tr.tr_anterior);
+                    }
+                }
+
+                if (typeof flagRebote === 'undefined') {
+                    tabla.tabla_par.filas[tr.num_fila - 1].onmouseover(event, true);
+                }
+
                 if (tabla.tabla_par) {
                     if (tr.num_fila >= 0 && tr.num_fila <= tabla.tabla_par.filas.length) {
                         tabla.tabla_par.filas[tr.num_fila - 1].classList.add('hover-simulado');
                     }
                 }
             };
-            tr.onmouseout = () => {
+
+            tr.onmouseout = (event, flagRebote) => {
+                // Inserta header para guia
+                if (objArchivo.trHeader_aux && tr.tr_anterior != null) {
+                    // Si no es la fila proxima al header principal
+                    if (tr.flagTop === false) {
+                        // Reinserta la fila antes del header aux
+                        tbody.insertBefore(tr.tr_anterior, objArchivo.trHeader_aux);
+
+                        try {
+                            // Quita  el header aux del dom
+                            tbody.removeChild(objArchivo.trHeader_aux);
+                        } catch (e) {}
+
+                        // tr.tr_anterior.style.display = 'table-row';
+                    }
+                }
+
+                if (typeof flagRebote === 'undefined') {
+                    tabla.tabla_par.filas[tr.num_fila - 1].onmouseout(event, true);
+                }
+
                 if (tabla.tabla_par) {
                     if (tr.num_fila >= 0 && tr.num_fila <= tabla.tabla_par.filas.length) {
                         tabla.tabla_par.filas[tr.num_fila - 1].classList.remove('hover-simulado');
@@ -290,6 +345,9 @@ function crearTablaResultado(objArchivo) {
             num_fila++;
             tbody.appendChild(tr);
             tabla.filas.push(tr);
+
+            // Fila auxiliar
+            tr_anterior = tr;
         }
     });
 

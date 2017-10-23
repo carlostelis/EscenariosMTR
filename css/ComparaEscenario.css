@@ -101,6 +101,19 @@
     padding-right: 20px;
 }
 
+.div-scroll-res > label {
+    display: block;
+    background-color: honeydew;
+    font-size: 1vw;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 15px;
+    text-shadow: 0px 0px 2px grey;
+    width: 100%;
+    /* margin-left: 0%; */
+    border-style: double;
+}
+
 .div-scroll-res::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
     background-color: #F5F5F5;
@@ -190,4 +203,15 @@ tr.hover-simulado {
     display: inline-block;
     height: 3vh;
     font-size: 1.5vh;
+}
+
+.tr-aux {
+    display: table-row;
+    background-color: rgb(255, 238, 186) !important;
+}
+
+.tr-aux > td {
+    font-weight: bold !important;
+    font-size: 0.8vw !important;
+    text-shadow: 2px 2px 2px gray;
 }

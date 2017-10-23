@@ -82,7 +82,7 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
 
             setTimeout(() => {
                 banner.ocultarProgreso();
-            }, 600);
+            }, 100);
 
             rutaEscenarioOriginal = res.rutaLocal;
             console.log('Ruta de escenario:', rutaEscenarioOriginal);
@@ -90,7 +90,10 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
             mensajeConsola(`Escenario cargado localmente: ${rutaEscenarioOriginal}`);
 
             // Descarga algoritmo
-            banner.vistaCompacta();
+            setTimeout(() => {
+                banner.vistaCompacta();
+            }, 1500);
+
             banner.setMensaje('Verificando algoritmo');
             banner.actualizando();
             ipcRenderer.send('algoritmo:descarga', rutaEscenarioOriginal, select_algoritmo.value);
@@ -235,8 +238,8 @@ function cargaComponentes() {
         divsScrollRes[1].isScrolling = false;
 
         // Agrega banner a cada div
-        banner_resA = new Banner2(divsScrollRes[0]);
-        banner_resB = new Banner2(divsScrollRes[1]);
+        banner_resA = new Banner(divsScrollRes[0]);
+        banner_resB = new Banner(divsScrollRes[1]);
         // Pre-configura
         banner_resA.ocultarBoton()
         banner_resA.ocultarProgreso()

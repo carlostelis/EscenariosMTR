@@ -1,4 +1,4 @@
-const MAX_ROWS = 50;
+const MAX_ROWS = 25;
 const MAX_ROWS_MED = 100;
 const MAX_ROWS_BIG = 200;
 const LIM_INF_SIZE = 1000;
@@ -100,7 +100,7 @@ class Paginacion {
         // <ul>
         let ul = document.createElement('ul');
         ul.classList.add('pagination');
-        ul.classList.add('justify-content-end');
+        ul.classList.add('justify-content-start');
 
         // <tr>
         let tr = document.createElement('tr');
@@ -135,10 +135,19 @@ class Paginacion {
                     lim_sup = this.totalRows;
                 }
 
+                // Para header auxiliar
+                // Si es la fila proxima al header de la tabla
+                // la marca para que no se muestre
+                let flag_top = true;
+
                 // Recorre y filtra las filas
                 for (let fila = 0; fila < this.totalRows; fila++) {
                     // Si esta en el rango, la deja visible
                     if (fila >= lim_inf && fila < lim_sup) {
+                        this.filas[fila].flagTop = flag_top;
+                        if (flag_top === true) {
+                            flag_top = false;
+                        }
                         this.filas[fila].style.display = 'table-row';
                     } else {
                         this.filas[fila].style.display = 'none';

@@ -310,17 +310,22 @@ body {
     color: cornflowerblue;
     font-weight: bold;
     cursor: pointer;
-    width: 1.9vw;
+    width: 1vw;
+    font-size: 0.5vw;
 }
 
 .li-pagina > a {
     padding-left: 0px;
     padding-right: 0px;
     text-align: center;
+    background-color: lightblue;
+    border-radius: 5px;
+    color: #0275d8 !important;
 }
 
-.li-pagina:hover {
+.li-pagina:hover > a:hover {
     text-shadow: 1px 1px 1px;
+    background-color: skyblue!important;
 }
 
 .li-pagina.disabled {
@@ -328,6 +333,7 @@ body {
     font-weight: bold;
     text-decoration: underline;
     cursor: crosshair;
+    color: black !important;
 }
 
 
@@ -369,9 +375,6 @@ body {
   right: 0;
   box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
-
-/*  NOT REQUIRED  */
 
 .caja-banner {
     height: 40%;
