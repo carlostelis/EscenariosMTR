@@ -293,28 +293,58 @@ function crearTablaResultado(objArchivo) {
 
             // hover
             tr.onmouseover = (event, flagRebote) => {
+                setTimeout(() => {
+                    // Para la tabla par vinculada
+                    if (typeof flagRebote === 'undefined') {
+                        tabla.tabla_par.filas[tr.num_fila - 1].onmouseover(event, true);
+                    }
+
+                    if (tabla.tabla_par) {
+                        if (tr.num_fila >= 0 && tr.num_fila <= tabla.tabla_par.filas.length) {
+                            tabla.tabla_par.filas[tr.num_fila - 1].classList.add('hover-simulado');
+                        }
+                    }
+                });
+                
                 // Inserta header para guia
                 if (objArchivo.trHeader_aux && tr.tr_anterior != null) {
                     // Si no es la fila proxima al header principal
                     if (tr.flagTop === false) {
                         tbody.insertBefore(objArchivo.trHeader_aux, tr.tr_anterior);
                         // tr.tr_anterior.style.display = 'none';
+
                         tbody.removeChild(tr.tr_anterior);
                     }
                 }
 
-                if (typeof flagRebote === 'undefined') {
-                    tabla.tabla_par.filas[tr.num_fila - 1].onmouseover(event, true);
-                }
-
-                if (tabla.tabla_par) {
-                    if (tr.num_fila >= 0 && tr.num_fila <= tabla.tabla_par.filas.length) {
-                        tabla.tabla_par.filas[tr.num_fila - 1].classList.add('hover-simulado');
-                    }
-                }
+                // setTimeout(() => {
+                //     // Para la tabla par vinculada
+                //     if (typeof flagRebote === 'undefined') {
+                //         tabla.tabla_par.filas[tr.num_fila - 1].onmouseover(event, true);
+                //     }
+                //
+                //     if (tabla.tabla_par) {
+                //         if (tr.num_fila >= 0 && tr.num_fila <= tabla.tabla_par.filas.length) {
+                //             tabla.tabla_par.filas[tr.num_fila - 1].classList.add('hover-simulado');
+                //         }
+                //     }
+                // });
             };
 
             tr.onmouseout = (event, flagRebote) => {
+                setTimeout(() => {
+                    // Para la tabla par vinculada
+                    if (typeof flagRebote === 'undefined') {
+                        tabla.tabla_par.filas[tr.num_fila - 1].onmouseout(event, true);
+                    }
+
+                    if (tabla.tabla_par) {
+                        if (tr.num_fila >= 0 && tr.num_fila <= tabla.tabla_par.filas.length) {
+                            tabla.tabla_par.filas[tr.num_fila - 1].classList.remove('hover-simulado');
+                        }
+                    }
+                });
+
                 // Inserta header para guia
                 if (objArchivo.trHeader_aux && tr.tr_anterior != null) {
                     // Si no es la fila proxima al header principal
@@ -331,15 +361,18 @@ function crearTablaResultado(objArchivo) {
                     }
                 }
 
-                if (typeof flagRebote === 'undefined') {
-                    tabla.tabla_par.filas[tr.num_fila - 1].onmouseout(event, true);
-                }
-
-                if (tabla.tabla_par) {
-                    if (tr.num_fila >= 0 && tr.num_fila <= tabla.tabla_par.filas.length) {
-                        tabla.tabla_par.filas[tr.num_fila - 1].classList.remove('hover-simulado');
-                    }
-                }
+                // setTimeout(() => {
+                //     // Para la tabla par vinculada
+                //     if (typeof flagRebote === 'undefined') {
+                //         tabla.tabla_par.filas[tr.num_fila - 1].onmouseout(event, true);
+                //     }
+                //
+                //     if (tabla.tabla_par) {
+                //         if (tr.num_fila >= 0 && tr.num_fila <= tabla.tabla_par.filas.length) {
+                //             tabla.tabla_par.filas[tr.num_fila - 1].classList.remove('hover-simulado');
+                //         }
+                //     }
+                // });
             };
 
             num_fila++;

@@ -211,7 +211,7 @@ tr.hover-simulado {
 }
 
 .tr-aux > td {
-    font-weight: bold !important;
-    font-size: 0.8vw !important;
+    /*font-weight: bold !important;
+    font-size: 0.8vw !important;*/
     text-shadow: 2px 2px 2px gray;
 }

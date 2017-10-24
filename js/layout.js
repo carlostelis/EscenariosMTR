@@ -34,15 +34,15 @@ ipcRenderer.on('sesion:cerrar', (event) => {
 
 // Lee los datos de las paginas para los paneles
 ipcRenderer.on('paginas:envia', (event, paginas) => {
-    let vistas = document.getElementsByClassName('opc-vista');
     paginas.forEach((pagina) => {
-        Array.from(vistas).forEach((vista) => {
+        vistasOpcion.forEach((vista) => {
             if (vista.dataset.opc === pagina.id) {
                 vista.innerHTML = pagina.data;
             }
         });
     });
 
+    // Carga componentes cuando están todas en el dom
     setTimeout(() => {
         cargaComponentes();
     }, 100);
@@ -157,9 +157,6 @@ ipcRenderer.on('algoritmo:descargado', (event, res) => {
             // Pasa al menu de información
             ipcRenderer.send('escenario_entradas:leer', rutaEscenarioOriginal, SESION.algoritmo);
 
-            // Primer menú, informacion general
-            opciones_menu_info[0].onclick();
-
             // Deshabilita botón ejecutar
         	let boton_ejecutarEscenario = document.getElementById('boton_ejecutarEscenario');
         	if (boton_ejecutarEscenario) {
@@ -168,6 +165,8 @@ ipcRenderer.on('algoritmo:descargado', (event, res) => {
 
             // Despliegua la seccion
             menuInfo.onclick();
+            // Primer menú, informacion general
+            opciones_menu_info[0].onclick();
         }, 1500);
     } else {
         banner.error();
@@ -190,21 +189,22 @@ function cargaComponentes() {
     select_folio = document.getElementById('sel_folio_ce');
 
     // Informacion de escenario
-    contenedores_info = document.getElementsByClassName('contenedor-info');
-    opciones_menu_info = document.getElementsByClassName('opcion-menu-info');
-    colapsos = document.getElementsByClassName('celda-header-info');
-    th_periodos = document.getElementsByClassName('th-periodo');
-    tablas_info = document.getElementsByClassName('tabla-info');
-    thead_periodo = document.getElementsByClassName('alg-dep');
-    thead_periodo_i = document.getElementsByClassName('alg-dep-i');
+    contenedores_info = Array.from(document.getElementsByClassName('contenedor-info'));
+    opciones_menu_info = Array.from(document.getElementsByClassName('opcion-menu-info'));
+    colapsos = Array.from(document.getElementsByClassName('celda-header-info'));
+    th_periodos = Array.from(document.getElementsByClassName('th-periodo'));
+    tablas_info = Array.from(document.getElementsByClassName('tabla-info'));
+    thead_periodo = Array.from(document.getElementsByClassName('alg-dep'));
+    thead_periodo_i = Array.from(document.getElementsByClassName('alg-dep-i'));
 
     // Comparacion de resultados
-    tablas_res = document.getElementsByClassName('tabla-res');
-    divs_res = document.getElementsByClassName('div-tabla-res');
-    colapsos_res = document.getElementsByClassName('celda-header-res');
-    divsScrollRes = document.getElementsByClassName('div-scroll-res');
-    folios_mod = document.getElementsByClassName('sel-folios-mod');
-    botones_folio_res = document.getElementsByClassName('btn-folio-res');
+    tablas_res = Array.from(document.getElementsByClassName('tabla-res'));
+    divs_res = Array.from(document.getElementsByClassName('div-tabla-res'));
+    colapsos_res = Array.from(document.getElementsByClassName('celda-header-res'));
+    divsScrollRes = Array.from(document.getElementsByClassName('div-scroll-res'));
+    folios_mod = Array.from(document.getElementsByClassName('sel-folios-mod'));
+    botones_folio_res = Array.from(document.getElementsByClassName('btn-folio-res'));
+    vistasContenedor = document.getElementById('vistas_contenedor');
 
     // Empareja tablas para resultados
     let tablas_res_a = [];
@@ -282,13 +282,13 @@ function cargaComponentes() {
     }
 
     // Etiquetas comunes
-    usuario_labels = document.getElementsByClassName('label-usuario-esc');
-    sistema_labels = document.getElementsByClassName('label-sistema-esc');
-    algoritmo_labels = document.getElementsByClassName('label-algoritmo-esc');
-    fecha_labels = document.getElementsByClassName('label-fecha-esc');
-    hora_labels = document.getElementsByClassName('label-hora-esc');
-    intervalo_labels = document.getElementsByClassName('label-intervalo-esc');
-    folio_labels = document.getElementsByClassName('label-folio-esc');
+    usuario_labels = Array.from(document.getElementsByClassName('label-usuario-esc'));
+    sistema_labels = Array.from(document.getElementsByClassName('label-sistema-esc'));
+    algoritmo_labels = Array.from(document.getElementsByClassName('label-algoritmo-esc'));
+    fecha_labels = Array.from(document.getElementsByClassName('label-fecha-esc'));
+    hora_labels = Array.from(document.getElementsByClassName('label-hora-esc'));
+    intervalo_labels = Array.from(document.getElementsByClassName('label-intervalo-esc'));
+    folio_labels = Array.from(document.getElementsByClassName('label-folio-esc'));
 
     boton_ejecutarEscenario = document.getElementById('boton_ejecutarEscenario');
 
@@ -361,7 +361,8 @@ function cargaComponentes() {
     select_algoritmo.onkeyup();
 
     // selecciona el primero
-    document.querySelector('.opc-menu').click();
+    // document.querySelector('.opc-menu').click();
+    menuCarga.onclick();
 }
 
 // Inicia la busqueda del escenario, primero obtiene UTC de la fecha solicitada

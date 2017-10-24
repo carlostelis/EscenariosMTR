@@ -89,7 +89,6 @@ class VistaArchivos {
 
         this.ipcRenderer.on('listaHtml:recibeBase', (event, respuesta) => {
             this.arbol = respuesta;
-            console.log(respuesta);
             this.html(respuesta).then((code) => {
                 setTimeout(() => {
                     this.div_arbol.innerHTML = "";

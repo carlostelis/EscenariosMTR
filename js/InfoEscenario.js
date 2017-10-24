@@ -280,7 +280,7 @@ function crearTablaInfo(objArchivo, copia) {
 
     // Nodo tr anterior
     let tr_anterior = null;
-
+    let num_columnas = 0;
     // Borra el tbody anterior
     for (let nodo of tabla.childNodes) {
         if (nodo.nodeName.toLowerCase() === 'thead') {
@@ -296,6 +296,7 @@ function crearTablaInfo(objArchivo, copia) {
                             let td = document.createElement('td');
                             td.innerHTML = nodoB.innerHTML;
                             objArchivo.trHeader_aux.appendChild(td);
+                            num_columnas++;
                         }
                     }
                 }
@@ -359,12 +360,14 @@ function crearTablaInfo(objArchivo, copia) {
                                 objDato.valor = input.value;
                                 mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${input.original}" a "${input.value}" (${objArchivo.archivo})`);
                                 input.classList.remove('input-error');
+                                input.style.backgroundColor = 'darksalmon';
                                 objArchivo.editado = true;
                             }
                         } else {
                             objDato.valor = input.value;
                             mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${input.original}" a "${input.value}" (${objArchivo.archivo})`);
                             input.classList.remove('input-error');
+                            input.style.backgroundColor = 'darksalmon';
                             objArchivo.editado = true;
                         }
                     }
@@ -377,40 +380,46 @@ function crearTablaInfo(objArchivo, copia) {
                 td.appendChild(texto);
             }
 
-            // Eventos mouse
-            // hover
-            tr.onmouseover = () => {
-                // Inserta header para guia
-                if (objArchivo.trHeader_aux && tr.tr_anterior != null) {
-                    // Si no es la fila proxima al header principal
-                    if (tr.flagTop === false) {
-                        tbody.insertBefore(objArchivo.trHeader_aux, tr.tr_anterior);
-                        // tr.tr_anterior.style.display = 'none';
-                        tbody.removeChild(tr.tr_anterior);
-                    }
-                }
-            };
-
-            tr.onmouseout = () => {
-                // Inserta header para guia
-                if (objArchivo.trHeader_aux && tr.tr_anterior != null) {
-                    // Si no es la fila proxima al header principal
-                    if (tr.flagTop === false) {
-                        // Reinserta la fila antes del header aux
-                        tbody.insertBefore(tr.tr_anterior, objArchivo.trHeader_aux);
-
-                        try {
-                            // Quita  el header aux del dom
-                            tbody.removeChild(objArchivo.trHeader_aux);
-                        } catch (e) {}
-
-                        // tr.tr_anterior.style.display = 'table-row';
-                    }
-                }
-            };
-
             tr.appendChild(td);
         });
+
+        // Si trae menos columnas, completa
+        for (let i = num_col; i <= num_columnas; i++) {
+            td = document.createElement('td');
+            tr.appendChild(td);
+        }
+
+        // Eventos mouse
+        // hover
+        tr.onmouseover = () => {
+            // Inserta header para guia
+            if (objArchivo.trHeader_aux && tr.tr_anterior != null) {
+                // Si no es la fila proxima al header principal
+                if (tr.flagTop === false) {
+                    tbody.insertBefore(objArchivo.trHeader_aux, tr.tr_anterior);
+                    // tr.tr_anterior.style.display = 'none';
+                    tbody.removeChild(tr.tr_anterior);
+                }
+            }
+        };
+
+        tr.onmouseout = () => {
+            // Inserta header para guia
+            if (objArchivo.trHeader_aux && tr.tr_anterior != null) {
+                // Si no es la fila proxima al header principal
+                if (tr.flagTop === false) {
+                    // Reinserta la fila antes del header aux
+                    tbody.insertBefore(tr.tr_anterior, objArchivo.trHeader_aux);
+
+                    try {
+                        // Quita  el header aux del dom
+                        tbody.removeChild(objArchivo.trHeader_aux);
+                    } catch (e) {}
+
+                    // tr.tr_anterior.style.display = 'table-row';
+                }
+            }
+        };
 
         num_fila++;
         tbody.appendChild(tr);

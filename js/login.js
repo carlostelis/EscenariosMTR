@@ -191,7 +191,6 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
         if (json.contrasena === SESION.contrasena) {
             banner.ok();
             banner.setMensaje('Autenticación exitosa');
-
             mensajeConsola(`Usuario Autenticado exitosamente: ${json.nombre} en ${SESION.sistema}`);
             // Guarda el resto de los datos
             SESION.nombre = json.nombre;

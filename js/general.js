@@ -44,6 +44,16 @@ let menuModifica = null;
 let menuCompara = null;
 let menuAdmin = null;
 
+let vistaCarga = null;
+let vistaInfo = null;
+let vistaModifica = null;
+let vistaCompara = null;
+let vistaAdmin = null;
+
+let menusOpcion = null;
+let vistasOpcion = null;
+let vistasContenedor = null;
+
 // Elementos del formulario de carga
 let select_algoritmo = null;
 let input_fecha = null;
@@ -90,8 +100,13 @@ let boton_ejecutarEscenario = null;
 body.onload = () => {
     body.style.opacity = '1';
 	div_msg_consola.innerHTML = '';
-
     solicitarSistemas();
+
+	// Componentes de vistas y menus desde index
+	
+	menusOpcion = Array.from(document.getElementsByClassName('opcion-menu'));
+	vistasOpcion = Array.from(document.getElementsByClassName('opc-vista'));
+	contenedor = Array.from(document.getElementById('vistas_contenedor'));
 
 	menuCarga = document.getElementById('menu-esc-carga');
 	menuCarga.onclick = fn_menuCarga;
@@ -108,6 +123,12 @@ body.onload = () => {
 	menuAdmin = document.getElementById('menu-esc-admin');
 	menuAdmin.onclick = fn_menuAdmin;
 	menuAdmin.deshabilitado = false;
+
+	vistaCarga = document.getElementById('vista-esc-carga');
+	vistaInfo = document.getElementById('vista-esc-info');
+	vistaModifica = document.getElementById('vista-esc-modifica');
+	vistaCompara = document.getElementById('vista-esc-compara');
+	vistaAdmin = document.getElementById('vista-esc-admin');
 
     ipcRenderer.send('paginas:leer');
 };
@@ -145,24 +166,21 @@ function fn_menuCarga() {
 	}
 
 	// oculta las vistas
-	let vista = document.getElementById('vista-esc-carga');
-	mostrarVista(vista, menuCarga);
+	mostrarVista(vistaCarga, menuCarga);
 }
 
 function fn_menuInfo() {
-	if (menuInfo.deshabilitado) {
+	if (menuInfo.deshabilitado) { console.log('deshabilitado info');
 		return;
 	}
 
 	if (menuInfo.classList.contains('invalido')) {
+		console.log('invalido info');
 		return;
 	}
 
-	// oculta las vistas
-	let vista = document.getElementById('vista-esc-info');
-
 	// Deshabilita
-	mostrarVista(vista, menuInfo);
+	mostrarVista(vistaInfo, menuInfo);
 }
 
 function fn_menuModifica() {
@@ -175,8 +193,7 @@ function fn_menuModifica() {
 	}
 
 	// oculta las vistas
-	let vista = document.getElementById('vista-esc-modifica');
-	mostrarVista(vista, menuModifica);
+	mostrarVista(vistaModifica, menuModifica);
 }
 
 function fn_menuCompara() {
@@ -189,8 +206,7 @@ function fn_menuCompara() {
 	}
 
 	// oculta las vistas
-	let vista = document.getElementById('vista-esc-compara');
-	mostrarVista(vista, menuCompara);
+	mostrarVista(vistaCompara, menuCompara);
 }
 
 function fn_menuAdmin() {
@@ -203,38 +219,43 @@ function fn_menuAdmin() {
 	}
 
 	// oculta las vistas
-	let vista = document.getElementById('vista-esc-admin');
-	mostrarVista(vista, menuAdmin);
+	mostrarVista(vistaAdmin, menuAdmin);
 }
 
 function mostrarVista(vistaMostrar, menu) {
-	let vistas = document.getElementsByClassName('opc-vista');
-	let menus = document.getElementsByClassName('opcion-menu');
-
-	for (let menuItem of menus) {
-		menuItem.classList.remove('deshabilitado');
-		menuItem.deshabilitado = false;
-	}
-
-	for (let vista of vistas) {
-		if (vista === vistaMostrar) {
-			// Aca está opaco aun
-			setTimeout(() => {
-				vista.style.display = 'initial';
-				setTimeout(() => {
-					vista.classList.add('visible');
-				}, 310);
-			}, 300);
-
+	for (let menuItem of menusOpcion) {
+		if (menuItem === menu) {
 			// deshabilita el boton
 			menu.classList.add('deshabilitado');
 			menu.deshabilitado = true;
 		} else {
-			//vista.style.display = 'none';
+			menuItem.classList.remove('deshabilitado');
+			menuItem.deshabilitado = false;
+		}
+	}
+
+	for (let vista of vistasOpcion) {
+		if (vista !== vistaMostrar) {
 			vista.classList.remove('visible');
 			setTimeout(() => {
 				vista.style.display = 'none';
 			}, 300);
+
+			setTimeout(() => {
+				try {
+					vistasContenedor.removeChild(vista);
+				} catch (e) {}
+			}, 350);
 		}
 	}
+
+	vistasContenedor.appendChild(vistaMostrar);
+
+	// Aca está opaco aun
+	setTimeout(() => {
+		vistaMostrar.style.display = 'initial';
+		setTimeout(() => {
+			vistaMostrar.classList.add('visible');
+		}, 310);
+	}, 300);
 }

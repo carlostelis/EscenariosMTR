@@ -31,19 +31,29 @@
     line-height: 1;
     font-size: 0.7vw;
     height: 2.3vh;
+    padding: 0;
 }
 
 .tabla-body > tr:hover {
     background-color: darkseagreen !important;
 }
 
+.tabla-body > tr:hover > td {
+    /*font-weight: bold;*/
+}
+
 .tabla-body > tr > td > input {
-    height:3vh !important;
+    height: 2.1vh !important;
+    margin-bottom: 0.1vh;
     border-radius: 10px;
-    width:100%;
+    width:95%;
     text-align:center;
     font-size:0.7vw;
     background-color: rgba(235, 235, 228, 1);
+}
+
+.tabla-body > tr > td > input:focus {
+    outline-color: green;
 }
 
 .contenedor-info {
