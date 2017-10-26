@@ -2,7 +2,7 @@
 module.exports = function(app, win, dialog) {
     var menuTemplate = [
         {
-            label: 'Archivo',
+            label: 'Aplicación',
             submenu: [
                 {
                     label: 'Cerrar Sesión',
@@ -29,18 +29,13 @@ module.exports = function(app, win, dialog) {
                 {type: 'separator'},
                 {role: 'cut', label: 'Cortar'},
                 {role: 'copy', label: 'Cortar'},
-                {role: 'paste', label: 'Pegar'},
-                {role: 'selectall', label: 'Seleccionar'}
+                {role: 'paste', label: 'Pegar'}
             ]
         },
         {
             label: 'Vista',
             submenu: [
                 {role: 'toggledevtools', label: 'Deshacer'},
-                {type: 'separator'},
-                {role: 'resetzoom', label: 'Zoom original'},
-                {role: 'zoomin', label: 'Acercar'},
-                {role: 'zoomout', label: 'Alejar'},
                 {type: 'separator'},
                 {role: 'togglefullscreen', label: 'Pantalla completa'}
             ]

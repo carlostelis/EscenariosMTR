@@ -221,11 +221,8 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
                 banner.ocultar();
                 body.style.opacity = '0';
 
-
                 // Actualiza vista archivos
                 visor_archivos.actualizar();
-
-
 
                 setTimeout(() => {
                     divLogin.classList.add('d-none');

@@ -654,6 +654,26 @@ ipcMain.on('escenario_resultados:leer', (event, ruta_escenario, algoritmo) => {
     });
 });
 
+ipcMain.on('escenario_resultados:leerComparar', (event, ruta_escenario_A, ruta_escenario_B, algoritmo) => {
+    // LEe el escenario A
+    escenario.parseEscenarioResultados(ruta_escenario_A, algoritmo).then((objA) => {
+        // LEe el escenario B
+        escenario.parseEscenarioResultados(ruta_escenario_B, algoritmo).then((objB) => {
+            // Realiza comparacion
+            escenario.compararResultados(objA, objB).then(() => {
+                console.log('Manda archivos de resultados comparados');
+                win.webContents.send('escenario_resultados:leidoComparado', objA, objB);
+            }, () => {
+                console.log('Error comparando');
+            });
+        }, () => {
+            console.log('Error leyendo los archivosB');
+        });
+    }, () => {
+        console.log('Error leyendo los archivosA');
+    });
+});
+
 ipcMain.on('escenario-original:copiar', (event, ruta_original, nuevo_folio, objArchivos, flag_copiar) => {
     // Construye la ruta nueva
 
@@ -728,6 +748,11 @@ function modificarArchivo(ruta, obj) {
                 let linea = '';
                 for (let i = 0; i < fila.length; i++) {
                     let columna = fila[i];
+
+                    // Columna de unidades se ignora
+                    if (typeof columna.flag_unidad !== 'undefined' && columna.flag_unidad === true) {
+                        continue;
+                    }
                     // Si es string agrega comillas
                     if (columna.tipo === 'string') {
                         linea += `\"${(columna.valor === '' ? ' ' : columna.valor)}\"`;

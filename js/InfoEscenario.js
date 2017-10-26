@@ -26,7 +26,11 @@ function colapsar(trigger, id) {
     }
 
     if (tabla_buscada) {
-        let contenedor = document.getElementById(tabla_buscada.dataset.contenedor);
+        // let contenedor = document.getElementById(tabla_buscada.dataset.contenedor);
+        let contenedor = colapsables_info.find((col_info) => {
+            return col_info.id === tabla_buscada.dataset.contenedor;
+        });
+
         if (contenedor) {
             // La muestra
             if (!trigger.desplegado) {
@@ -35,6 +39,13 @@ function colapsar(trigger, id) {
                         contenedor.classList.remove('invisible');
                         contenedor.classList.add('visible');
                         iconoAbajo = false;
+
+                        // Inserta la tabla al dom
+                        for (let nodo of contenedor.childNodes) {
+                            if (nodo.nodeName.toLowerCase() === 'div') {
+                                nodo.appendChild(tabla_buscada);
+                            }
+                        }
                     }
                 }
             }
@@ -45,6 +56,13 @@ function colapsar(trigger, id) {
                         contenedor.classList.add('invisible');
                         contenedor.classList.remove('visible');
                         iconoAbajo = true;
+
+                        // Inserta la tabla al dom
+                        for (let nodo of contenedor.childNodes) {
+                            if (nodo.nodeName.toLowerCase() === 'div') {
+                                nodo.removeChild(tabla_buscada);
+                            }
+                        }
                     }
                 }
             }
@@ -114,6 +132,14 @@ function colapsarTodas(flagClass) {
         let flagInactivo = col.classList.contains('inactivo');
         let flagVacio = col.classList.contains('vacio');
 
+        // Oculta el asterisco de cambios
+        for (let nodo of col.childNodes) {
+            if (nodo.nodeName.toLowerCase() === 'span') {
+                nodo.classList.add('invisible');
+                break;
+            }
+        }
+
         // Forzar inactivos y vacio
         if (typeof flagClass !== 'undefined' && flagClass === true) {
             col.classList.remove('inactivo');
@@ -174,6 +200,9 @@ function vaciarTablas() {
 
 ipcRenderer.on('escenario_entradas:leido', (event, obj) => {
     console.log('Recibe archivos:', obj.lista.length);
+
+    // Oculta todas
+    colapsarTodas(true);
 
     new Promise((resolve, reject) => {
         objEscOriginal = obj;
@@ -251,7 +280,12 @@ ipcRenderer.on('escenario_entradas:leido', (event, obj) => {
         // Oculta todas
         colapsarTodas(true);
 
-        banner.ocultar();
+        banner.ok();
+        banner.setMensaje('Lectura finalizada');
+
+        setTimeout(() => {
+            banner.ocultar();
+        }, 1000);
     });
 });
 
@@ -341,14 +375,27 @@ function crearTablaInfo(objArchivo, copia) {
                 input.value = objDato.valor;
                 input.fila = num_fila;
                 input.columna = num_col;
+                objDato.input = input;
+
+                // Verifica flag unidad para inhabilitar la edicion de la unidad referenciada
+                // TEmporal hasta que se consoliden los archivos de configuracion
+                if (typeof objDato.flag_unidad !== 'undefined' && objDato.flag_unidad === true) {
+                    input.disabled = true;
+                }
 
                 // Respaldo
-                input.original = objDato.valor;
+                objDato.valorOriginal = objDato.valor;
                 input.onblur = () => {
                     // Si hubo cambio, se notifica
-                    if (input.value != input.original) {
+                    if (input.value != objDato.valorOriginal) {
+                        // Verifica flag unidad para inhabilitar la edicion de la unidad referenciada
+                        // TEmporal hasta que se consoliden los archivos de configuracion
+                        if (typeof objDato.flag_unidad !== 'undefined' && objDato.flag_unidad === true) {
+                            input.value = objDato.valorOriginal;
+                        }
+
                         if (objDato.tipo === 'number') {
-                            if (isNaN(input.value)) {
+                            if (isNaN(input.value) || input.value === '') {
                                 objDato.valor = input.value;
                                 alert(`Error en el valor "${input.value}": se requiere un valor numérico en la columna ${input.columna}`);
                                 mensajeConsola(`Error en el valor "${input.value}": se requiere un valor numérico en la columna ${input.columna}`);
@@ -358,17 +405,86 @@ function crearTablaInfo(objArchivo, copia) {
                                 }, 100);
                             } else {
                                 objDato.valor = input.value;
-                                mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${input.original}" a "${input.value}" (${objArchivo.archivo})`);
+                                mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${objDato.valorOriginal}" a "${input.value}" (${objArchivo.archivo})`);
                                 input.classList.remove('input-error');
-                                input.style.backgroundColor = 'darksalmon';
+                                // input.style.backgroundColor = 'darksalmon';
+                                input.classList.add('modificado');
                                 objArchivo.editado = true;
+
+                                // Marca el colapso con asterisco
+                                let colapso = colapsos.find((col) => {
+                                    return col.id === tabla.dataset.colapso;
+                                });
+
+                                if (colapso) {
+                                    for (let nodo of colapso.childNodes) {
+                                        if (nodo.nodeName.toLowerCase() === 'span') {
+                                            nodo.classList.remove('invisible');
+                                            break;
+                                        }
+                                    }
+                                }
                             }
                         } else {
                             objDato.valor = input.value;
-                            mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${input.original}" a "${input.value}" (${objArchivo.archivo})`);
+                            mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${objDato.valorOriginal}" a "${input.value}" (${objArchivo.archivo})`);
                             input.classList.remove('input-error');
-                            input.style.backgroundColor = 'darksalmon';
+                            // input.style.backgroundColor = 'darksalmon';
+                            input.classList.add('modificado');
                             objArchivo.editado = true;
+
+                            // Marca el colapso con asterisco
+                            let colapso = colapsos.find((col) => {
+                                return col.id === tabla.dataset.colapso;
+                            });
+
+                            if (colapso) {
+                                for (let nodo of colapso.childNodes) {
+                                    if (nodo.nodeName.toLowerCase() === 'span') {
+                                        nodo.classList.remove('invisible');
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        // Si es el valor original, no hay cambio ni error
+                        input.classList.remove('modificado');
+                        input.classList.remove('input-error');
+
+                        // Revisa si hay modificaciones otras, sino la desmarca
+                        objArchivo.editado = false;
+
+                        for (let fila of objArchivo.filas) {
+                            for (let columna of fila) {
+                                if (typeof columna.input !== 'undefined' && columna.input !== null) {
+                                    if (columna.input.classList.contains('modificado')) {
+                                        objArchivo.editado = true;
+                                        break;
+                                    }
+                                }
+
+                                // Ya no busca más
+                                if (objArchivo.editado === true) {
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (objArchivo.editado === false) {
+                            // Remueve el asterisco
+                            let colapso = colapsos.find((col) => {
+                                return col.id === tabla.dataset.colapso;
+                            });
+
+                            if (colapso) {
+                                for (let nodo of colapso.childNodes) {
+                                    if (nodo.nodeName.toLowerCase() === 'span') {
+                                        nodo.classList.add('invisible');
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                 };
@@ -531,9 +647,25 @@ ipcRenderer.on('escenario-original:copiado', (event, res) => {
         // Desmarca el escenario original
         objEscOriginal.lista.forEach((archivo) => {
             if (typeof archivo.editado !== 'undefined' && archivo.editado === true) {
+                archivo.filas.forEach((fila) => {
+                    fila.forEach((objDato) => {
+                        objDato.valorOriginal = objDato.valor;
+                        objDato.input.classList.remove('modificado');
+                    });
+                });
                 archivo.editado = false;
             }
         });
+
+        // Quita asteriscos de cambios
+        for (let col of colapsos) {
+            for (let nodo of col.childNodes) {
+                if (nodo.nodeName.toLowerCase() === 'span') {
+                    nodo.classList.add('invisible');
+                    break;
+                }
+            }
+        }
 
         // Habilita el boton de ejecutar
         if (boton_ejecutarEscenario) {
@@ -567,7 +699,8 @@ function ejecutarAlgoritmo() {
     banner.mostrarBoton();
     banner.deshabilitarBoton();
     banner.setBoton('Resultados', () => {
-        mostrarResultados();
+        //mostrarResultados();
+        mostrarResultados2();
         banner.ocultar();
     });
     banner.mostrar();

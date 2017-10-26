@@ -22,6 +22,9 @@ function colapsarResultado(trigger, clase) {
                     if (nodo.nodeName.toLowerCase() === 'div') {
                         contenedor.classList.remove('invisible');
                         contenedor.classList.add('visible');
+
+                        // Inserta la tabla al dom
+                        contenedor.div_tabla.appendChild(contenedor.tabla_res);
                     }
                 }
             }
@@ -31,6 +34,9 @@ function colapsarResultado(trigger, clase) {
                     if (nodo.nodeName.toLowerCase() === 'div') {
                         contenedor.classList.add('invisible');
                         contenedor.classList.remove('visible');
+
+                        // Retira la tabla del dom
+                        contenedor.div_tabla.removeChild(contenedor.tabla_res);
                     }
                 }
             }
@@ -96,7 +102,7 @@ function vaciarTablasResulados() {
 function desactivarColapsosResultados() {
     // Reestablece los colapsos
     for (let col of colapsos_res) {
-        if (col.classList.contains(marcoSeleccionado))
+        // if (col.classList.contains(marcoSeleccionado))
         col.classList.add('inactivo');
     }
 }
@@ -106,6 +112,13 @@ function colapsarTodasResultados(flagClass) {
         let flagInactivo = col.classList.contains('inactivo');
         let flagVacio = col.classList.contains('vacio');
 
+        // Oculta asterisco de diferencias
+        for (let nodo of col.childNodes) {
+            if (nodo.nodeName.toLowerCase() === 'span') {
+                nodo.classList.add('invisible');
+            }
+        }
+
         // Forzar inactivos y vacio
         if (typeof flagClass !== 'undefined' && flagClass === true) {
             col.classList.remove('inactivo');
@@ -114,7 +127,11 @@ function colapsarTodasResultados(flagClass) {
 
         // Busca su tabla
         // Si existe la propiedad y esta desplegado, activa su funcion
-        if (typeof col.desplegado !== 'undefined' && col.desplegado === true) {
+        // if (typeof col.desplegado !== 'undefined' && col.desplegado === true) {
+        //     col.onclick();
+        // }
+
+        while (col.desplegado !== false) {
             col.onclick();
         }
 
@@ -175,6 +192,52 @@ ipcRenderer.on('escenario_resultados:leido', (event, obj) => {
     });
 });
 
+ipcRenderer.on('escenario_resultados:leidoComparado', (event, objA, objB) => {
+    console.log('Recibe archivos:', objA.lista.length, objB.lista.length);
+
+    objEscA_res = objA;
+    objEscB_res = objB;
+
+    // Vacia los datos de las tablas (desde el dom)
+    vaciarTablasResulados();
+    // Desactiva todos los colapsos
+    desactivarColapsosResultados();
+
+    crearTablasResultadoMarco(objEscA_res, 'A').then(() => {
+        banner_resA.ocultar();
+        mensajeConsola(`Resultados de algoritmo (${objEscA_res.algoritmo}) cargados en marco A`);
+
+        crearTablasResultadoMarco(objEscB_res, 'B').then(() => {
+            banner_resB.ocultar();
+            mensajeConsola(`Resultados de algoritmo (${objEscB_res.algoritmo}) cargados en marco B`);
+
+            console.log('Resultados cargados...');
+
+            // colapsos_res.forEach((col_res) => {
+            //     while (col_res.desplegado !== true) {
+            //         col_res.onclick();
+            //     }
+            // });
+        }, () => {
+            console.log('Error cargando marco B');
+        });
+    }, () => {
+        console.log('Error cargando marco A');
+    });
+});
+
+function crearTablasResultadoMarco(escenario, marco) {
+    marcoSeleccionado = marco;
+    return new Promise((resolve, reject) => {
+        // Crea las nuevas tablas del escenario A
+        escenario.lista.forEach((archivo) => {
+            crearTablaResultado(archivo);
+        });
+
+        resolve();
+    })
+}
+
 function crearTablaResultado(objArchivo) {
     let id = objArchivo.archivo.toUpperCase().split('.CSV')[0];
 
@@ -216,6 +279,7 @@ function crearTablaResultado(objArchivo) {
 
     let num_fila = 1;
     let flag_primera = true;
+    let flag_diferencias = false;
 
     // Crea arreglo de filas para referencias en hover
     tabla.filas = [];
@@ -286,6 +350,13 @@ function crearTablaResultado(objArchivo) {
             fila.forEach((objDato) => {
                 let td = document.createElement('td');
                 let texto = document.createTextNode(objDato.valor);
+
+                if (typeof objDato.diferencia !== 'undefined' && objDato.diferencia === true) {
+                    // td.style.backgroundColor = 'darksalmon';
+                    td.classList.add('modificado');
+                    flag_diferencias = true;
+                }
+
                 td.appendChild(texto);
                 tr.appendChild(td);
                 // No guarda referencia del objeto porque no se va a editar
@@ -305,30 +376,20 @@ function crearTablaResultado(objArchivo) {
                         }
                     }
                 });
-                
+
                 // Inserta header para guia
                 if (objArchivo.trHeader_aux && tr.tr_anterior != null) {
                     // Si no es la fila proxima al header principal
                     if (tr.flagTop === false) {
-                        tbody.insertBefore(objArchivo.trHeader_aux, tr.tr_anterior);
-                        // tr.tr_anterior.style.display = 'none';
+                        try {
+                            tbody.insertBefore(objArchivo.trHeader_aux, tr.tr_anterior);
+                        } catch (e) {}
 
-                        tbody.removeChild(tr.tr_anterior);
+                        try {
+                            tbody.removeChild(tr.tr_anterior);
+                        } catch (e) {}
                     }
                 }
-
-                // setTimeout(() => {
-                //     // Para la tabla par vinculada
-                //     if (typeof flagRebote === 'undefined') {
-                //         tabla.tabla_par.filas[tr.num_fila - 1].onmouseover(event, true);
-                //     }
-                //
-                //     if (tabla.tabla_par) {
-                //         if (tr.num_fila >= 0 && tr.num_fila <= tabla.tabla_par.filas.length) {
-                //             tabla.tabla_par.filas[tr.num_fila - 1].classList.add('hover-simulado');
-                //         }
-                //     }
-                // });
             };
 
             tr.onmouseout = (event, flagRebote) => {
@@ -350,29 +411,16 @@ function crearTablaResultado(objArchivo) {
                     // Si no es la fila proxima al header principal
                     if (tr.flagTop === false) {
                         // Reinserta la fila antes del header aux
-                        tbody.insertBefore(tr.tr_anterior, objArchivo.trHeader_aux);
+                        try {
+                            tbody.insertBefore(tr.tr_anterior, objArchivo.trHeader_aux);
+                        } catch (e) {}
 
                         try {
                             // Quita  el header aux del dom
                             tbody.removeChild(objArchivo.trHeader_aux);
                         } catch (e) {}
-
-                        // tr.tr_anterior.style.display = 'table-row';
                     }
                 }
-
-                // setTimeout(() => {
-                //     // Para la tabla par vinculada
-                //     if (typeof flagRebote === 'undefined') {
-                //         tabla.tabla_par.filas[tr.num_fila - 1].onmouseout(event, true);
-                //     }
-                //
-                //     if (tabla.tabla_par) {
-                //         if (tr.num_fila >= 0 && tr.num_fila <= tabla.tabla_par.filas.length) {
-                //             tabla.tabla_par.filas[tr.num_fila - 1].classList.remove('hover-simulado');
-                //         }
-                //     }
-                // });
             };
 
             num_fila++;
@@ -381,6 +429,19 @@ function crearTablaResultado(objArchivo) {
 
             // Fila auxiliar
             tr_anterior = tr;
+        }
+    });
+
+    colapsos_res.forEach((col) => {
+        if (col.id === tabla.dataset.colapso && col.classList.contains(marcoSeleccionado)) {
+            for (let nodo of col.childNodes) {
+                if (nodo.nodeName.toLowerCase() === 'span') {
+                    if (flag_diferencias) {
+                        nodo.classList.remove('invisible');
+                        break;
+                    }
+                }
+            }
         }
     });
 
@@ -447,6 +508,19 @@ function mostrarResultados() {
     flag_espera_esc = true;
     marcoSeleccionado = 'A';
     ipcRenderer.send('escenario_resultados:leer', objEscOriginal.ruta, SESION.algoritmo);
+}
+
+function mostrarResultados2() {
+    menuCompara.onclick();
+    banner_resA.mostrar();
+    banner_resB.mostrar();
+
+    // Colapsa resultados
+    colapsarTodasResultados(true);
+
+    mensajeConsola('Cargando resultados de los escenarios...');
+
+    ipcRenderer.send('escenario_resultados:leerComparar', objEscOriginal.ruta, objEscModificado.ruta, SESION.algoritmo);
 }
 
 ipcRenderer.on('escenarios_mod:leidos', (event, res) => {

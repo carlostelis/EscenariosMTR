@@ -52,6 +52,24 @@
     background-color: rgba(235, 235, 228, 1);
 }
 
+.tabla-body > tr > td > input.modificado {
+    background-color: darksalmon;
+    /*font-weight: bold;*/
+    text-shadow: 0px 0px 1px;
+}
+
+.tabla-body > tr > td.modificado {
+    background-color: darksalmon;
+    /*font-weight: bold;*/
+    text-shadow: 0px 0px 1px;
+}
+
+
+.tabla-body > tr > td > input:disabled {
+    background-color: transparent;
+    border: none;
+}
+
 .tabla-body > tr > td > input:focus {
     outline-color: green;
 }
@@ -245,6 +263,17 @@
 
 .celda-header-info.vacio:active {
     color: white;
+}
+
+.celda-header-info > span {
+    color: red;
+    margin-left: 3px;
+    line-height: 1.5;
+    font-size: 2vh;
+}
+
+.celda-header-info > span.invisible {
+    visibility: hidden;
 }
 
 #menu-info {

@@ -21,6 +21,7 @@ module.exports = [
     {
         "nombre":"UNITRC_DERS.csv",
         "editable": true,
+        "unidades": true,
         "campos": [
             {"nombre":"NOMBRE_UNIDAD", "tipo":"TEXT"},
             {"nombre":"TIPO_UNIDAD", "tipo":"TEXT"},
@@ -66,7 +67,8 @@ module.exports = [
             {"nombre":"COSTO_GENMIN_P6", "tipo":"REAL"},
             {"nombre":"COSTO_GENMIN_P7", "tipo":"REAL"},
             {"nombre":"COSTO_GENMIN_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"POTVERC_DERS.csv",
@@ -80,7 +82,9 @@ module.exports = [
             {"nombre":"POT_VENTA_P6", "tipo":"REAL"},
             {"nombre":"POT_VENTA_P7", "tipo":"REAL"},
             {"nombre":"POT_VENTA_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv",
+         "segmentos_unidades":true
     },
     {
         "nombre":"PREVERC_DERS.csv",
@@ -94,7 +98,9 @@ module.exports = [
             { "nombre":"PRECIO_VENTA_P6", "tipo":"REAL"},
             { "nombre":"PRECIO_VENTA_P7", "tipo":"REAL"},
             { "nombre":"PRECIO_VENTA_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv",
+         "segmentos_unidades":true
     },
     {
         "nombre":"LIUNITRC_DERS.csv",
@@ -108,7 +114,8 @@ module.exports = [
             { "nombre":"LIMITE_INFERIOR_P6", "tipo":"REAL"},
             { "nombre":"LIMITE_INFERIOR_P7", "tipo":"REAL"},
             { "nombre":"LIMITE_INFERIOR_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"LSUNITRC_DERS.csv",
@@ -122,7 +129,8 @@ module.exports = [
             { "nombre":"LIMITE_SUPERIOR_P6", "tipo":"REAL"},
             { "nombre":"LIMITE_SUPERIOR_P7", "tipo":"REAL"},
             { "nombre":"LIMITE_SUPERIOR_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"CARGAS_DERS.csv",
@@ -172,11 +180,13 @@ module.exports = [
             { "nombre":"NUM_PERIODOS_CONDINI", "tipo":"REAL"},
             { "nombre":"GENERACION_CONDINI", "tipo":"REAL"},
             { "nombre":"NUMPAROS_AL_DIA", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"OPPARORC_DERS.csv",
         "editable": true,
+        "origen_unidades": "UNITRC_DERS.csv"
         // NO EXISTE BD
     },
     {
@@ -191,7 +201,8 @@ module.exports = [
             { "nombre":"ASIG_UNIDAD_P6", "tipo":"REAL"},
             { "nombre":"ASIG_UNIDAD_P7", "tipo":"REAL"},
             { "nombre":"ASIG_UNIDAD_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"ARRARC_DERS.csv",
@@ -203,7 +214,8 @@ module.exports = [
             { "nombre":"RAM_SUBIDA", "tipo":"REAL"},
             { "nombre":"NUM_PERIODOS", "tipo":"REAL"},
             { "nombre":"COSTO_ARRANQUE_UNICO", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"RAMPASRC_DERS.csv",
@@ -221,7 +233,8 @@ module.exports = [
             { "nombre":"LIM_MAX_ZONAP3", "tipo":"REAL"},
             { "nombre":"LIM_MIN_ZONAP4", "tipo":"REAL"},
             { "nombre":"LIM_MAX_ZONAP4", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"POTRESRO10RC_DERS.csv",
@@ -235,7 +248,8 @@ module.exports = [
             { "nombre":"POT_RES_ROD_P6", "tipo":"REAL"},
             { "nombre":"POT_RES_ROD_P7", "tipo":"REAL"},
             { "nombre":"POT_RES_ROD_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"PRERESRO10RC_DERS.csv",
@@ -249,7 +263,8 @@ module.exports = [
             { "nombre":"PRECIO_RES_ROD_P6", "tipo":"REAL"},
             { "nombre":"PRECIO_RES_ROD_P7", "tipo":"REAL"},
             { "nombre":"PRECIO_RES_ROD_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"POTRESNR10RC_DERS.csv",
@@ -263,7 +278,8 @@ module.exports = [
             { "nombre":"POT_RES_NROD_P6", "tipo":"REAL"},
             { "nombre":"POT_RES_NROD_P7", "tipo":"REAL"},
             { "nombre":"POT_RES_NROD_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"PRERESNR10RC_DERS.csv",
@@ -277,7 +293,8 @@ module.exports = [
             { "nombre":"PRECIO_RES_NROD_P6", "tipo":"REAL"},
             { "nombre":"PRECIO_RES_NROD_P7", "tipo":"REAL"},
             { "nombre":"PRECIO_RES_NROD_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"POTRESROSURC_DERS.csv",
@@ -291,7 +308,8 @@ module.exports = [
             { "nombre":"POT_RES_RODSUP_P6", "tipo":"REAL"},
             { "nombre":"POT_RES_RODSUP_P7", "tipo":"REAL"},
             { "nombre":"POT_RES_RODSUP_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"PRERESROSURC_DERS.csv",
@@ -305,7 +323,8 @@ module.exports = [
             { "nombre":"PRECIO_RES_RODSUP_P6", "tipo":"REAL"},
             { "nombre":"PRECIO_RES_RODSUP_P7", "tipo":"REAL"},
             { "nombre":"PRECIO_RES_RODSUP_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"POTRESNRSURC_DERS.csv",
@@ -319,7 +338,8 @@ module.exports = [
             { "nombre":"POT_RES_NRODSUP_P6", "tipo":"REAL"},
             { "nombre":"POT_RES_NRODSUP_P7", "tipo":"REAL"},
             { "nombre":"POT_RES_NRODSUP_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"PRERESNRSURC_DERS.csv",
@@ -333,7 +353,8 @@ module.exports = [
             { "nombre":"PRECIO_RES_NRODSUP_P6", "tipo":"REAL"},
             { "nombre":"PRECIO_RES_NRODSUP_P7", "tipo":"REAL"},
             { "nombre":"PRECIO_RES_NRODSUP_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"POTRESRESERC_DERS.csv",
@@ -347,7 +368,8 @@ module.exports = [
             { "nombre":"PRECIO_RES_NRODSUP_P6", "tipo":"REAL"},
             { "nombre":"PRECIO_RES_NRODSUP_P7", "tipo":"REAL"},
             { "nombre":"PRECIO_RES_NRODSUP_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"PRERESRESERC_DERS.csv",
@@ -361,7 +383,8 @@ module.exports = [
             { "nombre":"PRECIO_RES_REGSEC_P6", "tipo":"REAL"},
             { "nombre":"PRECIO_RES_REGSEC_P7", "tipo":"REAL"},
             { "nombre":"PRECIO_RES_REGSEC_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"ZONASRES_DERS.csv",
@@ -1369,7 +1392,8 @@ module.exports = [
             { "nombre":"NOMBRE_GRUPO", "tipo":"TEXT"},
             { "nombre":"LIM_INF_GRUPO", "tipo":"REAL"},
             { "nombre":"LIM_SUP_GRUPO", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"GPORC_DERS.csv",
@@ -1435,7 +1459,8 @@ module.exports = [
             { "nombre":"UNIDAD_GRUPO58", "tipo":"REAL"},
             { "nombre":"UNIDAD_GRUPO59", "tipo":"REAL"},
             { "nombre":"UNIDAD_GRUPO60", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"GPORD_DERS.csv",
@@ -1708,7 +1733,8 @@ module.exports = [
             { "nombre":"NODO_UNIDAD_P6", "tipo":"TEXT"},
             { "nombre":"NODO_UNIDAD_P7", "tipo":"TEXT"},
             { "nombre":"NODO_UNIDAD_P8", "tipo":"TEXT"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"NODOSCAR_DERS.csv",
@@ -1936,7 +1962,8 @@ module.exports = [
             { "nombre":"COORD_UNIDAD_P6", "tipo":"REAL"},
             { "nombre":"COORD_UNIDAD_P7", "tipo":"REAL"},
             { "nombre":"COORD_UNIDAD_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"COORDRD.csv",
@@ -1978,7 +2005,8 @@ module.exports = [
             { "nombre":"DISP_UNIDAD_P6", "tipo":"REAL"},
             { "nombre":"DISP_UNIDAD_P7", "tipo":"REAL"},
             { "nombre":"DISP_UNIDAD_P8", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"DISPOH_DERS.csv",

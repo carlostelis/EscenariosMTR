@@ -77,13 +77,15 @@ class Paginacion {
         this.tfoot.innerHTML = "";
 
         // Determina el limite en funcion del numero de filas para evitar overflow de paginado
-        if (this.totalRows < LIM_INF_SIZE) {
-            this.limite = MAX_ROWS;
-        } else if (this.totalRows >= LIM_INF_SIZE && this.totalRows < LIM_MED_SIZE) {
-            this.limite = MAX_ROWS_MED;
-        } else {
-            this.limite = MAX_ROWS_BIG;
-        }
+        // if (this.totalRows < LIM_INF_SIZE) {
+        //     this.limite = MAX_ROWS;
+        // } else if (this.totalRows >= LIM_INF_SIZE && this.totalRows < LIM_MED_SIZE) {
+        //     this.limite = MAX_ROWS_MED;
+        // } else {
+        //     this.limite = MAX_ROWS_BIG;
+        // }
+
+        this.limite = MAX_ROWS;
 
         // 50 filas por pagina
         this.totalPaginas = Math.floor(this.totalRows / this.limite);

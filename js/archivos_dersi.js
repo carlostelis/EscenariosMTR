@@ -21,6 +21,7 @@ module.exports = [
     {
         "nombre":"UNITRC_DERS.csv",
         "editable": true,
+        "unidades": true,
         "campos": [
             {"nombre":"NOMBRE_UNIDAD", "tipo":"TEXT"},
             {"nombre":"TIPO_UNIDAD", "tipo":"TEXT"},
@@ -59,28 +60,34 @@ module.exports = [
         "editable": true,
         "campos":[
             {"nombre":"POT_VENTA_P1", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv",
+         "segmentos_unidades":true
     },
     {
         "nombre":"PREVERC_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"PRECIO_VENTA_P1", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv",
+         "segmentos_unidades":true
     },
     {
         "nombre":"LIUNITRC_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"LIMITE_INFERIOR_P1", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"LSUNITRC_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"LIMITE_SUPERIOR_P1", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"CARGAS_DERS.csv",
@@ -123,14 +130,16 @@ module.exports = [
             { "nombre":"NUM_PERIODOS_CONDINI", "tipo":"REAL"},
             { "nombre":"GENERACION_CONDINI", "tipo":"REAL"},
             { "nombre":"NUMPAROS_AL_DIA", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"ASIGNRC_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"ASIG_UNIDAD_P1", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"ARRARC_DERS.csv",
@@ -142,7 +151,8 @@ module.exports = [
             { "nombre":"RAM_SUBIDA", "tipo":"REAL"},
             { "nombre":"NUM_PERIODOS", "tipo":"REAL"},
             { "nombre":"COSTO_ARRANQUE_UNICO", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"RAMPASRC_DERS.csv",
@@ -160,7 +170,8 @@ module.exports = [
             { "nombre":"LIM_MAX_ZONAP3", "tipo":"REAL"},
             { "nombre":"LIM_MIN_ZONAP4", "tipo":"REAL"},
             { "nombre":"LIM_MAX_ZONAP4", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"NOINPADERS.csv",
@@ -706,7 +717,8 @@ module.exports = [
         "editable": false,
         "campos":[
             { "nombre":"NODO_UNIDAD_P1", "tipo":"TEXT"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"NODOSCAR_DERS.csv",
@@ -827,7 +839,8 @@ module.exports = [
         "editable": true,
         "campos":[
             { "nombre":"COORD_UNIDAD_P1", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"COORDRD.csv",
@@ -848,7 +861,8 @@ module.exports = [
         "editable": true,
         "campos":[
             { "nombre":"DISP_UNIDAD_P1", "tipo":"REAL"}
-        ]
+        ],
+         "origen_unidades":"UNITRC_DERS.csv"
     },
     {
         "nombre":"DISPOH_DERS.csv",

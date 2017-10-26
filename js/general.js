@@ -69,6 +69,7 @@ let th_periodos = null;
 let tablas_info = null;
 let thead_periodo = null;
 let thead_periodo_i = null;
+let colapsables_info = null;
 
 // Comparacion de resultados
 let tablas_res = null;
@@ -83,6 +84,7 @@ let banner_resB = null;
 let flag_espera_esc = false;
 let folios_mod = null;
 let botones_folio_res = null;
+let colapsables_res = null;
 
 // Etiquetas comunes
 let usuario_labels = null;
@@ -103,7 +105,7 @@ body.onload = () => {
     solicitarSistemas();
 
 	// Componentes de vistas y menus desde index
-	
+
 	menusOpcion = Array.from(document.getElementsByClassName('opcion-menu'));
 	vistasOpcion = Array.from(document.getElementsByClassName('opc-vista'));
 	contenedor = Array.from(document.getElementById('vistas_contenedor'));
@@ -132,6 +134,232 @@ body.onload = () => {
 
     ipcRenderer.send('paginas:leer');
 };
+
+// Lee los datos de las paginas para los paneles
+ipcRenderer.on('paginas:envia', (event, paginas) => {
+    paginas.forEach((pagina) => {
+        vistasOpcion.forEach((vista) => {
+            if (vista.dataset.opc === pagina.id) {
+                vista.innerHTML = pagina.data;
+            }
+        });
+    });
+
+    // Carga componentes cuando están todas en el dom
+    setTimeout(() => {
+        cargaComponentes();
+    }, 100);
+});
+
+// Inicializa componentes, listas, combos, vistas, etc.
+function cargaComponentes() {
+    // Obtiene las referencias de los componentes globales
+    select_algoritmo = document.getElementById('sel_algoritmo_ce');
+    input_fecha = document.getElementById('input_fecha_ce');
+    select_hora = document.getElementById('sel_hora_ce');
+    select_intervalo = document.getElementById('sel_intervalo_ce');
+    select_folio = document.getElementById('sel_folio_ce');
+
+    // Informacion de escenario
+    contenedores_info = Array.from(document.getElementsByClassName('contenedor-info'));
+    opciones_menu_info = Array.from(document.getElementsByClassName('opcion-menu-info'));
+    colapsos = Array.from(document.getElementsByClassName('celda-header-info'));
+    th_periodos = Array.from(document.getElementsByClassName('th-periodo'));
+    tablas_info = Array.from(document.getElementsByClassName('tabla-info'));
+    thead_periodo = Array.from(document.getElementsByClassName('alg-dep'));
+    thead_periodo_i = Array.from(document.getElementsByClassName('alg-dep-i'));
+	colapsables_info = Array.from(document.getElementsByClassName('colapsable'));
+
+    // Comparacion de resultados
+    tablas_res = Array.from(document.getElementsByClassName('tabla-res'));
+    divs_res = Array.from(document.getElementsByClassName('div-tabla-res'));
+    colapsos_res = Array.from(document.getElementsByClassName('celda-header-res'));
+    divsScrollRes = Array.from(document.getElementsByClassName('div-scroll-res'));
+    folios_mod = Array.from(document.getElementsByClassName('sel-folios-mod'));
+    botones_folio_res = Array.from(document.getElementsByClassName('btn-folio-res'));
+    vistasContenedor = document.getElementById('vistas_contenedor');
+	// colapsables_res = Array.from(document.getElementsByClassName('colapsable-res'));
+
+    // Empareja tablas para resultados
+    let tablas_res_a = [];
+    let tablas_res_b = [];
+    for (let tabla of tablas_res) {
+        if (tabla.classList.contains('A')) {
+            tablas_res_a.push(tabla);
+            tabla.marco = 'A';
+        } else if (tabla.classList.contains('B')) {
+            tablas_res_b.push(tabla);
+            tabla.marco = 'B';
+        }
+    }
+
+    tablas_res_a.forEach((tabla_a) => {
+        tablas_res_b.forEach((tabla_b) => {
+            if (tabla_a.id === tabla_b.id) {
+                tabla_a.tabla_par = tabla_b;
+                tabla_b.tabla_par = tabla_a;
+            }
+        });
+    });
+    tablas_res_a = null;
+    tablas_res_b = null;
+
+    // EMpareja divs scroll res
+    if (divsScrollRes.length > 1) {
+        divsScrollRes[0].div_par = divsScrollRes[1];
+        divsScrollRes[0].isScrolling = false;
+        divsScrollRes[1].div_par = divsScrollRes[0];
+        divsScrollRes[1].isScrolling = false;
+
+        // Agrega banner a cada div
+        banner_resA = new Banner(divsScrollRes[0]);
+        banner_resB = new Banner(divsScrollRes[1]);
+        // Pre-configura
+        banner_resA.ocultarBoton()
+        banner_resA.ocultarProgreso()
+        banner_resA.vistaIcono();
+        banner_resA.cargando();
+
+        banner_resB.ocultarBoton()
+        banner_resB.ocultarProgreso()
+        banner_resB.vistaIcono();
+        banner_resB.cargando();
+    }
+
+    // Funcion de los combos de folios
+    let folio_res_fun = (sel, marco) => {
+        let folio;
+        let boton;
+        if (marco === 'A') {
+            folio = sel.value;
+            boton = botones_folio_res[0];
+        } else {
+            folio = sel.value;
+            boton = botones_folio_res[1];
+        }
+
+        console.log(folio, marco);
+        console.log(objEscA_res.ruta);
+        console.log(objEscB_res.ruta);
+
+        if (objEscA_res.ruta.endsWith(folio) || objEscB_res.ruta.endsWith(folio)) {
+            boton.disabled = true;
+        } else {
+            boton.disabled = false;
+        }
+    };
+
+    // Asigna evento
+    for (let i = 0; i < 2; i++) {
+        folios_mod[i].onmouseup = function() { folio_res_fun(this, (i === 0 ? 'A' : 'B')); };
+        folios_mod[i].onkeyup = function() { folio_res_fun(this, (i === 0 ? 'A' : 'B')); };
+    }
+
+	colapsos_res.forEach((col_res) => {
+		col_res.desplegado = true;
+	});
+
+	// Asocia las tablas de resultados a sus contenedores
+	divs_res.forEach((col_res) => {
+		for (let nodoA of col_res.childNodes) {
+			// Encuentra el div de la tabla
+			if (nodoA.nodeName.toLowerCase() === 'div') {
+				col_res.div_tabla = nodoA;
+				for (let nodoB of nodoA.childNodes) {
+					// Encuentra la tabla
+					if (nodoB.nodeName.toLowerCase() === 'table') {
+						col_res.tabla_res = nodoB;
+						break;
+					}
+				}
+				break;
+			}
+		}
+	});
+
+    // Etiquetas comunes
+    usuario_labels = Array.from(document.getElementsByClassName('label-usuario-esc'));
+    sistema_labels = Array.from(document.getElementsByClassName('label-sistema-esc'));
+    algoritmo_labels = Array.from(document.getElementsByClassName('label-algoritmo-esc'));
+    fecha_labels = Array.from(document.getElementsByClassName('label-fecha-esc'));
+    hora_labels = Array.from(document.getElementsByClassName('label-hora-esc'));
+    intervalo_labels = Array.from(document.getElementsByClassName('label-intervalo-esc'));
+    folio_labels = Array.from(document.getElementsByClassName('label-folio-esc'));
+
+    boton_ejecutarEscenario = document.getElementById('boton_ejecutarEscenario');
+
+    let div_archivos = document.getElementById('div_visor-archivos');
+
+    // Fecha actual
+    input_fecha.value = moment().format('YYYY-MM-DD');
+
+    // Carga algoritmos
+    // algoritmos
+    if (typeof SESION.config.algoritmos !== 'undefined' && SESION.config.algoritmos) {
+        // Obtiene la lista y la limpia
+        select_algoritmo.innerHTML = "";
+
+        // Agrega los algoritmos disponibles
+        SESION.config.algoritmos.forEach((algoritmo) => {
+            opcion = document.createElement("option");
+            texto = document.createTextNode(algoritmo.nombre);
+            opcion.disabled = false;
+            opcion.selected = false;
+            opcion.value = algoritmo.carpeta;
+            opcion.name = algoritmo.nombre;
+            opcion.appendChild(texto);
+            select_algoritmo.appendChild(opcion);
+        });
+    }
+
+    // Cargar escenario
+    visor_archivos.set(div_archivos, ipcRenderer);
+
+    // Carga horas
+    for (var i = 0; i < 24; i++) {
+        let nodo_opc = document.createElement('option');
+        let hora_txt = `${i}`;
+        if (hora_txt.trim().length === 1) {
+            hora_txt = `0${hora_txt}`;
+        }
+
+        let nodo_txt = document.createTextNode(`${hora_txt}:00`);
+
+        nodo_opc.appendChild(nodo_txt);
+        nodo_opc.value = i;
+        select_hora.appendChild(nodo_opc);
+    }
+
+    // Carga intervalos
+    let intervalos_fun = (event) => {
+        let max_intervalos;
+        SESION.config.algoritmos.forEach((algoritmo) => {
+
+            if (algoritmo.nombre.toLowerCase().replace('-', '') === select_algoritmo.value) {
+                max_intervalos = algoritmo.intervalos;
+            }
+        });
+
+        // Ingresa los intervalos en el combo
+        select_intervalo.innerHTML = "";
+
+        for (let i = 1; i <= max_intervalos; i++) {
+            let nodo_opc = document.createElement('option');
+            let nodo_txt = document.createTextNode(`${i}`);
+
+            nodo_opc.appendChild(nodo_txt);
+            select_intervalo.appendChild(nodo_opc);
+        }
+    };
+
+    select_algoritmo.onmouseup = intervalos_fun;
+    select_algoritmo.onkeyup = intervalos_fun;
+    select_algoritmo.onkeyup();
+
+    // selecciona el primero
+    // document.querySelector('.opc-menu').click();
+    menuCarga.onclick();
+}
 
 function mensajeConsola(mensaje) {
 	// Agrega la estampa de tiempo
@@ -170,12 +398,11 @@ function fn_menuCarga() {
 }
 
 function fn_menuInfo() {
-	if (menuInfo.deshabilitado) { console.log('deshabilitado info');
+	if (menuInfo.deshabilitado) {
 		return;
 	}
 
 	if (menuInfo.classList.contains('invalido')) {
-		console.log('invalido info');
 		return;
 	}
 

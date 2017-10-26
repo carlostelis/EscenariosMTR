@@ -34,6 +34,17 @@
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
 }
 
+.celda-header-res > span {
+    color: red;
+    margin-left: 3px;
+    line-height: 1.5;
+    font-size: 2vh;
+}
+
+.celda-header-res > span.invisible {
+    visibility: hidden;
+}
+
 .celda-header-res.A {
     background-color: chocolate;
 }
