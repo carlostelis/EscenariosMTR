@@ -25,6 +25,13 @@ function colapsarResultado(trigger, clase) {
 
                         // Inserta la tabla al dom
                         contenedor.div_tabla.appendChild(contenedor.tabla_res);
+                        setTimeout(() => {
+                            if (contenedor.div_tabla.scrollWidth > contenedor.div_tabla.clientWidth) {
+                                setTimeout(() => {
+                                    contenedor.div_tabla.onscroll();
+                                }, 50);
+                            }
+                        }, 10);
                     }
                 }
             }
@@ -204,7 +211,9 @@ ipcRenderer.on('escenario_resultados:leidoComparado', (event, objA, objB) => {
     desactivarColapsosResultados();
 
     crearTablasResultadoMarco(objEscA_res, 'A').then(() => {
-        banner_resA.ocultar();
+        setTimeout(() => {
+            banner_resA.ocultar();
+        }, 50);
         mensajeConsola(`Resultados de algoritmo (${objEscA_res.algoritmo}) cargados en marco A`);
 
         crearTablasResultadoMarco(objEscB_res, 'B').then(() => {
@@ -212,12 +221,6 @@ ipcRenderer.on('escenario_resultados:leidoComparado', (event, objA, objB) => {
             mensajeConsola(`Resultados de algoritmo (${objEscB_res.algoritmo}) cargados en marco B`);
 
             console.log('Resultados cargados...');
-
-            // colapsos_res.forEach((col_res) => {
-            //     while (col_res.desplegado !== true) {
-            //         col_res.onclick();
-            //     }
-            // });
         }, () => {
             console.log('Error cargando marco B');
         });
@@ -494,6 +497,9 @@ function scrollTabla(elemento) {
         if (nodo.nodeName.toLowerCase() === 'table') {
             // console.log('scroll', elemento, nodo.tabla_par.parentNode);
             nodo.tabla_par.parentNode.scrollLeft = elemento.scrollLeft;
+            if (nodo.paginacion) {
+                nodo.paginacion.desplazarPaginacion(elemento.scrollLeft);
+            }
         }
     }
 }

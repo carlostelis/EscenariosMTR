@@ -310,8 +310,12 @@ body {
     color: cornflowerblue;
     font-weight: bold;
     cursor: pointer;
-    width: 1vw;
-    font-size: 0.5vw;
+    width: 2.5vw;
+    font-size: 1.3vw;
+    font-weight: bold;
+    text-shadow: 0px 0px 1px;
+    height: 3vh;
+    user-select: none;
 }
 
 .li-pagina > a {
@@ -320,7 +324,10 @@ body {
     text-align: center;
     background-color: lightblue;
     border-radius: 5px;
-    color: #0275d8 !important;
+    color: darkblue !important;
+    padding: 0px;
+    height: 3vh;
+    line-height: 2.5vh;
 }
 
 .li-pagina:hover > a:hover {
@@ -329,15 +336,30 @@ body {
 }
 
 .li-pagina.disabled {
-    color: black;
     font-weight: bold;
     text-decoration: underline;
     cursor: crosshair;
+}
+
+.li-pagina.disabled > a {
     color: black !important;
 }
 
+input.page-item-input {
+    width: 4vw;
+    height: 3vh;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.3vh;
+}
 
-
+.pagina-label {
+    display: block;
+    text-align: center;
+    margin-top: -2vh;
+    margin-bottom: 0vh;
+}
 
 
 

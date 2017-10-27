@@ -114,15 +114,20 @@
 
 .div-scroll-res > label {
     display: block;
-    background-color: honeydew;
     font-size: 1vw;
     font-weight: bold;
     text-align: center;
-    border-radius: 15px;
+    border-radius: 10px;
     text-shadow: 0px 0px 2px grey;
     width: 100%;
     /* margin-left: 0%; */
-    border-style: double;
+    /* border-style: double; */
+    border-bottom-style: dotted;
+    border-top-style: dotted;
+    border-right-style: ridge;
+    border-right-color: gray;
+    border-left-style: ridge;
+    border-left-color: gray;
 }
 
 .div-scroll-res::-webkit-scrollbar-track {
@@ -189,6 +194,10 @@
 
 tr.hover-simulado {
     background-color: darkseagreen !important;
+    border-color: black;
+    border-width: 2px;
+    border-style: dotted;
+    text-shadow: 0px 0px 1px;
 }
 
 .div-header-res {

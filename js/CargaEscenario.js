@@ -13,6 +13,8 @@ ipcRenderer.on('sesion:cerrar', (event) => {
     console.log('sesion cerrar');
     body.style.opacity = '0';
 
+    boton_ejecutarEscenario.disabled = true;
+
     setTimeout(() => {
         divLogin.classList.remove('d-none');
         divLayout.classList.add('d-none');

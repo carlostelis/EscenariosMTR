@@ -156,7 +156,7 @@ class Escenario {
                     /* Temporal mientras queda el archivo de configuracion */
                     /* *************************************************** */
                     if (!files[i].startsWith('DTR') & !files[i].startsWith('DERS_MI_TOTALES_1') && !files[i].startsWith('RESUMEN_UNIDADES')) {
-                        console.log('Ignorando entrada', files[i]);
+                        // console.log('Ignorando entrada', files[i]);
                         continue;
                     }
 
@@ -325,7 +325,8 @@ class Escenario {
                                     // SI hay diferencia en el dato correspondiente, se marca como diferente en B
                                     if (objDatoA.valor !== objDatoB.valor) {
                                         objDatoB.diferencia = true;
-                                        console.log('Diferencia', archivoA.archivo, objDatoA.valor, "->", objDatoB.valor);
+                                        objDatoA.diferencia = true;
+                                        // console.log('Diferencia', archivoA.archivo, objDatoA.valor, "->", objDatoB.valor);
                                     } else {
                                         archivoB.filas[i][j].diferencia = false;
                                     }

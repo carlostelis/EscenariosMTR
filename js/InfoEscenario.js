@@ -525,7 +525,9 @@ function crearTablaInfo(objArchivo, copia) {
                 // Si no es la fila proxima al header principal
                 if (tr.flagTop === false) {
                     // Reinserta la fila antes del header aux
-                    tbody.insertBefore(tr.tr_anterior, objArchivo.trHeader_aux);
+                    try {
+                        tbody.insertBefore(tr.tr_anterior, objArchivo.trHeader_aux);
+                    } catch (e) {}
 
                     try {
                         // Quita  el header aux del dom

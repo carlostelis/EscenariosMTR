@@ -36,6 +36,10 @@
 
 .tabla-body > tr:hover {
     background-color: darkseagreen !important;
+    border-color: black;
+    border-width: 2px;
+    border-style: dotted;
+    text-shadow: 0px 0px 1px;
 }
 
 .tabla-body > tr:hover > td {
@@ -60,10 +64,8 @@
 
 .tabla-body > tr > td.modificado {
     background-color: darksalmon;
-    /*font-weight: bold;*/
     text-shadow: 0px 0px 1px;
 }
-
 
 .tabla-body > tr > td > input:disabled {
     background-color: transparent;
