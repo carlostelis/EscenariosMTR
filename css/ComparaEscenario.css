@@ -130,74 +130,20 @@
     border-left-color: gray;
 }
 
-.div-scroll-res::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
-    background-color: #F5F5F5;
-    border-radius: 5px;
-}
-
-.div-scroll-res::-webkit-scrollbar {
-    width: 10px;
-    background-color: #F5F5F5;
-}
-
-.div-scroll-res::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background-color: #FFF;
-    background-image: -webkit-linear-gradient(bottom,#215e3e 0%,#347c58 50%,#215e3e 100%);
-}
-
-.div-scroll-res::-webkit-scrollbar-thumb:hover {
-    border-radius: 5px;
-    background-color: #FFF;
-    background-image: -webkit-linear-gradient(bottom,yellowgreen 0%,#347c58 50%,yellowgreen 100%);
-}
-
-.div-scroll-res::-webkit-scrollbar-thumb:active {
-    border-radius: 5px;
-    background-color: #FFF;
-    background-image: -webkit-linear-gradient(bottom,azure 0%,#347c58 50%,azure 100%);
-}
-
 .scroll-res {
     overflow: auto;
-}
-
-.scroll-res::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
-    background-color: #F5F5F5;
-    border-radius: 5px;
-}
-
-.scroll-res::-webkit-scrollbar {
-    width: 10px;
-    background-color: #F5F5F5;
-}
-
-.scroll-res::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background-color: #FFF;
-    background-image: -webkit-linear-gradient(bottom,#215e3e 0%,#347c58 50%,#215e3e 100%);
-}
-
-.scroll-res::-webkit-scrollbar-thumb:hover {
-    border-radius: 5px;
-    background-color: #FFF;
-    background-image: -webkit-linear-gradient(bottom,yellowgreen 0%,#347c58 50%,yellowgreen 100%);
-}
-
-.scroll-res::-webkit-scrollbar-thumb:active {
-    border-radius: 5px;
-    background-color: #FFF;
-    background-image: -webkit-linear-gradient(bottom,azure 0%,#347c58 50%,azure 100%);
 }
 
 tr.hover-simulado {
     background-color: darkseagreen !important;
     border-color: black;
     border-width: 2px;
-    border-style: dotted;
+    /*border-style: dotted;*/
     text-shadow: 0px 0px 1px;
+}
+
+tr.hover-simulado > td > input {
+    border-color: darkcyan;
 }
 
 .div-header-res {
@@ -209,6 +155,7 @@ tr.hover-simulado {
     display: inline-block;
     font-weight: bold;
     height: 3vh;
+    font-size: 1.5vh;
 }
 
 .div-header-res > select {

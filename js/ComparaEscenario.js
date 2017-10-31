@@ -32,6 +32,14 @@ function colapsarResultado(trigger, clase) {
                                 }, 50);
                             }
                         }, 10);
+
+                        // PAra asegurar que se muestre la primera pagina la primera vez que se despliegue
+                        if (contenedor.tabla_res.paginacion !== null) {
+                            if (contenedor.tabla_res.paginacion.flagVisualiza !== true) {
+                                contenedor.tabla_res.paginacion.cambiarPagina(1);
+                                contenedor.tabla_res.paginacion.flagVisualiza = true;
+                            }
+                        }
                     }
                 }
             }
@@ -234,7 +242,11 @@ function crearTablasResultadoMarco(escenario, marco) {
     return new Promise((resolve, reject) => {
         // Crea las nuevas tablas del escenario A
         escenario.lista.forEach((archivo) => {
-            crearTablaResultado(archivo);
+            try {
+                crearTablaResultado(archivo);
+            }catch (e) {
+                console.log('Error creando tabla', e);
+            }
         });
 
         resolve();
@@ -290,6 +302,13 @@ function crearTablaResultado(objArchivo) {
     // Nodo tr anterior
     let tr_anterior = null;
 
+    // filas filtro de la tabla
+    tabla.filas = [];
+    tabla.filasFiltro = [];
+    tabla.paginacion = null;
+    tabla.ultimoFiltro = '';
+    tabla.inputFiltros = [];
+
     // Crea las filas
     objArchivo.filas.forEach((fila) => {
         // si es la primer fila, procesa las cabeceras
@@ -312,10 +331,86 @@ function crearTablaResultado(objArchivo) {
                             let td = document.createElement('td');
                             objArchivo.trHeader_aux.appendChild(td);
 
+                            let cont_filtro = 0;
+
                             fila.forEach((objHeader) => {
                                 th = document.createElement('th');
-                                let texto = document.createTextNode(objHeader.valor);
-                                th.appendChild(texto);
+                                th.colPos = cont_filtro;
+
+                                // Para filtro de busqueda
+                                if (objHeader.valor === 'UNIDAD') {
+                                    let input = document.createElement('input');
+                                    input.classList.add('input-filtro');
+                                    // input.style.width = '5vw'; // Si no se
+                                    input.placeholder = `${String.fromCharCode(0xf50d)} ${objHeader.valor}`;
+                                    input.indice = cont_filtro++;
+
+                                    input.onkeyup = (event, cadena) => {
+                                        let filtro;
+
+                                        // Si es cadena, el metodo se invocó desde su tabla par
+                                        // de lo contrario, el usuario esta escribiendo en el input
+                                        if (typeof cadena === 'string') {
+                                            filtro = cadena;
+                                            input.value = cadena;
+                                        } else {
+                                            filtro = input.value;
+                                        }
+
+                                        if (filtro === tabla.ultimoFiltro) {
+                                            // Si no hay diferencia, no hace nada
+                                            return;
+                                        }
+
+                                        tabla.filasFiltro = [];
+                                        if (filtro === '') {
+                                            // Todas visibles
+                                            tabla.filasFiltro = tabla.filasFiltro.concat(tabla.filas);
+                                        } else {
+                                            // En el arreglo de filas busca el filtro
+                                            tabla.filas.forEach((fila_tr) => {
+                                                // Busca la columna asociada
+                                                let colAsociada = fila_tr.columnasFiltro[th.colPos];
+                                                // Compara el valor como cadena
+                                                if (colAsociada.innerHTML.startsWith(`${filtro}`)) {
+                                                    tabla.filasFiltro.push(fila_tr);
+                                                }
+                                            });
+                                        }
+
+                                        // Si la tabla tiene paginacion, controla la vista  através de ella
+                                        if (typeof tabla.paginacion !== 'undefined' && tabla.paginacion !== null) {
+                                            // Valida filas, solo se hace aca
+                                            // ya que es el botón que se invoca cuando se filtran
+                                            tabla.paginacion.validarFilas();
+                                            tabla.paginacion.liPrimero.onclick();
+                                        } else {
+                                            tabla.tbody.innerHTML = '';
+                                            tabla.filasFiltro.forEach((fila) => {
+                                                tabla.tbody.appendChild(fila);
+                                            });
+                                        }
+
+                                        tabla.ultimoFiltro = filtro;
+
+                                        // Invoca el filtro de la tabla par
+                                        if (typeof tabla.tabla_par !== 'undefined' && tabla.tabla_par !== null) {
+                                            // Activa el evento de la otra tabla
+                                            if (tabla.tabla_par.inputFiltros !== null && typeof cadena === 'undefined') {
+                                                tabla.tabla_par.inputFiltros[input.indice].onkeyup(event, input.value);
+                                            }
+                                        }
+                                    };
+
+                                    // Agrega a una lista de filtros
+                                    tabla.inputFiltros.push(input);
+
+                                    th.appendChild(input);
+                                } else {
+                                    let texto = document.createTextNode(objHeader.valor);
+                                    th.appendChild(texto);
+                                }
+
                                 nodoB.appendChild(th);
 
                                 // Inserta a auxiliar
@@ -350,6 +445,9 @@ function crearTablaResultado(objArchivo) {
             td.style.textShadow = '0px 0px 1px';
             tr.appendChild(td);
 
+            tr.columnasFiltro = [];
+            tr.columnasFiltro.push(td);
+
             fila.forEach((objDato) => {
                 let td = document.createElement('td');
                 let texto = document.createTextNode(objDato.valor);
@@ -362,6 +460,7 @@ function crearTablaResultado(objArchivo) {
 
                 td.appendChild(texto);
                 tr.appendChild(td);
+                tr.columnasFiltro.push(td);
                 // No guarda referencia del objeto porque no se va a editar
             });
 
@@ -373,7 +472,7 @@ function crearTablaResultado(objArchivo) {
                         tabla.tabla_par.filas[tr.num_fila - 1].onmouseover(event, true);
                     }
 
-                    if (tabla.tabla_par) {
+                    if (tabla.tabla_par && flagRebote !== true) {
                         if (tr.num_fila >= 0 && tr.num_fila <= tabla.tabla_par.filas.length) {
                             tabla.tabla_par.filas[tr.num_fila - 1].classList.add('hover-simulado');
                         }
@@ -429,6 +528,9 @@ function crearTablaResultado(objArchivo) {
             num_fila++;
             tbody.appendChild(tr);
             tabla.filas.push(tr);
+
+            // Por defecto agrega todas las filas a la vista
+            tabla.filasFiltro = [].concat(tabla.filas);
 
             // Fila auxiliar
             tr_anterior = tr;

@@ -7,6 +7,47 @@ while (typeof ipcRenderer === 'undefined') {
     console.log('Espera definicion');
 }
 
+// Escucha instruccion para cerrar sesion,
+// carga los componentes de login
+ipcRenderer.on('sesion:cerrar', (event) => {
+    console.log('sesion cerrar');
+    body.style.opacity = '0';
+
+    // Deshabilita boton ejecutar
+    boton_ejecutarEscenario.disabled = true;
+
+    // Borra valores de etiquetas
+    usuario_labels.forEach(label => label.innerhtml = '---');
+    sistema_labels.forEach(label => label.innerhtml = '---');
+    algoritmo_labels.forEach(label => label.innerhtml = '---');
+    fecha_labels.forEach(label => label.innerhtml = '---');
+    hora_labels.forEach(label => label.innerhtml = '---');
+    intervalo_labels.forEach(label => label.innerhtml = '---');
+    folio_labels.forEach(label => label.innerhtml = '---');
+
+    // Elinina objetos de escenarios
+    objEscOriginal = null;
+    objEscModificado = null;
+
+    setTimeout(() => {
+        divLogin.classList.remove('d-none');
+        divLayout.classList.add('d-none');
+    }, 1000);
+
+    setTimeout(() => {
+        body.style.opacity = '1';
+        paginaActual = 'login';
+        // Habilita los menus
+        menuInfo.classList.add('invalido');
+        menuModifica.classList.add('invalido');
+        menuCompara.classList.add('invalido');
+        menuAdmin.classList.add('invalido');
+
+        // Regresa al menu de carga escenario
+        menuCarga.onclick();
+    }, 1100);
+});
+
 // Respuesta de pagina actual para cierre de sesion
 ipcRenderer.on('paginaActual:consulta', (event, json) => {
     ipcRenderer.send('paginaActual:respuesta', paginaActual);

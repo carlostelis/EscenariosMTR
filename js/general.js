@@ -178,7 +178,6 @@ function cargaComponentes() {
     folios_mod = Array.from(document.getElementsByClassName('sel-folios-mod'));
     botones_folio_res = Array.from(document.getElementsByClassName('btn-folio-res'));
     vistasContenedor = document.getElementById('vistas_contenedor');
-	// colapsables_res = Array.from(document.getElementsByClassName('colapsable-res'));
 
     // Empareja tablas para resultados
     let tablas_res_a = [];

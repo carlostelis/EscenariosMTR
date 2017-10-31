@@ -315,6 +315,13 @@ function crearTablaInfo(objArchivo, copia) {
     // Nodo tr anterior
     let tr_anterior = null;
     let num_columnas = 0;
+
+    // filas filtro de la tabla
+    tabla.filas = [];
+    tabla.filasFiltro = [];
+    tabla.paginacion = null;
+    tabla.ultimoFiltro = '';
+
     // Borra el tbody anterior
     for (let nodo of tabla.childNodes) {
         if (nodo.nodeName.toLowerCase() === 'thead') {
@@ -324,11 +331,73 @@ function crearTablaInfo(objArchivo, copia) {
                     objArchivo.trHeader_aux = document.createElement('tr');
                     objArchivo.trHeader_aux.classList.add('tr-aux');
 
+                    let col_pos = 0;
                     for (let nodoB of nodoA.childNodes) {
                         if (nodoB.nodeName.toLowerCase() === 'th') {
+                            // Busca input de filtro
+                            nodoB.colPos = col_pos++;
+                            for (let nodoC of nodoB.childNodes) {
+                                if (nodoC.nodeName.toLowerCase() === 'input') {
+                                    nodoC.onkeyup = (event) => {
+                                        if (nodoC.value === tabla.ultimoFiltro) {
+                                            // Si no hay diferencia, no hace nada
+                                            return;
+                                        }
+
+                                        tabla.filasFiltro = [];
+                                        if (nodoC.value === '') {
+                                            // Todas visibles
+                                            tabla.filasFiltro = tabla.filasFiltro.concat(tabla.filas);
+                                        } else {
+                                            // console.log('Buscando', nodoC.value, nodoC.colPos);
+
+                                            // En el arreglo de filas busca el filtro
+                                            tabla.filas.forEach((fila) => {
+                                                // Busca la columna asociada
+                                                let colAsociada = fila.columnasFiltro[nodoB.colPos];
+                                                if (colAsociada.input === null) {
+                                                    // Compara el valor como cadena
+                                                    if (colAsociada.innerHTML.startsWith(`${nodoC.value}`)) {
+                                                        tabla.filasFiltro.push(fila);
+                                                    }
+                                                } else {
+                                                    if (colAsociada.input.value.startsWith(`${nodoC.value}`)) {
+                                                        tabla.filasFiltro.push(fila);
+                                                    }
+                                                }
+                                            });
+                                        }
+
+                                        // Si la tabla tiene paginacion, controla la vista  através de ella
+                                        if (typeof tabla.paginacion !== 'undefined' && tabla.paginacion !== null) {
+                                            // Valida filas, solo se hace aca
+                                            // ya que es el botón que se invoca cuando se filtran
+                                            tabla.paginacion.validarFilas();
+                                            tabla.paginacion.liPrimero.onclick();
+                                        } else {
+                                            tabla.tbody.innerHTML = '';
+                                            tabla.filasFiltro.forEach((fila) => {
+                                                tabla.tbody.appendChild(fila);
+                                            });
+                                        }
+
+                                        tabla.ultimoFiltro = nodoC.value;
+                                    };
+                                }
+                            }
+
                             // Inserta a auxiliar
                             let td = document.createElement('td');
                             td.innerHTML = nodoB.innerHTML;
+
+                            // revisa si hay un input de filtro
+                            for (let nodoC of td.childNodes) {
+                                if (nodoC.nodeName.toLowerCase() === 'input') {
+                                    nodoC.disabled = true;
+                                    nodoC.value = nodoC.placeholder;
+                                }
+                            }
+
                             objArchivo.trHeader_aux.appendChild(td);
                             num_columnas++;
                         }
@@ -345,6 +414,8 @@ function crearTablaInfo(objArchivo, copia) {
     // Crea tbody
     let tbody = document.createElement('tbody');
     tbody.classList.add('tabla-body');
+
+    tabla.tbody = tbody;
 
     let num_fila = 1;
     // Crea las filas
@@ -363,11 +434,15 @@ function crearTablaInfo(objArchivo, copia) {
         td_fila.style.textShadow = '0px 0px 1px';
         tr.appendChild(td_fila);
 
+        tr.columnasFiltro = [];
+        tr.columnasFiltro.push(td_fila);
+
         // Crea columnas
         let num_col = 1;
         fila.forEach((objDato) => {
             let td = document.createElement('td');
             td.data = objDato;
+            td.input = null;
 
             // Agrega input o no para editable
             if (objArchivo.editable) {
@@ -376,6 +451,9 @@ function crearTablaInfo(objArchivo, copia) {
                 input.fila = num_fila;
                 input.columna = num_col;
                 objDato.input = input;
+
+                td.input = input;
+                td.objDato = objDato;
 
                 // Verifica flag unidad para inhabilitar la edicion de la unidad referenciada
                 // TEmporal hasta que se consoliden los archivos de configuracion
@@ -497,6 +575,7 @@ function crearTablaInfo(objArchivo, copia) {
             }
 
             tr.appendChild(td);
+            tr.columnasFiltro.push(td);
         });
 
         // Si trae menos columnas, completa
@@ -542,16 +621,21 @@ function crearTablaInfo(objArchivo, copia) {
         num_fila++;
         tbody.appendChild(tr);
 
+        tabla.filas.push(tr);
+
         // Fila auxiliar
         tr_anterior = tr;
     });
 
     tabla.appendChild(tbody);
 
+    // Por defecto agrega todas las filas a la vista
+    tabla.filasFiltro = [].concat(tabla.filas);
+
     // Verifica si require paginacion
     if (objArchivo.filas.length > MAX_ROWS) {
         // Si ya existe el objeto, solo reconstruye
-        if (typeof tabla.paginacion !== 'undefined') {
+        if (typeof tabla.paginacion !== 'undefined' && tabla.paginacion !== null) {
             tabla.paginacion.init();
         } else {
             tabla.paginacion = new Paginacion(tabla);

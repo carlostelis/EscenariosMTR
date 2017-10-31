@@ -8,7 +8,7 @@ class Banner {
 
         // Crea div
         this.divBanner = document.createElement('div');
-        this.divBanner.classList.add('banner2');
+        this.divBanner.classList.add('banner');
         this.divBanner.classList.add('center');
 
         // BLur de fondo
@@ -24,7 +24,7 @@ class Banner {
 
         // Icono
         this.divIcono = document.createElement('div');
-        this.divIcono.classList.add('icono-banner2');
+        this.divIcono.classList.add('icono-banner');
 
         this.divAuxIcono = document.createElement('div');
         this.divAuxIcono.innerHTML = `<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>`;
@@ -34,7 +34,7 @@ class Banner {
 
         // Mensaje
         this.divTexto = document.createElement('div');
-        this.divTexto.classList.add('texto-banner2');
+        this.divTexto.classList.add('texto-banner');
         this.divAuxTexto = document.createElement('span');
         this.divTexto.appendChild(this.divAuxTexto);
         this.divMsg.appendChild(this.divTexto);
@@ -42,12 +42,12 @@ class Banner {
         // Crea progreso
         this.divProgreso = document.createElement('div');
         this.divProgreso.classList.add('progress');
-        this.divProgreso.classList.add('progreso-banner2');
+        this.divProgreso.classList.add('progreso-banner');
         this.divBarraProgreso = document.createElement('div');
         this.divBarraProgreso.classList.add('progress-bar');
         this.divBarraProgreso.classList.add('progress-bar-striped');
         this.divBarraProgreso.classList.add('progress-bar-animated');
-        this.divBarraProgreso.classList.add('barra-progreso-banner2');
+        this.divBarraProgreso.classList.add('barra-progreso-banner');
         this.divBarraProgreso.setAttribute('aria-valuenow', "60");
         this.divBarraProgreso.setAttribute('aria-valuemin', "0");
         this.divBarraProgreso.setAttribute('aria-valuemax', "100");
@@ -56,7 +56,7 @@ class Banner {
 
         // Botones
         this.divBotones = document.createElement('div');
-        this.divBotones.classList.add('botones-banner2');
+        this.divBotones.classList.add('botones-banner');
         this.divBotones.classList.add('container');
 
         this.botonAceptar = document.createElement('button');
@@ -79,12 +79,12 @@ class Banner {
         this.divSalida.classList.add('center');
 
         this.divTituloSalida = document.createElement('div');
-        this.divTituloSalida.classList.add('salida-titulo-banner2');
+        this.divTituloSalida.classList.add('salida-titulo-banner');
         this.divTituloSalida.innerHTML = "Titulo de salida";
         this.divSalida.appendChild(this.divTituloSalida);
 
         this.divSalidaTxt = document.createElement('div');
-        this.divSalidaTxt.classList.add('salida-txt-banner2');
+        this.divSalidaTxt.classList.add('salida-txt-banner');
         this.divSalidaTxt.innerHTML = `Texto <br> texto asdasd`;
         this.divSalida.appendChild(this.divSalidaTxt);
 

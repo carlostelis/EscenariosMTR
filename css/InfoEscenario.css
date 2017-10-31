@@ -30,7 +30,7 @@
     vertical-align: middle;
     line-height: 1;
     font-size: 0.7vw;
-    height: 2.3vh;
+    height: 2.2vh;
     padding: 0;
 }
 
@@ -38,12 +38,12 @@
     background-color: darkseagreen !important;
     border-color: black;
     border-width: 2px;
-    border-style: dotted;
+    /*border-style: dotted;*/
     text-shadow: 0px 0px 1px;
 }
 
-.tabla-body > tr:hover > td {
-    /*font-weight: bold;*/
+.tabla-body > tr:hover > td > input {
+    border-color: darkcyan;
 }
 
 .tabla-body > tr > td > input {
@@ -74,6 +74,22 @@
 
 .tabla-body > tr > td > input:focus {
     outline-color: green;
+}
+
+.input-filtro {
+    font-family: 'Fontello', 'Arial';
+    /*width: 95%;*/
+    display: block;
+    margin: auto;
+    height: 2.5vh;
+    border-radius: 5px;
+    text-align: center;
+    background-color: whitesmoke;
+}
+
+.input-filtro:disabled {
+    background-color: transparent;
+    border: none;
 }
 
 .contenedor-info {
@@ -147,67 +163,9 @@
     width:100% !important;
 }
 
-.div-contenedor-mediana::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
-    background-color: #F5F5F5;
-    border-radius: 5px;
-}
-
-.div-contenedor-mediana::-webkit-scrollbar {
-    width: 10px;
-    background-color: #F5F5F5;
-}
-
-.div-contenedor-mediana::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background-color: #FFF;
-    background-image: -webkit-linear-gradient(bottom,#215e3e 0%,#347c58 50%,#215e3e 100%);
-}
-
-.div-contenedor-mediana::-webkit-scrollbar-thumb:hover {
-    border-radius: 5px;
-    background-color: #FFF;
-    background-image: -webkit-linear-gradient(bottom,yellowgreen 0%,#347c58 50%,yellowgreen 100%);
-}
-
-.div-contenedor-mediana::-webkit-scrollbar-thumb:active {
-    border-radius: 5px;
-    background-color: #FFF;
-    background-image: -webkit-linear-gradient(bottom,azure 0%,#347c58 50%,azure 100%);
-}
-
 .div-contenedor-gral-vertical {
     overflow-y: scroll;
     height: 100%;
-}
-
-.div-contenedor-gral-vertical::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
-    background-color: #F5F5F5;
-    border-radius: 5px;
-}
-
-.div-contenedor-gral-vertical::-webkit-scrollbar {
-    width: 10px;
-    background-color: #F5F5F5;
-}
-
-.div-contenedor-gral-vertical::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background-color: #FFF;
-    background-image: -webkit-linear-gradient(bottom,#215e3e 0%,#347c58 50%,#215e3e 100%);
-}
-
-.div-contenedor-gral-vertical::-webkit-scrollbar-thumb:hover {
-    border-radius: 5px;
-    background-color: #FFF;
-    background-image: -webkit-linear-gradient(bottom,yellowgreen 0%,#347c58 50%,yellowgreen 100%);
-}
-
-.div-contenedor-gral-vertical::-webkit-scrollbar-thumb:active {
-    border-radius: 5px;
-    background-color: #FFF;
-    background-image: -webkit-linear-gradient(bottom,azure 0%,#347c58 50%,azure 100%);
 }
 
 .celda-header-info {

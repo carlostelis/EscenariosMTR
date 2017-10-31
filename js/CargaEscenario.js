@@ -7,33 +7,6 @@ while (typeof ipcRenderer === 'undefined') {
     console.log('Espera definicion');
 }
 
-// Escucha instruccion para cerrar sesion,
-// carga los componentes de login
-ipcRenderer.on('sesion:cerrar', (event) => {
-    console.log('sesion cerrar');
-    body.style.opacity = '0';
-
-    boton_ejecutarEscenario.disabled = true;
-
-    setTimeout(() => {
-        divLogin.classList.remove('d-none');
-        divLayout.classList.add('d-none');
-    }, 1000);
-
-    setTimeout(() => {
-        body.style.opacity = '1';
-        paginaActual = 'login';
-        // Habilita los menus
-        menuInfo.classList.add('invalido');
-        menuModifica.classList.add('invalido');
-        menuCompara.classList.add('invalido');
-        menuAdmin.classList.add('invalido');
-
-        // Regresa al menu de carga escenario
-        menuCarga.onclick();
-    }, 1100);
-});
-
 // Progreso de descarga de directorio
 ipcRenderer.on('directorio:progreso', (event, res) => {
     banner.vistaNormal();
@@ -88,10 +61,13 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
         banner.ocultarProgreso();
         banner.setMensaje(res.error);
         banner.error();
-        banner.setBoton('Aceptar', () => {
+        setTimeout(() => {
             banner.ocultar();
-        });
-        banner.mostrarBoton();
+        }, 2000);
+        // banner.setBoton('Aceptar', () => {
+        //     banner.ocultar();
+        // });
+        // banner.mostrarBoton();
     }
 });
 

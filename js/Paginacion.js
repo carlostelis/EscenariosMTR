@@ -56,16 +56,17 @@ class Paginacion {
         for (let nodo of this.tabla.childNodes) {
             if (nodo.nodeName.toLowerCase() === 'tbody') {
                 this.tbody = nodo;
+                this.totalRows = this.tabla.filas.length;
 
                 // Cuenta las filas
-                this.totalRows = 0;
-                for (let nodoA of this.tbody.childNodes) {
-                    if (nodoA.nodeName.toLowerCase() === 'tr') {
-                        // Guarda la referencia de la fila
-                        this.filas.push(nodoA);
-                        this.totalRows++;
-                    }
-                }
+                // this.totalRows = 0;
+                // for (let nodoA of this.tbody.childNodes) {
+                //     if (nodoA.nodeName.toLowerCase() === 'tr') {
+                //         // Guarda la referencia de la fila
+                //         this.filas.push(nodoA);
+                //         this.totalRows++;
+                //     }
+                // }
             }
 
             if (nodo.nodeName.toLowerCase() === 'thead') {
@@ -110,7 +111,7 @@ class Paginacion {
         // Construye el paginado
         // <nav>
         this.nav = document.createElement('nav');
-        // this.nav.style.marginLeft = `calc(${this.margenPagina} + 0px)`;
+
         // <ul>
         let ul = document.createElement('ul');
         ul.classList.add('pagination');
@@ -169,11 +170,6 @@ class Paginacion {
         ul.appendChild(this.liAnterior);
 
         // Input
-        // this.liBusqueda = this.crearLi(null);
-        // this.liBusqueda.style.width = '4vw';
-        // // this.liBusqueda.style.width = '5vw';
-        // // this.liBusqueda.style.fontSize = '0.7vw';
-        // <a>
         this.inputBusqueda = document.createElement('input');
         this.inputBusqueda.placeholder = '#';
         this.inputBusqueda.classList.add('page-item-input');
@@ -230,13 +226,11 @@ class Paginacion {
         ul.appendChild(this.liUltimo);
 
         this.nav.appendChild(ul);
-        // this.nav.marginLeft = `${this.margenPagina}%`;
         td.appendChild(this.nav);
 
         this.labelPaginas = document.createElement('label');
-        this.labelPaginas.innerHTML = `<b>${this.totalRows}</b> registros en <b>${this.totalPaginas}</b> páginas`;
+        this.labelPaginas.innerHTML = `<b>${this.totalRows}</b> registros en <b>${this.totalPaginas}</b> página(s)`;
         this.labelPaginas.classList.add('pagina-label');
-        // this.labelPaginas.style.marginLeft = `calc(${this.margenPagina} + 0px)`;
 
         td.appendChild(this.labelPaginas);
         tr.appendChild(td);
@@ -245,6 +239,20 @@ class Paginacion {
         // Activa el primero de la lista
         this.liPrimero.onclick();
         // Si la tabla tiene scroll en el div, con esto se ajustará
+    }
+
+    validarFilas() {
+        this.totalRows = this.tabla.filasFiltro.length;
+        this.totalPaginas = Math.floor(this.totalRows / this.limite);
+        this.residuo = this.totalRows % this.limite;
+        // Si hay residuo agrega otra pagina
+        if (this.residuo > 0) {
+            this.totalPaginas++;
+        }
+
+        console.log('>>> Validando', this.tabla.id, ' filas: ', this.totalRows, ', cols: ', this.totalColumnas, ', paginas: ', this.totalPaginas);
+
+        this.labelPaginas.innerHTML = `<b>${this.totalRows}</b> registros en <b>${this.totalPaginas}</b> página(s)`;
     }
 
     clickTablaPar() {
@@ -269,11 +277,12 @@ class Paginacion {
         for (let fila = 0; fila < this.totalRows; fila++) {
             // Si esta en el rango, la deja visible
             if (fila >= lim_inf && fila < lim_sup) {
-                this.filas[fila].flagTop = flag_top;
+                // this.filas[fila].flagTop = flag_top;
+                this.tabla.filasFiltro[fila].flagTop = flag_top;
                 if (flag_top === true) {
                     flag_top = false;
                 }
-                this.tbody.appendChild(this.filas[fila]);
+                this.tbody.appendChild(this.tabla.filasFiltro[fila]);
             }
         }
 
@@ -336,7 +345,7 @@ class Paginacion {
                 if (typeof this.flagPar !== 'undefined' && this.flagPar && !this.flagRebote) {
                     if (this.tabla.tabla_par) {
                         if (this.tabla.tabla_par.paginacion) {
-                            this.tabla.tabla_par.paginacion.click(i);
+                            this.tabla.tabla_par.paginacion.click(this.paginaActual);
                         }
                     }
                 }
