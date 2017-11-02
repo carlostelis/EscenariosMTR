@@ -229,66 +229,78 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
     console.log('usuario obtenido');
     //console.log(json);
     if (json.estado) {
-        if (json.contrasena === SESION.contrasena) {
-            banner.ok();
-            banner.setMensaje('Autenticación exitosa');
-            mensajeConsola(`Usuario Autenticado exitosamente: ${json.nombre} en ${SESION.sistema}`);
-            // Guarda el resto de los datos
-            SESION.nombre = json.nombre;
-            SESION.perfil = json.perfil;
+        // Verifica si tiene acceso a los sistemas
+        let sis_arr = json.sis_acc.split(',');
+        let sis_ok = false;
+        sis_arr.forEach((sis) => {
+            if (sis.trim() === SESION.sistema) {
+                sis_ok = true;
+            }
+        });
 
-            // Obtiene la carpeta del sistema
-            let sistemaObj;
-            SESION.config.sistemas.forEach((sistema) => {
-                if (sistema.nombre === SESION.sistema) {
-                    SESION.sistemaCarpeta = sistema.carpeta;
-                    SESION.sistemaZona = sistema.zona;
+        if (sis_ok === true) {
+            if (json.contrasena === SESION.contrasena) {
+                banner.ok();
+                banner.setMensaje('Autenticación exitosa');
+                mensajeConsola(`Usuario Autenticado exitosamente: ${json.nombre} en ${SESION.sistema}`);
+                // Guarda el resto de los datos
+                SESION.nombre = json.nombre;
+                SESION.perfil = json.perfil;
+
+                // Obtiene la carpeta del sistema
+                let sistemaObj;
+                SESION.config.sistemas.forEach((sistema) => {
+                    if (sistema.nombre === SESION.sistema) {
+                        SESION.sistemaCarpeta = sistema.carpeta;
+                        SESION.sistemaZona = sistema.zona;
+                    }
+                });
+
+                // Envia a electron la informacion de sesion
+                ipcRenderer.send('info:sesion', SESION);
+
+                // Elementos con informacion de sesion
+                for (let label of usuario_labels) {
+                    label.innerHTML = `Usuario: <b>${SESION.nombre}</b>`;
                 }
-            });
 
-            // Envia a electron la informacion de sesion
-            ipcRenderer.send('info:sesion', SESION);
-
-            // Elementos con informacion de sesion
-            for (let label of usuario_labels) {
-                label.innerHTML = `Usuario: <b>${SESION.nombre}</b>`;
-            }
-
-            for (let label of sistema_labels) {
-                label.innerHTML = `Sistema: <b>${SESION.sistema}</b>`;
-            }
-
-            setTimeout(() => {
-                banner.ocultar();
-                body.style.opacity = '0';
-
-                // Actualiza vista archivos
-                visor_archivos.actualizar();
+                for (let label of sistema_labels) {
+                    label.innerHTML = `Sistema: <b>${SESION.sistema}</b>`;
+                }
 
                 setTimeout(() => {
-                    divLogin.classList.add('d-none');
-                    divLayout.classList.remove('d-none');
+                    banner.ocultar();
+                    body.style.opacity = '0';
+
+                    // Actualiza vista archivos
+                    visor_archivos.actualizar();
+
+                    setTimeout(() => {
+                        divLogin.classList.add('d-none');
+                        divLayout.classList.remove('d-none');
+                    }, 1000);
+
+                    setTimeout(() => {
+                        body.style.opacity = '1';
+                        paginaActual = 'layout';
+                    }, 1100);
                 }, 1000);
 
-                setTimeout(() => {
-                    body.style.opacity = '1';
-                    paginaActual = 'layout';
-                }, 1100);
-            }, 1000);
-
-            return;
+                return;
+            } else {
+                banner.setMensaje(`Autenticación fallida: contraseña incorrecta para usuario <b>${SESION.usuario}</b>`);
+            }
         } else {
-            banner.setMensaje(`Autenticación fallida: contraseña incorrecta para usuario <b>${SESION.usuario}</b>`);
+            banner.setMensaje(`Autenticación fallida: usuario sin acceso al sistema <b>${SESION.sistema}</b>`);
         }
     } else {
         banner.setMensaje(`Autenticación fallida: ${json.mensaje}`);
     }
 
-    banner.mostrarBoton();
     banner.error();
-    banner.setBoton('Aceptar', () => {
+    setTimeout(() => {
         banner.ocultar();
-    });
+    }, 3000);
 
     // Reset datos de sesion
     SESION.usuario = '';

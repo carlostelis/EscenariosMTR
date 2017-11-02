@@ -20,7 +20,7 @@ module.exports = [
     },
     {
         "nombre":"UNITRC_DERS.csv",
-        "editable": true,
+        "editable": false,
         "unidades": true,
         "campos": [
             {"nombre":"NOMBRE_UNIDAD", "tipo":"TEXT"},
@@ -37,7 +37,7 @@ module.exports = [
     },
     {
         "nombre":"NODOSDERS.csv",
-        "editable": true,
+        "editable": false,
         "campos":[
             {"nombre":"NUM_BUS", "tipo":"REAL"},
         	{"nombre":"NOMBRE_BUS", "tipo":"TEXT"},
@@ -146,7 +146,7 @@ module.exports = [
     },
     {
         "nombre":"PLNOPRDERS.csv",
-        "editable": true,
+        "editable": false,
         "campos":[
             { "nombre":"NOMBRE_UNIDAD", "tipo":"REAL"},
             { "nombre":"TIPO_UNIDAD", "tipo":"REAL"},
@@ -397,7 +397,7 @@ module.exports = [
     },
     {
         "nombre":"ZONASRESURC_DERS.csv",
-        "editable": true,
+        "editable": false,
         "campos":[
             { "nombre":"UNIDAD_ZONA1", "tipo":"REAL"},
             { "nombre":"UNIDAD_ZONA2", "tipo":"REAL"},
@@ -920,7 +920,7 @@ module.exports = [
     },
     {
         "nombre":"ZONASRESUH_DERS.csv",
-        "editable": true,
+        "editable": false,
         "campos":[
             { "nombre":"UNIDAD_ZONA1", "tipo":"REAL"},
             { "nombre":"UNIDAD_ZONA2", "tipo":"REAL"},
@@ -1288,7 +1288,7 @@ module.exports = [
     },
     {
         "nombre":"ZONASRESURD_DERS.csv",
-        "editable": true
+        "editable": false
         // FALTA TABLA BD
     },
     {
@@ -1389,7 +1389,7 @@ module.exports = [
     },
     {
         "nombre":"GPOUTER_DERS.csv",
-        "editable": true,
+        "editable": false,
         "campos":[
             { "nombre":"NUM_GRUPO", "tipo":"REAL"},
             { "nombre":"NOMBRE_GRUPO", "tipo":"TEXT"},
@@ -1400,7 +1400,7 @@ module.exports = [
     },
     {
         "nombre":"GPORC_DERS.csv",
-        "editable": true,
+        "editable": false,
         "campos":[
             { "nombre":"UNIDAD_GRUPO1", "tipo":"REAL"},
             { "nombre":"UNIDAD_GRUPO2", "tipo":"REAL"},
@@ -1467,7 +1467,7 @@ module.exports = [
     },
     {
         "nombre":"GPORD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "campos":[
             { "nombre":"UNIDAD_GRUPO1", "tipo":"REAL"},
             { "nombre":"UNIDAD_GRUPO2", "tipo":"REAL"},
@@ -1847,7 +1847,7 @@ module.exports = [
     },
     {
         "nombre":"SEMAFOROSDERS.csv",
-        "editable": true
+        "editable": false
         // FALTA TABLA BD
     },
     {

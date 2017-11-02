@@ -16,7 +16,7 @@ var settings = {
 resultPromise = electronInstaller.createWindowsInstaller(settings);
 
 resultPromise.then(() => {
-    console.log("The installers of your application were succesfully created !");
+    console.log("Instaladores generados correctamente");
 }, (e) => {
-    console.log(`Well, sometimes you are not so lucky: ${e.message}`)
+    console.log(`Error generando instaladores: ${e.message}`)
 });

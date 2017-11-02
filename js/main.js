@@ -36,6 +36,9 @@ let ftp = new FTP({
 
 let SESION;
 
+// Versión de la aplicacion
+process.env.NODE_ENV = 'production';
+
 /////////          Para la generacion del instalador             //////////////
 
 // this should be placed at top of main.js to handle setup events quickly
@@ -656,11 +659,14 @@ ipcMain.on('escenario_resultados:leer', (event, ruta_escenario, algoritmo) => {
 
 ipcMain.on('escenario_resultados:leerComparar', (event, ruta_escenario_A, ruta_escenario_B, algoritmo) => {
     // LEe el escenario A
+    console.log('--------');
     escenario.parseEscenarioResultados(ruta_escenario_A, algoritmo).then((objA) => {
         // LEe el escenario B
         escenario.parseEscenarioResultados(ruta_escenario_B, algoritmo).then((objB) => {
             // Realiza comparacion
             escenario.compararResultados(objA, objB).then(() => {
+                objA.id = path.basename(objA.ruta);
+                objB.id = path.basename(objB.ruta);
                 console.log('Manda archivos de resultados comparados');
                 win.webContents.send('escenario_resultados:leidoComparado', objA, objB);
             }, () => {

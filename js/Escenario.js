@@ -60,7 +60,7 @@ class Escenario {
                     /* *************************************************** */
                     /* Temporal mientras queda el archivo de configuracion */
                     /* *************************************************** */
-                    if (files[i].startsWith('DTR') || files[i].startsWith('DERS_MI_TOTALES_1') || files[i].startsWith('RESUMEN_UNIDADES')) {
+                    if (files[i].startsWith('DTR') || files[i].startsWith('DERS_MI_TOTALES_1') || files[i].startsWith('RESUMEN_UNIDADES') || files[i].startsWith('SEMAFOROSDERS')) {
                         console.log('Ignorando resultado', files[i]);
                         continue;
                     }
@@ -155,7 +155,7 @@ class Escenario {
                     /* *************************************************** */
                     /* Temporal mientras queda el archivo de configuracion */
                     /* *************************************************** */
-                    if (!files[i].startsWith('DTR') & !files[i].startsWith('DERS_MI_TOTALES_1') && !files[i].startsWith('RESUMEN_UNIDADES')) {
+                    if (!files[i].startsWith('DTR') & !files[i].startsWith('DERS_MI_TOTALES_1') && !files[i].startsWith('RESUMEN_UNIDADES') && !files[i].startsWith('SEMAFOROSDERS')) {
                         // console.log('Ignorando entrada', files[i]);
                         continue;
                     }

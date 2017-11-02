@@ -257,25 +257,6 @@
                                 </div>
                             </div>
 
-                            <!-- BANDERAS PARA INDICAR PROBLEMAS EN LA SOLUCION -->
-                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'SEMAFOROSDERS');" id="col_info_banderas_problemas">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
-                                <div class="col">Banderas para Indicar Problemas en la Solución<span><i class="fa fa-caret-square-o-down"></i></span></div>
-                            </div>
-                            <div class="row colapsable div-tabla invisible" id="info_banderas_problemas" >
-                                <div class="col-12 table-responsive">
-                                    <table class="table table-sm table-striped tabla-info" id="SEMAFOROSDERS" data-contenedor="info_banderas_problemas" data-colapso="col_info_banderas_problemas">
-                                        <thead class="tabla-head">
-                                            <tr>
-                                                <th></th>
-                                                <th >Bandera</th>
-                                                <th >Descripción</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                     <!-- FIN DE CONTENEDOR INFORMACION GENERAL -->
@@ -309,46 +290,6 @@
                                                 <th>Disponibilidad Inicial</th>
                                                 <th>Zona de Carga</th>
                                                 <th>Nodo P</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <!-- DATOS DE CARGAS PARTICIPANTES -->
-                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'CARGAS_DERS');" id="col_info_cargas_participantes">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
-                                <div class="col">Datos de Cargas Participantes<span><i class="fa fa-caret-square-o-down"></i></span></div>
-                            </div>
-                            <div class="row colapsable div-tabla invisible" id="info_cargas_participantes" >
-                                <div class="table-responsive">
-                                    <table class="table table-sm table-striped tabla-info" id="CARGAS_DERS" data-contenedor="info_cargas_participantes" data-colapso="col_info_cargas_participantes">
-                                        <thead class="tabla-head">
-                                            <tr>
-                                                <th></th>
-                                                <th >Nombre</th>
-                                                <th >Propiedad</th>
-                                                <th >Tipo</th>
-                                                <th >Número de Nodo</th>
-                                                <th >Bandera de Nodo</th>
-                                                <th >Índice de factor de distribución de carga</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <!-- NODOS POR PERIODOS DE CARGAS PARTICIPANTES -->
-                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NODOSCAR_DERS');" id="col_info_nodos_periodos_cargas_participantes">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
-                                <div class="col">Nodos por Periodos de Cargas Participantes<span><i class="fa fa-caret-square-o-down"></i></span></div>
-                            </div>
-                            <div class="row colapsable div-tabla invisible" id="info_nodos_periodos_cargas_participantes" >
-                                <div class="table-responsive">
-                                    <table class="table table-sm table-striped tabla-info" id="NODOSCAR_DERS" data-contenedor="info_nodos_periodos_cargas_participantes" data-colapso="col_info_nodos_periodos_cargas_participantes">
-                                        <thead class="tabla-head alg-dep">
-                                            <tr>
-                                                <th></th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -438,7 +379,7 @@
                                                 <th></th>
                                                 <th >Número</th>
                                                 <th >Nombre</th>
-                                                <th >Bandera</th>
+                                                <th >Disponibilidad</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -518,14 +459,37 @@
                                 </div>
                             </div>
 
-                            <!-- FACTORES DE DISTRIBUCION DE CARGA POR NODO -->
-                            <div class="row justify-content-center celda-header-info"  onclick="colapsar(this,'FACDISCAR1');" id="col_info_factores_dist_carga_nodo">
+                            <!-- DATOS DE CARGAS PARTICIPANTES -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'CARGAS_DERS');" id="col_info_cargas_participantes">
                                 <span class="invisible"><i class="fa fa-asterisk"></i></span>
-                                <div class="col">Factores de Distribución de Carga por Nodo <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col">Datos de Cargas Participantes<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable div-tabla invisible" id="info_factores_dist_carga_nodo">
-                                <div class="col-12 table-responsive">
-                                    <table class="table table-sm table-striped tabla-info" id="FACDISCAR1" data-contenedor="info_factores_dist_carga_nodo" data-colapso="col_info_factores_dist_carga_nodo">
+                            <div class="row colapsable div-tabla invisible" id="info_cargas_participantes" >
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="CARGAS_DERS" data-contenedor="info_cargas_participantes" data-colapso="col_info_cargas_participantes">
+                                        <thead class="tabla-head">
+                                            <tr>
+                                                <th></th>
+                                                <th >Nombre</th>
+                                                <th >Propiedad</th>
+                                                <th >Tipo</th>
+                                                <th >Número de Nodo</th>
+                                                <th >Bandera de Nodo</th>
+                                                <th >Índice de factor de distribución de carga</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- NODOS POR PERIODOS DE CARGAS PARTICIPANTES -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NODOSCAR_DERS');" id="col_info_nodos_periodos_cargas_participantes">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col">Nodos por Periodos de Cargas Participantes<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_nodos_periodos_cargas_participantes" >
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="NODOSCAR_DERS" data-contenedor="info_nodos_periodos_cargas_participantes" data-colapso="col_info_nodos_periodos_cargas_participantes">
                                         <thead class="tabla-head alg-dep">
                                             <tr>
                                                 <th></th>
@@ -543,23 +507,6 @@
                             <div class="row colapsable div-tabla invisible" id="info_nodos_generacion">
                                 <div class="col-12 table-responsive">
                                     <table class="table table-sm table-striped tabla-info" id="NODDISGEN" data-contenedor="info_nodos_generacion" data-colapso="col_info_nodos_generacion">
-                                        <thead class="tabla-head alg-dep">
-                                            <tr>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <!-- NODOS DE CARGA -->
-                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NODDISCAR1');" id="col_info_nodos_carga">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
-                                <div class="col">Nodos de Carga <span><i class="fa fa-caret-square-o-down"></i></span></div>
-                            </div>
-                            <div class="row colapsable div-tabla invisible" id="info_nodos_carga">
-                                <div class="col-12 table-responsive">
-                                    <table class="table table-sm table-striped tabla-info" id="NODDISCAR1" data-contenedor="info_nodos_carga" data-colapso="col_info_nodos_carga">
                                         <thead class="tabla-head alg-dep">
                                             <tr>
                                                 <th></th>
@@ -619,10 +566,10 @@
                                 </div>
                             </div>
 
-                            <!-- OPERACION Y PARO -->
+                            <!-- INFORMACIÓN DE OPERACION Y PARO DE UNIDADES -->
                             <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'OPPARORC_DERS');" id="col_info_operacion_paro_rc">
                                 <span class="invisible"><i class="fa fa-asterisk"></i></span>
-                                <div class="col">Operación y Paro <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col">Información de Operación y Paro de Unidades <span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row colapsable div-tabla invisible" id="info_operacion_paro_rc">
                                 <div class="col-12 table-responsive">
@@ -631,9 +578,9 @@
                                             <tr>
                                                 <th></th>
                                                 <th><input class="input-filtro" placeholder="&#xf50d;&nbsp;UNIDAD"></input></th>
-                                                <th>PAR_NMIN_PER_PARO</th>
-                                                <th>PAR_NMIN_PER_OPER</th>
-                                                <th>PAR_NMAX_PF</th>
+                                                <th>Número mínimo de periodos en paro</th>
+                                                <th>Número mínimo de periodos en operación</th>
+                                                <th>Máximo número de paros durante el escenario de planeación</th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -2957,6 +2904,40 @@
                     <div id="cont-otros-info" class="row contenedor-info subseccion">
                         <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
 
+                            <!-- FACTORES DE DISTRIBUCION DE CARGA POR NODO -->
+                            <div class="row justify-content-center celda-header-info"  onclick="colapsar(this,'FACDISCAR1');" id="col_info_factores_dist_carga_nodo">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col">Factores de Distribución de Carga por Nodo <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_factores_dist_carga_nodo">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="FACDISCAR1" data-contenedor="info_factores_dist_carga_nodo" data-colapso="col_info_factores_dist_carga_nodo">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- NODOS DE CARGAS DISTRIBUIDAS (WECC) -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NODDISCAR1');" id="col_info_nodos_carga">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col">Nodos de cargas distribuidas (WECC) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_nodos_carga">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="NODDISCAR1" data-contenedor="info_nodos_carga" data-colapso="col_info_nodos_carga">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
                             <!-- IMPORTACION Y EXPORTACION -->
                             <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NOINPADERS');" id="col_info_imp_exp_nodos_periodo_intercambio_pot_np">
                                 <span class="invisible"><i class="fa fa-asterisk"></i></span>
@@ -2990,7 +2971,8 @@
                             </div>
                         </div>
                         <div class="row container">
-                            <button class="button_gral" onclick="guardarEscenario();">Guardar</button>
+                            <button class="button_gral" onclick="guardarEscenario(false);">Guardar</button>
+                            <button class="button_gral" id="boton_actualizarEscenario" onclick="guardarEscenario(true);" disabled>Actualizar</button>
                             <button class="button_gral" id="boton_ejecutarEscenario" disabled onclick="ejecutarAlgoritmo();">Ejecutar</button>
                         </div>
                     </div>

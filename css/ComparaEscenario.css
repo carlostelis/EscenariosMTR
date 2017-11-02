@@ -49,8 +49,16 @@
     background-color: chocolate;
 }
 
+.celda-header-res.A:hover {
+    background-color: indianred;
+}
+
 .celda-header-res.B {
     background-color: darkcyan;
+}
+
+.celda-header-res.B:hover {
+    background-color: seagreen;
 }
 
 .celda-header-res:hover {
@@ -66,6 +74,7 @@
     background: gray;
     text-shadow: none;
     cursor:initial;
+    display:none;
 }
 
 .celda-header-res.inactivo:hover {
@@ -96,6 +105,7 @@
 
 .tabla-res {
     font-size: 0.8vw;
+    margin-bottom: 0;
 }
 
 .div-tabla-res {
@@ -123,7 +133,9 @@
     /* margin-left: 0%; */
     /* border-style: double; */
     border-bottom-style: dotted;
+    border-bottom-color: gray;
     border-top-style: dotted;
+    border-top-color: gray;
     border-right-style: ridge;
     border-right-color: gray;
     border-left-style: ridge;
@@ -147,7 +159,7 @@ tr.hover-simulado > td > input {
 }
 
 .div-header-res {
-    padding-top: 1.5vh;
+    padding-top: 0.6vh;
     padding-left:1vw;
 }
 
@@ -159,17 +171,18 @@ tr.hover-simulado > td > input {
 }
 
 .div-header-res > select {
-    width:25%;
+    width: 10vw;
     font-size: 1.5vh;
     height: 3vh;
     text-align: center;
     text-align-last: center;
+    border-radius: 10px;
 }
 
 .div-header-res > button {
-    display: inline-block;
     height: 3vh;
     font-size: 1.5vh;
+    margin: auto;
 }
 
 .tr-aux {

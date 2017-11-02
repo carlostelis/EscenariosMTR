@@ -5,7 +5,7 @@ while (typeof ipcRenderer === 'undefined') {
 
 function colapsar(trigger, id) {
     // Si esta inactivo no hace nada
-    if (trigger.classList.contains('inactivo') || trigger.classList.contains('vacio')) {
+    if (trigger.classList.contains('inactivo')) {
         trigger.desplegado = false;
         return;
     }
@@ -474,18 +474,170 @@ function crearTablaInfo(objArchivo, copia) {
 
                         if (objDato.tipo === 'number') {
                             if (isNaN(input.value) || input.value === '') {
-                                objDato.valor = input.value;
+                                //objDato.valor = input.value;
                                 alert(`Error en el valor "${input.value}": se requiere un valor numérico en la columna ${input.columna}`);
                                 mensajeConsola(`Error en el valor "${input.value}": se requiere un valor numérico en la columna ${input.columna}`);
                                 input.classList.add('input-error');
+
                                 setTimeout(() => {
                                     input.focus();
                                 }, 100);
                             } else {
+                                /* *************************************************** */
+                                /* Temporal mientras queda el archivo de configuracion */
+                                /* *************************************************** */
+                                if (tabla.id === 'OPPARORC_DERS') {
+                                    let valorNum = parseInt(input.value);
+                                    if (valorNum < 0 || valorNum > 24) {
+                                        alert(`Error en el valor "${input.value}": se requiere un valor numérico entre 0 y 24`);
+                                        mensajeConsola(`Error en el valor "${input.value}": se requiere un valor numérico entre 0 y 24`);
+                                        input.classList.add('input-error');
+
+                                        setTimeout(() => {
+                                            input.focus();
+                                        }, 100);
+
+                                        return;
+                                    }
+                                }
+
+                                if (tabla.id.startsWith('ARRAR')) {
+                                    input.value = parseInt(input.value);
+                                    // Positivo
+                                    if (parseInt(input.value) < 0) {
+                                        alert(`Error en el valor "${input.value}": se requiere un valor numérico positivo`);
+                                        mensajeConsola(`Error en el valor "${input.value}": se requiere un valor numérico positivo`);
+                                        input.classList.add('input-error');
+
+                                        setTimeout(() => {
+                                            input.focus();
+                                        }, 100);
+
+                                        return;
+                                    }
+                                }
+
+                                if (tabla.id.startsWith('DISPO') || tabla.id.startsWith('ASIGN') || tabla.id.startsWith('COORD')) {
+                                    let valorNum = parseFloat(input.value);
+
+                                    if (valorNum !== 0 && valorNum !== 1) {
+                                        alert(`Error en el valor "${input.value}": se requiere un valor 0 o 1`);
+                                        mensajeConsola(`Error en el valor "${input.value}": se requiere un valor 0 o 1`);
+                                        input.classList.add('input-error');
+
+                                        setTimeout(() => {
+                                            input.focus();
+                                        }, 100);
+
+                                        return;
+                                    }
+                                }
+
+                                if (tabla.id.endsWith('CI_DERS')) {
+                                    let valorNum = parseInt(input.value);
+
+                                    if (input.columna === 2) {
+                                        // Positivo
+                                        if (valorNum !== 0 && valorNum !== 1) {
+                                            alert(`Error en el valor "${input.value}": se requiere un valor 0 o 1`);
+                                            mensajeConsola(`Error en el valor "${input.value}": se requiere un valor 0 o 1`);
+                                            input.classList.add('input-error');
+
+                                            setTimeout(() => {
+                                                input.focus();
+                                            }, 100);
+
+                                            return;
+                                        }
+                                    }
+
+                                    if (input.columna === 4) {
+                                        // Lo hace entero con el parseInt
+                                        valorNum = parseFloat(input.value);
+
+                                        // Positivo
+                                        if (valorNum < 0) {
+                                            alert(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
+                                            mensajeConsola(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
+                                            input.classList.add('input-error');
+
+                                            setTimeout(() => {
+                                                input.focus();
+                                            }, 100);
+
+                                            return;
+                                        }
+                                    }
+
+                                    if (input.columna === 3 || input.columna === 5) {
+                                        // Positivo
+                                        if (valorNum < 0 || valorNum > 24) {
+                                            alert(`Error en el valor "${input.value}": se requiere un valor numérico entre 0 y 24`);
+                                            mensajeConsola(`Error en el valor "${input.value}": se requiere un valor numérico entre 0 y 24`);
+                                            input.classList.add('input-error');
+
+                                            setTimeout(() => {
+                                                input.focus();
+                                            }, 100);
+
+                                            return;
+                                        }
+                                    }
+                                }
+
+                                if (tabla.id.startsWith('CGMR') || tabla.id.startsWith('PREVE') || tabla.id.startsWith('POTVE') || tabla.id.startsWith('LIUNIT') || tabla.id.startsWith('LSUNIT')) {
+                                    // Positivo
+                                    if (parseFloat(input.value) < 0) {
+                                        alert(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
+                                        mensajeConsola(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
+                                        input.classList.add('input-error');
+
+                                        setTimeout(() => {
+                                            input.focus();
+                                        }, 100);
+
+                                        return;
+                                    }
+                                }
+
+                                /* Zonas de reserva REQ. */
+                                if (tabla.id.startsWith('ZONASRES_DERS') || tabla.id.startsWith('RRERO10Z_DERS') || tabla.id.startsWith('PRERO10Z_DERS') || tabla.id.startsWith('RRE10Z_DERS') || tabla.id.startsWith('PRE10Z_DERS') || tabla.id.startsWith('RRESUZ_DERS') || tabla.id.startsWith('PRESUZ_DERS') || tabla.id.startsWith('RRERESEZ_DERS') || tabla.id.startsWith('PRERESEZ_DERS')) {
+                                    // Positivo
+                                    if (parseFloat(input.value) < 0) {
+                                        alert(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
+                                        mensajeConsola(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
+                                        input.classList.add('input-error');
+
+                                        setTimeout(() => {
+                                            input.focus();
+                                        }, 100);
+
+                                        return;
+                                    }
+                                }
+
+                                /* Zonas de reserva REQ. */
+                                if (tabla.id.startsWith('AUSUBSIS_DERS') || tabla.id.startsWith('RRERO10S_DERS') || tabla.id.startsWith('PRERO10S_DERS') || tabla.id.startsWith('RRE10S_DERS') || tabla.id.startsWith('PRE10S_DERS') || tabla.id.startsWith('RRESUS_DERS') || tabla.id.startsWith('PRESUS_DERS') || tabla.id.startsWith('RRERESES_DERS') || tabla.id.startsWith('PRERESES_DERS')) {
+                                    // Positivo
+                                    if (parseFloat(input.value) < 0) {
+                                        alert(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
+                                        mensajeConsola(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
+                                        input.classList.add('input-error');
+
+                                        setTimeout(() => {
+                                            input.focus();
+                                        }, 100);
+
+                                        return;
+                                    }
+                                }
+
+
+                                /* *************************************************** */
+
                                 objDato.valor = input.value;
                                 mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${objDato.valorOriginal}" a "${input.value}" (${objArchivo.archivo})`);
                                 input.classList.remove('input-error');
-                                // input.style.backgroundColor = 'darksalmon';
                                 input.classList.add('modificado');
                                 objArchivo.editado = true;
 
@@ -678,15 +830,16 @@ function crearTablaInfo(objArchivo, copia) {
     }
 }
 
-function guardarEscenario() {
+function guardarEscenario(flag_actualizar) {
     let folio;
     let flag_copiar;
 
     // Si no esta definido se crea un nuevo folio,
-    if (typeof objEscModificado === 'undefined' || objEscModificado === null) {
+    if (typeof objEscModificado === 'undefined' || objEscModificado === null || typeof flag_actualizar === 'undefined' || flag_actualizar === false) {
         folio = moment().format('YYYYMMDDHHmm');
         flag_copiar = true;
         banner.setMensaje(`Generando escenario modificado`);
+        objEscModificado = null;
     } else {
         folio = objEscModificado.folio;
         flag_copiar = false;
@@ -694,6 +847,7 @@ function guardarEscenario() {
     }
 
     console.log('folio',folio);
+    SESION.folio_generado = folio;
 
     banner.vistaCompacta();
     banner.modoNormal();
@@ -752,6 +906,9 @@ ipcRenderer.on('escenario-original:copiado', (event, res) => {
                 }
             }
         }
+
+        // Habilita boton actualizar
+        boton_actualizarEscenario.disabled = false;
 
         // Habilita el boton de ejecutar
         if (boton_ejecutarEscenario) {

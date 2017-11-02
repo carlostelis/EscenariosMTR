@@ -120,10 +120,11 @@ ipcRenderer.on('algoritmo:descargado', (event, res) => {
             ipcRenderer.send('escenario_entradas:leer', rutaEscenarioOriginal, SESION.algoritmo);
 
             // Deshabilita botón ejecutar
-        	let boton_ejecutarEscenario = document.getElementById('boton_ejecutarEscenario');
-        	if (boton_ejecutarEscenario) {
-        		boton_ejecutarEscenario.disabled = true;
-        	}
+        	//let boton_ejecutarEscenario = document.getElementById('boton_ejecutarEscenario');
+        	// if (boton_ejecutarEscenario) {
+        	boton_ejecutarEscenario.disabled = true;
+            boton_actualizarEscenario.disabled = true;
+        	// }
 
             // Despliegua la seccion
             menuInfo.onclick();
@@ -196,6 +197,7 @@ ipcRenderer.on('utc:respuesta', (event, json) => {
 
     mensajeConsola(`Solicitando escenario ${id}`);
 
+    SESION.id_solicitud = id;
     SESION.algoritmo = select_algoritmo.value;
 
     ipcRenderer.send('directorio:descarga', obj);

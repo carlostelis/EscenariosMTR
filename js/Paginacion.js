@@ -1,4 +1,4 @@
-const MAX_ROWS = 25;
+const MAX_ROWS = 20;
 const MAX_ROWS_MED = 100;
 const MAX_ROWS_BIG = 200;
 const LIM_INF_SIZE = 1000;

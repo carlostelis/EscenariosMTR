@@ -35,30 +35,23 @@ module.exports = function(app, win, dialog) {
         {
             label: 'Vista',
             submenu: [
-                {role: 'toggledevtools', label: 'Deshacer'},
                 {type: 'separator'},
-                {role: 'togglefullscreen', label: 'Pantalla completa'}
-            ]
-        },
-        {
-            role: 'window',
-            label: 'Ventana',
-            submenu: [
+                {role: 'togglefullscreen', label: 'Pantalla completa'},
                 {role: 'minimize', label: 'Minimizar'}
             ]
         },
-        {
-            role: 'help',
-            label: "Ayuda",
-            submenu: [
-                {
-                    label: 'Acerca de...',
-                    click () {
-
-                    }
-                }
-            ]
-        }
+        // {
+        //     role: 'help',
+        //     label: "Ayuda",
+        //     submenu: [
+        //         {
+        //             label: 'Acerca de...',
+        //             click () {
+        //
+        //             }
+        //         }
+        //     ]
+        // }
     ];
 
     // Si es OSX

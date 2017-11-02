@@ -4,6 +4,7 @@
 
 .tabla-info {
     font-size: 0.8vw;
+    margin-bottom: 0;
 }
 
 .tabla-head {
@@ -185,22 +186,27 @@
 }
 
 .celda-header-info:hover {
-    text-shadow: 2px 2px 2px rgba(125, 125, 0, 1);
+    /*text-shadow: 2px 2px 2px rgba(125, 125, 0, 1);*/
+    text-shadow: 0px 0px 3px rgba(255, 255, 255, 1);
+    background-color: darkseagreen;
+    color: darkgreen;
 }
 
 .celda-header-info:active {
     color: darkgreen;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 1);
+    text-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
 }
 
 .celda-header-info.inactivo {
     background: gray;
     text-shadow: none;
     cursor:initial;
+    display: none;
 }
 
 .celda-header-info.inactivo:hover {
     text-shadow: none;
+    color: white;
 }
 
 .celda-header-info.inactivo:active {
@@ -214,15 +220,14 @@
 .celda-header-info.vacio {
     background: rosybrown;
     text-shadow: none;
-    cursor:initial;
 }
 
 .celda-header-info.vacio:hover {
-    text-shadow: none;
+    background-color: cornsilk;
 }
 
 .celda-header-info.vacio:active {
-    color: white;
+    text-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
 }
 
 .celda-header-info > span {

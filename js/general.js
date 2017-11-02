@@ -85,6 +85,8 @@ let flag_espera_esc = false;
 let folios_mod = null;
 let botones_folio_res = null;
 let colapsables_res = null;
+let label_resA = null;
+let label_resB = null;
 
 // Etiquetas comunes
 let usuario_labels = null;
@@ -96,6 +98,7 @@ let intervalo_labels = null;
 let folio_labels = null;
 
 let boton_ejecutarEscenario = null;
+let boton_actualizarEscenario = null;
 
 // Al cargar la pagina es inicio de sesion, se consultan
 // sistemas disponibles y cargan documentos en el area de trabajo
@@ -176,8 +179,10 @@ function cargaComponentes() {
     colapsos_res = Array.from(document.getElementsByClassName('celda-header-res'));
     divsScrollRes = Array.from(document.getElementsByClassName('div-scroll-res'));
     folios_mod = Array.from(document.getElementsByClassName('sel-folios-mod'));
-    botones_folio_res = Array.from(document.getElementsByClassName('btn-folio-res'));
+    boton_cargarFolios = document.getElementById('boton_cargarFolios');
     vistasContenedor = document.getElementById('vistas_contenedor');
+	label_resA = document.getElementById('label_idResA');
+	label_resB = document.getElementById('label_idResB');
 
     // Empareja tablas para resultados
     let tablas_res_a = [];
@@ -225,35 +230,6 @@ function cargaComponentes() {
         banner_resB.cargando();
     }
 
-    // Funcion de los combos de folios
-    let folio_res_fun = (sel, marco) => {
-        let folio;
-        let boton;
-        if (marco === 'A') {
-            folio = sel.value;
-            boton = botones_folio_res[0];
-        } else {
-            folio = sel.value;
-            boton = botones_folio_res[1];
-        }
-
-        console.log(folio, marco);
-        console.log(objEscA_res.ruta);
-        console.log(objEscB_res.ruta);
-
-        if (objEscA_res.ruta.endsWith(folio) || objEscB_res.ruta.endsWith(folio)) {
-            boton.disabled = true;
-        } else {
-            boton.disabled = false;
-        }
-    };
-
-    // Asigna evento
-    for (let i = 0; i < 2; i++) {
-        folios_mod[i].onmouseup = function() { folio_res_fun(this, (i === 0 ? 'A' : 'B')); };
-        folios_mod[i].onkeyup = function() { folio_res_fun(this, (i === 0 ? 'A' : 'B')); };
-    }
-
 	colapsos_res.forEach((col_res) => {
 		col_res.desplegado = true;
 	});
@@ -286,6 +262,7 @@ function cargaComponentes() {
     folio_labels = Array.from(document.getElementsByClassName('label-folio-esc'));
 
     boton_ejecutarEscenario = document.getElementById('boton_ejecutarEscenario');
+	boton_actualizarEscenario = document.getElementById('boton_actualizarEscenario');
 
     let div_archivos = document.getElementById('div_visor-archivos');
 
@@ -358,6 +335,21 @@ function cargaComponentes() {
     // selecciona el primero
     // document.querySelector('.opc-menu').click();
     menuCarga.onclick();
+}
+
+function folio_selecciona() {
+	if ((!objEscA_res.ruta.endsWith(folios_mod[0].value) && !objEscB_res.ruta.endsWith(folios_mod[0].value)) || (!objEscA_res.ruta.endsWith(folios_mod[1].value) && !objEscB_res.ruta.endsWith(folios_mod[1].value))) {
+		boton_cargarFolios.disabled = false;
+
+		// Si son iguales
+		if (folios_mod[0].value !== folios_mod[1].value) {
+			boton_cargarFolios.disabled = false;
+		} else {
+			boton_cargarFolios.disabled = true;
+		}
+	} else {
+		boton_cargarFolios.disabled = true;
+	}
 }
 
 function mensajeConsola(mensaje) {

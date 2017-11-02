@@ -223,12 +223,22 @@ ipcRenderer.on('escenario_resultados:leidoComparado', (event, objA, objB) => {
             banner_resA.ocultar();
         }, 50);
         mensajeConsola(`Resultados de algoritmo (${objEscA_res.algoritmo}) cargados en marco A`);
+        label_resA.innerHTML = `<font color="black">Escenario:</font> <b>${objEscA_res.id}</b> (${objEscA_res.id.length > 12 ? 'Original' : 'Modificado'})`;
 
         crearTablasResultadoMarco(objEscB_res, 'B').then(() => {
             banner_resB.ocultar();
             mensajeConsola(`Resultados de algoritmo (${objEscB_res.algoritmo}) cargados en marco B`);
+            label_resB.innerHTML = `<font color="black">Escenario:</font> <b>${objEscB_res.id}</b> (${objEscB_res.id.length > 12 ? 'Original' : 'Modificado'})`;
 
             console.log('Resultados cargados...');
+
+            if (SESION.flag_cargarFolios === true) {
+                // 3 segundos después del segundo resultado, solicita la lista de modificados
+                setTimeout(() => {
+                    console.log('Carga folios modificados');
+                    ipcRenderer.send('escenarios_mod:leer', objEscOriginal.ruta.replace('escenario_original', 'escenario_modificado'));
+                }, 500);
+            }
         }, () => {
             console.log('Error cargando marco B');
         });
@@ -310,9 +320,17 @@ function crearTablaResultado(objArchivo) {
     tabla.inputFiltros = [];
 
     // Crea las filas
+    // En resultados se crea el encabezado también
+
     objArchivo.filas.forEach((fila) => {
         // si es la primer fila, procesa las cabeceras
-        if (flag_primera) {
+
+        // SEMAFOROSDERS no trae cabeceras
+        /* *************************************************** */
+        /* Temporal mientras queda el archivo de configuracion */
+        /* *************************************************** */
+
+        if (flag_primera && tabla.id !== 'SEMAFOROSDERS') {
             for (let nodoA of tabla.childNodes) {
                 if (nodoA.nodeName.toLowerCase() === 'thead') {
                     for (let nodoB of nodoA.childNodes) {
@@ -625,30 +643,81 @@ function mostrarResultados2() {
 
     // Colapsa resultados
     colapsarTodasResultados(true);
+    SESION.flag_cargarFolios = true;
 
     mensajeConsola('Cargando resultados de los escenarios...');
 
     ipcRenderer.send('escenario_resultados:leerComparar', objEscOriginal.ruta, objEscModificado.ruta, SESION.algoritmo);
 }
 
+function mostrarResultadosSeleccionados() {
+    banner_resA.mostrar();
+    banner_resB.mostrar();
+
+    // Colapsa resultados
+    colapsarTodasResultados(true);
+
+    mensajeConsola('Cargando resultados de los escenarios...');
+
+    // Genera la ruta A
+    let folio = folios_mod[0].value;
+    let ruta_A;
+    if (folio.length > 12) {
+        ruta_A = objEscOriginal.ruta;
+    } else {
+        ruta_A = `${objEscModificado.ruta.substr(0, objEscModificado.ruta.length - 12)}${folio}`;
+    }
+
+    // Genera la ruta B
+    folio = folios_mod[1].value;
+    let ruta_B;
+    if (folio.length > 12) {
+        ruta_B = objEscOriginal.ruta;
+    } else {
+        ruta_B = `${objEscModificado.ruta.substr(0, objEscModificado.ruta.length - 12)}${folio}`;
+    }
+
+    console.log(ruta_A);
+    console.log(ruta_B);
+    SESION.flag_cargarFolios = false;
+    ipcRenderer.send('escenario_resultados:leerComparar', ruta_A, ruta_B, SESION.algoritmo);
+}
+
 ipcRenderer.on('escenarios_mod:leidos', (event, res) => {
+    let flag_primero = true;
     if (res.estado === true) {
         for (let sel of folios_mod) {
             sel.innerHTML = '';
 
-            let txt = document.createTextNode('- Folio -');
+            let txt = document.createTextNode(SESION.id_solicitud);
             let opt = document.createElement('option');
-            opt.disabled = true;
-            opt.selected = true;
+
             opt.appendChild(txt);
             sel.appendChild(opt);
+
+            if (flag_primero) {
+                // Selecciona originall
+                opt.selected = true;
+            }
 
             for (let folio of res.lista) {
                 txt = document.createTextNode(folio);
                 opt = document.createElement('option');
                 opt.appendChild(txt);
                 sel.appendChild(opt);
+
+                if (flag_primero === false && folio === SESION.folio_generado) {
+                    opt.selected = true;
+                }
+
+                if (flag_primero === true && folio === SESION.folio_generado) {
+                    flag_primero = false;
+                }
             }
+
+            sel.valido = false;
         }
+
+        boton_cargarFolios.disabled = true;
     }
 });
