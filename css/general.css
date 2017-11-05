@@ -315,8 +315,8 @@ label {
 }
 
 .caja-prompt {
-    width: 45%;
-    height: 50%;
+    width: 40vw;
+    height: 30vw;
 }
 
 .icono-banner {
@@ -382,7 +382,7 @@ label {
 }
 
 .botones-banner > button {
-    height: 80%;
+    height: 65%;
 }
 
 .progreso-banner {

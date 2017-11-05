@@ -37,7 +37,7 @@ let ftp = new FTP({
 let SESION;
 
 // Versión de la aplicacion
-process.env.NODE_ENV = 'production';
+// process.env.NODE_ENV = 'production';
 
 /////////          Para la generacion del instalador             //////////////
 
@@ -818,5 +818,23 @@ ipcMain.on('escenarios_mod:leer', (event, ruta_escenario_mod) => {
     }, (err) => {
         console.log(err);
         win.webContents.send('escenarios_mod:leidos', {estado:false, error:err});
+    });
+});
+
+ipcMain.on('bitacora_res:leer', (event, ruta) => {
+    let ruta_archivo = path.join(ruta, 'dirres', 'bitacora.res');
+    console.log('Bitacora', ruta_archivo);
+    escenario.leerArchivo(ruta_archivo).then((data) => {
+        if (data.includes('TERMINACION NORMAL')) {
+            data += `<br><font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`;
+        } else {
+            data += `<br><font color='red'>Error de ejecución del algoritmo</font>`;
+        }
+
+        console.log('Leido');
+        win.webContents.send('bitacora_res:leido', {rutaBase:ruta, res:data});
+    }, (err) => {
+        console.log('Error', err);
+        win.webContents.send('bitacora_res:leido', {rutaBase:ruta, res:err});
     });
 });

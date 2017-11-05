@@ -284,7 +284,8 @@ ipcRenderer.on('escenario_entradas:leido', (event, obj) => {
         banner.setMensaje('Lectura finalizada');
 
         setTimeout(() => {
-            banner.ocultar();
+            //banner.ocultar();
+            guardarEscenario(false);
         }, 1000);
     });
 });

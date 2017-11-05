@@ -164,6 +164,9 @@ function colapsarTodasResultados(flagClass) {
 ipcRenderer.on('escenario_resultados:leido', (event, obj) => {
     console.log('Recibe archivos:', obj.lista.length);
 
+    flag_resOutput_A = false;
+    flag_resOutput_B = false;
+
     new Promise((resolve, reject) => {
         if (marcoSeleccionado === 'A') {
             objEscA_res = obj;
@@ -223,12 +226,32 @@ ipcRenderer.on('escenario_resultados:leidoComparado', (event, objA, objB) => {
             banner_resA.ocultar();
         }, 50);
         mensajeConsola(`Resultados de algoritmo (${objEscA_res.algoritmo}) cargados en marco A`);
-        label_resA.innerHTML = `<font color="black">Escenario:</font> <b>${objEscA_res.id}</b> (${objEscA_res.id.length > 12 ? 'Original' : 'Modificado'})`;
+        label_resA.innerHTML = `<font color="black">Escenario:</font> <b>${objEscA_res.id}</b> (${objEscA_res.id.length > 12 ? 'Original' : 'Modificado'})<span onclick="mostrarSalidasAlgoritmo();"><i class="demo-icon icon-terminal"></i></span>`;
+
+        // Configura banner
+        banner_resA.modoPrompt();
+        banner_resA.promptEspera();
+        banner_resA.setBoton('Cerrar', () => {
+            banner_resA.ocultar();
+            banner_resB.ocultar();
+        });
+        banner_resA.mostrarBoton();
+        banner_resA.setTituloPrompt(`Ejecución del escenario ${objEscA_res.id}`);
 
         crearTablasResultadoMarco(objEscB_res, 'B').then(() => {
             banner_resB.ocultar();
             mensajeConsola(`Resultados de algoritmo (${objEscB_res.algoritmo}) cargados en marco B`);
-            label_resB.innerHTML = `<font color="black">Escenario:</font> <b>${objEscB_res.id}</b> (${objEscB_res.id.length > 12 ? 'Original' : 'Modificado'})`;
+            label_resB.innerHTML = `<font color="black">Escenario:</font> <b>${objEscB_res.id}</b> (${objEscB_res.id.length > 12 ? 'Original' : 'Modificado'})<span onclick="mostrarSalidasAlgoritmo();"><i class="demo-icon icon-terminal"></i></span>`;
+
+            // Configura banner
+            banner_resB.modoPrompt();
+            banner_resB.promptEspera();
+            banner_resB.setBoton('Cerrar', () => {
+                banner_resA.ocultar();
+                banner_resB.ocultar();
+            });
+            banner_resB.mostrarBoton();
+            banner_resB.setTituloPrompt(`Ejecución del escenario ${objEscB_res.id}`);
 
             console.log('Resultados cargados...');
 
@@ -245,6 +268,39 @@ ipcRenderer.on('escenario_resultados:leidoComparado', (event, objA, objB) => {
     }, () => {
         console.log('Error cargando marco A');
     });
+});
+
+function mostrarSalidasAlgoritmo() {
+    if (flag_resOutput_A === false) {
+        ipcRenderer.send('bitacora_res:leer', objEscA_res.ruta);
+    }
+
+    if (flag_resOutput_B === false) {
+        ipcRenderer.send('bitacora_res:leer', objEscB_res.ruta);
+    }
+    // Colapsa todas
+    colapsarTodasResultados(true);
+
+    // Muestra banners
+    banner_resA.mostrar();
+    banner_resB.mostrar();
+}
+
+ipcRenderer.on('bitacora_res:leido', (event, obj) => {
+    let banner = null;
+
+    if (obj.rutaBase === objEscA_res.ruta) {
+        flag_resOutput_A = true;
+        banner = banner_resA;
+    } else if (obj.rutaBase === objEscB_res.ruta) {
+        flag_resOutput_B = true;
+        banner = banner_resB;
+    }
+
+    if (banner !== null) {
+        banner.promptQuitaEspera();
+        banner.setTextoPrompt(obj.res);
+    }
 });
 
 function crearTablasResultadoMarco(escenario, marco) {
@@ -602,6 +658,15 @@ function crearTablaResultado(objArchivo) {
             colapso.classList.add('vacio');
         }
     }
+
+    // Verifica su archivo para el nombre en el span del colapso
+    spans_archivos_res.forEach((span) => {
+        let arch_id = span.id.replace('ARCH-', '');
+        console.log(id, arch_id);
+        if (id.startsWith(arch_id)) {
+            span.innerHTML = `${id}.csv`;
+        }
+    });
 }
 
 function scrollContenedor(elemento) {
@@ -624,20 +689,24 @@ function scrollTabla(elemento) {
     }
 }
 
-function mostrarResultados() {
-    menuCompara.onclick();
-    banner_resA.mostrar();
-    banner_resB.mostrar();
-
-    mensajeConsola('Cargando resultados de los escenarios...');
-
-    flag_espera_esc = true;
-    marcoSeleccionado = 'A';
-    ipcRenderer.send('escenario_resultados:leer', objEscOriginal.ruta, SESION.algoritmo);
-}
-
 function mostrarResultados2() {
     menuCompara.onclick();
+
+    flag_resOutput_A = false;
+    flag_resOutput_B = false;
+
+    banner_resA.modoNormal();
+    banner_resA.ocultarBoton()
+    banner_resA.ocultarProgreso()
+    banner_resA.vistaIcono();
+    banner_resA.cargando();
+
+    banner_resB.modoNormal();
+    banner_resB.ocultarBoton()
+    banner_resB.ocultarProgreso()
+    banner_resB.vistaIcono();
+    banner_resB.cargando();
+
     banner_resA.mostrar();
     banner_resB.mostrar();
 
@@ -651,6 +720,21 @@ function mostrarResultados2() {
 }
 
 function mostrarResultadosSeleccionados() {
+    flag_resOutput_A = false;
+    flag_resOutput_B = false;
+
+    banner_resA.modoNormal();
+    banner_resA.ocultarBoton()
+    banner_resA.ocultarProgreso()
+    banner_resA.vistaIcono();
+    banner_resA.cargando();
+
+    banner_resB.modoNormal();
+    banner_resB.ocultarBoton()
+    banner_resB.ocultarProgreso()
+    banner_resB.vistaIcono();
+    banner_resB.cargando();
+
     banner_resA.mostrar();
     banner_resB.mostrar();
 

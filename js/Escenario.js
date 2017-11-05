@@ -342,6 +342,20 @@ class Escenario {
             resolve();
         });
     }
+
+    leerArchivo(ruta_archivo) {
+        return new Promise((resolve, reject) => {
+            // Leer datos
+            this.fs.readFile(ruta_archivo, 'utf8', (err, data) => {
+                if (err) {
+                    console.log('No fue posible leer', ruta_archivo, err.message);
+                    reject(err.message);
+                } else {
+                    resolve(data.replace(new RegExp('\n+\s*', 'g'), '<br>'));
+                }
+            });
+        });
+    }
 }
 
 module.exports = Escenario;

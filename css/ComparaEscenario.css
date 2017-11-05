@@ -103,6 +103,19 @@
     color: white;
 }
 
+.span-archivo-res {
+    float: left!important;
+    width: 15vw;
+    text-align: left;
+    margin-right: -5vw;
+    color: ghostwhite;
+    font-size: 0.7vw;
+}
+
+.celda-header-res:hover > div > span.span-archivo-res {
+    color: darkslategray;
+}
+
 .tabla-res {
     font-size: 0.8vw;
     margin-bottom: 0;
@@ -140,6 +153,18 @@
     border-right-color: gray;
     border-left-style: ridge;
     border-left-color: gray;
+}
+
+.div-scroll-res > label > span {
+    float: right;
+    margin-right: 1vw;
+    margin-left: -1vw;
+    color: black;
+}
+
+.div-scroll-res > label > span:hover {
+    cursor: pointer;
+    color: forestgreen;
 }
 
 .scroll-res {

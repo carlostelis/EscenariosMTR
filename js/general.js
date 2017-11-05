@@ -87,6 +87,9 @@ let botones_folio_res = null;
 let colapsables_res = null;
 let label_resA = null;
 let label_resB = null;
+let flag_resOutput_A = false;
+let flag_resOutput_B = false;
+let spans_archivos_res = [];
 
 // Etiquetas comunes
 let usuario_labels = null;
@@ -183,6 +186,7 @@ function cargaComponentes() {
     vistasContenedor = document.getElementById('vistas_contenedor');
 	label_resA = document.getElementById('label_idResA');
 	label_resB = document.getElementById('label_idResB');
+	spans_archivos_res = Array.from(document.getElementsByClassName('span-archivo-res'));
 
     // Empareja tablas para resultados
     let tablas_res_a = [];

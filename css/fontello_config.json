@@ -215,6 +215,18 @@
       "css": "spin1",
       "code": 59440,
       "src": "fontelico"
+    },
+    {
+      "uid": "e92e6cad2da0ee4bc374a1ef4c6ab12b",
+      "css": "terminal",
+      "code": 59416,
+      "src": "websymbols"
+    },
+    {
+      "uid": "fa10777b2d88cc64cd6e4f26ef0e5264",
+      "css": "terminal-1",
+      "code": 61728,
+      "src": "fontawesome"
     }
   ]
 }
