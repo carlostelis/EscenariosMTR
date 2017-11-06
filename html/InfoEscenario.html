@@ -438,27 +438,6 @@
                     <div id="cont-demanda-info" class="row contenedor-info subseccion">
                         <div class="container-fluid div-contenedor-gral-vertical">
 
-                            <!-- FACTORES DE DISTRIBUCION DE GENERACION POR NODO -->
-                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'FACDISGEN');" id="col_info_factores_dist_generacion_nodo">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
-                                <div class="col"><span class="span-archivo">FACDISGEN.csv</span>Factores de Distribución de Generación por Nodo <span><i class="fa fa-caret-square-o-down"></i></span></div>
-                            </div>
-                            <div class="row colapsable div-tabla invisible" id="info_factores_dist_generacion_nodo">
-                                <div class="col-12 table-responsive">
-                                    <table class="table table-sm table-striped tabla-info" id="FACDISGEN" data-contenedor="info_factores_dist_generacion_nodo" data-colapso="col_info_factores_dist_generacion_nodo">
-                                        <thead class="tabla-head alg-dep">
-                                            <tr>
-                                                <th></th>
-                                                <th>Índice</th>
-                                                <th>Índice numerado</th>
-                                                <th>Tipo de unidad</th>
-                                                <th>Clave de unidad</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-
                             <!-- DATOS DE CARGAS PARTICIPANTES -->
                             <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'CARGAS_DERS');" id="col_info_cargas_participantes">
                                 <span class="invisible"><i class="fa fa-asterisk"></i></span>
@@ -490,23 +469,6 @@
                             <div class="row colapsable div-tabla invisible" id="info_nodos_periodos_cargas_participantes" >
                                 <div class="table-responsive">
                                     <table class="table table-sm table-striped tabla-info" id="NODOSCAR_DERS" data-contenedor="info_nodos_periodos_cargas_participantes" data-colapso="col_info_nodos_periodos_cargas_participantes">
-                                        <thead class="tabla-head alg-dep">
-                                            <tr>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <!-- NODOS DE GENERACION -->
-                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NODDISGEN');" id="col_info_nodos_generacion">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
-                                <div class="col"><span class="span-archivo">NODDISGEN.csv</span>Nodos de Generación <span><i class="fa fa-caret-square-o-down"></i></span></div>
-                            </div>
-                            <div class="row colapsable div-tabla invisible" id="info_nodos_generacion">
-                                <div class="col-12 table-responsive">
-                                    <table class="table table-sm table-striped tabla-info" id="NODDISGEN" data-contenedor="info_nodos_generacion" data-colapso="col_info_nodos_generacion">
                                         <thead class="tabla-head alg-dep">
                                             <tr>
                                                 <th></th>
@@ -1152,7 +1114,7 @@
                             </div>
 
                             <!-- UNIDADES DE PROPIEDAD CONJUNTA -->
-                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'UPCONJRC');" id="col_info_unidades_propiedad_conjunta_rc">
+                            <!-- <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'UPCONJRC');" id="col_info_unidades_propiedad_conjunta_rc">
                                 <span class="invisible"><i class="fa fa-asterisk"></i></span>
                                 <div class="col"><span class="span-archivo">UPCONJRC.csv</span> Unidades de Propiedad Conjunta<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
@@ -1168,7 +1130,7 @@
                                         </thead>
                                     </table>
                                 </div>
-                            </div>
+                            </div> -->
 
 
                         </div>
@@ -2899,7 +2861,6 @@
                     </div>
                     <!-- FIN DE CONTENEDOR REQ. CENACE POR SUBSISTEMA -->
 
-
                     <!-- CONTENEDOR OTROS -->
                     <div id="cont-otros-info" class="row contenedor-info subseccion">
                         <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
@@ -2955,6 +2916,370 @@
                                 </div>
                             </div>
 
+                            <!-- FACTORES DE DISTRIBUCION DE GENERACION POR NODO -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'FACDISGEN');" id="col_info_factores_dist_generacion_nodo">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">FACDISGEN.csv</span>Factores de Distribución de Generación por Nodo <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_factores_dist_generacion_nodo">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="FACDISGEN" data-contenedor="info_factores_dist_generacion_nodo" data-colapso="col_info_factores_dist_generacion_nodo">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                                <th>Índice</th>
+                                                <th>Índice numerado</th>
+                                                <th>Tipo de unidad</th>
+                                                <th>Clave de unidad</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- FACTORES DE DISTRIBUCION DE GENERACION POR NODO 1-->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'FACDISGEN1');" id="col_info_factores_dist_generacion_nodo1">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">FACDISGEN1.csv</span>Factores de Distribución de Generación por Nodo (1) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_factores_dist_generacion_nodo1">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="FACDISGEN1" data-contenedor="info_factores_dist_generacion_nodo1" data-colapso="col_info_factores_dist_generacion_nodo1">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                                <th>Índice</th>
+                                                <th>Índice numerado</th>
+                                                <th>Tipo de unidad</th>
+                                                <th>Clave de unidad</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- FACTORES DE DISTRIBUCION DE GENERACION POR NODO 2-->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'FACDISGEN2');" id="col_info_factores_dist_generacion_nodo2">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">FACDISGEN2.csv</span>Factores de Distribución de Generación por Nodo (2) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_factores_dist_generacion_nodo2">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="FACDISGEN2" data-contenedor="info_factores_dist_generacion_nodo2" data-colapso="col_info_factores_dist_generacion_nodo2">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                                <th>Índice</th>
+                                                <th>Índice numerado</th>
+                                                <th>Tipo de unidad</th>
+                                                <th>Clave de unidad</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- FACTORES DE DISTRIBUCION DE GENERACION POR NODO 3-->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'FACDISGEN3');" id="col_info_factores_dist_generacion_nodo3">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">FACDISGEN3.csv</span>Factores de Distribución de Generación por Nodo (3) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_factores_dist_generacion_nodo3">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="FACDISGEN3" data-contenedor="info_factores_dist_generacion_nodo3" data-colapso="col_info_factores_dist_generacion_nodo3">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                                <th>Índice</th>
+                                                <th>Índice numerado</th>
+                                                <th>Tipo de unidad</th>
+                                                <th>Clave de unidad</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- FACTORES DE DISTRIBUCION DE GENERACION POR NODO 4-->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'FACDISGEN4');" id="col_info_factores_dist_generacion_nodo4">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">FACDISGEN4.csv</span>Factores de Distribución de Generación por Nodo (4) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_factores_dist_generacion_nodo4">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="FACDISGEN4" data-contenedor="info_factores_dist_generacion_nodo4" data-colapso="col_info_factores_dist_generacion_nodo4">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                                <th>Índice</th>
+                                                <th>Índice numerado</th>
+                                                <th>Tipo de unidad</th>
+                                                <th>Clave de unidad</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- FACTORES DE DISTRIBUCION DE GENERACION POR NODO 5-->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'FACDISGEN5');" id="col_info_factores_dist_generacion_nodo5">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">FACDISGEN5.csv</span>Factores de Distribución de Generación por Nodo (5) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_factores_dist_generacion_nodo5">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="FACDISGEN5" data-contenedor="info_factores_dist_generacion_nodo5" data-colapso="col_info_factores_dist_generacion_nodo5">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                                <th>Índice</th>
+                                                <th>Índice numerado</th>
+                                                <th>Tipo de unidad</th>
+                                                <th>Clave de unidad</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- FACTORES DE DISTRIBUCION DE GENERACION POR NODO 6-->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'FACDISGEN6');" id="col_info_factores_dist_generacion_nodo6">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">FACDISGEN6.csv</span>Factores de Distribución de Generación por Nodo (6) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_factores_dist_generacion_nodo6">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="FACDISGEN6" data-contenedor="info_factores_dist_generacion_nodo6" data-colapso="col_info_factores_dist_generacion_nodo6">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                                <th>Índice</th>
+                                                <th>Índice numerado</th>
+                                                <th>Tipo de unidad</th>
+                                                <th>Clave de unidad</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- FACTORES DE DISTRIBUCION DE GENERACION POR NODO 7-->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'FACDISGEN7');" id="col_info_factores_dist_generacion_nodo7">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">FACDISGEN7.csv</span>Factores de Distribución de Generación por Nodo (7) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_factores_dist_generacion_nodo7">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="FACDISGEN7" data-contenedor="info_factores_dist_generacion_nodo7" data-colapso="col_info_factores_dist_generacion_nodo7">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                                <th>Índice</th>
+                                                <th>Índice numerado</th>
+                                                <th>Tipo de unidad</th>
+                                                <th>Clave de unidad</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- FACTORES DE DISTRIBUCION DE GENERACION POR NODO 8-->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'FACDISGEN8');" id="col_info_factores_dist_generacion_nodo8">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">FACDISGEN8.csv</span>Factores de Distribución de Generación por Nodo (8) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_factores_dist_generacion_nodo8">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="FACDISGEN8" data-contenedor="info_factores_dist_generacion_nodo8" data-colapso="col_info_factores_dist_generacion_nodo8">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                                <th>Índice</th>
+                                                <th>Índice numerado</th>
+                                                <th>Tipo de unidad</th>
+                                                <th>Clave de unidad</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- FACTORES DE DISTRIBUCION DE GENERACION POR NODO 9-->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'FACDISGEN9');" id="col_info_factores_dist_generacion_nodo9">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">FACDISGEN9.csv</span>Factores de Distribución de Generación por Nodo (9) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_factores_dist_generacion_nodo9">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="FACDISGEN9" data-contenedor="info_factores_dist_generacion_nodo9" data-colapso="col_info_factores_dist_generacion_nodo9">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                                <th>Índice</th>
+                                                <th>Índice numerado</th>
+                                                <th>Tipo de unidad</th>
+                                                <th>Clave de unidad</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- NODOS DE GENERACION -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NODDISGEN');" id="col_info_nodos_generacion">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">NODDISGEN.csv</span>Nodos de Generación <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_nodos_generacion">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="NODDISGEN" data-contenedor="info_nodos_generacion" data-colapso="col_info_nodos_generacion">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- NODOS DE GENERACION (1) -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NODDISGEN1');" id="col_info_nodos_generacion1">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">NODDISGEN1.csv</span>Nodos de Generación (1) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_nodos_generacion1">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="NODDISGEN1" data-contenedor="info_nodos_generacion1" data-colapso="col_info_nodos_generacion1">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- NODOS DE GENERACION (3) -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NODDISGEN3');" id="col_info_nodos_generacion3">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">NODDISGEN3.csv</span>Nodos de Generación (3) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_nodos_generacion3">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="NODDISGEN3" data-contenedor="info_nodos_generacion3" data-colapso="col_info_nodos_generacion3">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- NODOS DE GENERACION (4) -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NODDISGEN4');" id="col_info_nodos_generacion4">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">NODDISGEN4.csv</span>Nodos de Generación (4) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_nodos_generacion4">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="NODDISGEN4" data-contenedor="info_nodos_generacion4" data-colapso="col_info_nodos_generacion4">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- NODOS DE GENERACION (5) -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NODDISGEN5');" id="col_info_nodos_generacion5">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">NODDISGEN5.csv</span>Nodos de Generación (5) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_nodos_generacion5">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="NODDISGEN5" data-contenedor="info_nodos_generacion5" data-colapso="col_info_nodos_generacion5">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- NODOS DE GENERACION (6) -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NODDISGEN6');" id="col_info_nodos_generacion6">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">NODDISGEN6.csv</span>Nodos de Generación (6) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_nodos_generacion6">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="NODDISGEN6" data-contenedor="info_nodos_generacion6" data-colapso="col_info_nodos_generacion6">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- NODOS DE GENERACION (7) -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NODDISGEN7');" id="col_info_nodos_generacion7">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">NODDISGEN7.csv</span>Nodos de Generación (7) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_nodos_generacion7">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="NODDISGEN7" data-contenedor="info_nodos_generacion7" data-colapso="col_info_nodos_generacion7">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- NODOS DE GENERACION (8) -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NODDISGEN8');" id="col_info_nodos_generacion8">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">NODDISGEN8.csv</span>Nodos de Generación (8) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_nodos_generacion8">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="NODDISGEN8" data-contenedor="info_nodos_generacion8" data-colapso="col_info_nodos_generacion8">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- NODOS DE GENERACION (9) -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'NODDISGEN9');" id="col_info_nodos_generacion9">
+                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <div class="col"><span class="span-archivo">NODDISGEN9.csv</span>Nodos de Generación (9) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="info_nodos_generacion9">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info" id="NODDISGEN9" data-contenedor="info_nodos_generacion9" data-colapso="col_info_nodos_generacion9">
+                                        <thead class="tabla-head alg-dep">
+                                            <tr>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+
 
                         </div>
                     </div>
@@ -2973,6 +3298,7 @@
                         <div class="row container">
                             <button class="button_gral" onclick="guardarEscenario(false);">Generar Modificado</button>
                             <button class="button_gral" id="boton_actualizarEscenario" onclick="guardarEscenario(true);" disabled>Actualizar</button>
+                            <button class="button_gral" id="boton_resultadoOriginal" onclick="mostrarSalidaAlgoritmoOriginal();">Resultado Original</button>
                             <button class="button_gral" id="boton_ejecutarEscenario" disabled onclick="ejecutarAlgoritmo();">Ejecutar</button>
                         </div>
                     </div>

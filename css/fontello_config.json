@@ -227,6 +227,96 @@
       "css": "terminal-1",
       "code": 61728,
       "src": "fontawesome"
+    },
+    {
+      "uid": "191bcf63575a78def53c907c3d3bf7f0",
+      "css": "floppy",
+      "code": 59417,
+      "src": "entypo"
+    },
+    {
+      "uid": "f4445feb55521283572ee88bc304f928",
+      "css": "floppy-1",
+      "code": 59418,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "41eeea14413f2539da21b4d1754bf4be",
+      "css": "arrows-cw",
+      "code": 59419,
+      "src": "websymbols"
+    },
+    {
+      "uid": "d5fabfa46384953ae055fceacb2229a7",
+      "css": "arrows-cw-1",
+      "code": 59420,
+      "src": "elusive"
+    },
+    {
+      "uid": "d12574a0151c84ddf56f4fd7b4aff678",
+      "css": "arrows-cw-outline",
+      "code": 59421,
+      "src": "typicons"
+    },
+    {
+      "uid": "mqlxga8x57rhlfv44zsvmz1reex8lbqg",
+      "css": "arrows-cw-2",
+      "code": 59422,
+      "src": "typicons"
+    },
+    {
+      "uid": "a73c5deb486c8d66249811642e5d719a",
+      "css": "arrows-cw-3",
+      "code": 59423,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "3a89ddb1c81111c15d6c4e26cc3c546a",
+      "css": "cog-outline",
+      "code": 59424,
+      "src": "typicons"
+    },
+    {
+      "uid": "484b4ad2058d17849f205c4054b6f315",
+      "css": "cog",
+      "code": 59425,
+      "src": "linecons"
+    },
+    {
+      "uid": "dpxunrtmigvk6jm0ieo7axfsgzx4awll",
+      "css": "cog-1",
+      "code": 59426,
+      "src": "typicons"
+    },
+    {
+      "uid": "3e290a111c0f3ee3acbf7b5f17ccc04a",
+      "css": "play-1",
+      "code": 59427,
+      "src": "typicons"
+    },
+    {
+      "uid": "1a27e6346cdf0480c9c22351378bebbb",
+      "css": "clipboard",
+      "code": 59428,
+      "src": "typicons"
+    },
+    {
+      "uid": "k7sao112253txym1egnte7822irbyphe",
+      "css": "eye",
+      "code": 59429,
+      "src": "typicons"
+    },
+    {
+      "uid": "366c3c56b79031deacc953d7f92085e5",
+      "css": "eye-outline",
+      "code": 59430,
+      "src": "typicons"
+    },
+    {
+      "uid": "e536c80e011366046360f5ffe669dbfd",
+      "css": "folder-add",
+      "code": 59431,
+      "src": "typicons"
     }
   ]
 }

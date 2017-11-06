@@ -821,20 +821,22 @@ ipcMain.on('escenarios_mod:leer', (event, ruta_escenario_mod) => {
     });
 });
 
-ipcMain.on('bitacora_res:leer', (event, ruta) => {
-    let ruta_archivo = path.join(ruta, 'dirres', 'bitacora.res');
-    console.log('Bitacora', ruta_archivo);
-    escenario.leerArchivo(ruta_archivo).then((data) => {
-        if (data.includes('TERMINACION NORMAL')) {
-            data += `<br><font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`;
-        } else {
-            data += `<br><font color='red'>Error de ejecución del algoritmo</font>`;
-        }
+ipcMain.on('archivo:leer', (event, ruta, elementos, opcion) => {
+    let ruta_archivo = ruta;
 
+    // Une los elementos en el path
+    if (elementos !== undefined) {
+        elementos.forEach((e) => {
+            ruta_archivo = path.join(ruta_archivo, e);
+        });
+    }
+
+    console.log('Archivo', ruta_archivo);
+    escenario.leerArchivo(ruta_archivo).then((data) => {
         console.log('Leido');
-        win.webContents.send('bitacora_res:leido', {rutaBase:ruta, res:data});
+        win.webContents.send('archivo:leido', {rutaBase:ruta, res:data, opc:opcion});
     }, (err) => {
         console.log('Error', err);
-        win.webContents.send('bitacora_res:leido', {rutaBase:ruta, res:err});
+        win.webContents.send('archivo:leido', {rutaBase:ruta, res:err, opc:opcion});
     });
 });

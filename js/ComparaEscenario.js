@@ -58,7 +58,7 @@ function colapsarResultado(trigger, clase) {
         }
     }
 
-    // Ivierte el incono de los colapsos con el mismo id
+    // Invierte el incono de los colapsos con el mismo id
     for (let col of colapsos_res) {
         if (col.id === trigger.id) {
             // Cambia el icono
@@ -127,24 +127,11 @@ function colapsarTodasResultados(flagClass) {
         let flagInactivo = col.classList.contains('inactivo');
         let flagVacio = col.classList.contains('vacio');
 
-        // Oculta asterisco de diferencias
-        for (let nodo of col.childNodes) {
-            if (nodo.nodeName.toLowerCase() === 'span') {
-                nodo.classList.add('invisible');
-            }
-        }
-
         // Forzar inactivos y vacio
         if (typeof flagClass !== 'undefined' && flagClass === true) {
             col.classList.remove('inactivo');
             col.classList.remove('vacio');
         }
-
-        // Busca su tabla
-        // Si existe la propiedad y esta desplegado, activa su funcion
-        // if (typeof col.desplegado !== 'undefined' && col.desplegado === true) {
-        //     col.onclick();
-        // }
 
         while (col.desplegado !== false) {
             col.onclick();
@@ -228,30 +215,10 @@ ipcRenderer.on('escenario_resultados:leidoComparado', (event, objA, objB) => {
         mensajeConsola(`Resultados de algoritmo (${objEscA_res.algoritmo}) cargados en marco A`);
         label_resA.innerHTML = `<font color="black">Escenario:</font> <b>${objEscA_res.id}</b> (${objEscA_res.id.length > 12 ? 'Original' : 'Modificado'})<span onclick="mostrarSalidasAlgoritmo();"><i class="demo-icon icon-terminal"></i></span>`;
 
-        // Configura banner
-        banner_resA.modoPrompt();
-        banner_resA.promptEspera();
-        banner_resA.setBoton('Cerrar', () => {
-            banner_resA.ocultar();
-            banner_resB.ocultar();
-        });
-        banner_resA.mostrarBoton();
-        banner_resA.setTituloPrompt(`Ejecución del escenario ${objEscA_res.id}`);
-
         crearTablasResultadoMarco(objEscB_res, 'B').then(() => {
             banner_resB.ocultar();
             mensajeConsola(`Resultados de algoritmo (${objEscB_res.algoritmo}) cargados en marco B`);
             label_resB.innerHTML = `<font color="black">Escenario:</font> <b>${objEscB_res.id}</b> (${objEscB_res.id.length > 12 ? 'Original' : 'Modificado'})<span onclick="mostrarSalidasAlgoritmo();"><i class="demo-icon icon-terminal"></i></span>`;
-
-            // Configura banner
-            banner_resB.modoPrompt();
-            banner_resB.promptEspera();
-            banner_resB.setBoton('Cerrar', () => {
-                banner_resA.ocultar();
-                banner_resB.ocultar();
-            });
-            banner_resB.mostrarBoton();
-            banner_resB.setTituloPrompt(`Ejecución del escenario ${objEscB_res.id}`);
 
             console.log('Resultados cargados...');
 
@@ -271,12 +238,32 @@ ipcRenderer.on('escenario_resultados:leidoComparado', (event, objA, objB) => {
 });
 
 function mostrarSalidasAlgoritmo() {
+    // Configura banner
+    banner_resA.modoPrompt();
+    banner_resA.setBoton('Cerrar', () => {
+        banner_resA.ocultar();
+        banner_resB.ocultar();
+    });
+    banner_resA.mostrarBoton();
+    banner_resA.setTituloPrompt(`Ejecución del escenario ${objEscB_res.id}`);
+
+    // Configura banner
+    banner_resB.modoPrompt();
+    banner_resB.setBoton('Cerrar', () => {
+        banner_resA.ocultar();
+        banner_resB.ocultar();
+    });
+    banner_resB.mostrarBoton();
+    banner_resB.setTituloPrompt(`Ejecución del escenario ${objEscB_res.id}`);
+
     if (flag_resOutput_A === false) {
-        ipcRenderer.send('bitacora_res:leer', objEscA_res.ruta);
+        banner_resA.promptEspera();
+        ipcRenderer.send('archivo:leer', objEscA_res.ruta, ['dirres', 'bitacora.res'], 'RES_COMPARA');
     }
 
     if (flag_resOutput_B === false) {
-        ipcRenderer.send('bitacora_res:leer', objEscB_res.ruta);
+        banner_resB.promptEspera();
+        ipcRenderer.send('archivo:leer', objEscB_res.ruta, ['dirres', 'bitacora.res'], 'RES_COMPARA');
     }
     // Colapsa todas
     colapsarTodasResultados(true);
@@ -286,18 +273,35 @@ function mostrarSalidasAlgoritmo() {
     banner_resB.mostrar();
 }
 
-ipcRenderer.on('bitacora_res:leido', (event, obj) => {
-    let banner = null;
+ipcRenderer.on('archivo:leido', (event, obj) => {
+    if (obj.opc === 'RES_COMPARA') {
+        if (obj.res.includes('TERMINACION NORMAL')) {
+            obj.res += `<br><font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`;
+        } else {
+            obj.res += `<br><font color='red'>Error de ejecución del algoritmo</font>`;
+        }
 
-    if (obj.rutaBase === objEscA_res.ruta) {
-        flag_resOutput_A = true;
-        banner = banner_resA;
-    } else if (obj.rutaBase === objEscB_res.ruta) {
-        flag_resOutput_B = true;
-        banner = banner_resB;
-    }
+        let ban = null;
 
-    if (banner !== null) {
+        if (obj.rutaBase === objEscA_res.ruta) {
+            flag_resOutput_A = true;
+            ban = banner_resA;
+        } else if (obj.rutaBase === objEscB_res.ruta) {
+            flag_resOutput_B = true;
+            ban = banner_resB;
+        }
+
+        if (ban !== null) {
+            ban.promptQuitaEspera();
+            ban.setTextoPrompt(obj.res);
+        }
+    } else if (obj.opc === 'RES_ORIGINAL') {
+        if (obj.res.includes('TERMINACION NORMAL')) {
+            obj.res += `<br><font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`;
+        } else {
+            obj.res += `<br><font color='red'>Error de ejecución del algoritmo</font>`;
+        }
+
         banner.promptQuitaEspera();
         banner.setTextoPrompt(obj.res);
     }
@@ -527,8 +531,10 @@ function crearTablaResultado(objArchivo) {
                 let texto = document.createTextNode(objDato.valor);
 
                 if (typeof objDato.diferencia !== 'undefined' && objDato.diferencia === true) {
-                    // td.style.backgroundColor = 'darksalmon';
+                    // Resalta la celda
                     td.classList.add('modificado');
+                    // Resalta la fila
+                    tr.classList.add('modificado');
                     flag_diferencias = true;
                 }
 
@@ -611,12 +617,16 @@ function crearTablaResultado(objArchivo) {
         }
     });
 
+    // Asterisco de diferencias
     colapsos_res.forEach((col) => {
         if (col.id === tabla.dataset.colapso && col.classList.contains(marcoSeleccionado)) {
             for (let nodo of col.childNodes) {
                 if (nodo.nodeName.toLowerCase() === 'span') {
                     if (flag_diferencias) {
                         nodo.classList.remove('invisible');
+                        break;
+                    } else {
+                        nodo.classList.add('invisible');
                         break;
                     }
                 }
@@ -689,7 +699,7 @@ function scrollTabla(elemento) {
     }
 }
 
-function mostrarResultados2() {
+function mostrarResultados() {
     menuCompara.onclick();
 
     flag_resOutput_A = false;

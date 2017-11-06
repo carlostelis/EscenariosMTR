@@ -382,7 +382,9 @@ label {
 }
 
 .botones-banner > button {
-    height: 65%;
+    height: 3vh;
+    margin-top: 1.7vh;
+    font-size: 1vw;
 }
 
 .progreso-banner {

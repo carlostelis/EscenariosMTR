@@ -426,6 +426,7 @@ function crearTablaInfo(objArchivo, copia) {
 
         // Fila aux
         tr.tr_anterior = tr_anterior;
+        tr.modificado = false;
 
         // Agrega numero de registro
         let td_fila = document.createElement('td');
@@ -639,7 +640,11 @@ function crearTablaInfo(objArchivo, copia) {
                                 objDato.valor = input.value;
                                 mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${objDato.valorOriginal}" a "${input.value}" (${objArchivo.archivo})`);
                                 input.classList.remove('input-error');
+                                // Resalta el input
                                 input.classList.add('modificado');
+                                // REsalta la fila
+                                tr.classList.add('modificado');
+                                tr.modificado = true;
                                 objArchivo.editado = true;
 
                                 // Marca el colapso con asterisco
@@ -660,8 +665,11 @@ function crearTablaInfo(objArchivo, copia) {
                             objDato.valor = input.value;
                             mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${objDato.valorOriginal}" a "${input.value}" (${objArchivo.archivo})`);
                             input.classList.remove('input-error');
-                            // input.style.backgroundColor = 'darksalmon';
+                            // Resalta el input modificado
                             input.classList.add('modificado');
+                            // REsalta la fila
+                            tr.classList.add('modificado');
+                            td.modificado = true;
                             objArchivo.editado = true;
 
                             // Marca el colapso con asterisco
@@ -682,6 +690,22 @@ function crearTablaInfo(objArchivo, copia) {
                         // Si es el valor original, no hay cambio ni error
                         input.classList.remove('modificado');
                         input.classList.remove('input-error');
+
+                        // Verifica que hay algun valor modificado para desmarcar la fila
+                        let flag_fila_modificada = false;
+                        for (let col of tr.columnasFiltro) {
+                            if (col.input !== null && col.input.classList.contains('modificado')) {
+                                flag_fila_modificada = true;
+                                break;
+                            }
+                        }
+
+                        if (flag_fila_modificada === false) {
+                            tr.classList.add('modificado');
+                        } else {
+                            tr.classList.remove('modificado');
+                        }
+
 
                         // Revisa si hay modificaciones otras, sino la desmarca
                         objArchivo.editado = false;
@@ -744,9 +768,15 @@ function crearTablaInfo(objArchivo, copia) {
             if (objArchivo.trHeader_aux && tr.tr_anterior != null) {
                 // Si no es la fila proxima al header principal
                 if (tr.flagTop === false) {
-                    tbody.insertBefore(objArchivo.trHeader_aux, tr.tr_anterior);
-                    // tr.tr_anterior.style.display = 'none';
-                    tbody.removeChild(tr.tr_anterior);
+                    try {
+                        // Inserta el header auxiliar
+                        tbody.insertBefore(objArchivo.trHeader_aux, tr.tr_anterior);
+                    } catch (e) {}
+
+                    try {
+                        // Quita la fila anterior
+                        tbody.removeChild(tr.tr_anterior);
+                    } catch (e) {}
                 }
             }
         };
@@ -765,8 +795,6 @@ function crearTablaInfo(objArchivo, copia) {
                         // Quita  el header aux del dom
                         tbody.removeChild(objArchivo.trHeader_aux);
                     } catch (e) {}
-
-                    // tr.tr_anterior.style.display = 'table-row';
                 }
             }
         };
@@ -941,12 +969,11 @@ function ejecutarAlgoritmo() {
     banner.setTextoPrompt('');
     banner.promptEspera();
     banner.mostrarBoton();
-    banner.deshabilitarBoton();
     banner.setBoton('Resultados', () => {
-        //mostrarResultados();
-        mostrarResultados2();
+        mostrarResultados();
         banner.ocultar();
     });
+    banner.deshabilitarBoton();
     banner.mostrar();
 }
 
@@ -977,3 +1004,21 @@ ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
 
     banner.habilitarBoton();
 });
+
+function mostrarSalidaAlgoritmoOriginal() {
+    ipcRenderer.send('archivo:leer', objEscOriginal.ruta, ['dirres', 'bitacora.res'], 'RES_ORIGINAL');
+
+    let arg_id = objEscOriginal.ruta.split('\\');
+    let id = arg_id[arg_id.length - 1];
+    // Muestra banner
+    banner.modoPrompt();
+    banner.setTituloPrompt(`Ejecución de algoritmo en escenario ${id}`);
+    banner.setTextoPrompt('');
+    banner.promptEspera();
+    banner.mostrarBoton();
+    banner.setBoton('Cerrar', () => {
+        banner.ocultar();
+    });
+    banner.habilitarBoton();
+    banner.mostrar();
+}
