@@ -351,7 +351,8 @@ class Escenario {
                     console.log('No fue posible leer', ruta_archivo, err.message);
                     reject(err.message);
                 } else {
-                    resolve(data.replace(new RegExp('\n+\s*', 'g'), '<br>'));
+                    // resolve(data.replace(new RegExp('\n+\s*', 'g'), '<br>'));
+                    resolve(data);
                 }
             });
         });

@@ -33,15 +33,28 @@
     font-size: 0.7vw;
     height: 2.2vh;
     padding: 0;
+    /*border-width: 2px;*/
 }
 
 .tabla-body > tr.modificado {
-    background-color: rgba(255,228,181, 0.5) !important;
+    /*background-color: rgba(255,228,181, 0.5) !important;*/
+    /*text-shadow: 0px 0px 1px;
+    border-color: darksalmon;
+    border-width: 2px;
+    border-style: solid;*/
+}
+
+.tabla-body > tr.modificado > td {
+    /*background-color: rgba(255,228,181, 0.5) !important;*/
+    text-shadow: 0px 0px 1px;
+    border-color: darksalmon;
+    border-width: 2px;
+    border-style: dotted;
 }
 
 .tabla-body > tr:hover {
     background-color: darkseagreen !important;
-    border-color: black;
+    /*border-color: black;*/
     border-width: 2px;
     /*border-style: dotted;*/
     text-shadow: 0px 0px 1px;
@@ -68,7 +81,7 @@
 }
 
 .tabla-body > tr > td.modificado {
-    background-color: darksalmon;
+    background-color: mistyrose;
     text-shadow: 0px 0px 1px;
 }
 
@@ -79,6 +92,18 @@
 
 .tabla-body > tr > td > input:focus {
     outline-color: green;
+}
+
+tr.hover-simulado {
+    background-color: darkseagreen !important;
+    border-color: black;
+    border-width: 2px;
+    /*border-style: dotted;*/
+    text-shadow: 0px 0px 1px;
+}
+
+tr.hover-simulado > td > input {
+    border-color: darkcyan;
 }
 
 .input-filtro {
@@ -206,7 +231,7 @@
     width: 15vw;
     text-align: left;
     margin-right: -15vw;
-    color: greenyellow;
+    color: lightgreen;
 }
 
 .celda-header-info:hover > div > span.span-archivo {
@@ -251,11 +276,21 @@
     text-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
 }
 
+.celda-header-info.vacio > div > span.span-archivo {
+    color: darkred;
+}
+
+.celda-header-info.vacio:hover > div > span.span-archivo {
+    color: darkgreen;
+}
+
 .celda-header-info > span {
-    color: red;
-    margin-left: 3px;
+    color: wheat;
+    margin-left: 0.5vw;
+    margin-right: -1vw;
+    margin-top: -0.5vh;
     line-height: 1.5;
-    font-size: 2vh;
+    font-size: 2.5vh;
 }
 
 .celda-header-info > span.invisible {
@@ -330,4 +365,13 @@ span.menu-boton-texto {
 
 .opcion-menu-info:hover > span > i {
     color: blue;
+}
+
+.boton-ejecutar {
+    background-color: maroon;
+}
+
+.boton-ejecutar:hover {
+    background-color: tan;
+    color: maroon;
 }

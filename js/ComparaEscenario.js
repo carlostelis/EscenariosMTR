@@ -34,7 +34,7 @@ function colapsarResultado(trigger, clase) {
                         }, 10);
 
                         // PAra asegurar que se muestre la primera pagina la primera vez que se despliegue
-                        if (contenedor.tabla_res.paginacion !== null) {
+                        if (contenedor.tabla_res.paginacion !== null && typeof contenedor.tabla_res.paginacion !== 'undefined') {
                             if (contenedor.tabla_res.paginacion.flagVisualiza !== true) {
                                 contenedor.tabla_res.paginacion.cambiarPagina(1);
                                 contenedor.tabla_res.paginacion.flagVisualiza = true;
@@ -178,10 +178,10 @@ ipcRenderer.on('escenario_resultados:leido', (event, obj) => {
 
         if (marcoSeleccionado === 'A') {
             banner_resA.ocultar();
-            mensajeConsola(`Resultados de algoritmo (${obj.algoritmo}) cargados en marco A`);
+            mensajeConsola(`Resultados de algoritmo (${obj.algoritmo}) cargados en marco A`, false);
         } else {
             banner_resB.ocultar();
-            mensajeConsola(`Resultados de algoritmo (${obj.algoritmo}) cargados en marco B`);
+            mensajeConsola(`Resultados de algoritmo (${obj.algoritmo}) cargados en marco B`, false);
         }
 
         if (flag_espera_esc) {
@@ -212,13 +212,19 @@ ipcRenderer.on('escenario_resultados:leidoComparado', (event, objA, objB) => {
         setTimeout(() => {
             banner_resA.ocultar();
         }, 50);
-        mensajeConsola(`Resultados de algoritmo (${objEscA_res.algoritmo}) cargados en marco A`);
+        mensajeConsola(`Resultados de algoritmo (${objEscA_res.algoritmo}) cargados en marco A`, false);
         label_resA.innerHTML = `<font color="black">Escenario:</font> <b>${objEscA_res.id}</b> (${objEscA_res.id.length > 12 ? 'Original' : 'Modificado'})<span onclick="mostrarSalidasAlgoritmo();"><i class="demo-icon icon-terminal"></i></span>`;
+
+        // Carga los costos A
+        ipcRenderer.send('archivo:leer', objEscA_res.ruta, ['dirres', 'r_desphora1.res'], 'RES_COSTOS_A');
 
         crearTablasResultadoMarco(objEscB_res, 'B').then(() => {
             banner_resB.ocultar();
-            mensajeConsola(`Resultados de algoritmo (${objEscB_res.algoritmo}) cargados en marco B`);
+            mensajeConsola(`Resultados de algoritmo (${objEscB_res.algoritmo}) cargados en marco B`, false);
             label_resB.innerHTML = `<font color="black">Escenario:</font> <b>${objEscB_res.id}</b> (${objEscB_res.id.length > 12 ? 'Original' : 'Modificado'})<span onclick="mostrarSalidasAlgoritmo();"><i class="demo-icon icon-terminal"></i></span>`;
+
+            // Carga los costos B
+            ipcRenderer.send('archivo:leer', objEscB_res.ruta, ['dirres', 'r_desphora1.res'], 'RES_COSTOS_B');
 
             console.log('Resultados cargados...');
 
@@ -236,6 +242,8 @@ ipcRenderer.on('escenario_resultados:leidoComparado', (event, objA, objB) => {
         console.log('Error cargando marco A');
     });
 });
+
+
 
 function mostrarSalidasAlgoritmo() {
     // Configura banner
@@ -275,10 +283,17 @@ function mostrarSalidasAlgoritmo() {
 
 ipcRenderer.on('archivo:leido', (event, obj) => {
     if (obj.opc === 'RES_COMPARA') {
+        obj.res = obj.res.replace(new RegExp('\n+\s*', 'g'), '<br>')
         if (obj.res.includes('TERMINACION NORMAL')) {
             obj.res += `<br><font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`;
         } else {
             obj.res += `<br><font color='red'>Error de ejecución del algoritmo</font>`;
+
+            // VErifica infactibilidad
+            if (obj.res.includes('PROBLEMA INFACTIBLE')) {
+                console.log('Verificando infactibilidad');
+                ipcRenderer.send('algoritmo:diagnosticar', obj.rutaBase, 'RES_COMPARA');
+            }
         }
 
         let ban = null;
@@ -296,16 +311,166 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
             ban.setTextoPrompt(obj.res);
         }
     } else if (obj.opc === 'RES_ORIGINAL') {
+        obj.res = obj.res.replace(new RegExp('\n+\s*', 'g'), '<br>')
         if (obj.res.includes('TERMINACION NORMAL')) {
             obj.res += `<br><font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`;
         } else {
             obj.res += `<br><font color='red'>Error de ejecución del algoritmo</font>`;
+            // VErifica infactibilidad
+            if (obj.res.includes('PROBLEMA INFACTIBLE')) {
+                console.log('Verificando infactibilidad');
+                ipcRenderer.send('algoritmo:diagnosticar', obj.rutaBase, 'RES_ORIGINAL');
+            }
         }
 
         banner.promptQuitaEspera();
         banner.setTextoPrompt(obj.res);
+    } else if (obj.opc.startsWith('RES_COSTOS_')) {
+        let arg_islas = obj.res.replace(new RegExp('=?', 'g'), '').split('Isla :');
+        let datos_costos = arg_islas[arg_islas.length - 1].split('Solucion Final para la Isla')[1].trim().replace(new RegExp('\s*:', 'g'), '').split(new RegExp('\s*\n\s*', 'g'));
+
+        let objDatos = obj.opc.endsWith('A') ? objEscA_res : objEscB_res;
+
+        // console.log(datos_costos);
+        objDatos.costo_total = '---';
+        objDatos.costo_gen = '---';
+        objDatos.costo_gen_rd = '---';
+        objDatos.costo_gen_rc = '---';
+        objDatos.beneficio_social = '---';
+        objDatos.costo_arranque = '---';
+        objDatos.costo_reservas = '---';
+        objDatos.ingreso_total = '---';
+        objDatos.ingreso_demanda = '---';
+        objDatos.ingreso_reservas = '---';
+
+        datos_costos.forEach((dato) => {
+            let linea = dato.trim();
+            if (linea !== '') {
+                if (linea.includes('Costo Total') === true) {
+                    objDatos.costo_total = linea.replace('Costo Total', '').trim();
+                } else if (linea.includes('Costo Generacion RD') === true) {
+                    objDatos.costo_gen_rd = linea.replace('Costo Generacion RD', '').trim();
+                } else if (linea.includes('Costo Generacion RC') === true) {
+                    objDatos.costo_gen_rc = linea.replace('Costo Generacion RC', '').trim();
+                } else if (linea.includes('Costo Generacion') === true) {
+                    objDatos.costo_gen = linea.replace('Costo Generacion', '').trim();
+                } else if (linea.includes('Beneficio Social') === true) {
+                    objDatos.beneficio_social = linea.replace('Beneficio Social', '').trim();
+                } else if (linea.includes('Costo de Arranque') === true) {
+                    objDatos.costo_arranque = linea.replace('Costo de Arranque', '').trim();
+                } else if (linea.includes('Costo de Reservas') === true) {
+                    objDatos.costo_reservas = linea.replace('Costo de Reservas', '').trim();
+                } else if (linea.includes('Ingreso Total') === true) {
+                    objDatos.ingreso_total = linea.replace('Ingreso Total', '').trim();
+                } else if (linea.includes('Ingreso demanda') === true) {
+                    objDatos.ingreso_demanda = linea.replace('Ingreso demanda', '').trim();
+                } else if (linea.includes('Ingreso Reservas') === true) {
+                    objDatos.ingreso_reservas = linea.replace('Ingreso Reservas', '').trim();
+                }
+            }
+        });
+
+        let tabla_par;
+        for (let col of colapsos_res) {
+            if (col.id ==='col_datos_costos' && col.classList.contains(obj.opc.charAt(obj.opc.length - 1))) {
+                // Quita la clase inactivo
+                col.classList.remove('inactivo');
+                // Busca la tabla
+                let tabla_encontrada;
+                for (let tabla of tablas_res) {
+                    // Tabla par
+                    if (tabla.id === 'DATOS_COSTOS' && !tabla.classList.contains(obj.opc.charAt(obj.opc.length - 1))) {
+                        tabla_par = tabla;
+                    }
+
+                    if (tabla.id === 'DATOS_COSTOS' && tabla.classList.contains(obj.opc.charAt(obj.opc.length - 1))) {
+                        // Borra el tbody anterior
+                        if (typeof tabla.tbody !== "undefined" && tabla.tbody !== null) {
+                            try {
+                                tabla.removeChild(tabla.tbody);
+                            } catch (e) {}
+                        }
+                        // Crea el tbody
+                        tabla.tbody = document.createElement('tbody');
+                        tabla.tbody.classList.add('tabla-body');
+                        tabla.appendChild(tabla.tbody);
+
+                        tabla.filas = [];
+
+                        crearFilaCosto(tabla, 'Costo Total', objDatos.costo_total);
+                        crearFilaCosto(tabla, 'Costo Generación', objDatos.costo_gen);
+                        crearFilaCosto(tabla, 'Costo Generación RD', objDatos.costo_gen_rd);
+                        crearFilaCosto(tabla, 'Costo Generación RC', objDatos.costo_gen_rc);
+                        crearFilaCosto(tabla, 'Beneficio Social', objDatos.beneficio_social);
+                        crearFilaCosto(tabla, 'Costo Arranque', objDatos.costo_arranque);
+                        crearFilaCosto(tabla, 'Costo Reservas', objDatos.costo_reservas);
+                        crearFilaCosto(tabla, 'Ingreso Total', objDatos.ingreso_total);
+                        crearFilaCosto(tabla, 'Ingreso Demanda', objDatos.ingreso_demanda);
+                        crearFilaCosto(tabla, 'Ingreso Reservas', objDatos.ingreso_reservas);
+
+                        tabla_encontrada = tabla;
+                    }
+                }
+
+                tabla_encontrada.tabla_par = tabla_par;
+            }
+        }
     }
 });
+
+function crearFilaCosto(tabla, info, valor) {
+    let tr = document.createElement('tr');
+    let td = document.createElement('td');
+    td.appendChild(document.createTextNode(info));
+    td.style.fontWeight = 'bold';
+    td.style.paddingRight = '1vw';
+    td.style.textAlign = 'right';
+    tr.appendChild(td);
+    tr.num_fila = tabla.filas.length + 1;
+    td = document.createElement('td');
+    td.appendChild(document.createTextNode(valor));
+    td.style.paddingLeft = '1vw';
+    td.style.textAlign = 'left';
+    tr.appendChild(td);
+    tabla.tbody.appendChild(tr);
+    tabla.filas.push(tr);
+
+
+    // Eventos tabla par
+    tr.onmouseover = (event, flagRebote) => {
+        setTimeout(() => {
+            // Para la tabla par vinculada
+            if (typeof flagRebote === 'undefined') {
+                tabla.tabla_par.filas[tr.num_fila - 1].onmouseover(event, true);
+            }
+
+            if (tabla.tabla_par && flagRebote !== true) {
+                if (tr.num_fila >= 0 && tr.num_fila <= tabla.tabla_par.filas.length) {
+                    tabla.tabla_par.filas[tr.num_fila - 1].classList.add('hover-simulado');
+                }
+            }
+        });
+    };
+
+    tr.onmouseout = (event, flagRebote) => {
+        setTimeout(() => {
+            // Para la tabla par vinculada
+            if (typeof flagRebote === 'undefined') {
+                tabla.tabla_par.filas[tr.num_fila - 1].onmouseout(event, true);
+            }
+
+            if (tabla.tabla_par) {
+                if (tr.num_fila >= 0 && tr.num_fila <= tabla.tabla_par.filas.length) {
+                    tabla.tabla_par.filas[tr.num_fila - 1].classList.remove('hover-simulado');
+                }
+            }
+        });
+    };
+}
+
+function leerResultadoCostos() {
+    ipcRenderer.send('archivo:leer', objEscOriginal.ruta, ['dirres', 'r_desphora1.res'], 'RES_COSTOS');
+}
 
 function crearTablasResultadoMarco(escenario, marco) {
     marcoSeleccionado = marco;
@@ -700,6 +865,8 @@ function scrollTabla(elemento) {
 }
 
 function mostrarResultados() {
+    // Habilita el menu info
+    menuCompara.classList.remove('deshabilitado');
     menuCompara.onclick();
 
     flag_resOutput_A = false;
@@ -724,7 +891,7 @@ function mostrarResultados() {
     colapsarTodasResultados(true);
     SESION.flag_cargarFolios = true;
 
-    mensajeConsola('Cargando resultados de los escenarios...');
+    mensajeConsola('Cargando resultados de los escenarios...', false);
 
     ipcRenderer.send('escenario_resultados:leerComparar', objEscOriginal.ruta, objEscModificado.ruta, SESION.algoritmo);
 }
@@ -751,7 +918,7 @@ function mostrarResultadosSeleccionados() {
     // Colapsa resultados
     colapsarTodasResultados(true);
 
-    mensajeConsola('Cargando resultados de los escenarios...');
+    mensajeConsola('Cargando resultados de los escenarios...', false);
 
     // Genera la ruta A
     let folio = folios_mod[0].value;
@@ -813,5 +980,10 @@ ipcRenderer.on('escenarios_mod:leidos', (event, res) => {
         }
 
         boton_cargarFolios.disabled = true;
+
+        // HAbilita selects de compara escenario
+        folios_mod.forEach((folio) => {
+            folio.disabled = false;
+        });
     }
 });

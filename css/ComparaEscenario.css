@@ -35,8 +35,8 @@
 }
 
 .celda-header-res > span {
-    color: red;
-    margin-left: 3px;
+    color: khaki;
+    margin-left: 0.5vw;
     line-height: 1.5;
     font-size: 2vh;
 }
@@ -46,19 +46,27 @@
 }
 
 .celda-header-res.A {
-    background-color: chocolate;
+    background-color: peru;
 }
 
 .celda-header-res.A:hover {
-    background-color: indianred;
+    background-color: burlywood;
+}
+
+.celda-header-res.A:hover > div {
+    color:darkslategray;
 }
 
 .celda-header-res.B {
-    background-color: darkcyan;
+    background-color: darkolivegreen;
 }
 
 .celda-header-res.B:hover {
     background-color: seagreen;
+}
+
+.celda-header-res.B:hover > div {
+    color:lightyellow;
 }
 
 .celda-header-res:hover {
@@ -112,8 +120,12 @@
     font-size: 0.7vw;
 }
 
-.celda-header-res:hover > div > span.span-archivo-res {
+.celda-header-res.A:hover > div > span.span-archivo-res {
     color: darkslategray;
+}
+
+.celda-header-res.B:hover > div > span.span-archivo-res {
+    color: lightyellow;
 }
 
 .tabla-res {
@@ -171,18 +183,6 @@
     overflow: auto;
 }
 
-tr.hover-simulado {
-    background-color: darkseagreen !important;
-    border-color: black;
-    border-width: 2px;
-    /*border-style: dotted;*/
-    text-shadow: 0px 0px 1px;
-}
-
-tr.hover-simulado > td > input {
-    border-color: darkcyan;
-}
-
 .div-header-res {
     padding-top: 0.6vh;
     padding-left:1vw;
@@ -216,7 +216,12 @@ tr.hover-simulado > td > input {
 }
 
 .tr-aux > td {
-    /*font-weight: bold !important;
-    font-size: 0.8vw !important;*/
     text-shadow: 2px 2px 2px gray;
+    font-size: 0.6vw;
+}
+
+.span-costos {
+    color: gold !important;
+    font-size: 2.2vh !important;
+    margin-left: 0.5vw !important;
 }

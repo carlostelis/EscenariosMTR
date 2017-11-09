@@ -1,12 +1,16 @@
 class BitacoraUsuario {
-    constructor(ruta) {
+    constructor() {
         this.fs = require('fs');
         this.path = require('path');
+        this.inicializado = false;
+    }
+
+    init(ruta) {
         this.ruta_archivo = this.path.join(ruta, 'bitacora.txt');
 
         // Se asegura de crear la ruta de la bitacora
         let carpetas = this.path.normalize(ruta).split(this.path.sep);
-        
+
         if (carpetas.length > 0) {
             let rutaTemp = carpetas[0];
             for (let i = 1; i < carpetas.length; i++) {
@@ -17,9 +21,15 @@ class BitacoraUsuario {
             }
         }
 
+        this.inicializado = true;
+        this.escribir(` === Inicio de bitácora para escenario: ${carpetas[carpetas.length - 1]} ===`);
     }
 
     escribir(nuevo_mensaje) {
+        if (this.inicializado !== true) {
+            return;
+        }
+        
         // Añade salto de linea
         if (!nuevo_mensaje.endsWith('\n')) {
             nuevo_mensaje += '\n';

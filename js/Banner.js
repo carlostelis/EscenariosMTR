@@ -227,8 +227,17 @@ class Banner {
             } else {
                 this.divBarraProgreso.innerHTML = '';
             }
+            // Muestra con transicion
+            setTimeout(() => {
+                this.divProgreso.style.opacity = '1';
+            }, 100);
         } else {
             this.divBarraProgreso.innerHTML = '<b>Completado</b>';
+
+            // Oculta con transicion
+            setTimeout(() => {
+                this.divProgreso.style.opacity = '0';
+            }, 100);
         }// }
         this.divBarraProgreso.style.width = `${progreso}%`;
     }

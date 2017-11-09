@@ -24,14 +24,28 @@
                         <div class="container-fluid div-scroll-res" style=""  onscroll="scrollContenedor(this);">
                             <label id="label_idResA" style="color:darkred;">Escenario: ---</label>
 
+                            <!-- DATOS DE COSTOS -->
+                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DATOS_COSTOS');" id="col_datos_costos">
+                                <span class="span-costos"><i class="demo-icon  icon-money-1"></i></span>
+                                <div class="col"><span id="ARCH-DATOS_COSTOS" class="span-archivo-res">r_desphora1.csv</span>COSTOS E INGRESOS<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla-res invisible CONT-DATOS_COSTOS" id="datos_costos">
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DATOS_COSTOS A" id="DATOS_COSTOS" data-contenedor="datos_costos" data-colapso="col_datos_costos">
+                                        <thead class="tabla-head">
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
                             <!-- RESUMEN DE RESULTADOS GLOBALES -->
                             <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DERS_MI_TOTALES_');" id="col_res_global">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DERS_MI_TOTALES_" class="span-archivo-res">ARCHIVO.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row colapsable-res div-tabla-res invisible CONT-DERS_MI_TOTALES_" id="res_global">
                                 <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-condensed table-bordered tabla-res DERS_MI_TOTALES_ A" id="DERS_MI_TOTALES_$" data-contenedor="res_global" data-colapso="col_res_global">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DERS_MI_TOTALES_ A" id="DERS_MI_TOTALES_$" data-contenedor="res_global" data-colapso="col_res_global">
                                         <thead class="tabla-head">
                                             <tr></tr>
                                         </thead>
@@ -43,12 +57,12 @@
 
                             <!-- Resultado de reservas del CENACE por zona -->
                             <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_ZONAS_RESERVA_');" id="col_res_reeservas_zona">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_ZONAS_RESERVA_" class="span-archivo-res">ARCHIVO.csv</span>Resultado de reservas del CENACE por zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row colapsable-res div-tabla-res invisible CONT-DTR_ZONAS_RESERVA_" id="res_reeservas_zona">
                                 <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-condensed table-bordered tabla-res DTR_ZONAS_RESERVA_ A" id="DTR_ZONAS_RESERVA_$" data-contenedor="res_reeservas_zona" data-colapso="col_res_reeservas_zona">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_ZONAS_RESERVA_ A" id="DTR_ZONAS_RESERVA_$" data-contenedor="res_reeservas_zona" data-colapso="col_res_reeservas_zona">
                                         <thead class="tabla-head">
                                             <tr></tr>
                                         </thead>
@@ -58,7 +72,7 @@
 
                             <!-- Resultados de las regiones de precios -->
                             <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_REGIONES_');" id="col_res_region_precios">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_REGIONES_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de las regiones de precios<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row colapsable-res div-tabla-res invisible CONT-DTR_REGIONES_" id="res_region_precios">
@@ -73,7 +87,7 @@
 
                             <!-- Resultados de los nodos eléctricos de la red -->
                             <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_NODOS_');" id="col_res_nodos_elec_red">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_NODOS_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de los nodos eléctricos de la red<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row colapsable-res div-tabla-res invisible CONT-DTR_NODOS_" id="res_nodos_elec_red" >
@@ -88,7 +102,7 @@
 
                             <!-- Resultados de las unidades programables -->
                             <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_UNIDADES_');" id="col_res_unidades_prog">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_UNIDADES_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de las unidades programables<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row colapsable-res div-tabla-res invisible CONT-DTR_UNIDADES_" id="res_unidades_prog" >
@@ -103,7 +117,7 @@
 
                             <!-- Resumen de unidades de generación -->
                             <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'RESUMEN_UNIDADES');" id="col_res_unidades_gen">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-RESUMEN_UNIDADES" class="span-archivo-res">ARCHIVO.csv</span>Resumen de unidades de generación<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row colapsable-res div-tabla-res div-contenedor-mediana invisible CONT-RESUMEN_UNIDADES" id="res_unidades_gen" >
@@ -118,7 +132,7 @@
 
                             <!-- Resultados de flujos en grupos de ramas restringidas -->
                             <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_ENLACES_');" id="col_res_flujo_ramas_res">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_ENLACES_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de flujos en grupos de ramas restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row div-tabla-res colapsable-res invisible CONT-DTR_ENLACES_" id="res_flujo_ramas_res" >
@@ -133,7 +147,7 @@
 
                             <!-- Resultados de flujos en las ramas que conforman los grupos de ramas restringidas -->
                             <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_RAMAS_ENL_');" id="col_res_flujos_com_ramas_res">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_RAMAS_ENL_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de flujos en las ramas en los grupos de ramas restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row div-tabla-res colapsable-res invisible CONT-DTR_RAMAS_ENL_" id="res_flujos_com_ramas_res" >
@@ -148,7 +162,7 @@
 
                             <!-- Resultados de asignacion de energia por embalse -->
                             <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_EMBALSES_');" id="col_res_embalses_res">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_EMBALSES_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de asignacion de energia por embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row div-tabla-res colapsable-res invisible CONT-DTR_EMBALSES_" id="res_embalses_res" >
@@ -163,7 +177,7 @@
 
                             <!-- Resultado de reservas del CENACE por sistema -->
                             <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_SISTEMA_RESERVA_');" id="col_res_reservas_sistema">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_SISTEMA_RESERVA_" class="span-archivo-res">ARCHIVO.csv</span>Resultado de reservas del CENACE por sistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row div-tabla-res colapsable-res invisible CONT-DTR_SISTEMA_RESERVA_" id="res_reservas_sistema" >
@@ -178,7 +192,7 @@
 
                             <!-- DTR AREAS -->
                             <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_AREAS_');" id="col_res_dtr_areas">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_AREAS_" class="span-archivo-res">ARCHIVO.csv</span>DTR AREAS<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row div-tabla-res colapsable-res invisible CONT-DTR_AREAS_" id="res_dtr_areas" >
@@ -193,7 +207,7 @@
 
                             <!-- DTR SISTEMA -->
                             <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_SISTEMA_');" id="col_res_dtr_sistemas">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_SISTEMA_" class="span-archivo-res">ARCHIVO.csv</span>DTR SISTEMA<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row div-tabla-res colapsable-res invisible CONT-DTR_SISTEMA_" id="res_dtr_sistemas" >
@@ -208,7 +222,7 @@
 
                             <!-- BANDERAS PARA INDICAR PROBLEMAS EN LA SOLUCION -->
                             <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'SEMAFOROSDERS');" id="col_res_banderas_problemas">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-SEMAFOROSDERS" class="span-archivo-res">ARCHIVO.csv</span>Banderas para Indicar Problemas en la Solución<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row div-tabla-res colapsable-res invisible CONT-SEMAFOROSDERS" id="res_dtr_sistemas" >
@@ -232,16 +246,30 @@
                 <div class="col-6">
                     <div class="row subseccion" style="height:100%; margin-left:-1vh;">
                         <div class="container-fluid div-scroll-res" style="" onscroll="scrollContenedor(this);">
-                            <label id="label_idResB" style="color:midnightblue;">Escenario: ---</label>
+                            <label id="label_idResB" style="color:darkslategray;">Escenario: ---</label>
+
+                            <!-- DATOS DE COSTOS -->
+                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DATOS_COSTOS');" id="col_datos_costos">
+                                <span class="span-costos"><i class="demo-icon  icon-money-1"></i></span>
+                                <div class="col"><span id="ARCH-DATOS_COSTOS" class="span-archivo-res">r_desphora1.csv</span>COSTOS E INGRESOS<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable-res div-tabla-res invisible CONT-DATOS_COSTOS" id="datos_costos">
+                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DATOS_COSTOS B" id="DATOS_COSTOS" data-contenedor="datos_costos" data-colapso="col_datos_costos">
+                                        <thead class="tabla-head">
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
 
                             <!-- RESUMEN DE RESULTADOS GLOBALES -->
                             <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DERS_MI_TOTALES_');" id="col_res_global">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DERS_MI_TOTALES_" class="span-archivo-res">ARCHIVO.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row colapsable-res div-tabla-res invisible CONT-DERS_MI_TOTALES_" id="res_global">
                                 <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-condensed table-bordered tabla-res DERS_MI_TOTALES_ B" id="DERS_MI_TOTALES_$" data-contenedor="res_global" data-colapso="col_res_global">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DERS_MI_TOTALES_ B" id="DERS_MI_TOTALES_$" data-contenedor="res_global" data-colapso="col_res_global">
                                         <thead class="tabla-head">
                                             <tr></tr>
                                         </thead>
@@ -253,12 +281,12 @@
 
                             <!-- Resultado de reservas del CENACE por zona -->
                             <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_ZONAS_RESERVA_');" id="col_res_reeservas_zona">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_ZONAS_RESERVA_" class="span-archivo-res">ARCHIVO.csv</span>Resultado de reservas del CENACE por zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row colapsable-res div-tabla-res invisible CONT-DTR_ZONAS_RESERVA_" id="res_reeservas_zona">
                                 <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-condensed table-bordered tabla-res DTR_ZONAS_RESERVA_ B" id="DTR_ZONAS_RESERVA_$" data-contenedor="res_reeservas_zona" data-colapso="col_res_reeservas_zona">
+                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_ZONAS_RESERVA_ B" id="DTR_ZONAS_RESERVA_$" data-contenedor="res_reeservas_zona" data-colapso="col_res_reeservas_zona">
                                         <thead class="tabla-head">
                                             <tr></tr>
                                         </thead>
@@ -268,7 +296,7 @@
 
                             <!-- Resultados de las regiones de precios -->
                             <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_REGIONES_');" id="col_res_region_precios">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_REGIONES_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de las regiones de precios<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row colapsable-res div-tabla-res invisible CONT-DTR_REGIONES_" id="res_region_precios">
@@ -283,7 +311,7 @@
 
                             <!-- Resultados de los nodos eléctricos de la red -->
                             <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_NODOS_');" id="col_res_nodos_elec_red">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_NODOS_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de los nodos eléctricos de la red<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row colapsable-res div-tabla-res invisible CONT-DTR_NODOS_" id="res_nodos_elec_red" >
@@ -298,7 +326,7 @@
 
                             <!-- Resultados de las unidades programables -->
                             <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_UNIDADES_');" id="col_res_unidades_prog">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_UNIDADES_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de las unidades programables<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row colapsable-res div-tabla-res invisible CONT-DTR_UNIDADES_" id="res_unidades_prog" >
@@ -313,7 +341,7 @@
 
                             <!-- Resumen de unidades de generación -->
                             <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'RESUMEN_UNIDADES');" id="col_res_unidades_gen">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-RESUMEN_UNIDADES" class="span-archivo-res">ARCHIVO.csv</span>Resumen de unidades de generación<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row colapsable-res div-tabla-res invisible CONT-RESUMEN_UNIDADES" id="res_unidades_gen" >
@@ -328,7 +356,7 @@
 
                             <!-- Resultados de flujos en grupos de ramas restringidas -->
                             <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_ENLACES_');" id="col_res_flujo_ramas_res">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_ENLACES_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de flujos en grupos de ramas restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row div-tabla-res colapsable-res invisible CONT-DTR_ENLACES_" id="res_flujo_ramas_res" >
@@ -343,7 +371,7 @@
 
                             <!-- Resultados de flujos en las ramas que conforman los grupos de ramas restringidas -->
                             <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_RAMAS_ENL_');" id="col_res_flujos_com_ramas_res">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_RAMAS_ENL_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de flujos en las ramas en los grupos de ramas restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row div-tabla-res colapsable-res invisible CONT-DTR_RAMAS_ENL_" id="res_flujos_com_ramas_res" >
@@ -358,7 +386,7 @@
 
                             <!-- Resultados de asignacion de energia por embalse -->
                             <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_EMBALSES_');" id="col_res_embalses_res">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_EMBALSES_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de asignacion de energia por embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row div-tabla-res colapsable-res invisible CONT-DTR_EMBALSES_" id="res_embalses_res" >
@@ -373,7 +401,7 @@
 
                             <!-- Resultado de reservas del CENACE por sistema -->
                             <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_SISTEMA_RESERVA_');" id="col_res_reservas_sistema">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_SISTEMA_RESERVA_" class="span-archivo-res">ARCHIVO.csv</span>Resultado de reservas del CENACE por sistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row div-tabla-res colapsable-res invisible CONT-DTR_SISTEMA_RESERVA_" id="res_reservas_sistema" >
@@ -388,7 +416,7 @@
 
                             <!-- DTR AREAS -->
                             <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_AREAS_');" id="col_res_dtr_areas">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_AREAS_" class="span-archivo-res">ARCHIVO.csv</span>RESULTADOS DE GENERACIÖN Y DEMANDA POR ÁREA<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row div-tabla-res colapsable-res invisible CONT-DTR_AREAS_" id="res_dtr_areas" >
@@ -403,7 +431,7 @@
 
                             <!-- DTR SISTEMAS -->
                             <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_SISTEMA_');" id="col_res_dtr_sistemas">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-DTR_SISTEMA_" class="span-archivo-res">ARCHIVO.csv</span>DTR SISTEMAS<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row div-tabla-res colapsable-res invisible CONT-DTR_SISTEMA_" id="res_dtr_sistemas" >
@@ -418,7 +446,7 @@
 
                             <!-- BANDERAS PARA INDICAR PROBLEMAS EN LA SOLUCION -->
                             <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'SEMAFOROSDERS');" id="col_res_banderas_problemas">
-                                <span class="invisible"><i class="fa fa-asterisk"></i></span>
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
                                 <div class="col"><span id="ARCH-SEMAFOROSDERS" class="span-archivo-res">ARCHIVO.csv</span>Banderas para Indicar Problemas en la Solución<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row div-tabla-res colapsable-res invisible CONT-SEMAFOROSDERS" id="res_dtr_sistemas" >

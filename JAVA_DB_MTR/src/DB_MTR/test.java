@@ -16,6 +16,8 @@ import org.joda.time.IllegalInstantException;
  */
 public class test {
     public static void main(String args[]) {
+//        BD bd = new BD("mer-scan.cenace.com:1521/PRUEBAS", "BD_ESCEN_ACCESO", "X12YlAqEpa");
+        
         /*DateTimeZone tz = DateTimeZone.getDefault();
         DateTime fecha = new DateTime(2017, 03, 12, 3, 01);
         Long instant = fecha.getMillis();

@@ -46,7 +46,7 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
             rutaEscenarioOriginal = res.rutaLocal;
             console.log('Ruta de escenario:', rutaEscenarioOriginal);
 
-            mensajeConsola(`Escenario cargado localmente: ${rutaEscenarioOriginal}`);
+            mensajeConsola(`Escenario cargado localmente: ${rutaEscenarioOriginal}`, false);
 
             // Descarga algoritmo
             setTimeout(() => {
@@ -64,10 +64,6 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
         setTimeout(() => {
             banner.ocultar();
         }, 2000);
-        // banner.setBoton('Aceptar', () => {
-        //     banner.ocultar();
-        // });
-        // banner.mostrarBoton();
     }
 });
 
@@ -75,9 +71,6 @@ ipcRenderer.on('algoritmo:descargado', (event, res) => {
     if (res.estado) {
         visor_archivos.actualizar();
         setTimeout(() => {
-            // Habilita el menu info
-            menuInfo.classList.remove('invalido');
-
             // banner.ocultar();
             banner.trabajando();
             banner.vistaCompacta();
@@ -126,6 +119,9 @@ ipcRenderer.on('algoritmo:descargado', (event, res) => {
             boton_actualizarEscenario.disabled = true;
         	// }
 
+            // Habilita el menu info
+            menuInfo.classList.remove('deshabilitado');
+
             // Despliegua la seccion
             menuInfo.onclick();
             // Primer menú, informacion general
@@ -133,22 +129,21 @@ ipcRenderer.on('algoritmo:descargado', (event, res) => {
         }, 1500);
     } else {
         banner.error();
-        banner.vistaNormal();
+        // banner.vistaNormal();
         banner.setMensaje(`Error durante la descarga del algoritmo: ${res.error}`);
-        banner.setBoton('Aceptar', () => {
+        setTimeout(() => {
             banner.ocultar();
-        });
-        banner.mostrarBoton();
+        }, 3000);
     }
 });
 
 // Inicia la busqueda del escenario, primero obtiene UTC de la fecha solicitada
 function cargarEscenario() {
     // Deshabilita los menus
-    menuInfo.classList.add('invalido');
-    menuModifica.classList.add('invalido');
-    menuCompara.classList.add('invalido');
-    menuAdmin.classList.add('invalido');
+    // menuInfo.classList.add('invalido');
+    // menuModifica.classList.add('invalido');
+    // menuCompara.classList.add('invalido');
+    // menuAdmin.classList.add('invalido');
 
     // Borra los objetos de escenarios anteriores
     objEscOriginal = null;
@@ -195,7 +190,7 @@ ipcRenderer.on('utc:respuesta', (event, json) => {
         algoritmo: select_algoritmo.value
     };
 
-    mensajeConsola(`Solicitando escenario ${id}`);
+    mensajeConsola(`Solicitando escenario ${id}`, false);
 
     SESION.id_solicitud = id;
     SESION.algoritmo = select_algoritmo.value;

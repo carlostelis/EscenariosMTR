@@ -29,6 +29,9 @@ ipcRenderer.on('sesion:cerrar', (event) => {
     objEscOriginal = null;
     objEscModificado = null;
 
+    // Cierra banner
+    banner.ocultar();
+
     setTimeout(() => {
         divLogin.classList.remove('d-none');
         divLayout.classList.add('d-none');
@@ -38,9 +41,11 @@ ipcRenderer.on('sesion:cerrar', (event) => {
         body.style.opacity = '1';
         paginaActual = 'login';
         // Habilita los menus
-        menuInfo.classList.add('invalido');
+        // menuInfo.classList.add('invalido');
+        // menuCompara.classList.add('invalido');
+        menuInfo.classList.add('deshabilitado');
+        menuCompara.classList.add('deshabilitado');
         menuModifica.classList.add('invalido');
-        menuCompara.classList.add('invalido');
         menuAdmin.classList.add('invalido');
 
         // Regresa al menu de carga escenario
@@ -267,6 +272,30 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
                 for (let label of sistema_labels) {
                     label.innerHTML = `Sistema: <b>${SESION.sistema}</b>`;
                 }
+
+                // Deshabilita opciones
+                // menuInfo.classList.add('deshabilitado');
+                // menuCompara.classList.add('deshabilitado');
+
+                // Deshabilita botones
+                boton_ejecutarEscenario.disabled = true;
+            	boton_actualizarEscenario.disabled = true;
+            	boton_nuevoFolio.disabled = true;
+            	boton_resultadoOriginal.disabled = true;
+                boton_cargarFolios.disabled = true;
+
+                // Deshabilita selects de compara escenario
+                folios_mod.forEach((folio) => {
+                    folio.disabled = true;
+                });
+
+                // OCulta colapsos
+                colapsos.forEach((colapso) => {
+                    colapso.classList.add('inactivo');
+                });
+                colapsos_res.forEach((colapso) => {
+                    colapso.classList.add('inactivo');
+                });
 
                 setTimeout(() => {
                     banner.ocultar();

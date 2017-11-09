@@ -11,6 +11,7 @@ const path = require('path');
 const FTP = require('./FTP.js');
 const Escenario = require('./Escenario.js');
 const BitacoraUsuario = require('./BitacoraUsuario.js');
+const storage = require('node-persist');
 
 // Queda para BD a futuro
 // const BDLocal = require('./BDLocal.js');
@@ -19,7 +20,7 @@ const BitacoraUsuario = require('./BitacoraUsuario.js');
 const comandos = new Comandos();
 const listaArchivos = new ListaArchivos('C:\\AppAnalizadorEscenarios');
 const escenario = new Escenario();
-const bitacoraUsuario = new BitacoraUsuario(config.local.escenarios);
+const bitacoraUsuario = new BitacoraUsuario();
 
 // Queda para BD a futuro
 // const bd_autr = new BDLocal();
@@ -84,6 +85,7 @@ function handleSquirrelEvent(application) {
             // - Write to the registry for things like file associations and
             //   explorer context menus
             // Install desktop and start menu shortcuts
+
             spawnUpdate(['--createShortcut', exeName]);
             setTimeout(application.quit, 1000);
             return true;
@@ -130,12 +132,51 @@ app.on('ready', () => {
         }
     });
 
+    // Si es la primera ejecución, limpia y finaliza
+    storage.initSync();
+    let var_check = storage.getItemSync('init');
+    if (process.env.NODE_ENV === 'production' && typeof var_check === 'undefined' || var_check === null) {
+        // Limpia
+        storage.clearSync();
+        storage.setItemSync('init', 'OK');
+        // Finaliza app
+        app.exit();
+    }
+
     // Carga la página principal
     // Solo se cargará una vez y el contenido se administrará
     // de manera dinamica
     win.loadURL(`file://${__dirname}/../html/index.html`);
     setTimeout(() => {
         win.setTitle(`Analizador de escenarios del MTR - Login`);
+        // win.setTitle(path.join(process.cwd(), 'resources', 'app', 'algoritmo', 'chtpc', 'ILOG'));
+
+        if (process.env.NODE_ENV === 'production') {
+            // Verifica si ya fue dado de alta
+            let val_path = storage.getItemSync('path');
+            if (val_path === null || typeof val_path === 'undefined') {
+                comandos.setPathAlgoritmo().then((ruta) => {
+                    storage.setItemSync('path', ruta);
+                }, (err) => {
+                    if (err.includes('denegado')) {
+                        var confirmacion = dialog.showMessageBox(win, {
+                                type: 'question',
+                                buttons: ['Cerrar aplicación', 'Continuar'],
+                                title: 'Error en el PATH a CPLEX',
+                                message: 'No fue posible establecer el PATH. Favor de ejecutar la aplicación como administrador al menos una vez, de lo contrario no se podrán ejecutar los algoritmos de procesos.',
+                                cancelId: 1
+                            }
+                        );
+
+                        if (confirmacion === 0) {
+                            app.exit();
+                        }
+                    }
+                });
+            }
+
+            // Si ya tiene path debería estar dada de alta la ruta de la librería
+        }
     }, 2000);
 
     // Inserta Menú de la ventana
@@ -323,6 +364,11 @@ ipcMain.on('utc:consulta', (event, fecha, zona) => {
         console.log("Error obteniendo UTC", json.mensaje);
         win.webContents.send('utc:respuesta', json);
     });
+});
+
+ipcMain.on('bitacora:inicializa', (event, ruta) => {
+    console.log('Inicializando bitácora de escenario:', ruta);
+    bitacoraUsuario.init(ruta);
 });
 
 ipcMain.on('directorio:descarga', (event, data) => {
@@ -577,6 +623,7 @@ ipcMain.on('algoritmo:descarga', (event, ruta_escenario, algoritmo) => {
                 carpeta_algoritmo = path.join(carpeta_algoritmo, rango_valido.id, eje);
                 console.log('Descargando algoritmo: ', carpeta_algoritmo);
 
+                // Descarga el ejecutable DERS/DERSI.exe
                 ftp.descargarArchivoFTPSimple(carpeta_algoritmo, ruta_algoritmo_local).then(() => {
                     console.log('Algoritmo descargado correctamente');
                     ftp.desconectar();
@@ -597,12 +644,7 @@ ipcMain.on('algoritmo:descarga', (event, ruta_escenario, algoritmo) => {
     }, () => {
         console.log('Error conectando');
     });
-
-    // let obj = {
-    //     rutaRemota: ),
-    //     rutaLocal: path.join(ruta_escenario, `${alg}.exe`)
-    // };
-}) ;
+});
 
 function parseFechaAlgoritmo(id) {
     let inicio = {};
@@ -808,6 +850,38 @@ ipcMain.on('algoritmo:ejecutar', (event, ruta_escenario, algoritmo) => {
         win.webContents.send('algoritmo:ejecutado', obj);
     }, (obj) => {
         win.webContents.send('algoritmo:ejecutado', obj);
+    });
+});
+
+ipcMain.on('algoritmo:diagnosticar', (event, ruta_escenario, opc) => {
+    // Revisa si existe el programa
+    let ruta_diagnostico = path.join(ruta_escenario, 'mens_cplex.exe');
+    let promesa_diagnostico;
+    if (!fs.existsSync(ruta_diagnostico)) {
+        // Descarga el programa para casos infactibles
+        let ruta_exe = path.join(`${SESION.config.exalogic.base}`, `${SESION.sistemaCarpeta}`, SESION.config.exalogic.algoritmos, 'WINDOWS', SESION.sistema, 'mens_cplex.exe');
+        ftp.conectar();
+        ftp.descargarArchivoFTPSimple(ruta_exe, ruta_diagnostico).then(() => {
+            console.log('App Infactible descargado correctamente');
+            ftp.desconectar();
+            promesa_diagnostico = comandos.ejecutarDiagnostico(ruta_escenario, 'mens_cplex.exe');
+        }, (err) => {
+            console.log('Error descargando app infactible');
+            ftp.desconectar();
+        });
+    } else {
+        promesa_diagnostico = comandos.ejecutarDiagnostico(ruta_escenario, 'mens_cplex.exe');
+    }
+
+    promesa_diagnostico.then((obj) => {
+        obj.opc = opc;
+        obj.rutaBase = ruta_escenario;
+        win.webContents.send('algoritmo:diagnosticado', obj);
+    }, (obj) => {
+        obj.opc = opc;
+        obj.rutaBase = ruta_escenario;
+        console.log('Reject diagnostico:', obj.mensaje);
+        win.webContents.send('algoritmo:diagnosticado', obj);
     });
 });
 

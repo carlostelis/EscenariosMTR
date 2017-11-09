@@ -1,4 +1,4 @@
-const { execFile, spawn } = require('child_process');
+const { execFile, exec, spawn } = require('child_process');
 
 class Comandos {
     constructor() {
@@ -6,6 +6,7 @@ class Comandos {
         this.path = require('path');
         const {TextDecoder} = require('text-encoding');
         this.decoder = new TextDecoder();
+        this.fs = require('fs');
     }
 
     obtenerUsuario(usuario) {
@@ -53,6 +54,41 @@ class Comandos {
                     } catch (e) {
                         reject({error: e});
                     }
+                }
+            });
+        });
+    }
+
+    setPathAlgoritmo() {
+        return new Promise((resolve, reject) => {
+            let ruta = this.path.join(process.cwd(), 'resources', 'app', 'algoritmo', 'chtpc', 'ILOG');
+            // console.log('PATH', ruta);
+
+            // Verifica si ya existe la variable de entorno
+            if (process.env.PATH.includes(ruta)) {
+                this.fs.appendFile('C:\\AppAnalizadorEscenarios\\path.txt', 'La ruta ya existe en el path, finalizando...\n', 'utf8', (err) => {});
+                resolve(ruta);
+                return;
+            }
+
+            // Ejecuta el comando para darla de alta
+            this.fs.appendFile('C:\\AppAnalizadorEscenarios\\path.txt', `PAth: ${ruta}\n\n`, 'utf8', (err) => {});
+            exec(`setx /M PATH "%PATH%;${ruta}"`, (error, stdout, stderr) => {
+                if (error) {
+                    // console.log(`>> Error: ${error.message}`);
+                    this.fs.appendFile('C:\\AppAnalizadorEscenarios\\path.txt', `Error: ${error.message}\n\n`, 'utf8', (err) => {});
+                    reject(error.message);
+                    return;
+                }
+
+                // console.log(`Resultado: ${stdout}<`);
+                this.fs.appendFile('C:\\AppAnalizadorEscenarios\\path.txt', `Resultado: ${stdout}\n\n`, 'utf8', (err) => {});
+                if (stdout.includes('CORRECTO')) {
+                    resolve(ruta);
+                } else if (stdout.includes('denegado')){
+                    reject('denegado');
+                } else {
+                    reject(stdout);
                 }
             });
         });
@@ -166,14 +202,19 @@ class Comandos {
                 let codigo;
                 let mensaje;
                 let exito = false;
+                let infactible = false;
 
                 const exe = spawn(archivo_exe);
-
+                console.log('Ejecutando', archivo_exe);
                 exe.stdout.on('data', (data) => {
                     let salida = this.decoder.decode(data).replace(new RegExp('\n+\s*', 'g'), '<br>');
 
                     if (salida.includes('TERMINACION NORMAL')) {
                         exito = true;
+                    }
+
+                    if (salida.includes('PROBLEMA INFACTIBLE')) {
+                        infactible = true;
                     }
 
                     resultado += salida;
@@ -184,6 +225,10 @@ class Comandos {
 
                     if (salida.includes('TERMINACION NORMAL')) {
                         exito = true;
+                    }
+
+                    if (salida.includes('PROBLEMA INFACTIBLE')) {
+                        infactible = true;
                     }
 
                     resultado += salida;
@@ -198,7 +243,7 @@ class Comandos {
                     // Regresa a la ubicación
                     process.chdir(ruta_actual);
 
-                    resolve({codigo:codigo, mensaje:mensaje, cadena:resultado, exito: exito});
+                    resolve({codigo:codigo, mensaje:mensaje, cadena:resultado, exito: exito, infactible:infactible});
                 });
             } catch (e) {
                 codigo = -12345;
@@ -207,7 +252,51 @@ class Comandos {
                 // Regresa a la ubicación
                 process.chdir(ruta_actual);
 
-                reject({codigo:codigo, mensaje:mensaje, cadena:resultado, exito: exito});
+                reject({codigo:codigo, mensaje:mensaje, cadena:resultado, exito: exito, infactible:infactible});
+            }
+        });
+    }
+
+    ejecutarDiagnostico(ruta_escenario, archivo_exe) {
+        return new Promise((resolve, reject) => {
+            try {
+                let ruta_actual = process.cwd();
+                process.chdir(ruta_escenario);
+                console.log(`Moviendo a escenario: ${process.cwd()}`);
+
+                let resultado = '';
+                let codigo;
+                let mensaje;
+
+                const exe = spawn(archivo_exe);
+
+                exe.stdout.on('data', (data) => {
+                    resultado += this.decoder.decode(data).replace(new RegExp('\n+\s*', 'g'), '<br>');
+                });
+
+                exe.stderr.on('data', (data) => {
+                    resultado += this.decoder.decode(data).replace(new RegExp('\n+\s*', 'g'), '<br>');
+                });
+
+                exe.on('close', (code) => {
+                    console.log(`Finaliza ejecución, código: ${code}`);
+
+                    codigo = code;
+                    mensaje = '';
+
+                    // Regresa a la ubicación
+                    process.chdir(ruta_actual);
+
+                    resolve({codigo:codigo, mensaje:mensaje, cadena:resultado});
+                });
+            } catch (e) {
+                codigo = -12345;
+                mensaje = `Error de ejecución ${e.message}`;
+
+                // Regresa a la ubicación
+                process.chdir(ruta_actual);
+
+                reject({codigo:codigo, mensaje:mensaje, cadena:resultado});
             }
         });
     }

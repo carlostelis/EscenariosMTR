@@ -280,6 +280,11 @@ ipcRenderer.on('escenario_entradas:leido', (event, obj) => {
         // Oculta todas
         colapsarTodas(true);
 
+        // Habilita botones
+        boton_actualizarEscenario.disabled = false;
+        boton_nuevoFolio.disabled = false;
+        boton_resultadoOriginal.disabled = false;
+
         banner.ok();
         banner.setMensaje('Lectura finalizada');
 
@@ -461,6 +466,7 @@ function crearTablaInfo(objArchivo, copia) {
                 // TEmporal hasta que se consoliden los archivos de configuracion
                 if (typeof objDato.flag_unidad !== 'undefined' && objDato.flag_unidad === true) {
                     input.disabled = true;
+                    tabla.flag_unidades = true;
                 }
 
                 // Respaldo
@@ -478,7 +484,7 @@ function crearTablaInfo(objArchivo, copia) {
                             if (isNaN(input.value) || input.value === '') {
                                 //objDato.valor = input.value;
                                 alert(`Error en el valor "${input.value}": se requiere un valor numérico en la columna ${input.columna}`);
-                                mensajeConsola(`Error en el valor "${input.value}": se requiere un valor numérico en la columna ${input.columna}`);
+                                // mensajeConsola(`Error en el valor "${input.value}": se requiere un valor numérico en la columna ${input.columna}`);
                                 input.classList.add('input-error');
 
                                 setTimeout(() => {
@@ -492,7 +498,7 @@ function crearTablaInfo(objArchivo, copia) {
                                     let valorNum = parseInt(input.value);
                                     if (valorNum < 0 || valorNum > 24) {
                                         alert(`Error en el valor "${input.value}": se requiere un valor numérico entre 0 y 24`);
-                                        mensajeConsola(`Error en el valor "${input.value}": se requiere un valor numérico entre 0 y 24`);
+                                        // mensajeConsola(`Error en el valor "${input.value}": se requiere un valor numérico entre 0 y 24`);
                                         input.classList.add('input-error');
 
                                         setTimeout(() => {
@@ -508,7 +514,7 @@ function crearTablaInfo(objArchivo, copia) {
                                     // Positivo
                                     if (parseInt(input.value) < 0) {
                                         alert(`Error en el valor "${input.value}": se requiere un valor numérico positivo`);
-                                        mensajeConsola(`Error en el valor "${input.value}": se requiere un valor numérico positivo`);
+                                        // mensajeConsola(`Error en el valor "${input.value}": se requiere un valor numérico positivo`);
                                         input.classList.add('input-error');
 
                                         setTimeout(() => {
@@ -524,7 +530,7 @@ function crearTablaInfo(objArchivo, copia) {
 
                                     if (valorNum !== 0 && valorNum !== 1) {
                                         alert(`Error en el valor "${input.value}": se requiere un valor 0 o 1`);
-                                        mensajeConsola(`Error en el valor "${input.value}": se requiere un valor 0 o 1`);
+                                        // mensajeConsola(`Error en el valor "${input.value}": se requiere un valor 0 o 1`);
                                         input.classList.add('input-error');
 
                                         setTimeout(() => {
@@ -542,7 +548,7 @@ function crearTablaInfo(objArchivo, copia) {
                                         // Positivo
                                         if (valorNum !== 0 && valorNum !== 1) {
                                             alert(`Error en el valor "${input.value}": se requiere un valor 0 o 1`);
-                                            mensajeConsola(`Error en el valor "${input.value}": se requiere un valor 0 o 1`);
+                                            // mensajeConsola(`Error en el valor "${input.value}": se requiere un valor 0 o 1`);
                                             input.classList.add('input-error');
 
                                             setTimeout(() => {
@@ -560,7 +566,7 @@ function crearTablaInfo(objArchivo, copia) {
                                         // Positivo
                                         if (valorNum < 0) {
                                             alert(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
-                                            mensajeConsola(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
+                                            // mensajeConsola(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
                                             input.classList.add('input-error');
 
                                             setTimeout(() => {
@@ -575,7 +581,7 @@ function crearTablaInfo(objArchivo, copia) {
                                         // Positivo
                                         if (valorNum < 0 || valorNum > 24) {
                                             alert(`Error en el valor "${input.value}": se requiere un valor numérico entre 0 y 24`);
-                                            mensajeConsola(`Error en el valor "${input.value}": se requiere un valor numérico entre 0 y 24`);
+                                            // mensajeConsola(`Error en el valor "${input.value}": se requiere un valor numérico entre 0 y 24`);
                                             input.classList.add('input-error');
 
                                             setTimeout(() => {
@@ -591,7 +597,7 @@ function crearTablaInfo(objArchivo, copia) {
                                     // Positivo
                                     if (parseFloat(input.value) < 0) {
                                         alert(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
-                                        mensajeConsola(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
+                                        // mensajeConsola(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
                                         input.classList.add('input-error');
 
                                         setTimeout(() => {
@@ -607,7 +613,7 @@ function crearTablaInfo(objArchivo, copia) {
                                     // Positivo
                                     if (parseFloat(input.value) < 0) {
                                         alert(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
-                                        mensajeConsola(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
+                                        // mensajeConsola(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
                                         input.classList.add('input-error');
 
                                         setTimeout(() => {
@@ -623,7 +629,7 @@ function crearTablaInfo(objArchivo, copia) {
                                     // Positivo
                                     if (parseFloat(input.value) < 0) {
                                         alert(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
-                                        mensajeConsola(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
+                                        // mensajeConsola(`Error en el valor "${input.value}": se requiere un valor flotante positivo`);
                                         input.classList.add('input-error');
 
                                         setTimeout(() => {
@@ -638,13 +644,14 @@ function crearTablaInfo(objArchivo, copia) {
                                 /* *************************************************** */
 
                                 objDato.valor = input.value;
-                                mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${objDato.valorOriginal}" a "${input.value}" (${objArchivo.archivo})`);
+                                mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${(tabla.flag_unidades === true ? input.columna - 1 : input.columna)}) de "${objDato.valorOriginal}" a "${input.value}" (${objArchivo.archivo})`, true);
                                 input.classList.remove('input-error');
                                 // Resalta el input
                                 input.classList.add('modificado');
                                 // REsalta la fila
                                 tr.classList.add('modificado');
                                 tr.modificado = true;
+                                tr_modificados.push(tr);
                                 objArchivo.editado = true;
 
                                 // Marca el colapso con asterisco
@@ -663,13 +670,14 @@ function crearTablaInfo(objArchivo, copia) {
                             }
                         } else {
                             objDato.valor = input.value;
-                            mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${objDato.valorOriginal}" a "${input.value}" (${objArchivo.archivo})`);
+                            mensajeConsola(`Edición de ${(objDato.tipo === 'number' ? 'número' : 'cadena')} en (${input.fila}, ${input.columna}) de "${objDato.valorOriginal}" a "${input.value}" (${objArchivo.archivo})`, true);
                             input.classList.remove('input-error');
                             // Resalta el input modificado
                             input.classList.add('modificado');
                             // REsalta la fila
                             tr.classList.add('modificado');
                             td.modificado = true;
+                            tr_modificados.push(tr);
                             objArchivo.editado = true;
 
                             // Marca el colapso con asterisco
@@ -694,16 +702,16 @@ function crearTablaInfo(objArchivo, copia) {
                         // Verifica que hay algun valor modificado para desmarcar la fila
                         let flag_fila_modificada = false;
                         for (let col of tr.columnasFiltro) {
-                            if (col.input !== null && col.input.classList.contains('modificado')) {
+                            if (col.input !== null && typeof col.input !== 'undefined' && col.input.classList.contains('modificado')) {
                                 flag_fila_modificada = true;
                                 break;
                             }
                         }
 
                         if (flag_fila_modificada === false) {
-                            tr.classList.add('modificado');
-                        } else {
                             tr.classList.remove('modificado');
+                        } else {
+                            tr.classList.add('modificado');
                         }
 
 
@@ -747,7 +755,20 @@ function crearTablaInfo(objArchivo, copia) {
                 td.appendChild(input);
                 num_col++;
             } else {
-                let texto = document.createTextNode(objDato.valor);
+                let valor;
+                if (objDato.valor.length > 15) {
+                    let valorFloat = parseFloat(objDato.valor);
+                    // Si es numero y tiene más de 6 decimales
+                    if (!isNaN(valorFloat) && objDato.valor.includes('.') && objDato.valor.split('.')[1].length > 10) {
+                        valor = `${valorFloat.toFixed(10)}`;
+                    } else {
+                        valor = objDato.valor;
+                    }
+                } else {
+                    valor = objDato.valor;
+                }
+
+                let texto = document.createTextNode(valor);
                 td.appendChild(texto);
             }
 
@@ -756,7 +777,7 @@ function crearTablaInfo(objArchivo, copia) {
         });
 
         // Si trae menos columnas, completa
-        for (let i = num_col; i <= num_columnas; i++) {
+        for (let i = num_col; i < num_columnas; i++) {
             td = document.createElement('td');
             tr.appendChild(td);
         }
@@ -894,10 +915,12 @@ ipcRenderer.on('escenario-original:copiado', (event, res) => {
         banner.ok();
 
         if (typeof objEscModificado !== 'undefined' && objEscModificado !== null && objEscModificado.folio === res.folio) {
-            mensajeConsola(`Se actualizó el escenario modificado con folio ${res.folio} a partir de ${res.id}`);
+            mensajeConsola(`Se actualizó el escenario modificado con folio ${res.folio} a partir de ${res.id}`, true);
+
             banner.setMensaje(`Actualización completada. Folio del escenario: <font style="color:lightgreen; text-decoration:underline;">${res.folio}</font>`);
         } else {
-            mensajeConsola(`Se generó un escenario modificado con folio ${res.folio} a partir de ${res.id}`);
+            mensajeConsola(`Se generó un escenario modificado con folio ${res.folio} a partir de ${res.id}`, false);
+            ipcRenderer.send('bitacora:inicializa', res.ruta);
             banner.setMensaje(`Copia completada. Folio del escenario: <font style="color:lightgreen; text-decoration:underline;">${res.folio}</font>`);
         }
 
@@ -914,6 +937,8 @@ ipcRenderer.on('escenario-original:copiado', (event, res) => {
         objEscModificado.ruta = res.ruta;
 
         // Desmarca el escenario original
+
+        // Primero las celdas
         objEscOriginal.lista.forEach((archivo) => {
             if (typeof archivo.editado !== 'undefined' && archivo.editado === true) {
                 archivo.filas.forEach((fila) => {
@@ -925,6 +950,13 @@ ipcRenderer.on('escenario-original:copiado', (event, res) => {
                 archivo.editado = false;
             }
         });
+
+        // Luego las filas
+        tr_modificados.forEach((fila_tr) => {
+            fila_tr.classList.remove('modificado');
+        });
+        // Vacia la lista
+        tr_modificados = [];
 
         // Quita asteriscos de cambios
         for (let col of colapsos) {
@@ -949,7 +981,7 @@ ipcRenderer.on('escenario-original:copiado', (event, res) => {
         }, 2000);
     } else {
         banner.error();
-        mensajeConsola(`Ocurrió un problema al generar el escenario modificado: ${res.error}`);
+        // mensajeConsola(`Ocurrió un problema al generar el escenario modificado: ${res.error}`);
         banner.setMensaje(res.error);
         banner.setBoton('Aceptar', () => {
             banner.ocultar();
@@ -961,7 +993,7 @@ function ejecutarAlgoritmo() {
     console.log('Ejecuta', objEscModificado.ruta, SESION.algoritmo);
     ipcRenderer.send('algoritmo:ejecutar', objEscModificado.ruta, SESION.algoritmo);
 
-    mensajeConsola(`Ejecutando algoritmo ${SESION.algoritmo} para folio ${objEscModificado.folio}`);
+    mensajeConsola(`Ejecutando algoritmo ${SESION.algoritmo} para folio ${objEscModificado.folio}`, true);
 
     // Vista prompt
     banner.modoPrompt();
@@ -984,25 +1016,57 @@ ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
 
     if (res.exito === true) {
         // Habilita el menu para comparar resultados
-        menuCompara.classList.remove('invalido');
+        // menuCompara.classList.remove('invalido');
 
         banner.appendTextoPrompt(`<font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`);
-        mensajeConsola(`Fin de ejecución del algoritmo; terminación normal`);
+
+        mensajeConsola(`Fin de ejecución del algoritmo; terminación normal`, true);
     } else {
+        // Invo0ca diagnostico
+        if (res.infactible === true) {
+            console.log('Verificando infactibilidad');
+            ipcRenderer.send('algoritmo:diagnosticar', objEscModificado.ruta, 'RES_EJECUCION');
+        }
+
+        // No se muestran resultados
+        banner.setBoton('Cerrar', () => {
+            banner.ocultar();
+        });
+
         if (res.codigo < 0) {
             banner.appendTextoPrompt(`<font color='red'>Error de ejecución del algoritmo: ${res.mensaje}</font>`);
-            mensajeConsola(`Error de ejecución del algoritmo: ${res.mensaje}`);
+            mensajeConsola(`Error de ejecución del algoritmo: ${res.mensaje}`, true);
         } else {
             banner.appendTextoPrompt(`<font color='red'>Fin de ejecución del algoritmo. Se presentan errores en el resultado.</font>`);
-            mensajeConsola(`Fin de ejecución del algoritmo; se presentan errores en el resultado.`);
+            mensajeConsola(`Fin de ejecución del algoritmo; se presentan errores en el resultado.`, true);
         }
     }
 
     // Habilita el menu modificados
     //menuModifica.classList.remove('invalido');
-    menuCompara.classList.remove('invalido');
+    // menuCompara.classList.remove('invalido');
 
     banner.habilitarBoton();
+});
+
+ipcRenderer.on('algoritmo:diagnosticado', (event, res) => {
+    if (res.codigo >= 0) {
+        if (res.opc === 'RES_EJECUCION') {
+            banner.appendTextoPrompt(`<br><label style="display:block;text-align: center;">= = = = = = = = = =<font style="color:greenyellow;"> Verificación de Infactibilidad </font>= = = = = = = = = =</label><br>${res.cadena}<br><br>`);
+        } else if (res.opc === 'RES_ORIGINAL') {
+            banner.appendTextoPrompt(`<br><label style="display:block;text-align: center;">= = = = = = = = = =<font style="color:greenyellow;"> Verificación de Infactibilidad </font>= = = = = = = = = =</label><br>${res.cadena}<br><br>`);
+        } else if (res.opc === 'RES_COMPARA') {
+            let ban = null;
+
+            if (res.rutaBase === objEscA_res.ruta) {
+                ban = banner_resA;
+            } else if (res.rutaBase === objEscB_res.ruta) {
+                ban = banner_resB;
+            }
+
+            ban.appendTextoPrompt(`<br><label style="display:block;text-align: center;">= = = = = = = = = =<font style="color:greenyellow;"> Verificación de Infactibilidad </font>= = = = = = = = = =</label><br>${res.cadena}<br><br>`);
+        }
+    }
 });
 
 function mostrarSalidaAlgoritmoOriginal() {

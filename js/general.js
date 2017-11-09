@@ -70,6 +70,7 @@ let tablas_info = null;
 let thead_periodo = null;
 let thead_periodo_i = null;
 let colapsables_info = null;
+let tr_modificados = [];
 
 // Comparacion de resultados
 let tablas_res = null;
@@ -102,6 +103,8 @@ let folio_labels = null;
 
 let boton_ejecutarEscenario = null;
 let boton_actualizarEscenario = null;
+let boton_nuevoFolio = null;
+let boton_resultadoOriginal = null;
 
 // Al cargar la pagina es inicio de sesion, se consultan
 // sistemas disponibles y cargan documentos en el area de trabajo
@@ -267,6 +270,8 @@ function cargaComponentes() {
 
     boton_ejecutarEscenario = document.getElementById('boton_ejecutarEscenario');
 	boton_actualizarEscenario = document.getElementById('boton_actualizarEscenario');
+	boton_nuevoFolio = document.getElementById('boton_nuevoFolio');
+	boton_resultadoOriginal = document.getElementById('boton_resultadoOriginal');
 
     let div_archivos = document.getElementById('div_visor-archivos');
 
@@ -356,7 +361,7 @@ function folio_selecciona() {
 	}
 }
 
-function mensajeConsola(mensaje) {
+function mensajeConsola(mensaje, flagArchivo) {
 	// Agrega la estampa de tiempo
 	let mensaje_consola = `<b>[${moment().format('YYYY-MM-DD HH:mm:ss')}]</b>\t${mensaje}`;
 
@@ -369,10 +374,12 @@ function mensajeConsola(mensaje) {
 
 	div_msg_consola.scrollTop = div_msg_consola.scrollHeight;
 
-	let mensaje_bitacora = moment().format('YYYY-MM-DD HH:mm:ss') + '\t' + mensaje;
+	if (typeof flagArchivo !== 'undefined' && flagArchivo === true) {
+		let mensaje_bitacora = moment().format('YYYY-MM-DD HH:mm:ss') + '\t' + mensaje;
 
-	// Manda mensaje a la bitacora
-	ipcRenderer.send('bitacora:escribir', mensaje_bitacora);
+		// Manda mensaje a la bitacora
+		ipcRenderer.send('bitacora:escribir', mensaje_bitacora);
+	}
 }
 
 window.onbeforeunload = function(e) {
@@ -380,7 +387,7 @@ window.onbeforeunload = function(e) {
 };
 
 function fn_menuCarga() {
-	if (menuCarga.deshabilitado) {
+	if (menuCarga.classList.contains('deshabilitado')) {
 		return;
 	}
 
@@ -393,7 +400,7 @@ function fn_menuCarga() {
 }
 
 function fn_menuInfo() {
-	if (menuInfo.deshabilitado) {
+	if (menuInfo.classList.contains('deshabilitado')) {
 		return;
 	}
 
@@ -406,7 +413,7 @@ function fn_menuInfo() {
 }
 
 function fn_menuModifica() {
-	if (menuModifica.deshabilitado) {
+	if (menuModifica.classList.contains('deshabilitado')) {
 		return;
 	}
 
@@ -419,7 +426,7 @@ function fn_menuModifica() {
 }
 
 function fn_menuCompara() {
-	if (menuCompara.deshabilitado) {
+	if (menuCompara.classList.contains('deshabilitado')) {
 		return;
 	}
 
@@ -432,7 +439,7 @@ function fn_menuCompara() {
 }
 
 function fn_menuAdmin() {
-	if (menuAdmin.deshabilitado) {
+	if (menuAdmin.classList.contains('deshabilitado')) {
 		return;
 	}
 
