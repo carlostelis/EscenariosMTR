@@ -38,7 +38,7 @@ let ftp = new FTP({
 let SESION;
 
 // Versión de la aplicacion
-// process.env.NODE_ENV = 'production';
+process.env.NODE_ENV = 'production';
 
 /////////          Para la generacion del instalador             //////////////
 
@@ -183,6 +183,13 @@ app.on('ready', () => {
     const mainMenu = Menu.buildFromTemplate(crearMenu(app, win, dialog));
     Menu.setApplicationMenu(mainMenu);
 
+    // Verifica los directorios
+    listaArchivos.init();
+
+    if (process.env.NODE_ENV !== 'production') {
+        win.toggleDevTools();
+    }
+
     // BDs
     // Queda para BD a futuro
     // bd_autr.set(require('./archivos_autr.js'), win, 'autr');
@@ -325,6 +332,7 @@ ipcMain.on('paginaActual:respuesta', (event, pagina) => {
 
 // Lista de archivos de directorio
 ipcMain.on('listaHtml:solicita', () => {
+    console.log('Solicita lista archivos');
     listaArchivos.update().then((res) => {
         console.log("Envia lista archivos");
         win.webContents.send('listaHtml:recibe', res);

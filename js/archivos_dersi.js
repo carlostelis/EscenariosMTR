@@ -62,7 +62,7 @@ module.exports = [
             {"nombre":"POT_VENTA_P1", "tipo":"REAL"}
         ],
          "origen_unidades":"UNITRC_DERS.csv",
-         "segmentos_unidades":true
+         "segmentos_unidades":11
     },
     {
         "nombre":"PREVERC_DERS.csv",
@@ -71,7 +71,7 @@ module.exports = [
             { "nombre":"PRECIO_VENTA_P1", "tipo":"REAL"}
         ],
          "origen_unidades":"UNITRC_DERS.csv",
-         "segmentos_unidades":true
+         "segmentos_unidades":11
     },
     {
         "nombre":"LIUNITRC_DERS.csv",
@@ -103,6 +103,7 @@ module.exports = [
     },
     {
         "nombre":"PLNOPRDERS.csv",
+        "unidades": true,
         "editable": false,
         "campos":[
             { "nombre":"NOMBRE_UNIDAD", "tipo":"REAL"},
@@ -120,7 +121,8 @@ module.exports = [
         "editable": true,
         "campos":[
             { "nombre":"POTENCIA_P1", "tipo":"TEXT"}
-        ]
+        ],
+        "origen_unidades":"PLNOPRDERS.csv"
     },
     {
         "nombre":"UNITRCCI_DERS.csv",
@@ -206,6 +208,7 @@ module.exports = [
     },
     {
         "nombre":"UNIHDERS.csv",
+        "unidades": true,
         "editable": false,
         "campos":[
             { "nombre":"NOMBRE_UNIDAD", "tipo":"TEXT"},
@@ -221,21 +224,24 @@ module.exports = [
         "editable": true,
         "campos":[
             { "nombre":"LIM_INF_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"LSUNIH_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"LIM_SUP_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"ASIGNH_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"ASIG_UNIDAD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"UNIHCI_DERS.csv",
@@ -245,7 +251,8 @@ module.exports = [
             { "nombre":"NUM_PERIODOS_CONDINI", "tipo":"REAL"},
             { "nombre":"GENERACION_CONDINI", "tipo":"REAL"},
             { "nombre":"X", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"RAMPASH.csv",
@@ -275,77 +282,88 @@ module.exports = [
             { "nombre":"COSTO_OP_P6", "tipo":"REAL"},
             { "nombre":"COSTO_OP_P7", "tipo":"REAL"},
             { "nombre":"COSTO_OP_P8", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"POTRESRO10H_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"POT_RES_ROD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"PRERESRO10H_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"PRECIO_RES_ROD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"POTRESROSUH_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"POT_RES_RODSUP_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"PRERESROSUH_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"PRECIO_RES_RODSUP_P1", "tipo":"TEXT"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"POTRESRESEH_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"POT_RES_REGSEC_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"PRERESRESEH_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"PRECIO_RES_REGSEC_P1", "tipo":"TEXT"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"POTRESNR10H_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"POT_RES_NROD_P1", "tipo":"TEXT"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"PRERESNR10H_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"PRECIO_RES_NROD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"POTRESNRSUH_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"POT_RES_NRODSUP_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"PRERESNRSUH_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"PRECIO_RES_NRODSUP_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"ZONASRESUH_DERS.csv",
@@ -361,7 +379,8 @@ module.exports = [
             { "nombre":"UNIDAD_ZONA8", "tipo":"REAL"},
             { "nombre":"UNIDAD_ZONA9", "tipo":"REAL"},
             { "nombre":"UNIDAD_ZONA10", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"UNITRD_DERS.csv",
@@ -388,42 +407,50 @@ module.exports = [
             { "nombre":"NOMBRE_COMP", "tipo":"TEXT"},
             { "nombre":"TIPO_COMP", "tipo":"TEXT"},
             { "nombre":"NODO_ASOC", "tipo":"TEXT"}
-        ]
+        ],
+        "origen_unidades":"UNITRD_DERS.csv"
     },
     {
         "nombre":"CGMRD_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"COSTO_GENMINMOD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRD_DERS.csv"
     },
     {
         "nombre":"POTVERD_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"POT_VENTASEGMOD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRD_DERS.csv",
+        "segmentos_unidades": 3
     },
     {
         "nombre":"PREVERD_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"PRECIO_VENTASEGMOD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRD_DERS.csv",
+        "segmentos_unidades": 3
     },
     {
         "nombre":"LIUNITRD_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"LIMITE_INFGENMOD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRD_DERS.csv"
     },
     {
         "nombre":"LSUNITRD_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"LIMITE_SUPGENMOD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRD_DERS.csv"
     },
     {
         "nombre":"UNITRDCI_DERS.csv",
@@ -440,7 +467,8 @@ module.exports = [
             { "nombre":"NUM_COMP4", "tipo":"REAL"},
             { "nombre":"NUM_COMP5", "tipo":"REAL"},
             { "nombre":"NUM_COMP6", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRD_DERS.csv"
         //
     },
     {
@@ -457,14 +485,16 @@ module.exports = [
             { "nombre":"MODO_OP8", "tipo":"TEXT"},
             { "nombre":"MODO_OP9", "tipo":"TEXT"},
             { "nombre":"MODO_OP10", "tipo":"TEXT"}
-        ]
+        ],
+        "origen_unidades":"UNITRD_DERS.csv"
     },
     {
         "nombre":"ASIGNRD_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"ASIGMOD_UNIDAD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRD_DERS.csv"
     },
     {
         "nombre":"RAMPASRD_DERS.csv",
@@ -474,7 +504,8 @@ module.exports = [
             { "nombre":"RAMPA_BAJADA_OP", "tipo":"REAL"},
             { "nombre":"RAMPA_EMERGENCIA", "tipo":"REAL"},
             { "nombre":"RAMPA_REGULACION", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRD_DERS.csv"
     },
     {
         "nombre":"COMPXMODO_DERS.csv",
@@ -499,11 +530,13 @@ module.exports = [
             { "nombre":"FRAC_GEN_OP4", "tipo":"REAL"},
             { "nombre":"FRAC_GEN_OP5", "tipo":"REAL"},
             { "nombre":"FRAC_GEN_OP6", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRD_DERS.csv"
         //
     },
     {
         "nombre":"UNITRE_DERS.csv",
+        "unidades": true,
         "editable": false,
         "campos":[
             { "nombre":"NOMBRE_UNIDAD", "tipo":"TEXT"},
@@ -518,25 +551,31 @@ module.exports = [
         "editable": true,
         "campos":[
             { "nombre":"POT_VENTA_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRE_DERS.csv",
+        "segmentos_unidades":3
     },
     {
         "nombre":"PREVERE_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"PRECIO_VENTA_P1", "tipo":"TEXT"}
-        ]
+        ],
+        "origen_unidades":"UNITRE_DERS.csv",
+        "segmentos_unidades":3
     },
     {
         "nombre":"LIUNITRE_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"LIMITE_INFERIOR_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRE_DERS.csv"
     },
     {
         "nombre":"LSUNITRE_DERS.csv",
-        "editable": true
+        "editable": true,
+        "origen_unidades":"UNITRE_DERS.csv"
         // FALTA BD
     },
     {
@@ -544,7 +583,8 @@ module.exports = [
         "editable": true,
         "campos":[
             { "nombre":"ASIG_UNIDAD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRE_DERS.csv"
     },
     {
         "nombre":"NODOSDERSD.csv",
@@ -732,7 +772,8 @@ module.exports = [
         "editable": false,
         "campos":[
             { "nombre":"NODO_UNP_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"PLNOPRDERS.csv"
     },
     {
         "nombre":"NODOSINPA_DERS.csv",
@@ -746,21 +787,24 @@ module.exports = [
         "editable": true,
         "campos":[
             { "nombre":"NODO_UNIDAD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"NODOSCOMPOURD_DERS.csv",
         "editable": false,
         "campos":[
             { "nombre":"NODO_COMP_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRD_DERS.csv"
     },
     {
         "nombre":"NODOSRE_DERS.csv",
         "editable": false,
         "campos":[
             { "nombre":"NODO_UNIDAD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRE_DERS.csv"
     },
     {
         "nombre":"SEMAFOROSDERSI.csv",
@@ -847,14 +891,16 @@ module.exports = [
         "editable": true,
         "campos":[
             { "nombre":"COORD_UNIDAD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRD_DERS.csv"
     },
     {
         "nombre":"COORDH.csv",
         "editable": true,
         "campos":[
             { "nombre":"COORD_UNIDAD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"DISPORC_DERS.csv",
@@ -869,21 +915,24 @@ module.exports = [
         "editable": true,
         "campos":[
             { "nombre":"DISP_UNIDAD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNIHDERS.csv"
     },
     {
         "nombre":"DISPORD_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"DISP_UNIDAD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRD_DERS.csv"
     },
     {
         "nombre":"DISPORE_DERS.csv",
         "editable": true,
         "campos":[
             { "nombre":"DISP_UNIDAD_P1", "tipo":"REAL"}
-        ]
+        ],
+        "origen_unidades":"UNITRE_DERS.csv"
     },
     {
         "nombre":"PRETOPEPISO.csv",

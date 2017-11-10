@@ -84,6 +84,7 @@ class Paginacion {
 
             if (nodo.nodeName.toLowerCase() === 'tfoot') {
                 this.tfoot = nodo;
+                this.tabla.tfoot = this.tfoot;
             }
         }
 
@@ -91,6 +92,7 @@ class Paginacion {
         if (this.tfoot === null || typeof this.tfoot === 'undefined') {
             this.tfoot = document.createElement('tfoot');
             this.tabla.appendChild(this.tfoot);
+            this.tabla.tfoot = this.tfoot;
         }
 
         // Borra su contenido

@@ -1,4 +1,3 @@
-const NUM_SEGMENTOS = 11;
 
 class Escenario {
     constructor () {
@@ -92,9 +91,9 @@ class Escenario {
 
                                         // Si se incluyen segmentos, se repite cada unidad 11 veces;
                                         // la tabla destino debe tener #UNIDADES * 11 registros
-                                        if (typeof datosDestino.flag_segmentos !== 'undefined' && datosDestino.flag_segmentos === true) {
+                                        if (typeof datosDestino.num_segmentos !== 'undefined' && datosDestino.num_segmentos > 0) {
                                             objDatoOri = datosUnidades.filas[j][0];
-                                            if (i > 0 && ((i + 1) % NUM_SEGMENTOS) === 0) {
+                                            if (i > 0 && ((i + 1) % datosDestino.num_segmentos) === 0) {
                                                 j++;
                                             }
                                         } else {
@@ -230,8 +229,8 @@ class Escenario {
                         datosArchivo.unidades = ref.origen_unidades;
 
                         // Verifica si se incluyen registros por segmentos
-                        if (typeof ref.segmentos_unidades !== 'undefined' && ref.segmentos_unidades === true) {
-                            datosArchivo.flag_segmentos = true;
+                        if (typeof ref.segmentos_unidades !== 'undefined') {
+                            datosArchivo.num_segmentos = parseInt(ref.segmentos_unidades);
                         }
 
                         this.unidades_destino_obj.push(datosArchivo);

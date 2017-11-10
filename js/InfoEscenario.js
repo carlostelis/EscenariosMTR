@@ -843,7 +843,10 @@ function crearTablaInfo(objArchivo, copia) {
             tabla.paginacion = new Paginacion(tabla);
         }
     } else {
-
+        // Elimina paginacion anterior
+        if (typeof tabla.tfoot !== 'undefined') {
+            tabla.tfoot.innerHTML = '';
+        }
     }
 
     let colapso = null;

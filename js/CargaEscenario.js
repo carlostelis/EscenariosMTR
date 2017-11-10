@@ -183,7 +183,7 @@ ipcRenderer.on('utc:respuesta', (event, json) => {
     let obj = {
         id_escenario: id,
         dirRemoto: `${SESION.config.exalogic.base}${SESION.sistemaCarpeta}/${select_algoritmo.value}/datosh/${rutaId}`,
-        pathLocal: `${select_algoritmo.value}/escenario_original/`,
+        pathLocal: `${SESION.sistema}/${select_algoritmo.value}/escenario_original/`,
         dia: dia,
         mes: mes,
         anio: anio,
