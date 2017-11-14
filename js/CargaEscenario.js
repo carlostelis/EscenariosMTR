@@ -13,6 +13,14 @@ ipcRenderer.on('directorio:progreso', (event, res) => {
     banner.mostrarProgreso();
     banner.setMensaje(res.mensaje);
     banner.setProgreso(res.progreso);
+
+    if (res.progreso >= 100) {
+        setTimeout(() => {
+            banner.ocultarProgreso();
+            banner.vistaCompacta();
+        }, 1000);
+    }
+    // console.log('progreso', res.progreso);
 });
 
 // Descarga finalizada (?)
@@ -68,73 +76,69 @@ ipcRenderer.on('directorio:descargado', (event, res) => {
 });
 
 ipcRenderer.on('algoritmo:descargado', (event, res) => {
-    if (res.estado) {
-        visor_archivos.actualizar();
-        setTimeout(() => {
-            // banner.ocultar();
-            banner.trabajando();
-            banner.vistaCompacta();
-            banner.setMensaje('Leyendo información');
-
-            // Actualiza las etiquetas
-            let algoritmo_val = select_algoritmo.value.toUpperCase();
-            for (let label of algoritmo_labels) {
-                label.innerHTML = `Algoritmo: <b>${algoritmo_val}</b>`;
-            }
-
-            let fecha_val = input_fecha.value;
-            for (let label of fecha_labels) {
-                label.innerHTML = `Fecha: <b>${fecha_val}</b>`;
-            }
-
-            let hora_val = select_hora.value + '';
-            if (hora_val.length < 2) {
-                hora_val = `0${hora_val}`;
-            }
-
-            for (let label of hora_labels) {
-                label.innerHTML = `Hora: <b>${hora_val}</b>`;
-            }
-
-            let intervalo_val = select_intervalo.value;
-            if (intervalo_val.length < 2) {
-                intervalo_val = `0${intervalo_val}`;
-            }
-
-            for (let label of intervalo_labels) {
-                label.innerHTML = `Intervalo: <b>${intervalo_val}</b>`;
-            }
-
-            for (let label of folio_labels) {
-                label.innerHTML = `Folio: <b>- ORIGINAL -</b>`;
-            }
-
-            // Pasa al menu de información
-            ipcRenderer.send('escenario_entradas:leer', rutaEscenarioOriginal, SESION.algoritmo);
-
-            // Deshabilita botón ejecutar
-        	//let boton_ejecutarEscenario = document.getElementById('boton_ejecutarEscenario');
-        	// if (boton_ejecutarEscenario) {
-        	boton_ejecutarEscenario.disabled = true;
-            boton_actualizarEscenario.disabled = true;
-        	// }
-
-            // Habilita el menu info
-            menuInfo.classList.remove('deshabilitado');
-
-            // Despliegua la seccion
-            menuInfo.onclick();
-            // Primer menú, informacion general
-            opciones_menu_info[0].onclick();
-        }, 1500);
-    } else {
-        banner.error();
-        // banner.vistaNormal();
+    res_algoritmo = res;
+    let to_lectura = 1500;
+    if (res.estado !== true) {
+        banner.alerta();
         banner.setMensaje(`Error durante la descarga del algoritmo: ${res.error}`);
-        setTimeout(() => {
-            banner.ocultar();
-        }, 3000);
+        to_lectura = 3000;
     }
+
+    visor_archivos.actualizar();
+    setTimeout(() => {
+        // banner.ocultar();
+        banner.trabajando();
+        banner.vistaCompacta();
+        banner.setMensaje('Leyendo información');
+
+        // Actualiza las etiquetas
+        let algoritmo_val = select_algoritmo.value.toUpperCase();
+        for (let label of algoritmo_labels) {
+            label.innerHTML = `Algoritmo: <b>${algoritmo_val}</b>`;
+        }
+
+        let fecha_val = input_fecha.value;
+        for (let label of fecha_labels) {
+            label.innerHTML = `Fecha: <b>${fecha_val}</b>`;
+        }
+
+        let hora_val = select_hora.value + '';
+        if (hora_val.length < 2) {
+            hora_val = `0${hora_val}`;
+        }
+
+        for (let label of hora_labels) {
+            label.innerHTML = `Hora: <b>${hora_val}</b>`;
+        }
+
+        let intervalo_val = select_intervalo.value;
+        if (intervalo_val.length < 2) {
+            intervalo_val = `0${intervalo_val}`;
+        }
+
+        for (let label of intervalo_labels) {
+            label.innerHTML = `Intervalo: <b>${intervalo_val}</b>`;
+        }
+
+        for (let label of folio_labels) {
+            label.innerHTML = `Folio: <b>- ORIGINAL -</b>`;
+        }
+
+        // Pasa al menu de información
+        ipcRenderer.send('escenario_entradas:leer', rutaEscenarioOriginal, SESION.algoritmo);
+
+        // Deshabilita botón ejecutar y actualizar
+        boton_ejecutarEscenario.disabled = true;
+        boton_actualizarEscenario.disabled = true;
+
+        // Habilita el menu info
+        menuInfo.classList.remove('deshabilitado');
+
+        // Despliegua la seccion
+        menuInfo.onclick();
+        // Primer menú, informacion general
+        opciones_menu_info[0].onclick();
+    }, to_lectura);
 });
 
 // Inicia la busqueda del escenario, primero obtiene UTC de la fecha solicitada

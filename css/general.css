@@ -60,6 +60,7 @@ body {
     color: white;
     cursor: default;
     text-decoration: none;
+    background-color: gray;
 }
 
 .button_gral > span {
@@ -300,8 +301,8 @@ label {
 }
 
 .caja-banner {
-    height: 40%;
-    width: 30%;
+    height: 40vh;
+    width: 30vw;
     border-style: outset;
     background-color: #215E3E;
     border: solid 3.0pt darkseagreen;
@@ -311,13 +312,19 @@ label {
 }
 
 .caja-banner.compacto {
-    height: 30%;
-    width: 20%;
+    height: 30vh;
+    width: 20vw;
 }
 
 .caja-banner.solo-icono {
     height: 24%;
     width: 20%;
+}
+
+.caja-banner.solo-icono.prompt {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
 }
 
 .caja-prompt {
@@ -414,6 +421,7 @@ label {
     background-color: darkorange !important;
     font-size: 1vw;
     line-height: 1.5;
+    color: darkred !important;
 }
 
 .salida-titulo-banner {

@@ -71,6 +71,9 @@ let thead_periodo = null;
 let thead_periodo_i = null;
 let colapsables_info = null;
 let tr_modificados = [];
+let promesas_archivos = [];
+let salida_algoritmo;
+let res_algoritmo;
 
 // Comparacion de resultados
 let tablas_res = null;
@@ -91,6 +94,10 @@ let label_resB = null;
 let flag_resOutput_A = false;
 let flag_resOutput_B = false;
 let spans_archivos_res = [];
+let promesas_archivos_A = [];
+let promesas_archivos_B = [];
+let flag_A_cargado;
+let flag_B_cargado;
 
 // Etiquetas comunes
 let usuario_labels = null;

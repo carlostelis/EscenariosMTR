@@ -7,6 +7,8 @@ class Comandos {
         const {TextDecoder} = require('text-encoding');
         this.decoder = new TextDecoder();
         this.fs = require('fs');
+        this.resultado = '';
+        this.flag_fin_exe = false;
     }
 
     obtenerUsuario(usuario) {
@@ -72,7 +74,7 @@ class Comandos {
             }
 
             // Ejecuta el comando para darla de alta
-            this.fs.appendFile('C:\\AppAnalizadorEscenarios\\path.txt', `PAth: ${ruta}\n\n`, 'utf8', (err) => {});
+            this.fs.appendFile('C:\\AppAnalizadorEscenarios\\path.txt', `\nPath: ${ruta}\n\n`, 'utf8', (err) => {});
             exec(`setx /M PATH "%PATH%;${ruta}"`, (error, stdout, stderr) => {
                 if (error) {
                     // console.log(`>> Error: ${error.message}`);
@@ -191,21 +193,26 @@ class Comandos {
         });
     }
 
-    ejecutarAlgoritmo(ruta_escenario, archivo_exe) {
+    ejecutarAlgoritmo(ruta_escenario, archivo_exe, win) {
         return new Promise((resolve, reject) => {
             try {
                 let ruta_actual = process.cwd();
                 process.chdir(ruta_escenario);
                 console.log(`Moviendo a escenario: ${process.cwd()}`);
 
-                let resultado = '';
+                this.resultado = '';
                 let codigo;
                 let mensaje;
                 let exito = false;
                 let infactible = false;
+                this.flag_fin_exe = false;
 
                 const exe = spawn(archivo_exe);
                 console.log('Ejecutando', archivo_exe);
+
+                // Activa el método para enviar por lotes
+                this.enviarSalida(win);
+
                 exe.stdout.on('data', (data) => {
                     let salida = this.decoder.decode(data).replace(new RegExp('\n+\s*', 'g'), '<br>');
 
@@ -217,7 +224,7 @@ class Comandos {
                         infactible = true;
                     }
 
-                    resultado += salida;
+                    this.resultado += salida;
                 });
 
                 exe.stderr.on('data', (data) => {
@@ -231,19 +238,19 @@ class Comandos {
                         infactible = true;
                     }
 
-                    resultado += salida;
+                    this.resultado += salida;
                 });
 
                 exe.on('close', (code) => {
                     console.log(`Finaliza ejecución, código: ${code}`);
-
+                    this.flag_fin_exe = true;
                     codigo = code;
                     mensaje = '';
 
                     // Regresa a la ubicación
                     process.chdir(ruta_actual);
 
-                    resolve({codigo:codigo, mensaje:mensaje, cadena:resultado, exito: exito, infactible:infactible});
+                    resolve({codigo:codigo, mensaje:mensaje, cadena:this.resultado, exito: exito, infactible:infactible});
                 });
             } catch (e) {
                 codigo = -12345;
@@ -252,9 +259,21 @@ class Comandos {
                 // Regresa a la ubicación
                 process.chdir(ruta_actual);
 
-                reject({codigo:codigo, mensaje:mensaje, cadena:resultado, exito: exito, infactible:infactible});
+                reject({codigo:codigo, mensaje:mensaje, cadena:this.resultado, exito: exito, infactible:infactible});
             }
         });
+    }
+
+    enviarSalida(win) {
+        // Envia datos cada 3 segundos
+        setTimeout(() => {
+            if (this.flag_fin_exe === false) {
+                console.log('Envia resultado parcial');
+                win.webContents.send('algoritmo:ejecucionParcial', this.resultado);
+                this.resultado = '';
+                this.enviarSalida(win);
+            }
+        }, 1000);
     }
 
     ejecutarDiagnostico(ruta_escenario, archivo_exe) {

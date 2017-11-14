@@ -6,3 +6,4 @@ installers
 JAVA_DB_MTR/build/*
 JAVA_DB_MTR/dist/*
 .node-persist
+first

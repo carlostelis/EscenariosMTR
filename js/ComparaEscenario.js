@@ -148,102 +148,102 @@ function colapsarTodasResultados(flagClass) {
     }
 }
 
-ipcRenderer.on('escenario_resultados:leido', (event, obj) => {
-    console.log('Recibe archivos:', obj.lista.length);
-
-    flag_resOutput_A = false;
-    flag_resOutput_B = false;
-
-    new Promise((resolve, reject) => {
-        if (marcoSeleccionado === 'A') {
-            objEscA_res = obj;
-        } else {
-            objEscB_res = obj;
-        }
-
-        // Vacia los datos de las tablas (desde el dom)
-        vaciarTablasResulados();
-        // Desactiva todos los colapsos
-        desactivarColapsosResultados();
-
-        // Crea las nuevas tablas
-        obj.lista.forEach((archivo) => {
-            crearTablaResultado(archivo);
-        });
-
-        resolve();
-    }).then(() => {
-        // Oculta todas
-        colapsarTodasResultados(true);
-
-        if (marcoSeleccionado === 'A') {
-            banner_resA.ocultar();
-            mensajeConsola(`Resultados de algoritmo (${obj.algoritmo}) cargados en marco A`, false);
-        } else {
-            banner_resB.ocultar();
-            mensajeConsola(`Resultados de algoritmo (${obj.algoritmo}) cargados en marco B`, false);
-        }
-
-        if (flag_espera_esc) {
-            flag_espera_esc = false;
-            marcoSeleccionado = 'B';
-            ipcRenderer.send('escenario_resultados:leer', objEscModificado.ruta, SESION.algoritmo);
-
-            // 3 segundos después del segundo resultado, solicita la lista de modificados
-            setTimeout(() => {
-                ipcRenderer.send('escenarios_mod:leer', objEscOriginal.ruta.replace('escenario_original', 'escenario_modificado'));
-            }, 3000);
-        }
-    });
-});
-
 ipcRenderer.on('escenario_resultados:leidoComparado', (event, objA, objB) => {
     console.log('Recibe archivos:', objA.lista.length, objB.lista.length);
 
     objEscA_res = objA;
     objEscB_res = objB;
 
+    objEscA_res.contador = 0;
+    objEscB_res.contador = 0;
+
+    flag_A_cargado = false;
+    flag_B_cargado = false;
+
     // Vacia los datos de las tablas (desde el dom)
     vaciarTablasResulados();
     // Desactiva todos los colapsos
     desactivarColapsosResultados();
-
-    crearTablasResultadoMarco(objEscA_res, 'A').then(() => {
-        setTimeout(() => {
-            banner_resA.ocultar();
-        }, 50);
-        mensajeConsola(`Resultados de algoritmo (${objEscA_res.algoritmo}) cargados en marco A`, false);
-        label_resA.innerHTML = `<font color="black">Escenario:</font> <b>${objEscA_res.id}</b> (${objEscA_res.id.length > 12 ? 'Original' : 'Modificado'})<span onclick="mostrarSalidasAlgoritmo();"><i class="demo-icon icon-terminal"></i></span>`;
-
-        // Carga los costos A
-        ipcRenderer.send('archivo:leer', objEscA_res.ruta, ['dirres', 'r_desphora1.res'], 'RES_COSTOS_A');
-
-        crearTablasResultadoMarco(objEscB_res, 'B').then(() => {
-            banner_resB.ocultar();
-            mensajeConsola(`Resultados de algoritmo (${objEscB_res.algoritmo}) cargados en marco B`, false);
-            label_resB.innerHTML = `<font color="black">Escenario:</font> <b>${objEscB_res.id}</b> (${objEscB_res.id.length > 12 ? 'Original' : 'Modificado'})<span onclick="mostrarSalidasAlgoritmo();"><i class="demo-icon icon-terminal"></i></span>`;
-
-            // Carga los costos B
-            ipcRenderer.send('archivo:leer', objEscB_res.ruta, ['dirres', 'r_desphora1.res'], 'RES_COSTOS_B');
-
-            console.log('Resultados cargados...');
-
-            if (SESION.flag_cargarFolios === true) {
-                // 3 segundos después del segundo resultado, solicita la lista de modificados
-                setTimeout(() => {
-                    console.log('Carga folios modificados');
-                    ipcRenderer.send('escenarios_mod:leer', objEscOriginal.ruta.replace('escenario_original', 'escenario_modificado'));
-                }, 500);
-            }
-        }, () => {
-            console.log('Error cargando marco B');
-        });
-    }, () => {
-        console.log('Error cargando marco A');
-    });
 });
 
+ipcRenderer.on('escenario_resultados:archivo_leidoComparado', (event, obj_archivo, marco) => {
+    console.log('Recibe resultado:', obj_archivo.archivo);
 
+    let ban;
+    let objContenedor;
+    let promesas;
+    let label;
+    let string_opc;
+    if (marco === 'A') {
+        ban = banner_resA;
+        objContenedor = objEscA_res;
+        promesas = promesas_archivos_A;
+        label = label_resA;
+        string_opc = 'RES_COSTOS_A';
+    } else if (marco === 'B') {
+        ban = banner_resB;
+        objContenedor = objEscB_res;
+        promesas = promesas_archivos_B;
+        label = label_resB;
+        string_opc = 'RES_COSTOS_B';
+    }
+
+    objContenedor.lista.push(obj_archivo);
+    objContenedor.contador++;
+
+    // Al recibir archivo cambia icono a procesando
+    ban.trabajando();
+
+    // Agrega lista de promesas
+    setTimeout(() => {
+        promesas.push(new Promise((resolve, reject) => {
+            ban.setMensaje(`Procesando archivo:<br><font style="color:lightgreen;">${obj_archivo.archivo}</font>`);
+            crearTablaResultado(obj_archivo, marco);
+            resolve();
+        }));
+    });
+
+    // Si recibió todos los archivos
+    if (objContenedor.contador >= objContenedor.numArchivos) {
+        setTimeout(() => {
+            Promise.all(promesas).then(() => {
+                ban.ok();
+                ban.setMensaje('Completado');
+                mensajeConsola(`Resultados de algoritmo (${objContenedor.algoritmo}) cargados en marco A`, false);
+                label.innerHTML = `<font color="black">Escenario:</font> <b>${objContenedor.id}</b> (${objContenedor.id.length > 12 ? 'Original' : 'Modificado'})<span onclick="mostrarSalidasAlgoritmo();"><i class="demo-icon icon-terminal"></i></span>`;
+
+                // Carga los costos A
+                ipcRenderer.send('archivo:leer', objContenedor.ruta, ['dirres', 'r_desphora1.res'], string_opc);
+
+                if (marco === 'A') {
+                    flag_A_cargado = true;
+                } else if (marco === 'B') {
+                    flag_B_cargado = true;
+                }
+
+                // Si se completaron ambas
+                if (flag_A_cargado === true && flag_B_cargado === true) {
+                    // Oculta banners
+                    setTimeout(() => {
+                        banner_resA.ocultar();
+                        banner_resB.ocultar();
+                    }, 1000);
+
+                    // Esta banera solo se activa cuando se carga comparacion desde ejecucion de algoritmo
+                    if (SESION.flag_cargarFolios === true) {
+                        // 3 segundos después del segundo resultado, solicita la lista de modificados
+                        setTimeout(() => {
+                            console.log('Carga folios modificados');
+                            ipcRenderer.send('escenarios_mod:leer', objEscOriginal.ruta.replace('escenario_original', 'escenario_modificado'));
+                        }, 500);
+                    }
+                }
+            }, () => {
+                console.log(`Error cargando resultados en marco ${marco}`);
+            });
+        });
+    }
+});
 
 function mostrarSalidasAlgoritmo() {
     // Configura banner
@@ -265,12 +265,14 @@ function mostrarSalidasAlgoritmo() {
     banner_resB.setTituloPrompt(`Ejecución del escenario ${objEscB_res.id}`);
 
     if (flag_resOutput_A === false) {
-        banner_resA.promptEspera();
+        // banner_resA.promptEspera();
+        banner_resA.mostrarBannerPrompt();
         ipcRenderer.send('archivo:leer', objEscA_res.ruta, ['dirres', 'bitacora.res'], 'RES_COMPARA');
     }
 
     if (flag_resOutput_B === false) {
-        banner_resB.promptEspera();
+        // banner_resB.promptEspera();
+        banner_resB.mostrarBannerPrompt();
         ipcRenderer.send('archivo:leer', objEscB_res.ruta, ['dirres', 'bitacora.res'], 'RES_COMPARA');
     }
     // Colapsa todas
@@ -307,7 +309,8 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
         }
 
         if (ban !== null) {
-            ban.promptQuitaEspera();
+            // ban.promptQuitaEspera();
+            ban.ocultarBannerPrompt();
             ban.setTextoPrompt(obj.res);
         }
     } else if (obj.opc === 'RES_ORIGINAL') {
@@ -323,7 +326,8 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
             }
         }
 
-        banner.promptQuitaEspera();
+        // banner.promptQuitaEspera();
+        banner.ocultarBannerPrompt();
         banner.setTextoPrompt(obj.res);
     } else if (obj.opc.startsWith('RES_COSTOS_')) {
         let arg_islas = obj.res.replace(new RegExp('=?', 'g'), '').split('Isla :');
@@ -472,23 +476,7 @@ function leerResultadoCostos() {
     ipcRenderer.send('archivo:leer', objEscOriginal.ruta, ['dirres', 'r_desphora1.res'], 'RES_COSTOS');
 }
 
-function crearTablasResultadoMarco(escenario, marco) {
-    marcoSeleccionado = marco;
-    return new Promise((resolve, reject) => {
-        // Crea las nuevas tablas del escenario A
-        escenario.lista.forEach((archivo) => {
-            try {
-                crearTablaResultado(archivo);
-            }catch (e) {
-                console.log('Error creando tabla', e);
-            }
-        });
-
-        resolve();
-    })
-}
-
-function crearTablaResultado(objArchivo) {
+function crearTablaResultado(objArchivo, marco) {
     let id = objArchivo.archivo.toUpperCase().split('.CSV')[0];
 
     // Busca la tabla en la lista, no en el dom
@@ -496,16 +484,16 @@ function crearTablaResultado(objArchivo) {
     for (let t of tablas_res) {
         let nombre_tabla = t.id.replace('$', SESION.sistema.toUpperCase());
         // Pruba con terminacion sistema
-        if (id === nombre_tabla && t.classList.contains(marcoSeleccionado)) {
-            // console.log('tabla encontrada', nombre_tabla, marcoSeleccionado);
+        if (id === nombre_tabla && t.classList.contains(marco)) {
+            // console.log('tabla encontrada', nombre_tabla, marco);
             tabla = t;
             break;
         }
 
         nombre_tabla = t.id.replace('$', '1');
         // Pruba con terminacion 1
-        if (id === nombre_tabla && t.classList.contains(marcoSeleccionado)) {
-            // console.log('tabla encontrada', nombre_tabla, marcoSeleccionado);
+        if (id === nombre_tabla && t.classList.contains(marco)) {
+            // console.log('tabla encontrada', nombre_tabla, marco);
             tabla = t;
             break;
         }
@@ -784,7 +772,7 @@ function crearTablaResultado(objArchivo) {
 
     // Asterisco de diferencias
     colapsos_res.forEach((col) => {
-        if (col.id === tabla.dataset.colapso && col.classList.contains(marcoSeleccionado)) {
+        if (col.id === tabla.dataset.colapso && col.classList.contains(marco)) {
             for (let nodo of col.childNodes) {
                 if (nodo.nodeName.toLowerCase() === 'span') {
                     if (flag_diferencias) {
@@ -816,7 +804,7 @@ function crearTablaResultado(objArchivo) {
 
     let colapso = null;
     for (let col of colapsos_res) {
-        if (col.id === tabla.dataset.colapso && col.classList.contains(marcoSeleccionado)) {
+        if (col.id === tabla.dataset.colapso && col.classList.contains(marco)) {
             colapso = col;
             break;
         }
@@ -837,7 +825,6 @@ function crearTablaResultado(objArchivo) {
     // Verifica su archivo para el nombre en el span del colapso
     spans_archivos_res.forEach((span) => {
         let arch_id = span.id.replace('ARCH-', '');
-        console.log(id, arch_id);
         if (id.startsWith(arch_id)) {
             span.innerHTML = `${id}.csv`;
         }
@@ -875,14 +862,16 @@ function mostrarResultados() {
     banner_resA.modoNormal();
     banner_resA.ocultarBoton()
     banner_resA.ocultarProgreso()
-    banner_resA.vistaIcono();
+    banner_resA.vistaCompacta();
     banner_resA.cargando();
+    banner_resA.setMensaje('Consultando resultados');
 
     banner_resB.modoNormal();
     banner_resB.ocultarBoton()
     banner_resB.ocultarProgreso()
-    banner_resB.vistaIcono();
+    banner_resB.vistaCompacta();
     banner_resB.cargando();
+    banner_resB.setMensaje('Consultando resultados');
 
     banner_resA.mostrar();
     banner_resB.mostrar();
@@ -903,14 +892,16 @@ function mostrarResultadosSeleccionados() {
     banner_resA.modoNormal();
     banner_resA.ocultarBoton()
     banner_resA.ocultarProgreso()
-    banner_resA.vistaIcono();
+    banner_resA.vistaCompacta();
     banner_resA.cargando();
+    banner_resA.setMensaje('Consultando resultados');
 
     banner_resB.modoNormal();
     banner_resB.ocultarBoton()
     banner_resB.ocultarProgreso()
-    banner_resB.vistaIcono();
+    banner_resB.vistaCompacta();
     banner_resB.cargando();
+    banner_resB.setMensaje('Consultando resultados');
 
     banner_resA.mostrar();
     banner_resB.mostrar();

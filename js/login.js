@@ -40,9 +40,8 @@ ipcRenderer.on('sesion:cerrar', (event) => {
     setTimeout(() => {
         body.style.opacity = '1';
         paginaActual = 'login';
+
         // Habilita los menus
-        // menuInfo.classList.add('invalido');
-        // menuCompara.classList.add('invalido');
         menuInfo.classList.add('deshabilitado');
         menuCompara.classList.add('deshabilitado');
         menuModifica.classList.add('invalido');
@@ -117,9 +116,6 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
     setTimeout(() => {
         banner.ocultar();
     }, 1000);
-
-    // banner.setMensaje('Creando contenedores de datos');
-    // ipcRenderer.send('bds:init');
 });
 
 // BD SQLITE
@@ -272,10 +268,6 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
                 for (let label of sistema_labels) {
                     label.innerHTML = `Sistema: <b>${SESION.sistema}</b>`;
                 }
-
-                // Deshabilita opciones
-                // menuInfo.classList.add('deshabilitado');
-                // menuCompara.classList.add('deshabilitado');
 
                 // Deshabilita botones
                 boton_ejecutarEscenario.disabled = true;

@@ -527,6 +527,18 @@
       "css": "pin-1",
       "code": 59468,
       "src": "iconic"
+    },
+    {
+      "uid": "dd4b00255957a608953c409346e7d7fb",
+      "css": "warning",
+      "code": 59469,
+      "src": "typicons"
+    },
+    {
+      "uid": "8f28d948aa6379b1a69d2a090e7531d4",
+      "css": "warning-empty",
+      "code": 59470,
+      "src": "typicons"
     }
   ]
 }

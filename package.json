@@ -8,7 +8,7 @@
     "test": "electron .",
     "start": "electron .",
     "instalador": "node ./packager/build.js",
-    "empaquetar": "electron-packager . Escenarios_MTR --overwrite --platform=win32 --arch=x64 --icon=img/icono.ico --prune=false --ignore=JAVA_DB_MTR --ignore=installers --ignore=packager --ignore=.git --ignore=.node-persist --out=./built_app --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"escenarios_mtr\""
+    "empaquetar": "electron-packager . Escenarios_MTR --overwrite --platform=win32 --arch=x64 --icon=img/icono.ico --prune=false --ignore=JAVA_DB_MTR --ignore=installers --ignore=packager --ignore=.git --out=./built_app --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"escenarios_mtr\""
   },
   "author": "",
   "license": "ISC",

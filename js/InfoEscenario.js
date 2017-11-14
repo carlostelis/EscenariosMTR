@@ -199,13 +199,11 @@ function vaciarTablas() {
 }
 
 ipcRenderer.on('escenario_entradas:leido', (event, obj) => {
-    console.log('Recibe archivos:', obj.lista.length);
+    console.log('Recibe contenedor de archivos:', obj.lista.length);
 
-    // Oculta todas
-    colapsarTodas(true);
-
-    new Promise((resolve, reject) => {
-        objEscOriginal = obj;
+    setTimeout(() => {
+        // Oculta todas
+        colapsarTodas(true);
 
         // Muestra las tablas para que esten en el dom
         mostrarTodas();
@@ -269,30 +267,50 @@ ipcRenderer.on('escenario_entradas:leido', (event, obj) => {
 
         // Desactiva todos los colapsos
         desactivarColapsos();
+    }, 100);
 
-        // Crea las nuevas tablas
-        objEscOriginal.lista.forEach((archivo) => {
-            crearTablaInfo(archivo);
-        });
+    // Recibe el contenedor
+    objEscOriginal = obj;
+    objEscOriginal.contador = 0;
+    promesas_archivos = [];
+});
 
-        resolve();
-    }).then(() => {
-        // Oculta todas
-        colapsarTodas(true);
+ipcRenderer.on('escenario_entradas:archivo_leido', (event, obj_archivo) => {
+    console.log('Recibe archivo:', obj_archivo.archivo);
 
-        // Habilita botones
-        boton_actualizarEscenario.disabled = false;
-        boton_nuevoFolio.disabled = false;
-        boton_resultadoOriginal.disabled = false;
+    // Recibe el contenedor
+    objEscOriginal.lista.push(obj_archivo);
+    objEscOriginal.contador++;
 
-        banner.ok();
-        banner.setMensaje('Lectura finalizada');
-
-        setTimeout(() => {
-            //banner.ocultar();
-            guardarEscenario(false);
-        }, 1000);
+    // Agrega lista de promesas
+    setTimeout(() => {
+        promesas_archivos.push(new Promise((resolve, reject) => {
+            crearTablaInfo(obj_archivo);
+            resolve();
+        }));
     });
+
+    if (objEscOriginal.contador === objEscOriginal.numArchivos) {
+        setTimeout(() => {
+            Promise.all(promesas_archivos).then(() => {
+                // Oculta todas
+                colapsarTodas(true);
+
+                // Habilita botones
+                boton_actualizarEscenario.disabled = false;
+                boton_nuevoFolio.disabled = false;
+                boton_resultadoOriginal.disabled = false;
+
+                banner.ok();
+                banner.setMensaje('Lectura finalizada');
+
+                setTimeout(() => {
+                    //banner.ocultar();
+                    guardarEscenario(false);
+                }, 1000);
+            });
+        });
+    }
 });
 
 function crearTablaInfo(objArchivo, copia) {
@@ -317,6 +335,9 @@ function crearTablaInfo(objArchivo, copia) {
         // console.log('No existe la tabla', id);
         return;
     }
+
+    // MEnsaje a pantalla
+    banner.setMensaje(`Procesando archivo:<br><font style="color:lightgreen;">${objArchivo.archivo}</font>`);
 
     // Nodo tr anterior
     let tr_anterior = null;
@@ -886,6 +907,7 @@ function crearTablaInfo(objArchivo, copia) {
 function guardarEscenario(flag_actualizar) {
     let folio;
     let flag_copiar;
+    let listaArchivos = [];
 
     // Si no esta definido se crea un nuevo folio,
     if (typeof objEscModificado === 'undefined' || objEscModificado === null || typeof flag_actualizar === 'undefined' || flag_actualizar === false) {
@@ -897,6 +919,12 @@ function guardarEscenario(flag_actualizar) {
         folio = objEscModificado.folio;
         flag_copiar = false;
         banner.setMensaje(`Actualizando escenario`);
+
+        objEscOriginal.lista.forEach((archivo) => {
+            if (archivo.editado === true) {
+                listaArchivos.push(archivo);
+            }
+        });
     }
 
     console.log('folio',folio);
@@ -909,11 +937,11 @@ function guardarEscenario(flag_actualizar) {
     banner.mostrar();
 
     setTimeout(() => {
-        ipcRenderer.send('escenario-original:copiar', rutaEscenarioOriginal, folio, objEscOriginal, flag_copiar);
-    }, 500);
+        ipcRenderer.send('escenario_original:copiar', rutaEscenarioOriginal, folio, listaArchivos, flag_copiar);
+    }, 250);
 }
 
-ipcRenderer.on('escenario-original:copiado', (event, res) => {
+ipcRenderer.on('escenario_original:copiado', (event, res) => {
     if (res.estado) {
         banner.ok();
 
@@ -934,8 +962,15 @@ ipcRenderer.on('escenario-original:copiado', (event, res) => {
         }
 
         // Asigna el nuevo objeto acarreado
+        // Internamente se comparte la lista de objetos archivo
+        // No afecta, debido a que el escenario original nunca será modificado
+        // Y las comparaciones se hacen con archivos resultados en objetos diferentes
         objEscModificado = null;
-        objEscModificado = res.obj;
+        objEscModificado = {
+            algoritmo: objEscOriginal.algoritmo,
+            lista: objEscOriginal.lista,
+            numArchivos: objEscOriginal.numArchivos
+        };
         objEscModificado.folio = res.folio;
         objEscModificado.ruta = res.ruta;
 
@@ -971,12 +1006,22 @@ ipcRenderer.on('escenario-original:copiado', (event, res) => {
             }
         }
 
+        boton_nuevoFolio.disabled = true;
+        // Establece un to de 1 min para habilitar nuevo folio
+        setTimeout(() => {
+            boton_nuevoFolio.disabled = false;
+        }, 60000);
+
         // Habilita boton actualizar
         boton_actualizarEscenario.disabled = false;
 
         // Habilita el boton de ejecutar
-        if (boton_ejecutarEscenario) {
+        if (res_algoritmo.estado === true) {
             boton_ejecutarEscenario.disabled = false;
+            boton_ejecutarEscenario.innerHTML = '<span class=""><i class="demo-icon icon-play-2"></i></span>Ejecutar';
+        } else {
+            boton_ejecutarEscenario.disabled = true;
+            boton_ejecutarEscenario.innerHTML = '<span class=""><i class="demo-icon icon-warning" style="color:yellow;"></i></span>No hay algoritmo';
         }
 
         setTimeout(() => {
@@ -998,11 +1043,13 @@ function ejecutarAlgoritmo() {
 
     mensajeConsola(`Ejecutando algoritmo ${SESION.algoritmo} para folio ${objEscModificado.folio}`, true);
 
+    salida_algoritmo = '';
     // Vista prompt
     banner.modoPrompt();
     banner.setTituloPrompt(`Ejecución de algoritmo ${SESION.algoritmo} para folio ${objEscModificado.folio}`);
     banner.setTextoPrompt('');
-    banner.promptEspera();
+    // banner.promptEspera();
+    banner.mostrarBannerPrompt();
     banner.mostrarBoton();
     banner.setBoton('Resultados', () => {
         mostrarResultados();
@@ -1012,10 +1059,18 @@ function ejecutarAlgoritmo() {
     banner.mostrar();
 }
 
+ipcRenderer.on('algoritmo:ejecucionParcial', (event, output) => {
+    salida_algoritmo += output;
+    // banner.promptQuitaEspera();
+    banner.setTextoPrompt(salida_algoritmo);
+});
+
 ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
-    banner.promptQuitaEspera();
-    banner.setTextoPrompt(res.cadena);
+    salida_algoritmo += res.cadena;
+    // banner.promptQuitaEspera();
+    banner.setTextoPrompt(salida_algoritmo);
     banner.saltoPrompt();
+    banner.ocultarBannerPrompt();
 
     if (res.exito === true) {
         // Habilita el menu para comparar resultados
@@ -1081,7 +1136,8 @@ function mostrarSalidaAlgoritmoOriginal() {
     banner.modoPrompt();
     banner.setTituloPrompt(`Ejecución de algoritmo en escenario ${id}`);
     banner.setTextoPrompt('');
-    banner.promptEspera();
+    // banner.promptEspera();
+    banner.mostrarBannerPrompt();
     banner.mostrarBoton();
     banner.setBoton('Cerrar', () => {
         banner.ocultar();

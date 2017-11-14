@@ -142,6 +142,7 @@ class FTP {
                 }
             }
 
+            // console.log('FTP Descargar', info.rutaRemota, 'a', info.rutaLocal);
             this.c.get(info.rutaRemota, (err, stream) => {
                 if (err) {
                     console.log('**ERROR**', '(descargar archivo)', info.rutaRemota, err.message);
@@ -151,7 +152,7 @@ class FTP {
                         bytes += chunk.length;
                         info.progreso = bytes / info.tamano * 100;
                         this.progresoArchivo = info.progreso;
-                        //console.log(`Progreso: ${(bytes / info.tamano * 100).toFixed(2)}%`);
+                        // console.log(`Progreso: ${this.progresoArchivo.toFixed(2)}%`);
                     });
                     stream.on('close', () => {
                         // Archivo completo

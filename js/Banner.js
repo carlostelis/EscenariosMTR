@@ -77,6 +77,8 @@ class Banner {
         this.divSalida.classList.add('caja-banner');
         this.divSalida.classList.add('caja-prompt');
         this.divSalida.classList.add('center');
+        this.divSalida.classList.add('lalala');
+        this.divSalida.id = 'divSalida';
 
         this.divTituloSalida = document.createElement('div');
         this.divTituloSalida.classList.add('salida-titulo-banner');
@@ -86,6 +88,7 @@ class Banner {
         this.divSalidaTxt = document.createElement('div');
         this.divSalidaTxt.classList.add('salida-txt-banner');
         this.divSalidaTxt.innerHTML = `Texto <br> texto asdasd`;
+        this.divSalidaTxt.id = 'divSalidaTxt';
         this.divSalida.appendChild(this.divSalidaTxt);
 
     }
@@ -253,12 +256,29 @@ class Banner {
     }
 
     appendTextoPrompt(texto) {
-        this.divSalidaTxt.innerHTML += `<br>${texto}`;
+        this.divSalidaTxt.innerHTML = `${this.divSalidaTxt.innerHTML}<br>${texto}`;
         this.divSalidaTxt.scrollTop = this.divSalidaTxt.scrollHeight;
     }
 
     saltoPrompt() {
         this.divSalidaTxt.innerHTML += `<br>`;
         this.divSalidaTxt.scrollTop = this.divSalidaTxt.scrollHeight;
+    }
+
+    mostrarBannerPrompt() {
+        if (this.bannerPrompt === null || typeof this.bannerPrompt === 'undefined') {
+            this.bannerPrompt = new Banner(this.divSalida);
+        }
+
+        this.bannerPrompt.vistaIcono();
+        this.bannerPrompt.ocultarBoton();
+        this.bannerPrompt.ocultarProgreso();
+        this.bannerPrompt.divMsg.classList.add('prompt');
+        this.bannerPrompt.divBlur.style.backgroundColor = 'rgba(100, 100, 100, 0.5)';
+        this.bannerPrompt.mostrar();
+    }
+
+    ocultarBannerPrompt() {
+        this.bannerPrompt.ocultar();
     }
 }

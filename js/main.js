@@ -1,8 +1,9 @@
 const electron = require('electron');
+const { app, BrowserWindow, Menu, ipcMain, remote, dialog } = electron;
+
 const fs = require('fs');
 const fse = require('fs-extra');
 const moment = require('moment');
-const { app, BrowserWindow, Menu, ipcMain, remote, dialog } = electron;
 const Comandos = require('./Comandos.js');
 const crearMenu = require('./menuTemplate.js');
 const ListaArchivos = require('./ListaArchivos.js');
@@ -13,97 +14,28 @@ const Escenario = require('./Escenario.js');
 const BitacoraUsuario = require('./BitacoraUsuario.js');
 const storage = require('node-persist');
 
-// Queda para BD a futuro
-// const BDLocal = require('./BDLocal.js');
+const TO_PROC_SIN = 150;
+const TO_PROC_BCAS = 20;
 
 // Objetos
 const comandos = new Comandos();
 const listaArchivos = new ListaArchivos('C:\\AppAnalizadorEscenarios');
 const escenario = new Escenario();
 const bitacoraUsuario = new BitacoraUsuario();
-
-// Queda para BD a futuro
-// const bd_autr = new BDLocal();
-
-const TO_BD = 2000;
-let win;
-let res_eje;
-
-let ftp = new FTP({
+const ftp = new FTP({
     host: config.exalogic.host,
     user: config.exalogic.user,
     password: config.exalogic.password
 }, config.local.escenarios);
 
+let win;
+let res_eje;
+let objEscenario;
+
 let SESION;
 
 // Versión de la aplicacion
 process.env.NODE_ENV = 'production';
-
-/////////          Para la generacion del instalador             //////////////
-
-// this should be placed at top of main.js to handle setup events quickly
-if (handleSquirrelEvent(app)) {
-    // squirrel event handled and app will exit in 1000ms, so don't do anything else
-    return;
-}
-
-function handleSquirrelEvent(application) {
-    if (process.argv.length === 1) {
-        return false;
-    }
-
-    const ChildProcess = require('child_process');
-    const path = require('path');
-    const appFolder = path.resolve(process.execPath, '..');
-    const rootAtomFolder = path.resolve(appFolder, '..');
-    const updateDotExe = path.resolve(path.join(rootAtomFolder, 'Update.exe'));
-    const exeName = path.basename(process.execPath);
-
-    const spawn = function(command, args) {
-        let spawnedProcess, error;
-
-        try {
-            spawnedProcess = ChildProcess.spawn(command, args, {
-                detached: true
-            });
-        } catch (error) {}
-
-        return spawnedProcess;
-    };
-
-    const spawnUpdate = function(args) {
-        return spawn(updateDotExe, args);
-    };
-
-    const squirrelEvent = process.argv[1];
-    switch (squirrelEvent) {
-        case '--squirrel-install':
-        case '--squirrel-updated':
-            // Optionally do things such as:
-            // - Add your .exe to the PATH
-            // - Write to the registry for things like file associations and
-            //   explorer context menus
-            // Install desktop and start menu shortcuts
-
-            spawnUpdate(['--createShortcut', exeName]);
-            setTimeout(application.quit, 1000);
-            return true;
-        case '--squirrel-uninstall':
-            // Undo anything you did in the --squirrel-install and
-            // --squirrel-updated handlers
-            // Remove desktop and start menu shortcuts
-            spawnUpdate(['--removeShortcut', exeName]);
-            setTimeout(application.quit, 1000);
-            return true;
-        case '--squirrel-obsolete':
-            // This is called on the outgoing version of your app before
-            // we update to the new version - it's the opposite of
-            // --squirrel-updated
-            application.quit();
-            return true;
-    }
-};
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -122,6 +54,12 @@ app.on('ready', () => {
         }
     });
 
+    // Si es la primera ejecución se cierra (para instalador winstaller)
+    if (process.env.NODE_ENV === 'production' && !fs.existsSync('first')) {
+        fs.appendFile('first', '', 'utf8', (err) => {});
+        app.exit();
+    }
+
     win.once('ready-to-show', () => {
         win.show();
     });
@@ -132,16 +70,15 @@ app.on('ready', () => {
         }
     });
 
-    // Si es la primera ejecución, limpia y finaliza
-    storage.initSync();
-    let var_check = storage.getItemSync('init');
-    if (process.env.NODE_ENV === 'production' && typeof var_check === 'undefined' || var_check === null) {
-        // Limpia
-        storage.clearSync();
-        storage.setItemSync('init', 'OK');
-        // Finaliza app
-        app.exit();
-    }
+    // storage.initSync();
+    // let var_check = storage.getItemSync('init');
+    // if (process.env.NODE_ENV === 'production' && typeof var_check === 'undefined' || var_check === null) {
+    //     // Limpia
+    //     storage.clearSync();
+    //     storage.setItemSync('init', 'OK');
+    //     // Finaliza app
+    //     app.exit();
+    // }
 
     // Carga la página principal
     // Solo se cargará una vez y el contenido se administrará
@@ -149,34 +86,33 @@ app.on('ready', () => {
     win.loadURL(`file://${__dirname}/../html/index.html`);
     setTimeout(() => {
         win.setTitle(`Analizador de escenarios del MTR - Login`);
-        // win.setTitle(path.join(process.cwd(), 'resources', 'app', 'algoritmo', 'chtpc', 'ILOG'));
 
-        if (process.env.NODE_ENV === 'production') {
-            // Verifica si ya fue dado de alta
-            let val_path = storage.getItemSync('path');
-            if (val_path === null || typeof val_path === 'undefined') {
-                comandos.setPathAlgoritmo().then((ruta) => {
-                    storage.setItemSync('path', ruta);
-                }, (err) => {
-                    if (err.includes('denegado')) {
-                        var confirmacion = dialog.showMessageBox(win, {
-                                type: 'question',
-                                buttons: ['Cerrar aplicación', 'Continuar'],
-                                title: 'Error en el PATH a CPLEX',
-                                message: 'No fue posible establecer el PATH. Favor de ejecutar la aplicación como administrador al menos una vez, de lo contrario no se podrán ejecutar los algoritmos de procesos.',
-                                cancelId: 1
-                            }
-                        );
-
-                        if (confirmacion === 0) {
-                            app.exit();
-                        }
-                    }
-                });
-            }
-
-            // Si ya tiene path debería estar dada de alta la ruta de la librería
-        }
+        // if (process.env.NODE_ENV === 'production') {
+        //     // Verifica si ya fue dado de alta
+        //     let val_path = storage.getItemSync('path');
+        //     if (val_path === null || typeof val_path === 'undefined') {
+        //         comandos.setPathAlgoritmo().then((ruta) => {
+        //             storage.setItemSync('path', ruta);
+        //         }, (err) => {
+        //             if (err.includes('denegado')) {
+        //                 var confirmacion = dialog.showMessageBox(win, {
+        //                         type: 'question',
+        //                         buttons: ['Cerrar aplicación', 'Continuar'],
+        //                         title: 'Error en el PATH a CPLEX',
+        //                         message: 'No fue posible establecer el PATH. Favor de ejecutar la aplicación como administrador al menos una vez, de lo contrario no se podrán ejecutar los algoritmos de procesos.',
+        //                         cancelId: 1
+        //                     }
+        //                 );
+        //
+        //                 if (confirmacion === 0) {
+        //                     app.exit();
+        //                 }
+        //             }
+        //         });
+        //     }
+        //
+        //     // Si ya tiene path debería estar dada de alta la ruta de la librería
+        // }
     }, 2000);
 
     // Inserta Menú de la ventana
@@ -189,10 +125,6 @@ app.on('ready', () => {
     if (process.env.NODE_ENV !== 'production') {
         win.toggleDevTools();
     }
-
-    // BDs
-    // Queda para BD a futuro
-    // bd_autr.set(require('./archivos_autr.js'), win, 'autr');
 });
 
 // Función para finalizar, se invoca al cerrar la ventana y al cerrar sesion
@@ -230,10 +162,6 @@ ipcMain.on('sistemas:solicitar', (event) => {
     console.log(`Login cargado, sistemas solicitados...`);
     win.setTitle(`Analizador de escenarios del MTR - Login`);
 
-    // Sin red cenace
-    // win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
-    // return;
-
     // Ahora los sistemas se toman local
     win.webContents.send('sistemas:obtenidos', {
         sistemas: config.sistemas,
@@ -241,20 +169,6 @@ ipcMain.on('sistemas:solicitar', (event) => {
         exalogic: config.exalogic
     });
 });
-
-
-// Queda para BD a futuro
-// ipcMain.on('bds:init', () => {
-//     console.log('Creando BD Autr');
-//     // Carga las bases de datos
-//     bd_autr.init().then(() => {
-//         console.log("BD Creada");
-//         win.webContents.send('bd_autr:creada', {id:'autr', estado:true});
-//     }, (e) => {
-//         console.log('BD fallida', e);
-//         win.webContents.send('bd_autr:creada', {id:'autr', estado:false});
-//     });
-// });
 
 ipcMain.on('usuario:solicitar', (event, usuario) => {
     console.log(`Solicitando usuario ${usuario}`);
@@ -432,7 +346,7 @@ ipcMain.on('directorio:descarga', (event, data) => {
 
                         if (archivoTar !== '') {
                             console.log('Descargar: ', archivoTar);
-                            win.webContents.send('directorio:descargado', {estado: true, error: `Descargando escenarios comprimidos <b>${archivoTar}</b>`});
+                            win.webContents.send('directorio:descargado', {estado: true, error: `Descargando escenarios comprimidos<br><font style="color:lightgreen;">${archivoTar}</font>`});
 
                             // Descarga tar
                             let obj = {
@@ -445,25 +359,28 @@ ipcMain.on('directorio:descarga', (event, data) => {
 
                                 let progresoAnterior = 0;
                                 let progreso = 0;
+                                console.log('interval');
                                 let interval = setInterval(() => {
-                                    progresoAnterior = progreso;
+                                    //progresoAnterior = progreso;
                                     progreso = ftp.getProgresoArchivo();
-
-                                    if ((progreso - progresoAnterior) >= 1) {
-                                        console.log(' > Progreso: ', progreso.toFixed(2));
-                                        win.webContents.send('directorio:progreso', {progreso:progreso, mensaje:`Descargando archivo comprimido de escenarios <b>${archivoTar}</b>`});
+                                    // console.log('dif', progreso, progresoAnterior, (progreso - progresoAnterior));
+                                    if ((progreso - progresoAnterior) >= 1 || progresoAnterior === 0) {
+                                        // console.log(' > Progreso: ', progreso.toFixed(2));
+                                        win.webContents.send('directorio:progreso', {progreso:progreso, mensaje:`Descargando archivo comprimido de escenarios:<br><font style="color:lightgreen;">${archivoTar}</font>`});
+                                        progresoAnterior = progreso;
                                     }
                                 }, 1000);
 
+                                console.log('Manda descarga');
                                 ftp.descargarArchivoFTP(obj).then(() => {
                                     console.log('listo');
                                     clearInterval(interval);
-                                    win.webContents.send('directorio:progreso', {progreso:100, mensaje:`Descargando archivo comprimido de escenarios <b>${archivoTar}</b>`});
+                                    win.webContents.send('directorio:progreso', {progreso:100, mensaje:`Descargando archivo comprimido de escenarios: <br><font style="color:lightgreen;">${archivoTar}</font>`});
 
                                     // Espera de 1s para reflejar porcentaje
                                     setTimeout(() => {
                                         console.log('Descomprimiendo');
-                                        win.webContents.send('directorio:descargado', {estado:true, error:`Descomprimiendo <b>${archivoTar}</b>`, targz:true});
+                                        win.webContents.send('directorio:descargado', {estado:true, error:`Descomprimiendo<br><font style="color:lightgreen;">${archivoTar}</font>`, targz:true});
                                         let carpeta = path.dirname(obj.rutaLocal);
                                         console.log('archivo', obj.rutaLocal, 'carpeta', carpeta);
                                         try {
@@ -569,7 +486,7 @@ ipcMain.on('algoritmo:descarga', (event, ruta_escenario, algoritmo) => {
         return;
     }
 
-    console.log('No existe el algoritmo', ruta_algoritmo_local);
+    console.log('No existe el algoritmo local', ruta_algoritmo_local);
 
     let carpeta_algoritmo = path.join(`${SESION.config.exalogic.base}`, `${SESION.sistemaCarpeta}`, SESION.config.exalogic.algoritmos, 'WINDOWS', SESION.sistema, alg);
     console.log('Carpeta algoritmo', carpeta_algoritmo);
@@ -604,9 +521,13 @@ ipcMain.on('algoritmo:descarga', (event, ruta_escenario, algoritmo) => {
     ftp.conectar().then(() => {
         ftp.obtenerListaDirectorioSimple(carpeta_algoritmo).then((lista) => {
             lista.forEach((item) => {
-                console.log(item.name);
-                lista_rangos.push(parseFechaAlgoritmo(item.name));
-
+                console.log('item algoritmo', item.name);
+                let rango = parseFechaAlgoritmo(item.name);
+                console.log('Rango', rango);
+                // Si cualquier valor viene mal, no era una carpeta valida
+                if (typeof rango.inicio !== 'undefined' && rango.inicio !== null && typeof rango.fin !== 'undefined' && rango.fin !== null) {
+                    lista_rangos.push(rango);
+                }
             });
 
             // Busca el caso
@@ -659,7 +580,7 @@ function parseFechaAlgoritmo(id) {
     let fin = {};
 
     let [inicio_str, fin_str] = id.split('_');
-
+    console.log('Fecha alg', inicio_str, fin_str);
     if (inicio_str.length >= 12) {
         inicio.dia = inicio_str.substr(0, 2);
         inicio.mes = inicio_str.substr(2, 2);
@@ -668,6 +589,7 @@ function parseFechaAlgoritmo(id) {
         inicio.min = inicio_str.substr(10, 2);
     } else {
         console.log('inicio sin long 12');
+        inicio = null;
     }
 
     if (fin_str.length >= 12) {
@@ -683,7 +605,8 @@ function parseFechaAlgoritmo(id) {
         fin.hora = '00';
         fin.min = '00';
     } else {
-        console.log('Fin sin long 12 ni 4');
+        console.log('Fin sin long 12 ni 14');
+        fin = null;
     }
 
     return {id:id, inicio: inicio, fin: fin};
@@ -691,17 +614,27 @@ function parseFechaAlgoritmo(id) {
 
 ipcMain.on('escenario_entradas:leer', (event, ruta_escenario, algoritmo) => {
     escenario.parseEscenarioEntradas(ruta_escenario, algoritmo).then((obj) => {
-        console.log('Manda', obj.lista.length, 'archivos de entrada');
-        win.webContents.send('escenario_entradas:leido', obj);
-    }, () => {
-        console.log('Error leyendo los archivos');
-    });
-});
+        let objetoEntradas = {
+            ruta: obj.ruta,
+            algoritmo: obj.algoritmo,
+            numArchivos: obj.numArchivos,
+            lista: []
+        };
+        console.log('Manda contenedor archivos de entrada', obj.numArchivos);
+        win.webContents.send('escenario_entradas:leido', objetoEntradas);
 
-ipcMain.on('escenario_resultados:leer', (event, ruta_escenario, algoritmo) => {
-    escenario.parseEscenarioResultados(ruta_escenario, algoritmo).then((obj) => {
-        console.log('Manda', obj.lista.length, 'archivos de entrada');
-        win.webContents.send('escenario_resultados:leido', obj);
+        // Guarda el objeto para modificaciones
+        objEscenario = obj;
+
+        // Dosifica el envio
+        let factor_to = (SESION.sistema === 'SIN' ? TO_PROC_SIN : TO_PROC_BCAS)
+        for (let i = 0; i < obj.lista.length; i++) {
+            let factor_adicional = parseInt(obj.lista[i].filas.length / 1000) * 100;
+            setTimeout(() => {
+                console.log('Envia archivo', obj.lista[i].archivo, factor_to, factor_adicional);
+                win.webContents.send('escenario_entradas:archivo_leido', obj.lista[i]);
+            }, (i * factor_to) + factor_adicional);
+        }
     }, () => {
         console.log('Error leyendo los archivos');
     });
@@ -715,10 +648,65 @@ ipcMain.on('escenario_resultados:leerComparar', (event, ruta_escenario_A, ruta_e
         escenario.parseEscenarioResultados(ruta_escenario_B, algoritmo).then((objB) => {
             // Realiza comparacion
             escenario.compararResultados(objA, objB).then(() => {
-                objA.id = path.basename(objA.ruta);
-                objB.id = path.basename(objB.ruta);
-                console.log('Manda archivos de resultados comparados');
-                win.webContents.send('escenario_resultados:leidoComparado', objA, objB);
+                // Manda objetos contenedores
+                let objetoA = {
+                    ruta: objA.ruta,
+                    algoritmo: objA.algoritmo,
+                    numArchivos: objA.numArchivos,
+                    id: path.basename(objA.ruta),
+                    lista: []
+                };
+
+                // Manda objeto A
+                let objetoB = {
+                    ruta: objB.ruta,
+                    algoritmo: objB.algoritmo,
+                    numArchivos: objB.numArchivos,
+                    id: path.basename(objB.ruta),
+                    lista: []
+                };
+
+                console.log('Manda contenedores archivos de resultados comparados', objA.numArchivos , objB.numArchivos);
+                win.webContents.send('escenario_resultados:leidoComparado', objetoA, objetoB);
+
+                // Espera para segurar la recepción del contenedor
+                setTimeout(() => {
+                    new Promise((res, rej) => {
+                        // Dosifica el envio A
+                        let promesas = [];
+                        let factor_to = (SESION.sistema === 'SIN' ? TO_PROC_SIN : TO_PROC_BCAS)
+                        for (let i = 0; i < objA.lista.length; i++) {
+                            let factor_adicional = parseInt(objA.lista[i].filas.length / 1000) * 200;
+                            promesas.push(new Promise((resolve, reject) => {
+                                setTimeout(() => {
+                                    console.log('Envia archivo', objA.lista[i].archivo, factor_to, factor_adicional);
+                                    win.webContents.send('escenario_resultados:archivo_leidoComparado', objA.lista[i], 'A');
+                                    resolve();
+                                }, (i * factor_to) + factor_adicional);
+                            }));
+                        }
+
+                        Promise.all(promesas).then(() => {
+                            res();
+                        });
+                    }).then(() => {
+                        // Si es SIN espera 5 segundos, sino espera solo 1 segundo
+                        let to_sistema = (SESION.sistema === 'SIN' ? 3000 : 500);
+
+                        setTimeout(() => {
+                            // Dosifica el envio B
+                            let factor_to = (SESION.sistema === 'SIN' ? TO_PROC_SIN : TO_PROC_BCAS)
+                            for (let i = 0; i < objB.lista.length; i++) {
+                                let factor_adicional = parseInt(objB.lista[i].filas.length / 1000) * 200;
+                                // Ya no usa promesas para el escenario B
+                                setTimeout(() => {
+                                    console.log('Envia archivo', objB.lista[i].archivo, factor_to, factor_adicional);
+                                    win.webContents.send('escenario_resultados:archivo_leidoComparado', objB.lista[i], 'B');
+                                }, (i * factor_to) + factor_adicional);
+                            }
+                        }, to_sistema);
+                    });
+                }, 300);
             }, () => {
                 console.log('Error comparando');
             });
@@ -730,7 +718,7 @@ ipcMain.on('escenario_resultados:leerComparar', (event, ruta_escenario_A, ruta_e
     });
 });
 
-ipcMain.on('escenario-original:copiar', (event, ruta_original, nuevo_folio, objArchivos, flag_copiar) => {
+ipcMain.on('escenario_original:copiar', (event, ruta_original, nuevo_folio, listaArchivos, flag_copiar) => {
     // Construye la ruta nueva
 
     let id_escenario = path.basename(ruta_original);
@@ -755,27 +743,28 @@ ipcMain.on('escenario-original:copiar', (event, ruta_original, nuevo_folio, objA
     console.log(ruta_modificado);
 
     verificarModificados = () => {
-        console.log('Verificando modificados');
+        console.log('Verificando modificados:', listaArchivos.length);
         let promesas = [];
-        objArchivos.lista.forEach((archivo) => {
-            if (typeof archivo.editado !== 'undefined' && archivo.editado === true) {
-                let ruta_archivo_mod = path.join(ruta_modificado, 'dirdat', archivo.archivo);
-
-                // Actualiza el archivo
-                promesas.push(modificarArchivo(ruta_archivo_mod, archivo));
-            }
+        listaArchivos.forEach((archivo) => {
+            let ruta_archivo_mod = path.join(ruta_modificado, 'dirdat', archivo.archivo);
+            //
+            // Actualiza el archivo
+            promesas.push(modificarArchivo(ruta_archivo_mod, archivo));
         });
 
         Promise.all(promesas).then(() => {
-            win.webContents.send('escenario-original:copiado', {estado:true, folio:nuevo_folio, ruta:ruta_modificado, id:id_escenario, obj:objArchivos});
+            console.log('Respuesta copiado');
+            win.webContents.send('escenario_original:copiado', {estado:true, folio:nuevo_folio, ruta:ruta_modificado, id:id_escenario});
         }, () => {
-            win.webContents.send('escenario-original:copiado', {estado:true, id:id_escenario, folio:nuevo_folio, ruta:ruta_modificado, error:'Error de escritura en disco'});
+            win.webContents.send('escenario_original:copiado', {estado:true, id:id_escenario, folio:nuevo_folio, ruta:ruta_modificado, error:'Error de escritura en disco'});
         });
     };
 
     // Si es un nuevo modificado, copia toda la carpeta
     // de lo contrario, solo modifica los archivos
     if (flag_copiar) {
+        let promesas_copiar = [];
+
         // Copia el directorio completo
         fse.copy(ruta_original, ruta_modificado).then(() => {
             console.log('Directorio copiado correctamente');
@@ -784,7 +773,7 @@ ipcMain.on('escenario-original:copiar', (event, ruta_original, nuevo_folio, objA
             verificarModificados();
         }).catch((err) => {
             console.log('Error al copiar el escenario', err);
-            win.webContents.send('escenario-original:copiado', {estado:false, folio:nuevo_folio, ruta:ruta_modificado, error:err, id:id_escenario});
+            win.webContents.send('escenario_original:copiado', {estado:false, folio:nuevo_folio, ruta:ruta_modificado, error:err, id:id_escenario});
         });
     } else {
         // Verifica modificados
@@ -854,7 +843,7 @@ ipcMain.on('algoritmo:ejecutar', (event, ruta_escenario, algoritmo) => {
     }
 
     console.log('Ejecutando', ruta_escenario, archivo_eje, algoritmo);
-    comandos.ejecutarAlgoritmo(ruta_escenario, archivo_eje).then((obj) => {
+    comandos.ejecutarAlgoritmo(ruta_escenario, archivo_eje, win).then((obj) => {
         win.webContents.send('algoritmo:ejecutado', obj);
     }, (obj) => {
         win.webContents.send('algoritmo:ejecutado', obj);
@@ -866,31 +855,40 @@ ipcMain.on('algoritmo:diagnosticar', (event, ruta_escenario, opc) => {
     let ruta_diagnostico = path.join(ruta_escenario, 'mens_cplex.exe');
     let promesa_diagnostico;
     if (!fs.existsSync(ruta_diagnostico)) {
+        console.log('Ejecutable no existe');
         // Descarga el programa para casos infactibles
         let ruta_exe = path.join(`${SESION.config.exalogic.base}`, `${SESION.sistemaCarpeta}`, SESION.config.exalogic.algoritmos, 'WINDOWS', SESION.sistema, 'mens_cplex.exe');
         ftp.conectar();
         ftp.descargarArchivoFTPSimple(ruta_exe, ruta_diagnostico).then(() => {
             console.log('App Infactible descargado correctamente');
             ftp.desconectar();
-            promesa_diagnostico = comandos.ejecutarDiagnostico(ruta_escenario, 'mens_cplex.exe');
+            comandos.ejecutarDiagnostico(ruta_escenario, 'mens_cplex.exe').then((obj) => {
+                obj.opc = opc;
+                obj.rutaBase = ruta_escenario;
+                win.webContents.send('algoritmo:diagnosticado', obj);
+            }, (obj) => {
+                obj.opc = opc;
+                obj.rutaBase = ruta_escenario;
+                console.log('Reject diagnostico:', obj.mensaje);
+                win.webContents.send('algoritmo:diagnosticado', obj);
+            });
         }, (err) => {
             console.log('Error descargando app infactible');
             ftp.desconectar();
         });
     } else {
-        promesa_diagnostico = comandos.ejecutarDiagnostico(ruta_escenario, 'mens_cplex.exe');
+        console.log('Ejecutable existe');
+        promesa_diagnostico = comandos.ejecutarDiagnostico(ruta_escenario, 'mens_cplex.exe').then((obj) => {
+            obj.opc = opc;
+            obj.rutaBase = ruta_escenario;
+            win.webContents.send('algoritmo:diagnosticado', obj);
+        }, (obj) => {
+            obj.opc = opc;
+            obj.rutaBase = ruta_escenario;
+            console.log('Reject diagnostico:', obj.mensaje);
+            win.webContents.send('algoritmo:diagnosticado', obj);
+        });
     }
-
-    promesa_diagnostico.then((obj) => {
-        obj.opc = opc;
-        obj.rutaBase = ruta_escenario;
-        win.webContents.send('algoritmo:diagnosticado', obj);
-    }, (obj) => {
-        obj.opc = opc;
-        obj.rutaBase = ruta_escenario;
-        console.log('Reject diagnostico:', obj.mensaje);
-        win.webContents.send('algoritmo:diagnosticado', obj);
-    });
 });
 
 ipcMain.on('escenarios_mod:leer', (event, ruta_escenario_mod) => {
@@ -922,3 +920,73 @@ ipcMain.on('archivo:leer', (event, ruta, elementos, opcion) => {
         win.webContents.send('archivo:leido', {rutaBase:ruta, res:err, opc:opcion});
     });
 });
+
+
+
+
+
+
+/////////          Para la generacion del instalador             //////////////
+
+// this should be placed at top of main.js to handle setup events quickly
+if (handleSquirrelEvent(app)) {
+    // squirrel event handled and app will exit in 1000ms, so don't do anything else
+    return;
+}
+
+function handleSquirrelEvent(application) {
+    if (process.argv.length === 1) {
+        return false;
+    }
+
+    const ChildProcess = require('child_process');
+    const path = require('path');
+    const appFolder = path.resolve(process.execPath, '..');
+    const rootAtomFolder = path.resolve(appFolder, '..');
+    const updateDotExe = path.resolve(path.join(rootAtomFolder, 'Update.exe'));
+    const exeName = path.basename(process.execPath);
+
+    const spawn = function(command, args) {
+        let spawnedProcess, error;
+
+        try {
+            spawnedProcess = ChildProcess.spawn(command, args, {
+                detached: true
+            });
+        } catch (error) {}
+
+        return spawnedProcess;
+    };
+
+    const spawnUpdate = function(args) {
+        return spawn(updateDotExe, args);
+    };
+
+    const squirrelEvent = process.argv[1];
+    switch (squirrelEvent) {
+        case '--squirrel-install':
+        case '--squirrel-updated':
+            // Optionally do things such as:
+            // - Add your .exe to the PATH
+            // - Write to the registry for things like file associations and
+            //   explorer context menus
+            // Install desktop and start menu shortcuts
+
+            spawnUpdate(['--createShortcut', exeName]);
+            setTimeout(application.quit, 1000);
+            return true;
+        case '--squirrel-uninstall':
+            // Undo anything you did in the --squirrel-install and
+            // --squirrel-updated handlers
+            // Remove desktop and start menu shortcuts
+            spawnUpdate(['--removeShortcut', exeName]);
+            setTimeout(application.quit, 1000);
+            return true;
+        case '--squirrel-obsolete':
+            // This is called on the outgoing version of your app before
+            // we update to the new version - it's the opposite of
+            // --squirrel-updated
+            application.quit();
+            return true;
+    }
+};
