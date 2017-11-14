@@ -539,6 +539,12 @@
       "css": "warning-empty",
       "code": 59470,
       "src": "typicons"
+    },
+    {
+      "uid": "248db7c0563d8cee80b7041f7736dcad",
+      "css": "database",
+      "code": 59471,
+      "src": "entypo"
     }
   ]
 }

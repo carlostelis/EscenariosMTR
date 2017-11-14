@@ -1,22 +1,29 @@
-const { spawn } = require('child_process');
+const { spawn, execFile } = require('child_process');
 
-try {
-  process.chdir('C:\\AppAnalizadorEscenarios\\dersi\\escenario_original\\2017\\10\\16\\201710160001_-07\\');
-  console.log(`New directory: ${process.cwd()}`);
+// process.env.PATH = `${process.env.PATH};C:\\chtpc______\\ILOG`
+// const child = execFile('DERS.exe', (error, stdout, stderr) => {
+//     if (error) {
+//         console.log(error);
+//         console.error('stderr', stderr);
+//         return;
+//         // throw error;
+//     }
+//     console.log('stdout', stdout);
+// });
 
-  const ls = spawn('DERSI.exe');
 
-  ls.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-  });
 
-  ls.stderr.on('data', (data) => {
-    console.log(`stderr: ${data}`);
-  });
+process.env.PATH = `${process.env.PATH};C:\\chtpc______\\ILOG`
+const exe = spawn('DERS.exe');
 
-  ls.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
-  });
-} catch (err) {
-  console.error(`chdir: ${err}`);
-}
+exe.stdout.on('data', (data) => {
+    console.log(data);
+});
+
+exe.stderr.on('data', (data) => {
+    console.log(data);
+});
+
+exe.on('close', (code) => {
+    console.log(`Finaliza ejecución, código: ${code}`);
+});

@@ -1,5 +1,69 @@
-const electron = require('electron');
-const { app, BrowserWindow, Menu, ipcMain, remote, dialog } = electron;
+const { app, BrowserWindow, Menu, ipcMain, remote, dialog } = require('electron');;
+
+/////////          Para la generacion del instalador             //////////////
+
+// this should be placed at top of main.js to handle setup events quickly
+if (handleSquirrelEvent(app)) {
+    // squirrel event handled and app will exit in 1000ms, so don't do anything else
+    return;
+}
+
+function handleSquirrelEvent(application) {
+    if (process.argv.length === 1) {
+        return false;
+    }
+
+    const ChildProcess = require('child_process');
+    const path = require('path');
+    const appFolder = path.resolve(process.execPath, '..');
+    const rootAtomFolder = path.resolve(appFolder, '..');
+    const updateDotExe = path.resolve(path.join(rootAtomFolder, 'Update.exe'));
+    const exeName = path.basename(process.execPath);
+
+    const spawn = function(command, args) {
+        let spawnedProcess, error;
+
+        try {
+            spawnedProcess = ChildProcess.spawn(command, args, {
+                detached: true
+            });
+        } catch (error) {}
+
+        return spawnedProcess;
+    };
+
+    const spawnUpdate = function(args) {
+        return spawn(updateDotExe, args);
+    };
+
+    const squirrelEvent = process.argv[1];
+    switch (squirrelEvent) {
+        case '--squirrel-install':
+        case '--squirrel-updated':
+            // Optionally do things such as:
+            // - Add your .exe to the PATH
+            // - Write to the registry for things like file associations and
+            //   explorer context menus
+            // Install desktop and start menu shortcuts
+
+            spawnUpdate(['--createShortcut', exeName]);
+            setTimeout(application.quit, 1000);
+            return true;
+        case '--squirrel-uninstall':
+            // Undo anything you did in the --squirrel-install and
+            // --squirrel-updated handlers
+            // Remove desktop and start menu shortcuts
+            spawnUpdate(['--removeShortcut', exeName]);
+            setTimeout(application.quit, 1000);
+            return true;
+        case '--squirrel-obsolete':
+            // This is called on the outgoing version of your app before
+            // we update to the new version - it's the opposite of
+            // --squirrel-updated
+            application.quit();
+            return true;
+    }
+};
 
 const fs = require('fs');
 const fse = require('fs-extra');
@@ -12,7 +76,6 @@ const path = require('path');
 const FTP = require('./FTP.js');
 const Escenario = require('./Escenario.js');
 const BitacoraUsuario = require('./BitacoraUsuario.js');
-const storage = require('node-persist');
 
 const TO_PROC_SIN = 150;
 const TO_PROC_BCAS = 20;
@@ -35,7 +98,13 @@ let objEscenario;
 let SESION;
 
 // Versión de la aplicacion
-process.env.NODE_ENV = 'production';
+// process.env.NODE_ENV = 'production';
+
+// Si es la primera ejecución se cierra (para instalador winstaller)
+if (process.env.NODE_ENV === 'production' && !fs.existsSync('first')) {
+    fs.appendFile('first', '', 'utf8', (err) => {});
+    app.exit();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -54,12 +123,6 @@ app.on('ready', () => {
         }
     });
 
-    // Si es la primera ejecución se cierra (para instalador winstaller)
-    if (process.env.NODE_ENV === 'production' && !fs.existsSync('first')) {
-        fs.appendFile('first', '', 'utf8', (err) => {});
-        app.exit();
-    }
-
     win.once('ready-to-show', () => {
         win.show();
     });
@@ -70,49 +133,24 @@ app.on('ready', () => {
         }
     });
 
-    // storage.initSync();
-    // let var_check = storage.getItemSync('init');
-    // if (process.env.NODE_ENV === 'production' && typeof var_check === 'undefined' || var_check === null) {
-    //     // Limpia
-    //     storage.clearSync();
-    //     storage.setItemSync('init', 'OK');
-    //     // Finaliza app
-    //     app.exit();
-    // }
+    // Establece path
+    let ruta_path;
+    if (process.env.NODE_ENV === 'production') {
+        ruta_path = path.join(process.cwd(), 'resources', 'app', 'algoritmo', 'chtpc', 'ILOG');
+    } else {
+        ruta_path = path.join(process.cwd(), 'algoritmo', 'chtpc', 'ILOG');
+    }
+
+    if (!process.env.PATH.includes(ruta_path)) {
+        process.env.PATH = `${process.env.PATH};${ruta_path}`
+    }
 
     // Carga la página principal
     // Solo se cargará una vez y el contenido se administrará
     // de manera dinamica
     win.loadURL(`file://${__dirname}/../html/index.html`);
     setTimeout(() => {
-        win.setTitle(`Analizador de escenarios del MTR - Login`);
-
-        // if (process.env.NODE_ENV === 'production') {
-        //     // Verifica si ya fue dado de alta
-        //     let val_path = storage.getItemSync('path');
-        //     if (val_path === null || typeof val_path === 'undefined') {
-        //         comandos.setPathAlgoritmo().then((ruta) => {
-        //             storage.setItemSync('path', ruta);
-        //         }, (err) => {
-        //             if (err.includes('denegado')) {
-        //                 var confirmacion = dialog.showMessageBox(win, {
-        //                         type: 'question',
-        //                         buttons: ['Cerrar aplicación', 'Continuar'],
-        //                         title: 'Error en el PATH a CPLEX',
-        //                         message: 'No fue posible establecer el PATH. Favor de ejecutar la aplicación como administrador al menos una vez, de lo contrario no se podrán ejecutar los algoritmos de procesos.',
-        //                         cancelId: 1
-        //                     }
-        //                 );
-        //
-        //                 if (confirmacion === 0) {
-        //                     app.exit();
-        //                 }
-        //             }
-        //         });
-        //     }
-        //
-        //     // Si ya tiene path debería estar dada de alta la ruta de la librería
-        // }
+        win.setTitle(`Analizador de escenarios del MTR - ${ruta_path}`);
     }, 2000);
 
     // Inserta Menú de la ventana
@@ -215,6 +253,13 @@ ipcMain.on('paginas:leer', (event) => {
     console.log(ruta);
     paginas.push({
         id: '3',
+        data: fs.readFileSync(ruta, 'utf8')
+    });
+
+    ruta = path.join(__dirname, '../html/Modificados.html');
+    console.log(ruta);
+    paginas.push({
+        id: '4',
         data: fs.readFileSync(ruta, 'utf8')
     });
 
@@ -842,6 +887,7 @@ ipcMain.on('algoritmo:ejecutar', (event, ruta_escenario, algoritmo) => {
         archivo_eje = 'DERS.exe'
     }
 
+    console.log('ENV', process.env.NODE_ENV);
     console.log('Ejecutando', ruta_escenario, archivo_eje, algoritmo);
     comandos.ejecutarAlgoritmo(ruta_escenario, archivo_eje, win).then((obj) => {
         win.webContents.send('algoritmo:ejecutado', obj);
@@ -920,73 +966,3 @@ ipcMain.on('archivo:leer', (event, ruta, elementos, opcion) => {
         win.webContents.send('archivo:leido', {rutaBase:ruta, res:err, opc:opcion});
     });
 });
-
-
-
-
-
-
-/////////          Para la generacion del instalador             //////////////
-
-// this should be placed at top of main.js to handle setup events quickly
-if (handleSquirrelEvent(app)) {
-    // squirrel event handled and app will exit in 1000ms, so don't do anything else
-    return;
-}
-
-function handleSquirrelEvent(application) {
-    if (process.argv.length === 1) {
-        return false;
-    }
-
-    const ChildProcess = require('child_process');
-    const path = require('path');
-    const appFolder = path.resolve(process.execPath, '..');
-    const rootAtomFolder = path.resolve(appFolder, '..');
-    const updateDotExe = path.resolve(path.join(rootAtomFolder, 'Update.exe'));
-    const exeName = path.basename(process.execPath);
-
-    const spawn = function(command, args) {
-        let spawnedProcess, error;
-
-        try {
-            spawnedProcess = ChildProcess.spawn(command, args, {
-                detached: true
-            });
-        } catch (error) {}
-
-        return spawnedProcess;
-    };
-
-    const spawnUpdate = function(args) {
-        return spawn(updateDotExe, args);
-    };
-
-    const squirrelEvent = process.argv[1];
-    switch (squirrelEvent) {
-        case '--squirrel-install':
-        case '--squirrel-updated':
-            // Optionally do things such as:
-            // - Add your .exe to the PATH
-            // - Write to the registry for things like file associations and
-            //   explorer context menus
-            // Install desktop and start menu shortcuts
-
-            spawnUpdate(['--createShortcut', exeName]);
-            setTimeout(application.quit, 1000);
-            return true;
-        case '--squirrel-uninstall':
-            // Undo anything you did in the --squirrel-install and
-            // --squirrel-updated handlers
-            // Remove desktop and start menu shortcuts
-            spawnUpdate(['--removeShortcut', exeName]);
-            setTimeout(application.quit, 1000);
-            return true;
-        case '--squirrel-obsolete':
-            // This is called on the outgoing version of your app before
-            // we update to the new version - it's the opposite of
-            // --squirrel-updated
-            application.quit();
-            return true;
-    }
-};

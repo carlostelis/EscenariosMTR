@@ -44,7 +44,7 @@ ipcRenderer.on('sesion:cerrar', (event) => {
         // Habilita los menus
         menuInfo.classList.add('deshabilitado');
         menuCompara.classList.add('deshabilitado');
-        menuModifica.classList.add('invalido');
+        menuModifica.classList.add('deshabilitado');
         menuAdmin.classList.add('invalido');
 
         // Regresa al menu de carga escenario

@@ -1,0 +1,56 @@
+
+.contenedor-comentarios-mod > div > div {
+    padding: 0px 0px 0px 0px;
+    margin-left: 0%;
+}
+
+.contenedor-comentarios-mod > div {
+    height: 90%;
+    padding: 0px 0px 0px 0px;
+    margin-left: 0%;
+    width: 100%;
+}
+
+.contenedor-comentarios-mod {
+    height: calc(9% - 1.3vh);
+    margin-top: 1vh;
+    padding-top: 0.5%;
+}
+
+.contenedor-comentarios-mod > div > div > textarea {
+    width: 99%;
+    height: 90%;
+    resize: none;
+    font-size: 1.2vh;
+}
+
+.contenedor-comentarios-mod > div > div > label {
+    display: block;
+    text-align: center;
+    height: 100%;
+    line-height: 1;
+    font-size: 1.5vh;
+    text-decoration: underline;
+}
+
+.seleccion-esc-mod {
+    height: 5%;
+    margin-bottom: 1vh;
+}
+
+.seleccion-esc-mod > div > label {
+    font-size: 0.9vw;
+    font-weight: bold;
+}
+
+.seleccion-esc-mod > div > select {
+    width: 8vw;
+}
+
+.seleccion-esc-mod > div > button {
+    height: 2.7vh;
+    margin-top: 0.2vh;
+    font-size: 0.8vw;
+    width: 12vw;
+    background-color: sienna;
+}

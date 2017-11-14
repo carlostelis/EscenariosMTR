@@ -62,18 +62,27 @@ let select_intervalo = null;
 let select_folio = null;
 
 // Informacion de escenario
-let contenedores_info = null;
-let opciones_menu_info = null;
-let colapsos = null;
-let th_periodos = null;
-let tablas_info = null;
-let thead_periodo = null;
-let thead_periodo_i = null;
-let colapsables_info = null;
+let contenedores_info = [];
+let opciones_menu_info = [];
+let colapsos = [];
+let th_periodos = [];
+let tablas_info = [];
+let thead_periodo = [];
+let thead_periodo_i = [];
+let colapsables_info = [];
 let tr_modificados = [];
 let promesas_archivos = [];
 let salida_algoritmo;
 let res_algoritmo;
+
+// Escenarios modificados
+let contenedores_mod = [];
+let opciones_menu_mod = [];
+let colapsos_mod = [];
+let tablas_mod = [];
+let thead_periodo_mod = [];
+let thead_periodo_i_mod = [];
+let colapsables_mod = [];
 
 // Comparacion de resultados
 let tablas_res = null;
@@ -177,14 +186,78 @@ function cargaComponentes() {
     select_folio = document.getElementById('sel_folio_ce');
 
     // Informacion de escenario
-    contenedores_info = Array.from(document.getElementsByClassName('contenedor-info'));
-    opciones_menu_info = Array.from(document.getElementsByClassName('opcion-menu-info'));
-    colapsos = Array.from(document.getElementsByClassName('celda-header-info'));
-    th_periodos = Array.from(document.getElementsByClassName('th-periodo'));
-    tablas_info = Array.from(document.getElementsByClassName('tabla-info'));
-    thead_periodo = Array.from(document.getElementsByClassName('alg-dep'));
-    thead_periodo_i = Array.from(document.getElementsByClassName('alg-dep-i'));
-	colapsables_info = Array.from(document.getElementsByClassName('colapsable'));
+    // contenedores_info = Array.from(document.getElementsByClassName('contenedor-info'));
+    // opciones_menu_info = Array.from(document.getElementsByClassName('opcion-menu-info'));
+    // colapsos = Array.from(document.getElementsByClassName('celda-header-info'));
+    // tablas_info = Array.from(document.getElementsByClassName('tabla-info'));
+    // thead_periodo = Array.from(document.getElementsByClassName('alg-dep'));
+    // thead_periodo_i = Array.from(document.getElementsByClassName('alg-dep-i'));
+	// colapsables_info = Array.from(document.getElementsByClassName('colapsable'));
+	th_periodos = Array.from(document.getElementsByClassName('th-periodo'));
+
+	// Separa objetos de de seccion de informacion y seccion modificados
+	let cont_temp = Array.from(document.getElementsByClassName('contenedor-info'));
+	cont_temp.forEach((item) => {
+		if (item.classList.contains('contenedor-mod')) {
+			contenedores_mod.push(item);
+		} else {
+			contenedores_info.push(item);
+		}
+	});
+
+	cont_temp = Array.from(document.getElementsByClassName('opcion-menu-info'));
+	cont_temp.forEach((item) => {
+		if (item.classList.contains('opcion-menu-mod')) {
+			opciones_menu_mod.push(item);
+		} else {
+			opciones_menu_info.push(item);
+		}
+	});
+
+	cont_temp = Array.from(document.getElementsByClassName('celda-header-info'));
+	cont_temp.forEach((item) => {
+		if (item.classList.contains('celda-header-mod')) {
+			colapsos_mod.push(item);
+		} else {
+			colapsos.push(item);
+		}
+	});
+
+	cont_temp = Array.from(document.getElementsByClassName('tabla-info'));
+	cont_temp.forEach((item) => {
+		if (item.classList.contains('tabla-mod')) {
+			tablas_mod.push(item);
+		} else {
+			tablas_info.push(item);
+		}
+	});
+
+	cont_temp = Array.from(document.getElementsByClassName('alg-dep'));
+	cont_temp.forEach((item) => {
+		if (item.classList.contains('alg-dep-mod')) {
+			thead_periodo_mod.push(item);
+		} else {
+			thead_periodo.push(item);
+		}
+	});
+
+	cont_temp = Array.from(document.getElementsByClassName('alg-dep-i'));
+	cont_temp.forEach((item) => {
+		if (item.classList.contains('alg-dep-i-mod')) {
+			thead_periodo_i_mod.push(item);
+		} else {
+			thead_periodo_i.push(item);
+		}
+	});
+
+	cont_temp = Array.from(document.getElementsByClassName('colapsable'));
+	cont_temp.forEach((item) => {
+		if (item.classList.contains('colapsable-mod')) {
+			colapsables_mod.push(item);
+		} else {
+			colapsables_info.push(item);
+		}
+	});
 
     // Comparacion de resultados
     tablas_res = Array.from(document.getElementsByClassName('tabla-res'));

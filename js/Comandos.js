@@ -63,33 +63,29 @@ class Comandos {
 
     setPathAlgoritmo() {
         return new Promise((resolve, reject) => {
-            let ruta = this.path.join(process.cwd(), 'resources', 'app', 'algoritmo', 'chtpc', 'ILOG');
-            // console.log('PATH', ruta);
+            let ruta;
+            if (process.env.NODE_ENV === 'production') {
+                ruta = this.path.join(process.cwd(), 'resources', 'app', 'algoritmo', 'chtpc', 'ILOG');
+            } else {
+                ruta = this.path.join(process.cwd(), 'algoritmo', 'chtpc', 'ILOG');
+            }
 
             // Verifica si ya existe la variable de entorno
             if (process.env.PATH.includes(ruta)) {
-                this.fs.appendFile('C:\\AppAnalizadorEscenarios\\path.txt', 'La ruta ya existe en el path, finalizando...\n', 'utf8', (err) => {});
                 resolve(ruta);
                 return;
             }
 
             // Ejecuta el comando para darla de alta
-            this.fs.appendFile('C:\\AppAnalizadorEscenarios\\path.txt', `\nPath: ${ruta}\n\n`, 'utf8', (err) => {});
-            exec(`setx /M PATH "%PATH%;${ruta}"`, (error, stdout, stderr) => {
+            exec(`setx PATH "%PATH%;${ruta}"`, (error, stdout, stderr) => { // Ah0ra sin /M, solo para usuario actual
                 if (error) {
-                    // console.log(`>> Error: ${error.message}`);
-                    this.fs.appendFile('C:\\AppAnalizadorEscenarios\\path.txt', `Error: ${error.message}\n\n`, 'utf8', (err) => {});
                     reject(error.message);
                     return;
                 }
 
-                // console.log(`Resultado: ${stdout}<`);
-                this.fs.appendFile('C:\\AppAnalizadorEscenarios\\path.txt', `Resultado: ${stdout}\n\n`, 'utf8', (err) => {});
                 if (stdout.includes('CORRECTO')) {
                     resolve(ruta);
-                } else if (stdout.includes('denegado')){
-                    reject('denegado');
-                } else {
+                }  else {
                     reject(stdout);
                 }
             });
