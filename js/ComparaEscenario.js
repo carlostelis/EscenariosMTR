@@ -209,7 +209,7 @@ ipcRenderer.on('escenario_resultados:archivo_leidoComparado', (event, obj_archiv
             Promise.all(promesas).then(() => {
                 ban.ok();
                 ban.setMensaje('Completado');
-                mensajeConsola(`Resultados de algoritmo (${objContenedor.algoritmo}) cargados en marco A`, false);
+                mensajeConsola(`Resultados de algoritmo (${objContenedor.algoritmo}) cargados en marco ${marco}`, false);
                 label.innerHTML = `<font color="black">Escenario:</font> <b>${objContenedor.id}</b> (${objContenedor.id.length > 12 ? 'Original' : 'Modificado'})<span onclick="mostrarSalidasAlgoritmo();"><i class="demo-icon icon-terminal"></i></span>`;
 
                 // Carga los costos A
@@ -253,7 +253,7 @@ function mostrarSalidasAlgoritmo() {
         banner_resB.ocultar();
     });
     banner_resA.mostrarBoton();
-    banner_resA.setTituloPrompt(`Ejecución del escenario ${objEscB_res.id}`);
+    banner_resA.setTituloPrompt(`Ejecución del escenario ${objEscA_res.id}`);
 
     // Configura banner
     banner_resB.modoPrompt();

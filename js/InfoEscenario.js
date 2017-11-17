@@ -304,6 +304,9 @@ ipcRenderer.on('escenario_entradas:archivo_leido', (event, obj_archivo) => {
                 banner.ok();
                 banner.setMensaje('Lectura finalizada');
 
+                // Activa boton cargar actual en modificados
+                boton_cargaEscenarioModActual.disabled = false;
+
                 setTimeout(() => {
                     //banner.ocultar();
                     guardarEscenario(false);

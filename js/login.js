@@ -275,8 +275,18 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
             	boton_resultadoOriginal.disabled = true;
                 boton_cargarFolios.disabled = true;
 
+
                 // menuModifica.classList.add('invalido');
                 // menuAdmin.classList.add('invalido');
+
+
+
+                // Resetea tablas de modificados
+                ocultarTodasMod();
+                // DEsactiva botones
+                boton_cargaEscenarioModActual.disabled = true;
+                boton_cargaEscenarioMod.disabled = true;
+                boton_guardaBDEscenarioMod.disabled = true;
 
                 // Deshabilita selects de compara escenario
                 folios_mod.forEach((folio) => {

@@ -67,6 +67,12 @@
                             </span>
                             <span class="menu-boton-texto">Otros</span>
                         </button>
+                        <button type="button" class="list-group-item list-group-item-action opcion-menu-info opcion-menu-mod" onclick="mostrarContenedorMod('cont-resultados-mod', this);">
+                            <span class="menu-boton-icono" style="margin-left:-4px; margin-right: calc(1vw + 4px);">
+                                <i class="demo-icon icon-check"></i>
+                            </span>
+                            <span class="menu-boton-texto" style="text-decoration:underline;text-shadow:0px 0px 3px">Resultados</span>
+                        </button>
                     </div>
                 </div>
 
@@ -89,14 +95,14 @@
                                 <select id="select_mod_anio" onchange="consultarMesesEscOriginales();"></select>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col">
                             <div class="row justify-content-sm-end">
                                 <label>Mes:</label>
-                                <select id="select_mod_mes" onchange="consultarDiasEscOriginales();"></select>
+                                <select id="select_mod_mes" onchange="consultarDiasEscOriginales();" style="width: 4vw;"></select>
                             </div>
                             <div class="row justify-content-sm-end">
                                 <label>Día:</label>
-                                <select id="select_mod_dia" onchange="consultarEscOriginales();"></select>
+                                <select id="select_mod_dia" onchange="consultarEscOriginales();" style="width: 4vw;"></select>
                             </div>
                         </div>
                         <div class="col-3">
@@ -106,14 +112,17 @@
                             </div>
                             <div class="row justify-content-sm-end">
                                 <label style="text-decoration:underline;">Escenario Modificado:</label>
-                                <select id="select_mod_esc_modificado" style="width: 10vw;"></select>
+                                <select id="select_mod_esc_modificado" onchange="verificarDatosEscenarioMod();" style="width: 10vw;"></select>
                             </div>
                         </div>
                         <div class="col-2">
-                            <button class="button_gral"><span><i class="demo-icon icon-eye"></i></span>Cargar</button>
+                            <button id="boton_cargaEscenarioMod" disabled class="button_gral" onclick="cargarEscenarioMod();"><span><i class="demo-icon icon-eye"></i></span>Cargar</button>
                         </div>
                         <div class="col-2">
-                            <button class="button_gral" style="background-color: sienna;"><span><i class="demo-icon icon-database"></i></span>Guardar en BD</button>
+                            <button id="boton_cargaEscenarioModActual" disabled class="button_gral" onclick="cargarEscenarioModActual();"><span><i class="demo-icon icon-down-hand"></i></span>Cargar Actual</button>
+                        </div>
+                        <div class="col-2">
+                            <button id="boton_guardaBDEscenarioMod" disabled class="button_gral bd"><span><i class="demo-icon icon-database" ></i></span>Guardar en BD</button>
                         </div>
                     </div>
 
@@ -3237,6 +3246,27 @@
                                 </div>
                             </div>
 
+                            <!-- FACTORES DE DISTRIBUCION DE GENERACION POR NODO 10-->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'FACDISGEN10');" id="col_info_factores_dist_generacion_nodo10">
+                                <span class="invisible"><i class="demo-icon icon-edit"></i></span>
+                                <div class="col"><span class="span-archivo">FACDISGE10.csv</span>Factores de Distribución de Generación por Nodo (10) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable colapsable-mod div-tabla invisible" id="info_factores_dist_generacion_nodo10">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info tabla-mod" id="FACDISGEN10" data-contenedor="info_factores_dist_generacion_nodo10" data-colapso="col_info_factores_dist_generacion_nodo10">
+                                        <thead class="tabla-head alg-dep alg-dep-mod">
+                                            <tr>
+                                                <th></th>
+                                                <th>Índice</th>
+                                                <th>Índice numerado</th>
+                                                <th>Tipo de unidad</th>
+                                                <th>Clave de unidad</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
                             <!-- NODOS DE GENERACION -->
                             <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'NODDISGEN');" id="col_info_nodos_generacion">
                                 <span class="invisible"><i class="demo-icon icon-edit"></i></span>
@@ -3390,11 +3420,278 @@
                                 </div>
                             </div>
 
+                            <!-- NODOS DE GENERACION (9) -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'NODDISGEN10');" id="col_info_nodos_generacion10">
+                                <span class="invisible"><i class="demo-icon icon-edit"></i></span>
+                                <div class="col"><span class="span-archivo">NODDISGEN10.csv</span>Nodos de Generación (10) <span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable colapsable-mod div-tabla invisible" id="info_nodos_generacion10">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped tabla-info tabla-mod" id="NODDISGEN10" data-contenedor="info_nodos_generacion10" data-colapso="col_info_nodos_generacion10">
+                                        <thead class="tabla-head alg-dep alg-dep-mod">
+                                            <tr>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FIN DE CONTENEDOR OTROS -->
+
+                    <!-- CONTENEDOR RESULTADOS -->
+                    <div id="cont-resultados-mod" class="row contenedor-info contenedor-mod subseccion">
+                        <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
+
+                            <!-- RESUMEN DE RESULTADOS GLOBALES -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'DERS_I_TOTALES_');" id="col_info_global_i">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span id="ARCH-DERS_I_TOTALES_" class="span-archivo">ARCHIVO.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable colapsable-mod div-tabla invisible CONT-DERS_I_TOTALES_" id="info_global_i">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod DERS_I_TOTALES_" id="DERS_I_TOTALES_$" data-contenedor="info_global_i" data-colapso="col_info_global_i">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- RESUMEN DE RESULTADOS GLOBALES -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'DERS_MI_TOTALES_');" id="col_info_global_mi">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span id="ARCH-DERS_MI_TOTALES_" class="span-archivo">ARCHIVO.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable colapsable-mod div-tabla invisible CONT-DERS_MI_TOTALES_" id="info_global_mi">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod DERS_MI_TOTALES_" id="DERS_MI_TOTALES_$" data-contenedor="info_global_mi" data-colapso="col_info_global_mi">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- FALTA PRECIOS POR ZONAS DE CARGA  -->
+
+                            <!-- Resultado de Reservas del CENACE por Zona -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'DTR_ZONAS_RESERVA_');" id="col_info_reeservas_zona">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span id="ARCH-DTR_ZONAS_RESERVA_" class="span-archivo">ARCHIVO.csv</span>Resultado de Reservas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable colapsable-mod div-tabla invisible CONT-DTR_ZONAS_RESERVA_" id="info_reeservas_zona">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod DTR_ZONAS_RESERVA_" id="DTR_ZONAS_RESERVA_$" data-contenedor="info_reeservas_zona" data-colapso="col_info_reeservas_zona">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultado de cargas del CENACE por Zona -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'DTR_ZONAS_CARGA_');" id="col_info_cargas_zona">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span id="ARCH-DTR_ZONAS_CARGA_" class="span-archivo">ARCHIVO.csv</span>Resultado de Cargas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable colapsable-mod div-tabla invisible CONT-DTR_ZONAS_CARGA_" id="info_cargas_zona">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod DTR_ZONAS_CARGA_" id="DTR_ZONAS_CARGA_$" data-contenedor="info_cargas_zona" data-colapso="col_info_cargas_zona">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de las Regiones de Precios -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'DTR_REGIONES_');" id="col_info_region_precios">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span id="ARCH-DTR_REGIONES_" class="span-archivo">ARCHIVO.csv</span>Resultados de las Regiones de Precios<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable colapsable-mod div-tabla invisible CONT-DTR_REGIONES_" id="info_region_precios">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod DTR_REGIONES_" id="DTR_REGIONES_$" data-contenedor="info_region_precios" data-colapso="col_info_region_precios">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de los Nodos Eléctricos de la Red -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'DTR_NODOS_');" id="col_info_nodos_elec_red">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span id="ARCH-DTR_NODOS_" class="span-archivo">ARCHIVO.csv</span>Resultados de los Nodos Eléctricos de la Red<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable colapsable-mod div-tabla invisible CONT-DTR_NODOS_" id="info_nodos_elec_red" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod DTR_NODOS_" id="DTR_NODOS_$" data-contenedor="info_nodos_elec_red" data-colapso="col_info_nodos_elec_red">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de las Unidades Programables -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'DTR_UNIDADES_');" id="col_info_unidades_prog">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span id="ARCH-DTR_UNIDADES_" class="span-archivo">ARCHIVO.csv</span>Resultados de las Unidades Programables<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable colapsable-mod div-tabla invisible CONT-DTR_UNIDADES_" id="info_unidades_prog" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod DTR_UNIDADES_" id="DTR_UNIDADES_$" data-contenedor="info_unidades_prog" data-colapso="col_info_unidades_prog">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resumen de Unidades de Generación -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'RESUMEN_UNIDADES');" id="col_info_unidades_gen">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span id="ARCH-RESUMEN_UNIDADES" class="span-archivo">ARCHIVO.csv</span>Resumen de Unidades de Generación<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable colapsable-mod div-tabla div-contenedor-mediana invisible CONT-RESUMEN_UNIDADES" id="info_unidades_gen" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod RESUMEN_UNIDADES" id="RESUMEN_UNIDADES" data-contenedor="info_unidades_gen" data-colapso="col_info_unidades_gen">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de Flujos en Grupos de Ramas Restringidas -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'DTR_ENLACES_');" id="col_info_flujo_ramas_res">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span id="ARCH-DTR_ENLACES_" class="span-archivo">ARCHIVO.csv</span>Resultados de Flujos en Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla colapsable colapsable-mod invisible CONT-DTR_ENLACES_" id="info_flujo_ramas_res" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod DTR_ENLACES_" id="DTR_ENLACES_$" data-contenedor="info_flujo_ramas_res" data-colapso="col_info_flujo_ramas_res">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de flujos en las ramas que conforman los grupos de ramas restringidas -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'DTR_RAMAS_ENL_');" id="col_info_flujos_com_ramas_res">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span id="ARCH-DTR_RAMAS_ENL_" class="span-archivo">ARCHIVO.csv</span>Resultados de Flujos en las Ramas en los Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla colapsable colapsable-mod invisible CONT-DTR_RAMAS_ENL_" id="info_flujos_com_ramas_res" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod DTR_RAMAS_ENL_" id="DTR_RAMAS_ENL_$" data-contenedor="info_flujos_com_ramas_res" data-colapso="col_info_flujos_com_ramas_res">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de Asignación de Energía por Embalse (SIN _ )-->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'DTR_EMBALSES');" id="col_info_embalses1_res">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span id="ARCH-DTR_EMBALSES" class="span-archivo">ARCHIVO.csv</span>Resultados de Asignación de Energía por Embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla colapsable colapsable-mod invisible CONT-DTR_EMBALSES" id="info_embalses1_res" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod DTR_EMBALSES" id="DTR_EMBALSES" data-contenedor="info_embalses1_res" data-colapso="col_info_embalses1_res">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultados de Asignación de Energía por Embalse -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'DTR_EMBALSES_');" id="col_info_embalses_res">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span id="ARCH-DTR_EMBALSES_" class="span-archivo">ARCHIVO.csv</span>Resultados de Asignación de Energía por Embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla colapsable colapsable-mod invisible CONT-DTR_EMBALSES_" id="info_embalses_res" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod DTR_EMBALSES_" id="DTR_EMBALSES_$" data-contenedor="info_embalses_res" data-colapso="col_info_embalses_res">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Resultado de Reservas del CENACE por Sistema -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'DTR_SISTEMA_RESERVA_');" id="col_info_reservas_sistema">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span id="ARCH-DTR_SISTEMA_RESERVA_" class="span-archivo">ARCHIVO.csv</span>Resultado de Reservas del CENACE por Sistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla colapsable colapsable-mod invisible CONT-DTR_SISTEMA_RESERVA_" id="info_reservas_sistema" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod DTR_SISTEMA_RESERVA_" id="DTR_SISTEMA_RESERVA_$" data-contenedor="info_reservas_sistema" data-colapso="col_info_reservas_sistema">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- DTR AREAS -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'DTR_AREAS_');" id="col_info_dtr_areas">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span id="ARCH-DTR_AREAS_" class="span-archivo">ARCHIVO.csv</span>Resultados de Generación y Demanda por Área<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla colapsable colapsable-mod invisible CONT-DTR_AREAS_" id="info_dtr_areas" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod DTR_AREAS_" id="DTR_AREAS_$" data-contenedor="info_dtr_areas" data-colapso="col_info_dtr_areas">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- DTR SISTEMA -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'DTR_SISTEMA_');" id="col_info_dtr_sistemas">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span id="ARCH-DTR_SISTEMA_" class="span-archivo">ARCHIVO.csv</span>DTR SISTEMA<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla colapsable colapsable-mod invisible CONT-DTR_SISTEMA_" id="info_dtr_sistemas" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod DTR_SISTEMA_" id="DTR_SISTEMA_$" data-contenedor="info_dtr_sistemas" data-colapso="col_info_dtr_sistemas">
+                                        <thead class="tabla-head">
+                                            <tr></tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- BANDERAS PARA INDICAR PROBLEMAS EN LA SOLUCION -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'SEMAFOROSDERS');" id="col_info_banderas_problemas">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span id="ARCH-SEMAFOROSDERS" class="span-archivo">ARCHIVO.csv</span>Banderas para Indicar Problemas en la Solución<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla colapsable colapsable-mod invisible CONT-SEMAFOROSDERS" id="info_dtr_sistemas" >
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod SEMAFOROSDERS" id="SEMAFOROSDERS" data-contenedor="info_banderas_problemas" data-colapso="col_info_banderas_problemas">
+                                        <thead class="tabla-head">
+                                            <th></th>
+                                            <th >Bandera</th>
+                                            <th >Descripción</th>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
 
 
                         </div>
                     </div>
-                    <!-- FIN DE CONTENEDOR OTROS -->
+                    <!-- FIN DE CONTENEDOR RESULTADOS -->
 
                     <!-- COMENTARIOS Y BOTONES -->
                     <div class="row subseccion contenedor-comentarios-mod">
@@ -3408,6 +3705,8 @@
                         </div>
                     </div>
                 </div>
+
+
 
                 <!-- FIN DE CONTENEDORES -->
             </div>

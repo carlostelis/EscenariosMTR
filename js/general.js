@@ -83,6 +83,10 @@ let tablas_mod = [];
 let thead_periodo_mod = [];
 let thead_periodo_i_mod = [];
 let colapsables_mod = [];
+let objEscVistaMod;
+let boton_cargaEscenarioMod;
+let boton_guardaBDEscenarioMod;
+let boton_cargaEscenarioModActual;
 
 // Comparacion de resultados
 let tablas_res = null;
@@ -115,6 +119,8 @@ let select_mod_mes;
 let select_mod_dia;
 let select_mod_esc_original;
 let select_mod_esc_modificado;
+let th_periodos_mod = [];
+let spans_archivos = [];
 
 // Etiquetas comunes
 let usuario_labels = null;
@@ -208,7 +214,7 @@ function cargaComponentes() {
     // thead_periodo = Array.from(document.getElementsByClassName('alg-dep'));
     // thead_periodo_i = Array.from(document.getElementsByClassName('alg-dep-i'));
 	// colapsables_info = Array.from(document.getElementsByClassName('colapsable'));
-	th_periodos = Array.from(document.getElementsByClassName('th-periodo'));
+	// th_periodos = Array.from(document.getElementsByClassName('th-periodo'));
 
 	// Separa objetos de de seccion de informacion y seccion modificados
 	let cont_temp = Array.from(document.getElementsByClassName('contenedor-info'));
@@ -273,6 +279,20 @@ function cargaComponentes() {
 			colapsables_info.push(item);
 		}
 	});
+
+	cont_temp = Array.from(document.getElementsByClassName('th-periodo'));
+	cont_temp.forEach((item) => {
+		if (item.classList.contains('th-periodo-mod')) {
+			th_periodos_mod.push(item);
+		} else {
+			th_periodos.push(item);
+		}
+	});
+
+	boton_cargaEscenarioMod = document.getElementById('boton_cargaEscenarioMod');
+	boton_cargaEscenarioModActual = document.getElementById('boton_cargaEscenarioModActual');
+	boton_guardaBDEscenarioMod = document.getElementById('boton_guardaBDEscenarioMod');
+	spans_archivos = Array.from(document.getElementsByClassName('span-archivo'));
 
     // Comparacion de resultados
     tablas_res = Array.from(document.getElementsByClassName('tabla-res'));

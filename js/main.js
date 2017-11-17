@@ -658,7 +658,7 @@ function parseFechaAlgoritmo(id) {
 }
 
 ipcMain.on('escenario_entradas:leer', (event, ruta_escenario, algoritmo) => {
-    escenario.parseEscenarioEntradas(ruta_escenario, algoritmo).then((obj) => {
+    escenario.parseEscenario(ruta_escenario, algoritmo, 'ENTRADAS').then((obj) => {
         let objetoEntradas = {
             ruta: obj.ruta,
             algoritmo: obj.algoritmo,
@@ -688,9 +688,9 @@ ipcMain.on('escenario_entradas:leer', (event, ruta_escenario, algoritmo) => {
 ipcMain.on('escenario_resultados:leerComparar', (event, ruta_escenario_A, ruta_escenario_B, algoritmo) => {
     // LEe el escenario A
     console.log('--------');
-    escenario.parseEscenarioResultados(ruta_escenario_A, algoritmo).then((objA) => {
+    escenario.parseEscenario(ruta_escenario_A, algoritmo, 'RESULTADOS').then((objA) => {
         // LEe el escenario B
-        escenario.parseEscenarioResultados(ruta_escenario_B, algoritmo).then((objB) => {
+        escenario.parseEscenario(ruta_escenario_B, algoritmo, 'RESULTADOS').then((objB) => {
             // Realiza comparacion
             escenario.compararResultados(objA, objB).then(() => {
                 // Manda objetos contenedores
@@ -1014,5 +1014,32 @@ ipcMain.on('escenarios_mod_modificados:leer', (event, algoritmo, anio, mes, dia,
         win.webContents.send('escenarios_mod_modificados:leidos', true, lista);
     }, () => {
         win.webContents.send('escenarios_mod_modificados:leidos', false, null);
+    });
+});
+
+ipcMain.on('escenarios_mod:leer_todo', (event, algoritmo, anio, mes, dia, id_ori, id_mod) => {
+    let ruta_escenario = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio, mes, dia, id_ori, id_mod);
+
+    escenario.parseEscenario(ruta_escenario, algoritmo).then((obj) => {
+        let objetoTodos = {
+            ruta: obj.ruta,
+            algoritmo: obj.algoritmo,
+            numArchivos: obj.numArchivos,
+            lista: []
+        };
+        console.log('Manda contenedor archivos (TODOS)', obj.numArchivos);
+        win.webContents.send('escenarios_mod:leido_todo', objetoTodos);
+
+        // Dosifica el envio
+        let factor_to = (SESION.sistema === 'SIN' ? TO_PROC_SIN : TO_PROC_BCAS)
+        for (let i = 0; i < obj.lista.length; i++) {
+            let factor_adicional = parseInt(obj.lista[i].filas.length / 1000) * 100;
+            setTimeout(() => {
+                console.log('Envia archivo', obj.lista[i].archivo, factor_to, factor_adicional);
+                win.webContents.send('escenarios_mod:archivo_leido', obj.lista[i]);
+            }, (i * factor_to) + factor_adicional);
+        }
+    }, () => {
+        console.log('Error leyendo los archivos');
     });
 });

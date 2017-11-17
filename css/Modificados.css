@@ -70,6 +70,18 @@
     background-color: teal;
 }
 
+.seleccion-esc-mod > div > button.bd {
+    background-color: sienna;
+}
+
+.seleccion-esc-mod > div > button.bd:disabled {
+    background-color: gray;
+}
+
 .celda-header-mod {
-    background-color: olivedrab
+    background-color: #004d4d;
+}
+
+.celda-header-mod > div > span.span-archivo {
+    color: aliceblue;
 }

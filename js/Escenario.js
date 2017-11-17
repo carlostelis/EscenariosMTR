@@ -13,7 +13,7 @@ class Escenario {
         this.unidades_destino_obj = [];
     }
 
-    parseEscenarioEntradas(ruta_escenario, algoritmo) {
+    parseEscenario(ruta_escenario, algoritmo, filtro) {
         console.log(ruta_escenario, algoritmo);
 
         // Selecciona la lista de archivos acorde al algoritmo
@@ -56,17 +56,30 @@ class Escenario {
 
             this.fs.readdir((ruta_dirdat), (err, files) => {
                 for (let i = 0; i < files.length; i++) {
-                    /* *************************************************** */
-                    /* Temporal mientras queda el archivo de configuracion */
-                    /* *************************************************** */
-                    if (files[i].startsWith('DTR') || files[i].startsWith('DERS_MI_TOTALES_1') || files[i].startsWith('RESUMEN_UNIDADES') || files[i].startsWith('SEMAFOROSDERS')) {
-                        console.log('Ignorando resultado', files[i]);
-                        continue;
+                    if (filtro === 'ENTRADAS') {
+                        /* *************************************************** */
+                        /* Temporal mientras queda el archivo de configuracion */
+                        /* *************************************************** */
+                        if (files[i].startsWith('DTR') || files[i].startsWith('DERS_MI_TOTALES_') || files[i].startsWith('DERS_MI_TOTALES_') || files[i].startsWith('RESUMEN_UNIDADES') || files[i].startsWith('SEMAFOROSDERS')) {
+                            console.log('Ignorando resultado', files[i]);
+                            continue;
+                        }
+                    } else if (filtro === 'RESULTADOS') {
+                        if (!files[i].startsWith('DTR') && !files[i].startsWith('DERS_MI_TOTALES_') && !files[i].startsWith('DERS_I_TOTALES_') && !files[i].startsWith('DERS_I_TOTALES_') && !files[i].startsWith('RESUMEN_UNIDADES') && !files[i].startsWith('SEMAFOROSDERS')) {
+                            // console.log('Ignorando entrada', files[i]);
+                            continue;
+                        }
                     }
 
+                    let resultado = false;
                     to = i * 10;
                     setTimeout(() => {
-                        promesas.push(this.parseArchivoCSV(this.path.join(ruta_dirdat, files[i]), archivosJSON));
+                        // Marca los resultados
+                        if (files[i].startsWith('DTR') || files[i].startsWith('DERS_MI_TOTALES_') || files[i].startsWith('DERS_I_TOTALES_') || files[i].startsWith('RESUMEN_UNIDADES') || files[i].startsWith('SEMAFOROSDERS')) {
+                            resultado = true;
+                        }
+
+                        promesas.push(this.parseArchivoCSV(this.path.join(ruta_dirdat, files[i]), archivosJSON, resultado));
                     }, to);
                 }
 
@@ -124,60 +137,7 @@ class Escenario {
         });
     }
 
-    parseEscenarioResultados(ruta_escenario, algoritmo) {
-        console.log(ruta_escenario, algoritmo);
-
-        // Selecciona la lista de archivos acorde al algoritmo
-        switch (algoritmo) {
-            case 'dersi': this.archivosPtr = this.archivosDersi; break;
-            case 'dersmi': this.archivosPtr = this.archivosDersmi; break;
-            case 'autr': this.archivosPtr = this.archivosAutr; break;
-        }
-
-        return new Promise((resolve, reject) => {
-            let promesas = [];
-            // Establece la carpeta dirdat, donde se encuentran los archivos csv
-            let ruta_dirdat = this.path.join(ruta_escenario, 'dirdat');
-            console.log('parsing:', ruta_dirdat);
-            let contador = 0;
-            let archivosJSON = {
-                ruta: ruta_escenario,
-                algoritmo: algoritmo,
-                numArchivos: 0,
-                lista: []
-            };
-
-            let to;
-
-            this.fs.readdir((ruta_dirdat), (err, files) => {
-                for (let i = 0; i < files.length; i++) {
-                    /* *************************************************** */
-                    /* Temporal mientras queda el archivo de configuracion */
-                    /* *************************************************** */
-                    if (!files[i].startsWith('DTR') && !files[i].startsWith('DERS_MI_TOTALES_') && !files[i].startsWith('DERS_I_TOTALES_') && !files[i].startsWith('RESUMEN_UNIDADES') && !files[i].startsWith('SEMAFOROSDERS')) {
-                        // console.log('Ignorando entrada', files[i]);
-                        continue;
-                    }
-
-                    to = i * 10;
-                    setTimeout(() => {
-                        promesas.push(this.parseArchivoCSV(this.path.join(ruta_dirdat, files[i]), archivosJSON));
-                    }, to);
-                }
-
-                // Espera creacion de promesas
-                setTimeout(() => {
-                    Promise.all(promesas).then(() => {
-                        resolve(archivosJSON);
-                    }, () => {
-                        reject();
-                    });
-                }, to + 100);
-            });
-        });
-    }
-
-    parseArchivoCSV(ruta_archivo, objJSON) {
+    parseArchivoCSV(ruta_archivo, objJSON, resultado) {
         return new Promise((resolve, reject) => {
             let extension = this.path.extname(ruta_archivo).toLowerCase();
             if (extension !== '.csv') {
@@ -192,6 +152,10 @@ class Escenario {
                     editable: false,
                     filas: []
                 };
+
+                if (typeof resultado !== 'undefined') {
+                    datosArchivo.isResultado = resultado;
+                }
 
                 console.log(datosArchivo.archivo);
                 // Buscar en json
