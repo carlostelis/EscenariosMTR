@@ -603,7 +603,7 @@ function crearTablaResultado(objArchivo, marco) {
                                                 // Busca la columna asociada
                                                 let colAsociada = fila_tr.columnasFiltro[th.colPos];
                                                 // Compara el valor como cadena
-                                                if (colAsociada.innerHTML.startsWith(`${filtro}`)) {
+                                                if (colAsociada.innerHTML.includes(`${filtro}`)) {
                                                     tabla.filasFiltro.push(fila_tr);
                                                 }
                                             });

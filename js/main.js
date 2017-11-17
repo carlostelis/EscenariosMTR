@@ -150,7 +150,7 @@ app.on('ready', () => {
     // de manera dinamica
     win.loadURL(`file://${__dirname}/../html/index.html`);
     setTimeout(() => {
-        win.setTitle(`Analizador de escenarios del MTR - ${ruta_path}`);
+        win.setTitle(`Analizador de Escenarios del MTR`);
     }, 2000);
 
     // Inserta Menú de la ventana
@@ -763,12 +763,12 @@ ipcMain.on('escenario_resultados:leerComparar', (event, ruta_escenario_A, ruta_e
     });
 });
 
-ipcMain.on('escenario_original:copiar', (event, ruta_original, nuevo_folio, listaArchivos, flag_copiar) => {
-    // Construye la ruta nueva
+ipcMain.on('escenario_original:copiar', (event, ruta_origen, ruta_destino, nuevo_folio, listaArchivos, flag_copiar) => {
+    ruta_origen = path.normalize(ruta_origen);
+    ruta_destino = path.normalize(ruta_destino);
 
-    let id_escenario = path.basename(ruta_original);
-    let ruta_modificado = path.join(ruta_original.replace('escenario_original', 'escenario_modificado'), nuevo_folio);
-    let carpetas_nuevo = ruta_modificado.split(path.sep);
+    let id_escenario = path.basename(ruta_origen);
+    let carpetas_nuevo = ruta_destino.split(path.sep);
     let rutaTemp = carpetas_nuevo[0];
 
     console.log(nuevo_folio);
@@ -784,14 +784,14 @@ ipcMain.on('escenario_original:copiar', (event, ruta_original, nuevo_folio, list
     }
 
     console.log('copiando', flag_copiar);
-    console.log(ruta_original);
-    console.log(ruta_modificado);
+    console.log('De', ruta_origen);
+    console.log('A', ruta_destino);
 
     verificarModificados = () => {
         console.log('Verificando modificados:', listaArchivos.length);
         let promesas = [];
         listaArchivos.forEach((archivo) => {
-            let ruta_archivo_mod = path.join(ruta_modificado, 'dirdat', archivo.archivo);
+            let ruta_archivo_mod = path.join(ruta_destino, 'dirdat', archivo.archivo);
             //
             // Actualiza el archivo
             promesas.push(modificarArchivo(ruta_archivo_mod, archivo));
@@ -799,9 +799,9 @@ ipcMain.on('escenario_original:copiar', (event, ruta_original, nuevo_folio, list
 
         Promise.all(promesas).then(() => {
             console.log('Respuesta copiado');
-            win.webContents.send('escenario_original:copiado', {estado:true, folio:nuevo_folio, ruta:ruta_modificado, id:id_escenario});
+            win.webContents.send('escenario_original:copiado', {estado:true, folio:nuevo_folio, ruta:ruta_destino, id:id_escenario});
         }, () => {
-            win.webContents.send('escenario_original:copiado', {estado:true, id:id_escenario, folio:nuevo_folio, ruta:ruta_modificado, error:'Error de escritura en disco'});
+            win.webContents.send('escenario_original:copiado', {estado:true, id:id_escenario, folio:nuevo_folio, ruta:ruta_destino, error:'Error de escritura en disco'});
         });
     };
 
@@ -811,14 +811,14 @@ ipcMain.on('escenario_original:copiar', (event, ruta_original, nuevo_folio, list
         let promesas_copiar = [];
 
         // Copia el directorio completo
-        fse.copy(ruta_original, ruta_modificado).then(() => {
+        fse.copy(ruta_origen, ruta_destino).then(() => {
             console.log('Directorio copiado correctamente');
 
             // Verifica modificados
             verificarModificados();
         }).catch((err) => {
             console.log('Error al copiar el escenario', err);
-            win.webContents.send('escenario_original:copiado', {estado:false, folio:nuevo_folio, ruta:ruta_modificado, error:err, id:id_escenario});
+            win.webContents.send('escenario_original:copiado', {estado:false, folio:nuevo_folio, ruta:ruta_destino, error:err, id:id_escenario});
         });
     } else {
         // Verifica modificados
@@ -964,5 +964,55 @@ ipcMain.on('archivo:leer', (event, ruta, elementos, opcion) => {
     }, (err) => {
         console.log('Error', err);
         win.webContents.send('archivo:leido', {rutaBase:ruta, res:err, opc:opcion});
+    });
+});
+
+ipcMain.on('escenarios_mod_anios:leer', (event, algoritmo) => {
+    let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_original');
+
+    escenario.leerDirectorioMod(ruta).then((lista) => {
+        win.webContents.send('escenarios_mod_anios:leidos', true, lista);
+    }, () => {
+        win.webContents.send('escenarios_mod_anios:leidos', false, null);
+    });
+});
+
+ipcMain.on('escenarios_mod_meses:leer', (event, algoritmo, anio) => {
+    let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_original', anio);
+
+    escenario.leerDirectorioMod(ruta).then((lista) => {
+        win.webContents.send('escenarios_mod_meses:leidos', true, lista);
+    }, () => {
+        win.webContents.send('escenarios_mod_meses:leidos', false, null);
+    });
+});
+
+ipcMain.on('escenarios_mod_dias:leer', (event, algoritmo, anio, mes) => {
+    let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_original', anio, mes);
+
+    escenario.leerDirectorioMod(ruta).then((lista) => {
+        win.webContents.send('escenarios_mod_dias:leidos', true, lista);
+    }, () => {
+        win.webContents.send('escenarios_mod_dias:leidos', false, null);
+    });
+});
+
+ipcMain.on('escenarios_mod_originales:leer', (event, algoritmo, anio, mes, dia) => {
+    let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_original', anio, mes, dia);
+
+    escenario.leerDirectorioMod(ruta).then((lista) => {
+        win.webContents.send('escenarios_mod_originales:leidos', true, lista);
+    }, () => {
+        win.webContents.send('escenarios_mod_originales:leidos', false, null);
+    });
+});
+
+ipcMain.on('escenarios_mod_modificados:leer', (event, algoritmo, anio, mes, dia, id) => {
+    let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio, mes, dia, id);
+
+    escenario.leerDirectorioMod(ruta).then((lista) => {
+        win.webContents.send('escenarios_mod_modificados:leidos', true, lista);
+    }, () => {
+        win.webContents.send('escenarios_mod_modificados:leidos', false, null);
     });
 });

@@ -384,11 +384,11 @@ function crearTablaInfo(objArchivo, copia) {
                                                 let colAsociada = fila.columnasFiltro[nodoB.colPos];
                                                 if (colAsociada.input === null) {
                                                     // Compara el valor como cadena
-                                                    if (colAsociada.innerHTML.startsWith(`${nodoC.value}`)) {
+                                                    if (colAsociada.innerHTML.includes(`${nodoC.value}`)) {
                                                         tabla.filasFiltro.push(fila);
                                                     }
                                                 } else {
-                                                    if (colAsociada.input.value.startsWith(`${nodoC.value}`)) {
+                                                    if (colAsociada.input.value.includes(`${nodoC.value}`)) {
                                                         tabla.filasFiltro.push(fila);
                                                     }
                                                 }
@@ -908,16 +908,32 @@ function guardarEscenario(flag_actualizar) {
     let folio;
     let flag_copiar;
     let listaArchivos = [];
+    let ruta_origen;
+    let ruta_destino;
 
     // Si no esta definido se crea un nuevo folio,
     if (typeof objEscModificado === 'undefined' || objEscModificado === null || typeof flag_actualizar === 'undefined' || flag_actualizar === false) {
         folio = moment().format('YYYYMMDDHHmm');
         flag_copiar = true;
         banner.setMensaje(`Generando escenario modificado`);
-        objEscModificado = null;
+
+        // Si ya generó previamente un modificado,
+        // utiliza esos archivos para incluir todos los cambios realizados
+        if (objEscModificado !== null && typeof objEscModificado !== 'undefined') {
+            ruta_origen = objEscModificado.ruta;
+            ruta_destino = ruta_origen.replace(objEscModificado.folio, folio);
+        } else {
+            ruta_origen = objEscOriginal.ruta;
+            ruta_destino = `${objEscOriginal.ruta.replace('escenario_original', 'escenario_modificado')}\\${folio}`;
+        }
+        // objEscModificado = null;
     } else {
         folio = objEscModificado.folio;
         flag_copiar = false;
+
+        ruta_origen = objEscModificado.ruta;
+        ruta_destino = ruta_origen.replace(objEscModificado.folio, folio);
+
         banner.setMensaje(`Actualizando escenario`);
 
         objEscOriginal.lista.forEach((archivo) => {
@@ -937,7 +953,7 @@ function guardarEscenario(flag_actualizar) {
     banner.mostrar();
 
     setTimeout(() => {
-        ipcRenderer.send('escenario_original:copiar', rutaEscenarioOriginal, folio, listaArchivos, flag_copiar);
+        ipcRenderer.send('escenario_original:copiar', ruta_origen, ruta_destino, folio, listaArchivos, flag_copiar);
     }, 250);
 }
 
@@ -949,10 +965,18 @@ ipcRenderer.on('escenario_original:copiado', (event, res) => {
             mensajeConsola(`Se actualizó el escenario modificado con folio ${res.folio} a partir de ${res.id}`, true);
 
             banner.setMensaje(`Actualización completada. Folio del escenario: <font style="color:lightgreen; text-decoration:underline;">${res.folio}</font>`);
+
+            boton_nuevoFolio.disabled = false;
         } else {
             mensajeConsola(`Se generó un escenario modificado con folio ${res.folio} a partir de ${res.id}`, false);
             ipcRenderer.send('bitacora:inicializa', res.ruta);
             banner.setMensaje(`Copia completada. Folio del escenario: <font style="color:lightgreen; text-decoration:underline;">${res.folio}</font>`);
+
+            boton_nuevoFolio.disabled = true;
+            // Establece un to de 1 min para habilitar nuevo folio
+            setTimeout(() => {
+                boton_nuevoFolio.disabled = false;
+            }, 60000);
         }
 
         // Actualiza las etiquetas
@@ -1005,12 +1029,6 @@ ipcRenderer.on('escenario_original:copiado', (event, res) => {
                 }
             }
         }
-
-        boton_nuevoFolio.disabled = true;
-        // Establece un to de 1 min para habilitar nuevo folio
-        setTimeout(() => {
-            boton_nuevoFolio.disabled = false;
-        }, 60000);
 
         // Habilita boton actualizar
         boton_actualizarEscenario.disabled = false;

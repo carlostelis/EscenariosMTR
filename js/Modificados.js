@@ -3,6 +3,105 @@ while (typeof ipcRenderer === 'undefined') {
     console.log('Espera definicion');
 }
 
+function consultarAniosEscOriginales() {
+    if (select_mod_anio.value === 'defecto') {
+        return;
+    }
+
+    ipcRenderer.send('escenarios_mod_anios:leer', select_mod_algoritmo.value);
+}
+
+function consultarMesesEscOriginales() {
+    if (select_mod_anio.value === 'defecto') {
+        return;
+    }
+
+    ipcRenderer.send('escenarios_mod_meses:leer', select_mod_algoritmo.value, select_mod_anio.value);
+}
+
+function consultarDiasEscOriginales() {
+    if (select_mod_mes.value === 'defecto') {
+        return;
+    }
+
+    ipcRenderer.send('escenarios_mod_dias:leer', select_mod_algoritmo.value, select_mod_anio.value, select_mod_mes.value);
+}
+
+function consultarEscOriginales() {
+    if (select_mod_dia.value === 'defecto') {
+        return;
+    }
+
+    ipcRenderer.send('escenarios_mod_originales:leer', select_mod_algoritmo.value, select_mod_anio.value, select_mod_mes.value, select_mod_dia.value);
+}
+
+function consultarEscOriginalesMod() {
+    if (select_mod_esc_original.value === 'defecto') {
+        return;
+    }
+
+    ipcRenderer.send('escenarios_mod_modificados:leer', select_mod_algoritmo.value, select_mod_anio.value, select_mod_mes.value, select_mod_dia.value, select_mod_esc_original.value);
+}
+
+ipcRenderer.on('escenarios_mod_anios:leidos', (event, flag_estado, lista) => {
+    if (flag_estado === true) {
+        if (lista !== null && typeof lista !== 'undefined') {
+            cargarSelectMod(select_mod_anio, lista, 'Año');
+        }
+    }
+});
+
+ipcRenderer.on('escenarios_mod_meses:leidos', (event, flag_estado, lista) => {
+    if (flag_estado === true) {
+        if (lista !== null && typeof lista !== 'undefined') {
+            cargarSelectMod(select_mod_mes, lista, 'Mes');
+        }
+    }
+});
+
+ipcRenderer.on('escenarios_mod_dias:leidos', (event, flag_estado, lista) => {
+    if (flag_estado === true) {
+        if (lista !== null && typeof lista !== 'undefined') {
+            cargarSelectMod(select_mod_dia, lista, 'Día');
+        }
+    }
+});
+
+ipcRenderer.on('escenarios_mod_originales:leidos', (event, flag_estado, lista) => {
+    if (flag_estado === true) {
+        if (lista !== null && typeof lista !== 'undefined') {
+            cargarSelectMod(select_mod_esc_original, lista, 'Escenario');
+        }
+    }
+});
+
+ipcRenderer.on('escenarios_mod_modificados:leidos', (event, flag_estado, lista) => {
+    if (flag_estado === true) {
+        if (lista !== null && typeof lista !== 'undefined') {
+            cargarSelectMod(select_mod_esc_modificado, lista, 'Escenarios');
+        }
+    }
+});
+
+function cargarSelectMod(select, lista, defecto) {
+    select.innerHTML = '';
+
+    // Agrega opcion defecto
+    opt = document.createElement('option');
+    opt.innerHTML = defecto;
+    opt.selected = true;
+    opt.disabled = true;
+    opt.value = 'defecto';
+    select.appendChild(opt);
+
+    lista.forEach((item) => {
+        opt = document.createElement('option');
+        opt.innerHTML = item;
+        opt.value = item;
+        select.appendChild(opt);
+    });
+}
+
 function colapsarMod(trigger, id) {
     // Si esta inactivo no hace nada
     if (trigger.classList.contains('inactivo')) {

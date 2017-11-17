@@ -1,3 +1,8 @@
+.contenedor-mod {
+    height: 80%;
+    display: none;
+    padding: 1vh 1vw;
+}
 
 .contenedor-comentarios-mod > div > div {
     padding: 0px 0px 0px 0px;
@@ -34,23 +39,37 @@
 }
 
 .seleccion-esc-mod {
-    height: 5%;
+    height: 10%;
     margin-bottom: 1vh;
 }
 
-.seleccion-esc-mod > div > label {
-    font-size: 0.9vw;
-    font-weight: bold;
+.seleccion-esc-mod > div {
+    padding-top: 0.3vh;
 }
 
-.seleccion-esc-mod > div > select {
-    width: 8vw;
+.seleccion-esc-mod > div > div > label {
+    font-size: 0.8vw;
+    font-weight: bold;
+    margin: 3px 3px 0px 0px;
+}
+
+.seleccion-esc-mod > div > div > select {
+    width: 6vw;
+    height: 2.7vh;
+    border-radius: 10px;
+    margin-top: 0.2vh;
+    font-size: 0.8vw;
+    text-align-last: center;
 }
 
 .seleccion-esc-mod > div > button {
-    height: 2.7vh;
-    margin-top: 0.2vh;
+    height: 3.5vh;
+    margin-top: 1vh;
     font-size: 0.8vw;
     width: 12vw;
-    background-color: sienna;
+    background-color: teal;
+}
+
+.celda-header-mod {
+    background-color: olivedrab
 }

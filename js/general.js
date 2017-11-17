@@ -108,6 +108,14 @@ let promesas_archivos_B = [];
 let flag_A_cargado;
 let flag_B_cargado;
 
+// Modificados
+let select_mod_anio;
+let select_mod_algoritmo;
+let select_mod_mes;
+let select_mod_dia;
+let select_mod_esc_original;
+let select_mod_esc_modificado;
+
 // Etiquetas comunes
 let usuario_labels = null;
 let sistema_labels = null;
@@ -136,19 +144,19 @@ body.onload = () => {
 	contenedor = Array.from(document.getElementById('vistas_contenedor'));
 
 	menuCarga = document.getElementById('menu-esc-carga');
-	menuCarga.onclick = fn_menuCarga;
+	menuCarga.onclick = () => { mostrarVista(vistaCarga, menuCarga); };
 	menuCarga.deshabilitado = false;
 	menuInfo = document.getElementById('menu-esc-info');
-	menuInfo.onclick = fn_menuInfo;
+	menuInfo.onclick = () => { mostrarVista(vistaInfo, menuInfo); };
 	menuInfo.deshabilitado = false;
 	menuModifica = document.getElementById('menu-esc-modifica');
-	menuModifica.onclick = fn_menuModifica;
+	menuModifica.onclick = () => { mostrarVista(vistaModifica, menuModifica); };
 	menuModifica.deshabilitado = false;
 	menuCompara = document.getElementById('menu-esc-compara');
-	menuCompara.onclick = fn_menuCompara;
+	menuCompara.onclick = () => { mostrarVista(vistaCompara, menuCompara); };
 	menuCompara.deshabilitado = false;
 	menuAdmin = document.getElementById('menu-esc-admin');
-	menuAdmin.onclick = fn_menuAdmin;
+	menuAdmin.onclick = () => { mostrarVista(vistaAdmin, menuAdmin); };
 	menuAdmin.deshabilitado = false;
 
 	vistaCarga = document.getElementById('vista-esc-carga');
@@ -156,6 +164,13 @@ body.onload = () => {
 	vistaModifica = document.getElementById('vista-esc-modifica');
 	vistaCompara = document.getElementById('vista-esc-compara');
 	vistaAdmin = document.getElementById('vista-esc-admin');
+
+	// Funciones de carga
+	vistaCarga.funcion = null;
+	vistaInfo.funcion = null;
+	vistaModifica.funcion = null;
+	vistaCompara.funcion = null;
+	vistaAdmin.funcion = null;
 
     ipcRenderer.send('paginas:leer');
 };
@@ -339,6 +354,14 @@ function cargaComponentes() {
 		}
 	});
 
+	// Modificados
+	select_mod_anio = document.getElementById('select_mod_anio');
+	select_mod_algoritmo = document.getElementById('select_mod_algoritmo');
+	select_mod_mes = document.getElementById('select_mod_mes');
+	select_mod_dia = document.getElementById('select_mod_dia');
+	select_mod_esc_original = document.getElementById('select_mod_esc_original');
+	select_mod_esc_modificado = document.getElementById('select_mod_esc_modificado');
+
     // Etiquetas comunes
     usuario_labels = Array.from(document.getElementsByClassName('label-usuario-esc'));
     sistema_labels = Array.from(document.getElementsByClassName('label-sistema-esc'));
@@ -422,7 +445,6 @@ function cargaComponentes() {
     select_algoritmo.onkeyup();
 
     // selecciona el primero
-    // document.querySelector('.opc-menu').click();
     menuCarga.onclick();
 }
 
@@ -466,72 +488,22 @@ window.onbeforeunload = function(e) {
     body.style.opacity = '0';
 };
 
-function fn_menuCarga() {
-	if (menuCarga.classList.contains('deshabilitado')) {
-		return;
-	}
-
-	if (menuCarga.classList.contains('invalido')) {
-		return;
-	}
-
-	// oculta las vistas
-	mostrarVista(vistaCarga, menuCarga);
-}
-
-function fn_menuInfo() {
-	if (menuInfo.classList.contains('deshabilitado')) {
-		return;
-	}
-
-	if (menuInfo.classList.contains('invalido')) {
-		return;
-	}
-
-	// Deshabilita
-	mostrarVista(vistaInfo, menuInfo);
-}
-
-function fn_menuModifica() {
-	if (menuModifica.classList.contains('deshabilitado')) {
-		return;
-	}
-
-	if (menuModifica.classList.contains('invalido')) {
-		return;
-	}
-
-	// oculta las vistas
-	mostrarVista(vistaModifica, menuModifica);
-}
-
-function fn_menuCompara() {
-	if (menuCompara.classList.contains('deshabilitado')) {
-		return;
-	}
-
-	if (menuCompara.classList.contains('invalido')) {
-		return;
-	}
-
-	// oculta las vistas
-	mostrarVista(vistaCompara, menuCompara);
-}
-
-function fn_menuAdmin() {
-	if (menuAdmin.classList.contains('deshabilitado')) {
-		return;
-	}
-
-	if (menuAdmin.classList.contains('invalido')) {
-		return;
-	}
-
-	// oculta las vistas
-	mostrarVista(vistaAdmin, menuAdmin);
-}
-
 function mostrarVista(vistaMostrar, menu) {
+	if (menu.classList.contains('deshabilitado')) {
+		return;
+	}
+
+	if (menu.classList.contains('invalido')) {
+		return;
+	}
+
+	// Ejecuta funcion, si tiene
+	if (typeof vistaMostrar.funcion !== 'undefined' && vistaMostrar.funcion !== null) {
+		setTimeout(() => {
+			vistaMostrar.funcion();
+		}, 10);
+	}
+
 	for (let menuItem of menusOpcion) {
 		if (menuItem === menu) {
 			// deshabilita el boton

@@ -45,7 +45,6 @@ ipcRenderer.on('sesion:cerrar', (event) => {
         menuInfo.classList.add('deshabilitado');
         menuCompara.classList.add('deshabilitado');
         menuModifica.classList.add('deshabilitado');
-        menuAdmin.classList.add('invalido');
 
         // Regresa al menu de carga escenario
         menuCarga.onclick();
@@ -275,6 +274,9 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
             	boton_nuevoFolio.disabled = true;
             	boton_resultadoOriginal.disabled = true;
                 boton_cargarFolios.disabled = true;
+
+                // menuModifica.classList.add('invalido');
+                // menuAdmin.classList.add('invalido');
 
                 // Deshabilita selects de compara escenario
                 folios_mod.forEach((folio) => {

@@ -154,7 +154,7 @@ class Escenario {
                     /* *************************************************** */
                     /* Temporal mientras queda el archivo de configuracion */
                     /* *************************************************** */
-                    if (!files[i].startsWith('DTR') & !files[i].startsWith('DERS_MI_TOTALES_1') && !files[i].startsWith('RESUMEN_UNIDADES') && !files[i].startsWith('SEMAFOROSDERS')) {
+                    if (!files[i].startsWith('DTR') && !files[i].startsWith('DERS_MI_TOTALES_') && !files[i].startsWith('DERS_I_TOTALES_') && !files[i].startsWith('RESUMEN_UNIDADES') && !files[i].startsWith('SEMAFOROSDERS')) {
                         // console.log('Ignorando entrada', files[i]);
                         continue;
                     }
@@ -352,6 +352,30 @@ class Escenario {
                 } else {
                     // resolve(data.replace(new RegExp('\n+\s*', 'g'), '<br>'));
                     resolve(data);
+                }
+            });
+        });
+    }
+
+    leerDirectorioMod(ruta) {
+        return new Promise((resolve, reject) => {
+            // Lee el directorio
+            this.fs.readdir(ruta, (err, files) => {
+                if (err) {
+                    console.log('Error leyendo directorio', ruta);
+                    reject(err);
+                } else {
+                    // Filtra solo directorios
+                    let lista = [];
+                    files.forEach((file) => {
+                        console.log('Dir elemento', file);
+                        let stats = this.fs.statSync(this.path.join(ruta, file));
+                        if (stats.isDirectory() === true) {
+                            lista.push(file);
+                        }
+                    });
+
+                    resolve(lista);
                 }
             });
         });
