@@ -28,10 +28,10 @@ body {
 
 .button_gral {
     width: 12vw;
-    height: 5vh;
+    height: 4vh;
     display: block;
     margin: auto;
-    font-size: 1.1vw;
+    font-size: 1vw;
     font-weight: bold;
     color: azure;
     background-color: #1B9258;

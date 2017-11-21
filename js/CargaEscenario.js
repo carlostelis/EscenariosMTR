@@ -233,3 +233,21 @@ function generarRutaEscenario(utc) {
 
     return {rutaId: `${anio}/${mes}/${dia}/${id}`, dia: dia, mes: mes, anio: anio, id: id};
 }
+
+
+
+function switchBusqueda(trigger, flag_folios) {
+    pestanias_ce.forEach((pestania) => {
+        pestania.classList.add('inactiva');
+    });
+
+    trigger.classList.remove('inactiva');
+
+    if (flag_folios === true) {
+        form_folios_ce.style.display = 'block';
+        form_exalogic_ce.style.display = 'none';
+    } else {
+        form_folios_ce.style.display = 'none';
+        form_exalogic_ce.style.display = 'block';
+    }
+}

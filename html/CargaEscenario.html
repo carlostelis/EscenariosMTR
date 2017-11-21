@@ -6,86 +6,145 @@
     <body>
         <div class="container-fluid fill">
             <div class="row align-items-center" style="height: 100%;">
-                <div class="col subseccion" style="height:100%; margin-right: 0.8vw;">
+                <div class="col-5 subseccion" style="height:100%; margin-right: 0.8vw;">
                     <div id="div_visor-archivos" style="height:100%;"></div>
                 </div>
                 <div class="col subseccion" style="height: 100%;">
-                    <div class="row" style="padding-top: 1vh;">
-                        <div class="col-md-8" style="float:none; margin:auto;">
-                            <h1 class="text-center form-label-ce">Buscar escenario</h1>
-                            <form class="form-ce">
-                                <div class="form-group justify-content-around align-items-center form-fila" style="">
-                                    <div class="input-group">
-                                        <label class="label_form_dato_ce info_ce">Algoritmo:</label>
+                    <div class="row" style="padding-top: 10vh;">
+                        <div class="col-10" style="margin:auto;">
+                            <div class="col-10 row container justify-content-center" style="margin:auto; padding:0;">
+                                <div class="pestania-ce" onclick="switchBusqueda(this, false);">Buscar desde origen</div>
+                                <div class="pestania-ce inactiva" onclick="switchBusqueda(this, true);">Buscar por folio</div>
+                            </div>
+                            <div class="col-10 container" style="padding:0;">
+                                <form class="form-ce" id="form_exalogic_ce">
+                                    <div class="form-group justify-content-around align-items-center form-fila">
+                                        <div class="input-group">
+                                            <label class="label_form_dato_ce info_ce">Algoritmo:</label>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon span-icono-ce">
+                                                <i id="i_usuario" class="fa fa-calculator"></i>
+                                            </span>
+                                            <select id="sel_algoritmo_ce" class="form-valor-ce">
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="input-group">
-                                        <span class="input-group-addon" style="height: 4vh;">
-                                            <i id="i_usuario" class="fa fa-calculator" style="font-size: 1.5vw;"></i>
-                                        </span>
-                                        <select id="sel_algoritmo_ce" class="form-control form-valor-ce" style="text-align-last:center;">
-                                        </select>
-                                    </div>
-                                </div>
 
-                                <div class="form-group justify-content-around align-items-center form-fila" style="">
-                                    <div class="input-group">
-                                        <label class="label_form_dato_ce info_ce">Fecha:</label>
+                                    <div class="form-group justify-content-around align-items-center form-fila">
+                                        <div class="input-group">
+                                            <label class="label_form_dato_ce info_ce">Fecha:</label>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon span-icono-ce">
+                                                <i id="i_usuario" class="fa fa-calendar-check-o"></i>
+                                            </span>
+                                            <input id="input_fecha_ce" type="date" class="form-control form-valor-ce" style="flex-direction:row;padding-right: 0vw;"></input>
+                                        </div>
                                     </div>
-                                    <div class="input-group">
-                                        <span class="input-group-addon" style="height: 4vh;">
-                                            <i id="i_usuario" class="fa fa-calendar-check-o" style="font-size: 1.5vw;"></i>
-                                        </span>
-                                        <input id="input_fecha_ce" type="date" class="form-control  form-valor-ce" style="-ms-flex-direction:row;flex-direction:row;"></input>
-                                    </div>
-                                </div>
 
-                                <div class="form-group justify-content-around align-items-center form-fila" style="">
-                                    <div class="input-group">
-                                        <label class="label_form_dato_ce info_ce">Hora:</label>
+                                    <div class="form-group justify-content-around align-items-center form-fila fila-bloque-hora">
+                                        <div class="input-group">
+                                            <label class="label_form_dato_ce info_ce">Hora:</label>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon span-icono-ce">
+                                                <i id="i_usuario" class="fa fa-clock-o"></i>
+                                            </span>
+                                            <select id="sel_hora_ce" class="form-valor-ce">
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="input-group">
-                                        <span class="input-group-addon" style="height: 4vh;">
-                                            <i id="i_usuario" class="fa fa-clock-o" style="font-size: 1.5vw;"></i>
-                                        </span>
-                                        <select id="sel_hora_ce" class="form-control form-valor-ce" style="text-align-last:center;">
-                                        </select>
-                                    </div>
-                                </div>
 
-                                <div class="form-group justify-content-around align-items-center form-fila" style="">
-                                    <div class="input-group">
-                                        <label class="label_form_dato_ce info_ce">Intervalo:</label>
+                                    <div class="form-group justify-content-around align-items-center form-fila fila-bloque-intervalo" style="margin-bottom: 3vh;">
+                                        <div class="input-group">
+                                            <label class="label_form_dato_ce info_ce">Intervalo:</label>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon span-icono-ce">
+                                                <i id="i_usuario" class="fa fa-thumb-tack"></i>
+                                            </span>
+                                            <select id="sel_intervalo_ce" class=" form-valor-ce">
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="input-group">
-                                        <span class="input-group-addon" style="height: 4vh;">
-                                            <i id="i_usuario" class="fa fa-thumb-tack" style="font-size: 1.5vw;"></i>
-                                        </span>
-                                        <select id="sel_intervalo_ce" class="form-control form-valor-ce" style="text-align-last:center;">
-                                        </select>
-                                    </div>
-                                </div>
 
-                                <div class="form-group justify-content-around align-items-center form-fila" style="height: 3vh;margin-top: 3vh;">
-                                    <label class="col-form-label col-12 label_form_dato_ce info_ce text-center" style="font-style: italic;">Consultar escenarios modificados</label>
-                                </div>
-
-                                <div class="form-group justify-content-around align-items-center form-fila" style="">
-                                    <div class="input-group">
-                                        <label class="label_form_dato_ce info_ce">*Folio:</label>
+                                    <div class="row" style="width: 100%;margin-left: 0.5vw;">
+                                        <button type="button" value="Cargar" class="button_gral boton_ce"  onclick="cargarEscenario()"><span class=""><i class="demo-icon icon-download-1"></i></span>Cargar</button>
                                     </div>
-                                    <div class="input-group">
-                                        <span class="input-group-addon" style="height: 4vh;">
-                                            <i id="i_usuario" class="fa fa-hashtag" style="font-size: 1.5vw;"></i>
-                                        </span>
-                                        <select id="sel_folio_ce" class="form-control form-valor-ce" style="text-align-last:center;">
-                                        </select>
+                                </form>
+                                <form class="form-ce" id="form_folios_ce" style="display:none;">
+                                    <div class="form-group justify-content-around align-items-center form-fila folios">
+                                        <div class="input-group">
+                                            <label class="label_form_dato_ce info_ce">Algoritmo:</label>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon span-icono-ce">
+                                                <i id="i_usuario" class="fa fa-calculator span-carga-ce"></i>
+                                            </span>
+                                            <select id="sel_algoritmo_ce_folio" class="form-valor-ce">
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="form-group" style="margin-top:7%; margin-bottom: 0px;">
-                                </div>
-                                <button type="button" value="Cargar" class="button_gral btn-block col-10"  onclick="cargarEscenario()" style="text-align:center;"><span class=""><i class="demo-icon icon-download-1"></i></span>Cargar</button>
-                            </form>
+                                    <div class="form-group justify-content-around align-items-center form-fila folios">
+                                        <div class="input-group">
+                                            <label class="label_form_dato_ce info_ce">Fecha:</label>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon span-icono-ce">
+                                                <i id="i_usuario" class="fa fa-calendar-check-o"></i>
+                                            </span>
+                                            <input id="input_fecha_ce_folio" type="date" class="form-control form-valor-ce" style="flex-direction:row;padding-right: 0vw;"></input>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group justify-content-around align-items-center form-fila folios fila-bloque-hora">
+                                        <div class="input-group">
+                                            <label class="label_form_dato_ce info_ce">Hora:</label>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon span-icono-ce">
+                                                <i id="i_usuario" class="fa fa-clock-o"></i>
+                                            </span>
+                                            <select id="sel_hora_ce_folio" class="form-valor-ce">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group justify-content-around align-items-center form-fila folios fila-bloque-intervalo">
+                                        <div class="input-group">
+                                            <label class="label_form_dato_ce info_ce">Intervalo:</label>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon span-icono-ce">
+                                                <i id="i_usuario" class="fa fa-thumb-tack"></i>
+                                            </span>
+                                            <select id="sel_intervalo_ce_folio" class=" form-valor-ce">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="div_opc_folios_ce">
+                                        <div class="form-group justify-content-around align-items-center form-fila folios">
+                                            <div class="input-group">
+                                                <label class="label_form_dato_ce info_ce">*Folio:</label>
+                                            </div>
+                                            <div class="input-group">
+                                                <span class="input-group-addon span-icono-ce">
+                                                    <i id="i_usuario" class="fa fa-hashtag"></i>
+                                                </span>
+                                                <select id="sel_folio_ce" class="form-valor-ce">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <button id="boton_cargarConsultarFolios" type="button" value="Cargar" class="button_gral boton_ce"  onclick=""><span class=""><i class="demo-icon icon-search-1"></i></span>Consultar</button>
+                                        <button id="boton_cargarEscenarioFolio" type="button" value="Cargar" class="button_gral boton_ce" disabled onclick=""><span class=""><i class="demo-icon icon-download-1"></i></span>Cargar</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
