@@ -167,6 +167,8 @@ function cargarEscenario() {
     banner.ocultarProgreso();
     banner.ocultarBoton();
 
+    flag_modo_folio = false;
+
     ipcRenderer.send('utc:consulta', `${input_fecha.value} ${select_hora.value}:00`, SESION.sistemaZona);
 }
 
@@ -182,25 +184,44 @@ ipcRenderer.on('utc:respuesta', (event, json) => {
         return;
     }
 
-    let {rutaId, dia, mes, anio, id} = generarRutaEscenario(json.utc);
+    let obj;
 
-    let obj = {
-        id_escenario: id,
-        dirRemoto: `${SESION.config.exalogic.base}${SESION.sistemaCarpeta}/${select_algoritmo.value}/datosh/${rutaId}`,
-        pathLocal: `${SESION.sistema}/${select_algoritmo.value}/escenario_original/`,
-        dia: dia,
-        mes: mes,
-        anio: anio,
-        algoritmo: select_algoritmo.value
-    };
+    if (flag_modo_folio === true) {
+        let {rutaId, dia, mes, anio, id} = generarRutaEscenarioFolio(json.utc);
+        obj = {
+            id_escenario: id,
+            dirRemoto: `${SESION.config.exalogic.base}${SESION.sistemaCarpeta}/${select_algoritmo.value}/datosh/${rutaId}`,
+            pathLocal: `${SESION.sistema}/${select_algoritmo.value}/escenario_modificado/`,
+            dia: dia,
+            mes: mes,
+            anio: anio,
+            algoritmo: select_algoritmo_folio.value
+        };
+    } else {
+        let {rutaId, dia, mes, anio, id} = generarRutaEscenario(json.utc);
+        obj = {
+            id_escenario: id,
+            dirRemoto: `${SESION.config.exalogic.base}${SESION.sistemaCarpeta}/${select_algoritmo.value}/datosh/${rutaId}`,
+            pathLocal: `${SESION.sistema}/${select_algoritmo.value}/escenario_original/`,
+            dia: dia,
+            mes: mes,
+            anio: anio,
+            algoritmo: select_algoritmo.value
+        };
+    }
 
-    mensajeConsola(`Solicitando escenario ${id}`, false);
+    mensajeConsola(`Solicitando escenario ${obj.id_escenario}`, false);
 
-    SESION.id_solicitud = id;
+    SESION.id_solicitud = obj.id_escenario;
     SESION.algoritmo = select_algoritmo.value;
 
-    ipcRenderer.send('directorio:descarga', obj);
-    banner.setMensaje('Buscando escenario');
+    if (flag_modo_folio === true) {
+        ipcRenderer.send('escenarios_folios:leer', obj);
+        banner.setMensaje('Leyendo folios...');
+    } else {
+        ipcRenderer.send('directorio:descarga', obj);
+        banner.setMensaje('Buscando escenario');
+    }
 });
 
 // Construye el nombre del escenario
@@ -234,7 +255,60 @@ function generarRutaEscenario(utc) {
     return {rutaId: `${anio}/${mes}/${dia}/${id}`, dia: dia, mes: mes, anio: anio, id: id};
 }
 
+function generarRutaEscenarioFolio(utc) {
+    let fecha = input_fecha_folio.value;
 
+    if (fecha.trim() === '') {
+        input_fecha_folio.bordeOriginal = input_fecha_folio.style.borderColor;
+        input_fecha_folio.style.borderColor = 'red';
+        input_fecha_folio.focus();
+        return;
+    }
+
+    input_fecha_folio.style.borderColor = input_fecha_folio.bordeOriginal;
+
+    let hora = select_hora_folio.value;
+    if (hora.length === 1) {
+        hora = `0${hora}`;
+    }
+
+    let intervalo = select_intervalo.value;
+    if (intervalo.length === 1) {
+        intervalo = `0${intervalo}`;
+    }
+
+    console.log('fecha', fecha);
+    let [ anio, mes, dia ] = fecha.split('-');
+
+    console.log('UTC: ', utc);
+    let id = `${anio}${mes}${dia}${hora}${intervalo}_${utc}`;
+
+    return {rutaId: `${anio}/${mes}/${dia}/${id}`, dia: dia, mes: mes, anio: anio, id: id};
+}
+
+function  consultarFolios() {
+    // Borra los objetos de escenarios anteriores
+    objEscOriginal = null;
+    objEscModificado = null;
+
+    // Elimina el objeto anterior
+    objArchivos = null;
+
+    // manda a obtener el utc de la fecha seleccionada
+    // Comienza con vista compacta
+    banner.modoNormal();
+    banner.vistaCompacta();
+    banner.mostrar();
+    banner.actualizando();
+    banner.setMensaje('Consultando UTC');
+    banner.setProgreso(0);
+    banner.ocultarProgreso();
+    banner.ocultarBoton();
+
+    flag_modo_folio = true;
+
+    ipcRenderer.send('utc:consulta', `${input_fecha.value} ${select_hora.value}:00`, SESION.sistemaZona);
+}
 
 function switchBusqueda(trigger, flag_folios) {
     pestanias_ce.forEach((pestania) => {
@@ -251,3 +325,41 @@ function switchBusqueda(trigger, flag_folios) {
         form_exalogic_ce.style.display = 'block';
     }
 }
+
+ipcRenderer.on('escenarios_folios:leidos', (event, res) => {
+    sel_folio_ce.innerHTML = '';
+
+    if (res.estado === true) {
+        let txt = document.createTextNode('Folio');
+        let opt = document.createElement('option');
+        opt.appendChild(txt);
+        opt.selected = true;
+        opt.disabled = true;
+        sel_folio_ce.appendChild(opt);
+
+        for (let folio of res.lista) {
+            txt = document.createTextNode(`${folio} (Local)`);
+            opt = document.createElement('option');
+            opt.appendChild(txt);
+            sel_folio_ce.appendChild(opt);
+        }
+
+        banner.ok();
+        banner.setMensaje('Hecho');
+        setTimeout(() => {
+            banner.ocultar();
+        }, 1000);
+    } else {
+        banner.error();
+        console.log(res.error);
+        if (res.error.code === 'ENOENT') {
+            banner.setMensaje('Hay escenarios modificados locales para esa fecha');
+        } else {
+            banner.setMensaje(`Error leyendo los escenarios: ${res.error.code}`);
+        }
+
+        setTimeout(() => {
+            banner.ocultar();
+        }, 2000);
+    }
+});

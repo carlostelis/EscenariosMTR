@@ -1043,3 +1043,14 @@ ipcMain.on('escenarios_mod:leer_todo', (event, algoritmo, anio, mes, dia, id_ori
         console.log('Error leyendo los archivos');
     });
 });
+
+ipcMain.on('escenarios_folios:leer', (event, obj) => {
+    let ruta_escenario_mod = path.join(config.local.escenarios, SESION.sistema, obj.algoritmo, 'escenario_modificado', obj.anio, obj.mes, obj.dia, obj.id_escenario);
+    console.log('Folios de', ruta_escenario_mod);
+    escenario.leerEscenariosModificados(ruta_escenario_mod).then((lista) => {
+        win.webContents.send('escenarios_folios:leidos', {estado:true, lista:lista});
+    }, (err) => {
+        console.log(err);
+        win.webContents.send('escenarios_folios:leidos', {estado:false, error:err});
+    });
+});

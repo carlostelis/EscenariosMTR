@@ -1088,42 +1088,34 @@ ipcRenderer.on('algoritmo:ejecucionParcial', (event, output) => {
 
 ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
     salida_algoritmo += res.cadena;
-    // banner.promptQuitaEspera();
+
     banner.setTextoPrompt(salida_algoritmo);
     banner.saltoPrompt();
     banner.ocultarBannerPrompt();
 
-    if (res.exito === true) {
-        // Habilita el menu para comparar resultados
-        // menuCompara.classList.remove('invalido');
+    // Invo0ca diagnostico
+    if (res.infactible === true) {
+        console.log('Verificando infactibilidad');
+        banner.appendTextoPrompt(`<font color='red'>Infactibilidad encontrada durante la ejecución.</font>`);
+        mensajeConsola(`Infactibilidad encontrada durante la ejecución.`, true);
 
-        banner.appendTextoPrompt(`<font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`);
+        ipcRenderer.send('algoritmo:diagnosticar', objEscModificado.ruta, 'RES_EJECUCION');
 
-        mensajeConsola(`Fin de ejecución del algoritmo; terminación normal`, true);
-    } else {
-        // Invo0ca diagnostico
-        if (res.infactible === true) {
-            console.log('Verificando infactibilidad');
-            ipcRenderer.send('algoritmo:diagnosticar', objEscModificado.ruta, 'RES_EJECUCION');
+        if (res.codigo < 0) {
+            banner.appendTextoPrompt(`<font color='red'>Error de ejecución del algoritmo: ${res.mensaje}</font>`);
+            mensajeConsola(`Error de ejecución del algoritmo: ${res.mensaje}`, true);
         }
 
         // No se muestran resultados
         banner.setBoton('Cerrar', () => {
             banner.ocultar();
         });
-
-        if (res.codigo < 0) {
-            banner.appendTextoPrompt(`<font color='red'>Error de ejecución del algoritmo: ${res.mensaje}</font>`);
-            mensajeConsola(`Error de ejecución del algoritmo: ${res.mensaje}`, true);
-        } else {
-            banner.appendTextoPrompt(`<font color='red'>Fin de ejecución del algoritmo. Se presentan errores en el resultado.</font>`);
-            mensajeConsola(`Fin de ejecución del algoritmo; se presentan errores en el resultado.`, true);
+    } else {
+        if (res.exito === true) {
+            banner.appendTextoPrompt(`<font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`);
+            mensajeConsola(`Fin de ejecución del algoritmo; terminación normal`, true);
         }
     }
-
-    // Habilita el menu modificados
-    //menuModifica.classList.remove('invalido');
-    // menuCompara.classList.remove('invalido');
 
     banner.habilitarBoton();
 });

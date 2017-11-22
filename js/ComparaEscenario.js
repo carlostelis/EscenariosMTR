@@ -286,16 +286,17 @@ function mostrarSalidasAlgoritmo() {
 ipcRenderer.on('archivo:leido', (event, obj) => {
     if (obj.opc === 'RES_COMPARA') {
         obj.res = obj.res.replace(new RegExp('\n+\s*', 'g'), '<br>')
-        if (obj.res.includes('TERMINACION NORMAL')) {
+
+        // VErifica infactibilidad
+        if (obj.res.includes('PROBLEMA INFACTIBLE')) {
+            console.log('Verificando infactibilidad');
+            obj.res += `<br><font color='red'>Infactibilidad encontrada durante la ejecución</font>`;
+            
+            ipcRenderer.send('algoritmo:diagnosticar', obj.rutaBase, 'RES_COMPARA');
+        } else if (obj.res.includes('TERMINACION NORMAL')) {
             obj.res += `<br><font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`;
         } else {
             obj.res += `<br><font color='red'>Error de ejecución del algoritmo</font>`;
-
-            // VErifica infactibilidad
-            if (obj.res.includes('PROBLEMA INFACTIBLE')) {
-                console.log('Verificando infactibilidad');
-                ipcRenderer.send('algoritmo:diagnosticar', obj.rutaBase, 'RES_COMPARA');
-            }
         }
 
         let ban = null;
@@ -315,15 +316,17 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
         }
     } else if (obj.opc === 'RES_ORIGINAL') {
         obj.res = obj.res.replace(new RegExp('\n+\s*', 'g'), '<br>')
-        if (obj.res.includes('TERMINACION NORMAL')) {
+
+        // VErifica infactibilidad
+        if (obj.res.includes('PROBLEMA INFACTIBLE')) {
+            obj.res += `<br><font color='red'>Infactibilidad encontrada durante la ejecución</font>`;
+
+            console.log('Verificando infactibilidad');
+            ipcRenderer.send('algoritmo:diagnosticar', obj.rutaBase, 'RES_ORIGINAL');
+        } else if (obj.res.includes('TERMINACION NORMAL')) {
             obj.res += `<br><font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`;
         } else {
             obj.res += `<br><font color='red'>Error de ejecución del algoritmo</font>`;
-            // VErifica infactibilidad
-            if (obj.res.includes('PROBLEMA INFACTIBLE')) {
-                console.log('Verificando infactibilidad');
-                ipcRenderer.send('algoritmo:diagnosticar', obj.rutaBase, 'RES_ORIGINAL');
-            }
         }
 
         // banner.promptQuitaEspera();

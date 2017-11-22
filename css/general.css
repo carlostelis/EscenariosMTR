@@ -408,6 +408,9 @@ label {
     border-radius: 10px !important;
     background-color: rgba(242, 255, 230, 1);
     transition: 1s ease-in opacity;
+    border-style: ridge;
+    border-width: 1px;
+    border-color: bisque;
 }
 
 .barra-progreso-banner {

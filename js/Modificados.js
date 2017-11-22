@@ -448,6 +448,7 @@ function cargarEscenarioModActual() {
     console.log(algoritmo, anio, mes, dia, esc_ori, esc_mod);
 
     // Configura banner
+    banner.modoNormal();
     banner.vistaCompacta();
     banner.setMensaje('Leyendo Información');
     banner.ocultarBoton();

@@ -69,6 +69,7 @@ let form_folios_ce = null;
 let form_exalogic_ce = null;
 let boton_cargarEscenarioFolio = null;
 let boton_cargarConsultarFolios = null;
+let flag_modo_folio;
 
 // Informacion de escenario
 let contenedores_info = [];
