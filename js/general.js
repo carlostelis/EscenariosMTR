@@ -84,6 +84,8 @@ let tr_modificados = [];
 let promesas_archivos = [];
 let salida_algoritmo;
 let res_algoritmo;
+let textarea_comentarios_info;
+let spans_archivos_info = [];
 
 // Escenarios modificados
 let contenedores_mod = [];
@@ -131,6 +133,7 @@ let select_mod_esc_original;
 let select_mod_esc_modificado;
 let th_periodos_mod = [];
 let spans_archivos = [];
+let textarea_comentarios_mod;
 
 // Etiquetas comunes
 let usuario_labels = null;
@@ -300,6 +303,8 @@ function cargaComponentes() {
 		}
 	});
 
+	spans_archivos_info = Array.from(document.getElementsByClassName('span-archivo-res-info'));
+	textarea_comentarios_info = document.getElementById('textarea_comentarios_info');
 	boton_cargaEscenarioMod = document.getElementById('boton_cargaEscenarioMod');
 	boton_cargaEscenarioModActual = document.getElementById('boton_cargaEscenarioModActual');
 	boton_guardaBDEscenarioMod = document.getElementById('boton_guardaBDEscenarioMod');
@@ -392,6 +397,7 @@ function cargaComponentes() {
 	select_mod_dia = document.getElementById('select_mod_dia');
 	select_mod_esc_original = document.getElementById('select_mod_esc_original');
 	select_mod_esc_modificado = document.getElementById('select_mod_esc_modificado');
+	textarea_comentarios_mod = document.getElementById('textarea_comentarios_mod');
 
     // Etiquetas comunes
     usuario_labels = Array.from(document.getElementsByClassName('label-usuario-esc'));

@@ -575,6 +575,9 @@ ipcRenderer.on('escenarios_mod:leido_todo', (event, obj) => {
     objEscVistaMod = obj;
     objEscVistaMod.contador = 0;
     promesas_archivos = [];
+
+    // Obtiene los COMENTARIOS
+    ipcRenderer.send('archivo:leer', objEscVistaMod.ruta, ['comentarios.txt'], 'MOD_COMENTARIOS');
 });
 
 ipcRenderer.on('escenarios_mod:archivo_leido', (event, obj_archivo) => {

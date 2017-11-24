@@ -685,6 +685,59 @@ ipcMain.on('escenario_entradas:leer', (event, ruta_escenario, algoritmo) => {
     });
 });
 
+ipcMain.on('escenario_completo:leer', (event, ruta_escenario, algoritmo) => {
+    escenario.parseEscenario(ruta_escenario, algoritmo).then((obj) => {
+        let objetoEntradas = {
+            ruta: obj.ruta,
+            algoritmo: obj.algoritmo,
+            numArchivos: obj.numArchivos,
+            lista: []
+        };
+        console.log('Manda contenedor archivos de entrada', obj.numArchivos);
+        win.webContents.send('escenario_completo:leido', objetoEntradas);
+
+        // Guarda el objeto para modificaciones
+        objEscenario = obj;
+
+        // Dosifica el envio
+        let factor_to = (SESION.sistema === 'SIN' ? TO_PROC_SIN : TO_PROC_BCAS)
+        for (let i = 0; i < obj.lista.length; i++) {
+            let factor_adicional = parseInt(obj.lista[i].filas.length / 1000) * 100;
+            setTimeout(() => {
+                console.log('Envia archivo', obj.lista[i].archivo, factor_to, factor_adicional);
+                win.webContents.send('escenario_completo:archivo_leido', obj.lista[i]);
+            }, (i * factor_to) + factor_adicional);
+        }
+    }, () => {
+        console.log('Error leyendo los archivos');
+    });
+});
+
+ipcMain.on('escenario_resultados:leer', (event, ruta_escenario, algoritmo) => {
+    escenario.parseEscenario(ruta_escenario, algoritmo, 'RESULTADOS').then((obj) => {
+        let objetoEntradas = {
+            ruta: obj.ruta,
+            algoritmo: obj.algoritmo,
+            numArchivos: obj.numArchivos,
+            lista: []
+        };
+        console.log('Manda contenedor archivos de entrada', obj.numArchivos);
+        win.webContents.send('escenario_resultados:leido', objetoEntradas);
+
+        // Dosifica el envio
+        let factor_to = (SESION.sistema === 'SIN' ? TO_PROC_SIN : TO_PROC_BCAS)
+        for (let i = 0; i < obj.lista.length; i++) {
+            let factor_adicional = parseInt(obj.lista[i].filas.length / 1000) * 100;
+            setTimeout(() => {
+                console.log('Envia archivo', obj.lista[i].archivo, factor_to, factor_adicional);
+                win.webContents.send('escenario_resultados:archivo_leido', obj.lista[i]);
+            }, (i * factor_to) + factor_adicional);
+        }
+    }, () => {
+        console.log('Error leyendo los archivos');
+    });
+});
+
 ipcMain.on('escenario_resultados:leerComparar', (event, ruta_escenario_A, ruta_escenario_B, algoritmo) => {
     // LEe el escenario A
     console.log('--------');
@@ -763,7 +816,7 @@ ipcMain.on('escenario_resultados:leerComparar', (event, ruta_escenario_A, ruta_e
     });
 });
 
-ipcMain.on('escenario_original:copiar', (event, ruta_origen, ruta_destino, nuevo_folio, listaArchivos, flag_copiar) => {
+ipcMain.on('escenario_original:copiar', (event, ruta_origen, ruta_destino, nuevo_folio, listaArchivos, flag_copiar, comentarios) => {
     ruta_origen = path.normalize(ruta_origen);
     ruta_destino = path.normalize(ruta_destino);
 
@@ -814,6 +867,9 @@ ipcMain.on('escenario_original:copiar', (event, ruta_origen, ruta_destino, nuevo
         fse.copy(ruta_origen, ruta_destino).then(() => {
             console.log('Directorio copiado correctamente');
 
+            // Actualiza comentarios
+            escenario.crearArchivoComentarios(ruta_destino, comentarios);
+
             // Verifica modificados
             verificarModificados();
         }).catch((err) => {
@@ -821,6 +877,9 @@ ipcMain.on('escenario_original:copiar', (event, ruta_origen, ruta_destino, nuevo
             win.webContents.send('escenario_original:copiado', {estado:false, folio:nuevo_folio, ruta:ruta_destino, error:err, id:id_escenario});
         });
     } else {
+        // Actualiza comentarios
+        escenario.crearArchivoComentarios(ruta_destino, comentarios);
+
         // Verifica modificados
         verificarModificados();
     }

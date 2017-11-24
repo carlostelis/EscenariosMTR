@@ -61,37 +61,6 @@ class Comandos {
         });
     }
 
-    setPathAlgoritmo() {
-        return new Promise((resolve, reject) => {
-            let ruta;
-            if (process.env.NODE_ENV === 'production') {
-                ruta = this.path.join(process.cwd(), 'resources', 'app', 'algoritmo', 'chtpc', 'ILOG');
-            } else {
-                ruta = this.path.join(process.cwd(), 'algoritmo', 'chtpc', 'ILOG');
-            }
-
-            // Verifica si ya existe la variable de entorno
-            if (process.env.PATH.includes(ruta)) {
-                resolve(ruta);
-                return;
-            }
-
-            // Ejecuta el comando para darla de alta
-            exec(`setx PATH "%PATH%;${ruta}"`, (error, stdout, stderr) => { // Ah0ra sin /M, solo para usuario actual
-                if (error) {
-                    reject(error.message);
-                    return;
-                }
-
-                if (stdout.includes('CORRECTO')) {
-                    resolve(ruta);
-                }  else {
-                    reject(stdout);
-                }
-            });
-        });
-    }
-
     descomprimir(archivoTar, dia, id_escenario, carpeta, eliminar) {
         let that = this;
 

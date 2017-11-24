@@ -8,14 +8,21 @@ package DB_MTR;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
@@ -163,102 +170,96 @@ public class BD {
         }
     }
     
-    public void extractTarGZ(String archivoTar, String dia, String escenario, String carpeta) {
-        if (!carpeta.endsWith(File.separator)) {
-            carpeta += File.separator;
+    public void subirEscenario(String archivo) {
+        if (this.con == null) {
+            if (!this.conectar()) {
+                return;
+            }
         }
         
-        GzipCompressorInputStream gzipIn;
         try {
-            gzipIn = new GzipCompressorInputStream(new FileInputStream(archivoTar));
-        } catch (IOException ex) {
-            System.out.println("ERROR -> Falla al crear descompresor de archivo tar: " + ex);
-            return;
-        }
-        
-        if (!dia.endsWith("/")) {
-            dia += "/";
-        }
-        
-        // El compresor maneja rutas tipo linux
-        String ruta_escenario = dia + escenario + "/";
-        //System.out.println("Ruta: " + ruta_escenario);
-        boolean escenario_encontrado = false;
-        boolean flag_procesar_dir;
-        boolean flag_procesar_file = false;
-        
-        int cont_archivos = 0;
-        int cont_directorios = 0;
-        
-        
-        try (TarArchiveInputStream tarIn = new TarArchiveInputStream(gzipIn)) {
-            TarArchiveEntry entry;
+            PreparedStatement ps = con.prepareStatement("insert into PRUEBA_BLOB values(?,?,?)");
 
-            while ((entry = (TarArchiveEntry) tarIn.getNextEntry()) != null) {
-                /**
-                 * If the entry is a directory, create the directory. *
-                 */
-                if (entry.isDirectory()) {
-                    // Busca escenario
-                    flag_procesar_dir = false;
-                    //System.out.println("Directorio: " + entry.getName() + " ~ " + ruta_escenario);
-                    // Si se encuentra el dia correcto
-                    if (entry.getName().equals(dia)) {
-                        flag_procesar_dir = true;
-                    }
-                    
-                    if (entry.getName().contains(ruta_escenario)) {
-                        //System.out.println("Escenario encontrado");
-                        escenario_encontrado = true;
-                        flag_procesar_dir = true;
-                    }
-                    
-                    if (flag_procesar_dir) {
-                        File f = new File(carpeta + entry.getName());
-                        //System.out.println("Creando Directorio: " + entry.getName() + "  " + f.getAbsolutePath());
-                        boolean created = f.mkdir();
-                        if (created) {
-                            cont_directorios++;
-                            if (escenario_encontrado) {
-                                flag_procesar_file = true;
-                            }
-                        }
-                    } else {
-                        flag_procesar_file = false;
-                    }
-                } else {
-                    if (flag_procesar_file) {
-                        int count;
-                        int BUFFER_SIZE = 1024;
-                        byte data[] = new byte[BUFFER_SIZE];
-                        FileOutputStream fos = new FileOutputStream(carpeta + entry.getName(), false);
-                        try (BufferedOutputStream dest = new BufferedOutputStream(fos, BUFFER_SIZE)) {
-                            while ((count = tarIn.read(data, 0, BUFFER_SIZE)) != -1) {
-                                dest.write(data, 0, count);
-                            }
-                            dest.close();
-                            cont_archivos++;
-                        }
-                    }
-                }
-            }
-
-            tarIn.close();
+            // El objeto archivo ayuda a obtener su tamanio
+            File f = new File(archivo);
             
-            JSONObject json = new JSONObject();
-            json.put("estado", escenario_encontrado);
+            if (!f.exists()) {
+                System.out.println("ERROR -> no existe el archivo: " + f.getAbsolutePath());
+                return;
+            }
+            
+            // Agrega los valores: bytes del archivo y tamanio
+            try (InputStream in = new FileInputStream(archivo)) {
+                // Agrega los valores: ID, bytes del archivo y tamanio
+                ps.setString(1, f.getName().split("\\.")[0]);
+                ps.setInt(2, (int)f.length());
+                ps.setBinaryStream(3, in);
                 
-            if (escenario_encontrado) {
-                json.put("carpetas", cont_directorios);
-                json.put("archivos", cont_archivos);
-                json.put("escenario", escenario);
-                json.put("dia", dia);
-                json.put("rutaLocal", carpeta + ruta_escenario);
+                // Ejecuta
+                int n = ps.executeUpdate();
+                
+                if (n > 0) {
+                    System.out.println("Registro actualizado correctamente");
+                } else {
+                    System.out.println("El registro no se actualizó");
+                }
+                
             }
-            
-            System.out.println(json.toString());
-        } catch (IOException ex) {
-            System.out.println("ERROR -> Falla durante la descompresión del archivo tar.gz " + ex);
+        } catch (SQLException | IOException e) {
+            System.out.println("ERROR -> Falla al subir escenario zip a la BD: " + e);
+        } finally {
+            this.desconectar();
         }
+        
+    }
+    
+    public void bajarEscenario(String id, String rutaArchivo) {
+        if (this.con == null) {
+            if (!this.conectar()) {
+                return;
+            }
+        }
+        
+        try {            
+            try (Statement sta = con.createStatement()) {
+                ResultSet res = sta.executeQuery("SELECT * FROM PRUEBA_BLOB WHERE ID = '" + id + "'");
+                
+                if (!res.next()) {
+                    System.out.println("ERROR -> La consulta no devolvió registros");
+                    return;
+                }
+                
+                InputStream in = res.getBinaryStream("DATA");
+                int size = res.getInt("TAMANO");
+                byte[] buffer = new byte[size];
+                int valor;
+                
+                // Lee los valores
+                try {
+                    in.read(buffer, 0, size);
+                } catch (IOException ex) {}
+                
+                OutputStream output = null;
+                
+                // Genera el nuevo archivo
+                try {
+                    output = new BufferedOutputStream(new FileOutputStream(rutaArchivo));
+                    output.write(buffer);
+                    System.out.println(rutaArchivo + " generado correctamente");
+                } catch (IOException ex) {
+                    System.out.println("ERROR -> no se pudo escribir el archivo zip: " + ex);
+                } finally {
+                    try {
+                        output.close();
+                    } catch (IOException ex) {}
+                }
+                res.close();
+            }            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.desconectar();
+        }
+        
     }
 }

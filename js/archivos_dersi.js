@@ -959,7 +959,7 @@ module.exports = [
     },
     {
         "nombre":"RESUMEN_UNIDADES.csv",
-        "editable": true
+        "editable": false
         // FALTA TABLA BD
     }
 ];

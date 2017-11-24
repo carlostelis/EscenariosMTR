@@ -61,7 +61,7 @@ class Escenario {
                         /* Temporal mientras queda el archivo de configuracion */
                         /* *************************************************** */
                         if (files[i].startsWith('DTR') || files[i].startsWith('DERS_MI_TOTALES_') || files[i].startsWith('DERS_MI_TOTALES_') || files[i].startsWith('RESUMEN_UNIDADES') || files[i].startsWith('SEMAFOROSDERS')) {
-                            console.log('Ignorando resultado', files[i]);
+                            // console.log('Ignorando resultado', files[i]);
                             continue;
                         }
                     } else if (filtro === 'RESULTADOS') {
@@ -342,6 +342,14 @@ class Escenario {
                     resolve(lista);
                 }
             });
+        });
+    }
+
+    crearArchivoComentarios(ruta, contenido) {
+        this.fs.writeFile(this.path.join(ruta, 'comentarios.txt'), contenido, 'utf8', (err) => {
+            if (err) {
+                console.log('Error escribiendo archivo de comentarios', err.message);
+            }
         });
     }
 }

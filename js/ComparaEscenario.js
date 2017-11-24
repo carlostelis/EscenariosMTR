@@ -291,7 +291,7 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
         if (obj.res.includes('PROBLEMA INFACTIBLE')) {
             console.log('Verificando infactibilidad');
             obj.res += `<br><font color='red'>Infactibilidad encontrada durante la ejecución</font>`;
-            
+
             ipcRenderer.send('algoritmo:diagnosticar', obj.rutaBase, 'RES_COMPARA');
         } else if (obj.res.includes('TERMINACION NORMAL')) {
             obj.res += `<br><font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`;
@@ -422,6 +422,8 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
                 tabla_encontrada.tabla_par = tabla_par;
             }
         }
+    } else if (obj.opc === 'MOD_COMENTARIOS') {
+        textarea_comentarios_mod.value = obj.res;
     }
 });
 
