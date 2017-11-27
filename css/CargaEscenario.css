@@ -74,9 +74,14 @@
     transition: 0.5s ease-in height;
 }
 
+.form-ce > div.row {
+    width: 100%;
+}
+
 .span-icono-ce {
     height: 4vh;
     width: 3vw;
+    padding: 0;
 }
 
 .span-icono-ce > i {
@@ -86,6 +91,7 @@
 .input-group > select {
     text-align-last:center;
     width:100%;
+    border-radius: 5px;
 }
 
 .form-fila {
@@ -94,18 +100,18 @@
 }
 
 .form-fila.folios {
-    margin-bottom: 0vh;
+    margin-bottom: 2.82vh;
 }
 
-.fila-bloque-intervalo {
-    width: 10vw;
+.fila-bloque-der {
+    width: 12vw;
     margin-right: 0px;
     display: inline-block;
     float: right;
 }
 
-.fila-bloque-hora {
-    width: 10vw;
+.fila-bloque-izq {
+    width: 12vw;
     margin-right: 2vw;
     display: inline-block;
 }

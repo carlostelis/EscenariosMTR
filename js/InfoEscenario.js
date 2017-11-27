@@ -318,15 +318,32 @@ ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
                 boton_resultadoOriginal.disabled = false;
 
                 banner.ok();
-                banner.setMensaje('Lectura finalizada');
+                banner.setMensaje('Lectura Finalizada');
 
                 // Activa boton cargar actual en modificados
                 boton_cargaEscenarioModActual.disabled = false;
                 promesas_archivos = [];
 
                 setTimeout(() => {
-                    //banner.ocultar();
-                    guardarEscenario(false);
+                    // Si el escenario contiene un folio, se invocó desde su folio
+                    if (typeof objEscOriginal.folio !== 'undefined' && objEscOriginal.folio !== '') {
+                        // IGuala al objeto;
+                        objEscModificado = objEscOriginal;
+
+                        // Lee los COMENTARIOS
+                        ipcRenderer.send('archivo:leer', objEscModificado.ruta, ['comentarios.txt'], 'FOLIO_COMENTARIOS');
+
+                        // Genera una referencia al escenario original
+                        objEscOriginal = JSON.parse(JSON.stringify(objEscModificado));
+                        objEscOriginal.ruta = objEscModificado.rutaOriginal;
+
+                        // Verifica ejecutable de algoritmos
+                        banner.setMensaje('Verificando algoritmo');
+                        banner.actualizando();
+                        ipcRenderer.send('algoritmo:descarga', objEscModificado.ruta, SESION.algoritmo, 'algoritmo_folio:descargado');
+                    } else {
+                        guardarEscenario(false);
+                    }
                 }, 1000);
             });
         });
@@ -1052,13 +1069,13 @@ function crearTablaInfo(objArchivo, copia) {
 }
 
 function actualizarResultadoInfo() {
-    banner.modoNormal();
-    banner.ocultarBoton()
-    banner.ocultarProgreso()
-    banner.vistaCompacta();
-    banner.cargando();
-    banner.setMensaje('Actualizando resultados');
-    banner.mostrar();
+    // banner.modoNormal();
+    // banner.ocultarBoton()
+    // banner.ocultarProgreso()
+    // banner.vistaCompacta();
+    // banner.cargando();
+    // banner.setMensaje('Actualizando resultados');
+    // banner.mostrar();
 
     mensajeConsola('Cargando resultados del escenario...', false);
 
@@ -1106,9 +1123,9 @@ ipcRenderer.on('escenario_resultados:archivo_leido', (event, obj_archivo) => {
                 banner.setMensaje('Hecho');
 
                 setTimeout(() => {
-                    banner.ocultar();
+                    // banner.ocultar();
                 }, 1000);
-                
+
                 promesas_archivos = [];
             });
         });
@@ -1191,7 +1208,7 @@ ipcRenderer.on('escenario_original:copiado', (event, res) => {
         }
 
         // Actualiza las etiquetas
-        let folio_labels = document.getElementsByClassName('label-folio-esc');
+        // let folio_labels = document.getElementsByClassName('label-folio-esc');
         for (let label of folio_labels) {
             label.innerHTML = `Folio: <b>${res.folio}</b>`;
         }
@@ -1281,11 +1298,8 @@ function ejecutarAlgoritmo() {
     banner.mostrarBannerPrompt();
     banner.mostrarBoton();
     banner.setBoton('Resultados', () => {
-        // mostrarResultados();
-        setTimeout(() =>  {
-            actualizarResultadoInfo();
-        }, 500);
         banner.ocultar();
+        mostrarResultados();
     });
     banner.deshabilitarBoton();
     banner.mostrar();
@@ -1303,6 +1317,11 @@ ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
     banner.setTextoPrompt(salida_algoritmo);
     banner.saltoPrompt();
     banner.ocultarBannerPrompt();
+
+    // Actualiza la información en info escenario
+    setTimeout(() =>  {
+        actualizarResultadoInfo();
+    }, 100);
 
     // Invo0ca diagnostico
     if (res.infactible === true) {

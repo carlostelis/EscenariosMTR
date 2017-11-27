@@ -514,7 +514,7 @@ ipcMain.on('directorio:descarga', (event, data) => {
     });
 });
 
-ipcMain.on('algoritmo:descarga', (event, ruta_escenario, algoritmo) => {
+ipcMain.on('algoritmo:descarga', (event, ruta_escenario, algoritmo, evento) => {
     let alg;
     if (algoritmo === 'dersi') {
         alg = 'DERSI';
@@ -527,7 +527,7 @@ ipcMain.on('algoritmo:descarga', (event, ruta_escenario, algoritmo) => {
     let ruta_algoritmo_local = path.join(ruta_escenario, eje);
     if (fs.existsSync(ruta_algoritmo_local)) {
         console.log('Algoritmo ya existe local');
-        win.webContents.send('algoritmo:descargado', {estado:true});
+        win.webContents.send(evento, {estado:true});
         return;
     }
 
@@ -601,15 +601,15 @@ ipcMain.on('algoritmo:descarga', (event, ruta_escenario, algoritmo) => {
                 ftp.descargarArchivoFTPSimple(carpeta_algoritmo, ruta_algoritmo_local).then(() => {
                     console.log('Algoritmo descargado correctamente');
                     ftp.desconectar();
-                    win.webContents.send('algoritmo:descargado', {estado:true});
+                    win.webContents.send(evento, {estado:true});
                 }, (err) => {
                     console.log('Error descargando algoritmo', {estado:false, error:err});
-                    win.webContents.send('algoritmo:descargado',  {estado:false, error:err});
+                    win.webContents.send(evento,  {estado:false, error:err});
                     ftp.desconectar();
                 });
             } else {
                 console.log('No se encontro una fecha de algoritmo valida');
-                win.webContents.send('algoritmo:descargado', {estado:false, error:'No se encuentró un algoritmo para el escenario'});
+                win.webContents.send(evento, {estado:false, error:'No se encuentró un algoritmo para el escenario'});
                 ftp.desconectar();
             }
         }, (err) => {
@@ -685,7 +685,7 @@ ipcMain.on('escenario_entradas:leer', (event, ruta_escenario, algoritmo) => {
     });
 });
 
-ipcMain.on('escenario_completo:leer', (event, ruta_escenario, algoritmo) => {
+ipcMain.on('escenario_completo:leer', (event, ruta_escenario, algoritmo, folio) => {
     escenario.parseEscenario(ruta_escenario, algoritmo).then((obj) => {
         let objetoEntradas = {
             ruta: obj.ruta,
@@ -693,6 +693,12 @@ ipcMain.on('escenario_completo:leer', (event, ruta_escenario, algoritmo) => {
             numArchivos: obj.numArchivos,
             lista: []
         };
+
+        if (typeof folio !== 'undefined') {
+            objetoEntradas.folio = folio;
+            objetoEntradas.rutaOriginal = ruta_escenario.replace('escenario_modificado', 'escenario_original').split(folio)[0];
+        }
+
         console.log('Manda contenedor archivos de entrada', obj.numArchivos);
         win.webContents.send('escenario_completo:leido', objetoEntradas);
 
@@ -1111,5 +1117,85 @@ ipcMain.on('escenarios_folios:leer', (event, obj) => {
     }, (err) => {
         console.log(err);
         win.webContents.send('escenarios_folios:leidos', {estado:false, error:err});
+    });
+});
+
+ipcMain.on('escenarios_folio_anios:leer', (event, algoritmo) => {
+    let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado');
+
+    escenario.leerDirectorioMod(ruta).then((lista) => {
+            /* FALTA CONSULTAR LOS DE BD */
+            win.webContents.send('escenarios_folio_anios:leidos', true, lista);
+    }, () => {
+        win.webContents.send('escenarios_folio_anios:leidos', false, null);
+    });
+});
+
+ipcMain.on('escenarios_folio_meses:leer', (event, algoritmo, anio) => {
+    let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio);
+
+    escenario.leerDirectorioMod(ruta).then((lista) => {
+        /* FALTA CONSULTAR LOS DE BD */
+        win.webContents.send('escenarios_folio_meses:leidos', true, lista);
+    }, () => {
+        win.webContents.send('escenarios_folio_meses:leidos', false, null);
+    });
+});
+
+ipcMain.on('escenarios_folio_dias:leer', (event, algoritmo, anio, mes) => {
+    let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio, mes);
+
+    escenario.leerDirectorioMod(ruta).then((lista) => {
+        /* FALTA CONSULTAR LOS DE BD */
+        win.webContents.send('escenarios_folio_dias:leidos', true, lista);
+    }, () => {
+        win.webContents.send('escenarios_folio_dias:leidos', false, null);
+    });
+});
+
+ipcMain.on('escenarios_folio_escenarios:leer', (event, algoritmo, anio, mes, dia) => {
+    let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio, mes, dia);
+    let ruta_id;
+    let lista_folios = [];
+    let id_escenario;
+    let promesas = [];
+    // Primero lee el directorio local y obtiene los id originales
+    escenario.leerDirectorioMod(ruta).then((lista) => {
+        lista.forEach((id) => {
+            ruta_id = path.join(ruta, id);
+            let carpetas = ruta_id.split(path.sep);
+            // id_escenario = carpetas[carpetas.length - 1];
+            let hora = id.slice(8, 10);
+            let intervalo = id.slice(10, 12);
+            console.log('Ruta id:', ruta_id, 'id', id);
+            console.log('hora:', hora, 'intervalo', intervalo);
+            promesas.push(escenario.leerDirectorioMod(ruta_id).then((sublista) => {
+                sublista.forEach((elemento) => {
+                    // Verifica si el elemento fue descargado
+                    let archivoDescargado = path.join(ruta_id, elemento, '.descargado');
+                    if (fs.existsSync(archivoDescargado)) {
+                        lista_folios.push({
+                            ruta:ruta_id,
+                            folio:elemento,
+                            tipo:'LOCAL',
+                            algoritmo: algoritmo,
+                            fecha: `${anio}-${(mes + '').length === 1 ? '0' + mes : '' + mes }-${(dia + '').length === 1 ? '0' + dia : '' + dia }`,
+                            hora: hora,
+                            intervalo: intervalo,
+                            id_original:id,
+                            rutaOriginal: ruta_id.replace('escenario_modificado', 'escenario_original')
+                        });
+                    }
+                });
+            }, () => {
+                // win.webContents.send('escenarios_folio_dias:leidos', false, null);
+            }));
+
+            Promise.all(promesas).then(() => {
+                win.webContents.send('escenarios_folio_escenarios:leidos', true, lista_folios);
+            });
+        });
+    }, () => {
+        win.webContents.send('escenarios_folio_escenarios:leidos', false, null);
     });
 });

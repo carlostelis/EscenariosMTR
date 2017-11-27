@@ -59,17 +59,16 @@ let select_algoritmo = null;
 let input_fecha = null;
 let select_hora = null;
 let select_intervalo = null;
+
 let select_algoritmo_folio = null;
-let input_fecha_folio = null;
-let select_hora_folio = null;
-let select_intervalo_folio = null;
-let select_folio = null;
+let select_anio_ce_folio = null;
+let select_mes_ce_folio = null;
+let select_dia_ce_folio = null;
+let select_folio_ce = null;
 let pestanias_ce = null;
 let form_folios_ce = null;
 let form_exalogic_ce = null;
 let boton_cargarEscenarioFolio = null;
-let boton_cargarConsultarFolios = null;
-let flag_modo_folio;
 
 // Informacion de escenario
 let contenedores_info = [];
@@ -217,17 +216,18 @@ function cargaComponentes() {
     input_fecha = document.getElementById('input_fecha_ce');
     select_hora = document.getElementById('sel_hora_ce');
     select_intervalo = document.getElementById('sel_intervalo_ce');
+
 	select_algoritmo_folio = document.getElementById('sel_algoritmo_ce_folio');
-    input_fecha_folio = document.getElementById('input_fecha_ce_folio');
-    select_hora_folio = document.getElementById('sel_hora_ce_folio');
-    select_intervalo_folio = document.getElementById('sel_intervalo_ce_folio');
-    select_folio = document.getElementById('sel_folio_ce');
+    select_anio_ce_folio = document.getElementById('sel_anio_ce_folio');
+    select_mes_ce_folio = document.getElementById('sel_mes_ce_folio');
+    select_dia_ce_folio = document.getElementById('sel_dia_ce_folio');
+    select_folio_ce = document.getElementById('sel_folio_ce');
+
 	pestanias_ce = Array.from(document.getElementsByClassName('pestania-ce'));
 	div_opc_folios_ce = document.getElementById('div_opc_folios_ce');
 	form_folios_ce = document.getElementById('form_folios_ce');
 	form_exalogic_ce = document.getElementById('form_exalogic_ce');
 	boton_cargarEscenarioFolio = document.getElementById('boton_cargarEscenarioFolio');
-	boton_cargarConsultarFolios = document.getElementById('boton_cargarConsultarFolios');
 
 	// Informacion de escenario
 	// Separa objetos de de seccion de informacion y seccion modificados
@@ -417,7 +417,6 @@ function cargaComponentes() {
 
     // Fecha actual
     input_fecha.value = moment().format('YYYY-MM-DD');
-	input_fecha_folio.value = moment().format('YYYY-MM-DD');
 
     // Carga algoritmos
     // algoritmos
@@ -436,8 +435,6 @@ function cargaComponentes() {
             opcion.appendChild(texto);
             select_algoritmo.appendChild(opcion);
         });
-
-		select_algoritmo_folio.innerHTML = select_algoritmo.innerHTML;
     }
 
     // Cargar escenario
@@ -458,39 +455,27 @@ function cargaComponentes() {
         select_hora.appendChild(nodo_opc);
     }
 
-	select_hora_folio.innerHTML = select_hora.innerHTML;
-
-    // Carga intervalos
-    let intervalos_fun = (select_trigger, select) => {
+    select_algoritmo.onchange = () => {
         let max_intervalos;
         SESION.config.algoritmos.forEach((algoritmo) => {
 
-            if (algoritmo.nombre.toLowerCase().replace('-', '') === select_trigger.value) {
+            if (algoritmo.nombre.toLowerCase().replace('-', '') === select_algoritmo.value) {
                 max_intervalos = algoritmo.intervalos;
             }
         });
 
         // Ingresa los intervalos en el combo
-		select.innerHTML = "";
+		select_intervalo.innerHTML = "";
 
         for (let i = 1; i <= max_intervalos; i++) {
             let nodo_opc = document.createElement('option');
             let nodo_txt = document.createTextNode(`${i}`);
 
             nodo_opc.appendChild(nodo_txt);
-			select.appendChild(nodo_opc);
+			select_intervalo.appendChild(nodo_opc);
         }
     };
-
-    // select_algoritmo.onmouseup = function () {intervalos_fun(select_algoritmo, select_intervalo)};
-    // select_algoritmo.onkeyup = function () {intervalos_fun(select_algoritmo, select_intervalo)};
-	select_algoritmo.onchange = function () {intervalos_fun(select_algoritmo, select_intervalo)};
     select_algoritmo.onchange();
-
-	// select_algoritmo_folio.onmouseup = function () {intervalos_fun(select_algoritmo_folio, select_intervalo_folio)};
-    // select_algoritmo_folio.onkeyup = function () {intervalos_fun(select_algoritmo_folio, select_intervalo_folio)};
-	select_algoritmo_folio.onchange = function () {intervalos_fun(select_algoritmo_folio, select_intervalo_folio)};
-    select_algoritmo_folio.onchange();
 
     // selecciona el primero
     menuCarga.onclick();

@@ -117,6 +117,13 @@ body {
     color: darkslategray;
 }
 
+.borde-izquierdo {
+    border-left-color: darkgray;
+    border-left-width: 2px;
+    border-left-style: dashed;
+    margin-left: 5px;
+}
+
 .col_recarga_vista-archivos {
     /*padding: 1.5vh 2vw 0px 0px !important;*/
 }

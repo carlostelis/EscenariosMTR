@@ -424,6 +424,8 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
         }
     } else if (obj.opc === 'MOD_COMENTARIOS') {
         textarea_comentarios_mod.value = obj.res;
+    } else if (obj.opc === 'FOLIO_COMENTARIOS') {
+        textarea_comentarios_info.value = obj.res;
     }
 });
 
@@ -946,6 +948,7 @@ ipcRenderer.on('escenarios_mod:leidos', (event, res) => {
         for (let sel of folios_mod) {
             sel.innerHTML = '';
 
+            console.log('ID SOLICITUD', SESION.id_solicitud);
             let txt = document.createTextNode(SESION.id_solicitud);
             let opt = document.createElement('option');
 

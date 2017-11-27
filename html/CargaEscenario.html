@@ -43,7 +43,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group justify-content-around align-items-center form-fila fila-bloque-hora">
+                                    <div class="form-group justify-content-around align-items-center form-fila fila-bloque-izq">
                                         <div class="input-group">
                                             <label class="label_form_dato_ce info_ce">Hora:</label>
                                         </div>
@@ -56,7 +56,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group justify-content-around align-items-center form-fila fila-bloque-intervalo" style="margin-bottom: 3vh;">
+                                    <div class="form-group justify-content-around align-items-center form-fila fila-bloque-der" style="margin-bottom: 3vh;">
                                         <div class="input-group">
                                             <label class="label_form_dato_ce info_ce">Intervalo:</label>
                                         </div>
@@ -69,12 +69,12 @@
                                         </div>
                                     </div>
 
-                                    <div class="row" style="width: 100%;margin-left: 0.5vw;">
+                                    <div class="row">
                                         <button type="button" value="Cargar" class="button_gral boton_ce"  onclick="cargarEscenario()"><span class=""><i class="demo-icon icon-download-1"></i></span>Cargar</button>
                                     </div>
                                 </form>
                                 <form class="form-ce" id="form_folios_ce" style="display:none;">
-                                    <div class="form-group justify-content-around align-items-center form-fila folios">
+                                    <div class="form-group justify-content-around align-items-center form-fila folios fila-bloque-izq">
                                         <div class="input-group">
                                             <label class="label_form_dato_ce info_ce">Algoritmo:</label>
                                         </div>
@@ -82,45 +82,50 @@
                                             <span class="input-group-addon span-icono-ce">
                                                 <i id="i_usuario" class="fa fa-calculator span-carga-ce"></i>
                                             </span>
-                                            <select id="sel_algoritmo_ce_folio" class="form-valor-ce">
+                                            <select id="sel_algoritmo_ce_folio" class="form-valor-ce" onchange="consultarAniosFolios();">
+                                                <option value="autr" selected disabled>Algoritmo</option>
+                                                <option value="dersi">DERS-I</option>
+                                                <option value="dersmi">DERS-MI</option>
+                                                <option value="autr">AUTR</option>
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div class="form-group justify-content-around align-items-center form-fila folios">
+                                    <div class="form-group justify-content-around align-items-center form-fila folios fila-bloque-der">
                                         <div class="input-group">
-                                            <label class="label_form_dato_ce info_ce">Fecha:</label>
+                                            <label class="label_form_dato_ce info_ce">Año:</label>
                                         </div>
                                         <div class="input-group">
                                             <span class="input-group-addon span-icono-ce">
-                                                <i id="i_usuario" class="fa fa-calendar-check-o"></i>
+                                                <i id="i_usuario" class="demo-icon icon-calendar-empty"></i>
                                             </span>
-                                            <input id="input_fecha_ce_folio" type="date" class="form-control form-valor-ce" style="flex-direction:row;padding-right: 0vw;"></input>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group justify-content-around align-items-center form-fila folios fila-bloque-hora">
-                                        <div class="input-group">
-                                            <label class="label_form_dato_ce info_ce">Hora:</label>
-                                        </div>
-                                        <div class="input-group">
-                                            <span class="input-group-addon span-icono-ce">
-                                                <i id="i_usuario" class="fa fa-clock-o"></i>
-                                            </span>
-                                            <select id="sel_hora_ce_folio" class="form-valor-ce">
+                                            <select id="sel_anio_ce_folio" class="form-valor-ce" onchange="consultarMesesFolios();">
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div class="form-group justify-content-around align-items-center form-fila folios fila-bloque-intervalo">
+                                    <div class="form-group justify-content-around align-items-center form-fila folios fila-bloque-izq">
                                         <div class="input-group">
-                                            <label class="label_form_dato_ce info_ce">Intervalo:</label>
+                                            <label class="label_form_dato_ce info_ce">Mes:</label>
                                         </div>
                                         <div class="input-group">
                                             <span class="input-group-addon span-icono-ce">
-                                                <i id="i_usuario" class="fa fa-thumb-tack"></i>
+                                                <i id="i_usuario" class="demo-icon icon-calendar-1"></i>
                                             </span>
-                                            <select id="sel_intervalo_ce_folio" class=" form-valor-ce">
+                                            <select id="sel_mes_ce_folio" class="form-valor-ce" onchange="consultarDiasFolios();">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group justify-content-around align-items-center form-fila folios fila-bloque-der">
+                                        <div class="input-group">
+                                            <label class="label_form_dato_ce info_ce">Día:</label>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon span-icono-ce">
+                                                <i id="i_usuario" class="demo-icon icon-calendar"></i>
+                                            </span>
+                                            <select id="sel_dia_ce_folio" class=" form-valor-ce" onchange="consultarFoliosEscenariosFolios();">
                                             </select>
                                         </div>
                                     </div>
@@ -134,14 +139,13 @@
                                                 <span class="input-group-addon span-icono-ce">
                                                     <i id="i_usuario" class="fa fa-hashtag"></i>
                                                 </span>
-                                                <select id="sel_folio_ce" class="form-valor-ce">
+                                                <select id="sel_folio_ce" class="form-valor-ce" onchange="verificarFolioCE();" style="text-align-last:left;">
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row justify-content-center">
-                                        <button id="boton_cargarConsultarFolios" type="button" value="Cargar" class="button_gral boton_ce"  onclick="consultarFolios();"><span class=""><i class="demo-icon icon-search-1"></i></span>Consultar</button>
-                                        <button id="boton_cargarEscenarioFolio" type="button" value="Cargar" class="button_gral boton_ce" disabled onclick=""><span class=""><i class="demo-icon icon-download-1"></i></span>Cargar</button>
+                                    <div class="row">
+                                        <button id="boton_cargarEscenarioFolio" type="button" value="Cargar" class="button_gral boton_ce" disabled onclick="cargarFolioCE();"><span class=""><i class="demo-icon icon-download-1"></i></span>Cargar</button>
                                     </div>
                                 </form>
                             </div>

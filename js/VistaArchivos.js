@@ -123,6 +123,7 @@ class VistaArchivos {
         // crea elemento li
         let nodo_li = document.createElement('li');
         nodo_li.classList.add('li_vista-archivos');
+        
         // crea icono
         let nodo_i = document.createElement('i');
         nodo_i.classList.add('fa');
@@ -193,6 +194,7 @@ class VistaArchivos {
 
             nodo_li.ul = document.createElement('ul');
             nodo_li.ul.style.display = 'none';
+            nodo_li.ul.classList.add('borde-izquierdo');
             nodo_li.appendChild(nodo_li.ul);
             // Cuando de click en el signo se cargaran y crearán sus hijos
             nodo_signo.onclick = () => {
