@@ -290,7 +290,6 @@ ipcRenderer.on('escenario_completo:leido', (event, obj) => {
     promesas_archivos = [];
 });
 
-// ipcRenderer.on('escenario_entradas:archivo_leido', (event, obj_archivo) => {
 ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
     console.log('Recibe archivo:', obj_archivo.archivo);
 
@@ -334,13 +333,16 @@ ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
                         ipcRenderer.send('archivo:leer', objEscModificado.ruta, ['comentarios.txt'], 'FOLIO_COMENTARIOS');
 
                         // Genera una referencia al escenario original
-                        objEscOriginal = JSON.parse(JSON.stringify(objEscModificado));
-                        objEscOriginal.ruta = objEscModificado.rutaOriginal;
+                        objEscOriginal = {
+                            algoritmo: objEscModificado.algoritmo,
+                            lista: objEscModificado.lista,
+                            numArchivos: objEscModificado.numArchivos,
+                            ruta: objEscModificado.rutaOriginal
+                        };
 
-                        // Verifica ejecutable de algoritmos
-                        banner.setMensaje('Verificando algoritmo');
-                        banner.actualizando();
-                        ipcRenderer.send('algoritmo:descarga', objEscModificado.ruta, SESION.algoritmo, 'algoritmo_folio:descargado');
+                        setTimeout(() => {
+                            banner.ocultar();
+                        }, 1000);
                     } else {
                         guardarEscenario(false);
                     }
@@ -1108,9 +1110,6 @@ ipcRenderer.on('escenario_resultados:archivo_leido', (event, obj_archivo) => {
     // Agrega lista de promesas
     setTimeout(() => {
         promesas_archivos.push(new Promise((resolve, reject) => {
-            if (obj_archivo.archivo === 'RESUMEN_UNIDADES.csv') {
-                console.log(obj_archivo.filas);
-            }
             crearTablaInfo(obj_archivo);
             resolve();
         }));

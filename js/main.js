@@ -524,6 +524,7 @@ ipcMain.on('algoritmo:descarga', (event, ruta_escenario, algoritmo, evento) => {
 
     let eje = `${alg}.exe`;
     console.log(ruta_escenario, algoritmo);
+    console.log('evento', evento);
     let ruta_algoritmo_local = path.join(ruta_escenario, eje);
     if (fs.existsSync(ruta_algoritmo_local)) {
         console.log('Algoritmo ya existe local');

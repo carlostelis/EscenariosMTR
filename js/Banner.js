@@ -56,7 +56,7 @@ class Banner {
 
         // Botones
         this.divBotones = document.createElement('div');
-        this.divBotones.classList.add('botones-banner');
+        // this.divBotones.classList.add('botones-banner');
         this.divBotones.classList.add('container');
 
         this.botonAceptar = document.createElement('button');

@@ -152,15 +152,28 @@ ipcRenderer.on('algoritmo_folio:descargado', (event, res) => {
         // Deshabilita botón ejecutar y actualizar
         boton_ejecutarEscenario.disabled = true;
     } else {
-        banner.ok();
-        banner.setMensaje('Hecho');
+        // banner.ok();
+        // banner.setMensaje('Hecho');
         visor_archivos.actualizar();
         // Deshabilita botón ejecutar y actualizar
         boton_ejecutarEscenario.disabled = false;
     }
 
     setTimeout(() => {
-        banner.ocultar();
+        // banner.ocultar();
+        // Habilita el menu info
+        menuInfo.classList.remove('deshabilitado');
+
+        // Despliegua la seccion
+        menuInfo.onclick();
+        // Primer menú, informacion general
+        opciones_menu_info[0].onclick();
+
+        // Invoca la lectura del escenario
+        let obj_folio = JSON.parse(select_folio_ce.value);
+        console.log(obj_folio);
+        banner.setMensaje('Leyendo información');
+        ipcRenderer.send('escenario_completo:leer', obj_folio.ruta + '\\' + obj_folio.folio, obj_folio.algoritmo, obj_folio.folio);
     }, to_lectura);
 });
 
@@ -267,44 +280,6 @@ function switchBusqueda(trigger, flag_folios) {
         form_exalogic_ce.style.display = 'block';
     }
 }
-
-ipcRenderer.on('escenarios_folios:leidos', (event, res) => {
-    sel_folio_ce.innerHTML = '';
-
-    if (res.estado === true) {
-        let txt = document.createTextNode('Folio');
-        let opt = document.createElement('option');
-        opt.appendChild(txt);
-        opt.selected = true;
-        opt.disabled = true;
-        sel_folio_ce.appendChild(opt);
-
-        for (let folio of res.lista) {
-            txt = document.createTextNode(`${folio} (Local)`);
-            opt = document.createElement('option');
-            opt.appendChild(txt);
-            sel_folio_ce.appendChild(opt);
-        }
-
-        banner.ok();
-        banner.setMensaje('Hecho');
-        setTimeout(() => {
-            banner.ocultar();
-        }, 1000);
-    } else {
-        banner.error();
-        console.log(res.error);
-        if (res.error.code === 'ENOENT') {
-            banner.setMensaje('Hay escenarios modificados locales para esa fecha');
-        } else {
-            banner.setMensaje(`Error leyendo los escenarios: ${res.error.code}`);
-        }
-
-        setTimeout(() => {
-            banner.ocultar();
-        }, 2000);
-    }
-});
 
 function consultarAniosFolios() {
     if (select_algoritmo_folio.value === 'defecto') {
@@ -448,7 +423,7 @@ function cargarFolioCE() {
     }
 
     for (let label of folio_labels) {
-        label.innerHTML = `Folio: <b>obj_folio.folio</b>`;
+        label.innerHTML = `Folio: <b>${obj_folio.folio}</b>`;
     }
 
     // Borra los objetos de escenarios anteriores
@@ -464,24 +439,15 @@ function cargarFolioCE() {
     banner.vistaCompacta();
     banner.mostrar();
     banner.trabajando();
-    banner.setMensaje('Leyendo información');
+    banner.setMensaje('Verificando algoritmo');
     banner.setProgreso(0);
     banner.ocultarProgreso();
     banner.ocultarBoton();
 
-    console.log(obj_folio);
-    // Pasa al menu de información
-    ipcRenderer.send('escenario_completo:leer', obj_folio.ruta + '\\' + obj_folio.folio, obj_folio.algoritmo, obj_folio.folio);
+    // Verifica el algoritmo del escenario
+    ipcRenderer.send('algoritmo:descarga', obj_folio.ruta, select_algoritmo.value, 'algoritmo_folio:descargado');
 
     // Deshabilita botón ejecutar y actualizar
     boton_ejecutarEscenario.disabled = true;
     boton_actualizarEscenario.disabled = true;
-
-    // Habilita el menu info
-    menuInfo.classList.remove('deshabilitado');
-
-    // Despliegua la seccion
-    menuInfo.onclick();
-    // Primer menú, informacion general
-    opciones_menu_info[0].onclick();
 }
