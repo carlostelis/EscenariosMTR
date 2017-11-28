@@ -16,6 +16,7 @@ require('electron-context-menu')({
 const body = document.querySelector("body");
 const div_msg_consola = document.getElementById('div_msg_consola');
 const banner = new Banner(body);
+const consolaExe = new Consola(body);
 const visor_archivos = new VistaArchivos();
 const moment = require('moment');
 const SESION = {
@@ -109,6 +110,8 @@ let marcoSeleccionado = null;
 let divsScrollRes = [];
 let banner_resA = null;
 let banner_resB = null;
+let consola_resA = null;
+let consola_resB = null;
 let flag_espera_esc = false;
 let folios_mod = null;
 let botones_folio_res = null;
@@ -366,6 +369,19 @@ function cargaComponentes() {
         banner_resB.ocultarProgreso()
         banner_resB.vistaIcono();
         banner_resB.cargando();
+
+		// Consolas resultados
+		consola_resA = new Consola(divsScrollRes[0]);
+	    consola_resA.addBoton('cerrar', 'Cerrar', () => {
+	        consola_resA.ocultar();
+	        consola_resB.ocultar();
+	    });
+
+	    consola_resB = new Consola(divsScrollRes[1]);
+	    consola_resB.addBoton('cerrar', 'Cerrar', () => {
+	        consola_resA.ocultar();
+	        consola_resB.ocultar();
+	    });
     }
 
 	colapsos_res.forEach((col_res) => {

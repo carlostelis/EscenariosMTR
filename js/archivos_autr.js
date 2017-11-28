@@ -2066,42 +2066,42 @@ module.exports = [
     },
     {
         "nombre":"DERS_MI_TOTALES_1.csv",
-        "editable": true
+        "editable": false
         // FALTA TABLA BD
     },
     {
         "nombre":"DTR_ZONAS_RESERVA_SIN.csv",
-        "editable": true
+        "editable": false
         // FALTA TABLA BD
     },
     {
         "nombre":"DTR_SISTEMA_RESERVA_SIN.csv",
-        "editable": true
+        "editable": false
         // FALTA TABLA BD
     },
     {
         "nombre":"DTR_ENLACES_SIN.csv",
-        "editable": true
+        "editable": false
         // FALTA TABLA BD
     },
     {
         "nombre":"DTR_RAMAS_ENL_SIN.csv",
-        "editable": true
+        "editable": false
         // FALTA TABLA BD
     },
     {
         "nombre":"DTR_UNIDADES_SIN.csv",
-        "editable": true
+        "editable": false
         // FALTA TABLA BD
     },
     {
         "nombre":"DTR_REGIONES_SIN.csv",
-        "editable": true
+        "editable": false
         // FALTA TABLA BD
     },
     {
         "nombre":"DTR_NODOS_SIN.csv",
-        "editable": true
+        "editable": false
         // FALTA TABLA BD
     },
     {

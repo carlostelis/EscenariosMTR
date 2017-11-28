@@ -188,7 +188,6 @@ function cargarEscenario() {
 
     // manda a obtener el utc de la fecha seleccionada
     // Comienza con vista compacta
-    banner.modoNormal();
     banner.vistaCompacta();
     banner.mostrar();
     banner.actualizando();
@@ -435,7 +434,6 @@ function cargarFolioCE() {
 
     // manda a obtener el utc de la fecha seleccionada
     // Comienza con vista compacta
-    banner.modoNormal();
     banner.vistaCompacta();
     banner.mostrar();
     banner.trabajando();

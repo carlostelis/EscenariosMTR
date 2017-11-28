@@ -56,7 +56,7 @@ class Banner {
 
         // Botones
         this.divBotones = document.createElement('div');
-        // this.divBotones.classList.add('botones-banner');
+        this.divBotones.classList.add('botones-banner');
         this.divBotones.classList.add('container');
 
         this.botonAceptar = document.createElement('button');
@@ -69,28 +69,6 @@ class Banner {
 
         this.divBanner.appendChild(this.divBlur);
         this.divBanner.appendChild(this.divMsg);
-
-        /* ******************** */
-        /* Marco para Salida  */
-        /* ******************** */
-        this.divSalida = document.createElement('div');
-        this.divSalida.classList.add('caja-banner');
-        this.divSalida.classList.add('caja-prompt');
-        this.divSalida.classList.add('center');
-        this.divSalida.classList.add('lalala');
-        this.divSalida.id = 'divSalida';
-
-        this.divTituloSalida = document.createElement('div');
-        this.divTituloSalida.classList.add('salida-titulo-banner');
-        this.divTituloSalida.innerHTML = "Titulo de salida";
-        this.divSalida.appendChild(this.divTituloSalida);
-
-        this.divSalidaTxt = document.createElement('div');
-        this.divSalidaTxt.classList.add('salida-txt-banner');
-        this.divSalidaTxt.innerHTML = `Texto <br> texto asdasd`;
-        this.divSalidaTxt.id = 'divSalidaTxt';
-        this.divSalida.appendChild(this.divSalidaTxt);
-
     }
 
     vistaCompacta() {
@@ -108,36 +86,6 @@ class Banner {
         this.divMsg.classList.remove('compacto');
         this.divMsg.classList.remove('solo-icono');
         this.divTexto.classList.remove('compacto');
-    }
-
-    promptEspera() {
-        this.divSalidaTxt.innerHTML = `<div class="prompt-espera"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><div>`;
-        this.divSalidaTxt.classList.add('espera');
-    }
-
-    promptQuitaEspera() {
-        this.divSalidaTxt.innerHTML = '';
-        this.divSalidaTxt.classList.remove('espera');
-    }
-
-    modoPrompt() {
-        try {
-            // Quita el div mensajes
-            this.divBanner.removeChild(this.divMsg);
-            // Agrega el div prompt
-            this.divBanner.appendChild(this.divSalida);
-            this.divSalida.appendChild(this.divBotones);
-        } catch (e) {}
-    }
-
-    modoNormal() {
-        try {
-            // Quita el div mensajes
-            this.divBanner.removeChild(this.divSalida);
-            // Agrega el div prompt
-            this.divBanner.appendChild(this.divMsg);
-            this.divMsg.appendChild(this.divBotones);
-        } catch (e) {}
     }
 
     mostrar() {
@@ -243,42 +191,5 @@ class Banner {
             }, 100);
         }// }
         this.divBarraProgreso.style.width = `${progreso}%`;
-    }
-
-    setTituloPrompt(titulo) {
-        this.divTituloSalida.innerHTML = titulo;
-    };
-
-    setTextoPrompt(texto) {
-        this.divSalidaTxt.classList.remove('espera');
-        this.divSalidaTxt.innerHTML = `${texto}`;
-        this.divSalidaTxt.scrollTop = this.divSalidaTxt.scrollHeight;
-    }
-
-    appendTextoPrompt(texto) {
-        this.divSalidaTxt.innerHTML = `${this.divSalidaTxt.innerHTML}<br>${texto}`;
-        this.divSalidaTxt.scrollTop = this.divSalidaTxt.scrollHeight;
-    }
-
-    saltoPrompt() {
-        this.divSalidaTxt.innerHTML += `<br>`;
-        this.divSalidaTxt.scrollTop = this.divSalidaTxt.scrollHeight;
-    }
-
-    mostrarBannerPrompt() {
-        if (this.bannerPrompt === null || typeof this.bannerPrompt === 'undefined') {
-            this.bannerPrompt = new Banner(this.divSalida);
-        }
-
-        this.bannerPrompt.vistaIcono();
-        this.bannerPrompt.ocultarBoton();
-        this.bannerPrompt.ocultarProgreso();
-        this.bannerPrompt.divMsg.classList.add('prompt');
-        this.bannerPrompt.divBlur.style.backgroundColor = 'rgba(100, 100, 100, 0.5)';
-        this.bannerPrompt.mostrar();
-    }
-
-    ocultarBannerPrompt() {
-        this.bannerPrompt.ocultar();
     }
 }

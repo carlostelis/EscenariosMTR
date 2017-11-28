@@ -140,7 +140,6 @@ function solicitarSistemas() {
         banner.mostrar();
         banner.ocultarBoton();
         banner.ocultarProgreso();
-        banner.modoNormal();
         banner.vistaCompacta(); //
 
         banner.setMensaje(' Inicializando ');
@@ -216,7 +215,6 @@ function solicitarAutenticacion() {
 
     setTimeout(() => {
         //Muestra banner y Espera respuesta de main
-        banner.modoNormal();
         banner.vistaCompacta(); //
         banner.mostrar();
         banner.ocultarBoton();

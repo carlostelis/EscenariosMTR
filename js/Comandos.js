@@ -183,10 +183,12 @@ class Comandos {
 
                     if (salida.includes('TERMINACION NORMAL')) {
                         exito = true;
+                        salida = salida.replace('TERMINACION NORMAL', '<font style="color:green; font-weight:bold; text-decoration:underline;">TERMINACION NORMAL</font>');
                     }
 
                     if (salida.includes('PROBLEMA INFACTIBLE')) {
                         infactible = true;
+                        salida = salida.replace('PROBLEMA INFACTIBLE', '<font style="color:red; font-weight:bold; text-decoration:underline;">PROBLEMA INFACTIBLE</font>');
                     }
 
                     this.resultado += salida;
@@ -197,10 +199,12 @@ class Comandos {
 
                     if (salida.includes('TERMINACION NORMAL')) {
                         exito = true;
+                        salida = salida.replace('TERMINACION NORMAL', '<font style="color:green; font-weight:bold; text-decoration:underline;">TERMINACION NORMAL</font>');
                     }
 
                     if (salida.includes('PROBLEMA INFACTIBLE')) {
                         infactible = true;
+                        salida = salida.replace('PROBLEMA INFACTIBLE', '<font style="color:red; font-weight:bold; text-decoration:underline;">PROBLEMA INFACTIBLE</font>');
                     }
 
                     this.resultado += salida;

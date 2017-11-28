@@ -449,12 +449,9 @@ label {
 }
 
 .salida-txt-banner {
-    display:block;
-    width: 90%;
-    height: 78%;
+    width: 100%;
+    height: 99%;
     margin: auto;
-    margin-top: 1%;
-    margin-bottom: 2%;
     border-radius: 5px;
     font-size: 1.3vh;
     font-family: monospace;
@@ -466,8 +463,30 @@ label {
     font-weight: bolder;
 }
 
+.salida-aux-banner {
+    background-color: transparent;
+    box-shadow: none;
+    width: 95%;
+    height: 80%;
+    margin: auto;
+    margin-bottom: 0.5vh;
+}
+
+.salida-banneo {
+    background-color: rgba(20, 20, 20, 1);
+    color: gray;
+    user-select: none;
+    overflow-y: hidden;
+}
+
 .salida-txt-banner.espera {
     display:table;
+}
+
+.boton_consola {
+    display:inline-block;
+    width: 100%;
+    height: 4vh;
 }
 
 .prompt-espera {

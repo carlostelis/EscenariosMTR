@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- <link rel="stylesheet" href="../css/InfoEscenario.css" type="text/css"/>
-        <link rel="stylesheet" href="../css/fontello.css" type="text/css"/> -->
-    </head>
+    <head></head>
     <body>
         <div class="container-fluid" style="height:100%;margin-top: -0.5vh;">
             <div class="row" style="height:101%;">
@@ -3400,6 +3397,20 @@
                     <div id="cont-resultados-info" class="row contenedor-info subseccion">
                         <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
 
+                            <!-- DATOS DE COSTOS -->
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'DATOS_COSTOS');" id="col_info_datos_costos">
+                                <span class="span-costos"><i class="demo-icon icon-money-1"></i></span>
+                                <div class="col"><span id="ARCH-DATOS_COSTOS" class="span-archivo-res-info">r_desphora1.csv</span>COSTOS E INGRESOS<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible CONT-DATOS_COSTOS" id="datos_costos">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info DATOS_COSTOS" id="DATOS_COSTOS" data-contenedor="datos_costos" data-colapso="col_info_datos_costos">
+                                        <thead class="tabla-head">
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
                             <!-- RESUMEN DE RESULTADOS GLOBALES -->
                             <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'DERS_I_TOTALES_');" id="col_info_global_i">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
@@ -3416,13 +3427,13 @@
                             </div>
 
                             <!-- RESUMEN DE RESULTADOS GLOBALES -->
-                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'DERS_MI_TOTALES_');" id="col_info_global_mi">
+                            <div class="row justify-content-center celda-header-info" onclick="colapsar(this,'DERS_MI_TOTALES_AREA');" id="col_info_global_mi">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DERS_MI_TOTALES_" class="span-archivo-res-info">ARCHIVO.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span id="ARCH-DERS_MI_TOTALES_AREA" class="span-archivo-res-info">ARCHIVO.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable div-tabla invisible CONT-DERS_MI_TOTALES_" id="info_global_mi">
+                            <div class="row colapsable div-tabla invisible CONT-DERS_MI_TOTALES_AREA" id="info_global_mi">
                                 <div class="col-12 table-responsive">
-                                    <table class="table table-sm table-striped table-bordered tabla-info DERS_MI_TOTALES_" id="DERS_MI_TOTALES_$" data-contenedor="info_global_mi" data-colapso="col_info_global_mi">
+                                    <table class="table table-sm table-striped table-bordered tabla-info DERS_MI_TOTALES_AREA" id="DERS_MI_TOTALES_AREA" data-contenedor="info_global_mi" data-colapso="col_info_global_mi">
                                         <thead class="tabla-head">
                                             <tr></tr>
                                         </thead>

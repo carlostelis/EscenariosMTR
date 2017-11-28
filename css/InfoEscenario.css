@@ -305,6 +305,11 @@ tr.hover-simulado > td > input {
     font-size: 2.5vh;
 }
 
+.celda-header-info > span.span-costos {
+    margin-top: 0;
+    margin-right: -0.8vw;
+}
+
 .celda-header-info > span.invisible {
     visibility: hidden;
 }

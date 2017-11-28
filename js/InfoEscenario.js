@@ -132,9 +132,9 @@ function colapsarTodas(flagClass) {
         let flagInactivo = col.classList.contains('inactivo');
         let flagVacio = col.classList.contains('vacio');
 
-        // Oculta el asterisco de cambios
+        // Oculta el asterisco de cambios, excepto el de costos
         for (let nodo of col.childNodes) {
-            if (nodo.nodeName.toLowerCase() === 'span') {
+            if (nodo.nodeName.toLowerCase() === 'span' && !nodo.classList.contains('span-costos')) {
                 nodo.classList.add('invisible');
                 break;
             }
@@ -211,6 +211,7 @@ function vaciarTablasResultados() {
         }
     }
 }
+
 
 // ipcRenderer.on('escenario_entradas:leido', (event, obj) => {
 ipcRenderer.on('escenario_completo:leido', (event, obj) => {
@@ -319,6 +320,7 @@ ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
                 banner.ok();
                 banner.setMensaje('Lectura Finalizada');
 
+
                 // Activa boton cargar actual en modificados
                 boton_cargaEscenarioModActual.disabled = false;
                 promesas_archivos = [];
@@ -328,6 +330,9 @@ ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
                     if (typeof objEscOriginal.folio !== 'undefined' && objEscOriginal.folio !== '') {
                         // IGuala al objeto;
                         objEscModificado = objEscOriginal;
+
+                        // Manda a leer el archivo de costos e ingresos
+                        ipcRenderer.send('archivo:leer', objEscModificado.ruta, ['dirres', 'r_desphora1.res'], 'INFO_COSTOS');
 
                         // Lee los COMENTARIOS
                         ipcRenderer.send('archivo:leer', objEscModificado.ruta, ['comentarios.txt'], 'FOLIO_COMENTARIOS');
@@ -1071,14 +1076,6 @@ function crearTablaInfo(objArchivo, copia) {
 }
 
 function actualizarResultadoInfo() {
-    // banner.modoNormal();
-    // banner.ocultarBoton()
-    // banner.ocultarProgreso()
-    // banner.vistaCompacta();
-    // banner.cargando();
-    // banner.setMensaje('Actualizando resultados');
-    // banner.mostrar();
-
     mensajeConsola('Cargando resultados del escenario...', false);
 
     ipcRenderer.send('escenario_resultados:leer', objEscModificado.ruta, SESION.algoritmo);
@@ -1121,6 +1118,9 @@ ipcRenderer.on('escenario_resultados:archivo_leido', (event, obj_archivo) => {
                 banner.ok();
                 banner.setMensaje('Hecho');
 
+                // Manda a leer el archivo de costos e ingresos
+                ipcRenderer.send('archivo:leer', objEscModificado.ruta, ['dirres', 'r_desphora1.res'], 'INFO_COSTOS');
+
                 setTimeout(() => {
                     // banner.ocultar();
                 }, 1000);
@@ -1153,6 +1153,9 @@ function guardarEscenario(flag_actualizar) {
             ruta_origen = objEscOriginal.ruta;
             ruta_destino = `${objEscOriginal.ruta.replace('escenario_original', 'escenario_modificado')}\\${folio}`;
         }
+
+        // Manda a leer el archivo de costos e ingresos
+        ipcRenderer.send('archivo:leer', objEscOriginal.ruta, ['dirres', 'r_desphora1.res'], 'INFO_COSTOS');
         // objEscModificado = null;
     } else {
         folio = objEscModificado.folio;
@@ -1174,7 +1177,6 @@ function guardarEscenario(flag_actualizar) {
     SESION.folio_generado = folio;
 
     banner.vistaCompacta();
-    banner.modoNormal();
     banner.ocultarBoton();
     banner.trabajando();
     banner.mostrar();
@@ -1250,7 +1252,7 @@ ipcRenderer.on('escenario_original:copiado', (event, res) => {
         // Quita asteriscos de cambios
         for (let col of colapsos) {
             for (let nodo of col.childNodes) {
-                if (nodo.nodeName.toLowerCase() === 'span') {
+                if (nodo.nodeName.toLowerCase() === 'span' && !nodo.classList.contains('span-costos')) {
                     nodo.classList.add('invisible');
                     break;
                 }
@@ -1283,39 +1285,60 @@ ipcRenderer.on('escenario_original:copiado', (event, res) => {
 });
 
 function ejecutarAlgoritmo() {
-    console.log('Ejecuta', objEscModificado.ruta, SESION.algoritmo);
-    ipcRenderer.send('algoritmo:ejecutar', objEscModificado.ruta, SESION.algoritmo);
-
-    mensajeConsola(`Ejecutando algoritmo ${SESION.algoritmo} para folio ${objEscModificado.folio}`, true);
-
-    salida_algoritmo = '';
-    // Vista prompt
-    banner.modoPrompt();
-    banner.setTituloPrompt(`Ejecución de algoritmo ${SESION.algoritmo} para folio ${objEscModificado.folio}`);
-    banner.setTextoPrompt('');
-    // banner.promptEspera();
-    banner.mostrarBannerPrompt();
-    banner.mostrarBoton();
-    banner.setBoton('Resultados', () => {
-        banner.ocultar();
+    consolaExe.setTitulo(`Ejecución de algoritmo ${SESION.algoritmo} para folio ${objEscModificado.folio}`);
+    consolaExe.addBoton('resultados', 'Resultados', () => {
+        consolaExe.ocultar();
         mostrarResultados();
     });
-    banner.deshabilitarBoton();
-    banner.mostrar();
+    consolaExe.addBoton('ejecutar', 'Ejecutar', () => {
+        salida_algoritmo = '';
+        consolaExe.setTexto('');
+        consolaExe.mostrarBanner();
+        console.log('Ejecuta', objEscModificado.ruta, SESION.algoritmo);
+        ipcRenderer.send('algoritmo:ejecutar', objEscModificado.ruta, SESION.algoritmo);
+        mensajeConsola(`Ejecutando algoritmo ${SESION.algoritmo} para folio ${objEscModificado.folio}`, true);
+
+        // Deshabilita botones
+        consolaExe.habilitarBoton('ejecutar', false);
+        consolaExe.habilitarBoton('cerrar', false);
+        consolaExe.habilitarBoton('resultados', false);
+    });
+    consolaExe.addBoton('cerrar', 'Cerrar', () => {
+        consolaExe.ocultar();
+    });
+
+    consolaExe.habilitarBoton('ejecutar', false);
+    consolaExe.habilitarBoton('cerrar', false);
+    consolaExe.mostrar();
+
+    // Si no se ha ejecutado
+    if (objEscModificado.ejecutado !== true) {
+        consolaExe.getBoton('ejecutar').onclick();
+
+        // Habilita ejecutar y cerrar
+        consolaExe.habilitarBoton('ejecutar', false);
+        consolaExe.habilitarBoton('cerrar', false);
+    } else {
+        // Resultados se habilita solo al recibir el resultado sin infactibilidad
+        consolaExe.habilitarBoton('ejecutar', true);
+        consolaExe.habilitarBoton('cerrar', true);
+    }
 }
 
 ipcRenderer.on('algoritmo:ejecucionParcial', (event, output) => {
     salida_algoritmo += output;
-    // banner.promptQuitaEspera();
-    banner.setTextoPrompt(salida_algoritmo);
+    consolaExe.setTexto(salida_algoritmo);
 });
 
 ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
     salida_algoritmo += res.cadena;
 
-    banner.setTextoPrompt(salida_algoritmo);
-    banner.saltoPrompt();
-    banner.ocultarBannerPrompt();
+    consolaExe.setTexto(salida_algoritmo);
+    consolaExe.salto();
+    consolaExe.habilitarBoton('cerrar', true);
+
+    // Marca el escenario como ejecutado
+    objEscModificado.ejecutado = true;
 
     // Actualiza la información en info escenario
     setTimeout(() =>  {
@@ -1325,46 +1348,47 @@ ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
     // Invo0ca diagnostico
     if (res.infactible === true) {
         console.log('Verificando infactibilidad');
-        banner.appendTextoPrompt(`<font color='red'>Infactibilidad encontrada durante la ejecución.</font>`);
+        consolaExe.appendTexto(`<font color='red'>Infactibilidad encontrada durante la ejecución.</font>`);
         mensajeConsola(`Infactibilidad encontrada durante la ejecución.`, true);
 
         ipcRenderer.send('algoritmo:diagnosticar', objEscModificado.ruta, 'RES_EJECUCION');
 
         if (res.codigo < 0) {
-            banner.appendTextoPrompt(`<font color='red'>Error de ejecución del algoritmo: ${res.mensaje}</font>`);
+            consolaExe.appendTexto(`<font color='red'>Error de ejecución del algoritmo: ${res.mensaje}</font>`);
             mensajeConsola(`Error de ejecución del algoritmo: ${res.mensaje}`, true);
         }
-
-        // No se muestran resultados
-        banner.setBoton('Cerrar', () => {
-            banner.ocultar();
-        });
     } else {
+        // Si no hubo infactibilidad, se habilita resultados
+        consolaExe.habilitarBoton('resultados', true);
+
         if (res.exito === true) {
-            banner.appendTextoPrompt(`<font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`);
+            consolaExe.appendTexto(`<font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`);
             mensajeConsola(`Fin de ejecución del algoritmo; terminación normal`, true);
         }
     }
 
-    banner.habilitarBoton();
+    consolaExe.habilitarBoton('ejecutar', true);
+    setTimeout(() => {
+        consolaExe.ocultarBanner();
+    }, 500);
 });
 
 ipcRenderer.on('algoritmo:diagnosticado', (event, res) => {
     if (res.codigo >= 0) {
         if (res.opc === 'RES_EJECUCION') {
-            banner.appendTextoPrompt(`<br><label style="display:block;text-align: center;">= = = = = = = = = =<font style="color:greenyellow;"> Verificación de Infactibilidad </font>= = = = = = = = = =</label><br>${res.cadena}<br><br>`);
+            consolaExe.appendTexto(`<br><label style="display:block;text-align: center;">= = = = = = = = = =<font style="color:greenyellow;"> Verificación de Infactibilidad </font>= = = = = = = = = =</label><br>${res.cadena}<br><br>`);
         } else if (res.opc === 'RES_ORIGINAL') {
-            banner.appendTextoPrompt(`<br><label style="display:block;text-align: center;">= = = = = = = = = =<font style="color:greenyellow;"> Verificación de Infactibilidad </font>= = = = = = = = = =</label><br>${res.cadena}<br><br>`);
+            consolaExe.appendTexto(`<br><label style="display:block;text-align: center;">= = = = = = = = = =<font style="color:greenyellow;"> Verificación de Infactibilidad </font>= = = = = = = = = =</label><br>${res.cadena}<br><br>`);
         } else if (res.opc === 'RES_COMPARA') {
-            let ban = null;
+            let con = null;
 
             if (res.rutaBase === objEscA_res.ruta) {
-                ban = banner_resA;
+                con = consola_resA;
             } else if (res.rutaBase === objEscB_res.ruta) {
-                ban = banner_resB;
+                con = consola_resB;
             }
 
-            ban.appendTextoPrompt(`<br><label style="display:block;text-align: center;">= = = = = = = = = =<font style="color:greenyellow;"> Verificación de Infactibilidad </font>= = = = = = = = = =</label><br>${res.cadena}<br><br>`);
+            con.appendTexto(`<br><label style="display:block;text-align: center;">= = = = = = = = = =<font style="color:greenyellow;"> Verificación de Infactibilidad </font>= = = = = = = = = =</label><br>${res.cadena}<br><br>`);
         }
     }
 });
@@ -1380,15 +1404,13 @@ function mostrarSalidaAlgoritmoOriginal() {
     let arg_id = ruta.split('\\');
     let id = arg_id[arg_id.length - 1];
     // Muestra banner
-    banner.modoPrompt();
-    banner.setTituloPrompt(`Ejecución de algoritmo en escenario ${id}`);
-    banner.setTextoPrompt('');
-    // banner.promptEspera();
-    banner.mostrarBannerPrompt();
-    banner.mostrarBoton();
-    banner.setBoton('Cerrar', () => {
-        banner.ocultar();
+    consolaExe.setTitulo(`Ejecución de algoritmo en escenario ${id}`);
+    consolaExe.setTexto('');
+    consolaExe.mostrarBanner();
+    consolaExe.ocultarBoton('ejecutar');
+    consolaExe.ocultarBoton('resultados');
+    consolaExe.addBoton('cerrar', 'Cerrar', () => {
+        consolaExe.ocultar();
     });
-    banner.habilitarBoton();
-    banner.mostrar();
+    consolaExe.mostrar();
 }

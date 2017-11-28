@@ -60,12 +60,12 @@ class Escenario {
                         /* *************************************************** */
                         /* Temporal mientras queda el archivo de configuracion */
                         /* *************************************************** */
-                        if (files[i].startsWith('DTR') || files[i].startsWith('DERS_MI_TOTALES_') || files[i].startsWith('DERS_MI_TOTALES_') || files[i].startsWith('RESUMEN_UNIDADES') || files[i].startsWith('SEMAFOROSDERS')) {
+                        if (files[i].startsWith('DTR') || files[i].startsWith('DERS_MI_TOTALES_') || files[i].startsWith('DERS_MI_TOTALES_AREA') || files[i].startsWith('DERS_MI_TOTALES_') || files[i].startsWith('RESUMEN_UNIDADES') || files[i].startsWith('SEMAFOROSDERS')) {
                             // console.log('Ignorando resultado', files[i]);
                             continue;
                         }
                     } else if (filtro === 'RESULTADOS') {
-                        if (!files[i].startsWith('DTR') && !files[i].startsWith('DERS_MI_TOTALES_') && !files[i].startsWith('DERS_I_TOTALES_') && !files[i].startsWith('DERS_I_TOTALES_') && !files[i].startsWith('RESUMEN_UNIDADES') && !files[i].startsWith('SEMAFOROSDERS')) {
+                        if (!files[i].startsWith('DTR') && !files[i].startsWith('DERS_MI_TOTALES_') && !files[i].startsWith('DERS_I_TOTALES_') && !files[i].startsWith('DERS_I_TOTALES_') && !files[i].startsWith('DERS_MI_TOTALES_AREA') && !files[i].startsWith('RESUMEN_UNIDADES') && !files[i].startsWith('SEMAFOROSDERS')) {
                             // console.log('Ignorando entrada', files[i]);
                             continue;
                         }
@@ -75,7 +75,7 @@ class Escenario {
                     to = i * 10;
                     setTimeout(() => {
                         // Marca los resultados
-                        if (files[i].startsWith('DTR') || files[i].startsWith('DERS_MI_TOTALES_') || files[i].startsWith('DERS_I_TOTALES_') || files[i].startsWith('RESUMEN_UNIDADES') || files[i].startsWith('SEMAFOROSDERS')) {
+                        if (files[i].startsWith('DTR') || files[i].startsWith('DERS_MI_TOTALES_') || files[i].startsWith('DERS_MI_TOTALES_AREA') || files[i].startsWith('DERS_I_TOTALES_') || files[i].startsWith('RESUMEN_UNIDADES') || files[i].startsWith('SEMAFOROSDERS')) {
                             resultado = true;
                         }
 
@@ -312,7 +312,7 @@ class Escenario {
             this.fs.readFile(ruta_archivo, 'utf8', (err, data) => {
                 if (err) {
                     console.log('No fue posible leer', ruta_archivo, err.message);
-                    reject(err.message);
+                    reject(`ERROR: ${err.message}`);
                 } else {
                     // resolve(data.replace(new RegExp('\n+\s*', 'g'), '<br>'));
                     resolve(data);

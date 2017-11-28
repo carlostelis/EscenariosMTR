@@ -870,12 +870,12 @@ module.exports = [
     },
     {
         "nombre":"DTR_ENLACES_SIN.csv",
-        "editable": true
+        "editable": false
         // FALTA TABLA BD
     },
     {
         "nombre":"DTR_RAMAS_ENL_SIN.csv",
-        "editable": true
+        "editable": false
         // FALTA TABLA BD
     },
     {

@@ -246,41 +246,26 @@ ipcRenderer.on('escenario_resultados:archivo_leidoComparado', (event, obj_archiv
 });
 
 function mostrarSalidasAlgoritmo() {
-    // Configura banner
-    banner_resA.modoPrompt();
-    banner_resA.setBoton('Cerrar', () => {
-        banner_resA.ocultar();
-        banner_resB.ocultar();
-    });
-    banner_resA.mostrarBoton();
-    banner_resA.setTituloPrompt(`Ejecución del escenario ${objEscA_res.id}`);
-
-    // Configura banner
-    banner_resB.modoPrompt();
-    banner_resB.setBoton('Cerrar', () => {
-        banner_resA.ocultar();
-        banner_resB.ocultar();
-    });
-    banner_resB.mostrarBoton();
-    banner_resB.setTituloPrompt(`Ejecución del escenario ${objEscB_res.id}`);
+    consola_resA.setTitulo(`Ejecución del escenario ${objEscA_res.id}`);
+    consola_resB.setTitulo(`Ejecución del escenario ${objEscB_res.id}`);
 
     if (flag_resOutput_A === false) {
         // banner_resA.promptEspera();
-        banner_resA.mostrarBannerPrompt();
+        consola_resA.mostrarBanner();
         ipcRenderer.send('archivo:leer', objEscA_res.ruta, ['dirres', 'bitacora.res'], 'RES_COMPARA');
     }
 
     if (flag_resOutput_B === false) {
         // banner_resB.promptEspera();
-        banner_resB.mostrarBannerPrompt();
+        consola_resB.mostrarBanner();
         ipcRenderer.send('archivo:leer', objEscB_res.ruta, ['dirres', 'bitacora.res'], 'RES_COMPARA');
     }
     // Colapsa todas
     colapsarTodasResultados(true);
 
     // Muestra banners
-    banner_resA.mostrar();
-    banner_resB.mostrar();
+    consola_resA.mostrar();
+    consola_resB.mostrar();
 }
 
 ipcRenderer.on('archivo:leido', (event, obj) => {
@@ -292,27 +277,32 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
             console.log('Verificando infactibilidad');
             obj.res += `<br><font color='red'>Infactibilidad encontrada durante la ejecución</font>`;
 
+            // Resalta en la salida
+            obj.res = obj.res.replace('PROBLEMA INFACTIBLE', '<font style="color:red; font-weight:bold; text-decoration:underline;">PROBLEMA INFACTIBLE</font>');
+
             ipcRenderer.send('algoritmo:diagnosticar', obj.rutaBase, 'RES_COMPARA');
         } else if (obj.res.includes('TERMINACION NORMAL')) {
+            // Resalta en la salida
+            obj.res = obj.res.replace('TERMINACION NORMAL', '<font style="color:green; font-weight:bold; text-decoration:underline;">TERMINACION NORMAL</font>');
+
             obj.res += `<br><font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`;
         } else {
             obj.res += `<br><font color='red'>Error de ejecución del algoritmo</font>`;
         }
 
-        let ban = null;
+        let con = null;
 
         if (obj.rutaBase === objEscA_res.ruta) {
             flag_resOutput_A = true;
-            ban = banner_resA;
+            con = consola_resA;
         } else if (obj.rutaBase === objEscB_res.ruta) {
             flag_resOutput_B = true;
-            ban = banner_resB;
+            con = consola_resB;
         }
 
-        if (ban !== null) {
-            // ban.promptQuitaEspera();
-            ban.ocultarBannerPrompt();
-            ban.setTextoPrompt(obj.res);
+        if (con !== null) {
+            con.ocultarBanner();
+            con.setTexto(obj.res);
         }
     } else if (obj.opc === 'RES_ORIGINAL') {
         obj.res = obj.res.replace(new RegExp('\n+\s*', 'g'), '<br>')
@@ -321,17 +311,23 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
         if (obj.res.includes('PROBLEMA INFACTIBLE')) {
             obj.res += `<br><font color='red'>Infactibilidad encontrada durante la ejecución</font>`;
 
+            // Resalta en la salida
+            obj.res = obj.res.replace('PROBLEMA INFACTIBLE', '<font style="color:red; font-weight:bold; text-decoration:underline;">PROBLEMA INFACTIBLE</font>');
+
             console.log('Verificando infactibilidad');
             ipcRenderer.send('algoritmo:diagnosticar', obj.rutaBase, 'RES_ORIGINAL');
         } else if (obj.res.includes('TERMINACION NORMAL')) {
+            // Resalta en la salida
+            obj.res = obj.res.replace('TERMINACION NORMAL', '<font style="color:green; font-weight:bold; text-decoration:underline;">TERMINACION NORMAL</font>');
+
             obj.res += `<br><font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`;
         } else {
             obj.res += `<br><font color='red'>Error de ejecución del algoritmo</font>`;
         }
 
         // banner.promptQuitaEspera();
-        banner.ocultarBannerPrompt();
-        banner.setTextoPrompt(obj.res);
+        consolaExe.ocultarBanner();
+        consolaExe.setTexto(obj.res);
     } else if (obj.opc.startsWith('RES_COSTOS_')) {
         let arg_islas = obj.res.replace(new RegExp('=?', 'g'), '').split('Isla :');
         let datos_costos = arg_islas[arg_islas.length - 1].split('Solucion Final para la Isla')[1].trim().replace(new RegExp('\s*:', 'g'), '').split(new RegExp('\s*\n\s*', 'g'));
@@ -404,16 +400,16 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
 
                         tabla.filas = [];
 
-                        crearFilaCosto(tabla, 'Costo Total', objDatos.costo_total);
-                        crearFilaCosto(tabla, 'Costo Generación', objDatos.costo_gen);
-                        crearFilaCosto(tabla, 'Costo Generación RD', objDatos.costo_gen_rd);
-                        crearFilaCosto(tabla, 'Costo Generación RC', objDatos.costo_gen_rc);
-                        crearFilaCosto(tabla, 'Beneficio Social', objDatos.beneficio_social);
-                        crearFilaCosto(tabla, 'Costo Arranque', objDatos.costo_arranque);
-                        crearFilaCosto(tabla, 'Costo Reservas', objDatos.costo_reservas);
-                        crearFilaCosto(tabla, 'Ingreso Total', objDatos.ingreso_total);
-                        crearFilaCosto(tabla, 'Ingreso Demanda', objDatos.ingreso_demanda);
-                        crearFilaCosto(tabla, 'Ingreso Reservas', objDatos.ingreso_reservas);
+                        crearFilaCosto(tabla, 'Costo Total', objDatos.costo_total, true);
+                        crearFilaCosto(tabla, 'Costo Generación', objDatos.costo_gen, true);
+                        crearFilaCosto(tabla, 'Costo Generación RD', objDatos.costo_gen_rd, true);
+                        crearFilaCosto(tabla, 'Costo Generación RC', objDatos.costo_gen_rc, true);
+                        crearFilaCosto(tabla, 'Beneficio Social', objDatos.beneficio_social, true);
+                        crearFilaCosto(tabla, 'Costo Arranque', objDatos.costo_arranque, true);
+                        crearFilaCosto(tabla, 'Costo Reservas', objDatos.costo_reservas, true);
+                        crearFilaCosto(tabla, 'Ingreso Total', objDatos.ingreso_total, true);
+                        crearFilaCosto(tabla, 'Ingreso Demanda', objDatos.ingreso_demanda, true);
+                        crearFilaCosto(tabla, 'Ingreso Reservas', objDatos.ingreso_reservas, true);
 
                         tabla_encontrada = tabla;
                     }
@@ -422,14 +418,111 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
                 tabla_encontrada.tabla_par = tabla_par;
             }
         }
+    } else if (obj.opc === 'INFO_COSTOS') {
+        let arg_islas = obj.res.replace(new RegExp('=?', 'g'), '').split('Isla :');
+        let datos_costos = arg_islas[arg_islas.length - 1].split('Solucion Final para la Isla')[1].trim().replace(new RegExp('\s*:', 'g'), '').split(new RegExp('\s*\n\s*', 'g'));
+        console.log();
+        // Lo guarda en el objeto original
+        objEscOriginal.costo_total = '---';
+        objEscOriginal.costo_gen = '---';
+        objEscOriginal.costo_gen_rd = '---';
+        objEscOriginal.costo_gen_rc = '---';
+        objEscOriginal.beneficio_social = '---';
+        objEscOriginal.costo_arranque = '---';
+        objEscOriginal.costo_reservas = '---';
+        objEscOriginal.ingreso_total = '---';
+        objEscOriginal.ingreso_demanda = '---';
+        objEscOriginal.ingreso_reservas = '---';
+
+        datos_costos.forEach((dato) => {
+            let linea = dato.trim();
+            if (linea !== '') {
+                if (linea.includes('Costo Total') === true) {
+                    objEscOriginal.costo_total = linea.replace('Costo Total', '').trim();
+                } else if (linea.includes('Costo Generacion RD') === true) {
+                    objEscOriginal.costo_gen_rd = linea.replace('Costo Generacion RD', '').trim();
+                } else if (linea.includes('Costo Generacion RC') === true) {
+                    objEscOriginal.costo_gen_rc = linea.replace('Costo Generacion RC', '').trim();
+                } else if (linea.includes('Costo Generacion') === true) {
+                    objEscOriginal.costo_gen = linea.replace('Costo Generacion', '').trim();
+                } else if (linea.includes('Beneficio Social') === true) {
+                    objEscOriginal.beneficio_social = linea.replace('Beneficio Social', '').trim();
+                } else if (linea.includes('Costo de Arranque') === true) {
+                    objEscOriginal.costo_arranque = linea.replace('Costo de Arranque', '').trim();
+                } else if (linea.includes('Costo de Reservas') === true) {
+                    objEscOriginal.costo_reservas = linea.replace('Costo de Reservas', '').trim();
+                } else if (linea.includes('Ingreso Total') === true) {
+                    objEscOriginal.ingreso_total = linea.replace('Ingreso Total', '').trim();
+                } else if (linea.includes('Ingreso demanda') === true) {
+                    objEscOriginal.ingreso_demanda = linea.replace('Ingreso demanda', '').trim();
+                } else if (linea.includes('Ingreso Reservas') === true) {
+                    objEscOriginal.ingreso_reservas = linea.replace('Ingreso Reservas', '').trim();
+                }
+            }
+        });
+
+        for (let col of colapsos) {
+            if (col.id ==='col_info_datos_costos') {
+                // Busca el icono para mostrarlo
+                for (let nodo of col.childNodes) {
+                    if (nodo.nodeName.toLowerCase() === 'span') {
+                        nodo.classList.remove('invisible');
+                        console.log('muestra icono', nodo.classList.contains('invisible'));
+                    }
+                }
+
+                // Quita la clase inactivo
+                col.classList.remove('inactivo');
+                // Busca la tabla
+                let tabla_encontrada;
+                for (let tabla of tablas_info) {
+                    if (tabla.id === 'DATOS_COSTOS') {
+                        // Borra el tbody anterior
+                        if (typeof tabla.tbody !== "undefined" && tabla.tbody !== null) {
+                            try {
+                                tabla.removeChild(tabla.tbody);
+                            } catch (e) {}
+                        }
+                        // Crea el tbody
+                        tabla.tbody = document.createElement('tbody');
+                        tabla.tbody.classList.add('tabla-body');
+                        tabla.appendChild(tabla.tbody);
+
+                        tabla.filas = [];
+
+                        crearFilaCosto(tabla, 'Costo Total', objEscOriginal.costo_total);
+                        crearFilaCosto(tabla, 'Costo Generación', objEscOriginal.costo_gen);
+                        crearFilaCosto(tabla, 'Costo Generación RD', objEscOriginal.costo_gen_rd);
+                        crearFilaCosto(tabla, 'Costo Generación RC', objEscOriginal.costo_gen_rc);
+                        crearFilaCosto(tabla, 'Beneficio Social', objEscOriginal.beneficio_social);
+                        crearFilaCosto(tabla, 'Costo Arranque', objEscOriginal.costo_arranque);
+                        crearFilaCosto(tabla, 'Costo Reservas', objEscOriginal.costo_reservas);
+                        crearFilaCosto(tabla, 'Ingreso Total', objEscOriginal.ingreso_total);
+                        crearFilaCosto(tabla, 'Ingreso Demanda', objEscOriginal.ingreso_demanda);
+                        crearFilaCosto(tabla, 'Ingreso Reservas', objEscOriginal.ingreso_reservas);
+
+                        tabla_encontrada = tabla;
+                    }
+                }
+            }
+        }
     } else if (obj.opc === 'MOD_COMENTARIOS') {
-        textarea_comentarios_mod.value = obj.res;
+        if (obj.res.startsWith('ERROR')) {
+            console.log(obj.res);
+        } else {
+            textarea_comentarios_mod.value = obj.res;
+        }
+
     } else if (obj.opc === 'FOLIO_COMENTARIOS') {
-        textarea_comentarios_info.value = obj.res;
+        if (obj.res.startsWith('ERROR')) {
+            console.log(obj.res);
+        } else {
+            textarea_comentarios_info.value = obj.res;
+        }
     }
 });
 
-function crearFilaCosto(tabla, info, valor) {
+function crearFilaCosto(tabla, info, valor, flag_comparacion) {
     let tr = document.createElement('tr');
     let td = document.createElement('td');
     td.appendChild(document.createTextNode(info));
@@ -446,6 +539,10 @@ function crearFilaCosto(tabla, info, valor) {
     tabla.tbody.appendChild(tr);
     tabla.filas.push(tr);
 
+    // Ya no sigue si no es para comparacion
+    if (flag_comparacion !== true) {
+        return;
+    }
 
     // Eventos tabla par
     tr.onmouseover = (event, flagRebote) => {
@@ -866,14 +963,12 @@ function mostrarResultados() {
     flag_resOutput_A = false;
     flag_resOutput_B = false;
 
-    banner_resA.modoNormal();
     banner_resA.ocultarBoton()
     banner_resA.ocultarProgreso()
     banner_resA.vistaCompacta();
     banner_resA.cargando();
     banner_resA.setMensaje('Consultando resultados');
 
-    banner_resB.modoNormal();
     banner_resB.ocultarBoton()
     banner_resB.ocultarProgreso()
     banner_resB.vistaCompacta();
@@ -896,14 +991,12 @@ function mostrarResultadosSeleccionados() {
     flag_resOutput_A = false;
     flag_resOutput_B = false;
 
-    banner_resA.modoNormal();
     banner_resA.ocultarBoton()
     banner_resA.ocultarProgreso()
     banner_resA.vistaCompacta();
     banner_resA.cargando();
     banner_resA.setMensaje('Consultando resultados');
 
-    banner_resB.modoNormal();
     banner_resB.ocultarBoton()
     banner_resB.ocultarProgreso()
     banner_resB.vistaCompacta();
