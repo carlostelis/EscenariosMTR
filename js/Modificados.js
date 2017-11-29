@@ -16,7 +16,7 @@ function consultarAniosEscOriginales() {
 
     // Desactiva boton
     boton_cargaEscenarioMod.disabled = true;
-    boton_guardaBDEscenarioMod.disabled = true;
+    // boton_guardaBDEscenarioMod.disabled = true;
 
     ipcRenderer.send('escenarios_mod_anios:leer', select_mod_algoritmo.value);
 }
@@ -33,7 +33,7 @@ function consultarMesesEscOriginales() {
 
     // Desactiva boton
     boton_cargaEscenarioMod.disabled = true;
-    boton_guardaBDEscenarioMod.disabled = true;
+    // boton_guardaBDEscenarioMod.disabled = true;
 
     ipcRenderer.send('escenarios_mod_meses:leer', select_mod_algoritmo.value, select_mod_anio.value);
 }
@@ -49,7 +49,7 @@ function consultarDiasEscOriginales() {
 
     // Desactiva boton
     boton_cargaEscenarioMod.disabled = true;
-    boton_guardaBDEscenarioMod.disabled = true;
+    // boton_guardaBDEscenarioMod.disabled = true;
 
     ipcRenderer.send('escenarios_mod_dias:leer', select_mod_algoritmo.value, select_mod_anio.value, select_mod_mes.value);
 }
@@ -64,7 +64,7 @@ function consultarEscOriginales() {
 
     // Desactiva boton
     boton_cargaEscenarioMod.disabled = true;
-    boton_guardaBDEscenarioMod.disabled = true;
+    // boton_guardaBDEscenarioMod.disabled = true;
 
     ipcRenderer.send('escenarios_mod_originales:leer', select_mod_algoritmo.value, select_mod_anio.value, select_mod_mes.value, select_mod_dia.value);
 }
@@ -78,7 +78,7 @@ function consultarEscOriginalesMod() {
 
     // Desactiva boton
     boton_cargaEscenarioMod.disabled = true;
-    boton_guardaBDEscenarioMod.disabled = true;
+    // boton_guardaBDEscenarioMod.disabled = true;
 
     ipcRenderer.send('escenarios_mod_modificados:leer', select_mod_algoritmo.value, select_mod_anio.value, select_mod_mes.value, select_mod_dia.value, select_mod_esc_original.value);
 }
@@ -448,7 +448,6 @@ function cargarEscenarioModActual() {
     console.log(algoritmo, anio, mes, dia, esc_ori, esc_mod);
 
     // Configura banner
-    banner.modoNormal();
     banner.vistaCompacta();
     banner.setMensaje('Leyendo Información');
     banner.ocultarBoton();
@@ -1023,4 +1022,8 @@ function crearTablaMod(objArchivo, copia) {
             }
         });
     }
+}
+
+function guardarEnBaseDatos() {
+    // Primero genera el archivo zip del escenario
 }

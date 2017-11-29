@@ -1,7 +1,3 @@
-// Espera definicion
-while (typeof ipcRenderer === 'undefined') {
-    console.log('Espera definicion');
-}
 
 function colapsar(trigger, id) {
     // Si esta inactivo no hace nada
@@ -212,8 +208,6 @@ function vaciarTablasResultados() {
     }
 }
 
-
-// ipcRenderer.on('escenario_entradas:leido', (event, obj) => {
 ipcRenderer.on('escenario_completo:leido', (event, obj) => {
     console.log('Recibe contenedor de archivos:', obj.lista.length);
 
@@ -1075,8 +1069,21 @@ function crearTablaInfo(objArchivo, copia) {
     }
 }
 
-function actualizarResultadoInfo() {
-    mensajeConsola('Cargando resultados del escenario...', false);
+function actualizarResultadoInfo(flag_banner) {
+    if (objEscModificado.resActualizados === true) {
+        console.log();
+        return;
+    }
+
+    mensajeConsola('Cargando resultados en información del escenario...', false);
+    banner.setMensaje('Actualizando Resultados...');
+    banner.actualizando();
+
+    if (flag_banner === true) {
+        banner.mostrar();
+    } else {
+        banner.ocultar();
+    }
 
     ipcRenderer.send('escenario_resultados:leer', objEscModificado.ruta, SESION.algoritmo);
 }
@@ -1116,13 +1123,16 @@ ipcRenderer.on('escenario_resultados:archivo_leido', (event, obj_archivo) => {
         setTimeout(() => {
             Promise.all(promesas_archivos).then(() => {
                 banner.ok();
-                banner.setMensaje('Hecho');
+                banner.setMensaje('Actualización Finalizada');
+
+                // Marca la bandera para que no vuelva a actualizar
+                objEscModificado.resActualizados = true;
 
                 // Manda a leer el archivo de costos e ingresos
                 ipcRenderer.send('archivo:leer', objEscModificado.ruta, ['dirres', 'r_desphora1.res'], 'INFO_COSTOS');
 
                 setTimeout(() => {
-                    // banner.ocultar();
+                    banner.ocultar();
                 }, 1000);
 
                 promesas_archivos = [];
@@ -1289,6 +1299,11 @@ function ejecutarAlgoritmo() {
     consolaExe.addBoton('resultados', 'Resultados', () => {
         consolaExe.ocultar();
         mostrarResultados();
+
+        // Actualiza la info resultados
+        actualizarResultadoInfo(false);
+        // Oculta el banner
+        banner.ocultar();
     });
     consolaExe.addBoton('ejecutar', 'Ejecutar', () => {
         salida_algoritmo = '';
@@ -1305,6 +1320,8 @@ function ejecutarAlgoritmo() {
     });
     consolaExe.addBoton('cerrar', 'Cerrar', () => {
         consolaExe.ocultar();
+        // Actualiza la info resultados
+        actualizarResultadoInfo(true);
     });
 
     consolaExe.habilitarBoton('ejecutar', false);
@@ -1339,11 +1356,7 @@ ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
 
     // Marca el escenario como ejecutado
     objEscModificado.ejecutado = true;
-
-    // Actualiza la información en info escenario
-    setTimeout(() =>  {
-        actualizarResultadoInfo();
-    }, 100);
+    objEscModificado.resActualizados = false;
 
     // Invo0ca diagnostico
     if (res.infactible === true) {

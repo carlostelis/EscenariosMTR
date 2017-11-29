@@ -152,15 +152,17 @@ tr.hover-simulado > td > input {
 }
 
 .contenedor-comentarios > div {
-    height: 50%;
+    height: 100%;
     padding: 0px 0px 0px 0px;
     margin-left: 0%;
     width: 100%;
+    padding-top: 0.3vh;
 }
 
 .contenedor-comentarios > div > div {
     padding: 0px 0px 0px 0px;
     margin-left: 0%;
+    height: 49%;
 }
 
 .contenedor-comentarios > div > div > textarea {
@@ -183,6 +185,38 @@ tr.hover-simulado > td > input {
     height: 3.5vh;
     width: 15vw;
     font-size: 0.9vw;
+}
+
+.boton-info {
+    width: 95%;
+    height: 3.5vh;
+    font-size: 1.6vh;
+}
+
+.contenedor-comentarios > div.subseccion > div.row > div.col {
+    padding:0;
+}
+
+#textarea_comentarios_info {
+    width: 98%;
+    /*margin-top: 1vh;*/
+    font-size: 1.5vh;
+    height: calc(100% - 0.5vh);
+    resize: none;
+}
+
+#label_comentarios_info {
+    height: 50%;
+    width: 98%;
+    text-align: center;
+    /*margin-top: 20%;*/
+    font-size: 1.5vh;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.col-comentarios {
+    padding: 0 2px 0 0;
 }
 
 .div-contenedor-mediana {

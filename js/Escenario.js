@@ -176,6 +176,35 @@ class Escenario {
                         //console.log(data);
                         datosArchivo.filas = this.parseData(data);
                         datosArchivo.numFilas = datosArchivo.filas.length;
+
+                        // Si es DERS_MI_TOTALES_AREA devuelve el último ciclo
+                        if (datosArchivo.archivo === 'DERS_MI_TOTALES_AREA.csv') {
+                            let cont_ciclos = 0;
+                            let ultimo_ciclo = -1;
+                            let n = 0;
+                            datosArchivo.filas.forEach((fila) => {
+                                if (fila[0].valor.trim() === 'Intervalo') {
+                                    // Incrementa contador
+                                    cont_ciclos++;
+                                    // Guarda la fila
+                                    ultimo_ciclo = n;
+                                }
+
+                                n++;
+                            });
+
+                            // Si hay más de 1 ciclo, conserva el último
+                            console.log('>>>>> Eliminando', ultimo_ciclo, 'registros, hay', datosArchivo.numFilas);
+                            if (cont_ciclos > 1) {
+                                for (let i = 0; i < ultimo_ciclo; i++) {
+                                    datosArchivo.filas.shift();
+                                }
+
+                                // IGuala el numero de filas
+                                datosArchivo.numFilas = datosArchivo.filas.length;
+                                console.log('Quedaron', datosArchivo.numFilas);
+                            }
+                        }
                     }
                 });
 

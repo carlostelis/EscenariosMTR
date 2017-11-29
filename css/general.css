@@ -65,8 +65,8 @@ body {
 
 .button_gral > span {
     float:left;
-    margin-left: 1vw;
-    margin-right: -1.5vw;
+    margin-left: 0vw;
+    margin-right: -0.5vw;
 }
 
 .fill {
@@ -91,6 +91,7 @@ body {
 .li_vista-archivos {
     list-style-type: none;
     font-size: 1vw;
+    width: 15vw;
 }
 
 .li_vista-archivos > i {

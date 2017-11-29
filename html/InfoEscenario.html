@@ -3661,21 +3661,37 @@
                     <!-- FIN DE CONTENEDOR RESULTADOS -->
 
                     <!-- COMENTARIOS Y BOTONES -->
-                    <div class="row subseccion contenedor-comentarios">
-                        <div class="row container">
-                            <div class="col-1">
-                                <label>Comentarios:</label>
-                            </div>
-                            <div class="col-11">
-                                <textarea id="textarea_comentarios_info" placeholder="Acerca del escenario..."></textarea>
+                    <div class="row contenedor-comentarios subseccion">
+                        <div class="col-8">
+                            <div class="row container" style="height:100%;">
+                                <div class="col-2 col-comentarios">
+                                    <label id="label_comentarios_info">Comentarios:</label>
+                                </div>
+                                <div class="col-10 col-comentarios">
+                                    <textarea id="textarea_comentarios_info" placeholder="Acerca del escenario..."></textarea>
+                                </div>
                             </div>
                         </div>
-                        <div class="row container">
-                            <button class="button_gral" id="boton_nuevoFolio" onclick="guardarEscenario(false);"><span class=""><i class="demo-icon icon-folder-add"></i></span>Nuevo Folio</button>
-                            <button class="button_gral" id="boton_actualizarEscenario" onclick="guardarEscenario(true);" disabled><span class=""><i class="demo-icon icon-floppy"></i></span>Guardar Cambios</button>
-                            <button class="button_gral" id="boton_resultadoOriginal" onclick="mostrarSalidaAlgoritmoOriginal();"><span class=""><i class="demo-icon icon-terminal-1"></i></span>Resultado Original</button>
-                            <button class="button_gral boton-ejecutar" id="boton_ejecutarEscenario" disabled onclick="ejecutarAlgoritmo();"><span class=""><i class="demo-icon icon-play-2"></i></span>Ejecutar</button>
+                        <div class="col-4">
+                            <div class="row container">
+                                <div class="col col-comentarios">
+                                    <button class="button_gral boton-info" id="boton_nuevoFolio" onclick="guardarEscenario(false);"><span><i class="demo-icon icon-folder-add"></i></span>Nuevo Folio</button>
+                                </div>
+                                <div class="col col-comentarios">
+                                    <button class="button_gral boton-info" id="boton_actualizarEscenario" onclick="guardarEscenario(true);" disabled><span><i class="demo-icon icon-floppy"></i></span>Guardar Cambios</button>
+                                </div>
+                            </div>
+                            <div class="row container">
+                                <div class="col col-comentarios">
+                                    <button class="button_gral boton-info" id="boton_resultadoOriginal" onclick="mostrarSalidaAlgoritmoOriginal();"><span><i class="demo-icon icon-terminal-1"></i></span>Resultado Original</button>
+                                </div>
+                                <div class="col col-comentarios">
+                                    <button class="button_gral boton-info boton-ejecutar" id="boton_ejecutarEscenario" disabled onclick="ejecutarAlgoritmo();"><span><i class="demo-icon icon-play-2"></i></span>Ejecutar</button>
+                                </div>
+                            </div>
                         </div>
+
+
                     </div>
                 </div>
 
