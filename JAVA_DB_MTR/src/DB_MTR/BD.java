@@ -22,7 +22,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
@@ -166,6 +169,81 @@ public class BD {
         } catch (SQLException ex) {
             System.out.println("ERROR -> " + ex.getMessage() + "; " + ex.getCause());
         } finally {
+            this.desconectar();
+        }
+    }
+    
+    public void subirEscenario2(String rutaarchivozip, String folio) {
+        if (this.con == null) {
+            if (!this.conectar()) {
+                return;
+            }
+        }
+        
+        boolean estatus = false;
+        PreparedStatement ps = null;
+        try {
+//            String query = "INSERT INTO CONTROL_ESCEN_ORIGINALES (FOLIO,BYTES,ZIP) values(?,?,?)";
+            String query = "INSERT INTO CONTROL_ESCEN_MODIFICADOS "
+                    + "(ID_ESCENARIO,FK_USUARIO,FECHA_ALTA,FOLIO_ORIGINAL,FK_ALGORITMO,ESTADO,ZIP,COMENTARIO, BYTES) values(?,?,to_timestamp_tz(?,'DD/MM/RR HH24:MI:SSXFF TZR'),?,?,?,?,?,?)";
+            System.out.println(query);
+            ps = con.prepareStatement(query);
+
+            // El objeto archivo ayuda a obtener su tamanio
+            File f = new File(rutaarchivozip);
+            
+            String DATEFORMAT = "dd/MM/yyyy HH:mm:00 X";
+            SimpleDateFormat sdf = new SimpleDateFormat(DATEFORMAT);
+            sdf.setTimeZone(TimeZone.getTimeZone("America/Tijuana"));
+            String utcTime = sdf.format(new Date());
+            
+            // Agrega los valores: bytes del archivo y tamanio
+            try (InputStream in = new FileInputStream(rutaarchivozip)) {
+                // Agrega los valores: ID, bytes del archivo y tamanio
+                ps.setString(1, "asdasd");
+                ps.setString(2, "TEST");
+                ps.setString(3, utcTime);
+                ps.setString(4, folio);
+                ps.setInt(5, 3);
+                ps.setInt(6, 1);
+                ps.setString(8, "comentario");
+                
+                if (f.exists()) {
+                    ps.setBinaryStream(7, in);
+                    ps.setInt(9, (int)f.length());
+                } else {
+                    ps.setBinaryStream(7, in);
+                    ps.setInt(9, -1);
+                }
+                
+                // Ejecuta
+                int n = ps.executeUpdate();
+                
+                if (n > 0) {
+                    System.out.println("Registro actualizado correctamente");
+                } else {
+                    System.out.println("El registro no se actualizó");
+                }
+                
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR -> Falla al subir escenario zip a la BD: " + e);
+            if(e.getErrorCode() == 1){ // 1 - ORA-00001
+                System.err.println("Ya existe el registro ");
+            }else{
+                System.err.println("Error: " + e.getMessage());
+            }
+        } catch (IOException e) {
+            System.out.println("ERROR -> Falla al subir escenario zip a la BD: " + e);
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+            } catch (SQLException ex) {
+                System.err.println("Mensaje de error: "+ ex.getMessage());
+            }
+            
             this.desconectar();
         }
     }

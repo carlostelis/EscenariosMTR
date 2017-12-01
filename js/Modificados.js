@@ -457,6 +457,124 @@ function cargarEscenarioModActual() {
     ipcRenderer.send('escenarios_mod:leer_todo', SESION.algoritmo, anio, mes, dia, esc_ori, esc_mod);
 }
 
+function cargarEscenarioModActual2() {
+    // Configura banner
+    banner.vistaCompacta();
+    banner.setMensaje('Leyendo Información');
+    banner.ocultarBoton();
+    banner.cargando();
+    banner.mostrar();
+
+    setTimeout(() => {
+        new Promise((resolve, reject) => {
+            // GEnera una copia del objeto
+            objEscVistaMod = JSON.parse(JSON.stringify(objEscModificado));
+
+            // Obtiene los COMENTARIOS
+            ipcRenderer.send('archivo:leer', objEscVistaMod.ruta, ['comentarios.txt'], 'MOD_COMENTARIOS');
+
+            resolve();
+        }).then(() => {
+            // Oculta todas
+            colapsarTodasMod(true);
+
+            // Muestra las tablas para que esten en el dom
+            mostrarTodasMod();
+            // Borra los periodos
+            borrarThPeriodosMod();
+            // Vacia los datos de las tablas (desde el dom)
+            vaciarTablasMod();
+
+            // Obtiene el numero de periodos por algoritmo
+            let periodos = 0;
+            SESION.config.algoritmos.forEach((algoritmo) => {
+                if (algoritmo.carpeta === SESION.algoritmo) {
+                    periodos = algoritmo.periodos;
+                }
+            });
+            console.log('>>> Periodos:', periodos);
+
+            // Tablas de Periodos 1-N
+            for (let thead of thead_periodo_mod) {
+                for (let nodoA of thead.childNodes) {
+                    if (nodoA.nodeName.toLowerCase() === 'tr') {
+                        // Agrega las cabeceras de los periodos
+                        for (let i = 1; i <= periodos; i++) {
+                            let th = document.createElement('th');
+                            th.classList.add('th-periodo-mod');
+                            let texto = document.createTextNode(`Periodo ${i}`);
+
+                            th.appendChild(texto);
+                            nodoA.appendChild(th);
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // Tablas de de intervalos min y max 1-N
+            for (let tabla of thead_periodo_i_mod) {
+                for (let nodoA of tabla.childNodes) {
+                    if (nodoA.nodeName.toLowerCase() === 'tr') {
+                        // Agrega las cabeceras de los periodos
+                        for (let i = 1; i <= periodos; i++) {
+                            let thmin = document.createElement('th');
+                            let thmax = document.createElement('th');
+
+                            thmin.classList.add('th-periodo-mod');
+                            thmax.classList.add('th-periodo-mod');
+
+                            let texto_min = document.createTextNode(`Flujo mínimo en I_${i}`);
+                            let texto_max = document.createTextNode(`Flujo máximo en I_${i}`);
+
+                            thmin.appendChild(texto_min);
+                            thmax.appendChild(texto_max);
+
+                            nodoA.appendChild(thmin);
+                            nodoA.appendChild(thmax);
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // Desactiva todos los colapsos
+            desactivarColapsosMod();
+
+            // Carga las tablas
+            let promesas_mod = [];
+            let to = 0;
+            objEscVistaMod.lista.forEach((obj_archivo) => {
+                promesas_mod.push(new Promise((resolve, reject) => {
+                    to += 20;
+                    setTimeout(() => {
+                        crearTablaMod(obj_archivo);
+                        resolve();
+                    }, to);
+                }));
+            });
+
+            // Oculta todas
+            colapsarTodasMod(true);
+
+            Promise.all(promesas_mod).then(() => {
+                banner.ok();
+                banner.setMensaje('Lectura finalizada');
+
+                // Activa boton guardar en BD
+                boton_guardaBDEscenarioMod.disabled = false;
+
+                // Archivo de costos e ingresos
+                ipcRenderer.send('archivo:leer', objEscVistaMod.ruta, ['dirres', 'r_desphora1.res'], 'MOD_COSTOS');
+
+                setTimeout(() => {
+                    banner.ocultar();
+                }, 1000);
+            });
+        });
+    }, 1000);
+}
+
 function cargarEscenarioMod() {
     let algoritmo = select_mod_algoritmo.value;
     let anio = select_mod_anio.value;
@@ -605,6 +723,9 @@ ipcRenderer.on('escenarios_mod:archivo_leido', (event, obj_archivo) => {
 
                 // Activa boton guardar en BD
                 boton_guardaBDEscenarioMod.disabled = false;
+
+                // Manda a leer el archivo de costos e ingresos
+                ipcRenderer.send('archivo:leer', objEscVistaMod.ruta, ['dirres', 'r_desphora1.res'], 'MOD_COSTOS');
 
                 setTimeout(() => {
                     banner.ocultar();
@@ -1025,5 +1146,113 @@ function crearTablaMod(objArchivo, copia) {
 }
 
 function guardarEnBaseDatos() {
-    // Primero genera el archivo zip del escenario
+    // Primero genera el archivo zip del escenario modificado
+    bannerBD.vistaCompacta();
+    bannerBD.ocultarProgreso();
+    bannerBD.ocultarBoton();
+    bannerBD.setMensaje('Preparando escenario modificado');
+    bannerBD.trabajando();
+    bannerBD.mostrar();
+    ipcRenderer.send('escenario_bd:comprimir', objEscVistaMod.ruta, 'escenario_bd:comprimido_modificado');
 }
+
+ipcRenderer.on('escenario_bd:comprimido_modificado', (event, res) => {
+    if (res.estado === true) {
+        bannerBD.setMensaje('Preparando escenario original');
+        let elementos = objEscVistaMod.ruta.split('\\');
+        let ruta_original = `${objEscVistaMod.ruta.replace('escenario_modificado', 'escenario_original').replace(elementos[elementos.length - 1], '')}`;
+        // Genera el zip del escenario original
+        ipcRenderer.send('escenario_bd:comprimir', ruta_original, 'escenario_bd:comprimido_original');
+    } else {
+        bannerBD.error();
+        bannerBD.setMensaje('Error: ' + res.mensaje);
+        setTimeout(() => {
+            bannerBD.ocultar();
+        }, 2000);
+    }
+});
+
+ipcRenderer.on('escenario_bd:comprimido_original', (event, res) => {
+    if (res.estado === true) {
+        bannerBD.ok();
+        bannerBD.setMensaje('Iniciando escritura en Base de Datos');
+        botonProgresoBD.modoProgreso();
+        botonProgresoBD.setProgreso(0);
+
+        // Desactiva los select para evitar busquedas hasta que termine de guardar
+        select_mod_anio.disabled = true;
+        select_mod_algoritmo.disabled = true;
+        select_mod_mes.disabled = true;
+        select_mod_dia.disabled = true;
+        select_mod_esc_original.disabled = true;
+        select_mod_esc_modificado.disabled = true;
+
+        if (typeof objEscVistaMod.folio === 'undefined') {
+            let elementos = objEscVistaMod.ruta.split('\\');
+            objEscVistaMod.folio = elementos[elementos.length - 1];
+        }
+
+        setTimeout(() => {
+            let elementos = objEscVistaMod.ruta.split('\\');
+            let json = {
+                opc: '1',
+                folio: objEscVistaMod.folio,
+                id: elementos[elementos.length - 2],
+                usuario: SESION.usuario,
+                algoritmo: objEscVistaMod.algoritmo.toUpperCase(),
+                estado: '1',
+                ruta: objEscVistaMod.ruta,
+                sistema: SESION.sistema
+            };
+            ipcRenderer.send('escenario_bd:guardar', json);
+        }, 1000);
+
+        setTimeout(() => {
+            bannerBD.ocultar();
+        }, 3000);
+    } else {
+        bannerBD.error();
+        bannerBD.setMensaje('Error: ' + res.mensaje);
+        setTimeout(() => {
+            bannerBD.ocultar();
+        }, 2000);
+    }
+});
+
+ipcRenderer.on('escenario_bd:progreso', (event, res) => {
+    if (res.estado === true) {
+        botonProgresoBD.setProgreso(res.progreso);
+
+        if (res.progreso >= 100) {
+            // Reactiva los select para nueva búsqueda
+            select_mod_anio.disabled = false;
+            select_mod_algoritmo.disabled = false;
+            select_mod_mes.disabled = false;
+            select_mod_dia.disabled = false;
+            select_mod_esc_original.disabled = false;
+            select_mod_esc_modificado.disabled = false;
+
+            console.log('Finalizado');
+            bannerBD.mostrar();
+            bannerBD.ok();
+            bannerBD.setMensaje(`Escenario <font style="color:lightgreen; text-decoration:underline;">${objEscVistaMod.folio}</font> guardado en la base de datos.`);
+            setTimeout(() => {
+                bannerBD.ocultar();
+            }, 2000);
+        }
+    } else {
+        // Reactiva los select para nueva búsqueda
+        select_mod_anio.disabled = false;
+        select_mod_algoritmo.disabled = false;
+        select_mod_mes.disabled = false;
+        select_mod_dia.disabled = false;
+        select_mod_esc_original.disabled = false;
+        select_mod_esc_modificado.disabled = false;
+
+        bannerBD.error();
+        bannerBD.setMensaje(`Error al guardar en base de datos: ${res.mensaje}`);
+        setTimeout(() => {
+            bannerBD.ocultar();
+        }, 3000);
+    }
+});

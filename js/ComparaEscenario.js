@@ -506,6 +506,94 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
                 }
             }
         }
+    }  else if (obj.opc === 'MOD_COSTOS') {
+        let arg_islas = obj.res.replace(new RegExp('=?', 'g'), '').split('Isla :');
+        let datos_costos = arg_islas[arg_islas.length - 1].split('Solucion Final para la Isla')[1].trim().replace(new RegExp('\s*:', 'g'), '').split(new RegExp('\s*\n\s*', 'g'));
+        console.log();
+        // Lo guarda en el objeto original
+        objEscVistaMod.costo_total = '---';
+        objEscVistaMod.costo_gen = '---';
+        objEscVistaMod.costo_gen_rd = '---';
+        objEscVistaMod.costo_gen_rc = '---';
+        objEscVistaMod.beneficio_social = '---';
+        objEscVistaMod.costo_arranque = '---';
+        objEscVistaMod.costo_reservas = '---';
+        objEscVistaMod.ingreso_total = '---';
+        objEscVistaMod.ingreso_demanda = '---';
+        objEscVistaMod.ingreso_reservas = '---';
+
+        datos_costos.forEach((dato) => {
+            let linea = dato.trim();
+            if (linea !== '') {
+                if (linea.includes('Costo Total') === true) {
+                    objEscVistaMod.costo_total = linea.replace('Costo Total', '').trim();
+                } else if (linea.includes('Costo Generacion RD') === true) {
+                    objEscVistaMod.costo_gen_rd = linea.replace('Costo Generacion RD', '').trim();
+                } else if (linea.includes('Costo Generacion RC') === true) {
+                    objEscVistaMod.costo_gen_rc = linea.replace('Costo Generacion RC', '').trim();
+                } else if (linea.includes('Costo Generacion') === true) {
+                    objEscVistaMod.costo_gen = linea.replace('Costo Generacion', '').trim();
+                } else if (linea.includes('Beneficio Social') === true) {
+                    objEscVistaMod.beneficio_social = linea.replace('Beneficio Social', '').trim();
+                } else if (linea.includes('Costo de Arranque') === true) {
+                    objEscVistaMod.costo_arranque = linea.replace('Costo de Arranque', '').trim();
+                } else if (linea.includes('Costo de Reservas') === true) {
+                    objEscVistaMod.costo_reservas = linea.replace('Costo de Reservas', '').trim();
+                } else if (linea.includes('Ingreso Total') === true) {
+                    objEscVistaMod.ingreso_total = linea.replace('Ingreso Total', '').trim();
+                } else if (linea.includes('Ingreso demanda') === true) {
+                    objEscVistaMod.ingreso_demanda = linea.replace('Ingreso demanda', '').trim();
+                } else if (linea.includes('Ingreso Reservas') === true) {
+                    objEscVistaMod.ingreso_reservas = linea.replace('Ingreso Reservas', '').trim();
+                }
+            }
+        });
+
+        for (let col of colapsos_mod) {
+            if (col.id ==='col_info_datos_costos') {
+                // Busca el icono para mostrarlo
+                for (let nodo of col.childNodes) {
+                    if (nodo.nodeName.toLowerCase() === 'span') {
+                        nodo.classList.remove('invisible');
+                        console.log('muestra icono', nodo.classList.contains('invisible'));
+                    }
+                }
+
+                // Quita la clase inactivo
+                col.classList.remove('inactivo');
+                // Busca la tabla
+                let tabla_encontrada;
+                for (let tabla of tablas_mod) {
+                    if (tabla.id === 'DATOS_COSTOS') {
+                        // Borra el tbody anterior
+                        if (typeof tabla.tbody !== "undefined" && tabla.tbody !== null) {
+                            try {
+                                tabla.removeChild(tabla.tbody);
+                            } catch (e) {}
+                        }
+                        // Crea el tbody
+                        tabla.tbody = document.createElement('tbody');
+                        tabla.tbody.classList.add('tabla-body');
+                        tabla.appendChild(tabla.tbody);
+
+                        tabla.filas = [];
+
+                        crearFilaCosto(tabla, 'Costo Total', objEscVistaMod.costo_total);
+                        crearFilaCosto(tabla, 'Costo Generación', objEscVistaMod.costo_gen);
+                        crearFilaCosto(tabla, 'Costo Generación RD', objEscVistaMod.costo_gen_rd);
+                        crearFilaCosto(tabla, 'Costo Generación RC', objEscVistaMod.costo_gen_rc);
+                        crearFilaCosto(tabla, 'Beneficio Social', objEscVistaMod.beneficio_social);
+                        crearFilaCosto(tabla, 'Costo Arranque', objEscVistaMod.costo_arranque);
+                        crearFilaCosto(tabla, 'Costo Reservas', objEscVistaMod.costo_reservas);
+                        crearFilaCosto(tabla, 'Ingreso Total', objEscVistaMod.ingreso_total);
+                        crearFilaCosto(tabla, 'Ingreso Demanda', objEscVistaMod.ingreso_demanda);
+                        crearFilaCosto(tabla, 'Ingreso Reservas', objEscVistaMod.ingreso_reservas);
+
+                        tabla_encontrada = tabla;
+                    }
+                }
+            }
+        }
     } else if (obj.opc === 'MOD_COMENTARIOS') {
         if (obj.res.startsWith('ERROR')) {
             console.log(obj.res);

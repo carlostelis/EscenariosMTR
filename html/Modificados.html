@@ -119,10 +119,10 @@
                             <button id="boton_cargaEscenarioMod" disabled class="button_gral" onclick="cargarEscenarioMod();"><span><i class="demo-icon icon-eye"></i></span>Cargar</button>
                         </div>
                         <div class="col-2">
-                            <button id="boton_cargaEscenarioModActual" disabled class="button_gral" onclick="cargarEscenarioModActual();"><span><i class="demo-icon icon-down-hand"></i></span>Cargar Actual</button>
+                            <button id="boton_cargaEscenarioModActual" disabled class="button_gral" onclick="cargarEscenarioModActual2();"><span><i class="demo-icon icon-down-hand"></i></span>Cargar Actual</button>
                         </div>
                         <div class="col-2">
-                            <button id="boton_guardaBDEscenarioMod" disabled class="button_gral bd"><span><i class="demo-icon icon-database" ></i></span>Guardar en BD</button>
+                            <button id="boton_guardaBDEscenarioMod" disabled class="button_gral bd" onclick="guardarEnBaseDatos();"><span><i class="demo-icon icon-database" ></i></span>Guardar en BD</button>
                         </div>
                     </div>
 
@@ -3443,6 +3443,20 @@
                     <!-- CONTENEDOR RESULTADOS -->
                     <div id="cont-resultados-mod" class="row contenedor-info contenedor-mod subseccion">
                         <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
+
+                            <!-- DATOS DE COSTOS -->
+                            <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'DATOS_COSTOS');" id="col_info_datos_costos">
+                                <span class="span-costos"><i class="demo-icon icon-money-1"></i></span>
+                                <div class="col"><span id="ARCH-DATOS_COSTOS" class="span-archivo">r_desphora1.csv</span>COSTOS E INGRESOS<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable colapsable-mod div-tabla invisible CONT-DATOS_COSTOS" id="datos_costos">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-sm table-striped table-bordered tabla-info tabla-mod DATOS_COSTOS" id="DATOS_COSTOS" data-contenedor="datos_costos" data-colapso="col_info_datos_costos">
+                                        <thead class="tabla-head">
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
 
                             <!-- RESUMEN DE RESULTADOS GLOBALES -->
                             <div class="row justify-content-center celda-header-info celda-header-mod" onclick="colapsarMod(this,'DERS_I_TOTALES_');" id="col_info_global_i">

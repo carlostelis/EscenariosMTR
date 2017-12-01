@@ -5,6 +5,12 @@
  */
 package DB_MTR;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  *
@@ -23,9 +29,12 @@ public class test {
         }
 
 */
-        BD bd = new BD("mer-scan.cenace.com:1521/PRUEBAS", "BD_ESCEN_ACCESO", "X12YlAqEpa");
+        BD bd = new BD("mer-scan.cenace.com:1521/PRUEBAS", "BD_ESCEN_BCA", "eZJtDzeIA9");
         
-        bd.subirEscenario("C:\\AppAnalizadorEscenarios\\SIN\\autr\\escenario_original\\2017\\11\\19\\201711191501_-06.zip");
+        bd.subirEscenario2("C:\\AppAnalizadorEscenarios\\BCA\\autr\\escenario_original\\2017\\11\\30\\201711301601_-08\\201711301601_-08.zip", "201711301601_-08");
+        
+//        String asd = "C:\\AppAnalizadorEscenarios\\SIN\\autr\\escenario_modificado\\2017\\11\\30\\201711300001_-06\\201711302138\\";
+//        System.out.println(asd.replace("escenario_modificado", "escenario_original").replace("201711302138\\", ""));
     }
     
 }

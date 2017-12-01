@@ -12,8 +12,6 @@ class Comandos {
     }
 
     obtenerUsuario(usuario) {
-        let that = this;
-
         return new Promise((resolve, reject) => {
             let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
 
@@ -62,8 +60,6 @@ class Comandos {
     }
 
     descomprimir(archivoTar, dia, id_escenario, carpeta, eliminar) {
-        let that = this;
-
         return new Promise((resolve, reject) => {
             let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
 
@@ -116,8 +112,6 @@ class Comandos {
     }
 
     obtenerUTC(fecha, zona) {
-        let that = this;
-
         return new Promise((resolve, reject) => {
             let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
 
@@ -285,6 +279,127 @@ class Comandos {
                 process.chdir(ruta_actual);
 
                 reject({codigo:codigo, mensaje:mensaje, cadena:resultado});
+            }
+        });
+    }
+
+    comprimirCarpeta(rutaOrigen, rutaDestino) {
+        return new Promise((resolve, reject) => {
+            let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
+
+            // Borra el archivo primero
+            if (!this.fs.existsSync(rutaDestino)) {
+                try {
+                    this.fs.unlinkSync(rutaDestino);
+                } catch (e) {
+                    console.log('Compresion err: ', e.message);
+                }
+            }
+
+            const jar = execFile('java', ['-jar', ruta, '--opc=zip', `--zipSource=${rutaOrigen}`, `--zipDestino=${rutaDestino}`], (error, stdout, stderr) => {
+                if (error) {
+                    console.log(`Error: ${error}`);
+                    reject({
+                        mensaje: `No fue posible consultar UTC; errno = ${error.code}`,
+                        estado: false
+                    });
+                }
+
+                console.log(`Resultado: ${stdout}<`);
+
+                if (stdout.startsWith('ERROR')) {
+                    var jsonErr = {
+                        mensaje: stdout.split('->')[1],
+                        estado: false,
+                    };
+                    console.log(jsonErr);
+                    reject(jsonErr);
+                } else  {
+                    try {
+                        console.log('-envia JSON-');
+                        const json = {
+                            estado: true,
+                            mensaje: 'Compresion realizada correctamente'
+                        };
+
+                        console.log(JSON.stringify(json));
+                        resolve(json);
+                    } catch (e) {
+                        reject({error: e});
+                    }
+                }
+            });
+        });
+    }
+
+    guardarEnBaseDatos(data, cb_progreso) {
+        return new Promise((resolve, reject) => {
+            try {
+                console.log('Ruta actual: ', process.cwd());
+                let rutaJar = this.path.join(__dirname, '..', 'jar', 'DataBaseModuleJar.jar');
+                let rutaExe = `java -jar ${rutaJar} ${data.opc} ${data.folio} ${data.usuario} ${data.id} ${data.algoritmo} ${data.estado} ${data.ruta + this.path.sep} ${data.sistema}`;
+                console.log('Ejecuta: ', rutaExe);
+
+                let codigo;
+                let mensaje;
+                let aux;
+                let porcentaje;
+                let flag_error = false;
+
+                const exe = spawn('java', ['-jar', rutaJar, data.opc, data.folio, data.usuario, data.id, data.algoritmo, data.estado, data.ruta + this.path.sep, data.sistema]);
+
+                exe.stdout.on('data', (data) => {
+                    aux = this.decoder.decode(data);
+                    console.log(aux);
+
+                    if (aux.startsWith('Registro')) {
+                        let words = aux.split(' ');
+                        if (words.length === 4) {
+                            let porcentaje = parseInt(words[1]) / parseInt(words[3]) * 100;
+                            cb_progreso(porcentaje, true);
+                        }
+                    }
+
+                    // VErifica error
+                    if (aux.startsWith('ERROR FATAL')) {
+                        flag_error = true;
+                        mensaje = '';
+                    }
+                });
+
+                exe.stderr.on('data', (data) => {
+                    aux = this.decoder.decode(data);
+                    // console.log('err>', aux);
+
+                    if (aux.startsWith('Registro')) {
+                        let words = aux.split(' ');
+                        if (words.length === 4) {
+                            let porcentaje = parseInt(words[1]) / parseInt(words[3]) * 100;
+                            cb_progreso(porcentaje, true);
+                        }
+                    }
+
+                    // VErifica error
+                    if (aux.startsWith('ERROR FATAL')) {
+                        flag_error = true;
+                        mensaje = '';
+                    }
+                });
+
+                exe.on('close', (code) => {
+                    console.log(`Finaliza ejecución BD, código: ${code}`);
+
+                    if (flag_error === true) {
+                        reject({estado:false, mensaje:mensaje});
+                    } else {
+                        resolve({estado:true, progreso: 100, mensaje:''});
+                    }
+                });
+            } catch (e) {
+                codigo = -12345;
+                mensaje = `Error de ejecución ${e.message}`;
+
+                reject({estado:!flag_error, mensaje:mensaje});
             }
         });
     }

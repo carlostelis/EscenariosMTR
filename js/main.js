@@ -1200,3 +1200,39 @@ ipcMain.on('escenarios_folio_escenarios:leer', (event, algoritmo, anio, mes, dia
         win.webContents.send('escenarios_folio_escenarios:leidos', false, null);
     });
 });
+
+ipcMain.on('escenario_bd:comprimir', (event, ruta_escenario, evento) => {
+    let elementos = ruta_escenario.split(path.sep);
+    let ruta_destino;
+    if (ruta_escenario.endsWith(path.sep)) {
+        ruta_destino = path.join(ruta_escenario, `${elementos[elementos.length - 2]}.zip`);
+    } else {
+        ruta_destino = path.join(ruta_escenario, `${elementos[elementos.length - 1]}.zip`);
+    }
+
+    console.log(' > Comprimiendo escenario:', ruta_escenario);
+    console.log(' > A:', ruta_destino);
+
+    comandos.comprimirCarpeta(ruta_escenario, ruta_destino).then((json) => {
+        console.log("Compresión realizada", json.estado);
+        win.webContents.send(evento, json);
+    }, (json) => {
+        console.log("Compresión fallida", json.estado);
+        win.webContents.send(evento, json);
+    });
+});
+
+ipcMain.on('escenario_bd:guardar', (event, obj) => {
+    console.log('Guarda en BD');
+    console.log(obj);
+    comandos.guardarEnBaseDatos(obj, enviarProgresoBD).then((obj) => {
+        console.log('Hecho');
+        win.webContents.send('escenario_bd:progreso', obj);
+    }, () => {
+        win.webContents.send('escenario_bd:progreso', obj);
+    });
+});
+
+function enviarProgresoBD(valor, estado) {
+    win.webContents.send('escenario_bd:progreso', {progreso:valor, estado:estado});
+}

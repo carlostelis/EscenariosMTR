@@ -160,6 +160,8 @@ class ListaArchivos {
 
     marcarDescargado(ruta) {
         fs.writeFileSync(path.join(ruta, '.descargado'), `Descargado ${ruta}`);
+        // Crea también el archivo de comentarios
+        fs.writeFileSync(path.join(ruta, 'comentarios.txt'), '');
     }
 
     isDescargado(ruta) {

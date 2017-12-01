@@ -16,6 +16,7 @@ require('electron-context-menu')({
 const body = document.querySelector("body");
 const div_msg_consola = document.getElementById('div_msg_consola');
 const banner = new Banner(body);
+const bannerBD = new Banner(body);
 const consolaExe = new Consola(body);
 const visor_archivos = new VistaArchivos();
 const moment = require('moment');
@@ -136,6 +137,7 @@ let select_mod_esc_modificado;
 let th_periodos_mod = [];
 let spans_archivos = [];
 let textarea_comentarios_mod;
+let botonProgresoBD;
 
 // Etiquetas comunes
 let usuario_labels = null;
@@ -308,9 +310,6 @@ function cargaComponentes() {
 
 	spans_archivos_info = Array.from(document.getElementsByClassName('span-archivo-res-info'));
 	textarea_comentarios_info = document.getElementById('textarea_comentarios_info');
-	boton_cargaEscenarioMod = document.getElementById('boton_cargaEscenarioMod');
-	boton_cargaEscenarioModActual = document.getElementById('boton_cargaEscenarioModActual');
-	boton_guardaBDEscenarioMod = document.getElementById('boton_guardaBDEscenarioMod');
 	spans_archivos = Array.from(document.getElementsByClassName('span-archivo'));
 
     // Comparacion de resultados
@@ -428,6 +427,12 @@ function cargaComponentes() {
 	boton_actualizarEscenario = document.getElementById('boton_actualizarEscenario');
 	boton_nuevoFolio = document.getElementById('boton_nuevoFolio');
 	boton_resultadoOriginal = document.getElementById('boton_resultadoOriginal');
+
+    // Botones de modifica
+	boton_cargaEscenarioMod = document.getElementById('boton_cargaEscenarioMod');
+	boton_cargaEscenarioModActual = document.getElementById('boton_cargaEscenarioModActual');
+	boton_guardaBDEscenarioMod = document.getElementById('boton_guardaBDEscenarioMod');
+	botonProgresoBD = new BotonProgreso(boton_guardaBDEscenarioMod);
 
     let div_archivos = document.getElementById('div_visor-archivos');
 
