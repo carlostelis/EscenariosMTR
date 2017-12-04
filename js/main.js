@@ -212,7 +212,7 @@ ipcMain.on('usuario:solicitar', (event, usuario) => {
     console.log(`Solicitando usuario ${usuario}`);
 
     // Sin red cenace
-    // win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'Carlos Telis', perfil: 'Super Usuario', contrasena:'asdasd', estado:true, Mensaje: 'Consulta realizada correctamente'});
+    // win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'Carlos Telis', perfil: 'Super Usuario', contrasena:'test', estado:true, Mensaje: 'Consulta realizada correctamente'});
     // return;
 
     // conexión con la BD
@@ -260,6 +260,13 @@ ipcMain.on('paginas:leer', (event) => {
     console.log(ruta);
     paginas.push({
         id: '4',
+        data: fs.readFileSync(ruta, 'utf8')
+    });
+
+    ruta = path.join(__dirname, '../html/EliminarEscenario.html');
+    console.log(ruta);
+    paginas.push({
+        id: '5',
         data: fs.readFileSync(ruta, 'utf8')
     });
 

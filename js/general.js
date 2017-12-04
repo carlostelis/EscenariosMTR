@@ -139,6 +139,9 @@ let spans_archivos = [];
 let textarea_comentarios_mod;
 let botonProgresoBD;
 
+// Eliminar Escenario
+let pestanias_eliminar = null;
+
 // Etiquetas comunes
 let usuario_labels = null;
 let sistema_labels = null;
@@ -413,6 +416,10 @@ function cargaComponentes() {
 	select_mod_esc_original = document.getElementById('select_mod_esc_original');
 	select_mod_esc_modificado = document.getElementById('select_mod_esc_modificado');
 	textarea_comentarios_mod = document.getElementById('textarea_comentarios_mod');
+
+	// Eliminar escenarios
+	pestanias_eliminar = Array.from(document.getElementsByClassName('pestania-eliminar'));
+	divs_eliminar = Array.from(document.getElementsByClassName('div-lista-esc-eliminar'));
 
     // Etiquetas comunes
     usuario_labels = Array.from(document.getElementsByClassName('label-usuario-esc'));
