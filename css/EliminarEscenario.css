@@ -1,0 +1,91 @@
+.pestania-eliminar {
+    height: 3vh;
+    width: 14vw;
+    margin: auto;
+    display: inline-table;
+    margin-right: -10px;
+    margin-left: 0px;
+    margin-bottom: -2px;
+    border-bottom: 2px solid rgba(255, 245, 230, 1);
+    background-color: rgba(255, 245, 230, 1);
+    border-right: 2px outset lightgray;
+    border-left: 2px outset lightgray;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-top: 2px outset lightgray;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    font-size: 1.1vw;
+    font-weight: bold;
+    box-shadow: 0px -3px 5px 0px rgba(0,0,0,0.75);
+    text-shadow: 0px 0px 1px darkslategrey;
+}
+
+.pestania-eliminar.inactiva {
+    background-color: darkseagreen;
+    border-bottom: 2px groove lightgray;
+    z-index: 1;
+    color: dimgray;
+    cursor:pointer;
+}
+
+.div-lista-esc-eliminar {
+    height: 100%;
+    width: 100%;
+    background-color: rgb(255, 245, 230);
+    border: 2px outset lightgray;
+    border-radius: 20px;
+    box-shadow: 0px -3px 5px 0px rgba(0,0,0,0.75);
+    display:block;
+    padding: 2vh 2vw;
+}
+
+.div-lista-esc-eliminar.inactivo {
+    display:none;
+}
+
+.div-lista-esc-eliminar-locales-ori {
+    width: 46%;
+    margin-right: 3%;
+}
+
+.div-lista-esc-eliminar-locales-mod {
+    width: 46%;
+    margin-left: 3%;
+}
+
+.div-lista-esc-eliminar-locales-db {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+}
+
+.div-lista-esc-eliminar > div > a.list-group-item {
+    height: 5vh;
+}
+
+.boton-lista-eliminar {
+    height: 5vh;
+    width: 100%;
+    border-radius: 5px;
+    background-color: white;
+    text-shadow: 0px 0px 1px grey;
+}
+
+.boton-lista-eliminar:hover {
+    color: cadetblue;
+    cursor: pointer;
+    background-color: azure;
+    text-decoration: underline;
+}
+
+.boton-lista-eliminar:disabled {
+    color: white;
+    background-color: seagreen;
+    cursor: initial;
+}
+
+.boton-lista-eliminar:disabled:hover {
+    text-decoration:none;
+}
