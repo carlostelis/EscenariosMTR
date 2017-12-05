@@ -65,6 +65,7 @@ function handleSquirrelEvent(application) {
     }
 };
 
+const rm = require('rimraf');
 const fs = require('fs');
 const fse = require('fs-extra');
 const moment = require('moment');
@@ -1220,7 +1221,7 @@ ipcMain.on('escenario_bd:comprimir', (event, ruta_escenario, evento) => {
     console.log(' > Comprimiendo escenario:', ruta_escenario);
     console.log(' > A:', ruta_destino);
 
-    comandos.comprimirCarpeta(ruta_escenario, ruta_destino).then((json) => {
+    comandos.comprimirCarpeta2(ruta_escenario, ruta_destino).then((json) => {
         console.log("Compresión realizada", json.estado);
         win.webContents.send(evento, json);
     }, (json) => {
@@ -1232,14 +1233,144 @@ ipcMain.on('escenario_bd:comprimir', (event, ruta_escenario, evento) => {
 ipcMain.on('escenario_bd:guardar', (event, obj) => {
     console.log('Guarda en BD');
     console.log(obj);
-    comandos.guardarEnBaseDatos(obj, enviarProgresoBD).then((obj) => {
+    comandos.guardarEnBaseDatos(obj, enviarProgresoBD).then((objres) => {
         console.log('Hecho');
-        win.webContents.send('escenario_bd:progreso', obj);
-    }, () => {
-        win.webContents.send('escenario_bd:progreso', obj);
+        win.webContents.send('escenario_bd:progreso', objres);
+    }, (objres) => {
+        console.log('BD con error');
+        win.webContents.send('escenario_bd:progreso', objres);
     });
 });
 
 function enviarProgresoBD(valor, estado) {
     win.webContents.send('escenario_bd:progreso', {progreso:valor, estado:estado});
 }
+
+ipcMain.on('escenario_original_local:leertodos', (event) => {
+    let ruta_base = path.join(config.local.escenarios, SESION.sistema);
+    console.log('Ruta base', ruta_base);
+    let lista_id = [];
+    let promesas_ids = [];
+
+    let lista1 = escenario.leerDirectoriosSync(ruta_base);
+    lista1.forEach((dir1) => {
+        let ruta_alg_ori = path.join(ruta_base, dir1, 'escenario_original');
+        let lista2 = escenario.leerDirectoriosSync(ruta_alg_ori);
+        // Lee los años
+        lista2.forEach((dir2) => {
+            let ruta_alg_ori_anio = path.join(ruta_alg_ori, dir2);
+            let lista3 = escenario.leerDirectoriosSync(ruta_alg_ori_anio);
+            // Lee los meses
+            lista3.forEach((dir3) => {
+                let ruta_alg_ori_anio_mes = path.join(ruta_alg_ori_anio, dir3);
+                let lista4 = escenario.leerDirectoriosSync(ruta_alg_ori_anio_mes);
+                // Lee los dias
+                lista4.forEach((dir4) => {
+                    let ruta_alg_ori_anio_mes_dia = path.join(ruta_alg_ori_anio_mes, dir4);
+                    let lista5 = escenario.leerDirectoriosSync(ruta_alg_ori_anio_mes_dia);
+                    // Lee los id
+                    lista5.forEach((dir5) => {
+                        if (dir5.length == 16) {
+                            let ruta_alg_ori_anio_mes_dia_id = path.join(ruta_alg_ori_anio_mes_dia, dir5);
+
+                            let anio = dir5.slice(0, 4);
+                            let mes = dir5.slice(4, 6);
+                            let dia = dir5.slice(6, 8);
+                            let hora = dir5.slice(8, 10);
+                            let int = dir5.slice(10, 12);
+                            let gmt = dir5.slice(13, 16);
+                            lista_id.push({
+                                id: dir5,
+                                ruta: ruta_alg_ori_anio_mes_dia_id,
+                                anio: parseInt(anio),
+                                mes: parseInt(mes),
+                                dia: parseInt(dia),
+                                hora: parseInt(hora),
+                                int: parseInt(int),
+                                gmt: parseInt(gmt),
+                                algoritmo:dir1
+                            });
+
+                            console.log('>',dir5);
+                        }
+                    });
+                });
+            });
+        });
+    });
+
+    // Envia la lista
+    win.webContents.send('escenario_original_local:leidotodos', lista_id);
+});
+
+ipcMain.on('escenario_modificado_local:leerLista', (event, obj) => {
+    let listaObj = [];
+    console.log('Leyendo modificados del original', obj.id);
+    escenario.leerDirectorioMod(obj.ruta.replace('escenario_original', 'escenario_modificado')).then((lista) => {
+        // Crea nuevos objetos de informacion de modificados a partir del original
+        lista.filter((elem) => { return elem.length === 12 }).forEach((dir) => {
+            let newObj = JSON.parse(JSON.stringify(obj));
+            newObj.infoMod = {
+                folio: dir,
+                ruta: path.join(obj.ruta.replace('escenario_original', 'escenario_modificado'), dir),
+                anio: dir.slice(0, 4),
+                mes: dir.slice(4, 6),
+                dia: dir.slice(6, 8),
+                hora: dir.slice(8, 10),
+                min: dir.slice(10, 12)
+            }
+            listaObj.push(newObj);
+        });
+
+        win.webContents.send('escenario_modificado_local:leidaLista', listaObj);
+    }, () => {
+        win.webContents.send('escenario_modificado_local:leidaLista', listaObj);
+    });
+});
+
+ipcMain.on('escenario_modificado_local:leer_comentarios', (event, obj) => {
+    let ruta_archivo = path.join(obj.infoMod.ruta, 'comentarios.txt');
+
+    console.log('Archivo comentarios', ruta_archivo);
+    escenario.leerArchivo(ruta_archivo).then((data) => {
+        console.log('Leido');
+        win.webContents.send('escenario_modificado_local:leido_comentarios', {estado: true, res:data});
+    }, (err) => {
+        console.log('Error', err);
+        win.webContents.send('escenario_modificado_local:leido_comentarios', {estado: false, res:err});
+    });
+});
+
+ipcMain.on('escenario_original_local:borrar', (event, ruta) => {
+    let ruta_modificados = ruta.replace('escenario_original', 'escenario_modificado');
+
+    console.log('Borrando escenarios modificados', ruta_modificados);
+    rm(ruta_modificados, (err) => {
+        if (err) {
+            console.log('Error:', err.message);
+            win.webContents.send('escenario_original_local:borrado', {estado:false, mensaje:err.message});
+        } else {
+            console.log('Borrando escenario original', ruta);
+            rm(ruta, (err) => {
+                if (err) {
+                    console.log('Error:', err.message);
+                    win.webContents.send('escenario_original_local:borrado', {estado:false, mensaje:err.message});
+                } else {
+                    win.webContents.send('escenario_original_local:borrado', {estado:true});
+                }
+            });
+        }
+    });
+});
+
+ipcMain.on('escenario_modificado_local:borrar', (event, ruta) => {
+    console.log('Borrando escenario modificado', ruta);
+    rm(ruta, (err) => {
+        if (err) {
+            console.log('Error:', err.message);
+            win.webContents.send('escenario_modificado_local:borrado', {estado:false, mensaje:err.message});
+        } else {
+            win.webContents.send('escenario_modificado_local:borrado', {estado:true});
+        }
+    });
+});

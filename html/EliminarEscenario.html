@@ -4,46 +4,113 @@
     <body>
         <div class="container-fluid fill">
             <div class="row align-items-center" style="height: 100%;">
-                <div class="col-6 subseccion" style="height: 100%;">
+                <div class="col subseccion" style="height: 100%;">
                     <div class="row" style="padding-top: 5vh;">
-                        <div class="col-10" style="margin:auto;">
-                            <div class="col-10 row container justify-content-center" style="margin:auto; padding:0; height:55vh;">
-                                <div class="pestania-eliminar" onclick="switchTipoEscenario(this, 'div_lista_esc_eliminar_locales');">En Disco Local</div>
-                                <div class="pestania-eliminar inactiva" onclick="switchTipoEscenario(this, 'div_lista_esc_eliminar_db');">En Base de Datos</div>
+                        <div class="col-11" style="margin:auto;">
+                            <div class="col row container justify-content-center" style="margin:auto; padding:0; height:60vh;">
+                                <div class="pestania-eliminar" onclick="switchTipoEscenario(this, 'div_lista_esc_eliminar_locales');">Escenarios  en Disco Local</div>
+                                <div class="pestania-eliminar inactiva" onclick="switchTipoEscenario(this, 'div_lista_esc_eliminar_db');">Escenarios en Base de Datos</div>
                                 <div id="div_lista_esc_eliminar_locales" class="div-lista-esc-eliminar">
-                                    <div class="div-lista-esc-eliminar-locales-ori">
-                                        <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);">Cras justo odio</button>
-                                        <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);">Dapibus ac facilisis in</button>
-                                        <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);">Morbi leo risus</button>
-                                        <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);">Porta ac consectetur ac</button>
-                                        <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);">Vestibulum at eros</button>
+                                    <div class="row" style="margin-bottom:1vh;">
+                                        <div class="col-4">
+                                            <div class="row">
+                                                <label class="label-dato-eliminar">Algoritmo:</label>
+                                                <select id="select_eliminar_algoritmo_local" class="select-dato-eliminar"></select>
+                                            </div>
+                                            <div class="row">
+                                                <label class="label-dato-eliminar">Año:</label>
+                                                <select id="select_eliminar_anio_local" class="select-dato-eliminar"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="row">
+                                                <label class="label-dato-eliminar">Mes:</label>
+                                                <select id="select_eliminar_mes_local" class="select-dato-eliminar"></select>
+                                            </div>
+                                            <div class="row">
+                                                <label class="label-dato-eliminar">Dia:</label>
+                                                <select id="select_eliminar_dia_local" class="select-dato-eliminar"></select>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="div-lista-esc-eliminar-locales-mod">
-                                        <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);">Cras justo odio</button>
-                                        <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);">Dapibus ac facilisis in</button>
-                                        <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);">Morbi leo risus</button>
-                                        <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);">Porta ac consectetur ac</button>
-                                        <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);">Vestibulum at eros</button>
+                                    <div class="row">
+                                        <div class="div-lista-esc-eliminar-ori-titulo">Escenario Original</div>
+                                        <div class="div-lista-esc-eliminar-mod-titulo">Escenario Modificado</div>
+                                        <div class="div-lista-esc-eliminar-info-titulo">Información del Escenario</div>
+                                    </div>
+                                    <div class="row" style="height:85%;">
+                                        <div class="div-lista-esc-eliminar-ori">
+                                            <div id="lista_ori_local" class="lista"></div>
+                                            <div class="row">
+                                                <button id="boton_eliminar_ori_local" type="button" class="button_gral boton-eliminar" disabled onclick="borrarEscenarioOriginalLocal();" title="Elimina la carpeta del disco local; también elimina los escenarios modificados asociados"><span><i class="demo-icon icon-trash"></i></span>Eliminar</button>
+                                            </div>
+                                        </div>
+                                        <div class="div-lista-esc-eliminar-mod">
+                                            <div id="lista_mod_local" class="lista"></div>
+                                            <div class="row">
+                                                <button id="boton_eliminar_mod_local" type="button" class="button_gral boton-eliminar" disabled onclick="borrarEscenarioModificadoLocal();" title="Elimina la carpeta del disco local"><span><i class="demo-icon icon-trash"></i></span>Eliminar</button>
+                                            </div>
+                                        </div>
+                                        <div class="div-lista-esc-eliminar-info">
+                                            <div id="div_comentarios_eliminar_local" class="div-comentarios-eliminar"></div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div id="div_lista_esc_eliminar_db" class="div-lista-esc-eliminar inactivo">
-                                    <div class="div-lista-esc-eliminar-locales-db">
-                                        <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);">Cras justo odio</button>
-                                        <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);">Dapibus ac facilisis in</button>
-                                        <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);">Morbi leo risus</button>
-                                        <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);">Porta ac consectetur ac</button>
-                                        <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);">Vestibulum at eros</button>
+                                    <div class="row" style="margin-bottom:1vh;">
+                                        <div class="col-4">
+                                            <div class="row">
+                                                <label class="label-dato-eliminar">Algoritmo:</label>
+                                                <select id="select_eliminar_algoritmo_db" class="select-dato-eliminar"></select>
+                                            </div>
+                                            <div class="row">
+                                                <label class="label-dato-eliminar">Año:</label>
+                                                <select id="select_eliminar_anio_db" class="select-dato-eliminar"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="row">
+                                                <label class="label-dato-eliminar">Mes:</label>
+                                                <select id="select_eliminar_mes_db" class="select-dato-eliminar"></select>
+                                            </div>
+                                            <div class="row">
+                                                <label class="label-dato-eliminar">Dia:</label>
+                                                <select id="select_eliminar_dia_db" class="select-dato-eliminar"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="div-lista-esc-eliminar-ori-titulo">Escenario Original</div>
+                                        <div class="div-lista-esc-eliminar-mod-titulo">Escenario Modificado</div>
+                                        <div class="div-lista-esc-eliminar-info-titulo">Información del Escenario</div>
+                                    </div>
+                                    <div class="row" style="height:85%;">
+                                        <div class="div-lista-esc-eliminar-ori">
+                                            <div id="lista_ori_bd" class="lista">
+                                                <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);"><span><i class="demo-icon icon-play-1"></i></span>Cras justo odio</button>
+                                            </div>
+                                            <div class="row">
+                                                <button id="boton_eliminar_ori_db" type="button" class="button_gral boton-eliminar" disabled onclick="" title="Elimina el registro de la base de datos"><span><i class="demo-icon icon-trash"></i></span>Eliminar</button>
+                                            </div>
+                                        </div>
+                                        <div class="div-lista-esc-eliminar-mod">
+                                            <div class="lista">
+                                                <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);"><span><i class="demo-icon icon-play-1"></i></span>Dapibus ac facilisis in</button>
+                                            </div>
+                                            <div class="row">
+                                                <button  id="boton_eliminar_mod_db" type="button" class="button_gral boton-eliminar" disabled onclick="" title="Elimina el registro de la base de datos"><span><i class="demo-icon icon-trash"></i></span>Eliminar</button>
+                                            </div>
+                                        </div>
+                                        <div class="div-lista-esc-eliminar-info">
+                                            <div id="div_comentarios_eliminar_bd" class="div-comentarios-eliminar">
+                                                Comentario del escenario
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-10 container" style="padding:0;">
-
-                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col subseccion" style="height:100%; margin-left: 0.8vw;">
-
                 </div>
             </div>
         </div>

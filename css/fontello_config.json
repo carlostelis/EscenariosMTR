@@ -575,6 +575,18 @@
       "css": "calendar-empty",
       "code": 61747,
       "src": "fontawesome"
+    },
+    {
+      "uid": "bbfb51903f40597f0b70fd75bc7b5cac",
+      "css": "trash",
+      "code": 61944,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "csuoy0rqoun3unhsgjoy2uumpldzbfmt",
+      "css": "trash-1",
+      "code": 59476,
+      "src": "typicons"
     }
   ]
 }

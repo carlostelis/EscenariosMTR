@@ -296,6 +296,7 @@ class Comandos {
                 }
             }
 
+            console.log('ejecuta jar', ruta, rutaOrigen, rutaDestino);
             const jar = execFile('java', ['-jar', ruta, '--opc=zip', `--zipSource=${rutaOrigen}`, `--zipDestino=${rutaDestino}`], (error, stdout, stderr) => {
                 if (error) {
                     console.log(`Error: ${error}`);
@@ -332,6 +333,70 @@ class Comandos {
         });
     }
 
+    comprimirCarpeta2(rutaOrigen, rutaDestino) {
+        return new Promise((resolve, reject) => {
+            try {
+                let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
+
+                // Borra el archivo primero
+                if (!this.fs.existsSync(rutaDestino)) {
+                    try {
+                        this.fs.unlinkSync(rutaDestino);
+                    } catch (e) {
+                        console.log('Compresion2 err: ', e.message);
+                    }
+                }
+
+                console.log('spawn');
+                const exe = spawn('java', ['-jar', ruta, '--opc=zip', `--zipSource=${rutaOrigen}`, `--zipDestino=${rutaDestino}`]);
+                let flag_error = false;
+                let mensaje = '';
+
+                exe.stdout.on('data', (data) => {
+                    if (data.startsWith('ERROR')) {
+                        flag_error = true;
+                        mensaje = stdout.split('->')[1];
+                        console.log('Error', data);
+                    }
+                });
+
+                exe.stderr.on('data', (data) => {
+                    if (data.startsWith('ERROR')) {
+                        flag_error = true;
+                        mensaje = stdout.split('->')[1];
+                        console.log('Error', data);
+                    }
+                });
+
+                exe.on('close', (code) => {
+                    console.log(`Finaliza ejecución BD, código: ${code}`);
+
+                    if (flag_error === true) {
+                        var jsonErr = {
+                            mensaje: stdout.split('->')[1],
+                            estado: false,
+                        };
+                        console.log(jsonErr);
+                        reject(jsonErr);
+                    } else {
+                        const json = {
+                            estado: true,
+                            mensaje: 'Compresion realizada correctamente'
+                        };
+
+                        console.log(JSON.stringify(json));
+                        resolve(json);
+                    }
+                });
+            } catch (e) {
+                codigo = -12345;
+                mensaje = `Error de ejecución ${e.message}`;
+
+                reject({estado:false, mensaje:mensaje});
+            }
+        });
+    }
+
     guardarEnBaseDatos(data, cb_progreso) {
         return new Promise((resolve, reject) => {
             try {
@@ -354,16 +419,16 @@ class Comandos {
 
                     if (aux.startsWith('Registro')) {
                         let words = aux.split(' ');
-                        if (words.length === 4) {
+                        if (words.length >= 4) {
                             let porcentaje = parseInt(words[1]) / parseInt(words[3]) * 100;
                             cb_progreso(porcentaje, true);
                         }
                     }
 
                     // VErifica error
-                    if (aux.startsWith('ERROR FATAL')) {
+                    if (aux.includes('ERROR')) {
                         flag_error = true;
-                        mensaje = '';
+                        mensaje = aux.split('ERROR')[1];
                     }
                 });
 
@@ -380,9 +445,9 @@ class Comandos {
                     }
 
                     // VErifica error
-                    if (aux.startsWith('ERROR FATAL')) {
+                    if (aux.includes('ERROR')) {
                         flag_error = true;
-                        mensaje = '';
+                        mensaje = aux.split('ERROR')[1];
                     }
                 });
 

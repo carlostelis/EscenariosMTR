@@ -20,6 +20,7 @@ const bannerBD = new Banner(body);
 const consolaExe = new Consola(body);
 const visor_archivos = new VistaArchivos();
 const moment = require('moment');
+const nodePath = require('path');
 const SESION = {
 	usuario: '',
 	sistema: ''
@@ -141,6 +142,31 @@ let botonProgresoBD;
 
 // Eliminar Escenario
 let pestanias_eliminar = null;
+let lista_ori_eliminar = null;
+let lista_mod_eliminar = null;
+let lista_ori_bd = null;
+let lista_ori_local = null;
+let lista_mod_bd = null;
+let lista_mod_local = null;
+let boton_eliminar_ori_local = null;
+let boton_eliminar_mod_local = null;
+let boton_eliminar_ori_db = null;
+let boton_eliminar_mod_db = null;
+let select_eliminar_algoritmo_local = null;
+let select_eliminar_anio_local = null;
+let select_eliminar_mes_local = null;
+let select_eliminar_dia_local = null;
+let select_eliminar_algoritmo_db = null;
+let select_eliminar_anio_db = null;
+let select_eliminar_mes_db = null;
+let select_eliminar_dia_db = null;
+let div_comentarios_eliminar_local = null;
+let div_comentarios_eliminar_bd = null;
+let botonModTemp;
+let botonOriLocalSel = null;
+let botonModLocalSel = null;
+let botonOriDBSel = null;
+let botonModDBSel = null;
 
 // Etiquetas comunes
 let usuario_labels = null;
@@ -196,7 +222,7 @@ body.onload = () => {
 	vistaInfo.funcion = null;
 	vistaModifica.funcion = null;
 	vistaCompara.funcion = null;
-	vistaAdmin.funcion = null;
+	vistaAdmin.funcion = consultarOriginalesTodos;
 
     ipcRenderer.send('paginas:leer');
 };
@@ -420,6 +446,30 @@ function cargaComponentes() {
 	// Eliminar escenarios
 	pestanias_eliminar = Array.from(document.getElementsByClassName('pestania-eliminar'));
 	divs_eliminar = Array.from(document.getElementsByClassName('div-lista-esc-eliminar'));
+	lista_ori_bd = document.getElementById('lista_ori_bd');
+	lista_ori_local = document.getElementById('lista_ori_local');
+	lista_mod_bd = document.getElementById('lista_mod_bd');
+	lista_mod_local = document.getElementById('lista_mod_local');
+	boton_eliminar_ori_local = document.getElementById('boton_eliminar_ori_local');
+	boton_eliminar_mod_local = document.getElementById('boton_eliminar_mod_local');
+	boton_eliminar_ori_db = document.getElementById('boton_eliminar_ori_db');
+	boton_eliminar_mod_db = document.getElementById('boton_eliminar_mod_db');
+	select_eliminar_algoritmo_local = document.getElementById('select_eliminar_algoritmo_local');
+	select_eliminar_anio_local = document.getElementById('select_eliminar_anio_local');
+	select_eliminar_mes_local = document.getElementById('select_eliminar_mes_local');
+	select_eliminar_dia_local = document.getElementById('select_eliminar_dia_local');
+	select_eliminar_algoritmo_db = document.getElementById('select_eliminar_algoritmo_db');
+	select_eliminar_anio_db = document.getElementById('select_eliminar_anio_db');
+	select_eliminar_mes_db = document.getElementById('select_eliminar_mes_db');
+	select_eliminar_dia_db = document.getElementById('select_eliminar_dia_db');
+	div_comentarios_eliminar_local = document.getElementById('div_comentarios_eliminar_local');
+	div_comentarios_eliminar_db = document.getElementById('div_comentarios_eliminar_db');
+
+	// Eventos a selects de eliminar
+	select_eliminar_algoritmo_local.onchange = fun_select_eliminar_algoritmo_local;
+	select_eliminar_anio_local.onchange = fun_select_eliminar_anio_local;
+	select_eliminar_mes_local.onchange = fun_select_eliminar_mes_local;
+	select_eliminar_dia_local.onchange = fun_select_eliminar_dia_local;
 
     // Etiquetas comunes
     usuario_labels = Array.from(document.getElementsByClassName('label-usuario-esc'));
@@ -600,4 +650,198 @@ function mostrarVista(vistaMostrar, menu) {
 			vistaMostrar.classList.add('visible');
 		}, 310);
 	}, 300);
+}
+
+function fun_select_eliminar_algoritmo_local() {
+	// Si no selecciona filtro, muestra todos
+	if (select_eliminar_algoritmo_local.value === 'ninguno') {
+		lista_ori_local.botones.forEach((boton) => {
+			boton.classList.remove('inactivo');
+		});
+
+		select_eliminar_anio_local.disabled = true;
+		select_eliminar_mes_local.disabled = true;
+		select_eliminar_dia_local.disabled = true;
+	} else {
+		select_eliminar_anio_local.disabled = false;
+		select_eliminar_mes_local.disabled = true;
+		select_eliminar_dia_local.disabled = true;
+
+		lista_ori_local.botones.forEach((boton) => {
+			if (boton.obj.algoritmo === select_eliminar_algoritmo_local.value) {
+				boton.classList.remove('inactivo');
+			} else {
+				boton.classList.add('inactivo');
+			}
+		});
+	}
+
+	// Llena los anios
+	actualizarOptions('anio');
+}
+
+function fun_select_eliminar_anio_local() {
+	// Si no selecciona filtro, muestra todos
+	if (select_eliminar_anio_local.value === 'ninguno') {
+		lista_ori_local.botones.forEach((boton) => {
+			if (boton.obj.algoritmo === select_eliminar_algoritmo_local.value) {
+				boton.classList.remove('inactivo');
+			} else {
+				boton.classList.add('inactivo');
+			}
+		});
+
+		select_eliminar_mes_local.disabled = true;
+		select_eliminar_dia_local.disabled = true;
+	} else {
+		select_eliminar_mes_local.disabled = false;
+		select_eliminar_dia_local.disabled = true;
+
+		lista_ori_local.botones.forEach((boton) => {
+			if (boton.obj.anio === parseInt(select_eliminar_anio_local.value) && boton.obj.algoritmo === select_eliminar_algoritmo_local.value) {
+				boton.classList.remove('inactivo');
+			} else {
+				boton.classList.add('inactivo');
+			}
+		});
+	}
+
+	// Llena los anios
+	actualizarOptions('mes');
+}
+
+function fun_select_eliminar_mes_local() {
+	// Si no selecciona filtro, muestra todos
+	if (select_eliminar_mes_local.value === 'ninguno') {
+		lista_ori_local.botones.forEach((boton) => {
+			if (boton.obj.algoritmo === select_eliminar_algoritmo_local.value && boton.obj.anio === parseInt(select_eliminar_anio_local.value)) {
+				boton.classList.remove('inactivo');
+			} else {
+				boton.classList.add('inactivo');
+			}
+		});
+
+		select_eliminar_dia_local.disabled = true;
+	} else {
+		select_eliminar_dia_local.disabled = false;
+		lista_ori_local.botones.forEach((boton) => {
+			// console.log(boton.obj.mes, parseInt(select_eliminar_mes_local.value), boton.obj.anio, parseInt(select_eliminar_anio_local.value), boton.obj.algoritmo, select_eliminar_algoritmo_local.value);
+			if (boton.obj.mes === parseInt(select_eliminar_mes_local.value) && boton.obj.anio === parseInt(select_eliminar_anio_local.value) && boton.obj.algoritmo === select_eliminar_algoritmo_local.value) {
+				boton.classList.remove('inactivo');
+			} else {
+				boton.classList.add('inactivo');
+			}
+		});
+	}
+
+	// Llena los anios
+	actualizarOptions('dia');
+}
+
+function fun_select_eliminar_dia_local() {
+	// Si no selecciona filtro, muestra todos
+	if (select_eliminar_dia_local.value === 'ninguno') {
+		lista_ori_local.botones.forEach((boton) => {
+			if (boton.obj.algoritmo === select_eliminar_algoritmo_local.value && boton.obj.anio === parseInt(select_eliminar_anio_local.value) && boton.obj.mes === parseInt(select_eliminar_mes_local.value)) {
+				boton.classList.remove('inactivo');
+			} else {
+				boton.classList.add('inactivo');
+			}
+		});
+	} else {
+		lista_ori_local.botones.forEach((boton) => {
+			// console.log(boton.obj.dia, select_eliminar_dia_local.value);
+			if (boton.obj.dia === parseInt(select_eliminar_dia_local.value) && boton.obj.mes === parseInt(select_eliminar_mes_local.value) && boton.obj.anio === parseInt(select_eliminar_anio_local.value) && boton.obj.algoritmo === select_eliminar_algoritmo_local.value) {
+				boton.classList.remove('inactivo');
+			} else {
+				boton.classList.add('inactivo');
+			}
+		});
+	}
+}
+
+function actualizarOptions(opcion) {
+	if (opcion === 'anio') {
+		select_eliminar_anio_local.innerHTML = '';
+		select_eliminar_anio_local.lista = [];
+
+		// Crea option defecto
+		crearOption(select_eliminar_anio_local, 'Sin Filtro', 'ninguno');
+
+		lista_ori_local.botones.forEach((boton) => {
+			// Busca solo los visibles
+			if (!boton.classList.contains('inactivo')) {
+				if (boton.obj.algoritmo === select_eliminar_algoritmo_local.value) {
+					// Si no existe, lo agrega
+					if (typeof select_eliminar_anio_local.lista.find((anio) => { return anio === boton.obj.anio}) === 'undefined') {
+						// Agrega a la lista y crea option
+			            select_eliminar_anio_local.lista.push(boton.obj.anio);
+			        }
+		        }
+			}
+		});
+
+		// Ordena e inserta
+		select_eliminar_anio_local.lista.sort(function(a, b){return a-b});
+	    select_eliminar_anio_local.lista.forEach((item) => {
+	        crearOption(select_eliminar_anio_local, `${item}`.toUpperCase(), item);
+	    });
+	} else if (opcion === 'mes') {
+		select_eliminar_mes_local.innerHTML = '';
+		select_eliminar_mes_local.lista = [];
+
+		// Crea option defecto
+		crearOption(select_eliminar_mes_local, 'Sin Filtro', 'ninguno');
+
+		lista_ori_local.botones.forEach((boton) => {
+			// Busca solo los visibles
+			if (!boton.classList.contains('inactivo')) {
+				if (boton.obj.algoritmo === select_eliminar_algoritmo_local.value && boton.obj.anio === parseInt(select_eliminar_anio_local.value)) {
+					// Si no existe, lo agrega
+					if (typeof select_eliminar_mes_local.lista.find((mes) => { return mes === boton.obj.mes}) === 'undefined') {
+						// Agrega a la lista y crea option
+			            select_eliminar_mes_local.lista.push(boton.obj.mes);
+			        }
+		        }
+			}
+		});
+
+		// Ordena e inserta
+		select_eliminar_mes_local.lista.sort(function(a, b){return a-b});
+	    select_eliminar_mes_local.lista.forEach((item) => {
+	        crearOption(select_eliminar_mes_local, `${item}`.toUpperCase(), item);
+	    });
+	} else if (opcion === 'dia') {
+		select_eliminar_dia_local.innerHTML = '';
+		select_eliminar_dia_local.lista = [];
+
+		// Crea option defecto
+		crearOption(select_eliminar_dia_local, 'Sin Filtro', 'ninguno');
+
+		lista_ori_local.botones.forEach((boton) => {
+			// Busca solo los visibles
+			if (!boton.classList.contains('inactivo')) {
+				if (boton.obj.algoritmo === select_eliminar_algoritmo_local.value && boton.obj.mes === parseInt(select_eliminar_mes_local.value) && boton.obj.anio === parseInt(select_eliminar_anio_local.value)) {
+					// Si no existe, lo agrega
+					if (typeof select_eliminar_dia_local.lista.find((dia) => { return dia === boton.obj.dia}) === 'undefined') {
+						// Agrega a la lista y crea option
+			            select_eliminar_dia_local.lista.push(boton.obj.dia);
+			        }
+		        }
+			}
+		});
+
+		// Ordena e inserta
+		select_eliminar_dia_local.lista.sort(function(a, b){return a-b});
+	    select_eliminar_dia_local.lista.forEach((item) => {
+	        crearOption(select_eliminar_dia_local, `${item}`.toUpperCase(), item);
+	    });
+	}
+}
+
+function crearOption(select, texto, valor) {
+    let option = document.createElement('option');
+    option.value = valor;
+    option.innerHTML = texto;
+    select.appendChild(option);
 }

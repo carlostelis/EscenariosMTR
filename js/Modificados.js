@@ -1249,9 +1249,11 @@ ipcRenderer.on('escenario_bd:progreso', (event, res) => {
         select_mod_esc_original.disabled = false;
         select_mod_esc_modificado.disabled = false;
 
+        bannerBD.mostrar();
         bannerBD.error();
         bannerBD.setMensaje(`Error al guardar en base de datos: ${res.mensaje}`);
         setTimeout(() => {
+            botonProgresoBD.modoNormal();
             bannerBD.ocultar();
         }, 3000);
     }

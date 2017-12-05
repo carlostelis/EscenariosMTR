@@ -361,7 +361,7 @@ class Escenario {
                     // Filtra solo directorios
                     let lista = [];
                     files.forEach((file) => {
-                        console.log('Dir elemento', file);
+                        // console.log('Dir elemento', file);
                         let stats = this.fs.statSync(this.path.join(ruta, file));
                         if (stats.isDirectory() === true) {
                             lista.push(file);
@@ -372,6 +372,22 @@ class Escenario {
                 }
             });
         });
+    }
+
+    leerDirectoriosSync(ruta) {
+        // Lee el directorio
+        let files = this.fs.readdirSync(ruta);
+        // Filtra solo directorios
+        let lista = [];
+        files.forEach((file) => {
+            // console.log('Dir elemento', file);
+            let stats = this.fs.statSync(this.path.join(ruta, file));
+            if (stats.isDirectory() === true) {
+                lista.push(file);
+            }
+        });
+
+        return lista;
     }
 
     crearArchivoComentarios(ruta, contenido) {
