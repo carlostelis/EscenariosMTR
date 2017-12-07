@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
+<log4j:configuration>
+    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+		<param name="ImmediateFlush" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">
+           <!-- <param name="ConversionPattern" value="%d %-5p %c{1}:%L %m %n" />  -->
+           <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" /> 
+        </layout>
+    </appender>
+ 
+    <appender name="rollingFileAppenderBCA" class="org.apache.log4j.RollingFileAppender">
+        <param name="Threshold" value="INFO" />
+        <param name="MaxFileSize" value="512KB" />
+        <param name="MaxBackupIndex" value="10" />
+        <param name="File" value="C:/AppAnalizadorEscenarios/logs/BitacoraBD_BCA.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" /> 
+        </layout>
+    </appender>
+ 
+    <appender name="rollingFileAppenderSIN" class="org.apache.log4j.RollingFileAppender">
+        <param name="Threshold" value="INFO" />
+        <param name="MaxFileSize" value="512KB" />
+        <param name="MaxBackupIndex" value="10" />
+        <param name="File" value="C:/AppAnalizadorEscenarios/logs/BitacoraBD_SIN.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" /> 
+        </layout>
+    </appender>
+    
+    <appender name="rollingFileAppenderBCS" class="org.apache.log4j.RollingFileAppender">
+        <param name="Threshold" value="INFO" />
+        <param name="MaxFileSize" value="512KB" />
+        <param name="MaxBackupIndex" value="10" />
+        <param name="File" value="C:/AppAnalizadorEscenarios/logs/BitacoraBD_BCS.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" /> 
+        </layout>
+    </appender>
+    
+    
+    <!--sets the priority log level for org.springframework-->
+    <logger name="org.springframework">
+        <level value="error"/>
+    </logger>
+ 
+    <!--sets the default priority log level-->
+    <root>
+        <priority value="info"></priority>
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="rollingFileAppenderBCA"/>
+        <appender-ref ref="rollingFileAppenderSIN"/>
+        <appender-ref ref="rollingFileAppenderBCS"/>
+    </root>
+</log4j:configuration>

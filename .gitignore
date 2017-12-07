@@ -3,7 +3,7 @@ package-lock.json
 built_app
 installers
 *.DS_Store
-JAVA_DB_MTR/build/*
-JAVA_DB_MTR/dist/*
+Java/JAVA_DB_MTR/build/*
+Java/DataBaseModule/build/*
 .node-persist
 first
