@@ -325,8 +325,8 @@ label {
 }
 
 .caja-banner.solo-icono {
-    height: 24%;
-    width: 20%;
+    height: 16vh;
+    width: 10vw;
 }
 
 .caja-banner.solo-icono.prompt {
@@ -504,10 +504,11 @@ label {
 
 .barra-progreso-boton {
     height: 100% !important;
-    font-size: 1.3vh;
-    line-height: 2;
+    font-size: 2vh;
+    line-height: 1.3;
     text-align: right;
-    color: black;
+    text-shadow: 2px 2px 3px white;
+    color: black !important;
     transition: 0.3s ease-in width;
     padding-right: 0 !important;
 }

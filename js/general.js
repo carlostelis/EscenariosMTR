@@ -72,6 +72,7 @@ let pestanias_ce = null;
 let form_folios_ce = null;
 let form_exalogic_ce = null;
 let boton_cargarEscenarioFolio = null;
+let objEscFolio = null;
 
 // Informacion de escenario
 let contenedores_info = [];

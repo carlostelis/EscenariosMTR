@@ -1177,7 +1177,7 @@ ipcRenderer.on('escenario_bd:comprimido_original', (event, res) => {
         bannerBD.ok();
         bannerBD.setMensaje('Iniciando escritura en Base de Datos');
         botonProgresoBD.modoProgreso();
-        botonProgresoBD.setProgreso(0);
+        botonProgresoBD.setProgreso(15);
 
         // Desactiva los select para evitar busquedas hasta que termine de guardar
         select_mod_anio.disabled = true;
@@ -1197,8 +1197,8 @@ ipcRenderer.on('escenario_bd:comprimido_original', (event, res) => {
             let json = {
                 opc: '1',
                 folio: objEscVistaMod.folio,
-                id: elementos[elementos.length - 2],
                 usuario: SESION.usuario,
+                id: elementos[elementos.length - 2],
                 algoritmo: objEscVistaMod.algoritmo.toUpperCase(),
                 estado: '1',
                 ruta: objEscVistaMod.ruta,
@@ -1252,9 +1252,7 @@ ipcRenderer.on('escenario_bd:progreso', (event, res) => {
         bannerBD.mostrar();
         bannerBD.error();
         bannerBD.setMensaje(`Error al guardar en base de datos: ${res.mensaje}`);
-        setTimeout(() => {
-            botonProgresoBD.modoNormal();
-            bannerBD.ocultar();
-        }, 3000);
+        bannerBD.setBoton('Aceptar', banner.ocultar);
+        botonProgresoBD.modoNormal();
     }
 });

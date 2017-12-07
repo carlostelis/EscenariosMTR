@@ -28,6 +28,19 @@ class BotonProgreso {
         this.divProgreso.style.opacity = '1';
     }
 
+    prepararProgreso() {
+        this.divBarraProgreso.classList.remove('bg-danger');
+        this.divBarraProgreso.classList.add('bg-info');
+        this.divBarraProgreso.classList.add('preparacion');
+        this.divBarraProgreso.style.width = '100%';
+        this.divBarraProgreso.innerHTML = '<span>Preparando</span>';
+    }
+
+    quitarPreparacion() {
+        this.divBarraProgreso.classList.add('bg-warning');
+        this.divBarraProgreso.classList.remove('prepacion');
+    }
+
     setProgreso(valor) {
         if (valor < 0 || valor > 100) {
             return;

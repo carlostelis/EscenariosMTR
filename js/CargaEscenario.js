@@ -160,6 +160,27 @@ ipcRenderer.on('algoritmo_folio:descargado', (event, res) => {
     }
 
     setTimeout(() => {
+        // Actualiza las etiquetas
+        for (let label of algoritmo_labels) {
+            label.innerHTML = `Algoritmo: <b>${objEscFolio.algoritmo}</b>`;
+        }
+
+        for (let label of fecha_labels) {
+            label.innerHTML = `Fecha: <b>${objEscFolio.fecha}</b>`;
+        }
+
+        for (let label of hora_labels) {
+            label.innerHTML = `Hora: <b>${objEscFolio.hora}</b>`;
+        }
+
+        for (let label of intervalo_labels) {
+            label.innerHTML = `Intervalo: <b>${objEscFolio.intervalo}</b>`;
+        }
+
+        for (let label of folio_labels) {
+            label.innerHTML = `Folio: <b>${objEscFolio.folio}</b>`;
+        }
+
         // banner.ocultar();
         // Habilita el menu info
         menuInfo.classList.remove('deshabilitado');
@@ -170,10 +191,10 @@ ipcRenderer.on('algoritmo_folio:descargado', (event, res) => {
         opciones_menu_info[0].onclick();
 
         // Invoca la lectura del escenario
-        let obj_folio = JSON.parse(select_folio_ce.value);
-        console.log(obj_folio);
+        // let obj_folio = JSON.parse(select_folio_ce.value);
+        console.log(objEscFolio);
         banner.setMensaje('Leyendo información');
-        ipcRenderer.send('escenario_completo:leer', obj_folio.ruta + '\\' + obj_folio.folio, obj_folio.algoritmo, obj_folio.folio);
+        ipcRenderer.send('escenario_completo:leer', objEscFolio.ruta + '\\' + objEscFolio.folio, objEscFolio.algoritmo, objEscFolio.folio);
     }, to_lectura);
 });
 
@@ -285,6 +306,12 @@ function consultarAniosFolios() {
         return;
     }
 
+    banner.vistaIcono();
+    banner.actualizando();
+    banner.ocultarBoton();
+    banner.setMensaje('');
+    banner.mostrar();
+
     select_anio_ce_folio.innerHTML = '';
     select_mes_ce_folio.innerHTML = '';
     select_dia_ce_folio.innerHTML = '';
@@ -301,6 +328,12 @@ function consultarMesesFolios() {
         return;
     }
 
+    banner.vistaIcono();
+    banner.actualizando();
+    banner.ocultarBoton();
+    banner.setMensaje('');
+    banner.mostrar();
+
     select_mes_ce_folio.innerHTML = '';
     select_dia_ce_folio.innerHTML = '';
     select_folio_ce.innerHTML = '';
@@ -316,6 +349,12 @@ function consultarDiasFolios() {
         return;
     }
 
+    banner.vistaIcono();
+    banner.actualizando();
+    banner.ocultarBoton();
+    banner.setMensaje('');
+    banner.mostrar();
+
     select_dia_ce_folio.innerHTML = '';
     select_folio_ce.innerHTML = '';
 
@@ -329,6 +368,12 @@ function consultarFoliosEscenariosFolios() {
     if (select_dia_ce_folio.value === 'defecto') {
         return;
     }
+
+    banner.vistaIcono();
+    banner.actualizando();
+    banner.ocultarBoton();
+    banner.setMensaje('');
+    banner.mostrar();
 
     select_folio_ce.innerHTML = '';
 
@@ -345,9 +390,12 @@ function verificarFolioCE() {
     } else {
         boton_cargarEscenarioFolio.disabled = false;
     }
+
+    console.log('Seleccionado: ', JSON.parse(select_folio_ce.value));
 }
 
 ipcRenderer.on('escenarios_folio_anios:leidos', (event, flag_estado, lista) => {
+    banner.ocultar();
     if (flag_estado === true) {
         if (lista !== null && typeof lista !== 'undefined') {
             cargarSelectMod(select_anio_ce_folio, lista, 'Año');
@@ -356,6 +404,7 @@ ipcRenderer.on('escenarios_folio_anios:leidos', (event, flag_estado, lista) => {
 });
 
 ipcRenderer.on('escenarios_folio_meses:leidos', (event, flag_estado, lista) => {
+    banner.ocultar();
     if (flag_estado === true) {
         if (lista !== null && typeof lista !== 'undefined') {
             cargarSelectMod(select_mes_ce_folio, lista, 'Mes');
@@ -364,6 +413,7 @@ ipcRenderer.on('escenarios_folio_meses:leidos', (event, flag_estado, lista) => {
 });
 
 ipcRenderer.on('escenarios_folio_dias:leidos', (event, flag_estado, lista) => {
+    banner.ocultar();
     if (flag_estado === true) {
         if (lista !== null && typeof lista !== 'undefined') {
             cargarSelectMod(select_dia_ce_folio, lista, 'Día');
@@ -372,6 +422,7 @@ ipcRenderer.on('escenarios_folio_dias:leidos', (event, flag_estado, lista) => {
 });
 
 ipcRenderer.on('escenarios_folio_escenarios:leidos', (event, flag_estado, lista) => {
+    banner.ocultar();
     if (flag_estado === true) {
         if (lista !== null && typeof lista !== 'undefined') {
             // console.log(select_dia_ce_folio, lista);
@@ -387,7 +438,8 @@ ipcRenderer.on('escenarios_folio_escenarios:leidos', (event, flag_estado, lista)
 
             lista.forEach((item) => {
                 opt = document.createElement('option');
-                opt.innerHTML = `${item.folio} (${item.tipo})`;
+                opt.innerHTML = `${item.folio} (${item.tipo}) - Propietario: ${item.usuario}`;
+
                 opt.value = JSON.stringify(item);
                 select_folio_ce.appendChild(opt);
             });
@@ -400,29 +452,60 @@ function cargarFolioCE() {
         return;
     }
 
-    let obj_folio = JSON.parse(select_folio_ce.value);
-    console.log(`Consultando ${obj_folio.folio} - ${obj_folio.tipo} en ${obj_folio.ruta}`);
-    console.log('ID:', obj_folio.id_original);
-    SESION.id_solicitud = obj_folio.id_original;
+    objEscFolio = JSON.parse(select_folio_ce.value);
+
+    // Si está local, lo procesa, de lo contrario lo descarga
+    if (objEscFolio.tipo.includes('LOCAL')) {
+        cargarEscenarioEnDiscoCE();
+    } else if (objEscFolio.tipo === 'BD') {
+        console.log(objEscFolio);
+        console.log('Descargando modificado');
+
+        banner.vistaCompacta();
+        banner.cargando();
+        banner.ocultarBoton();
+        banner.setMensaje('Descargando desde la Base de Datos');
+        banner.mostrar();
+
+        // Solicita el modificado
+        ipcRenderer.send('escenario_bd:descargar', objEscFolio);
+    }
+}
+
+ipcRenderer.on('escenario_bd:descargado', (event, res) => {
+    if (res.estado === false) {
+        banner.error();
+        banner.setBoton('Aceptar', () => {
+            banner.ocultar();
+        });
+        banner.setMensaje('Error: ' + res.mensaje);
+        banner.mostrar();
+    }
+});
+
+function cargarEscenarioEnDiscoCE() {
+    console.log(`Consultando ${objEscFolio.folio} - ${objEscFolio.tipo} en ${objEscFolio.ruta}`);
+    console.log('ID:', objEscFolio.id_original);
+    SESION.id_solicitud = objEscFolio.id_original;
 
     for (let label of algoritmo_labels) {
-        label.innerHTML = `Algoritmo: <b>${obj_folio.algoritmo}</b>`;
+        label.innerHTML = `Algoritmo: <b>${objEscFolio.algoritmo}</b>`;
     }
 
     for (let label of fecha_labels) {
-        label.innerHTML = `Fecha: <b>${obj_folio.fecha}</b>`;
+        label.innerHTML = `Fecha: <b>${objEscFolio.fecha}</b>`;
     }
 
     for (let label of hora_labels) {
-        label.innerHTML = `Hora: <b>${obj_folio.hora}</b>`;
+        label.innerHTML = `Hora: <b>${objEscFolio.hora}</b>`;
     }
 
     for (let label of intervalo_labels) {
-        label.innerHTML = `Intervalo: <b>${obj_folio.intervalo}</b>`;
+        label.innerHTML = `Intervalo: <b>${objEscFolio.intervalo}</b>`;
     }
 
     for (let label of folio_labels) {
-        label.innerHTML = `Folio: <b>${obj_folio.folio}</b>`;
+        label.innerHTML = `Folio: <b>${objEscFolio.folio}</b>`;
     }
 
     // Borra los objetos de escenarios anteriores
@@ -443,7 +526,7 @@ function cargarFolioCE() {
     banner.ocultarBoton();
 
     // Verifica el algoritmo del escenario
-    ipcRenderer.send('algoritmo:descarga', obj_folio.ruta, select_algoritmo.value, 'algoritmo_folio:descargado');
+    ipcRenderer.send('algoritmo:descarga', objEscFolio.ruta, select_algoritmo.value, 'algoritmo_folio:descargado');
 
     // Deshabilita botón ejecutar y actualizar
     boton_ejecutarEscenario.disabled = true;

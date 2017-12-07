@@ -52,7 +52,7 @@ function clickEscenarioBotonListaEliminar(boton) {
 ipcRenderer.on('escenario_modificado_local:leido_comentarios', (event, obj_res) => {
     console.log('Recibe comentarios', obj_res);
     botonModTemp.obj.infoMod.comentarios = obj_res.res;
-    div_comentarios_eliminar_local.innerHTML = `<label style="display:block;text-align:center;font-weight:bold;">Comentarios del escenario</label><br>${botonModTemp.obj.infoMod.comentarios}`;
+    div_comentarios_eliminar_local.innerHTML = `<label style="display:block;text-align:center;font-weight:bold;">Comentarios del escenario</label><br>${botonModTemp.obj.infoMod.comentarios.trim() === '' ? 'Sin Comentarios' : botonModTemp.obj.infoMod.comentarios}`;
 });
 
 ipcRenderer.on('escenario_modificado_local:leidaLista', (event, lista) => {

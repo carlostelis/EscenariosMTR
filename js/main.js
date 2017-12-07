@@ -1132,35 +1132,114 @@ ipcMain.on('escenarios_folios:leer', (event, obj) => {
 ipcMain.on('escenarios_folio_anios:leer', (event, algoritmo) => {
     let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado');
 
-    escenario.leerDirectorioMod(ruta).then((lista) => {
-            /* FALTA CONSULTAR LOS DE BD */
+    new Promise((resolve, reject) => {
+        escenario.leerDirectorioMod(ruta).then((listaLocal) => {
+            resolve(listaLocal);
+        }, () => {
+            // win.webContents.send('escenarios_folio_anios:leidos', false, null);
+            resolve([]);
+        });
+    }).then((lista) => {
+        console.log('Consultando anios BD: ', SESION.usuario, algoritmo);
+        let algoritmoBD = getAlgoritmoBD(algoritmo);
+        let {esquema, password, url } = getInfoSistema();
+
+        comandos.obtenerAniosFolios(SESION.usuario, url, esquema, password, algoritmoBD).then((res) => {
+            // Junta los resultados
+            if (typeof res.anio !== 'undefined') {
+                res.anio.forEach((anio) => {
+                    // Si no encuentra los elementos los agrega
+                    let busqueda = lista.find((ele) => { return ele === anio; });
+                    if (typeof busqueda === 'undefined') {
+                        lista.push(anio);
+                    }
+                });
+            }
+
             win.webContents.send('escenarios_folio_anios:leidos', true, lista);
-    }, () => {
-        win.webContents.send('escenarios_folio_anios:leidos', false, null);
+        }, (res_err) => {
+            win.webContents.send('escenarios_folio_anios:leidos', true, lista);
+        });
     });
 });
 
 ipcMain.on('escenarios_folio_meses:leer', (event, algoritmo, anio) => {
     let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio);
 
-    escenario.leerDirectorioMod(ruta).then((lista) => {
-        /* FALTA CONSULTAR LOS DE BD */
-        win.webContents.send('escenarios_folio_meses:leidos', true, lista);
-    }, () => {
-        win.webContents.send('escenarios_folio_meses:leidos', false, null);
+    new Promise((resolve, reject) => {
+        escenario.leerDirectorioMod(ruta).then((listaLocal) => {
+            resolve(listaLocal);
+        }, () => {
+            resolve([]);
+        });
+    }).then((lista) => {
+        // Lee de BD
+        console.log('Consultando meses: ', SESION.sistema, algoritmo, anio);
+        let algoritmoBD = getAlgoritmoBD(algoritmo);
+        let {esquema, password, url } = getInfoSistema();
+
+        console.log('Algoritmo, ', algoritmoBD);
+        console.log('esquema, ', esquema);
+        console.log('password, ', password);
+        console.log('url, ', url);
+
+        comandos.obtenerMesesFolios(SESION.usuario, url, esquema, password, algoritmoBD, anio).then((res) => {
+            // Junta los resultados
+            if (typeof res.mes !== 'undefined') {
+                res.mes.forEach((mes) => {
+                    // Si no encuentra los elementos los agrega
+                    let busqueda = lista.find((ele) => { return ele === mes; });
+                    if (typeof busqueda === 'undefined') {
+                        console.log('Nuevo mes', mes);
+                        lista.push(mes);
+                    }
+                });
+            }
+
+            win.webContents.send('escenarios_folio_meses:leidos', true, lista);
+        }, (res_err) => {
+            win.webContents.send('escenarios_folio_meses:leidos', true, lista);
+        });
     });
+
 });
 
 ipcMain.on('escenarios_folio_dias:leer', (event, algoritmo, anio, mes) => {
     let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio, mes);
 
-    escenario.leerDirectorioMod(ruta).then((lista) => {
-        /* FALTA CONSULTAR LOS DE BD */
-        win.webContents.send('escenarios_folio_dias:leidos', true, lista);
-    }, () => {
-        win.webContents.send('escenarios_folio_dias:leidos', false, null);
+    new Promise((resolve, reject) => {
+        escenario.leerDirectorioMod(ruta).then((listaLocal) => {
+            resolve(listaLocal);
+        }, () => {
+            resolve([]);
+        });
+    }).then((lista) => {
+        // Consulta en BD
+        console.log('Consultando dias: ', SESION.sistema, algoritmo, anio, mes);
+        let algoritmoBD = getAlgoritmoBD(algoritmo);
+        let {esquema, password, url } = getInfoSistema();
+
+        comandos.obtenerDiasFolios(SESION.usuario, url, esquema, password, algoritmoBD, anio, mes).then((res) => {
+            // Junta los resultados
+            if (typeof res.dia !== 'undefined') {
+                res.dia.forEach((dia) => {
+                    // Si no encuentra los elementos los agrega
+                    let busqueda = lista.find((ele) => { return ele === dia; });
+                    if (typeof busqueda === 'undefined') {
+                        console.log('Nuevo dia', dia);
+                        lista.push(dia);
+                    }
+                });
+            }
+
+            win.webContents.send('escenarios_folio_dias:leidos', true, lista);
+        }, (res_err) => {
+            win.webContents.send('escenarios_folio_dias:leidos', true, lista);
+        });
     });
 });
+
+function leerFoliosEnBD() {};
 
 ipcMain.on('escenarios_folio_escenarios:leer', (event, algoritmo, anio, mes, dia) => {
     let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio, mes, dia);
@@ -1168,6 +1247,48 @@ ipcMain.on('escenarios_folio_escenarios:leer', (event, algoritmo, anio, mes, dia
     let lista_folios = [];
     let id_escenario;
     let promesas = [];
+
+    // DEfine el método para re usarlo
+    leerFoliosEnBD = () => {
+        console.log('Consultando folios: ', SESION.usuario, algoritmo, anio, mes, dia);
+        let algoritmoBD = getAlgoritmoBD(algoritmo);
+        let {esquema, password, url } = getInfoSistema();
+
+        comandos.obtenerFolios(SESION.usuario, url, esquema, password, algoritmoBD, anio, mes, dia).then((res) => {
+            // Junta los resultados
+            if (typeof res.escenario !== 'undefined') {
+                res.escenario.forEach((escenario) => {
+                    // Si no encuentra los elementos los agrega
+                    let busqueda = lista_folios.find((ele) => { console.log('ele', ele); return ele.folio === escenario.folio; });
+                    if (typeof busqueda === 'undefined') {
+                        console.log('Nuevo escenario', escenario);
+                        lista_folios.push({
+                            ruta:path.join(ruta, escenario.id_original),
+                            folio:escenario.folio,
+                            comentarios: escenario.comentario,
+                            tipo:'BD',
+                            algoritmo: algoritmo,
+                            fecha: `${anio}-${(mes + '').length === 1 ? '0' + mes : '' + mes }-${(dia + '').length === 1 ? '0' + dia : '' + dia }`,
+                            hora: escenario.hora,
+                            intervalo: escenario.intervalo,
+                            id_original:escenario.id_original,
+                            rutaOriginal: path.join(ruta, escenario.id_original).replace('escenario_modificado', 'escenario_original'),
+                            usuario: escenario.usuario
+                        });
+                    } else {
+                        // Si ya existe, actualiza su tipo solamente
+                        busqueda.tipo = busqueda.tipo + '/BD';
+                    }
+                });
+            }
+
+            win.webContents.send('escenarios_folio_escenarios:leidos', true, lista_folios);
+        }, (res_err) => {
+            win.webContents.send('escenarios_folio_escenarios:leidos', true, lista_folios);
+        });
+    };
+
+
     // Primero lee el directorio local y obtiene los id originales
     escenario.leerDirectorioMod(ruta).then((lista) => {
         lista.forEach((id) => {
@@ -1192,6 +1313,7 @@ ipcMain.on('escenarios_folio_escenarios:leer', (event, algoritmo, anio, mes, dia
                             hora: hora,
                             intervalo: intervalo,
                             id_original:id,
+                            usuario: SESION.usuario,
                             rutaOriginal: ruta_id.replace('escenario_modificado', 'escenario_original')
                         });
                     }
@@ -1201,29 +1323,70 @@ ipcMain.on('escenarios_folio_escenarios:leer', (event, algoritmo, anio, mes, dia
             }));
 
             Promise.all(promesas).then(() => {
-                win.webContents.send('escenarios_folio_escenarios:leidos', true, lista_folios);
+                // Consulta en BD
+                leerFoliosEnBD();
             });
         });
     }, () => {
-        win.webContents.send('escenarios_folio_escenarios:leidos', false, null);
+        leerFoliosEnBD();
     });
 });
 
 ipcMain.on('escenario_bd:comprimir', (event, ruta_escenario, evento) => {
-    let elementos = ruta_escenario.split(path.sep);
-    let ruta_destino;
+    ruta_escenario = path.normalize(ruta_escenario);
+    let ruta_destino = '';
+    let ruta_zip_anterior;
+
     if (ruta_escenario.endsWith(path.sep)) {
-        ruta_destino = path.join(ruta_escenario, `${elementos[elementos.length - 2]}.zip`);
+        ruta_destino = ruta_escenario.substr(0, ruta_escenario.length - 1) + '.zip';
     } else {
-        ruta_destino = path.join(ruta_escenario, `${elementos[elementos.length - 1]}.zip`);
+        ruta_destino = ruta_escenario + '.zip';
+    }
+
+    let elementos = ruta_destino.split(path.sep);
+    let archivoZip = path.basename(ruta_destino);
+
+    if (ruta_escenario.endsWith(path.sep)) {
+        ruta_zip_anterior = path.join(ruta_escenario.substr(0, ruta_escenario.length - 1), archivoZip);;
+    } else {
+        ruta_zip_anterior = path.join(ruta_escenario, archivoZip);;
     }
 
     console.log(' > Comprimiendo escenario:', ruta_escenario);
     console.log(' > A:', ruta_destino);
+    console.log(' > ZIP:', archivoZip);
+    console.log(' > Anterior:', ruta_zip_anterior);
 
-    comandos.comprimirCarpeta2(ruta_escenario, ruta_destino).then((json) => {
-        console.log("Compresión realizada", json.estado);
-        win.webContents.send(evento, json);
+    // Rmueve si existe un anterior para que no se comprima
+    if (fs.existsSync(ruta_zip_anterior)) {
+        console.log('Borrando anterior');
+        try {
+            fs.unlinkSync(ruta_zip_anterior);
+        } catch (e) {
+            console.log('Borrando anterior err: ', e.message);
+        }
+    }
+
+    comandos.comprimirCarpeta(ruta_escenario, ruta_destino).then((json) => {
+        // Copia el zip a la carpeta
+        fse.copy(ruta_destino, ruta_zip_anterior, (err) => {
+            if (err) {
+                json.estado = false;
+                json.mensaje = 'Error al copiar el archivo zip';
+                console.log("Compresión fallida al copiar", json.estado);
+                win.webContents.send(evento, json);
+            } else {
+                // Elimina el zip previo
+                try {
+                    fs.unlinkSync(ruta_destino);
+                } catch (e) {
+                    console.log('Borrando primer zip err: ', e.message);
+                }
+
+                console.log("Compresión realizada", json.estado);
+                win.webContents.send(evento, json);
+            }
+        });
     }, (json) => {
         console.log("Compresión fallida", json.estado);
         win.webContents.send(evento, json);
@@ -1374,3 +1537,74 @@ ipcMain.on('escenario_modificado_local:borrar', (event, ruta) => {
         }
     });
 });
+
+ipcMain.on('escenario_bd:descargar', (event, obj_info) => {
+    console.log('Descargando escenarios de BD: ', obj_info.usuario, obj_info.algoritmo, obj_info.folio);
+    let algoritmoBD = getAlgoritmoBD(obj_info.algoritmo);
+    let {esquema, password, url} = getInfoSistema();
+    let obj = {
+        url:url,
+        esq:esquema,
+        pass:password,
+        alg:algoritmoBD,
+        folio:obj_info.folio,
+        id:obj_info.id_original,
+        usr:obj_info.usuario,
+        destMod:obj_info.ruta,
+        destOri:obj_info.rutaOriginal.replace(obj_info.id_original, '')
+    };
+
+    console.log(obj);
+
+    console.log('Descargando modificado');
+    comandos.descargarEscenarioModBD(obj).then((json_mod) => {
+        console.log("Hecho", json_mod);
+        console.log('Descargando original');
+        comandos.descargarEscenarioOriBD(obj).then((json_ori) => {
+            console.log("Hecho", json_ori);
+            win.webContents.send('algoritmo_folio:descargado', json_ori);
+        }, (json_err) => {
+            console.log("Error: " + json_err.mensaje);
+            win.webContents.send('escenario_bd:descargado', json_err);
+        });
+    }, (json_err) => {
+        console.log("Error: " + json_err.mensaje);
+        win.webContents.send('escenario_bd:descargado', json_err);
+    });
+});
+
+function getInfoSistema() {
+    switch (SESION.sistema) {
+        case 'BCA':
+            return {
+                esquema: config.exadata.bca.bd,
+                password: config.exadata.bca.password,
+                url: config.exadata.bca.url
+            }
+            break;
+        case 'SIN':
+            return {
+                esquema: config.exadata.sin.bd,
+                password: config.exadata.sin.password,
+                url: config.exadata.sin.url
+            }
+
+            break;
+        case 'BCS':
+            return {
+                esquema: config.exadata.bcs.bd,
+                password: config.exadata.bcs.password,
+                url: config.exadata.bcs.url
+            }
+
+            break;
+    }
+}
+
+function getAlgoritmoBD(algoritmo) {
+    switch (algoritmo) {
+        case "dersi": return 'DERS_I'; break;
+        case "dersmi": return 'DERS_MI'; break;
+        case "autr": return 'AUTR'; break;
+    }
+}

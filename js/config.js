@@ -5,6 +5,11 @@ module.exports = {
             password      : "wOhm6PzNoq",
             url           : "//mer-scan.cenace.com:1521/PRUEBAS",
         },
+        bca: {
+            bd            : "BD_ESCEN_BCA",
+            password      : "eZJtDzeIA9",
+            url           : "//mer-scan.cenace.com:1521/PRUEBAS",
+        },
         acceso: {
             bd            : "BD_ESCEN_ACCESO",
             password      : "X12YlAqEpa",

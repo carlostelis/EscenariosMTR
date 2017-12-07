@@ -288,13 +288,13 @@ class Comandos {
             let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
 
             // Borra el archivo primero
-            if (!this.fs.existsSync(rutaDestino)) {
-                try {
-                    this.fs.unlinkSync(rutaDestino);
-                } catch (e) {
-                    console.log('Compresion err: ', e.message);
-                }
-            }
+            // if (!this.fs.existsSync(rutaDestino)) {
+            //     try {
+            //         this.fs.unlinkSync(rutaDestino);
+            //     } catch (e) {
+            //         console.log('Compresion err: ', e.message);
+            //     }
+            // }
 
             console.log('ejecuta jar', ruta, rutaOrigen, rutaDestino);
             const jar = execFile('java', ['-jar', ruta, '--opc=zip', `--zipSource=${rutaOrigen}`, `--zipDestino=${rutaDestino}`], (error, stdout, stderr) => {
@@ -339,7 +339,7 @@ class Comandos {
                 let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
 
                 // Borra el archivo primero
-                if (!this.fs.existsSync(rutaDestino)) {
+                if (this.fs.existsSync(rutaDestino)) {
                     try {
                         this.fs.unlinkSync(rutaDestino);
                     } catch (e) {
@@ -397,6 +397,149 @@ class Comandos {
         });
     }
 
+    obtenerAniosFolios(usuario, url, esquema, password, algoritmo) {
+        return new Promise((resolve, reject) => {
+            try {
+                let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
+
+                let res_obj = this.ejecutarExecFile('java', ['-jar', ruta, `--url=${url}`, `--esq=${esquema}`, `--pass=${password}`, '--opc=folios_anios', `--usr=${usuario}`, `--algoritmo=${algoritmo}`]).then((json) => {
+                    console.log('OK');
+                    resolve(json);
+                }, (json_err) => {
+                    console.log('ERROR');
+                    reject(json_err);
+                });
+            } catch (e) {
+                console.log('Excepcion', e.message);
+                reject({estado:false, mensaje:e.message});
+            }
+        });
+    }
+
+    obtenerMesesFolios(usuario, url, esquema, password, algoritmo, anio) {
+        return new Promise((resolve, reject) => {
+            try {
+                let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
+
+                let res_obj = this.ejecutarExecFile('java', ['-jar', ruta, `--url=${url}`, `--esq=${esquema}`, `--pass=${password}`, '--opc=folios_meses', `--usr=${usuario}`, `--algoritmo=${algoritmo}`, `--anio=${anio}`]).then((json) => {
+                    console.log('OK');
+                    resolve(json);
+                }, (json_err) => {
+                    console.log('ERROR');
+                    reject(json_err);
+                });
+            } catch (e) {
+                console.log('Excepcion', e.message);
+                reject({estado:false, mensaje:e.message});
+            }
+        });
+    }
+
+    obtenerDiasFolios(usuario, url, esquema, password, algoritmo, anio, mes) {
+        return new Promise((resolve, reject) => {
+            try {
+                let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
+
+                let res_obj = this.ejecutarExecFile('java', ['-jar', ruta, `--url=${url}`, `--esq=${esquema}`, `--pass=${password}`, '--opc=folios_dias', `--usr=${usuario}`, `--algoritmo=${algoritmo}`, `--anio=${anio}`, `--mes=${mes}`]).then((json) => {
+                    console.log('OK');
+                    resolve(json);
+                }, (json_err) => {
+                    console.log('ERROR');
+                    reject(json_err);
+                });
+            } catch (e) {
+                console.log('Excepcion', e.message);
+                reject({estado:false, mensaje:e.message});
+            }
+        });
+    }
+
+    obtenerFolios(usuario, url, esquema, password, algoritmo, anio, mes, dia) {
+        return new Promise((resolve, reject) => {
+            try {
+                let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
+
+                let res_obj = this.ejecutarExecFile('java', ['-jar', ruta, `--url=${url}`, `--esq=${esquema}`, `--pass=${password}`, '--opc=folios_folios', `--usr=${usuario}`, `--algoritmo=${algoritmo}`, `--anio=${anio}`, `--mes=${mes}`, `--dia=${dia}`]).then((json) => {
+                    console.log('OK');
+                    resolve(json);
+                }, (json_err) => {
+                    console.log('ERROR');
+                    reject(json_err);
+                });
+            } catch (e) {
+                console.log('Excepcion', e.message);
+                reject({estado:false, mensaje:e.message});
+            }
+        });
+    }
+
+    descargarEscenarioModBD(data) {
+        return new Promise((resolve, reject) => {
+            try {
+                let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
+
+                let res_obj = this.ejecutarExecFile('java', ['-jar', ruta, `--url=${data.url}`, `--esq=${data.esq}`, `--pass=${data.pass}`, '--opc=bajarBD_Mod_Zip', `--usr=${data.usr}`, `--algoritmo=${data.alg}`, `--folio=${data.folio}`, `--carpeta=${data.destMod}`]).then((json) => {
+                    console.log('OK');
+                    resolve(json);
+                }, (json_err) => {
+                    console.log('ERROR', json_err);
+                    reject(json_err);
+                });
+            } catch (e) {
+                console.log('Excepcion', e.message);
+                reject({estado:false, mensaje:e.message});
+            }
+        });
+    }
+
+    descargarEscenarioOriBD(data) {
+        return new Promise((resolve, reject) => {
+            try {
+                let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
+
+                let res_obj = this.ejecutarExecFile('java', ['-jar', ruta, `--url=${data.url}`, `--esq=${data.esq}`, `--pass=${data.pass}`, '--opc=bajarBD_Ori_Zip', `--algoritmo=${data.alg}`, `--folio=${data.id}`, `--carpeta=${data.destOri}`]).then((json) => {
+                    console.log('OK');
+                    resolve(json);
+                }, (json_err) => {
+                    console.log('ERROR', json_err);
+                    reject(json_err);
+                });
+            } catch (e) {
+                console.log('Excepcion', e.message);
+                reject({estado:false, mensaje:e.message});
+            }
+        });
+    }
+
+    ejecutarExecFile(comando, params) {
+        return new Promise((resolve, reject) => {
+            const jar = execFile(comando, params, (error, stdout, stderr) => {
+                if (error) {
+                    reject({estado:false, data:error.message});
+                }
+
+                console.log(`Resultado: ${stdout}<`);
+
+                if (stdout.startsWith('ERROR')) {
+                    reject({estado:false, data:stdout.split('->')[1]});
+                } else if (stdout.trim().length === 0) {
+                    reject({estado:false, data:'No fue posible realizar la autenticación de usuario'});
+                } else {
+                    try {
+                        console.log('-envia JSON-', stdout.trim());
+                        const json = JSON.parse(stdout.trim());
+                        json.estado = true;
+                        json.mensaje = 'Consulta realizada correctamente';
+                        resolve(json);
+                    } catch (e) {
+                        console.log(e);
+                        reject({estado:false, data:e.message});
+                    }
+                }
+            });
+        });
+    }
+
     guardarEnBaseDatos(data, cb_progreso) {
         return new Promise((resolve, reject) => {
             try {
@@ -420,8 +563,11 @@ class Comandos {
                     if (aux.startsWith('Registro')) {
                         let words = aux.split(' ');
                         if (words.length >= 4) {
-                            let porcentaje = parseInt(words[1]) / parseInt(words[3]) * 100;
-                            cb_progreso(porcentaje, true);
+                            // El progreso se calcula sobre 85, el 15% se obtuvo de la compresion
+                            let porcentaje = 15 + (parseInt(words[1]) / parseInt(words[3]) * 85);
+                            if (!isNaN(porcentaje)) {
+                                cb_progreso(porcentaje, true);
+                            }
                         }
                     }
 
@@ -434,13 +580,15 @@ class Comandos {
 
                 exe.stderr.on('data', (data) => {
                     aux = this.decoder.decode(data);
-                    // console.log('err>', aux);
+                    console.log('err>', aux);
 
                     if (aux.startsWith('Registro')) {
                         let words = aux.split(' ');
                         if (words.length === 4) {
                             let porcentaje = parseInt(words[1]) / parseInt(words[3]) * 100;
-                            cb_progreso(porcentaje, true);
+                            if (!isNaN(porcentaje)) {
+                                cb_progreso(porcentaje, true);
+                            }
                         }
                     }
 
