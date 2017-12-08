@@ -210,6 +210,7 @@ function vaciarTablasResultados() {
 
 ipcRenderer.on('escenario_completo:leido', (event, obj) => {
     console.log('Recibe contenedor de archivos:', obj.lista.length);
+    textarea_comentarios_info.innerHTML = '';
 
     setTimeout(() => {
         // Oculta todas

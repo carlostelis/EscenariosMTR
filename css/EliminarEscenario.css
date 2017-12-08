@@ -30,6 +30,12 @@
     cursor:pointer;
 }
 
+.pestania-eliminar > span {
+    float: left;
+    margin-left: 1vw;
+    margin-right: -1vw;
+}
+
 .div-lista-esc-eliminar {
     height: 100%;
     width: 100%;

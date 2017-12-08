@@ -420,8 +420,14 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
         }
     } else if (obj.opc === 'INFO_COSTOS') {
         let arg_islas = obj.res.replace(new RegExp('=?', 'g'), '').split('Isla :');
-        let datos_costos = arg_islas[arg_islas.length - 1].split('Solucion Final para la Isla')[1].trim().replace(new RegExp('\s*:', 'g'), '').split(new RegExp('\s*\n\s*', 'g'));
-        console.log();
+        let datos_costos;
+        try {
+            datos_costos = arg_islas[arg_islas.length - 1].split('Solucion Final para la Isla')[1].trim().replace(new RegExp('\s*:', 'g'), '').split(new RegExp('\s*\n\s*', 'g'));
+        } catch (e) {
+            console.log('Error generando costos');
+            return;
+        }
+
         // Lo guarda en el objeto original
         objEscOriginal.costo_total = '---';
         objEscOriginal.costo_gen = '---';

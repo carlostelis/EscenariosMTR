@@ -1,6 +1,6 @@
 .pestania-ce {
     height: 3vh;
-    width: 14vw;
+    width: 18vw;
     margin: auto;
     display: inline-table;
     margin-right: -10px;
@@ -32,6 +32,12 @@
 
 .pestania-ce.inactiva:hover {
     color:gray;
+}
+
+.pestania-ce > span {
+    float: left;
+    margin-left: 1vw;
+    margin-right: -1vw;
 }
 
 .label_dato_ce {

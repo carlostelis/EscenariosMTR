@@ -225,8 +225,8 @@ function solicitarAutenticacion() {
 
 ipcRenderer.on('usuario:obtenido', (event, json) => {
     console.log('usuario obtenido');
-    //console.log(json);
-    if (json.estado) {
+    console.log(json);
+    if (json.estado === true) {
         // Verifica si tiene acceso a los sistemas
         let sis_arr = json.sis_acc.split(',');
         let sis_ok = false;

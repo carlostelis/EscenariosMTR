@@ -10,6 +10,11 @@ module.exports = {
             password      : "eZJtDzeIA9",
             url           : "//mer-scan.cenace.com:1521/PRUEBAS",
         },
+        bcs: {
+            bd            : "BD_ESCEN_BCS",
+            password      : "eZJtDzeIA9",
+            url           : "//mer-scan.cenace.com:1521/PRUEBAS",
+        },
         acceso: {
             bd            : "BD_ESCEN_ACCESO",
             password      : "X12YlAqEpa",
@@ -23,6 +28,13 @@ module.exports = {
         base: "/calculos1/",
         algoritmos: 'VERS_ALGORITMOS'
     },
+    exalogicPruebas: {
+        host: '10.71.14.73',
+        user: 'mtrbcsems',
+        password: 'mtrbcsems01',
+        base: "/pruebas/",
+        algoritmos: 'VERS_ALGORITMOS'
+    },
     sistemas: [
         {
             nombre: "BCA",
@@ -32,8 +44,8 @@ module.exports = {
         },
         {
             nombre: "BCS",
-            //carpeta: "mtrbcsems",
-            carpeta: "historicomtr",
+            carpeta: "mtrbcsems",
+            // carpeta: "historicomtr",
             zona: "America/Mazatlan"
         },
         {

@@ -40,11 +40,21 @@
     text-shadow: none;
 }
 
+.opcion-menu > div > span > i {
+    margin-right: 1vw;
+    color: yellowgreen;
+    font-size: 2vh;
+}
+
 .opcion-menu.deshabilitado > div {
     color: darkseagreen;
     background: #215e3e;
     text-shadow: none;
     cursor: default;
+}
+
+.opcion-menu.deshabilitado > div > span > i {
+    color: darkseagreen;
 }
 
 .opcion-menu.invalido > div:hover {

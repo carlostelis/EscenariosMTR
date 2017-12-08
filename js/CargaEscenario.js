@@ -245,6 +245,14 @@ ipcRenderer.on('utc:respuesta', (event, json) => {
         algoritmo: select_algoritmo.value
     };
 
+    /* * * * * * * * * * * */
+    /* VERSION TEST URIEL */
+    /* * * * * * * * * * * */
+    if (SESION.sistema === 'BCS') {
+        console.log('Prueba de BCS');
+        obj.dirRemoto = `${SESION.config.exalogicPruebas.base}${SESION.sistemaCarpeta}/${select_algoritmo.value}/datosh/${rutaId}`;
+    }
+
     mensajeConsola(`Solicitando escenario ${obj.id_escenario}`, false);
 
     SESION.id_solicitud = obj.id_escenario;

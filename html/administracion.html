@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css"/>
+        <link rel="stylesheet" href="../css/font-awesome.min.css" type="text/css"/>
+        <link rel="stylesheet" href="../css/fontello.css" type="text/css"/>
+        <link rel="stylesheet" href="../css/administracion.css" type="text/css"/>
+        <title>Analizador de Escenarios del MTR</title>
+    </head>
+    <body style="background-color: white;">
+        <div id="div-login" class="container-fluid fill">
+            <div class="row align-items-center">
+                <div>
+                    <h1 class="text-center">Analizador de Escenarios del Mercado Eléctrico en Tiempo Real</h1>
+                    <h2 class="text-center">Administrador de acceso</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center login-row">
+                <div class="col-md-3 div_data-login" style="float:none; margin:auto;">
+                    <h1 class="text-center">Iniciar Sesi&oacute;n</h1>
+                    <form action="">
+                        <div class="form-group" style="margin-top: 4vh;">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="height: 5vh;">
+                                    <i id="i_usuario" class="fa fa-user-circle" style="font-size: 1.5vw;"></i>
+                                </span>
+                                <input id="input_nombre_IS" type="text" name="nombre" placeholder="Usuario" class="login-input form-control  input-normal" maxlength="20" value="TEST"></input>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 3vh;">
+                            <div class="input-group">
+                                <span class="input-group-addon" style="height: 5vh;">
+                                    <i id="i_contrasena" class="fa fa-key" style="font-size: 1.5vw;"></i>
+                                </span>
+                                <input id="input_contrasena_IS" type="password" name="contrasena" placeholder="Contraseña" class="login-input form-control input-normal" maxlength="20" value="test"/>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-top: 4vh;">
+                            <button type="button" value="Entrar" class="button_gral btn-block" data-toggle="tooltip" data-placement="top" title="Iniciar sesión en la aplicación" onclick="solicitarAutenticacion();"><span class=""><i class="demo-icon icon-login"></i></span>Entrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row align-items-center footer login-row">
+                <p class="text-center" style="width:100%">Centro Nacional de Control de Energía, Don Manuelito #32, Col. Olivar de los Padres, CP. 01780 México DF.<br>Desarrollado por el Instituto Nacional de Electricidad y Energías Limpias, Versión 1.0.0 del 01 de Octubre del 2017</p>
+            </div>
+        </div>
+
+
+        <div id="div-layout" class="container-fluid fill d-none">
+            <div class="row align-items-center menu-principal">
+
+            </div>
+
+            <div id="div_cabecera_sesion" class="row align-items-center subseccion" style="">
+
+            </div>
+
+            <div class="row justify-content-around workspace-row">
+
+            </div>
+            <div class="row align-items-center footer">
+                <p class="text-center" style="width:100%">Centro Nacional de Control de Energía, Don Manuelito #32, Col. Olivar de los Padres, CP. 01780 México DF.<br>Desarrollado por el Instituto Nacional de Electricidad y Energías Limpias, Versión 1.0.0 del 01 de Octubre del 2017</p>
+            </div>
+        </div>
+
+        <script src="../js/Banner.js"></script>
+        <script src="../js/administracion.js"></script>
+    </body>
+
+</html>

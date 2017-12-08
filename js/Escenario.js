@@ -376,16 +376,20 @@ class Escenario {
 
     leerDirectoriosSync(ruta) {
         // Lee el directorio
-        let files = this.fs.readdirSync(ruta);
-        // Filtra solo directorios
         let lista = [];
-        files.forEach((file) => {
-            // console.log('Dir elemento', file);
-            let stats = this.fs.statSync(this.path.join(ruta, file));
-            if (stats.isDirectory() === true) {
-                lista.push(file);
-            }
-        });
+        try {
+            let files = this.fs.readdirSync(ruta);
+            // Filtra solo directorios
+            files.forEach((file) => {
+                // console.log('Dir elemento', file);
+                let stats = this.fs.statSync(this.path.join(ruta, file));
+                if (stats.isDirectory() === true) {
+                    lista.push(file);
+                }
+            });
+        } catch (e) {
+            console.log('Error leerDirectoriosSync', e.message);
+        }
 
         return lista;
     }

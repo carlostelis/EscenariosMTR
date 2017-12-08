@@ -86,20 +86,21 @@ const comandos = new Comandos();
 const listaArchivos = new ListaArchivos('C:\\AppAnalizadorEscenarios');
 const escenario = new Escenario();
 const bitacoraUsuario = new BitacoraUsuario();
-const ftp = new FTP({
+let ftp = new FTP({
     host: config.exalogic.host,
     user: config.exalogic.user,
     password: config.exalogic.password
 }, config.local.escenarios);
 
 let win;
+let winAdmin;
 let res_eje;
 let objEscenario;
 
 let SESION;
 
 // Versión de la aplicacion
-// process.env.NODE_ENV = 'production';
+process.env.NODE_ENV = 'production';
 
 // Si es la primera ejecución se cierra (para instalador winstaller)
 if (process.env.NODE_ENV === 'production' && !fs.existsSync('first')) {
@@ -164,6 +165,22 @@ app.on('ready', () => {
     if (process.env.NODE_ENV !== 'production') {
         win.toggleDevTools();
     }
+
+    // winAdmin = new BrowserWindow({
+    //     width: 1024,
+    //     height: 768,
+    //     minWidth: 1024,
+    //     minHeight: 768,
+    //     webPreferences: {
+    //         devTools: true
+    //     }
+    // });
+    //
+    // winAdmin.loadURL(`file://${__dirname}/../html/administracion.html`);
+    // setTimeout(() => {
+    //     winAdmin.setTitle(`Analizador de Escenarios del MTR`);
+    //     winAdmin.show();
+    // }, 5000);
 });
 
 // Función para finalizar, se invoca al cerrar la ventana y al cerrar sesion
@@ -205,7 +222,8 @@ ipcMain.on('sistemas:solicitar', (event) => {
     win.webContents.send('sistemas:obtenidos', {
         sistemas: config.sistemas,
         algoritmos: config.algoritmos,
-        exalogic: config.exalogic
+        exalogic: config.exalogic,
+        exalogicPruebas: config.exalogicPruebas
     });
 });
 
@@ -213,8 +231,15 @@ ipcMain.on('usuario:solicitar', (event, usuario) => {
     console.log(`Solicitando usuario ${usuario}`);
 
     // Sin red cenace
-    // win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'Carlos Telis', perfil: 'Super Usuario', contrasena:'test', estado:true, Mensaje: 'Consulta realizada correctamente'});
-    // return;
+    /* * * * * * * * * * * */
+    /* VERSION TEST URIEL */
+    /* * * * * * * * * * * */
+    setTimeout(() => {
+        console.log('manda');
+        win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'URIEL LEZAMA', perfil: 'Usuario', contrasena:'LEZAMA', estado:true, Mensaje: 'Consulta realizada correctamente'});
+    }, 2000);
+
+    return;
 
     // conexión con la BD
     comandos.obtenerUsuario(usuario).then((json) => {
@@ -223,13 +248,11 @@ ipcMain.on('usuario:solicitar', (event, usuario) => {
 
         // Avisa a la página para notificación
         win.webContents.send('usuario:obtenido', json);
-        // win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
     }, (jsonError) => {
         console.log(`Error obteniendo usuario: ${jsonError.mensaje}`);
 
         // Avisa a la página para notificación
         win.webContents.send('usuario:obtenido', jsonError);
-        // win.webContents.send('sistemas:obtenidos', {estado:true, sistemas:[{nombre:'BCA', estado:1}]});
     });
 });
 
@@ -326,6 +349,14 @@ ipcMain.on('info:sesion', (event, info) => {
         SESION = info;
         console.log('Informacion de sesion actualizada en electron');
         console.log(SESION);
+
+        if (SESION.sistema === 'BCS') {
+            ftp = new FTP({
+                host: config.exalogicPruebas.host,
+                user: config.exalogicPruebas.user,
+                password: config.exalogicPruebas.password
+            }, config.local.escenarios);
+        }
     }
 });
 
@@ -348,7 +379,17 @@ ipcMain.on('bitacora:inicializa', (event, ruta) => {
 
 ipcMain.on('directorio:descarga', (event, data) => {
     let dirRemoto = data.dirRemoto;
-    let replace = path.join(SESION.config.exalogic.base, SESION.sistemaCarpeta, data.algoritmo, 'datosh').replace(new RegExp('\\' + path.sep, 'g'), '/'); //config.local.reemplazo;
+    let replace;
+
+    /* * * * * * * * * * * */
+    /* VERSION TEST URIEL */
+    /* * * * * * * * * * * */
+    if (SESION.sistema === 'BCS') {
+        replace = path.join(SESION.config.exalogicPruebas.base, SESION.sistemaCarpeta, data.algoritmo, 'datosh').replace(new RegExp('\\' + path.sep, 'g'), '/');
+    } else {
+        replace = path.join(SESION.config.exalogic.base, SESION.sistemaCarpeta, data.algoritmo, 'datosh').replace(new RegExp('\\' + path.sep, 'g'), '/');
+    }
+     //config.local.reemplazo;
     let rutaLocal = path.join(config.local.escenarios, data.pathLocal);
 
     let listaDir = [];
@@ -542,7 +583,16 @@ ipcMain.on('algoritmo:descarga', (event, ruta_escenario, algoritmo, evento) => {
 
     console.log('No existe el algoritmo local', ruta_algoritmo_local);
 
-    let carpeta_algoritmo = path.join(`${SESION.config.exalogic.base}`, `${SESION.sistemaCarpeta}`, SESION.config.exalogic.algoritmos, 'WINDOWS', SESION.sistema, alg);
+    /* * * * * * * * * * * */
+    /* VERSION TEST URIEL */
+    /* * * * * * * * * * * */
+    let carpeta_algoritmo;
+    if (SESION.sistema === 'BCS') {
+        carpeta_algoritmo = path.join(`${SESION.config.exalogicPruebas.base}`, `${SESION.sistemaCarpeta}`, SESION.config.exalogic.algoritmos, 'WINDOWS', SESION.sistema, alg);
+    } else {
+        carpeta_algoritmo = path.join(`${SESION.config.exalogic.base}`, `${SESION.sistemaCarpeta}`, SESION.config.exalogic.algoritmos, 'WINDOWS', SESION.sistema, alg);
+    }
+
     console.log('Carpeta algoritmo', carpeta_algoritmo);
 
     // Obtiene la lista de directorios
