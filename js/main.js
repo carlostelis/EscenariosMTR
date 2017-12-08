@@ -234,12 +234,12 @@ ipcMain.on('usuario:solicitar', (event, usuario) => {
     /* * * * * * * * * * * */
     /* VERSION TEST URIEL */
     /* * * * * * * * * * * */
-    setTimeout(() => {
-        console.log('manda');
-        win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'URIEL LEZAMA', perfil: 'Usuario', contrasena:'LEZAMA', estado:true, Mensaje: 'Consulta realizada correctamente'});
-    }, 2000);
-
-    return;
+    // setTimeout(() => {
+    //     console.log('manda');
+    //     win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'URIEL LEZAMA', perfil: 'Usuario', contrasena:'LEZAMA', estado:true, Mensaje: 'Consulta realizada correctamente'});
+    // }, 2000);
+    //
+    // return;
 
     // conexión con la BD
     comandos.obtenerUsuario(usuario).then((json) => {
