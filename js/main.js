@@ -884,6 +884,16 @@ ipcMain.on('escenario_original:copiar', (event, ruta_origen, ruta_destino, nuevo
 
             // Actualiza comentarios
             escenario.crearArchivoComentarios(ruta_destino, comentarios);
+            // Rmueve si existe un anterior para que no se comprima
+            let ruta_bd = path.join(ruta_destino, '.bd');
+            if (fs.existsSync(ruta_bd)) {
+                console.log('Borrando .bd');
+                try {
+                    fs.unlinkSync(ruta_bd);
+                } catch (e) {
+                    console.log('Borrando .bd err: ', e.message);
+                }
+            }
 
             // Verifica modificados
             verificarModificados();
@@ -1140,11 +1150,11 @@ ipcMain.on('escenarios_folio_anios:leer', (event, algoritmo) => {
             resolve([]);
         });
     }).then((lista) => {
-        console.log('Consultando anios BD: ', SESION.usuario, algoritmo);
+        console.log('Consultando anios BD: ', algoritmo);
         let algoritmoBD = getAlgoritmoBD(algoritmo);
         let {esquema, password, url } = getInfoSistema();
 
-        comandos.obtenerAniosFolios(SESION.usuario, url, esquema, password, algoritmoBD).then((res) => {
+        comandos.obtenerAniosFolios('', url, esquema, password, algoritmoBD, 'MOD').then((res) => {
             // Junta los resultados
             if (typeof res.anio !== 'undefined') {
                 res.anio.forEach((anio) => {
@@ -1174,16 +1184,11 @@ ipcMain.on('escenarios_folio_meses:leer', (event, algoritmo, anio) => {
         });
     }).then((lista) => {
         // Lee de BD
-        console.log('Consultando meses: ', SESION.sistema, algoritmo, anio);
+        console.log('Consultando meses: ', algoritmo, anio);
         let algoritmoBD = getAlgoritmoBD(algoritmo);
         let {esquema, password, url } = getInfoSistema();
 
-        console.log('Algoritmo, ', algoritmoBD);
-        console.log('esquema, ', esquema);
-        console.log('password, ', password);
-        console.log('url, ', url);
-
-        comandos.obtenerMesesFolios(SESION.usuario, url, esquema, password, algoritmoBD, anio).then((res) => {
+        comandos.obtenerMesesFolios('', url, esquema, password, algoritmoBD, anio, 'MOD').then((res) => {
             // Junta los resultados
             if (typeof res.mes !== 'undefined') {
                 res.mes.forEach((mes) => {
@@ -1215,11 +1220,11 @@ ipcMain.on('escenarios_folio_dias:leer', (event, algoritmo, anio, mes) => {
         });
     }).then((lista) => {
         // Consulta en BD
-        console.log('Consultando dias: ', SESION.sistema, algoritmo, anio, mes);
+        console.log('Consultando dias: ', algoritmo, anio, mes);
         let algoritmoBD = getAlgoritmoBD(algoritmo);
         let {esquema, password, url } = getInfoSistema();
 
-        comandos.obtenerDiasFolios(SESION.usuario, url, esquema, password, algoritmoBD, anio, mes).then((res) => {
+        comandos.obtenerDiasFolios('', url, esquema, password, algoritmoBD, anio, mes, 'MOD').then((res) => {
             // Junta los resultados
             if (typeof res.dia !== 'undefined') {
                 res.dia.forEach((dia) => {
@@ -1239,96 +1244,87 @@ ipcMain.on('escenarios_folio_dias:leer', (event, algoritmo, anio, mes) => {
     });
 });
 
-function leerFoliosEnBD() {};
-
 ipcMain.on('escenarios_folio_escenarios:leer', (event, algoritmo, anio, mes, dia) => {
     let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio, mes, dia);
     let ruta_id;
     let lista_folios = [];
     let id_escenario;
-    let promesas = [];
+    let promesas_esc = [];
 
-    // DEfine el método para re usarlo
-    leerFoliosEnBD = () => {
-        console.log('Consultando folios: ', SESION.usuario, algoritmo, anio, mes, dia);
-        let algoritmoBD = getAlgoritmoBD(algoritmo);
-        let {esquema, password, url } = getInfoSistema();
+    // Carga los escenarios locales
+    let lista = escenario.leerDirectoriosSync(ruta);
+    lista.forEach((id) => {
+        ruta_id = path.join(ruta, id);
+        let carpetas = ruta_id.split(path.sep);
+        // id_escenario = carpetas[carpetas.length - 1];
+        let hora = id.slice(8, 10);
+        let intervalo = id.slice(10, 12);
 
-        comandos.obtenerFolios(SESION.usuario, url, esquema, password, algoritmoBD, anio, mes, dia).then((res) => {
-            // Junta los resultados
-            if (typeof res.escenario !== 'undefined') {
-                res.escenario.forEach((escenario) => {
-                    // Si no encuentra los elementos los agrega
-                    let busqueda = lista_folios.find((ele) => { console.log('ele', ele); return ele.folio === escenario.folio; });
-                    if (typeof busqueda === 'undefined') {
-                        console.log('Nuevo escenario', escenario);
-                        lista_folios.push({
-                            ruta:path.join(ruta, escenario.id_original),
-                            folio:escenario.folio,
-                            comentarios: escenario.comentario,
-                            tipo:'BD',
-                            algoritmo: algoritmo,
-                            fecha: `${anio}-${(mes + '').length === 1 ? '0' + mes : '' + mes }-${(dia + '').length === 1 ? '0' + dia : '' + dia }`,
-                            hora: escenario.hora,
-                            intervalo: escenario.intervalo,
-                            id_original:escenario.id_original,
-                            rutaOriginal: path.join(ruta, escenario.id_original).replace('escenario_modificado', 'escenario_original'),
-                            usuario: escenario.usuario
-                        });
-                    } else {
-                        // Si ya existe, actualiza su tipo solamente
+        let sublista = escenario.leerDirectoriosSync(ruta_id);
+        sublista.forEach((elemento) => {
+            // Verifica si el elemento fue descargado
+            let archivoDescargado = path.join(ruta_id, elemento, '.descargado');
+            console.log('Folio escenario:', elemento, id);
+            if (fs.existsSync(archivoDescargado)) {
+                console.log('Agrega', elemento, id);
+                lista_folios.push({
+                    ruta:ruta_id,
+                    folio:elemento,
+                    tipo:'LOCAL',
+                    algoritmo: algoritmo,
+                    fecha: `${anio}-${(mes + '').length === 1 ? '0' + mes : '' + mes }-${(dia + '').length === 1 ? '0' + dia : '' + dia }`,
+                    hora: hora,
+                    intervalo: intervalo,
+                    id_original:id,
+                    usuario: SESION.usuario,
+                    rutaOriginal: ruta_id.replace('escenario_modificado', 'escenario_original')
+                });
+            } else {
+                console.log('No existe ', archivoDescargado);
+            }
+        });
+    });
+
+    // Carga los escenarios en BD
+    console.log('Consultando folios BD: ', algoritmo, anio, mes, dia);
+    let algoritmoBD = getAlgoritmoBD(algoritmo);
+    let {esquema, password, url } = getInfoSistema();
+    console.log('--- Lista');
+    console.log(lista_folios.length);
+    comandos.obtenerFolios('', url, esquema, password, algoritmoBD, anio, mes, dia, 'MOD').then((res) => {
+        // Junta los resultados
+        if (typeof res.escenario !== 'undefined') {
+            res.escenario.forEach((escenario) => {
+                // Si no encuentra los elementos los agrega
+                console.log('esc>', escenario.folio, escenario.id_original);
+                let busqueda = lista_folios.find((ele) => { return ele.folio === escenario.folio && ele.id_original === escenario.id_original; });
+                if (typeof busqueda === 'undefined') {
+                    console.log('Nuevo escenario', escenario.folio);
+                    lista_folios.push({
+                        ruta:path.join(ruta, escenario.id_original),
+                        folio:escenario.folio,
+                        comentarios: escenario.comentario,
+                        tipo:'BD',
+                        algoritmo: algoritmo,
+                        fecha: `${anio}-${(mes + '').length === 1 ? '0' + mes : '' + mes }-${(dia + '').length === 1 ? '0' + dia : '' + dia }`,
+                        hora: escenario.hora,
+                        intervalo: escenario.intervalo,
+                        id_original:escenario.id_original,
+                        rutaOriginal: path.join(ruta, escenario.id_original).replace('escenario_modificado', 'escenario_original'),
+                        usuario: escenario.usuario
+                    });
+                } else {
+                    // Si ya existe, actualiza su tipo solamente
+                    if (!busqueda.tipo.includes('BD')) {
                         busqueda.tipo = busqueda.tipo + '/BD';
                     }
-                });
-            }
-
-            win.webContents.send('escenarios_folio_escenarios:leidos', true, lista_folios);
-        }, (res_err) => {
-            win.webContents.send('escenarios_folio_escenarios:leidos', true, lista_folios);
-        });
-    };
-
-
-    // Primero lee el directorio local y obtiene los id originales
-    escenario.leerDirectorioMod(ruta).then((lista) => {
-        lista.forEach((id) => {
-            ruta_id = path.join(ruta, id);
-            let carpetas = ruta_id.split(path.sep);
-            // id_escenario = carpetas[carpetas.length - 1];
-            let hora = id.slice(8, 10);
-            let intervalo = id.slice(10, 12);
-            console.log('Ruta id:', ruta_id, 'id', id);
-            console.log('hora:', hora, 'intervalo', intervalo);
-            promesas.push(escenario.leerDirectorioMod(ruta_id).then((sublista) => {
-                sublista.forEach((elemento) => {
-                    // Verifica si el elemento fue descargado
-                    let archivoDescargado = path.join(ruta_id, elemento, '.descargado');
-                    if (fs.existsSync(archivoDescargado)) {
-                        lista_folios.push({
-                            ruta:ruta_id,
-                            folio:elemento,
-                            tipo:'LOCAL',
-                            algoritmo: algoritmo,
-                            fecha: `${anio}-${(mes + '').length === 1 ? '0' + mes : '' + mes }-${(dia + '').length === 1 ? '0' + dia : '' + dia }`,
-                            hora: hora,
-                            intervalo: intervalo,
-                            id_original:id,
-                            usuario: SESION.usuario,
-                            rutaOriginal: ruta_id.replace('escenario_modificado', 'escenario_original')
-                        });
-                    }
-                });
-            }, () => {
-                // win.webContents.send('escenarios_folio_dias:leidos', false, null);
-            }));
-
-            Promise.all(promesas).then(() => {
-                // Consulta en BD
-                leerFoliosEnBD();
+                }
             });
-        });
-    }, () => {
-        leerFoliosEnBD();
+        }
+
+        win.webContents.send('escenarios_folio_escenarios:leidos', true, lista_folios);
+    }, (res_err) => {
+        win.webContents.send('escenarios_folio_escenarios:leidos', true, lista_folios);
     });
 });
 
@@ -1383,6 +1379,8 @@ ipcMain.on('escenario_bd:comprimir', (event, ruta_escenario, evento) => {
                     console.log('Borrando primer zip err: ', e.message);
                 }
 
+                json.rutaZip = ruta_zip_anterior;
+
                 console.log("Compresión realizada", json.estado);
                 win.webContents.send(evento, json);
             }
@@ -1393,15 +1391,29 @@ ipcMain.on('escenario_bd:comprimir', (event, ruta_escenario, evento) => {
     });
 });
 
-ipcMain.on('escenario_bd:guardar', (event, obj) => {
-    console.log('Guarda en BD');
+ipcMain.on('archivo:borrar', (event, ruta) => {
+    console.log('Borrando archivo', ruta);
+    try {
+        fs.unlinkSync(ruta);
+    } catch (e) {
+        console.log('Error borrado:', e.message);
+    }
+});
+
+ipcMain.on('escenario_bd:operacion', (event, obj, evento) => {
+    console.log('operacion en BD', evento);
     console.log(obj);
-    comandos.guardarEnBaseDatos(obj, enviarProgresoBD).then((objres) => {
+
+    comandos.operacionEnBaseDatos(obj, enviarProgresoBD).then((objres) => {
         console.log('Hecho');
-        win.webContents.send('escenario_bd:progreso', objres);
+        if (evento === 'escenario:guardarBD') {
+            listaArchivos.marcarDescargadoBD(obj.ruta);
+        }
+
+        win.webContents.send(evento, objres);
     }, (objres) => {
         console.log('BD con error');
-        win.webContents.send('escenario_bd:progreso', objres);
+        win.webContents.send(evento, objres);
     });
 });
 
@@ -1559,6 +1571,16 @@ ipcMain.on('escenario_bd:descargar', (event, obj_info) => {
     console.log('Descargando modificado');
     comandos.descargarEscenarioModBD(obj).then((json_mod) => {
         console.log("Hecho", json_mod);
+
+        // Borra si existe archivo .bd
+        try {
+            let ruta_bdf = path.join(obj.ruta, obj.folio);
+            console.log('Intentando borrar .bd', ruta_bdf);
+            fs.unlinkSync(ruta_bdf);
+        } catch (e) {
+            console.log('Error borrado:', e.message);
+        }
+
         console.log('Descargando original');
         comandos.descargarEscenarioOriBD(obj).then((json_ori) => {
             console.log("Hecho", json_ori);
@@ -1606,5 +1628,236 @@ function getAlgoritmoBD(algoritmo) {
         case "dersi": return 'DERS_I'; break;
         case "dersmi": return 'DERS_MI'; break;
         case "autr": return 'AUTR'; break;
+        default: return '';
     }
+}
+
+ipcMain.on('escenarios_eliminar_folio_anios:leer', (event, algoritmo) => {
+    console.log('Consultando eliminar anios BD: ', SESION.usuario, algoritmo);
+    let algoritmoBD = getAlgoritmoBD(algoritmo);
+    let {esquema, password, url } = getInfoSistema();
+    let lista = [];
+    let lista_folios = [];
+
+    // Lista de anios en BD
+    comandos.obtenerAniosFolios(SESION.usuario, url, esquema, password, algoritmoBD, 'ORI').then((res) => {
+        // Junta los resultados
+        if (typeof res.anio !== 'undefined') {
+            res.anio.forEach((anio) => {
+                lista.push(parseInt(anio));
+            });
+        }
+
+        win.webContents.send('escenarios_eliminar_folio_anios:leidos', lista);
+    }, (res_err) => {
+        win.webContents.send('escenarios_eliminar_folio_anios:leidos', lista);
+    });
+
+    console.log('Consultando folios');
+
+    // REgistros en BD
+    comandos.obtenerFolios(SESION.usuario, url, esquema, password, algoritmoBD, '', '', '', 'ORI').then((res) => {
+        // Junta los resultados
+        if (typeof res.escenario !== 'undefined') {
+            res.escenario.forEach((escenario) => {
+                generarObjInfoOriginalBD(escenario, algoritmo, lista_folios);
+            });
+        }
+
+        win.webContents.send('escenarios_eliminar_folio:leidos', lista_folios);
+    }, (res_err) => {
+        win.webContents.send('escenarios_eliminar_folio:leidos', lista_folios);
+    });
+});
+
+ipcMain.on('escenarios_eliminar_folio_meses:leer', (event, algoritmo, anio) => {
+    // Lee de BD
+    console.log('Consultando meses (eliminar): ', SESION.sistema, algoritmo, anio);
+    let algoritmoBD = getAlgoritmoBD(algoritmo);
+    let {esquema, password, url } = getInfoSistema();
+    let lista = [];
+    let lista_folios = [];
+
+    comandos.obtenerMesesFolios(SESION.usuario, url, esquema, password, algoritmoBD, anio, 'ORI').then((res) => {
+        // Junta los resultados
+        if (typeof res.mes !== 'undefined') {
+            res.mes.forEach((mes) => {
+                lista.push(parseInt(mes));
+            });
+        }
+
+        win.webContents.send('escenarios_eliminar_folio_meses:leidos', lista);
+    }, (res_err) => {
+        win.webContents.send('escenarios_eliminar_folio_meses:leidos', lista);
+    });
+
+    console.log('Consultando folios');
+
+    // REgistros en BD
+    comandos.obtenerFolios(SESION.usuario, url, esquema, password, algoritmoBD, anio, '', '', 'ORI').then((res) => {
+        // Junta los resultados
+        if (typeof res.escenario !== 'undefined') {
+            res.escenario.forEach((escenario) => {
+                generarObjInfoOriginalBD(escenario, algoritmo, lista_folios);
+            });
+        }
+
+        win.webContents.send('escenarios_eliminar_folio:leidos', lista_folios);
+    }, (res_err) => {
+        win.webContents.send('escenarios_eliminar_folio:leidos', lista_folios);
+    });
+});
+
+ipcMain.on('escenarios_eliminar_folio_dias:leer', (event, algoritmo, anio, mes) => {
+    // Consulta en BD
+    console.log('Consultando dias (eliminar): ', SESION.sistema, algoritmo, anio, mes);
+    let algoritmoBD = getAlgoritmoBD(algoritmo);
+    let {esquema, password, url } = getInfoSistema();
+    let lista = [];
+    let lista_folios = [];
+
+    comandos.obtenerDiasFolios(SESION.usuario, url, esquema, password, algoritmoBD, anio, mes, 'ORI').then((res) => {
+        // Junta los resultados
+        if (typeof res.dia !== 'undefined') {
+            res.dia.forEach((dia) => {
+                lista.push(parseInt(dia));
+            });
+        }
+
+        win.webContents.send('escenarios_eliminar_folio_dias:leidos', lista);
+    }, (res_err) => {
+        win.webContents.send('escenarios_eliminar_folio_dias:leidos', lista);
+    });
+
+    // REgistros en BD
+    comandos.obtenerFolios(SESION.usuario, url, esquema, password, algoritmoBD, anio, mes, '', 'ORI').then((res) => {
+        // Junta los resultados
+        if (typeof res.escenario !== 'undefined') {
+            res.escenario.forEach((escenario) => {
+                generarObjInfoOriginalBD(escenario, algoritmo, lista_folios);
+            });
+        }
+
+        win.webContents.send('escenarios_eliminar_folio:leidos', lista_folios);
+    }, (res_err) => {
+        win.webContents.send('escenarios_eliminar_folio:leidos', lista_folios);
+    });
+});
+
+ipcMain.on('escenarios_eliminar_folio:leer', (event, algoritmo, anio, mes, dia) => {
+    console.log('Consultando eliminar algoritmos BD: ', SESION.usuario);
+    let algoritmoBD = getAlgoritmoBD(algoritmo);
+    let {esquema, password, url } = getInfoSistema();
+    let lista = [];
+    let lista_folios = [];
+
+    // Lista de anios en BD
+    comandos.obtenerAlgoritmosOriBD(SESION.usuario, url, esquema, password).then((res) => {
+        // Junta los resultados
+        if (typeof res.algoritmo !== 'undefined') {
+            res.algoritmo.forEach((anio) => {
+                lista.push(anio);
+            });
+        }
+
+        win.webContents.send('escenarios_eliminar_folio_algoritmos:leidos', lista);
+    }, (res_err) => {
+        win.webContents.send('escenarios_eliminar_folio_algoritmos:leidos', lista);
+    });
+
+    console.log('Consultando folios: ', SESION.usuario, algoritmo, anio, mes, dia);
+
+
+    comandos.obtenerFolios(SESION.usuario, url, esquema, password, algoritmoBD, anio, mes, dia, 'ORI').then((res) => {
+        // Junta los resultados
+        console.log('Sale de la consulta');
+        if (typeof res.escenario !== 'undefined') {
+            res.escenario.forEach((escenario) => {
+                generarObjInfoOriginalBD(escenario, algoritmo, lista_folios);
+            });
+        }
+
+        win.webContents.send('escenarios_eliminar_folio:leidos', lista_folios);
+    }, (res_err) => {
+        win.webContents.send('escenarios_eliminar_folio:leidos', lista_folios);
+    });
+});
+
+ipcMain.on('escenarios_eliminar_folio_mod:leer', (event, algoritmo, id_original) => {
+    console.log('Consultando folios modificados por ID: ', SESION.usuario, algoritmo, id_original);
+    let algoritmoBD = getAlgoritmoBD(algoritmo);
+    let {esquema, password, url } = getInfoSistema();
+    let lista_folios = [];
+
+    comandos.obtenerFoliosPorID(SESION.usuario, url, esquema, password, algoritmoBD,id_original).then((res) => {
+        if (typeof res.escenario !== 'undefined') {
+            res.escenario.forEach((escenario) => {
+                let anio = escenario.folio.slice(0, 4);
+                let mes = escenario.folio.slice(4, 6);
+                let dia = escenario.folio.slice(6, 8);
+                let hora = escenario.folio.slice(8, 10);
+                let min = escenario.folio.slice(10, 12);
+                let int = escenario.intervalo;
+                let gmt = escenario.folio.slice(13, 16);
+                console.log('>>>',escenario, anio, mes, dia, hora, int, gmt);
+                let ruta_mod = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio, mes, dia, id_original, escenario.folio);
+                console.log('Ruta Modificado:', ruta_mod);
+                lista_folios.push({
+                    anio:anio,
+                    mes:mes,
+                    dia:dia,
+                    int:int,
+                    gmt:gmt,
+                    ruta:ruta_mod,
+                    algoritmo: algoritmo,
+                    comentarios: escenario.comentario,
+                    fecha: `${anio}-${(mes + '').length === 1 ? '0' + mes : '' + mes }-${(dia + '').length === 1 ? '0' + dia : '' + dia }`,
+                    hora: hora,
+                    min: min,
+                    folio: escenario.folio,
+                    intervalo: escenario.intervalo,
+                    id_original: id_original,
+                    usuario: SESION.usuario
+                });
+            });
+        }
+
+        win.webContents.send('escenarios_eliminar_folio_mod:leidos', lista_folios);
+    }, (res_err) => {
+        win.webContents.send('escenarios_eliminar_folio_mod:leidos', lista_folios);
+    });
+});
+
+ipcMain.on('archivo_bd:verificar', (event, ruta_escenario) => {
+    let ruta_archivo = path.join(ruta_escenario, '.bd');;
+
+    let flag_existe = fs.existsSync(ruta_archivo);
+    console.log('Verificar archivo', ruta_archivo, flag_existe);
+    win.webContents.send('archivo_bd:verificado', {existe:flag_existe});
+});
+
+function generarObjInfoOriginalBD(escenario, algoritmo, lista_folios) {
+    let anio = escenario.folio.slice(0, 4);
+    let mes = escenario.folio.slice(4, 6);
+    let dia = escenario.folio.slice(6, 8);
+    let hora = escenario.hora;
+    let int = escenario.intervalo;
+    let gmt = escenario.folio.slice(13, 16);
+    console.log('>>>',escenario, anio, mes, dia, hora, int, gmt);
+    let ruta_original = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_original', anio, mes, dia, escenario.folio);
+    console.log('Ruta original:', ruta_original);
+    lista_folios.push({
+        anio:anio,
+        mes:mes,
+        dia:dia,
+        int:int,
+        gmt:gmt,
+        ruta:ruta_original,
+        algoritmo: escenario.algoritmo,
+        fecha: `${anio}-${(mes + '').length === 1 ? '0' + mes : '' + mes }-${(dia + '').length === 1 ? '0' + dia : '' + dia }`,
+        hora: escenario.hora,
+        intervalo: escenario.intervalo,
+        id_original:escenario.folio,
+        usuario: SESION.usuario
+    });
 }

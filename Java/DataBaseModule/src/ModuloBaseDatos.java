@@ -168,7 +168,7 @@ public class ModuloBaseDatos implements Runnable {
                 try {
                     poolconwrite.createPoolConnection(sBD_write, IDzonahoraria, ambiente);
                     conlocal = poolconwrite.getConnectionTransactional(sBD_write, IDzonahoraria);
-                    ModeloEscenarios obj = new ModeloEscenarios(conlocal, fkUsuario, sistema);
+                    ModeloEscenarios obj = new ModeloEscenarios(conlocal, dtoEscen, sistema);
                     cantmodificados = obj.ContarEscenModificados();
                     cantoriginales = obj.ContarEscenOriginales();
                     ClaseCatalogoConfiguracion par = obj.ObtenerParametros();

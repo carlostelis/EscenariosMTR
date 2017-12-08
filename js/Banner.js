@@ -75,17 +75,23 @@ class Banner {
         this.divMsg.classList.add('compacto');
         this.divMsg.classList.remove('solo-icono');
         this.divTexto.classList.add('compacto');
+        this.botonAceptar.classList.add('compacto');
+        this.botonAceptar.classList.remove('icono');
     }
 
     vistaIcono() {
         this.divMsg.classList.remove('compacto');
         this.divMsg.classList.add('solo-icono');
+        this.botonAceptar.classList.remove('compacto');
+        this.botonAceptar.classList.add('icono');
     }
 
     vistaNormal() {
         this.divMsg.classList.remove('compacto');
         this.divMsg.classList.remove('solo-icono');
         this.divTexto.classList.remove('compacto');
+        this.botonAceptar.classList.remove('compacto');
+        this.botonAceptar.classList.remove('icono');
     }
 
     mostrar() {

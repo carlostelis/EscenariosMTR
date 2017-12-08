@@ -10,7 +10,7 @@
 }
 
 .contenedor-comentarios-mod > div {
-    height: 90%;
+    height: 100%;
     padding: 0px 0px 0px 0px;
     margin-left: 0%;
     width: 100%;
@@ -19,12 +19,13 @@
 .contenedor-comentarios-mod {
     height: calc(9% - 1.3vh);
     margin-top: 1vh;
-    padding-top: 0.5%;
+    padding-top: 0.2%;
+    padding-bottom: 0.2%;
 }
 
 .contenedor-comentarios-mod > div > div > textarea {
     width: 99%;
-    height: 90%;
+    height: 100%;
     resize: none;
     font-size: 1.2vh;
 }

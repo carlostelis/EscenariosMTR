@@ -9,7 +9,7 @@
                         <div class="col-11" style="margin:auto;">
                             <div class="col row container justify-content-center" style="margin:auto; padding:0; height:60vh;">
                                 <div class="pestania-eliminar" onclick="switchTipoEscenario(this, 'div_lista_esc_eliminar_locales');">Escenarios  en Disco Local</div>
-                                <div class="pestania-eliminar inactiva" onclick="switchTipoEscenario(this, 'div_lista_esc_eliminar_db');">Escenarios en Base de Datos</div>
+                                <div class="pestania-eliminar inactiva" onclick="switchTipoEscenario(this, 'div_lista_esc_eliminar_db'); consultarFoliosOriginalesBD_Init();">Escenarios en Base de Datos</div>
                                 <div id="div_lista_esc_eliminar_locales" class="div-lista-esc-eliminar">
                                     <div class="row" style="margin-bottom:1vh;">
                                         <div class="col-4">
@@ -61,21 +61,26 @@
                                         <div class="col-4">
                                             <div class="row">
                                                 <label class="label-dato-eliminar">Algoritmo:</label>
-                                                <select id="select_eliminar_algoritmo_db" class="select-dato-eliminar"></select>
+                                                <select id="select_eliminar_algoritmo_db" class="select-dato-eliminar" onchange="consultarAniosOriginalesBD();">
+                                                    <option value="ninguno" selected>Sin Filtro</option>
+                                                    <option value="dersi">DERS-I</option>
+                                                    <option value="dersmi">DERS-MI</option>
+                                                    <option value="autr">AUTR</option>
+                                                </select>
                                             </div>
                                             <div class="row">
                                                 <label class="label-dato-eliminar">Año:</label>
-                                                <select id="select_eliminar_anio_db" class="select-dato-eliminar"></select>
+                                                <select id="select_eliminar_anio_db" class="select-dato-eliminar" onchange="consultarMesesOriginalesBD();"></select>
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="row">
                                                 <label class="label-dato-eliminar">Mes:</label>
-                                                <select id="select_eliminar_mes_db" class="select-dato-eliminar"></select>
+                                                <select id="select_eliminar_mes_db" class="select-dato-eliminar" onchange="consultarDiasOriginalesBD();"></select>
                                             </div>
                                             <div class="row">
                                                 <label class="label-dato-eliminar">Dia:</label>
-                                                <select id="select_eliminar_dia_db" class="select-dato-eliminar"></select>
+                                                <select id="select_eliminar_dia_db" class="select-dato-eliminar" onchange="consultarFoliosOriginalesBD();"></select>
                                             </div>
                                         </div>
                                     </div>
@@ -86,25 +91,19 @@
                                     </div>
                                     <div class="row" style="height:85%;">
                                         <div class="div-lista-esc-eliminar-ori">
-                                            <div id="lista_ori_bd" class="lista">
-                                                <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);"><span><i class="demo-icon icon-play-1"></i></span>Cras justo odio</button>
-                                            </div>
+                                            <div id="lista_ori_bd" class="lista"></div>
                                             <div class="row">
-                                                <button id="boton_eliminar_ori_db" type="button" class="button_gral boton-eliminar" disabled onclick="" title="Elimina el registro de la base de datos"><span><i class="demo-icon icon-trash"></i></span>Eliminar</button>
+                                                <button id="boton_eliminar_ori_db" type="button" class="button_gral boton-eliminar" disabled onclick="borrarEscenarioOriginalBD();" title="Elimina el registro de la base de datos"><span><i class="demo-icon icon-trash"></i></span>Eliminar</button>
                                             </div>
                                         </div>
                                         <div class="div-lista-esc-eliminar-mod">
-                                            <div class="lista">
-                                                <button type="button" class="boton-lista-eliminar" onclick="clickEscenarioBotonListaEliminar(this);"><span><i class="demo-icon icon-play-1"></i></span>Dapibus ac facilisis in</button>
-                                            </div>
+                                            <div id="lista_mod_bd" class="lista"></div>
                                             <div class="row">
-                                                <button  id="boton_eliminar_mod_db" type="button" class="button_gral boton-eliminar" disabled onclick="" title="Elimina el registro de la base de datos"><span><i class="demo-icon icon-trash"></i></span>Eliminar</button>
+                                                <button  id="boton_eliminar_mod_db" type="button" class="button_gral boton-eliminar" disabled onclick="borrarEscenarioModificadoBD();" title="Elimina el registro de la base de datos"><span><i class="demo-icon icon-trash"></i></span>Eliminar</button>
                                             </div>
                                         </div>
                                         <div class="div-lista-esc-eliminar-info">
-                                            <div id="div_comentarios_eliminar_bd" class="div-comentarios-eliminar">
-                                                Comentario del escenario
-                                            </div>
+                                            <div id="div_comentarios_eliminar_db" class="div-comentarios-eliminar"></div>
                                         </div>
                                     </div>
                                 </div>

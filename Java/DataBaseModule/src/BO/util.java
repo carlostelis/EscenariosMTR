@@ -137,12 +137,20 @@ public class util {
     
     
     public static String QuitarComaFinal(String cadena){
-        String nombresincoma="";
+        String nombresincoma = "";
+        String nombrelimpio = "";
+
         if (cadena.substring(cadena.length() - 1, cadena.length()).indexOf(",") != -1) {
             nombresincoma = cadena.substring(0, cadena.length() - 1);
             //System.out.println("nombresincoma " + nombresincoma);
-        }else{
+        } else {
             nombresincoma = cadena;
+        }
+
+        if (nombresincoma.substring(0, 1).indexOf(",") != -1) {
+            nombrelimpio = nombresincoma.substring(cadena.length() + 1, nombresincoma.length());
+        } else {
+            nombrelimpio = nombresincoma;
         }
         
         return nombresincoma;

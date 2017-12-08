@@ -16,6 +16,7 @@ require('electron-context-menu')({
 const body = document.querySelector("body");
 const div_msg_consola = document.getElementById('div_msg_consola');
 const banner = new Banner(body);
+const bannerIcono = new Banner(body);
 const bannerBD = new Banner(body);
 const consolaExe = new Consola(body);
 const visor_archivos = new VistaArchivos();
@@ -100,8 +101,11 @@ let thead_periodo_i_mod = [];
 let colapsables_mod = [];
 let objEscVistaMod;
 let boton_cargaEscenarioMod;
-let boton_guardaBDEscenarioMod;
 let boton_cargaEscenarioModActual;
+let boton_guardaBDEscenarioMod;
+let boton_cargaEscenarioMod_estado;
+let boton_cargaEscenarioModActual_estado;
+let flag_guardandoBD = false;
 
 // Comparacion de resultados
 let tablas_res = null;
@@ -145,6 +149,8 @@ let botonProgresoBD;
 let pestanias_eliminar = null;
 let lista_ori_eliminar = null;
 let lista_mod_eliminar = null;
+let lista_ori_eliminar_bd = null;
+let lista_mod_eliminar_bd = null;
 let lista_ori_bd = null;
 let lista_ori_local = null;
 let lista_mod_bd = null;
@@ -162,7 +168,7 @@ let select_eliminar_anio_db = null;
 let select_eliminar_mes_db = null;
 let select_eliminar_dia_db = null;
 let div_comentarios_eliminar_local = null;
-let div_comentarios_eliminar_bd = null;
+let div_comentarios_eliminar_db = null;
 let botonModTemp;
 let botonOriLocalSel = null;
 let botonModLocalSel = null;
@@ -189,6 +195,14 @@ body.onload = () => {
     body.style.opacity = '1';
 	div_msg_consola.innerHTML = '';
     solicitarSistemas();
+
+	// Configura banner
+	bannerIcono.vistaIcono();
+	bannerIcono.cargando();
+	bannerIcono.ocultarBoton();
+	bannerIcono.setMensaje('');
+	bannerIcono.ocultarProgreso();
+
 
 	// Componentes de vistas y menus desde index
 

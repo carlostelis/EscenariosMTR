@@ -316,7 +316,12 @@ ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
 
 
                 // Activa boton cargar actual en modificados
-                boton_cargaEscenarioModActual.disabled = false;
+                if (flag_guardandoBD === true) {
+                    boton_cargaEscenarioModActual_estado = false;
+                } else {
+                    boton_cargaEscenarioModActual.disabled = false;
+                }
+
                 promesas_archivos = [];
 
                 setTimeout(() => {

@@ -367,7 +367,7 @@ class Escenario {
                             lista.push(file);
                         }
                     });
-
+                    console.log('Dir leido');
                     resolve(lista);
                 }
             });

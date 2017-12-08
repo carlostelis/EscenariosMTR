@@ -165,7 +165,7 @@ public class BD {
         }
     }
     
-    public void obtenerAnios_Folios(String usuario, String algoritmo) {
+    public void obtenerAnios_Folios_Mod(String usuario, String algoritmo) {
         if (this.con == null) {
             if (!this.conectar()) {
                 return;
@@ -175,12 +175,13 @@ public class BD {
         try {
             this.stmt = this.con.createStatement(); 
 
-            /*String query = "SELECT SUBSTR(CONTROL_ESCEN_MODIFICADOS.ID_ESCENARIO, 1, 4) AS ANIO FROM CONTROL_ESCEN_MODIFICADOS "
-                    + "INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_MODIFICADOS.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
-                    + "WHERE CONTROL_ESCEN_MODIFICADOS.FK_USUARIO = '" + usuario + "' AND CAT_ALGORITMOS.NOMBRE_ALGORITMO = '" + algoritmo + "'";*/
             String query = "SELECT SUBSTR(CONTROL_ESCEN_MODIFICADOS.ID_ESCENARIO, 1, 4) AS ANIO FROM CONTROL_ESCEN_MODIFICADOS "
                     + "INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_MODIFICADOS.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
                     + "WHERE CAT_ALGORITMOS.NOMBRE_ALGORITMO = '" + algoritmo + "'";
+            
+            if (!usuario.isEmpty()) {
+                query += " AND CONTROL_ESCEN_MODIFICADOS.FK_USUARIO = '" + usuario + "'";
+            }
             
 //            System.out.println(query);
             ResultSet rs = this.stmt.executeQuery(query);
@@ -206,7 +207,7 @@ public class BD {
         }
     }
     
-    public void obtenerMeses_Folios(String usuario, String algoritmo, String anio) {
+    public void obtenerMeses_Folios_Mod(String usuario, String algoritmo, String anio) {
         if (this.con == null) {
             if (!this.conectar()) {
                 return;
@@ -216,13 +217,13 @@ public class BD {
         try {
             this.stmt = this.con.createStatement(); 
 
-            /*String query = "SELECT SUBSTR(CONTROL_ESCEN_MODIFICADOS.ID_ESCENARIO, 5, 2) AS MES FROM CONTROL_ESCEN_MODIFICADOS "
-                    + "INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_MODIFICADOS.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
-                    + "WHERE CONTROL_ESCEN_MODIFICADOS.FK_USUARIO = '" + usuario + "' AND CAT_ALGORITMOS.NOMBRE_ALGORITMO = '" + algoritmo
-                    + "' AND CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL LIKE '" + anio + "%'";*/
             String query = "SELECT SUBSTR(CONTROL_ESCEN_MODIFICADOS.ID_ESCENARIO, 5, 2) AS MES FROM CONTROL_ESCEN_MODIFICADOS "
                     + "INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_MODIFICADOS.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
                     + "WHERE CAT_ALGORITMOS.NOMBRE_ALGORITMO = '" + algoritmo + "' AND CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL LIKE '" + anio + "%'";
+            
+            if (!usuario.isEmpty()) {
+                query += " AND CONTROL_ESCEN_MODIFICADOS.FK_USUARIO = '" + usuario + "'";
+            }
             
 //            System.out.println(query);
             ResultSet rs = this.stmt.executeQuery(query);
@@ -248,7 +249,7 @@ public class BD {
         }
     }
     
-    public void obtenerDias_Folios(String usuario, String algoritmo, String anio, String mes) {
+    public void obtenerDias_Folios_Mod(String usuario, String algoritmo, String anio, String mes) {
         if (this.con == null) {
             if (!this.conectar()) {
                 return;
@@ -258,13 +259,13 @@ public class BD {
         try {
             this.stmt = this.con.createStatement(); 
             
-            /*String query = "SELECT SUBSTR(CONTROL_ESCEN_MODIFICADOS.ID_ESCENARIO, 7, 2) AS DIA FROM CONTROL_ESCEN_MODIFICADOS "
-                    + "INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_MODIFICADOS.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
-                    + "WHERE CONTROL_ESCEN_MODIFICADOS.FK_USUARIO = '" + usuario + "' AND CAT_ALGORITMOS.NOMBRE_ALGORITMO = '" + algoritmo
-                    + "' AND CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL LIKE '" + anio + mes + "%'"; */
             String query = "SELECT SUBSTR(CONTROL_ESCEN_MODIFICADOS.ID_ESCENARIO, 7, 2) AS DIA FROM CONTROL_ESCEN_MODIFICADOS "
                     + "INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_MODIFICADOS.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
                     + "WHERE CAT_ALGORITMOS.NOMBRE_ALGORITMO = '" + algoritmo + "' AND CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL LIKE '" + anio + mes + "%'";
+            
+            if (!usuario.isEmpty()) {
+                query += " AND CONTROL_ESCEN_MODIFICADOS.FK_USUARIO = '" + usuario + "'";
+            }
             
 //            System.out.println(query);
             ResultSet rs = this.stmt.executeQuery(query);
@@ -290,7 +291,7 @@ public class BD {
         }
     }
     
-    public void obtenerFolios_Folios(String usuario, String algoritmo, String anio, String mes, String dia) {
+    public void obtenerFolios_Folios_Mod(String usuario, String algoritmo, String anio, String mes, String dia) {
         if (this.con == null) {
             if (!this.conectar()) {
                 return;
@@ -300,15 +301,299 @@ public class BD {
         try {
             this.stmt = this.con.createStatement(); 
 
-            /* String query = "SELECT CONTROL_ESCEN_MODIFICADOS.ID_ESCENARIO, CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL, CONTROL_ESCEN_MODIFICADOS.COMENTARIO, SUBSTR(CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL, 9, 2) AS HORA, SUBSTR(CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL, 11, 2) AS INTERVALO "
-                    + "FROM CONTROL_ESCEN_MODIFICADOS INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_MODIFICADOS.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
-                    + "WHERE CONTROL_ESCEN_MODIFICADOS.FK_USUARIO = '" + usuario + "' AND CAT_ALGORITMOS.NOMBRE_ALGORITMO = '" + algoritmo
-                    + "' AND CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL LIKE '" + anio + mes + dia + "%'"; */
             String query = "SELECT CONTROL_ESCEN_MODIFICADOS.ID_ESCENARIO, CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL, "
                     + "CONTROL_ESCEN_MODIFICADOS.COMENTARIO, SUBSTR(CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL, 9, 2) AS HORA, "
                     + "SUBSTR(CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL, 11, 2) AS INTERVALO, CONTROL_ESCEN_MODIFICADOS.FK_USUARIO "
                     + "FROM CONTROL_ESCEN_MODIFICADOS INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_MODIFICADOS.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
                     + "WHERE CAT_ALGORITMOS.NOMBRE_ALGORITMO = '" + algoritmo + "' AND CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL LIKE '" + anio + mes + dia + "%'";
+            
+            if (!usuario.isEmpty()) {
+                query += " AND CONTROL_ESCEN_MODIFICADOS.FK_USUARIO = '" + usuario + "'";
+            }
+            
+//            System.out.println(query);
+            ResultSet rs = this.stmt.executeQuery(query);
+            // Construyo objeto JSON
+            JSONObject json = new JSONObject();
+            
+            while (rs.next()) {
+                JSONObject json_obj = new JSONObject();
+                json_obj.put("folio", rs.getString(1));
+                json_obj.put("id_original", rs.getString(2));
+                String comentario = rs.getString(3);
+                json_obj.put("comentario", (comentario == null ? "" : comentario));
+                json_obj.put("hora", rs.getString(4));
+                json_obj.put("intervalo", rs.getString(5));
+                json_obj.put("usuario", rs.getString(6));
+                
+                json.append("escenario", json_obj);
+            }
+            
+            rs.close();
+
+            String output = json.toString();
+            
+            System.out.println(output);
+        } catch (SQLException ex) {
+            System.out.println("ERROR -> " + ex.getMessage() + "; " + ex.getCause());
+        } finally {
+            try {
+                this.stmt.close();
+            } catch (SQLException ex) {}
+            this.desconectar();
+        }
+    }
+    
+    public void obtenerAnios_Folios_Ori(String usuario, String algoritmo) {
+        if (this.con == null) {
+            if (!this.conectar()) {
+                return;
+            }
+        }
+        
+        try {
+            this.stmt = this.con.createStatement(); 
+
+            String query = "SELECT DISTINCT(SUBSTR(CONTROL_ESCEN_ORIGINALES.FOLIO, 1, 4)) AS ANIO FROM CONTROL_ESCEN_ORIGINALES "
+                    + "INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_ORIGINALES.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
+                    + "WHERE CAT_ALGORITMOS.NOMBRE_ALGORITMO = '" + algoritmo + "' AND CONTROL_ESCEN_ORIGINALES.PROPIETARIO LIKE '%" + usuario + "%' "
+                    + "ORDER BY ANIO ASC";
+            
+//            System.out.println(query);
+            ResultSet rs = this.stmt.executeQuery(query);
+            // Construyo objeto JSON
+            JSONObject json = new JSONObject();
+            
+            while (rs.next()) {
+                json.append("anio", rs.getString(1));
+            }
+            
+            rs.close();
+
+            String output = json.toString();
+            
+            System.out.println(output);
+        } catch (SQLException ex) {
+            System.out.println("ERROR -> " + ex.getMessage() + "; " + ex.getCause());
+        } finally {
+            try {
+                this.stmt.close();
+            } catch (SQLException ex) {}
+            this.desconectar();
+        }
+    }
+    
+    public void obtenerMeses_Folios_Ori(String usuario, String algoritmo, String anio) {
+        if (this.con == null) {
+            if (!this.conectar()) {
+                return;
+            }
+        }
+        
+        try {
+            this.stmt = this.con.createStatement(); 
+
+            String query = "SELECT DISTINCT(SUBSTR(CONTROL_ESCEN_ORIGINALES.FOLIO, 5, 2)) AS MES FROM CONTROL_ESCEN_ORIGINALES "
+                    + "INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_ORIGINALES.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
+                    + "WHERE CAT_ALGORITMOS.NOMBRE_ALGORITMO = '" + algoritmo + "' AND CONTROL_ESCEN_ORIGINALES.PROPIETARIO LIKE '%" + usuario + "%' "
+                    + "ORDER BY MES ASC";
+            
+//            System.out.println(query);
+            ResultSet rs = this.stmt.executeQuery(query);
+            // Construyo objeto JSON
+            JSONObject json = new JSONObject();
+
+            while (rs.next()) {
+                json.append("mes", rs.getString(1));
+            }
+            
+            rs.close();
+
+            String output = json.toString();
+            
+            System.out.println(output);
+        } catch (SQLException ex) {
+            System.out.println("ERROR -> " + ex.getMessage() + "; " + ex.getCause());
+        } finally {
+            try {
+                this.stmt.close();
+            } catch (SQLException ex) {}
+            this.desconectar();
+        }
+    }
+    
+    public void obtenerDias_Folios_Ori(String usuario, String algoritmo, String anio, String mes) {
+        if (this.con == null) {
+            if (!this.conectar()) {
+                return;
+            }
+        }
+        
+        try {
+            this.stmt = this.con.createStatement(); 
+            
+            String query = "SELECT DISTINCT(SUBSTR(CONTROL_ESCEN_ORIGINALES.FOLIO, 7, 2)) AS DIA FROM CONTROL_ESCEN_ORIGINALES "
+                    + "INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_ORIGINALES.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
+                    + "WHERE CAT_ALGORITMOS.NOMBRE_ALGORITMO = '" + algoritmo + "' AND CONTROL_ESCEN_ORIGINALES.PROPIETARIO LIKE '%" + usuario + "%' "
+                    + "ORDER BY DIA ASC";
+            
+//            System.out.println(query);
+            ResultSet rs = this.stmt.executeQuery(query);
+            // Construyo objeto JSON
+            JSONObject json = new JSONObject();
+
+            while (rs.next()) {
+                json.append("dia", rs.getString(1));
+            }
+            
+            rs.close();
+
+            String output = json.toString();
+            
+            System.out.println(output);
+        } catch (SQLException ex) {
+            System.out.println("ERROR -> " + ex.getMessage() + "; " + ex.getCause());
+        } finally {
+            try {
+                this.stmt.close();
+            } catch (SQLException ex) {}
+            this.desconectar();
+        }
+    }
+    
+    public void obtenerAlgoritmos_Folios_Ori(String usuario) {
+        if (this.con == null) {
+            if (!this.conectar()) {
+                return;
+            }
+        }
+        
+        try {
+            this.stmt = this.con.createStatement(); 
+            
+            String query = "SELECT DISTINCT(CAT_ALGORITMOS.NOMBRE_ALGORITMO) FROM CONTROL_ESCEN_ORIGINALES "
+                    + "INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_ORIGINALES.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
+                    + "WHERE CONTROL_ESCEN_ORIGINALES.PROPIETARIO LIKE '%" + usuario + "%' ";
+            
+//            System.out.println(query);
+            ResultSet rs = this.stmt.executeQuery(query);
+            // Construyo objeto JSON
+            JSONObject json = new JSONObject();
+
+            while (rs.next()) {
+                String alg = rs.getString(1);
+                switch (alg) {
+                    case "DERS_I": 
+                        json.append("algoritmo", "dersi"); 
+                        break;
+                    case "DERS_MI": 
+                        json.append("algoritmo", "dersmi"); 
+                        break;
+                    case "AUTR": 
+                        json.append("algoritmo", "autr"); 
+                    break;
+                }
+            }
+            
+            rs.close();
+
+            String output = json.toString();
+            
+            System.out.println(output);
+        } catch (SQLException ex) {
+            System.out.println("ERROR -> " + ex.getMessage() + "; " + ex.getCause());
+        } finally {
+            try {
+                this.stmt.close();
+            } catch (SQLException ex) {}
+            this.desconectar();
+        }
+    }
+    
+    public void obtenerFolios_Folios_Ori(String usuario, String algoritmo, String anio, String mes, String dia) {
+        if (this.con == null) {
+            if (!this.conectar()) {
+                return;
+            }
+        }
+        
+        try {
+            this.stmt = this.con.createStatement(); 
+            
+            String fecha = "";
+            if (anio != null && !anio.isEmpty()) {
+                fecha += anio;
+                
+                if (mes != null && !mes.isEmpty()) {
+                    fecha += mes;
+                    
+                    if (dia != null && !dia.isEmpty()) {
+                        fecha += dia;
+                    }
+                }
+            }
+
+            String query = "SELECT CONTROL_ESCEN_ORIGINALES.FOLIO, SUBSTR(CONTROL_ESCEN_ORIGINALES.FOLIO, 9, 2) AS HORA, "
+                    + "SUBSTR(CONTROL_ESCEN_ORIGINALES.FOLIO, 11, 2) AS INTERVALO, CAT_ALGORITMOS.NOMBRE_ALGORITMO "
+                    + "FROM CONTROL_ESCEN_ORIGINALES INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_ORIGINALES.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
+                    + "WHERE CONTROL_ESCEN_ORIGINALES.PROPIETARIO LIKE '%" + usuario + "%' AND CONTROL_ESCEN_ORIGINALES.FOLIO LIKE '" + fecha + "%' ";
+            
+            if (algoritmo != null && !algoritmo.trim().isEmpty()) {
+                query += "AND CAT_ALGORITMOS.NOMBRE_ALGORITMO = '" + algoritmo + "'";;
+            }
+            
+//            System.out.println(query);
+            ResultSet rs = this.stmt.executeQuery(query);
+            // Construyo objeto JSON
+            JSONObject json = new JSONObject();
+            
+            while (rs.next()) {
+                JSONObject json_obj = new JSONObject();
+                json_obj.put("folio", rs.getString(1));
+                json_obj.put("hora", rs.getString(2));
+                json_obj.put("intervalo", rs.getString(3));
+                String alg = rs.getString(4);
+                
+                switch (alg) {
+                    case "DERS_I": json_obj.put("algoritmo", "dersi"); break;
+                    case "DERS_MI": json_obj.put("algoritmo", "dersmi"); break;
+                    case "AUTR": json_obj.put("algoritmo", "autr"); break;
+                }
+                
+                json.append("escenario", json_obj);
+            }
+            
+            rs.close();
+
+            String output = json.toString();
+            
+            System.out.println(output);
+        } catch (SQLException ex) {
+            System.out.println("ERROR -> " + ex.getMessage() + "; " + ex.getCause());
+        } finally {
+            try {
+                this.stmt.close();
+            } catch (SQLException ex) {}
+            this.desconectar();
+        }
+    }
+    
+    public void obtenerFolios_FoliosPorID(String usuario, String algoritmo, String id_original) {
+        if (this.con == null) {
+            if (!this.conectar()) {
+                return;
+            }
+        }
+        
+        try {
+            this.stmt = this.con.createStatement(); 
+
+            String query = "SELECT CONTROL_ESCEN_MODIFICADOS.ID_ESCENARIO, CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL, "
+                    + "CONTROL_ESCEN_MODIFICADOS.COMENTARIO, SUBSTR(CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL, 9, 2) AS HORA, "
+                    + "SUBSTR(CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL, 11, 2) AS INTERVALO, CONTROL_ESCEN_MODIFICADOS.FK_USUARIO "
+                    + "FROM CONTROL_ESCEN_MODIFICADOS INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_MODIFICADOS.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
+                    + "WHERE CAT_ALGORITMOS.NOMBRE_ALGORITMO = '" + algoritmo + "' AND CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL = '" + id_original + "' "
+                    + "AND CONTROL_ESCEN_MODIFICADOS.FK_USUARIO = '" + usuario + "'";
             
 //            System.out.println(query);
             ResultSet rs = this.stmt.executeQuery(query);

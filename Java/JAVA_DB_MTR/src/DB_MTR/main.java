@@ -85,25 +85,43 @@ public class main {
                 bd.bajarEscenarioOriginal(params.get("--folio"), params.get("--algoritmo"), params.get("--carpeta"));
                 break;
             case "folios_anios":
-                if (params.containsKey("--dev")) {
-                    System.out.println("DEV> " + params.get("--usr") + "  " + params.get("--algoritmo"));
+                if (params.get("--tipo").equals("ORI")) {
+                    bd.obtenerAnios_Folios_Ori(params.get("--usr"), params.get("--algoritmo"));
+                } else {
+                    bd.obtenerAnios_Folios_Mod(params.get("--usr"), params.get("--algoritmo"));
                 }
-                bd.obtenerAnios_Folios(params.get("--usr"), params.get("--algoritmo"));
                 
                 break;
             case "folios_meses":
-                if (params.containsKey("--dev")) {
-                    System.out.println("DEV> " + params.get("--usr") + "  " + params.get("--algoritmo"));
+                if (params.get("--tipo").equals("ORI")) {
+                    bd.obtenerMeses_Folios_Ori(params.get("--usr"), params.get("--algoritmo"), params.get("--anio"));
+                } else {
+                    bd.obtenerMeses_Folios_Mod(params.get("--usr"), params.get("--algoritmo"), params.get("--anio"));
                 }
-                bd.obtenerMeses_Folios(params.get("--usr"), params.get("--algoritmo"), params.get("--anio"));
                 
                 break;
             case "folios_dias":
-                bd.obtenerDias_Folios(params.get("--usr"), params.get("--algoritmo"), params.get("--anio"), params.get("--mes"));
+                if (params.get("--tipo").equals("ORI")) {
+                    bd.obtenerDias_Folios_Ori(params.get("--usr"), params.get("--algoritmo"), params.get("--anio"), params.get("--mes"));
+                } else {
+                    bd.obtenerDias_Folios_Mod(params.get("--usr"), params.get("--algoritmo"), params.get("--anio"), params.get("--mes"));
+                }
                 
                 break;
             case "folios_folios":
-                bd.obtenerFolios_Folios(params.get("--usr"), params.get("--algoritmo"), params.get("--anio"), params.get("--mes"), params.get("--dia"));
+                if (params.get("--tipo").equals("ORI")) {
+                    bd.obtenerFolios_Folios_Ori(params.get("--usr"), params.get("--algoritmo"), params.get("--anio"), params.get("--mes"), params.get("--dia"));
+                } else {
+                    bd.obtenerFolios_Folios_Mod(params.get("--usr"), params.get("--algoritmo"), params.get("--anio"), params.get("--mes"), params.get("--dia"));
+                }
+                
+                break;
+            case "folios_algoritmos":
+                bd.obtenerAlgoritmos_Folios_Ori(params.get("--usr"));
+                
+                break;
+            case "foliosMod_ID":
+                bd.obtenerFolios_FoliosPorID(params.get("--usr"), params.get("--algoritmo"), params.get("--id"));
                 
                 break;
             case "utc":

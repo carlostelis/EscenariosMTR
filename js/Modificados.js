@@ -1158,6 +1158,9 @@ function guardarEnBaseDatos() {
 
 ipcRenderer.on('escenario_bd:comprimido_modificado', (event, res) => {
     if (res.estado === true) {
+        console.log('ZIP modificado:', res.rutaZip);
+        objEscVistaMod.rutaZip_mod = res.rutaZip;
+
         bannerBD.setMensaje('Preparando escenario original');
         let elementos = objEscVistaMod.ruta.split('\\');
         let ruta_original = `${objEscVistaMod.ruta.replace('escenario_modificado', 'escenario_original').replace(elementos[elementos.length - 1], '')}`;
@@ -1174,8 +1177,9 @@ ipcRenderer.on('escenario_bd:comprimido_modificado', (event, res) => {
 
 ipcRenderer.on('escenario_bd:comprimido_original', (event, res) => {
     if (res.estado === true) {
-        bannerBD.ok();
-        bannerBD.setMensaje('Iniciando escritura en Base de Datos');
+        console.log('ZIP original:', res.rutaZip);
+        objEscVistaMod.rutaZip_ori = res.rutaZip;
+
         botonProgresoBD.modoProgreso();
         botonProgresoBD.setProgreso(15);
 
@@ -1184,75 +1188,132 @@ ipcRenderer.on('escenario_bd:comprimido_original', (event, res) => {
         select_mod_algoritmo.disabled = true;
         select_mod_mes.disabled = true;
         select_mod_dia.disabled = true;
+
         select_mod_esc_original.disabled = true;
         select_mod_esc_modificado.disabled = true;
+
+        // Respalda estados
+        boton_cargaEscenarioMod_estado = boton_cargaEscenarioMod.disabled;
+        boton_cargaEscenarioModActual_estado = boton_cargaEscenarioModActual.disabled;
+
+        // DEshabilita botones
+        boton_cargaEscenarioMod.disabled = true;
+        boton_cargaEscenarioModActual.disabled = true;
 
         if (typeof objEscVistaMod.folio === 'undefined') {
             let elementos = objEscVistaMod.ruta.split('\\');
             objEscVistaMod.folio = elementos[elementos.length - 1];
         }
 
-        setTimeout(() => {
-            let elementos = objEscVistaMod.ruta.split('\\');
-            let json = {
-                opc: '1',
-                folio: objEscVistaMod.folio,
-                usuario: SESION.usuario,
-                id: elementos[elementos.length - 2],
-                algoritmo: objEscVistaMod.algoritmo.toUpperCase(),
-                estado: '1',
-                ruta: objEscVistaMod.ruta,
-                sistema: SESION.sistema
-            };
-            ipcRenderer.send('escenario_bd:guardar', json);
-        }, 1000);
-
-        setTimeout(() => {
-            bannerBD.ocultar();
-        }, 3000);
+        // Verifica si existe el arhcivo .bd para saber si ya fue guardado
+        ipcRenderer.send('archivo_bd:verificar', objEscVistaMod.ruta);
     } else {
+        bannerBD.mostrar();
         bannerBD.error();
-        bannerBD.setMensaje('Error: ' + res.mensaje);
-        setTimeout(() => {
+        bannerBD.setMensaje(`Error: ${res.mensaje}`);
+        bannerBD.setBoton('Aceptar', () => {
             bannerBD.ocultar();
-        }, 2000);
+        });
+        bannerBD.mostrarBoton();
+        botonProgresoBD.modoNormal();
     }
 });
 
-ipcRenderer.on('escenario_bd:progreso', (event, res) => {
-    if (res.estado === true) {
-        botonProgresoBD.setProgreso(res.progreso);
+ipcRenderer.on('archivo_bd:verificado', (event, res) => {
+    let elementos = objEscVistaMod.ruta.split('\\');
+    let json = {
+        opc: '1',
+        folio: objEscVistaMod.folio,
+        usuario: SESION.usuario,
+        id: elementos[elementos.length - 2],
+        algoritmo: objEscVistaMod.algoritmo.toUpperCase(),
+        estado: '1',
+        ruta: objEscVistaMod.ruta,
+        sistema: SESION.sistema
+    };
 
-        if (res.progreso >= 100) {
-            // Reactiva los select para nueva búsqueda
-            select_mod_anio.disabled = false;
-            select_mod_algoritmo.disabled = false;
-            select_mod_mes.disabled = false;
-            select_mod_dia.disabled = false;
-            select_mod_esc_original.disabled = false;
-            select_mod_esc_modificado.disabled = false;
+    bannerBD.ok();
 
-            console.log('Finalizado');
-            bannerBD.mostrar();
-            bannerBD.ok();
-            bannerBD.setMensaje(`Escenario <font style="color:lightgreen; text-decoration:underline;">${objEscVistaMod.folio}</font> guardado en la base de datos.`);
-            setTimeout(() => {
-                bannerBD.ocultar();
-            }, 2000);
-        }
+    if (res.existe === true) {
+        json.opc = '2';
+        json.estado = '2';
+        console.log('Actualizacion');
+
+        bannerBD.setMensaje('Iniciando actualización en Base de Datos');
     } else {
-        // Reactiva los select para nueva búsqueda
-        select_mod_anio.disabled = false;
-        select_mod_algoritmo.disabled = false;
-        select_mod_mes.disabled = false;
-        select_mod_dia.disabled = false;
-        select_mod_esc_original.disabled = false;
-        select_mod_esc_modificado.disabled = false;
+        bannerBD.setMensaje('Iniciando registro en Base de Datos');
+        console.log('Nuevo Registro');
+    }
 
+    // Oculta banner
+    setTimeout(() => {
+        bannerBD.ocultar();
+    }, 2000);
+
+    // Envía la peticion
+    ipcRenderer.send('escenario_bd:operacion', json, 'escenario:guardarBD');
+});
+
+ipcRenderer.on('escenario_bd:progreso', (event, res) => {
+    console.log('Finalizado progreso, estado:', res.estado);
+    if (res.estado === true) {
+        if (res.progreso >= 100) {
+            res.progreso = 99;
+        }
+
+        botonProgresoBD.setProgreso(res.progreso);
+    } else {
         bannerBD.mostrar();
         bannerBD.error();
-        bannerBD.setMensaje(`Error al guardar en base de datos: ${res.mensaje}`);
-        bannerBD.setBoton('Aceptar', banner.ocultar);
+        bannerBD.setMensaje(`Error: ${res.mensaje}`);
+        bannerBD.setBoton('Aceptar', () => {
+            bannerBD.ocultar();
+        });
+        bannerBD.mostrarBoton();
         botonProgresoBD.modoNormal();
+    }
+});
+
+ipcRenderer.on('escenario:guardarBD', (event, res) => {
+    if (res.estado === true) {
+        botonProgresoBD.setProgreso(100);
+        bannerBD.mostrar();
+        bannerBD.ok();
+        bannerBD.setMensaje(`Escenario <font style="color:lightgreen; text-decoration:underline;">${objEscVistaMod.folio}</font> guardado en la base de datos.`);
+        bannerBD.setBoton('Aceptar', () => {
+            bannerBD.ocultar();
+        });
+        bannerBD.mostrarBoton();
+    } else {
+        bannerBD.mostrar();
+        bannerBD.error();
+        bannerBD.setMensaje(`Error: ${res.mensaje}`);
+        bannerBD.setBoton('Aceptar', () => {
+            bannerBD.ocultar();
+        });
+        bannerBD.mostrarBoton();
+        botonProgresoBD.modoNormal();
+    }
+
+    // Reactiva los select para nueva búsqueda
+    select_mod_anio.disabled = false;
+    select_mod_algoritmo.disabled = false;
+    select_mod_mes.disabled = false;
+    select_mod_dia.disabled = false;
+    select_mod_esc_original.disabled = false;
+    select_mod_esc_modificado.disabled = false;
+
+    flag_guardandoBD = false;
+
+    // Habilita botones
+    boton_cargaEscenarioMod.disabled = boton_cargaEscenarioMod_estado;
+    boton_cargaEscenarioModActual.disabled = boton_cargaEscenarioModActual_estado;
+
+    // _Intenta Borrar zips
+    if (typeof objEscVistaMod.rutaZip_mod !== 'undefined') {
+        ipcRenderer.send('archivo:borrar', objEscVistaMod.rutaZip_mod);
+    }
+    if (typeof objEscVistaMod.rutaZip_ori !== 'undefined') {
+        ipcRenderer.send('archivo:borrar', objEscVistaMod.rutaZip_ori);
     }
 });

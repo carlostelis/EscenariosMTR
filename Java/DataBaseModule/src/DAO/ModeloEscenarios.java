@@ -219,7 +219,9 @@ public class ModeloEscenarios {
                     logger.info("El registro no se actualizó");
                     estatus = false;
                 }
-
+                
+                // Elimina el archivo zip al finalizar la app
+                f.deleteOnExit();
             } catch (IOException ex) {
                 logger.info("Error en el ZIP: " + ex.getMessage()+" ruta: "+ rutaarchivozip);
                 estatus = false;
@@ -258,7 +260,7 @@ public class ModeloEscenarios {
         int cantorigporfolio = ContarEscenOriginalesPorFolio(dtoEscen.getFolio(), dtoEscen.getFk_algoritmo());
         String propietario = "";
         try{
-            propietario = ObtenerPropietario(dtoEscen.getFolio());
+            propietario = ObtenerPropietario(dtoEscen.getFolio(), dtoEscen.getFk_algoritmo());
             validarnombreexis = u.ValidarNombreExistente(propietario, dtoEscen.getFk_usuario());
         }
         catch(NullPointerException e)
@@ -308,6 +310,9 @@ public class ModeloEscenarios {
                         estatus = false;
                     }
                 }
+                
+                // Elimina el archivo zip al finalizar la app
+                f.deleteOnExit();
             } 
             //else if (cantorigporfolio == 1 && (validarnombreexis == 2 || validarnombreexis == 1) ) {
             else if (cantorigporfolio == 1 && validarnombreexis == 2 ) { // Si hay un registro y el nombre existe entre muchos
@@ -477,13 +482,21 @@ public class ModeloEscenarios {
         if(estado.equals(EnumEstados.desdeoriginal.getEstado()))
         {
             deletereg = "DELETE FROM CONTROL_ESCEN_MODIFICADOS WHERE "
-                +" FK_USUARIO = '"+ dtoEscen.getFk_usuario() +"'";
-            
-        }else{
+                +" FK_USUARIO = '"+ dtoEscen.getFk_usuario() 
+                +"' AND FOLIO_ORIGINAL = '"+dtoEscen.getFolio()
+                +"' AND FK_ALGORITMO = '"+dtoEscen.getFk_algoritmo()
+                +"'";
+        }
+        else
+        {
             deletereg = "DELETE FROM CONTROL_ESCEN_MODIFICADOS WHERE "
                 + "ID_ESCENARIO = '" + dtoEscen.getId_escenario()
-                +"' AND FK_USUARIO = '"+ dtoEscen.getFk_usuario() +"'";
+                +"' AND FK_USUARIO = '"+ dtoEscen.getFk_usuario() 
+                +"' AND FOLIO_ORIGINAL = '"+dtoEscen.getFolio()
+                +"' AND FK_ALGORITMO = '"+dtoEscen.getFk_algoritmo()
+                +"'";
         }
+
         logger.debug(deletereg+";");
         
         try {
@@ -518,7 +531,7 @@ public class ModeloEscenarios {
         Statement statement = null;
         boolean estatus;
         String deletereg = "";
-        String propietario = ObtenerPropietario(dtoEscen.getFolio());
+        String propietario = ObtenerPropietario(dtoEscen.getFolio(), dtoEscen.getFk_algoritmo());
         int validarnombreexis = u.ValidarNombreExistenteParaEliminar(propietario, dtoEscen.getFk_usuario());
         
         logger.debug("=> "+ propietario+" "+dtoEscen.getId_escenario()+" "+dtoEscen.getFk_usuario());
@@ -532,12 +545,12 @@ public class ModeloEscenarios {
             deletereg = "UPDATE CONTROL_ESCEN_ORIGINALES SET "
                 + "PROPIETARIO = '" + sinnombre
                 + "' WHERE "
-                + " FOLIO = '" + dtoEscen.getFolio() +"' ";
+                + " FOLIO = '" + dtoEscen.getFolio() +"' AND FK_ALGORITMO ='"+dtoEscen.getFk_algoritmo()+"' ";
         }
         else if( validarnombreexis == 1 ) // si existe el folio y existe sólo un registro perteneciente al usuario, se elimina
         {
             deletereg = "DELETE FROM CONTROL_ESCEN_ORIGINALES WHERE "
-                + "FOLIO = '" + dtoEscen.getFolio() 
+                + "FOLIO = '" + dtoEscen.getFolio() +"' AND FK_ALGORITMO ='"+dtoEscen.getFk_algoritmo()
                 + "' ";
         }
         
@@ -571,12 +584,12 @@ public class ModeloEscenarios {
         return estatus;
     }
     
-    private String ObtenerPropietario(String foliooriginal){
+    private String ObtenerPropietario(String foliooriginal, int fkalgoritmo){
         Statement statement = null;
         ResultSet  rs  = null;
         String propietario = null;
         
-        String prop = "SELECT PROPIETARIO FROM CONTROL_ESCEN_ORIGINALES WHERE FOLIO = '"+ foliooriginal +"' ";
+        String prop = "SELECT PROPIETARIO FROM CONTROL_ESCEN_ORIGINALES WHERE FOLIO = '"+ foliooriginal +"' AND FK_ALGORITMO ='"+fkalgoritmo+"' ";
         logger.debug(prop+";");
         
         try {
@@ -728,7 +741,11 @@ public class ModeloEscenarios {
         Statement statement = null;
         ResultSet rs  = null;
         int cantidad = 0;
-        String contarmodif = "SELECT COUNT(*) AS CANTIDAD FROM CONTROL_ESCEN_MODIFICADOS WHERE FK_USUARIO = '" + nomUsuario + "' ";
+        String contarmodif = "SELECT COUNT(*) AS CANTIDAD FROM CONTROL_ESCEN_MODIFICADOS "
+               + "WHERE FK_USUARIO = '" + dtoEscen.getFk_usuario() + "' "
+               + "AND FOLIO_ORIGINAL = '" + dtoEscen.getFolio() + "' "
+               + "AND FK_ALGORITMO = '"+ dtoEscen.getFk_algoritmo()
+               +"' ";
         logger.debug(contarmodif+";");
         
         try {

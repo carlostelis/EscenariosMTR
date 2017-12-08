@@ -5,7 +5,7 @@ class Comandos {
         this.config = require('./config.js');
         this.path = require('path');
         const {TextDecoder} = require('text-encoding');
-        this.decoder = new TextDecoder();
+        this.decoder = new TextDecoder('windows-1252');
         this.fs = require('fs');
         this.resultado = '';
         this.flag_fin_exe = false;
@@ -397,12 +397,12 @@ class Comandos {
         });
     }
 
-    obtenerAniosFolios(usuario, url, esquema, password, algoritmo) {
+    obtenerAniosFolios(usuario, url, esquema, password, algoritmo, tipo) {
         return new Promise((resolve, reject) => {
             try {
                 let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
 
-                let res_obj = this.ejecutarExecFile('java', ['-jar', ruta, `--url=${url}`, `--esq=${esquema}`, `--pass=${password}`, '--opc=folios_anios', `--usr=${usuario}`, `--algoritmo=${algoritmo}`]).then((json) => {
+                let res_obj = this.ejecutarExecFile('java', ['-jar', ruta, `--url=${url}`, `--esq=${esquema}`, `--pass=${password}`, '--opc=folios_anios', `--usr=${usuario}`, `--algoritmo=${algoritmo}`, `--tipo=${tipo}`]).then((json) => {
                     console.log('OK');
                     resolve(json);
                 }, (json_err) => {
@@ -416,12 +416,12 @@ class Comandos {
         });
     }
 
-    obtenerMesesFolios(usuario, url, esquema, password, algoritmo, anio) {
+    obtenerMesesFolios(usuario, url, esquema, password, algoritmo, anio, tipo) {
         return new Promise((resolve, reject) => {
             try {
                 let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
 
-                let res_obj = this.ejecutarExecFile('java', ['-jar', ruta, `--url=${url}`, `--esq=${esquema}`, `--pass=${password}`, '--opc=folios_meses', `--usr=${usuario}`, `--algoritmo=${algoritmo}`, `--anio=${anio}`]).then((json) => {
+                let res_obj = this.ejecutarExecFile('java', ['-jar', ruta, `--url=${url}`, `--esq=${esquema}`, `--pass=${password}`, '--opc=folios_meses', `--usr=${usuario}`, `--algoritmo=${algoritmo}`, `--anio=${anio}`, `--tipo=${tipo}`]).then((json) => {
                     console.log('OK');
                     resolve(json);
                 }, (json_err) => {
@@ -435,12 +435,12 @@ class Comandos {
         });
     }
 
-    obtenerDiasFolios(usuario, url, esquema, password, algoritmo, anio, mes) {
+    obtenerDiasFolios(usuario, url, esquema, password, algoritmo, anio, mes, tipo) {
         return new Promise((resolve, reject) => {
             try {
                 let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
 
-                let res_obj = this.ejecutarExecFile('java', ['-jar', ruta, `--url=${url}`, `--esq=${esquema}`, `--pass=${password}`, '--opc=folios_dias', `--usr=${usuario}`, `--algoritmo=${algoritmo}`, `--anio=${anio}`, `--mes=${mes}`]).then((json) => {
+                let res_obj = this.ejecutarExecFile('java', ['-jar', ruta, `--url=${url}`, `--esq=${esquema}`, `--pass=${password}`, '--opc=folios_dias', `--usr=${usuario}`, `--algoritmo=${algoritmo}`, `--anio=${anio}`, `--mes=${mes}`, `--tipo=${tipo}`]).then((json) => {
                     console.log('OK');
                     resolve(json);
                 }, (json_err) => {
@@ -454,12 +454,50 @@ class Comandos {
         });
     }
 
-    obtenerFolios(usuario, url, esquema, password, algoritmo, anio, mes, dia) {
+    obtenerFolios(usuario, url, esquema, password, algoritmo, anio, mes, dia, tipo) {
         return new Promise((resolve, reject) => {
             try {
                 let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
 
-                let res_obj = this.ejecutarExecFile('java', ['-jar', ruta, `--url=${url}`, `--esq=${esquema}`, `--pass=${password}`, '--opc=folios_folios', `--usr=${usuario}`, `--algoritmo=${algoritmo}`, `--anio=${anio}`, `--mes=${mes}`, `--dia=${dia}`]).then((json) => {
+                let res_obj = this.ejecutarExecFile('java', ['-jar', ruta, `--url=${url}`, `--esq=${esquema}`, `--pass=${password}`, '--opc=folios_folios', `--usr=${usuario}`, `--algoritmo=${algoritmo}`, `--anio=${anio}`, `--mes=${mes}`, `--dia=${dia}`, `--tipo=${tipo}`]).then((json) => {
+                    console.log('OK');
+                    resolve(json);
+                }, (json_err) => {
+                    console.log('ERROR');
+                    reject(json_err);
+                });
+            } catch (e) {
+                console.log('Excepcion', e.message);
+                reject({estado:false, mensaje:e.message});
+            }
+        });
+    }
+
+    obtenerFoliosPorID(usuario, url, esquema, password, algoritmo, id) {
+        return new Promise((resolve, reject) => {
+            try {
+                let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
+
+                let res_obj = this.ejecutarExecFile('java', ['-jar', ruta, `--url=${url}`, `--esq=${esquema}`, `--pass=${password}`, '--opc=foliosMod_ID', `--usr=${usuario}`, `--algoritmo=${algoritmo}`, `--id=${id}`]).then((json) => {
+                    console.log('OK');
+                    resolve(json);
+                }, (json_err) => {
+                    console.log('ERROR');
+                    reject(json_err);
+                });
+            } catch (e) {
+                console.log('Excepcion', e.message);
+                reject({estado:false, mensaje:e.message});
+            }
+        });
+    }
+
+    obtenerAlgoritmosOriBD(usuario, url, esquema, password) {
+        return new Promise((resolve, reject) => {
+            try {
+                let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
+
+                let res_obj = this.ejecutarExecFile('java', ['-jar', ruta, `--url=${url}`, `--esq=${esquema}`, `--pass=${password}`, '--opc=folios_algoritmos', `--usr=${usuario}`]).then((json) => {
                     console.log('OK');
                     resolve(json);
                 }, (json_err) => {
@@ -540,12 +578,12 @@ class Comandos {
         });
     }
 
-    guardarEnBaseDatos(data, cb_progreso) {
+    operacionEnBaseDatos(data, cb_progreso) {
         return new Promise((resolve, reject) => {
             try {
                 console.log('Ruta actual: ', process.cwd());
                 let rutaJar = this.path.join(__dirname, '..', 'jar', 'DataBaseModuleJar.jar');
-                let rutaExe = `java -jar ${rutaJar} ${data.opc} ${data.folio} ${data.usuario} ${data.id} ${data.algoritmo} ${data.estado} ${data.ruta + this.path.sep} ${data.sistema}`;
+                let rutaExe = `java -jar ${rutaJar} ${data.opc} ${data.folio} ${data.usuario} ${data.id} ${data.algoritmo.toUpperCase()} ${data.estado} ${data.ruta + this.path.sep} ${data.sistema}`;
                 console.log('Ejecuta: ', rutaExe);
 
                 let codigo;
@@ -554,7 +592,7 @@ class Comandos {
                 let porcentaje;
                 let flag_error = false;
 
-                const exe = spawn('java', ['-jar', rutaJar, data.opc, data.folio, data.usuario, data.id, data.algoritmo, data.estado, data.ruta + this.path.sep, data.sistema]);
+                const exe = spawn('java', ['-jar', rutaJar, data.opc, data.folio, data.usuario, data.id, data.algoritmo.toUpperCase(), data.estado, data.ruta + this.path.sep, data.sistema]);
 
                 exe.stdout.on('data', (data) => {
                     aux = this.decoder.decode(data);

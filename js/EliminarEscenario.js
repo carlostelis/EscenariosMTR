@@ -40,12 +40,24 @@ function clickEscenarioBotonListaEliminar(boton) {
                 botonModTemp = boton;
                 ipcRenderer.send('escenario_modificado_local:leer_comentarios', boton.obj);
             } else {
-                div_comentarios_eliminar_local.innerHTML = `<font style="text-align:center;font-weight:bold;">Comentarios del escenario</font><br>${boton.obj.infoMod.comentarios}`;
+                div_comentarios_eliminar_local.innerHTML = `<label style="display:block;text-align:center;font-weight:bold;">Comentarios del escenario</label><br>${botonModTemp.obj.infoMod.comentarios.trim() === '' ? 'Sin Comentarios' : botonModTemp.obj.infoMod.comentarios}`;
             }
             botonModLocalSel = boton;
             break;
-        case 'ori-db': boton_eliminar_ori_db.disabled = false; break;
-        case 'mod-db': boton_eliminar_mod_db.disabled = false; break;
+        case 'ori-db':
+            boton_eliminar_ori_db.disabled = false;
+            bannerIcono.mostrar();
+            div_comentarios_eliminar_db.innerHTML = '';
+            console.log(boton.obj);
+            botonOriDBSel = boton;
+            ipcRenderer.send('escenarios_eliminar_folio_mod:leer', boton.obj.algoritmo, boton.obj.id_original);
+            // console.log(boton.obj);
+            break;
+        case 'mod-db':
+            botonModDBSel = boton;
+            boton_eliminar_mod_db.disabled = false;
+            div_comentarios_eliminar_db.innerHTML = `<label style="display:block;text-align:center;font-weight:bold;">Comentarios del escenario</label><br>${boton.obj.comentarios.trim() === '' ? 'Sin Comentarios' : boton.obj.comentarios}`;
+            break;
     }
 }
 
@@ -64,6 +76,7 @@ ipcRenderer.on('escenario_modificado_local:leidaLista', (event, lista) => {
     // Limpia el contenedor
     lista_mod_local.innerHTML = '';
     lista_mod_local.botones = [];
+    div_comentarios_eliminar_local.innerHTML = '';
 
     // Crea los items en la lista desplegable
     lista_mod_eliminar.forEach((item) => {
@@ -78,7 +91,7 @@ ipcRenderer.on('escenario_modificado_local:leidaLista', (event, lista) => {
         i.classList.add('demo-icon');
         i.classList.add('icon-play-1');
         span.appendChild(i);
-        boton.innerHTML = `<font style="color:darkgray;">${item.algoritmo.toUpperCase()}</font> ${item.infoMod.anio}/${item.infoMod.mes}/${item.infoMod.dia} ${item.infoMod.hora}${item.infoMod.min}`;
+        boton.innerHTML = `<font style="color:darkgray;">${item.algoritmo.toUpperCase()}</font> ${item.infoMod.anio}/${item.infoMod.mes}/${item.infoMod.dia} ${item.infoMod.hora}:${item.infoMod.min}`;
         boton.appendChild(span);
 
         lista_mod_local.appendChild(boton);
@@ -99,6 +112,8 @@ ipcRenderer.on('escenario_original_local:leidotodos', (event, lista) => {
     // Limpia el contenedor
     lista_ori_local.innerHTML = '';
     lista_ori_local.botones = [];
+
+    div_comentarios_eliminar_local.innerHTML = '';
 
     // Crea los items en la lista desplegable
     lista_ori_eliminar.forEach((item) => {
@@ -160,6 +175,7 @@ function borrarEscenarioOriginalLocal() {
         banner.trabajando();
         banner.vistaCompacta();
         banner.setMensaje(`Eliminando escenario <font style="text-decoration:underline">${botonOriLocalSel.obj.id}</font>`);
+        banner.ocultarBoton();
         banner.mostrar();
         console.log('Borrar', botonOriLocalSel.obj.ruta);
         ipcRenderer.send('escenario_original_local:borrar', botonOriLocalSel.obj.ruta);
@@ -171,10 +187,64 @@ function borrarEscenarioModificadoLocal() {
         banner.trabajando();
         banner.vistaCompacta();
         banner.setMensaje(`Eliminando escenario <font style="text-decoration:underline">${botonOriLocalSel.obj.id}</font>`);
+        banner.ocultarBoton();
         banner.mostrar();
         console.log('Borrar', botonModLocalSel.obj.infoMod.ruta);
         ipcRenderer.send('escenario_modificado_local:borrar', botonModLocalSel.obj.infoMod.ruta);
     }
+}
+
+function consultarAniosOriginalesBD() {
+    if (select_eliminar_algoritmo_db.value === 'ninguno') {
+        consultarFoliosOriginalesBD_Init();
+        return;
+    } else {
+        ipcRenderer.send('escenarios_eliminar_folio_anios:leer', select_eliminar_algoritmo_db.value);
+    }
+
+    bannerIcono.mostrar();
+    select_eliminar_anio_db.innerHTML = '';
+    select_eliminar_mes_db.innerHTML = '';
+    select_eliminar_dia_db.innerHTML = '';
+}
+
+function consultarMesesOriginalesBD() {
+    if (select_eliminar_anio_db.value === 'ninguno') {
+        consultarAniosOriginalesBD();
+        return;
+    } else {
+        ipcRenderer.send('escenarios_eliminar_folio_meses:leer', select_eliminar_algoritmo_db.value, select_eliminar_anio_db.value);
+    }
+
+    bannerIcono.mostrar();
+    select_eliminar_dia_db.innerHTML = '';
+}
+
+function consultarDiasOriginalesBD() {
+    if (select_eliminar_mes_db.value === 'ninguno') {
+        consultarMesesOriginalesBD();
+        return;
+    } else {
+        ipcRenderer.send('escenarios_eliminar_folio_dias:leer', select_eliminar_algoritmo_db.value, select_eliminar_anio_db.value, select_eliminar_mes_db.value);
+    }
+
+    bannerIcono.mostrar();
+}
+
+function consultarFoliosOriginalesBD() {
+    bannerIcono.mostrar();
+    ipcRenderer.send('escenarios_eliminar_folio:leer', select_eliminar_algoritmo_db.value, select_eliminar_anio_db.value, select_eliminar_mes_db.value, select_eliminar_dia_db.value);
+}
+
+function consultarFoliosOriginalesBD_Init() {
+    bannerIcono.mostrar();
+    ipcRenderer.send('escenarios_eliminar_folio:leer', '', '', '', '');
+    select_eliminar_anio_db.disabled = true;
+    select_eliminar_anio_db.innerHTML = '';
+    select_eliminar_mes_db.disabled = true;
+    select_eliminar_mes_db.innerHTML = '';
+    select_eliminar_dia_db.disabled = true;
+    select_eliminar_dia_db.innerHTML = '';
 }
 
 ipcRenderer.on('escenario_original_local:borrado', (event, res) => {
@@ -211,9 +281,10 @@ ipcRenderer.on('escenario_original_local:borrado', (event, res) => {
         // Desactiva el boton
         boton_eliminar_ori_local.disabled = true;
 
-        setTimeout(() => {
+        banner.setBoton('Aceptar', () => {
             banner.ocultar();
-        }, 1500);
+        });
+        banner.mostrarBoton();
     } else {
         banner.error();
         banner.setMensaje(res.mensaje);
@@ -243,14 +314,280 @@ ipcRenderer.on('escenario_modificado_local:borrado', (event, res) => {
         // Desactiva el boton
         boton_eliminar_mod_local.disabled = true;
 
-        setTimeout(() => {
+        banner.setBoton('Aceptar', () => {
             banner.ocultar();
-        }, 1500);
+        });
+        banner.mostrarBoton();
     } else {
         banner.error();
         banner.setMensaje(res.mensaje);
         setTimeout(() => {
             banner.ocultar();
         }, 3000);
+    }
+});
+
+ipcRenderer.on('escenarios_eliminar_folio_algoritmos:leidos', (event, lista) => {
+    console.log('algoritmos', lista);
+
+    select_eliminar_algoritmo_db.innerHTML = '';
+    select_eliminar_algoritmo_db.lista = lista;
+    select_eliminar_algoritmo_db.disabled = false;
+
+    // Crea option defecto
+    crearOption(select_eliminar_algoritmo_db, 'Sin Filtro', 'ninguno');
+
+    // select_eliminar_anio_db.lista.sort();
+    select_eliminar_algoritmo_db.lista.forEach((item) => {
+        let alg_label;
+        switch (item) {
+            case "dersi": alg_label = 'DERS-I'; break;
+            case "dersmi": alg_label = 'DERS-MI'; break;
+            case "autr": alg_label = 'AUTR'; break;
+            break;
+        }
+        crearOption(select_eliminar_algoritmo_db, alg_label, item);
+    });
+
+    select_eliminar_anio_db.disabled = true;
+    select_eliminar_mes_db.disabled = true;
+    select_eliminar_dia_db.disabled = true;
+});
+
+ipcRenderer.on('escenarios_eliminar_folio_anios:leidos', (event, lista) => {
+    console.log('anios', lista);
+
+    select_eliminar_anio_db.innerHTML = '';
+    select_eliminar_anio_db.lista = lista;
+    select_eliminar_anio_db.disabled = false;
+
+    // Crea option defecto
+    crearOption(select_eliminar_anio_db, 'Sin Filtro', 'ninguno');
+
+    // Ordena e inserta
+    select_eliminar_anio_db.lista.sort(function(a, b){return a-b});
+    // select_eliminar_anio_db.lista.sort();
+    select_eliminar_anio_db.lista.forEach((item) => {
+        if (`${item}`.length > 1) {
+            crearOption(select_eliminar_anio_db, `${item}`, `${item}`);
+        } else {
+            crearOption(select_eliminar_anio_db, `0${item}`, `0${item}`);
+        }
+    });
+
+    select_eliminar_mes_db.disabled = true;
+    select_eliminar_dia_db.disabled = true;
+});
+
+ipcRenderer.on('escenarios_eliminar_folio_meses:leidos', (event, lista) => {
+    console.log('meses', lista);
+
+    select_eliminar_mes_db.innerHTML = '';
+    select_eliminar_mes_db.lista = lista;
+    select_eliminar_mes_db.disabled = false;
+
+    // Crea option defecto
+    crearOption(select_eliminar_mes_db, 'Sin Filtro', 'ninguno');
+
+    // Ordena e inserta
+    select_eliminar_mes_db.lista.sort(function(a, b){return a-b});
+    // select_eliminar_anio_db.lista.sort();
+    select_eliminar_mes_db.lista.forEach((item) => {
+        if (`${item}`.length > 1) {
+            crearOption(select_eliminar_mes_db, `${item}`, `${item}`);
+        } else {
+            crearOption(select_eliminar_mes_db, `0${item}`, `0${item}`);
+        }
+    });
+
+    select_eliminar_dia_db.disabled = true;
+});
+
+ipcRenderer.on('escenarios_eliminar_folio_dias:leidos', (event, lista) => {
+    console.log('dias', lista);
+
+    select_eliminar_dia_db.innerHTML = '';
+    select_eliminar_dia_db.lista = lista;
+    select_eliminar_dia_db.disabled = false;
+
+    // Crea option defecto
+    crearOption(select_eliminar_dia_db, 'Sin Filtro', 'ninguno');
+
+    // Ordena e inserta
+    select_eliminar_dia_db.lista.sort(function(a, b){return a-b});
+    // select_eliminar_anio_db.lista.sort();
+    select_eliminar_dia_db.lista.forEach((item) => {
+        if (`${item}`.length > 1) {
+            crearOption(select_eliminar_dia_db, `${item}`, `${item}`);
+        } else {
+            crearOption(select_eliminar_dia_db, `0${item}`, `0${item}`);
+        }
+    });
+});
+
+ipcRenderer.on('escenarios_eliminar_folio:leidos', (event, lista) => {
+    console.log('folios', lista);
+
+    // Guarda la lista
+    lista_ori_eliminar_bd = lista;
+    // Limpia el contenedor
+    lista_ori_bd.innerHTML = '';
+    lista_ori_bd.botones = [];
+
+    lista_mod_bd.innerHTML = '';
+    lista_mod_bd.botones = [];
+
+    // Crea los items en la lista desplegable
+    lista_ori_eliminar_bd.forEach((item) => {
+        let boton = document.createElement('button');
+        boton.classList.add('boton-lista-eliminar');
+        boton.classList.add('ori-db');
+        boton.obj = item;
+        boton.subclase = 'ori-db';
+        boton.onclick = function () { clickEscenarioBotonListaEliminar(this); };
+        let span = document.createElement('span');
+        let i = document.createElement('i');
+        i.classList.add('demo-icon');
+        i.classList.add('icon-play-1');
+        span.appendChild(i);
+        boton.innerHTML = `<font style="color:darkgray;">${item.algoritmo.toUpperCase()}</font> <font style="text-decoration:underline;">${item.anio}/${item.mes}/${item.dia}</font> Hora: <b>${item.hora}</b> Int: <b>${item.int}</b> GMT<b>${item.gmt}</b>`;
+        boton.appendChild(span);
+
+        lista_ori_bd.appendChild(boton);
+        lista_ori_bd.botones.push(boton);
+    });
+
+    bannerIcono.ocultar();
+});
+
+ipcRenderer.on('escenarios_eliminar_folio_mod:leidos', (event, lista) => {
+    console.log('folios mod', lista);
+
+    // Guarda la lista
+    lista_mod_eliminar_bd = lista;
+    // Limpia el contenedor
+    lista_mod_bd.innerHTML = '';
+    lista_mod_bd.botones = [];
+
+    // Crea los items en la lista desplegable
+    lista_mod_eliminar_bd.forEach((item) => {
+        let boton = document.createElement('button');
+        boton.classList.add('boton-lista-eliminar');
+        boton.classList.add('mod-db');
+        boton.obj = item; console.log('Folio', item.folio);
+        boton.subclase = 'mod-db';
+        boton.onclick = function () { clickEscenarioBotonListaEliminar(this); };
+        let span = document.createElement('span');
+        let i = document.createElement('i');
+        i.classList.add('demo-icon');
+        i.classList.add('icon-play-1');
+        span.appendChild(i);
+        boton.innerHTML = `<font style="color:darkgray;">${item.algoritmo.toUpperCase()}</font> ${item.anio}/${item.mes}/${item.dia} ${item.hora}:${item.min}`;
+        boton.appendChild(span);
+
+        lista_mod_bd.appendChild(boton);
+        lista_mod_bd.botones.push(boton);
+    });
+
+    bannerIcono.ocultar();
+});
+
+function borrarEscenarioOriginalBD() {
+    if (botonOriDBSel !== null) {
+        console.log('Borrar', botonOriDBSel.obj);
+        banner.trabajando();
+        banner.vistaCompacta();
+        banner.setMensaje(`Eliminando escenario <font style="text-decoration:underline">${botonOriDBSel.obj.id_original}</font>`);
+        banner.ocultarBoton();
+        banner.mostrar();
+
+        let obj = {
+            opc: 3,
+            folio: botonOriDBSel.obj.id_original,
+            usuario: botonOriDBSel.obj.usuario,
+            id: botonOriDBSel.obj.id_original,
+            algoritmo: botonOriDBSel.obj.algoritmo,
+            estado: 4,
+            ruta: botonOriDBSel.obj.ruta,
+            sistema: SESION.sistema
+        };
+
+        console.log(obj);
+
+        ipcRenderer.send('escenario_bd:operacion', obj, 'escenario:eliminar_ori_BD');
+    }
+}
+
+ipcRenderer.on('escenario:eliminar_ori_BD', (event, res) => {
+    if (res.estado === true) {
+        banner.ok();
+        banner.setMensaje('Registro eliminado correctamente');
+        banner.setBoton('Aceptar', () => {
+            banner.ocultar();
+        });
+        banner.mostrarBoton();
+
+        // Remueve el boton de la lista
+        lista_ori_bd.removeChild(botonOriDBSel);
+        // Vacía la lista de modificados
+        lista_mod_bd.innerHTML = '';
+        // Limpia comentarios
+        div_comentarios_eliminar_db.innerHTML = '';
+    } else {
+        banner.error();
+        banner.setMensaje(`Error: ${res.mensaje}`);
+        banner.setBoton('Aceptar', () => {
+            banner.ocultar();
+        });
+        banner.mostrarBoton();
+    }
+});
+
+function borrarEscenarioModificadoBD() {
+    if (botonModDBSel !== null) {
+        console.log('Borrar', botonModDBSel.obj.ruta);
+        banner.trabajando();
+        banner.vistaCompacta();
+        banner.setMensaje(`Eliminando escenario <font style="text-decoration:underline">${botonModDBSel.obj.folio}</font>`);
+        banner.ocultarBoton();
+        banner.mostrar();
+
+        let obj = {
+            opc: 3,
+            folio: botonModDBSel.obj.folio,
+            usuario: botonModDBSel.obj.usuario,
+            id: botonModDBSel.obj.id_original,
+            algoritmo: botonModDBSel.obj.algoritmo,
+            estado: 5,
+            ruta: botonModDBSel.obj.ruta,
+            sistema: SESION.sistema
+        };
+
+        console.log(obj);
+
+        ipcRenderer.send('escenario_bd:operacion', obj, 'escenario:eliminar_mod_BD');
+    }
+}
+
+ipcRenderer.on('escenario:eliminar_mod_BD', (event, res) => {
+    if (res.estado === true) {
+        banner.ok();
+        banner.setMensaje('Registro eliminado correctamente');
+        banner.setBoton('Aceptar', () => {
+            banner.ocultar();
+        });
+        banner.mostrarBoton();
+
+        // Remueve el boton de la lista
+        lista_mod_bd.removeChild(botonModDBSel);
+        // Limpia comentarios
+        div_comentarios_eliminar_db.innerHTML = '';
+    } else {
+        banner.error();
+        banner.setMensaje(`Error: ${res.mensaje}`);
+        banner.setBoton('Aceptar', () => {
+            banner.ocultar();
+        });
+        banner.mostrarBoton();
     }
 });

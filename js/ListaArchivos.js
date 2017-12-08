@@ -25,59 +25,6 @@ class ListaArchivos {
 
             this.verificarSubcarpetas(ruta);
         });
-
-
-        //
-        // // crea sub carpetas
-        // let ruta = path.join(this.rutaInit, 'dersi');
-        // if (!fs.existsSync(ruta)) {
-        //     console.log(`Generando subdirectorio local ${ruta}: ${fs.mkdirSync(ruta)}`);
-        // }
-        // let subruta = path.join(ruta, 'escenario_original');
-        // if (!fs.existsSync(subruta)) {
-        //     console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
-        // }
-        // subruta = path.join(ruta, 'escenario_modificado');
-        // if (!fs.existsSync(subruta)) {
-        //     console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
-        // }
-        // ruta = path.join(this.rutaInit, 'dersmi');
-        // if (!fs.existsSync(ruta)) {
-        //     console.log(`Generando subdirectorio local ${ruta}: ${fs.mkdirSync(ruta)}`);
-        // }
-        // subruta = path.join(ruta, 'escenario_original');
-        // if (!fs.existsSync(subruta)) {
-        //     console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
-        // }
-        // subruta = path.join(ruta, 'escenario_modificado');
-        // if (!fs.existsSync(subruta)) {
-        //     console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
-        // }
-        // ruta = path.join(this.rutaInit, 'autr');
-        // if (!fs.existsSync(ruta)) {
-        //     console.log(`Generando subdirectorio local ${ruta}: ${fs.mkdirSync(ruta)}`);
-        // }
-        // subruta = path.join(ruta, 'escenario_original');
-        // if (!fs.existsSync(subruta)) {
-        //     console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
-        // }
-        // subruta = path.join(ruta, 'escenario_modificado');
-        // if (!fs.existsSync(subruta)) {
-        //     console.log(`Generando subdirectorio local ${subruta}: ${fs.mkdirSync(subruta)}`);
-        // }
-
-        // return new Promise((resolve, reject) => {
-        //     let elementos_dir = this.leerDirectorio(this.rutaInit);
-        //
-        //     this.json = {
-        //         nombre: path.basename(this.rutaInit),
-        //         rutaBase: this.rutaInit,
-        //         tipo: 'directorio',
-        //         elementos: elementos_dir
-        //     };
-        //
-        //     resolve(this.json);
-        // });
     }
 
     verificarSubcarpetas(ruta) {
@@ -162,6 +109,10 @@ class ListaArchivos {
         fs.writeFileSync(path.join(ruta, '.descargado'), `Descargado ${ruta}`);
         // Crea también el archivo de comentarios
         fs.writeFileSync(path.join(ruta, 'comentarios.txt'), '');
+    }
+
+    marcarDescargadoBD(ruta) {
+        fs.writeFileSync(path.join(ruta, '.bd'), `Descargado BD ${ruta}`);
     }
 
     isDescargado(ruta) {

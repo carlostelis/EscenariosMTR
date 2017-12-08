@@ -344,7 +344,7 @@ function consultarMesesFolios() {
     ipcRenderer.send('escenarios_folio_meses:leer', select_algoritmo_folio.value, select_anio_ce_folio.value);
 }
 
-function consultarDiasFolios() {
+function consultarDiasFolios() {console.log('activa');
     if (select_mes_ce_folio.value === 'defecto') {
         return;
     }
