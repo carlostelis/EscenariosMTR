@@ -100,7 +100,7 @@ let objEscenario;
 let SESION;
 
 // Versión de la aplicacion
-process.env.NODE_ENV = 'production';
+// process.env.NODE_ENV = 'production';
 
 // Si es la primera ejecución se cierra (para instalador winstaller)
 if (process.env.NODE_ENV === 'production' && !fs.existsSync('first')) {
@@ -165,6 +165,8 @@ app.on('ready', () => {
     if (process.env.NODE_ENV !== 'production') {
         win.toggleDevTools();
     }
+
+    console.log('listo');
 
     // winAdmin = new BrowserWindow({
     //     width: 1024,
@@ -240,6 +242,12 @@ ipcMain.on('usuario:solicitar', (event, usuario) => {
     // }, 2000);
     //
     // return;
+
+    setTimeout(() => {
+        win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'USUARIO TEST', perfil: 'Usuario', contrasena:'test', estado:true, Mensaje: 'Consulta realizada correctamente'});
+    }, 1000);
+
+    return;
 
     // conexión con la BD
     comandos.obtenerUsuario(usuario).then((json) => {
@@ -745,7 +753,7 @@ ipcMain.on('escenario_entradas:leer', (event, ruta_escenario, algoritmo) => {
 });
 
 ipcMain.on('escenario_completo:leer', (event, ruta_escenario, algoritmo, folio) => {
-    escenario.parseEscenario(ruta_escenario, algoritmo).then((obj) => {
+    escenario.parseEscenarioNew(ruta_escenario, algoritmo).then((obj) => {
         let objetoEntradas = {
             ruta: obj.ruta,
             algoritmo: obj.algoritmo,

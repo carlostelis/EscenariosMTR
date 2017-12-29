@@ -13,6 +13,194 @@ require('electron-context-menu')({
 	}]
 });
 
+// Inicializa tooltips
+$(function () {
+	$('[data-toggle="tooltip"]').tooltip();
+});
+
+// Mute al debug de la librería
+jQuery.migrateMute = true;
+
+let datosTest;
+let gridTest;
+function convertirKendoNodosDers(id) {
+	if (!id.startsWith('#')) {
+		id = '#' + id;
+	}
+
+	datosTest = [
+		{
+			numFila: 1,
+			numPeriodos: 1,
+			duracionMinuto: 5,  ///////
+			// nombreBus: "ACU-115A   ",
+			// nombreBusAbrev: "ACU-115A   ",
+			// numArea: 1,
+			// nombreArea: "BCA",
+			// nombreAreaAbrev: "BCA",
+			// tensionNominal: 0,
+			// subsistemaElectrico: "BCA",
+			// nombreRegionPrecios: "BCA",
+			// nombreRegionPreciosAbrev: "BCA",
+			// numRegPrecios: 1,
+			// disponibilidadIniNodo: 1,
+			// zonaCarga: 705,
+			// nodoP: 1
+		},
+		{
+			numFila: 2,
+			numPeriodos: 1,
+			duracionMinuto: 5,  ///////
+			// nombreBus: "BACU-115A2   ",
+			// nombreBusAbrev: "BACU-115A2   ",
+			// numArea: 1,
+			// nombreArea: "BCA",
+			// nombreAreaAbrev: "BCA",
+			// tensionNominal: 0,
+			// subsistemaElectrico: "BCA",
+			// nombreRegionPrecios: "BCA",
+			// nombreRegionPreciosAbrev: "BCA",
+			// numRegPrecios: 1,
+			// disponibilidadIniNodo: 1,
+			// zonaCarga: 805,
+			// nodoP: 1
+		},
+		{
+			numFila: 3,
+			numPeriodos: 1,
+			duracionMinuto: 5,  ///////
+			// nombreBus: "CACU-115A2   ",
+			// nombreBusAbrev: "BACU-115A2   ",
+			// numArea: 1,
+			// nombreArea: "BCA",
+			// nombreAreaAbrev: "BCA",
+			// tensionNominal: 0,
+			// subsistemaElectrico: "BCA",
+			// nombreRegionPrecios: "BCA",
+			// nombreRegionPreciosAbrev: "BCA",
+			// numRegPrecios: 1,
+			// disponibilidadIniNodo: 1,
+			// zonaCarga: 905,
+			// nodoP: 1
+		}
+	];
+
+	let dataSourceObj = {
+		pageSize: 10,
+		schema: {
+			// model: {
+			// 	id: "NODOSDERS",
+			// 	fields: {
+			// 		numFila: { type: "number",	editable: false, nullable: false },
+			// 		numBus: { type: "number", editable: true, nullable: false },
+			// 		nombreBus: { type: "string", editable: true, nullable: false },
+			// 		nombreBusAbrev: { type: "string", editable: false, nullable: false },
+			// 		numArea: { type: "number", editable: false, nullable: false },
+			// 		nombreArea: { type: "string", editable: false, nullable: false },
+			// 		nombreAreaAbrev: { type: "string", editable: false, nullable: false },
+			// 		tensionNominal: { type: "number", editable: true, validation: { required: true, min: 1, max:100000} },
+			// 		subsistemaElectrico: { type: "string", editable: false, nullable: false },
+			// 		nombreRegionPrecios: { type: "string", editable: false, nullable: false },
+			// 		nombreRegionPreciosAbrev: { type: "string", editable: false, nullable: false },
+			// 		numRegPrecios: { type: "number", editable: true, validation: { required: true, min: 1, max:100000} },
+			// 		disponibilidadIniNodo: { type: "number", editable: false, nullable: false },
+			// 		zonaCarga: { type: "number", editable: false, nullable: false },
+			// 		nodoP: { type: "number", editable: false, nullable: false },
+			// 	}
+			model: {
+	            id: "HORIZODERS",
+	            fields: {
+	                numFila: { type: "number",	editable: false, nullable: false },
+	                numPeriodos: { type: "number",	editable: false, nullable: false },
+	                duracionMinuto: { type: "number", editable: false, nullable: false },
+	                // "tipoEjecucion": { "type": "number", "editable": false, "nullable": false },
+	            }
+			}
+		},
+		data: datosTest,
+		autoSync: true
+	};
+	let dataSource = new kendo.data.DataSource(dataSourceObj);
+
+	let columnas = [
+		{ field: "numFila", title: "#", sortable: true, filterable: false},
+		{ field: "numPeriodos", title: "numPeriodos", sortable: true, filterable: false},
+		{ field: "duracionMinuto", title: "duracionMinuto", sortable: true, filterable: true},
+		// { field: "nombreBusAbrev", title: "Bus Abreviado", sortable: true, filterable: false, width: "8vw" },
+		// { field: "numArea", title: "Área", sortable: true, filterable: true, width: "10vw" },
+		// { field: "nombreArea", title: "Nombre Área", sortable: true, filterable: true, width: "10vw" },
+		// { field: "nombreAreaAbrev", title: "Área Abreviada", sortable: true, filterable: false, width: "10vw" },
+		// { field: "tensionNominal", title: "Tensión Nominal", sortable: true, filterable: true, width: "10vw" },
+		// { field: "subsistemaElectrico", title: "Subsistema Eléctrico", sortable: true, filterable: true, width: "10vw" },
+		// { field: "nombreRegionPrecios", title: "Región Precios", sortable: true, filterable: true, width: "10vw" },
+		// { field: "nombreRegionPreciosAbrev", title: "Región Precios Abreviada", sortable: true, filterable: false, width: "10vw" },
+		// { field: "numRegPrecios", title: "Número Región Precios", sortable: true, filterable: false, width: "10vw" },
+		// { field: "disponibilidadIniNodo", title: "Disponibilidad Inicial", sortable: true, filterable: true, width: "10vw" },
+		// { field: "zonaCarga", title: "Zona Carga", sortable: true, filterable: true, width: "10vw" },
+		// { field: "nodoP", title: "Nodo P", sortable: true, filterable: false, width: "5vw" }
+	];
+console.log('datasource', dataSourceObj);
+console.log('datos', datosTest);
+console.log('columnas', columnas);
+	gridTest = $(id).kendoGrid({
+		dataSource: dataSource,
+		columns: columnas,
+		sortable: {
+			showIndexes: true,
+			mode: "multiple"
+		},
+		filterable: {
+			messages: {
+				and: "Y",
+				or: "O",
+				filter: "Aplicar Filtro",
+				clear: "Limpiar Filtro",
+				info: "Elementos filtrados por"
+			},
+			operators: {
+				string: {
+					eq: "Igual que",
+					neq: "Diferente que",
+					startswith: "Comienza con",
+					endswith: "Termina con",
+					contain: "Contiene",
+					doesnotcontains: "No contiene",
+					isnull: "Es nula",
+					isnotnull: "No es nula",
+					isempty: "Está vacía",
+					isnotempty: "No está vacía"
+				},
+				number: {
+					eq: "Igual que",
+					neq: "Diferente que",
+					gt: "Mayor que",
+					gte: "Mayor o igual que",
+					lt: "Menor que",
+					lte: "Menor o igual que",
+					isnull: "Es nulo",
+					isnotnull: "No es nulo",
+				}
+			}
+		},
+		scrollable: {endless: true},
+		navigatable: true,
+		pageable: true,
+		reorderable: false,
+		groupable: false,
+		resizable: true,
+		// filterable: true,
+		columnMenu: false,
+		editable: true,
+		save: function (e) {
+			console.log(e.sender);
+		},
+		edit: function(e) {
+			var cellValue = e.container.find("input");
+			console.log('Edita', cellValue);
+		},
+	});
+}
+
 const body = document.querySelector("body");
 const div_msg_consola = document.getElementById('div_msg_consola');
 const banner = new Banner(body);
@@ -860,3 +1048,160 @@ function crearOption(select, texto, valor) {
     option.innerHTML = texto;
     select.appendChild(option);
 }
+
+function crearTablaInfoKendo(objData) {
+	// Remueve el contenido anterior
+	// Busca el contenedor
+	let id_cont = '#COLAPSABLE_' + objData.insumo.modelo.id;
+	let contenedor = $(id_cont);
+	// Vacia su contenido
+	contenedor.html('');
+	// Inserta una nueva tabla
+	let nueva_tabla = document.createElement('table');
+	nueva_tabla.classList.add('table');
+	nueva_tabla.classList.add('table-sm');
+	nueva_tabla.classList.add('table-striped');
+	nueva_tabla.id = objData.insumo.modelo.id;
+	// Inserta la nueva tabla
+	contenedor.append(nueva_tabla);
+	// Id de la tabla (nombre del archivo)
+	let id = objData.insumo.modelo.id;
+
+	if (!id.startsWith('#')) {
+		id = '#' + id;
+	}
+
+	// Inserta el modelo y los datos en el dataSource
+	let dataSourceObj = {
+		pageSize: 10,
+		schema: {
+			model: objData.insumo.modelo
+		},
+		data: objData.filas,
+		autoSync: true
+	};
+
+	if (objData.insumo.modelo.id === 'REGIONPRECIOS_DERS') {
+		console.log('DATOS REGION PRECIOS');
+		console.log(objData.filas);
+	}
+
+	let dataSource = new kendo.data.DataSource(dataSourceObj);
+
+	// Valida campos dependientes del algoritmo
+	if (objData.insumo.algDep === true) {
+		let intervalos = 8;
+		if (objData.algoritmo === 'dersmi') {
+			intervalos = 4;
+		} else if (objData.algoritmo === 'dersi') {
+			intervalos = 1;
+		}
+		console.log('>>>> Intervalos', intervalos);
+
+		objData.insumo.columnas.forEach((columna) => {
+			if (typeof columna.intervalo === 'number' && columna.intervalo > intervalos) {
+				columna.hidden = true;
+				// console.log('Oculta', columna.field);
+			}
+		});
+	}
+
+	// Agrega editor a valores numéricos para validar decimales
+	objData.insumo.columnas.forEach((columna) => {
+		let tipo = objData.insumo.modelo.fields[columna.field].type;
+
+		// Si es numerico
+		if (tipo === 'number') {
+			columna.editor = weightEditor;
+		}
+	});
+
+	// En el objeto del grid inserta las columnas
+	gridTest = $(id).kendoGrid({
+		dataSource: dataSource,
+		columns: objData.insumo.columnas,
+		sortable: {
+			showIndexes: true,
+			mode: "multiple"
+		},
+		filterable: {
+			messages: {
+				and: "Y",
+				or: "O",
+				filter: "Aplicar Filtro",
+				clear: "Limpiar Filtro",
+				info: "Elementos filtrados por"
+			},
+			operators: {
+				string: {
+					eq: "Igual que",
+					neq: "Diferente que",
+					startswith: "Comienza con",
+					endswith: "Termina con",
+					contain: "Contiene",
+					doesnotcontains: "No contiene",
+					isnull: "Es nula",
+					isnotnull: "No es nula",
+					isempty: "Está vacía",
+					isnotempty: "No está vacía"
+				},
+				number: {
+					eq: "Igual que",
+					neq: "Diferente que",
+					gt: "Mayor que",
+					gte: "Mayor o igual que",
+					lt: "Menor que",
+					lte: "Menor o igual que",
+					isnull: "Es nulo",
+					isnotnull: "No es nulo",
+				}
+			}
+		},
+		scrollable: {endless: true},
+		navigatable: true,
+		pageable: {
+			messages: {
+				display: "Mostrando {0}-{1} de {2} registros",
+				empty: "No hay registros en el archivo"
+			}
+		},
+		reorderable: false,
+		groupable: false,
+		resizable: true,
+		columnMenu: false,
+		editable: true,
+		save: function (e) {
+			console.log(e.sender);
+		},
+		edit: function(e) {
+			var cellValue = e.container.find("input");
+			console.log('Edita', cellValue);
+		},
+	});
+
+	let colapso = null;
+	for (let col of colapsos) {
+        if (col.id === ('COLAPSO_' + objData.insumo.modelo.id)) {
+            colapso = col;
+            break;
+        }
+    }
+
+    // Habilita su colapso si hubo datos
+    if (colapso !== null) {
+		colapso.classList.remove('inactivo');
+		if (objData.filas.length > 0) {
+			colapso.classList.remove('vacio');
+		} else {
+			colapso.classList.add('vacio');
+		}
+    }
+}
+
+function weightEditor(container, options) {
+    $('<input name="' + options.field + '"/>')
+     .appendTo(container)
+     .kendoNumericTextBox({
+         decimals: 3,
+     })
+};

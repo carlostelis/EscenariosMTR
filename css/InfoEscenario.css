@@ -401,7 +401,7 @@ span.menu-boton-texto {
 .colapsable {
     line-height:3vh;
     min-height: 3vh;
-    overflow: hidden;
+    overflow: scroll;
 }
 
 .colapsable.visible {

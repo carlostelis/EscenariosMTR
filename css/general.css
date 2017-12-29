@@ -530,3 +530,15 @@ label {
     transition: 0.5s ease-in opacity;
     border-radius: 20px !important;
 }
+
+.tooltip > .tooltip-inner {
+    background-color: darkgreen!important;
+    border-radius: 10px;
+}
+
+.tooltip {
+    border-radius: 10px;
+    border-color: darkgray;
+    border-width: 2px;
+    border-style: solid;
+}

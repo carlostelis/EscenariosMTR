@@ -7,61 +7,23 @@ function colapsar(trigger, id) {
     }
 
     let iconoAbajo = false;
-    let tabla_buscada;
-
-    // La busca en el arreglo en vez de ir al dom
-    for (let tabla of tablas_info) {
-        if (tabla.id === id || tabla.id.replace('$', '') == id) {
-            tabla_buscada = tabla;
-            break;
-        }
-    }
+    let contenedor_buscado = $('#' + id);
 
     if (!typeof trigger.desplegado === 'undefined') {
         trigger.desplegado = false;
     }
 
-    if (tabla_buscada) {
-        // let contenedor = document.getElementById(tabla_buscada.dataset.contenedor);
-        let contenedor = colapsables_info.find((col_info) => {
-            return col_info.id === tabla_buscada.dataset.contenedor;
-        });
-
-        if (contenedor) {
-            // La muestra
-            if (!trigger.desplegado) {
-                for (let nodo of contenedor.childNodes) {
-                    if (nodo.nodeName.toLowerCase() === 'div') {
-                        contenedor.classList.remove('invisible');
-                        contenedor.classList.add('visible');
-                        iconoAbajo = false;
-
-                        // Inserta la tabla al dom
-                        for (let nodo of contenedor.childNodes) {
-                            if (nodo.nodeName.toLowerCase() === 'div') {
-                                nodo.appendChild(tabla_buscada);
-                            }
-                        }
-                    }
-                }
-            }
-            // la oculta
-            else {
-                for (let nodo of contenedor.childNodes) {
-                    if (nodo.nodeName.toLowerCase() === 'div') {
-                        contenedor.classList.add('invisible');
-                        contenedor.classList.remove('visible');
-                        iconoAbajo = true;
-
-                        // Inserta la tabla al dom
-                        for (let nodo of contenedor.childNodes) {
-                            if (nodo.nodeName.toLowerCase() === 'div') {
-                                nodo.removeChild(tabla_buscada);
-                            }
-                        }
-                    }
-                }
-            }
+    if (contenedor_buscado) {
+        if (!trigger.desplegado) {
+            contenedor_buscado.removeClass('invisible');
+            contenedor_buscado.addClass('visible');
+            iconoAbajo = false;
+        }
+        // la oculta
+        else {
+            contenedor_buscado.addClass('invisible');
+            contenedor_buscado.removeClass('visible');
+            iconoAbajo = true;
         }
     }
 
@@ -70,7 +32,7 @@ function colapsar(trigger, id) {
         // div hijo
         if (nodoA.nodeName.toLowerCase() === 'div') {
             for (let nodoB of nodoA.childNodes) {
-                if (nodoB.nodeName.toLowerCase() === 'span') {
+                if (nodoB.nodeName.toLowerCase() === 'span' && nodoB.classList.length === 0) {
                     for (let nodoC of nodoB.childNodes) {
                         if (nodoC.nodeName.toLowerCase() === 'i') {
                             if (iconoAbajo) {
@@ -124,6 +86,7 @@ function mostrarTodas() {
 }
 
 function colapsarTodas(flagClass) {
+console.log('colapsar todas');
     for (let col of colapsos) {
         let flagInactivo = col.classList.contains('inactivo');
         let flagVacio = col.classList.contains('vacio');
@@ -160,6 +123,7 @@ function colapsarTodas(flagClass) {
 }
 
 function desactivarColapsos() {
+    console.log('Oculta colapsos');
     // Reestablece los colapsos
     for (let col of colapsos) {
         col.classList.add('inactivo');
@@ -212,72 +176,72 @@ ipcRenderer.on('escenario_completo:leido', (event, obj) => {
     console.log('Recibe contenedor de archivos:', obj.lista.length);
     textarea_comentarios_info.innerHTML = '';
 
+    // Desactiva todos los colapsos
+    desactivarColapsos();
+
     setTimeout(() => {
         // Oculta todas
-        colapsarTodas(true);
+        // colapsarTodas(true);
 
         // Muestra las tablas para que esten en el dom
-        mostrarTodas();
+        // mostrarTodas();
         // Borra los periodos
-        borrarThPeriodos();
+        // borrarThPeriodos();
         // Vacia los datos de las tablas (desde el dom)
-        vaciarTablas();
+        // vaciarTablas();
 
         // Obtiene el numero de periodos por algoritmo
-        let periodos = 0;
-        SESION.config.algoritmos.forEach((algoritmo) => {
-            if (algoritmo.carpeta === SESION.algoritmo) {
-                periodos = algoritmo.periodos;
-            }
-        });
-        console.log('>>> Periodos:', periodos);
+        // let periodos = 0;
+        // SESION.config.algoritmos.forEach((algoritmo) => {
+        //     if (algoritmo.carpeta === SESION.algoritmo) {
+        //         periodos = algoritmo.periodos;
+        //     }
+        // });
+        // console.log('>>> Periodos:', periodos);
 
         // Tablas de Periodos 1-N
-        for (let thead of thead_periodo) {
-            for (let nodoA of thead.childNodes) {
-                if (nodoA.nodeName.toLowerCase() === 'tr') {
-                    // Agrega las cabeceras de los periodos
-                    for (let i = 1; i <= periodos; i++) {
-                        let th = document.createElement('th');
-                        th.classList.add('th-periodo');
-                        let texto = document.createTextNode(`Periodo ${i}`);
-
-                        th.appendChild(texto);
-                        nodoA.appendChild(th);
-                    }
-                    break;
-                }
-            }
-        }
+        // for (let thead of thead_periodo) {
+        //     for (let nodoA of thead.childNodes) {
+        //         if (nodoA.nodeName.toLowerCase() === 'tr') {
+        //             // Agrega las cabeceras de los periodos
+        //             for (let i = 1; i <= periodos; i++) {
+        //                 let th = document.createElement('th');
+        //                 th.classList.add('th-periodo');
+        //                 let texto = document.createTextNode(`Periodo ${i}`);
+        //
+        //                 th.appendChild(texto);
+        //                 nodoA.appendChild(th);
+        //             }
+        //             break;
+        //         }
+        //     }
+        // }
 
         // Tablas de de intervalos min y max 1-N
-        for (let tabla of thead_periodo_i) {
-            for (let nodoA of tabla.childNodes) {
-                if (nodoA.nodeName.toLowerCase() === 'tr') {
-                    // Agrega las cabeceras de los periodos
-                    for (let i = 1; i <= periodos; i++) {
-                        let thmin = document.createElement('th');
-                        let thmax = document.createElement('th');
-
-                        thmin.classList.add('th-periodo');
-                        thmax.classList.add('th-periodo');
-
-                        let texto_min = document.createTextNode(`Flujo mínimo en I_${i}`);
-                        let texto_max = document.createTextNode(`Flujo máximo en I_${i}`);
-
-                        thmin.appendChild(texto_min);
-                        thmax.appendChild(texto_max);
-
-                        nodoA.appendChild(thmin);
-                        nodoA.appendChild(thmax);
-                    }
-                    break;
-                }
-            }
-        }
-
-        // Desactiva todos los colapsos
-        desactivarColapsos();
+        // for (let tabla of thead_periodo_i) {
+        //     for (let nodoA of tabla.childNodes) {
+        //         if (nodoA.nodeName.toLowerCase() === 'tr') {
+        //             // Agrega las cabeceras de los periodos
+        //             for (let i = 1; i <= periodos; i++) {
+        //                 let thmin = document.createElement('th');
+        //                 let thmax = document.createElement('th');
+        //
+        //                 thmin.classList.add('th-periodo');
+        //                 thmax.classList.add('th-periodo');
+        //
+        //                 let texto_min = document.createTextNode(`Flujo mínimo en I_${i}`);
+        //                 let texto_max = document.createTextNode(`Flujo máximo en I_${i}`);
+        //
+        //                 thmin.appendChild(texto_min);
+        //                 thmax.appendChild(texto_max);
+        //
+        //                 nodoA.appendChild(thmin);
+        //                 nodoA.appendChild(thmax);
+        //             }
+        //             break;
+        //         }
+        //     }
+        // }
     }, 100);
 
     // Recibe el contenedor
@@ -296,7 +260,9 @@ ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
     // Agrega lista de promesas
     setTimeout(() => {
         promesas_archivos.push(new Promise((resolve, reject) => {
-            crearTablaInfo(obj_archivo);
+            // crearTablaInfo(obj_archivo);
+            console.log('-------------------------------');
+            crearTablaInfoKendo(obj_archivo);
             resolve();
         }));
     });
@@ -305,7 +271,7 @@ ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
         setTimeout(() => {
             Promise.all(promesas_archivos).then(() => {
                 // Oculta todas
-                colapsarTodas(true);
+                // colapsarTodas(true);
 
                 // Habilita botones
                 boton_actualizarEscenario.disabled = false;

@@ -1,0 +1,125 @@
+.k-grid-header > tr > th {
+    color: black;
+    background-color: #ffcf82;
+    border-radius: 10px;
+    border-style: inset !important;
+    border-width: 1px !important;
+}
+
+.k-grid-header > tr > th > a {
+    color: black!important;
+    font-size: 1.5vh;
+    line-height: 2 !important;
+    font-weight: bold;
+}
+
+.k-grid.k-widget {
+    display: inline-block;
+    background-color: transparent;
+}
+
+div.k-pager-wrap {
+    height: 3vh;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    background-color: #ffcf82;
+    border-width: 1px;
+    border-color: #ffcf82;
+    text-shadow: 0px 0px 1px grey;
+    color: black;
+}
+
+a.k-pager-nav {
+    height: 2vh !important;
+    padding: 0 !important;
+    border-radius: 10px !important;
+    color: darkgreen !important;
+}
+
+a.k-pager-nav.k-state-disabled {
+    color: grey !important;
+}
+
+li.current-page > span {
+    height: 2vh !important;
+    padding: 0 !important;
+}
+
+li > a.k-link {
+    height: 2vh !important;
+    padding: 0 !important;
+    color: darkgreen !important;
+        font-size: 0.8vw;
+}
+
+/* Pagina seleccionada  */
+li > span.k-state-selected {
+    height: 2vh !important;
+    padding: 0 !important;
+    color: black !important;
+    background-color: goldenrod !important;
+    border-color: goldenrod !important;
+    font-size: 0.8vw;
+}
+
+.k-grid-header th.k-header {
+    background-color: #ffcf82;
+    color: black;
+    font-weight: bold;
+    font-size: 0.95vw;
+    white-space: -moz-pre-wrap !important;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    white-space: -webkit-pre-wrap;
+    word-break: break-word;
+    white-space: normal;
+}
+
+/* Celdas */
+.k-grid td {
+    font-size: 1.2vh;
+    padding: 0.5vh 0.5vw;
+    height: 2vh;
+}
+
+/* Color fila impar */
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(200,200, 200, 0.5);
+}
+
+/* Hover Fila */
+.k-grid tbody tr:hover {
+    background-color: darkseagreen !important;
+    text-shadow: 0px 0px 1px;
+}
+
+/* Filtro Activo */
+.k-grid-header .k-grid-filter.k-state-active {
+    background-color: goldenrod;
+    border-radius: 15px;
+}
+
+/* Boton encabezado tabla */
+.k-header.k-grid-toolbar > a.k-button.k-button-icontext {
+    background-color: #1B9258;
+    color: white;
+    text-shadow: 0px 0px 1px;
+}
+
+/* Ajuste de control en input de edicion */
+.k-numerictextbox .k-select {
+    height: 80%;
+    margin-top: 0.5vh;
+}
+
+/* Header sin filtro */
+.k-grid-header th.k-header>.k-link {
+    line-height: 1.5;
+}
+
+/* Texto del footer */
+.k-pager-wrap .k-pager-info {
+    font-size: 0.9vw;
+}
