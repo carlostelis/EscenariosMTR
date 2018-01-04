@@ -243,11 +243,11 @@ ipcMain.on('usuario:solicitar', (event, usuario) => {
     //
     // return;
 
-    setTimeout(() => {
-        win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'USUARIO TEST', perfil: 'Usuario', contrasena:'test', estado:true, Mensaje: 'Consulta realizada correctamente'});
-    }, 1000);
-
-    return;
+    // setTimeout(() => {
+    //     win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'USUARIO TEST', perfil: 'Usuario', contrasena:'test', estado:true, Mensaje: 'Consulta realizada correctamente'});
+    // }, 1000);
+    //
+    // return;
 
     // conexión con la BD
     comandos.obtenerUsuario(usuario).then((json) => {

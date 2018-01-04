@@ -251,21 +251,21 @@ ipcRenderer.on('escenario_completo:leido', (event, obj) => {
 });
 
 ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
-    console.log('Recibe archivo:', obj_archivo.archivo);
+    console.log('Recibe archivo:', obj_archivo.archivo, obj_archivo.filas.length);
 
     // Recibe el contenedor
     objEscOriginal.lista.push(obj_archivo);
     objEscOriginal.contador++;
 
     // Agrega lista de promesas
-    setTimeout(() => {
+    // setTimeout(() => {
         promesas_archivos.push(new Promise((resolve, reject) => {
             // crearTablaInfo(obj_archivo);
-            console.log('-------------------------------');
+            console.log('-------------------------------', obj_archivo.insumo.modelo.id);
             crearTablaInfoKendo(obj_archivo);
             resolve();
         }));
-    });
+    // });
 
     if (objEscOriginal.contador === objEscOriginal.numArchivos) {
         setTimeout(() => {
@@ -319,7 +319,7 @@ ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
                     }
                 }, 1000);
             });
-        });
+        }, 3000);
     }
 });
 

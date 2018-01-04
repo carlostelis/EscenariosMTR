@@ -1064,6 +1064,7 @@ function crearTablaInfoKendo(objData) {
 	nueva_tabla.id = objData.insumo.modelo.id;
 	// Inserta la nueva tabla
 	contenedor.append(nueva_tabla);
+
 	// Id de la tabla (nombre del archivo)
 	let id = objData.insumo.modelo.id;
 
@@ -1081,13 +1082,7 @@ function crearTablaInfoKendo(objData) {
 		autoSync: true
 	};
 
-	if (objData.insumo.modelo.id === 'REGIONPRECIOS_DERS') {
-		console.log('DATOS REGION PRECIOS');
-		console.log(objData.filas);
-	}
-
 	let dataSource = new kendo.data.DataSource(dataSourceObj);
-
 	// Valida campos dependientes del algoritmo
 	if (objData.insumo.algDep === true) {
 		let intervalos = 8;
@@ -1107,14 +1102,47 @@ function crearTablaInfoKendo(objData) {
 	}
 
 	// Agrega editor a valores numéricos para validar decimales
-	objData.insumo.columnas.forEach((columna) => {
-		let tipo = objData.insumo.modelo.fields[columna.field].type;
+	if (objData.insumo.columnas !== null && typeof objData.insumo.columnas !== 'undefined')  {
+		objData.insumo.columnas.forEach((columna) => {
+			try {
+				let tipo = objData.insumo.modelo.fields[columna.field].type;
 
-		// Si es numerico
-		if (tipo === 'number') {
-			columna.editor = weightEditor;
-		}
-	});
+				// Si es numerico
+				if (tipo === 'number') {
+					columna.editor = weightEditor;
+				}
+			} catch (e) {
+				console.log('ERR EDITOR', objData.insumo.modelo.id, e);
+			}
+		});
+	} else {
+		console.log('No trae columnas');
+		// // Si no tiene define columnas las toma de la primera fila del archivo (RESULTADOS)
+		// let fila = objData.filas.shift();
+		// // Define el arreglo de columnas
+		// objData.insumo.columnas = [];
+		// // Define los campos del dataSource
+		// objData.insumo.modelo.fields = {};
+		// console.log('Define columas', objData.insumo.id, fila);
+        //
+		// fila.forEach((col) => {
+		// 	objData.insumo.columnas.push({
+		// 		field: col,
+		// 		sortable: true,
+		// 		filterable: true,
+		// 		width: "10vw"
+		// 	});
+        //
+		// 	objData.insumo.modelo.fields[col] = {
+		// 		type: "string",
+		// 		editable: false,
+		// 		nullable: false
+		// 	};
+		// });
+        //
+		// console.log('Columnas', objData.insumo.columnas, objData.insumo.modelo.fields);
+	}
+
 
 	// En el objeto del grid inserta las columnas
 	gridTest = $(id).kendoGrid({
@@ -1138,7 +1166,7 @@ function crearTablaInfoKendo(objData) {
 					neq: "Diferente que",
 					startswith: "Comienza con",
 					endswith: "Termina con",
-					contain: "Contiene",
+					contains: "Contiene",
 					doesnotcontains: "No contiene",
 					isnull: "Es nula",
 					isnotnull: "No es nula",

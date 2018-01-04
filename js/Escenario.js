@@ -7,6 +7,7 @@ class Escenario {
         this.archivosDersmi = require('./archivos_dersmi.js');
         this.archivosAutr = require('./archivos_autr.js');
         this.archivoInsumos = require('./insumos.js');
+        // this.archivoInsumos = null;
         this.unidades_ref = [];
         this.unidades_obj = [];
         this.unidades_destino_ref = [];
@@ -27,6 +28,7 @@ class Escenario {
         this.unidades_obj = [];
         this.unidades_destino_ref = [];
         this.unidades_destino_obj = [];
+        // this.archivoInsumos = require('./insumos.js');
         for (let archivoObj of this.archivoInsumos) {
             if (typeof archivoObj.unidades !== 'undefined' && archivoObj.unidades === true) {
                 // Verifica si es archivo de unidades
@@ -145,6 +147,8 @@ class Escenario {
         this.unidades_destino_ref = [];
         this.unidades_destino_obj = [];
 
+        // this.archivoInsumos = require('./insumos.js');
+
         for (let archivoObj of this.archivoInsumos) {
             if (typeof archivoObj.unidades !== 'undefined' && archivoObj.unidades === true) {
                 // Verifica si es archivo de unidades
@@ -216,38 +220,41 @@ class Escenario {
                             // console.log('datos unidades', datosUnidades);
                             // Si encontró alguno...
                             if (datosUnidades) {
-                                for (let i = 0, j = 0; i < datosDestino.filas.length; i++) {
-                                    try {
-                                        let objDatoOri;
+                                if (typeof datosDestino.filas !== 'undefined' && typeof datosUnidades.filas !== 'undefined') {
+                                    for (let i = 0, j = 0; i < datosDestino.filas.length; i++) {
+                                        try {
+                                            let objDatoOri;
 
-                                        // Si se incluyen segmentos, se repite cada unidad 11 veces;
-                                        // la tabla destino debe tener #UNIDADES * 11 registros
-                                        if (typeof datosDestino.num_segmentos !== 'undefined' && datosDestino.num_segmentos > 0) {
-                                            objDatoOri = datosUnidades.filas[j][0];
-                                            if (i > 0 && ((i + 1) % datosDestino.num_segmentos) === 0) {
-                                                j++;
+                                            // Si se incluyen segmentos, se repite cada unidad 11 veces;
+                                            // la tabla destino debe tener #UNIDADES * 11 registros
+                                            if (typeof datosDestino.num_segmentos !== 'undefined' && datosDestino.num_segmentos > 0) {
+                                                objDatoOri = datosUnidades.filas[j][0];
+                                                if (i > 0 && ((i + 1) % datosDestino.num_segmentos) === 0) {
+                                                    j++;
+                                                }
+                                            } else {
+                                                objDatoOri = datosUnidades.filas[i][0];
                                             }
-                                        } else {
-                                            objDatoOri = datosUnidades.filas[i][0];
-                                        }
 
-                                        // flag unidadad servira para inhabilitar la edición del valor de la tabla
-                                        // Temporal hasta que se consoliden los archivos de configuracion
-                                        let objDato = {
-                                            valor: objDatoOri.valor,
-                                            editado: false,
-                                            tipo: objDatoOri.tipo,
-                                            flag_unidad: true
-                                        };
-                                        datosDestino.filas[i].unshift(objDato);
-                                        // console.log('Unidad', datosUnidades.filas[i][0].valor);
-                                    } catch (e) {}
+                                            // flag unidadad servira para inhabilitar la edición del valor de la tabla
+                                            // Temporal hasta que se consoliden los archivos de configuracion
+                                            let objDato = {
+                                                valor: objDatoOri.valor,
+                                                editado: false,
+                                                tipo: objDatoOri.tipo,
+                                                flag_unidad: true
+                                            };
+                                            datosDestino.filas[i].unshift(objDato);
+                                            // console.log('Unidad', datosUnidades.filas[i][0].valor);
+                                        } catch (e) {}
+                                    }
                                 }
                             }
                         });
 
                         resolve(archivosJSON);
                     }, () => {
+                        console.log('>>>> FALLA');
                         reject();
                     });
                 }, to + 100);
@@ -391,81 +398,87 @@ class Escenario {
                     }
                 }
 
-                // Leer datos
-                this.fs.readFile(ruta_archivo, 'utf8', (err, data) => {
-                    if (err) {
-                        console.log('No fue posible leer', ruta_archivo, err.message);
-                        reject();
-                    } else {
-                        console.log(">>>>>>", datosArchivo.insumo.modelo.id);
-                        datosArchivo.filas = this.parseDataNew(data, datosArchivo.insumo);
-                        datosArchivo.numFilas = datosArchivo.filas.length;
+                if (typeof datosArchivo.insumo === 'undefined' || typeof datosArchivo.insumo.modelo === 'undefined') {
+                    console.log('No hay insumo para', datosArchivo.archivo);
+                    resolve();
+                } else {
+                    // Leer datos
+                    this.fs.readFile(ruta_archivo, 'utf8', (err, data) => {
+                        if (err) {
+                            console.log('No fue posible leer', ruta_archivo, err.message);
+                            reject();
+                        } else {
+                            console.log('Leyendo', datosArchivo.archivo);
+                            console.log(">>>>>>", datosArchivo.insumo.modelo.id);
+                            datosArchivo.filas = this.parseDataNew(data, datosArchivo.insumo);
+                            datosArchivo.numFilas = datosArchivo.filas.length;
 
-                        // Si es DERS_MI_TOTALES_AREA devuelve el último ciclo
-                        // if (datosArchivo.archivo === 'DERS_MI_TOTALES_AREA.csv') {
-                        //     let cont_ciclos = 0;
-                        //     let ultimo_ciclo = -1;
-                        //     let n = 0;
-                        //     datosArchivo.filas.forEach((fila) => {
-                        //         if (fila[0].valor.trim() === 'Intervalo') {
-                        //             // Incrementa contador
-                        //             cont_ciclos++;
-                        //             // Guarda la fila
-                        //             ultimo_ciclo = n;
-                        //         }
-                        //
-                        //         n++;
-                        //     });
-                        //
-                        //     // Si hay más de 1 ciclo, conserva el último
-                        //     console.log('>>>>> Eliminando', ultimo_ciclo, 'registros, hay', datosArchivo.numFilas);
-                        //     if (cont_ciclos > 1) {
-                        //         for (let i = 0; i < ultimo_ciclo; i++) {
-                        //             datosArchivo.filas.shift();
-                        //         }
-                        //
-                        //         // IGuala el numero de filas
-                        //         datosArchivo.numFilas = datosArchivo.filas.length;
-                        //         console.log('Quedaron', datosArchivo.numFilas);
-                        //     }
-                        // }
-                    }
-                });
-
-                // Verifica si es de unidades
-                for (let ref of this.unidades_ref) {
-                    if (datosArchivo.archivo === ref.nombre) {
-                        this.unidades_obj.push(datosArchivo);
-                        console.log('>> Unidades');
-                    }
-                }
-
-                // Verifica si es de unidades
-                for (let ref of this.unidades_destino_ref) {
-                    if (datosArchivo.archivo === ref.nombre) {
-                        datosArchivo.unidades = ref.origen_unidades;
-
-                        // Verifica si se incluyen registros por segmentos
-                        if (typeof ref.segmentos_unidades !== 'undefined') {
-                            datosArchivo.num_segmentos = parseInt(ref.segmentos_unidades);
+                            // Si es DERS_MI_TOTALES_AREA devuelve el último ciclo
+                            // if (datosArchivo.archivo === 'DERS_MI_TOTALES_AREA.csv') {
+                            //     let cont_ciclos = 0;
+                            //     let ultimo_ciclo = -1;
+                            //     let n = 0;
+                            //     datosArchivo.filas.forEach((fila) => {
+                            //         if (fila[0].valor.trim() === 'Intervalo') {
+                            //             // Incrementa contador
+                            //             cont_ciclos++;
+                            //             // Guarda la fila
+                            //             ultimo_ciclo = n;
+                            //         }
+                            //
+                            //         n++;
+                            //     });
+                            //
+                            //     // Si hay más de 1 ciclo, conserva el último
+                            //     console.log('>>>>> Eliminando', ultimo_ciclo, 'registros, hay', datosArchivo.numFilas);
+                            //     if (cont_ciclos > 1) {
+                            //         for (let i = 0; i < ultimo_ciclo; i++) {
+                            //             datosArchivo.filas.shift();
+                            //         }
+                            //
+                            //         // IGuala el numero de filas
+                            //         datosArchivo.numFilas = datosArchivo.filas.length;
+                            //         console.log('Quedaron', datosArchivo.numFilas);
+                            //     }
+                            // }
                         }
+                    });
 
-                        this.unidades_destino_obj.push(datosArchivo);
-                        console.log('>> Destinos:', datosArchivo.unidades);
+                    // Verifica si es de unidades
+                    for (let ref of this.unidades_ref) {
+                        if (datosArchivo.archivo === ref.nombre) {
+                            this.unidades_obj.push(datosArchivo);
+                            console.log('>> Unidades');
+                        }
                     }
+
+                    // Verifica si es de unidades
+                    for (let ref of this.unidades_destino_ref) {
+                        if (datosArchivo.archivo === ref.nombre) {
+                            datosArchivo.unidades = ref.origen_unidades;
+
+                            // Verifica si se incluyen registros por segmentos
+                            if (typeof ref.segmentos_unidades !== 'undefined') {
+                                datosArchivo.num_segmentos = parseInt(ref.segmentos_unidades);
+                            }
+
+                            this.unidades_destino_obj.push(datosArchivo);
+                            console.log('>> Destinos:', datosArchivo.unidades);
+                        }
+                    }
+
+                    objJSON.lista.push(datosArchivo);
+                    objJSON.numArchivos++;
+
+                    resolve();
                 }
-
-                objJSON.lista.push(datosArchivo);
-                objJSON.numArchivos++;
-
-                resolve();
             }
         });
     }
 
     parseData(data) {
         let lineas = data.split('\n');
-        //console.log('lineas:', lineas.length);
+        console.log('lineas:', lineas.length);
 
         let filas = [];
 
@@ -510,7 +523,7 @@ class Escenario {
 
     parseDataNew(data, objInsumo) {
         let lineas = data.split('\n');
-        //console.log('lineas:', lineas.length);
+        console.log('lineas:', lineas.length);
 
         let filas = [];
         let contador = 1;
@@ -565,28 +578,76 @@ class Escenario {
                         }
                     });
 
-                    // VAlores del registro depurados en filaObj
-                    // Se crea json de valores
-                    console.log('Columnas: ', objInsumo.columnas.length);
-                    console.log('Datos: ', filaObj.length);
-                    let cadenaJSON = '{';
-                    for (let i = 0; i < objInsumo.columnas.length; i++) {
-                        let columna = objInsumo.columnas[i];
+                    // Si no contiene columnas, las define de la primer fila
+                    if (typeof objInsumo.columnas === 'undefined') {
+                        // Si no tiene define columnas las toma de la primera fila del archivo (RESULTADOS)
+                		// Define el arreglo de columnas
+                		objInsumo.columnas = [];
+                		// Define los campos del dataSource
+                		objInsumo.modelo.fields = {};
 
-                        // Verifica que no haya más datos debidos en la fila
-                        if (i < filaObj.length) {
-                            let tipo = objInsumo.modelo.fields[columna.field].type;
+                        // Saca el numero de fila
+                        filaObj.shift();
 
-                            cadenaJSON += `"${columna.field}": ${tipo === 'string' ? `"${filaObj[i].valor}"`: filaObj[i].valor} `;
-                            // Si es el ultimo valor no agrega coma
-                            if (i < (objInsumo.columnas.length - 1) && i < (filaObj.length - 1)) {
-                                cadenaJSON += ',';
+                		console.log('Define columas', objInsumo.modelo.id, filaObj);
+
+                        // Define la columna del #fila
+                        objInsumo.columnas.push({
+                            field: 'numFila',
+                            title: '#',
+                            sortable: true,
+                            filterable: false,
+                            width: "3vw"
+                        });
+
+                        objInsumo.modelo.fields['numFila'] = {
+                            type: "number",
+                            editable: false,
+                            nullable: false
+                        };
+
+                		filaObj.forEach((col) => {
+                			objInsumo.columnas.push({
+                				field: col.valor,
+                				sortable: true,
+                				filterable: true,
+                				width: "10vw"
+                			});
+
+                			objInsumo.modelo.fields[col.valor] = {
+                				type: "string",
+                				editable: false,
+                				nullable: false
+                			};
+                		});
+
+                        // Decrementa el contador
+                        contador--;
+
+                		console.log('Columnas', objInsumo.columnas);
+                        console.log('Fields', objInsumo.modelo.fields);
+                    } else {
+                        // VAlores del registro depurados en filaObj
+                        // Se crea json de valores
+                        let cadenaJSON = '{';
+                        for (let i = 0; i < objInsumo.columnas.length; i++) {
+                            let columna = objInsumo.columnas[i];
+
+                            // Verifica que no haya más datos debidos en la fila
+                            if (i < filaObj.length && typeof objInsumo !== 'undefined' && typeof objInsumo.modelo !== 'undefined') {
+                                let tipo = objInsumo.modelo.fields[columna.field].type;
+
+                                cadenaJSON += `"${columna.field}": ${tipo === 'string' ? `"${filaObj[i].valor}"`: filaObj[i].valor} `;
+                                // Si es el ultimo valor no agrega coma
+                                if (i < (objInsumo.columnas.length - 1) && i < (filaObj.length - 1)) {
+                                    cadenaJSON += ',';
+                                }
                             }
                         }
+                        cadenaJSON += '}';
+                        // console.log('JSON > ', cadenaJSON);
+                        filas.push(JSON.parse(cadenaJSON));
                     }
-                    cadenaJSON += '}';
-                    console.log('JSON > ', cadenaJSON);
-                    filas.push(JSON.parse(cadenaJSON));
                 }
             });
         }

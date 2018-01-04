@@ -117,6 +117,7 @@ li > span.k-state-selected {
 /* Header sin filtro */
 .k-grid-header th.k-header>.k-link {
     line-height: 1.5;
+    padding-right: 0;
 }
 
 /* Texto del footer */
