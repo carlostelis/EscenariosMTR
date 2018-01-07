@@ -1,5 +1,5 @@
 
-function colapsar(trigger, id) {
+function toggleColapso(trigger, id) {
     // Si esta inactivo no hace nada
     if (trigger.classList.contains('inactivo')) {
         trigger.desplegado = false;
@@ -14,6 +14,7 @@ function colapsar(trigger, id) {
     }
 
     if (contenedor_buscado) {
+        // Si no esta desplegado, lo muestra
         if (!trigger.desplegado) {
             contenedor_buscado.removeClass('invisible');
             contenedor_buscado.addClass('visible');
@@ -54,6 +55,93 @@ function colapsar(trigger, id) {
 
     // Marca el div como colapsado
     trigger.desplegado = !iconoAbajo;
+
+    return trigger.desplegado;
+}
+
+function expandir(trigger, id) {
+    // Si esta inactivo no hace nada
+    if (trigger.classList.contains('inactivo')) {
+        trigger.desplegado = false;
+        return;
+    }
+
+    let iconoAbajo = false;
+    let contenedor_buscado = $('#' + id);
+
+    // Bandera despliegue
+    trigger.desplegado = false;
+
+    // Oculta contenedor
+    contenedor_buscado.removeClass('invisible');
+    contenedor_buscado.addClass('visible');
+    iconoAbajo = false;
+
+    // Cambia el icono
+    for (let nodoA of trigger.childNodes) {
+        // div hijo
+        if (nodoA.nodeName.toLowerCase() === 'div') {
+            for (let nodoB of nodoA.childNodes) {
+                if (nodoB.nodeName.toLowerCase() === 'span' && nodoB.classList.length === 0) {
+                    for (let nodoC of nodoB.childNodes) {
+                        if (nodoC.nodeName.toLowerCase() === 'i') {
+                            nodoC.classList.remove('fa-caret-square-o-down');
+                            nodoC.classList.add('fa-caret-square-o-up');
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            break;
+        }
+    }
+}
+
+function colapsar(trigger, id) {
+    // Si esta inactivo no hace nada
+    if (trigger.classList.contains('inactivo')) {
+        trigger.desplegado = false;
+        return;
+    }
+
+    let iconoAbajo = true;
+    let contenedor_buscado = $('#' + id);
+
+    if (!typeof trigger.desplegado === 'undefined') {
+        trigger.desplegado = false;
+    }
+
+    if (contenedor_buscado) {
+        contenedor_buscado.addClass('invisible');
+        contenedor_buscado.removeClass('visible');
+        iconoAbajo = false;
+    }
+
+    // Cambia el icono
+    for (let nodoA of trigger.childNodes) {
+        // div hijo
+        if (nodoA.nodeName.toLowerCase() === 'div') {
+            for (let nodoB of nodoA.childNodes) {
+                if (nodoB.nodeName.toLowerCase() === 'span' && nodoB.classList.length === 0) {
+                    for (let nodoC of nodoB.childNodes) {
+                        if (nodoC.nodeName.toLowerCase() === 'i') {
+                            nodoC.classList.add('fa-caret-square-o-down');
+                            nodoC.classList.remove('fa-caret-square-o-up');
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            break;
+        }
+    }
+
+    // Marca el div como colapsado
+    trigger.desplegado = iconoAbajo;
+
+    return trigger.desplegado;
 }
 
 function mostrarContenedor(id, trigger) {
@@ -86,7 +174,6 @@ function mostrarTodas() {
 }
 
 function colapsarTodas(flagClass) {
-console.log('colapsar todas');
     for (let col of colapsos) {
         let flagInactivo = col.classList.contains('inactivo');
         let flagVacio = col.classList.contains('vacio');
@@ -179,71 +266,6 @@ ipcRenderer.on('escenario_completo:leido', (event, obj) => {
     // Desactiva todos los colapsos
     desactivarColapsos();
 
-    setTimeout(() => {
-        // Oculta todas
-        // colapsarTodas(true);
-
-        // Muestra las tablas para que esten en el dom
-        // mostrarTodas();
-        // Borra los periodos
-        // borrarThPeriodos();
-        // Vacia los datos de las tablas (desde el dom)
-        // vaciarTablas();
-
-        // Obtiene el numero de periodos por algoritmo
-        // let periodos = 0;
-        // SESION.config.algoritmos.forEach((algoritmo) => {
-        //     if (algoritmo.carpeta === SESION.algoritmo) {
-        //         periodos = algoritmo.periodos;
-        //     }
-        // });
-        // console.log('>>> Periodos:', periodos);
-
-        // Tablas de Periodos 1-N
-        // for (let thead of thead_periodo) {
-        //     for (let nodoA of thead.childNodes) {
-        //         if (nodoA.nodeName.toLowerCase() === 'tr') {
-        //             // Agrega las cabeceras de los periodos
-        //             for (let i = 1; i <= periodos; i++) {
-        //                 let th = document.createElement('th');
-        //                 th.classList.add('th-periodo');
-        //                 let texto = document.createTextNode(`Periodo ${i}`);
-        //
-        //                 th.appendChild(texto);
-        //                 nodoA.appendChild(th);
-        //             }
-        //             break;
-        //         }
-        //     }
-        // }
-
-        // Tablas de de intervalos min y max 1-N
-        // for (let tabla of thead_periodo_i) {
-        //     for (let nodoA of tabla.childNodes) {
-        //         if (nodoA.nodeName.toLowerCase() === 'tr') {
-        //             // Agrega las cabeceras de los periodos
-        //             for (let i = 1; i <= periodos; i++) {
-        //                 let thmin = document.createElement('th');
-        //                 let thmax = document.createElement('th');
-        //
-        //                 thmin.classList.add('th-periodo');
-        //                 thmax.classList.add('th-periodo');
-        //
-        //                 let texto_min = document.createTextNode(`Flujo mínimo en I_${i}`);
-        //                 let texto_max = document.createTextNode(`Flujo máximo en I_${i}`);
-        //
-        //                 thmin.appendChild(texto_min);
-        //                 thmax.appendChild(texto_max);
-        //
-        //                 nodoA.appendChild(thmin);
-        //                 nodoA.appendChild(thmax);
-        //             }
-        //             break;
-        //         }
-        //     }
-        // }
-    }, 100);
-
     // Recibe el contenedor
     objEscOriginal = obj;
     objEscOriginal.contador = 0;
@@ -261,7 +283,7 @@ ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
     // setTimeout(() => {
         promesas_archivos.push(new Promise((resolve, reject) => {
             // crearTablaInfo(obj_archivo);
-            console.log('-------------------------------', obj_archivo.insumo.modelo.id);
+            console.log('>>>>', obj_archivo);
             crearTablaInfoKendo(obj_archivo);
             resolve();
         }));
@@ -319,7 +341,7 @@ ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
                     }
                 }, 1000);
             });
-        }, 3000);
+        }, 1000);
     }
 });
 

@@ -1081,131 +1081,111 @@ function crearTablaInfoKendo(objData) {
 		data: objData.filas,
 		autoSync: true
 	};
+	console.log('dataSourceObj',dataSourceObj);
+	try {
+		let dataSource = new kendo.data.DataSource(dataSourceObj);
+		// Valida campos dependientes del algoritmo
+		if (objData.insumo.algDep === true) {
+			let intervalos = 8;
+			if (objData.algoritmo === 'dersmi') {
+				intervalos = 4;
+			} else if (objData.algoritmo === 'dersi') {
+				intervalos = 1;
+			}
+			console.log('>>>> Intervalos', intervalos);
 
-	let dataSource = new kendo.data.DataSource(dataSourceObj);
-	// Valida campos dependientes del algoritmo
-	if (objData.insumo.algDep === true) {
-		let intervalos = 8;
-		if (objData.algoritmo === 'dersmi') {
-			intervalos = 4;
-		} else if (objData.algoritmo === 'dersi') {
-			intervalos = 1;
+			objData.insumo.columnas.forEach((columna) => {
+				if (typeof columna.intervalo === 'number' && columna.intervalo > intervalos) {
+					columna.hidden = true;
+					// console.log('Oculta', columna.field);
+				}
+			});
 		}
-		console.log('>>>> Intervalos', intervalos);
 
-		objData.insumo.columnas.forEach((columna) => {
-			if (typeof columna.intervalo === 'number' && columna.intervalo > intervalos) {
-				columna.hidden = true;
-				// console.log('Oculta', columna.field);
-			}
-		});
-	}
+		// Agrega editor a valores numéricos para validar decimales
+		if (objData.insumo.columnas !== null && typeof objData.insumo.columnas !== 'undefined')  {
+			objData.insumo.columnas.forEach((columna) => {
+				try {
+					let tipo = objData.insumo.modelo.fields[columna.field].type;
 
-	// Agrega editor a valores numéricos para validar decimales
-	if (objData.insumo.columnas !== null && typeof objData.insumo.columnas !== 'undefined')  {
-		objData.insumo.columnas.forEach((columna) => {
-			try {
-				let tipo = objData.insumo.modelo.fields[columna.field].type;
-
-				// Si es numerico
-				if (tipo === 'number') {
-					columna.editor = weightEditor;
+					// Si es numerico
+					if (tipo === 'number') {
+						columna.editor = weightEditor;
+					}
+				} catch (e) {
+					console.log('ERR EDITOR', objData.insumo.modelo.id, e);
 				}
-			} catch (e) {
-				console.log('ERR EDITOR', objData.insumo.modelo.id, e);
-			}
-		});
-	} else {
-		console.log('No trae columnas');
-		// // Si no tiene define columnas las toma de la primera fila del archivo (RESULTADOS)
-		// let fila = objData.filas.shift();
-		// // Define el arreglo de columnas
-		// objData.insumo.columnas = [];
-		// // Define los campos del dataSource
-		// objData.insumo.modelo.fields = {};
-		// console.log('Define columas', objData.insumo.id, fila);
-        //
-		// fila.forEach((col) => {
-		// 	objData.insumo.columnas.push({
-		// 		field: col,
-		// 		sortable: true,
-		// 		filterable: true,
-		// 		width: "10vw"
-		// 	});
-        //
-		// 	objData.insumo.modelo.fields[col] = {
-		// 		type: "string",
-		// 		editable: false,
-		// 		nullable: false
-		// 	};
-		// });
-        //
-		// console.log('Columnas', objData.insumo.columnas, objData.insumo.modelo.fields);
-	}
+			});
+		} else {
+			console.log('No trae columnas');
+		}
 
 
-	// En el objeto del grid inserta las columnas
-	gridTest = $(id).kendoGrid({
-		dataSource: dataSource,
-		columns: objData.insumo.columnas,
-		sortable: {
-			showIndexes: true,
-			mode: "multiple"
-		},
-		filterable: {
-			messages: {
-				and: "Y",
-				or: "O",
-				filter: "Aplicar Filtro",
-				clear: "Limpiar Filtro",
-				info: "Elementos filtrados por"
+		// En el objeto del grid inserta las columnas
+		gridTest = $(id).kendoGrid({
+			dataSource: dataSource,
+			columns: objData.insumo.columnas,
+			sortable: {
+				showIndexes: true,
+				mode: "multiple"
 			},
-			operators: {
-				string: {
-					eq: "Igual que",
-					neq: "Diferente que",
-					startswith: "Comienza con",
-					endswith: "Termina con",
-					contains: "Contiene",
-					doesnotcontains: "No contiene",
-					isnull: "Es nula",
-					isnotnull: "No es nula",
-					isempty: "Está vacía",
-					isnotempty: "No está vacía"
+			filterable: {
+				messages: {
+					and: "Y",
+					or: "O",
+					filter: "Aplicar Filtro",
+					clear: "Limpiar Filtro",
+					info: "Elementos filtrados por"
 				},
-				number: {
-					eq: "Igual que",
-					neq: "Diferente que",
-					gt: "Mayor que",
-					gte: "Mayor o igual que",
-					lt: "Menor que",
-					lte: "Menor o igual que",
-					isnull: "Es nulo",
-					isnotnull: "No es nulo",
+				operators: {
+					string: {
+						eq: "Igual que",
+						neq: "Diferente que",
+						startswith: "Comienza con",
+						endswith: "Termina con",
+						contains: "Contiene",
+						doesnotcontains: "No contiene",
+						isnull: "Es nula",
+						isnotnull: "No es nula",
+						isempty: "Está vacía",
+						isnotempty: "No está vacía"
+					},
+					number: {
+						eq: "Igual que",
+						neq: "Diferente que",
+						gt: "Mayor que",
+						gte: "Mayor o igual que",
+						lt: "Menor que",
+						lte: "Menor o igual que",
+						isnull: "Es nulo",
+						isnotnull: "No es nulo",
+					}
 				}
-			}
-		},
-		scrollable: {endless: true},
-		navigatable: true,
-		pageable: {
-			messages: {
-				display: "Mostrando {0}-{1} de {2} registros",
-				empty: "No hay registros en el archivo"
-			}
-		},
-		reorderable: false,
-		groupable: false,
-		resizable: true,
-		columnMenu: false,
-		editable: true,
-		save: function (e) {
-			console.log(e.sender);
-		},
-		edit: function(e) {
-			var cellValue = e.container.find("input");
-			console.log('Edita', cellValue);
-		},
-	});
+			},
+			scrollable: {endless: true},
+			navigatable: true,
+			pageable: {
+				messages: {
+					display: "Mostrando {0}-{1} de {2} registros",
+					empty: "No hay registros en el archivo"
+				}
+			},
+			reorderable: false,
+			groupable: false,
+			resizable: true,
+			columnMenu: false,
+			editable: true,
+			save: function (e) {
+				console.log(e.sender);
+			},
+			edit: function(e) {
+				var cellValue = e.container.find("input");
+				console.log('Edita', cellValue);
+			},
+		});
+	} catch (e) {
+		console.log(' ERROR >>>', e);
+	}
 
 	let colapso = null;
 	for (let col of colapsos) {
@@ -1224,6 +1204,9 @@ function crearTablaInfoKendo(objData) {
 			colapso.classList.add('vacio');
 		}
     }
+
+	// Colapsa el contenedor
+	colapsar(colapso, 'COLAPSABLE_' + objData.insumo.modelo.id);
 }
 
 function weightEditor(container, options) {

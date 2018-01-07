@@ -21,6 +21,7 @@ module.exports = [
     },
     {
         "nombre":"AUSUBSIS_DERS.csv",
+        "unidades": true,
         "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
@@ -29,7 +30,7 @@ module.exports = [
             "fields": {
                 "numFila": { "type": "number",	"editable": false, "nullable": false },
                 "numero": { "type": "number",	"editable": false, "nullable": false },
-                "nombre": { "type": "string", "editable": false, "nullable": false },
+                "nombreSubsistema": { "type": "string", "editable": false, "nullable": false },
                 "estado": { "type": "number", "editable": false, "nullable": false },
                 "nodoReferencia": { "type": "number", "editable": false, "nullable": false }
             }
@@ -37,7 +38,7 @@ module.exports = [
         "columnas": [
 			{ "field": "numFila", "title": "#", "sortable": true, "filterable": false},
             { "field": "numero", "title": "Número", "sortable": true, "filterable": false},
-			{ "field": "nombre", "title": "Nombre", "sortable": true, "filterable": true},
+			{ "field": "nombreSubsistema", "title": "Nombre", "sortable": true, "filterable": true},
             { "field": "estado", "title": "Estado", "sortable": true, "filterable": false},
             { "field": "nodoReferencia", "title": "Nodo Referencia", "sortable": true, "filterable": true}
 		]
@@ -88,6 +89,7 @@ module.exports = [
     },
     {
         "nombre":"ZONASRES_DERS.csv",
+        "unidades":true,
         "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
@@ -96,14 +98,14 @@ module.exports = [
             "fields": {
                 "numFila": { "type": "number",	"editable": false, "nullable": false },
                 "numero": { "type": "number",	"editable": false, "nullable": false },
-                "nombre": { "type": "string", "editable": false, "nullable": false },
+                "nombreZona": { "type": "string", "editable": false, "nullable": false },
                 "subsistema": { "type": "string", "editable": false, "nullable": false }
             }
         },
         "columnas": [
 			{ "field": "numFila", "title": "#", "sortable": true, "filterable": false},
             { "field": "numero", "title": "Número", "sortable": true, "filterable": false},
-			{ "field": "nombre", "title": "Nombre", "sortable": true, "filterable": true},
+			{ "field": "nombreZona", "title": "Nombre", "sortable": true, "filterable": true},
             { "field": "subsistema", "title": "Subsistema", "sortable": true, "filterable": true}
 		]
     },
@@ -576,7 +578,6 @@ module.exports = [
     {
         "nombre":"ARRARC_DERS.csv",
         "editable": true,
-        "unidades": true,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": false,
@@ -1507,7 +1508,7 @@ module.exports = [
             "id": "UNITRD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "nombre": { "type": "string", "editable": false, "nullable": false },
+                "nombreUnidad": { "type": "string", "editable": false, "nullable": false },
                 "tipo": { "type": "string", "editable": false, "nullable": false },
                 "propiedad": { "type": "string", "editable": false, "nullable": false },
                 "participante": { "type": "string", "editable": false, "nullable": false },
@@ -1522,7 +1523,7 @@ module.exports = [
         },
         "columnas": [
             { "field": "numFila", "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "nombre", "title": "Nombre Unidad", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "nombreUnidad", "title": "Nombre Unidad", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "tipo", "title": "Tipo Unidad", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "propiedad", "title": "Propiedad", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "participante", "title": "Participante", "sortable": true, "filterable": true, "width": "11vw"},
@@ -2717,7 +2718,7 @@ module.exports = [
             "id": "UNIHDERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "nombre": { "type": "string", "editable": true, "nullable": false },
+                "nombreUnidad": { "type": "string", "editable": true, "nullable": false },
                 "tipo": { "type": "string", "editable": true, "nullable": false },
                 "modelo": { "type": "string", "editable": true, "nullable": false },
                 "propiedad": { "type": "string", "editable": true, "nullable": false },
@@ -2727,7 +2728,7 @@ module.exports = [
         },
         "columnas": [
             { "field": "numFila", "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "nombre", "title": "Nombre Unidad", "sortable": true, "filterable": true},
+            { "field": "nombreUnidad", "title": "Nombre Unidad", "sortable": true, "filterable": true},
             { "field": "tipo", "title": "Tipo Unidad", "sortable": true, "filterable": true},
             { "field": "modelo", "title": "Modelo", "sortable": true, "filterable": true},
             { "field": "propiedad", "title": "Propiedad", "sortable": true, "filterable": true},
@@ -3444,7 +3445,7 @@ module.exports = [
             "id": "UNITRE_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "nombre": { "type": "string", "editable": true, "nullable": false },
+                "nombreUnidad": { "type": "string", "editable": true, "nullable": false },
                 "tipo": { "type": "string", "editable": true, "nullable": false },
                 "propiedad": { "type": "string", "editable": true, "nullable": false },
                 "propietario": { "type": "string", "editable": true, "nullable": false },
@@ -3453,7 +3454,7 @@ module.exports = [
         },
         "columnas": [
             { "field": "numFila", "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "nombre", "title": "Nombre Unidad", "sortable": true, "filterable": true},
+            { "field": "nombreUnidad", "title": "Nombre Unidad", "sortable": true, "filterable": true},
             { "field": "tipo", "title": "Tipo Unidad", "sortable": true, "filterable": true},
             { "field": "propiedad", "title": "Propiedad", "sortable": true, "filterable": true},
             { "field": "propietario", "title": "Propietario", "sortable": true, "filterable": true},
@@ -3803,6 +3804,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
+        "origen_zonas": "ZONASRES_DERS.csv",
         "modelo": {
             "id": "RRERO10Z_DERS",
             "fields": {
@@ -3836,6 +3838,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
+        "origen_zonas": "ZONASRES_DERS.csv",
         "modelo": {
             "id": "PRERO10Z_DERS",
             "fields": {
@@ -3869,6 +3872,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
+        "origen_zonas": "ZONASRES_DERS.csv",
         "modelo": {
             "id": "RRE10Z_DERS",
             "fields": {
@@ -3902,6 +3906,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
+        "origen_zonas": "ZONASRES_DERS.csv",
         "modelo": {
             "id": "PRE10Z_DERS",
             "fields": {
@@ -3935,6 +3940,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
+        "origen_zonas": "ZONASRES_DERS.csv",
         "modelo": {
             "id": "RRESUZ_DERS",
             "fields": {
@@ -3968,6 +3974,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
+        "origen_zonas": "ZONASRES_DERS.csv",
         "modelo": {
             "id": "PRE10Z_DERS",
             "fields": {
@@ -4001,6 +4008,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
+        "origen_zonas": "ZONASRES_DERS.csv",
         "modelo": {
             "id": "RRERESEZ_DERS",
             "fields": {
@@ -4034,6 +4042,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
+        "origen_zonas": "ZONASRES_DERS.csv",
         "modelo": {
             "id": "PRERESEZ_DERS",
             "fields": {
@@ -4069,6 +4078,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
+        "origen_subsistemas": "AUSUBSIS_DERS.csv",
         "modelo": {
             "id": "RRERO10S_DERS",
             "fields": {
@@ -4102,6 +4112,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
+        "origen_subsistemas": "AUSUBSIS_DERS.csv",
         "modelo": {
             "id": "PRERO10S_DERS",
             "fields": {
@@ -4135,6 +4146,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
+        "origen_subsistemas": "AUSUBSIS_DERS.csv",
         "modelo": {
             "id": "RRE10S_DERS",
             "fields": {
@@ -4168,6 +4180,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
+        "origen_subsistemas": "AUSUBSIS_DERS.csv",
         "modelo": {
             "id": "PRE10S_DERS",
             "fields": {
@@ -4201,6 +4214,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
+        "origen_subsistemas": "AUSUBSIS_DERS.csv",
         "modelo": {
             "id": "RRESUS_DERS",
             "fields": {
@@ -4234,6 +4248,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
+        "origen_subsistemas": "AUSUBSIS_DERS.csv",
         "modelo": {
             "id": "PRESUS_DERS",
             "fields": {
@@ -4267,6 +4282,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
+        "origen_subsistemas": "AUSUBSIS_DERS.csv",
         "modelo": {
             "id": "RRERESES_DERS",
             "fields": {
@@ -4300,6 +4316,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
+        "origen_subsistemas": "AUSUBSIS_DERS.csv",
         "modelo": {
             "id": "PRERESES_DERS",
             "fields": {
@@ -4994,8 +5011,7 @@ module.exports = [
             { "field": "numFila", "title": "#", "sortable":true, "filterable":false, "width": "3vw"},
             { "field": "bandera", "title": "Bandera", "sortable":true, "filterable":true },
             { "field": "descripcion", "title": "Descripción", "sortable":true, "filterable":true }
-        ],
-        "postProceso": "return '>>' + data"
+        ]
     },
     {
         "nombre":"Archivo.csv",
