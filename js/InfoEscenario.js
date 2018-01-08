@@ -266,6 +266,9 @@ ipcRenderer.on('escenario_completo:leido', (event, obj) => {
     // Desactiva todos los colapsos
     desactivarColapsos();
 
+    // Limpia la lista de celdas modificadas
+    listaFilasColumnas = [];
+
     // Recibe el contenedor
     objEscOriginal = obj;
     objEscOriginal.contador = 0;
@@ -280,21 +283,15 @@ ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
     objEscOriginal.contador++;
 
     // Agrega lista de promesas
-    // setTimeout(() => {
-        promesas_archivos.push(new Promise((resolve, reject) => {
-            // crearTablaInfo(obj_archivo);
-            console.log('>>>>', obj_archivo);
-            crearTablaInfoKendo(obj_archivo);
-            resolve();
-        }));
-    // });
+    promesas_archivos.push(new Promise((resolve, reject) => {
+        // crearTablaInfo(obj_archivo);
+        crearTablaInfoKendo(obj_archivo);
+        resolve();
+    }));
 
     if (objEscOriginal.contador === objEscOriginal.numArchivos) {
         setTimeout(() => {
             Promise.all(promesas_archivos).then(() => {
-                // Oculta todas
-                // colapsarTodas(true);
-
                 // Habilita botones
                 boton_actualizarEscenario.disabled = false;
                 boton_nuevoFolio.disabled = false;
@@ -302,7 +299,6 @@ ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
 
                 banner.ok();
                 banner.setMensaje('Lectura Finalizada');
-
 
                 // Activa boton cargar actual en modificados
                 if (flag_guardandoBD === true) {
@@ -1063,8 +1059,6 @@ function crearTablaInfo(objArchivo, copia) {
     }
 }
 
-let modeloAnterior;
-
 function crearTablaInfoKendo(objData) {
 	// Remueve el contenido anterior
 	// Busca el contenedor
@@ -1084,22 +1078,40 @@ function crearTablaInfoKendo(objData) {
 	// Id de la tabla (nombre del archivo)
 	let id = objData.insumo.modelo.id;
 
+    banner.trabajando();
     banner.setMensaje(`Procesando archivo:<br><font style="color:lightgreen;">${objData.archivo}</font>`);
 
 	if (!id.startsWith('#')) {
 		id = '#' + id;
 	}
 
+    // Determina el tamano de paginacion
+    let page_size = 10;
+    if (typeof objData.insumo.segmentos === 'number' && objData.insumo.segmentos > 0) {
+        page_size = objData.insumo.segmentos;
+
+        // Si es un numero pequeño
+        if (page_size < 5) {
+            page_size *= 3;
+        } else if (page_size < 10) {
+            page_size *= 2;
+        }
+    }
+
 	// Inserta el modelo y los datos en el dataSource
 	let dataSourceObj = {
-		pageSize: 10,
+		pageSize: page_size,
 		schema: {
 			model: objData.insumo.modelo
 		},
 		data: objData.filas,
 		autoSync: true
 	};
-	console.log('dataSourceObj',dataSourceObj);
+
+    // Colapso de la tabla
+	let colapso = colapsos.find((col) => { return col.id === 'COLAPSO_'  + objData.insumo.modelo.id; });
+    console.log(objData.insumo.modelo.id, 'dataSourceObj',dataSourceObj, colapso);
+
 	try {
 		let dataSource = new kendo.data.DataSource(dataSourceObj);
 		// Valida campos dependientes del algoritmo
@@ -1138,9 +1150,8 @@ function crearTablaInfoKendo(objData) {
 			console.log('No trae columnas');
 		}
 
-
 		// En el objeto del grid inserta las columnas
-		gridTest = $(id).kendoGrid({
+        gridsInfo.push($(id).kendoGrid({
 			dataSource: dataSource,
 			columns: objData.insumo.columnas,
 			sortable: {
@@ -1194,54 +1205,50 @@ function crearTablaInfoKendo(objData) {
 			columnMenu: false,
 			editable: true,
 			save: function (e) {
-                console.log('save', e.container[0]);
-                e.container[0].style.backgroundColor = 'orange';
-                // let id = objData.insumo.modelo.id + '_active_cell';
-                //
+                // Confirma la celda modificada
+                let objCelda = listaFilasColumnas.find((obj) => { return obj.id === objData.insumo.modelo.id && obj.fila === ultimaFila && obj.columna === ultimaColumna});
+                if (objCelda) {
+                    objCelda.modificado = true;
+                    // Actualiza las filas
+                    objData.filas = gridsInfo.find((grid) => {return grid[0].id === objData.insumo.modelo.id}).data('kendoGrid').dataSource.data();
+                }
+
+                // Marca el colapso como editado
+                if (colapso) {
+                    for (let nodo of colapso.childNodes) {
+                        if (nodo.nodeName.toLowerCase() === 'span') {
+                            nodo.classList.remove('invisible');
+                            break;
+                        }
+                    }
+                }
+
+                // Resalta las celdas modificadas (todas las tablas)
                 setTimeout(() => {
                     resaltarCeldas();
-                    // let columna = $(`tr[data-uid='${ultimaFila}'] > td:nth-child(${ultimaColumna + 1})`);
-                    // console.log('Columna', columna[0]);
-                    // columna[0].style.backgroundColor = 'orange';
                 }, 10);
 			},
 			edit: function(e) {
-                var cellValue = e.container.find("input")[0];
-                ultimoValorOriginal = cellValue.value;
-                tdPadre = cellValue.parentNode.parentNode.parentNode;
-                tdPadre.classList.add('PRUEBA');
-                console.log('padre', tdPadre);
-
+                // Obtiene el indice de la celda y el uid de la fila
+                let inputCell = e.container.find("input")[0];
+                let tdPadre = inputCell.parentNode.parentNode.parentNode;
                 ultimaColumna = e.container[0].cellIndex;
                 ultimaFila = tdPadre.parentNode.dataset.uid;
-                console.log('Columna', ultimaColumna);
-                console.log('Fila', ultimaFila);
 
-                listaFilasColumnas.push({fila: ultimaFila, columna: ultimaColumna});
-
-                if (typeof cellValue.length === 'number' && cellValue.length > 0) {
-                    // parent1 = span numeric, parent2 = span widget, parent3 = td <-
-                    // cellValue[0].parentNode.parentNode.parentNode.style.backgroundColor = 'orange';
-
+                // los registra en la lista de modificados
+                if (!listaFilasColumnas.find((obj) => { return obj.id === objData.insumo.modelo.id && obj.fila === ultimaFila && obj.columna === ultimaColumna})) {
+                    listaFilasColumnas.push({id: objData.insumo.modelo.id, fila: ultimaFila, columna: ultimaColumna, modificado: false});
                 }
-				// console.log('Edita', cellValue, typeof cellValue);
 			},
-		});
+		}));
 	} catch (e) {
 		console.log(' ERROR >>>', e);
 	}
 
-	let colapso = null;
-	for (let col of colapsos) {
-        if (col.id === ('COLAPSO_' + objData.insumo.modelo.id)) {
-            colapso = col;
-            break;
-        }
-    }
-
     // Habilita su colapso si hubo datos
-    if (colapso !== null) {
+    if (colapso) {
 		colapso.classList.remove('inactivo');
+        // Si no tiene datos, marca como vacio
 		if (objData.filas.length > 0) {
 			colapso.classList.remove('vacio');
 		} else {
@@ -1254,14 +1261,17 @@ function crearTablaInfoKendo(objData) {
 }
 
 function resaltarCeldas() {
+    // Quita los objetos sin modificacion confirmada
+    listaFilasColumnas = listaFilasColumnas.filter((obj) => {return obj.modificado === true});
+    console.log('Filtrando modificados', listaFilasColumnas);
+
     listaFilasColumnas.forEach((obj) => {
         let columna = $(`tr[data-uid='${obj.fila}'] > td:nth-child(${obj.columna + 1})`);
-        console.log('Columna', columna[0]);
-        // columna[0].style.backgroundColor = 'orange';
+        // console.log('Columna', columna[0]);
         columna[0].classList.add('celda-modificada');
 
         let fila = columna[0].parentNode;
-        console.log('Fila', fila);
+        // console.log('Fila', fila);
         fila.classList.add('fila-modificada');
     });
 }
@@ -1296,7 +1306,7 @@ function actualizarResultadoInfo(flag_banner) {
 ipcRenderer.on('escenario_resultados:leido', (event, obj) => {
     console.log('Recibe contenedor de archivos resultado:', obj.lista.length);
 
-    vaciarTablasResultados();
+    // vaciarTablasResultados();
 
     // Recibe el contenedor
     objEscModificado.totalResultados = obj.numArchivos;
@@ -1319,7 +1329,7 @@ ipcRenderer.on('escenario_resultados:archivo_leido', (event, obj_archivo) => {
     // Agrega lista de promesas
     setTimeout(() => {
         promesas_archivos.push(new Promise((resolve, reject) => {
-            crearTablaInfo(obj_archivo);
+            crearTablaInfoKendo(obj_archivo);
             resolve();
         }));
     });
@@ -1381,11 +1391,17 @@ function guardarEscenario(flag_actualizar) {
 
         banner.setMensaje(`Actualizando escenario`);
 
-        objEscOriginal.lista.forEach((archivo) => {
-            if (archivo.editado === true) {
-                listaArchivos.push(archivo);
+        let sublista = [];
+        listaFilasColumnas.forEach((obj) => {
+            if (obj.modificado === true) {
+                if (!sublista.find((item) => { return item === obj.id})) {
+                    sublista.push(obj.id);
+                }
             }
         });
+
+        listaArchivos = objEscOriginal.lista.filter((archivo) => { return sublista.find((item) => {return item === archivo.insumo.modelo.id}) });
+        console.log('listaArchivos', listaArchivos);
     }
 
     console.log('folio',folio);
@@ -1442,27 +1458,11 @@ ipcRenderer.on('escenario_original:copiado', (event, res) => {
         objEscModificado.folio = res.folio;
         objEscModificado.ruta = res.ruta;
 
-        // Desmarca el escenario original
-
-        // Primero las celdas
-        objEscOriginal.lista.forEach((archivo) => {
-            if (typeof archivo.editado !== 'undefined' && archivo.editado === true) {
-                archivo.filas.forEach((fila) => {
-                    fila.forEach((objDato) => {
-                        objDato.valorOriginal = objDato.valor;
-                        objDato.input.classList.remove('modificado');
-                    });
-                });
-                archivo.editado = false;
-            }
+        // Desmarca modificaciones
+        listaFilasColumnas.forEach((obj) => {
+            $(`tr[data-uid='${obj.fila}']`).removeClass('fila-modificada');
+            $('td.celda-modificada').removeClass('celda-modificada');
         });
-
-        // Luego las filas
-        tr_modificados.forEach((fila_tr) => {
-            fila_tr.classList.remove('modificado');
-        });
-        // Vacia la lista
-        tr_modificados = [];
 
         // Quita asteriscos de cambios
         for (let col of colapsos) {

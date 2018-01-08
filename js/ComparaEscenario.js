@@ -419,6 +419,7 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
             }
         }
     } else if (obj.opc === 'INFO_COSTOS') {
+        console.log('Procesando INFO_COSTOS');
         let arg_islas = obj.res.replace(new RegExp('=?', 'g'), '').split('Isla :');
         let datos_costos;
         try {
@@ -467,50 +468,77 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
             }
         });
 
-        for (let col of colapsos) {
-            if (col.id ==='col_info_datos_costos') {
-                // Busca el icono para mostrarlo
-                for (let nodo of col.childNodes) {
-                    if (nodo.nodeName.toLowerCase() === 'span') {
-                        nodo.classList.remove('invisible');
-                        console.log('muestra icono', nodo.classList.contains('invisible'));
-                    }
-                }
+        let colapso = colapsos.find((col) => { return col.id === 'COLAPSO_r_desphora1'});
+        let colapsable = $('#COLAPSABLE_r_desphora1');
 
-                // Quita la clase inactivo
-                col.classList.remove('inactivo');
-                // Busca la tabla
-                let tabla_encontrada;
-                for (let tabla of tablas_info) {
-                    if (tabla.id === 'DATOS_COSTOS') {
-                        // Borra el tbody anterior
-                        if (typeof tabla.tbody !== "undefined" && tabla.tbody !== null) {
-                            try {
-                                tabla.removeChild(tabla.tbody);
-                            } catch (e) {}
-                        }
-                        // Crea el tbody
-                        tabla.tbody = document.createElement('tbody');
-                        tabla.tbody.classList.add('tabla-body');
-                        tabla.appendChild(tabla.tbody);
-
-                        tabla.filas = [];
-
-                        crearFilaCosto(tabla, 'Costo Total', objEscOriginal.costo_total);
-                        crearFilaCosto(tabla, 'Costo Generación', objEscOriginal.costo_gen);
-                        crearFilaCosto(tabla, 'Costo Generación RD', objEscOriginal.costo_gen_rd);
-                        crearFilaCosto(tabla, 'Costo Generación RC', objEscOriginal.costo_gen_rc);
-                        crearFilaCosto(tabla, 'Beneficio Social', objEscOriginal.beneficio_social);
-                        crearFilaCosto(tabla, 'Costo Arranque', objEscOriginal.costo_arranque);
-                        crearFilaCosto(tabla, 'Costo Reservas', objEscOriginal.costo_reservas);
-                        crearFilaCosto(tabla, 'Ingreso Total', objEscOriginal.ingreso_total);
-                        crearFilaCosto(tabla, 'Ingreso Demanda', objEscOriginal.ingreso_demanda);
-                        crearFilaCosto(tabla, 'Ingreso Reservas', objEscOriginal.ingreso_reservas);
-
-                        tabla_encontrada = tabla;
-                    }
+        if (typeof colapso !== 'undefined' && typeof colapsable !== 'undefined') {
+            // Busca el icono para mostrarlo
+            for (let nodo of colapso.childNodes) {
+                if (nodo.nodeName.toLowerCase() === 'span') {
+                    nodo.classList.remove('invisible');
+                    console.log('muestra icono', nodo.classList.contains('invisible'));
                 }
             }
+
+            // Quita la clase inactivo
+            colapso.classList.remove('inactivo');
+
+            // Vacia su contenido
+        	colapsable.html('');
+        	// Inserta una nueva tabla
+        	let nueva_tabla = document.createElement('table');
+        	nueva_tabla.classList.add('table');
+        	nueva_tabla.classList.add('table-sm');
+        	nueva_tabla.classList.add('table-striped');
+        	nueva_tabla.id = 'r_desphora1';
+        	// Inserta la nueva tabla
+        	colapsable.append(nueva_tabla);
+
+            let dataSourceObj = {
+        		schema: {
+        			model: {
+                        id: "r_desphora1",
+                        fields: {
+                            campo: { type: "string", editable: false, nullable: false },
+                            valor: { type: "number", editable: false, nullable: false }
+                        },
+                    },
+        		},
+        		data: [
+                    { campo: 'Costo Total', valor: objEscOriginal.costo_total},
+                    { campo: 'Costo Generación', valor: objEscOriginal.costo_gen},
+                    { campo: 'Costo Generación RD', valor: objEscOriginal.costo_gen_rd},
+                    { campo: 'Costo Generación RC', valor: objEscOriginal.costo_gen_rc},
+                    { campo: 'Beneficio Social', valor: objEscOriginal.beneficio_social},
+                    { campo: 'Costo Arranque', valor: objEscOriginal.costo_arranque},
+                    { campo: 'Costo Reservas', valor: objEscOriginal.costo_reservas},
+                    { campo: 'Ingreso Total', valor: objEscOriginal.ingreso_total},
+                    { campo: 'Ingreso Demanda', valor: objEscOriginal.ingreso_demanda},
+                    { campo: 'Ingreso Reservas', valor: objEscOriginal.ingreso_reservas},
+                ],
+        		autoSync: true
+        	};
+
+            console.log('dataSourceObj', dataSourceObj);
+            let dataSource = new kendo.data.DataSource(dataSourceObj);
+
+            $('#r_desphora1').kendoGrid({
+    			dataSource: dataSource,
+    			columns: [
+                    { field: "campo", title: "Concepto", sortable: false, filterable: false},
+                    { field: "valor", format: "{0:c2}", title: "Valor", sortable: false, filterable: false}
+                ],
+    			sortable: false,
+    			filterable: false,
+    			scrollable: true,
+    			navigatable: true,
+    			pageable: false,
+    			reorderable: false,
+    			groupable: false,
+    			resizable: true,
+    			columnMenu: false,
+    			editable: false
+    		});
         }
     }  else if (obj.opc === 'MOD_COSTOS') {
         let arg_islas = obj.res.replace(new RegExp('=?', 'g'), '').split('Isla :');

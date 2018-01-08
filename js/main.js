@@ -662,9 +662,15 @@ ipcMain.on('algoritmo:descarga', (event, ruta_escenario, algoritmo, evento) => {
             }
         }, (err) => {
             console.log('Error', err);
+            console.log('No se encontro una fecha de algoritmo valida');
+            win.webContents.send(evento, {estado:false, error:'No se encuentró un algoritmo para el escenario'});
+            ftp.desconectar();
         });
     }, () => {
         console.log('Error conectando');
+        console.log('No se encontro una fecha de algoritmo valida');
+        win.webContents.send(evento, {estado:false, error:'No se encuentró un algoritmo para el escenario'});
+        ftp.desconectar();
     });
 });
 
@@ -768,7 +774,7 @@ ipcMain.on('escenario_completo:leer', (event, ruta_escenario, algoritmo, folio) 
 });
 
 ipcMain.on('escenario_resultados:leer', (event, ruta_escenario, algoritmo) => {
-    escenario.parseEscenario(ruta_escenario, algoritmo, 'RESULTADOS').then((obj) => {
+    escenario.parseEscenarioNew(ruta_escenario, algoritmo, 'RESULTADOS').then((obj) => {
         let objetoEntradas = {
             ruta: obj.ruta,
             algoritmo: obj.algoritmo,
@@ -957,29 +963,28 @@ function modificarArchivo(ruta, obj) {
         // Abre
         try {
             let cadena = '';
-            obj.filas.forEach((fila) => {
+            // Las filas vienen como campos, no como arreglo -.-
+            for (let i = 0; i < obj.filas.length; i++) {
+                let fila = obj.filas[`${i}`];
                 let linea = '';
-                for (let i = 0; i < fila.length; i++) {
-                    let columna = fila[i];
+                // Recorre las columnas del insumo para seguir el orden
+                obj.insumo.columnas.forEach((col) => {
+                    // Solo procesa columnas no virtuales, no ocultas
+                    if (col.virtual !== true && col.hidden !== true) {
+                        if (obj.insumo.modelo.fields[col.field].type === 'string') {
+                            linea += `\"${(fila[col.field] === '' ? ' ' : fila[col.field])}\",`;
+                        } else if (obj.insumo.modelo.fields[col.field].type === 'number') {
+                            linea += `${fila[col.field]},`;
+                        }
+                    }
+                });
 
-                    // Columna de unidades se ignora
-                    if (typeof columna.flag_unidad !== 'undefined' && columna.flag_unidad === true) {
-                        continue;
-                    }
-                    // Si es string agrega comillas
-                    if (columna.tipo === 'string') {
-                        linea += `\"${(columna.valor === '' ? ' ' : columna.valor)}\"`;
-                    } else {
-                        linea += `${columna.valor}`;
-                    }
+                // Quita la ultima coma
+                linea = linea.slice(0, linea.length - 1);
 
-                    // coma
-                    if (i < (fila.length - 1)) {
-                        linea += ',';
-                    }
-                }
+                // Agrega a la cadena del archivo con un salto de linea
                 cadena += `${linea}\n`;
-            });
+            };
 
             // Escribe los datos
             fs.writeFile(ruta, cadena, (err) => {

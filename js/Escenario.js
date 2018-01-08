@@ -21,17 +21,12 @@ class Escenario {
         this.insumosUnidades = this.insumos.filter((archivo) => {
             return archivo.unidades === true;
         });
-        // Segmentados
-        this.insumosSegmentos = this.insumos.filter((archivo) => {
-            return typeof archivo.segmentos === 'number';
-        });
 
         this.listaObjUnidades = [];
 
         console.log('Entradas', this.insumosEntradas.length);
         console.log('Resultados', this.insumosResultados.length);
         console.log('Unidades', this.insumosUnidades.length);
-        console.log('Segmentos', this.insumosSegmentos.length);
 
         this.unidades_ref = [];
         this.unidades_obj = [];
@@ -209,7 +204,7 @@ class Escenario {
                             continue;
                         }
                     } else if (filtro === 'RESULTADOS') {
-                        if (this.insumosResultados.find((archivo) => {
+                        if (!this.insumosResultados.find((archivo) => {
                             return archivo.nombre === files[i];
                         })) {
                             continue;
@@ -249,7 +244,7 @@ class Escenario {
                         console.log('>>>> FALLA');
                         reject();
                     });
-                }, to + 100);
+                }, ruta_escenario.includes('SIN') ? to + 3000 : to + 100);
             });
         });
     }
@@ -430,6 +425,7 @@ class Escenario {
         let ultimo_ciclo = -1;
         let n = 0;
 
+        console.log('Validando DERS_MI_TOTALES_AREA');
         objDatos.filas.forEach((fila) => {
             // Si la fila incluye cabecera indica un nuevo ciclo
             if (fila.Intervalo.trim() === 'Intervalo') {
@@ -444,15 +440,15 @@ class Escenario {
 
         // Si hay más de 1 ciclo, conserva el último
         console.log('>>>>> Eliminando', ultimo_ciclo, 'registros, hay', objDatos.numFilas);
-        if (cont_ciclos > 1) {
-            for (let i = 0; i < ultimo_ciclo; i++) {
+        if (cont_ciclos >= 1) {
+            for (let i = 0; i <= ultimo_ciclo; i++) {
                 objDatos.filas.shift();
             }
 
             let num_fila = 1;
             // Arregla los # fila
             objDatos.filas.forEach((fila) => {
-                fila.numFila == num_fila++;
+                fila.numFila = num_fila++;
             });
 
             // IGuala el numero de filas
@@ -488,7 +484,8 @@ class Escenario {
                 title: 'Nombre Unidad',
                 sortable: true,
                 filterable: true,
-                width: "10vw"
+                width: "10vw",
+                virtual: true
             });
 
             // Agrega los datos
@@ -505,10 +502,17 @@ class Escenario {
                 }
             } else {
                 console.log('U> Validando unidades', objDatos.insumo.nombre);
-                for (let i = 0; i < objDatos.filas.length; i++) {
-                    objDatos.filas[i].nombreUnidad = objDatosUnidades.filas[i].nombreUnidad;
+
+                try {
+                    for (let i = 0; i < objDatos.filas.length; i++) {
+                        objDatos.filas[i].nombreUnidad = objDatosUnidades.filas[i].nombreUnidad;
+                    }
+                } catch (e) {
+                    console.log(e);
                 }
+
             }
+
         }
     }
 
@@ -539,7 +543,8 @@ class Escenario {
                 title: 'Nombre Zona',
                 sortable: true,
                 filterable: true,
-                width: "10vw"
+                width: "10vw",
+                virtual: true
             });
 
             // Agrega los datos de las zonas
@@ -587,7 +592,8 @@ class Escenario {
                 title: 'Nombre Subsistema',
                 sortable: true,
                 filterable: true,
-                width: "10vw"
+                width: "10vw",
+                virtual: true
             });
 
             // Agrega los datos de las zonas
@@ -689,7 +695,10 @@ class Escenario {
                     fila.forEach((valor) => {
                         if (valor !== 'IGNORAR') {
                             let dato = {
-                                valor: valor.replace(new RegExp('\\"' , 'g'), '').trim(),
+                                // Remueve comillas, nulos y retrocesos
+                                valor: valor.replace(new RegExp('\\"', 'g'), '')
+                                            .replace(new RegExp("\u0000", 'g'), '')
+                                            .replace(new RegExp("\\u0000", 'g'), '').trim(),
                                 editado: false,
                             };
 
@@ -731,7 +740,8 @@ class Escenario {
                             title: '#',
                             sortable: true,
                             filterable: false,
-                            width: "3vw"
+                            width: "3vw",
+                            virtual: true
                         });
 
                         objInsumo.modelo.fields['numFila'] = {
@@ -779,13 +789,21 @@ class Escenario {
                             // Verifica que no haya más datos debidos en la fila
                             if (i < filaObj.length && typeof objInsumo !== 'undefined' && typeof objInsumo.modelo !== 'undefined') {
                                 try {
+                                    // console.log(filaObj);
                                     let tipo = objInsumo.modelo.fields[columna.field].type;
+                                    // console.log('filaObj[i].valor:', filaObj[i].valor, filaObj[i].valor.length, filaObj[i].valor.charCodeAt(0), '<');
 
-                                    cadenaJSON += `"${columna.field}": ${tipo === 'string' ? `"${filaObj[i].valor}"`: filaObj[i].valor} `;
-                                    // Si es el ultimo valor no agrega coma
-                                    if (i < (objInsumo.columnas.length - 1) && i < (filaObj.length - 1)) {
-                                        cadenaJSON += ',';
+                                    // Si es número y el campo no trae nada, se omite
+                                    if (tipo === 'number' && filaObj[i].valor === '') {
+                                        // El campo no se incluye
+                                    } else {
+                                        cadenaJSON += `"${columna.field}": ${tipo === 'string' ? `"${filaObj[i].valor}"`: filaObj[i].valor} `;
+                                        // Si es el ultimo valor no agrega coma
+                                        if (i < (objInsumo.columnas.length - 1) && i < (filaObj.length - 1)) {
+                                            cadenaJSON += ',';
+                                        }
                                     }
+
                                 } catch (e) {
                                     console.log('Excepcion agregando datos',columna.field, e);
                                     console.log(objInsumo.modelo.fields);
@@ -794,8 +812,13 @@ class Escenario {
                             }
                         }
                         cadenaJSON += '}';
-                        // console.log('JSON > ', cadenaJSON);
-                        filas.push(JSON.parse(cadenaJSON));
+                        try {
+                            filas.push(JSON.parse(cadenaJSON));
+                        } catch (e) {
+                            console.log('Excepcion JSON > ', cadenaJSON, e);
+                            throw e;
+                        }
+
                     }
                 }
             });
