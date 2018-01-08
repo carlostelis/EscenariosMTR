@@ -1063,6 +1063,217 @@ function crearTablaInfo(objArchivo, copia) {
     }
 }
 
+let modeloAnterior;
+
+function crearTablaInfoKendo(objData) {
+	// Remueve el contenido anterior
+	// Busca el contenedor
+	let id_cont = '#COLAPSABLE_' + objData.insumo.modelo.id;
+	let contenedor = $(id_cont);
+	// Vacia su contenido
+	contenedor.html('');
+	// Inserta una nueva tabla
+	let nueva_tabla = document.createElement('table');
+	nueva_tabla.classList.add('table');
+	nueva_tabla.classList.add('table-sm');
+	nueva_tabla.classList.add('table-striped');
+	nueva_tabla.id = objData.insumo.modelo.id;
+	// Inserta la nueva tabla
+	contenedor.append(nueva_tabla);
+
+	// Id de la tabla (nombre del archivo)
+	let id = objData.insumo.modelo.id;
+
+    banner.setMensaje(`Procesando archivo:<br><font style="color:lightgreen;">${objData.archivo}</font>`);
+
+	if (!id.startsWith('#')) {
+		id = '#' + id;
+	}
+
+	// Inserta el modelo y los datos en el dataSource
+	let dataSourceObj = {
+		pageSize: 10,
+		schema: {
+			model: objData.insumo.modelo
+		},
+		data: objData.filas,
+		autoSync: true
+	};
+	console.log('dataSourceObj',dataSourceObj);
+	try {
+		let dataSource = new kendo.data.DataSource(dataSourceObj);
+		// Valida campos dependientes del algoritmo
+		if (objData.insumo.algDep === true) {
+			let intervalos = 8;
+			if (objData.algoritmo === 'dersmi') {
+				intervalos = 4;
+			} else if (objData.algoritmo === 'dersi') {
+				intervalos = 1;
+			}
+			console.log('>>>> Intervalos', intervalos);
+
+			objData.insumo.columnas.forEach((columna) => {
+				if (typeof columna.intervalo === 'number' && columna.intervalo > intervalos) {
+					columna.hidden = true;
+					// console.log('Oculta', columna.field);
+				}
+			});
+		}
+
+		// Agrega editor a valores numéricos para validar decimales
+		if (objData.insumo.columnas !== null && typeof objData.insumo.columnas !== 'undefined')  {
+			objData.insumo.columnas.forEach((columna) => {
+				try {
+					let tipo = objData.insumo.modelo.fields[columna.field].type;
+
+					// Si es numerico
+					if (tipo === 'number') {
+						columna.editor = weightEditor;
+					}
+				} catch (e) {
+					console.log('ERR EDITOR', objData.insumo.modelo.id, e);
+				}
+			});
+		} else {
+			console.log('No trae columnas');
+		}
+
+
+		// En el objeto del grid inserta las columnas
+		gridTest = $(id).kendoGrid({
+			dataSource: dataSource,
+			columns: objData.insumo.columnas,
+			sortable: {
+				showIndexes: true,
+				mode: "multiple"
+			},
+			filterable: {
+				messages: {
+					and: "Y",
+					or: "O",
+					filter: "Aplicar Filtro",
+					clear: "Limpiar Filtro",
+					info: "Elementos filtrados por"
+				},
+				operators: {
+					string: {
+						eq: "Igual que",
+						neq: "Diferente que",
+						startswith: "Comienza con",
+						endswith: "Termina con",
+						contains: "Contiene",
+						doesnotcontains: "No contiene",
+						isnull: "Es nula",
+						isnotnull: "No es nula",
+						isempty: "Está vacía",
+						isnotempty: "No está vacía"
+					},
+					number: {
+						eq: "Igual que",
+						neq: "Diferente que",
+						gt: "Mayor que",
+						gte: "Mayor o igual que",
+						lt: "Menor que",
+						lte: "Menor o igual que",
+						isnull: "Es nulo",
+						isnotnull: "No es nulo",
+					}
+				}
+			},
+			scrollable: {endless: true},
+			navigatable: true,
+			pageable: {
+				messages: {
+					display: "Mostrando {0}-{1} de {2} registros",
+					empty: "No hay registros en el archivo"
+				}
+			},
+			reorderable: false,
+			groupable: false,
+			resizable: true,
+			columnMenu: false,
+			editable: true,
+			save: function (e) {
+                console.log('save', e.container[0]);
+                e.container[0].style.backgroundColor = 'orange';
+                // let id = objData.insumo.modelo.id + '_active_cell';
+                //
+                setTimeout(() => {
+                    resaltarCeldas();
+                    // let columna = $(`tr[data-uid='${ultimaFila}'] > td:nth-child(${ultimaColumna + 1})`);
+                    // console.log('Columna', columna[0]);
+                    // columna[0].style.backgroundColor = 'orange';
+                }, 10);
+			},
+			edit: function(e) {
+                var cellValue = e.container.find("input")[0];
+                ultimoValorOriginal = cellValue.value;
+                tdPadre = cellValue.parentNode.parentNode.parentNode;
+                tdPadre.classList.add('PRUEBA');
+                console.log('padre', tdPadre);
+
+                ultimaColumna = e.container[0].cellIndex;
+                ultimaFila = tdPadre.parentNode.dataset.uid;
+                console.log('Columna', ultimaColumna);
+                console.log('Fila', ultimaFila);
+
+                listaFilasColumnas.push({fila: ultimaFila, columna: ultimaColumna});
+
+                if (typeof cellValue.length === 'number' && cellValue.length > 0) {
+                    // parent1 = span numeric, parent2 = span widget, parent3 = td <-
+                    // cellValue[0].parentNode.parentNode.parentNode.style.backgroundColor = 'orange';
+
+                }
+				// console.log('Edita', cellValue, typeof cellValue);
+			},
+		});
+	} catch (e) {
+		console.log(' ERROR >>>', e);
+	}
+
+	let colapso = null;
+	for (let col of colapsos) {
+        if (col.id === ('COLAPSO_' + objData.insumo.modelo.id)) {
+            colapso = col;
+            break;
+        }
+    }
+
+    // Habilita su colapso si hubo datos
+    if (colapso !== null) {
+		colapso.classList.remove('inactivo');
+		if (objData.filas.length > 0) {
+			colapso.classList.remove('vacio');
+		} else {
+			colapso.classList.add('vacio');
+		}
+    }
+
+	// Colapsa el contenedor
+	colapsar(colapso, 'COLAPSABLE_' + objData.insumo.modelo.id);
+}
+
+function resaltarCeldas() {
+    listaFilasColumnas.forEach((obj) => {
+        let columna = $(`tr[data-uid='${obj.fila}'] > td:nth-child(${obj.columna + 1})`);
+        console.log('Columna', columna[0]);
+        // columna[0].style.backgroundColor = 'orange';
+        columna[0].classList.add('celda-modificada');
+
+        let fila = columna[0].parentNode;
+        console.log('Fila', fila);
+        fila.classList.add('fila-modificada');
+    });
+}
+
+function weightEditor(container, options) {
+    $('<input name="' + options.field + '"/>')
+     .appendTo(container)
+     .kendoNumericTextBox({
+         decimals: 3,
+     })
+};
+
 function actualizarResultadoInfo(flag_banner) {
     if (objEscModificado.resActualizados === true) {
         console.log();

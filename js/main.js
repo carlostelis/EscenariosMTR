@@ -165,24 +165,6 @@ app.on('ready', () => {
     if (process.env.NODE_ENV !== 'production') {
         win.toggleDevTools();
     }
-
-    console.log('listo');
-
-    // winAdmin = new BrowserWindow({
-    //     width: 1024,
-    //     height: 768,
-    //     minWidth: 1024,
-    //     minHeight: 768,
-    //     webPreferences: {
-    //         devTools: true
-    //     }
-    // });
-    //
-    // winAdmin.loadURL(`file://${__dirname}/../html/administracion.html`);
-    // setTimeout(() => {
-    //     winAdmin.setTitle(`Analizador de Escenarios del MTR`);
-    //     winAdmin.show();
-    // }, 5000);
 });
 
 // Función para finalizar, se invoca al cerrar la ventana y al cerrar sesion
@@ -475,7 +457,6 @@ ipcMain.on('directorio:descarga', (event, data) => {
 
                                 console.log('Manda descarga');
                                 ftp.descargarArchivoFTP(obj).then(() => {
-                                    console.log('listo');
                                     clearInterval(interval);
                                     win.webContents.send('directorio:progreso', {progreso:100, mensaje:`Descargando archivo comprimido de escenarios: <br><font style="color:lightgreen;">${archivoTar}</font>`});
 

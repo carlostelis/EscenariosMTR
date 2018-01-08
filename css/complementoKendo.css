@@ -124,3 +124,23 @@ li > span.k-state-selected {
 .k-pager-wrap .k-pager-info {
     font-size: 0.9vw;
 }
+
+/* Celda modificada */
+.celda-modificada {
+    background-color: darksalmon;
+    text-shadow: 0px 0px 1px;
+}
+
+/* Celdas sin modificar */
+.table.table-sm.table-striped td {
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 1px;
+}
+
+/* Celdas en modificada */
+.fila-modificada td {
+    border-style: dashed !important;
+    border-color: darksalmon !important;
+    border-width: 1px;
+}
