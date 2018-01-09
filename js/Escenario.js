@@ -377,6 +377,19 @@ class Escenario {
                         // Genera una copia del objeto de insumo
                         datosArchivo.insumo = JSON.parse(JSON.stringify(archivoObj));
 
+
+                        if (datosArchivo.archivo.startsWith('ARRARC_DERS')) {
+                            console.log('Validacion ARRARC_DERS');
+                            datosArchivo.insumo.modelo.fields.potSinc.validation = {
+                                required: true,
+                                potsincvalidation: function (input) {
+                                    console.log('validando', input.val());
+                                    return input.val() >= 0 && input.val() <= 24;
+                                }
+                            }
+                        }
+
+
                         break;
                     }
                 }

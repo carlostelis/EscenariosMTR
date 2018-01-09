@@ -551,7 +551,7 @@ class Comandos {
 
     ejecutarExecFile(comando, params) {
         return new Promise((resolve, reject) => {
-            const jar = execFile(comando, params, {timeout: 5000}, (error, stdout, stderr) => {
+            const jar = execFile(comando, params, {timeout: 10000}, (error, stdout, stderr) => {
                 if (error) {
                     reject({estado:false, data:error.message});
                 }

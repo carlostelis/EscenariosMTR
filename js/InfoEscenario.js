@@ -1100,6 +1100,7 @@ function crearTablaInfoKendo(objData) {
 
 	// Inserta el modelo y los datos en el dataSource
 	let dataSourceObj = {
+        // batch: true,
 		pageSize: page_size,
 		schema: {
 			model: objData.insumo.modelo
@@ -1116,16 +1117,16 @@ function crearTablaInfoKendo(objData) {
 		let dataSource = new kendo.data.DataSource(dataSourceObj);
 		// Valida campos dependientes del algoritmo
 		if (objData.insumo.algDep === true) {
-			let intervalos = 8;
+			let periodos = 8;
 			if (objData.algoritmo === 'dersmi') {
-				intervalos = 4;
+				periodos = 4;
 			} else if (objData.algoritmo === 'dersi') {
-				intervalos = 1;
+				periodos = 1;
 			}
-			console.log('>>>> Intervalos', intervalos);
+			console.log('>>>> Periodos', periodos);
 
 			objData.insumo.columnas.forEach((columna) => {
-				if (typeof columna.intervalo === 'number' && columna.intervalo > intervalos) {
+				if (typeof columna.periodo === 'number' && columna.periodo > periodos) {
 					columna.hidden = true;
 					// console.log('Oculta', columna.field);
 				}
@@ -1136,11 +1137,29 @@ function crearTablaInfoKendo(objData) {
 		if (objData.insumo.columnas !== null && typeof objData.insumo.columnas !== 'undefined')  {
 			objData.insumo.columnas.forEach((columna) => {
 				try {
-					let tipo = objData.insumo.modelo.fields[columna.field].type;
+					let campo = objData.insumo.modelo.fields[columna.field];
 
-					// Si es numerico
-					if (tipo === 'number') {
-						columna.editor = weightEditor;
+					// Si es numerico crea un editor para validacion
+					if (campo.type === 'number') {
+                        if (typeof campo.validation !== 'undefined') {
+                            console.log('Aplicando editor personalizado:', campo.validation);
+                            columna.editor = function (container, options) {
+                                $('<input name="' + options.field + '"/>')
+                                 .appendTo(container)
+                                 .kendoNumericTextBox(campo.validation)
+                            };
+                        } else {
+                            console.log('Aplicando editor basico');
+                            columna.editor = function (container, options) {
+                                $('<input name="' + options.field + '"/>')
+                                 .appendTo(container)
+                                 .kendoNumericTextBox({
+                                     decimals: 2,
+                                     format: 'n',
+                                     round: false
+                                 })
+                            };
+                        }
 					}
 				} catch (e) {
 					console.log('ERR EDITOR', objData.insumo.modelo.id, e);
@@ -1208,6 +1227,7 @@ function crearTablaInfoKendo(objData) {
                 // Confirma la celda modificada
                 let objCelda = listaFilasColumnas.find((obj) => { return obj.id === objData.insumo.modelo.id && obj.fila === ultimaFila && obj.columna === ultimaColumna});
                 if (objCelda) {
+                    console.log('Celda modificada');
                     objCelda.modificado = true;
                     // Actualiza las filas
                     objData.filas = gridsInfo.find((grid) => {return grid[0].id === objData.insumo.modelo.id}).data('kendoGrid').dataSource.data();
@@ -1224,9 +1244,11 @@ function crearTablaInfoKendo(objData) {
                 }
 
                 // Resalta las celdas modificadas (todas las tablas)
+                // Usa un timeout porque el grid genera nuevos elementos al actualizar
+                // El timeout asegura que se tomen los nuevos elementos insertados
                 setTimeout(() => {
                     resaltarCeldas();
-                }, 10);
+                }, 100);
 			},
 			edit: function(e) {
                 // Obtiene el indice de la celda y el uid de la fila
@@ -1275,14 +1297,6 @@ function resaltarCeldas() {
         fila.classList.add('fila-modificada');
     });
 }
-
-function weightEditor(container, options) {
-    $('<input name="' + options.field + '"/>')
-     .appendTo(container)
-     .kendoNumericTextBox({
-         decimals: 3,
-     })
-};
 
 function actualizarResultadoInfo(flag_banner) {
     if (objEscModificado.resActualizados === true) {
@@ -1391,6 +1405,7 @@ function guardarEscenario(flag_actualizar) {
 
         banner.setMensaje(`Actualizando escenario`);
 
+        // Sublista para obtener los id de los archivos
         let sublista = [];
         listaFilasColumnas.forEach((obj) => {
             if (obj.modificado === true) {
@@ -1463,6 +1478,8 @@ ipcRenderer.on('escenario_original:copiado', (event, res) => {
             $(`tr[data-uid='${obj.fila}']`).removeClass('fila-modificada');
             $('td.celda-modificada').removeClass('celda-modificada');
         });
+        // Borra la lista de filas/columnas
+        listaFilasColumnas = [];
 
         // Quita asteriscos de cambios
         for (let col of colapsos) {
