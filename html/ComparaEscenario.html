@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- <link rel="stylesheet" href="../css/ComparaEscenario.css" type="text/css"/> -->
-    </head>
+    <head></head>
     <body>
         <div class="container-fluid" style="height:100%; margin-top:-0.5vh;">
             <div class="row subseccion" style="height:7%; margin-bottom:1vh;">
@@ -25,7 +23,7 @@
                             <label id="label_idResA" style="color:darkred;">Escenario: ---</label>
 
                             <!-- DATOS DE COSTOS -->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DATOS_COSTOS');" id="col_datos_costos">
+                            <!-- <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DATOS_COSTOS');" id="col_datos_costos">
                                 <span class="span-costos"><i class="demo-icon  icon-money-1"></i></span>
                                 <div class="col"><span id="ARCH-DATOS_COSTOS" class="span-archivo-res">r_desphora1.csv</span>COSTOS E INGRESOS<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
@@ -36,251 +34,345 @@
                                         </thead>
                                     </table>
                                 </div>
+                            </div> -->
+
+                            <!-- DATOS DE COSTOS -->
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_r_desphora1');" id="COLAPSO_r_desphora1">
+                                <span class="span-costos"><i class="demo-icon icon-money-1"></i></span>
+                                <div class="col"><span class="span-archivo">r_desphora1.csv</span>COSTOS E INGRESOS<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_r_desphora1"></div>
 
                             <!-- RESUMEN DE RESULTADOS GLOBALES -->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DERS_I_TOTALES_');" id="col_res_global_i">
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DERS_I_TOTALES_1');" id="COLAPSO_DERS_I_TOTALES_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DERS_I_TOTALES_" class="span-archivo-res">ARCHIVO.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DERS_I_TOTALES_1.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-DERS_I_TOTALES_" id="res_global_i">
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DERS_I_TOTALES_ A" id="DERS_I_TOTALES_$" data-contenedor="res_global_i" data-colapso="col_res_global_i">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DERS_I_TOTALES_1"></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DERS_I_TOTALES_SIN');" id="COLAPSO_DERS_I_TOTALES_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DERS_I_TOTALES_SIN.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DERS_I_TOTALES_SIN"></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DERS_I_TOTALES_BCA');" id="COLAPSO_DERS_I_TOTALES_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DERS_I_TOTALES_BCA.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DERS_I_TOTALES_BCA"></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DERS_I_TOTALES_BCS');" id="COLAPSO_DERS_I_TOTALES_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DERS_I_TOTALES_BCS.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DERS_I_TOTALES_BCS"></div>
 
                             <!-- RESUMEN DE RESULTADOS GLOBALES -->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DERS_MI_TOTALES_AREA');" id="col_res_global_mi">
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DERS_MI_TOTALES_AREA');" id="COLAPSO_DERS_MI_TOTALES_AREA">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DERS_MI_TOTALES_AREA" class="span-archivo-res">ARCHIVO.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DERS_MI_TOTALES_AREA.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-DERS_MI_TOTALES_AREA" id="res_global_mi">
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DERS_MI_TOTALES_AREA A" id="DERS_MI_TOTALES_AREA" data-contenedor="res_global_mi" data-colapso="col_res_global_mi">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DERS_MI_TOTALES_AREA"></div>
 
                             <!-- FALTA PRECIOS POR ZONAS DE CARGA  -->
 
                             <!-- Resultado de Reservas del CENACE por Zona -->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_ZONAS_RESERVA_');" id="col_res_reeservas_zona">
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_ZONAS_RESERVA_1');" id="COLAPSO_DTR_ZONAS_RESERVA_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_ZONAS_RESERVA_" class="span-archivo-res">ARCHIVO.csv</span>Resultado de Reservas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_ZONAS_RESERVA_1.csv</span>Resultado de Reservas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_ZONAS_RESERVA_" id="res_reeservas_zona">
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_ZONAS_RESERVA_ A" id="DTR_ZONAS_RESERVA_$" data-contenedor="res_reeservas_zona" data-colapso="col_res_reeservas_zona">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_ZONAS_RESERVA_1"></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_ZONAS_RESERVA_BCA');" id="COLAPSO_DTR_ZONAS_RESERVA_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ZONAS_RESERVA_BCA.csv</span>Resultado de Reservas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_ZONAS_RESERVA_BCA"></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_ZONAS_RESERVA_SIN');" id="COLAPSO_DTR_ZONAS_RESERVA_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ZONAS_RESERVA_SIN.csv</span>Resultado de Reservas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_ZONAS_RESERVA_SIN"></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_ZONAS_RESERVA_BCS');" id="COLAPSO_DTR_ZONAS_RESERVA_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ZONAS_RESERVA_BCS.csv</span>Resultado de Reservas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_ZONAS_RESERVA_BCS"></div>
+
 
                             <!-- Resultado de cargas del CENACE por Zona -->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_ZONAS_CARGA_');" id="col_res_cargas_zona">
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_ZONAS_CARGA_1');" id="COLAPSO_DTR_ZONAS_CARGA_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_ZONAS_CARGA_" class="span-archivo-res">ARCHIVO.csv</span>Resultado de Cargas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_ZONAS_CARGA_1.csv</span>Resultado de Cargas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_ZONAS_CARGA_" id="res_cargas_zona">
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_ZONAS_CARGA_ A" id="DTR_ZONAS_CARGA_$" data-contenedor="res_cargas_zona" data-colapso="col_res_cargas_zona">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_ZONAS_CARGA_1"></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_ZONAS_CARGA_SIN');" id="COLAPSO_DTR_ZONAS_CARGA_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ZONAS_CARGA_SIN.csv</span>Resultado de Cargas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_ZONAS_CARGA_SIN"></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_ZONAS_CARGA_BCA');" id="COLAPSO_DTR_ZONAS_CARGA_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ZONAS_CARGA_BCA.csv</span>Resultado de Cargas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_ZONAS_CARGA_BCA"></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_ZONAS_CARGA_BCS');" id="COLAPSO_DTR_ZONAS_CARGA_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ZONAS_CARGA_BCS.csv</span>Resultado de Cargas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_ZONAS_CARGA_BCS"></div>
 
                             <!-- Resultados de las Regiones de Precios -->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_REGIONES_');" id="col_res_region_precios">
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_REGIONES_1');" id="COLAPSO_DTR_REGIONES_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_REGIONES_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de las Regiones de Precios<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_REGIONES_1.csv</span>Resultados de las Regiones de Precios<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_REGIONES_" id="res_region_precios">
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_REGIONES_ A" id="DTR_REGIONES_$" data-contenedor="res_region_precios" data-colapso="col_res_region_precios">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_REGIONES_1"></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_REGIONES_SIN');" id="COLAPSO_DTR_REGIONES_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_REGIONES_SIN.csv</span>Resultados de las Regiones de Precios<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_REGIONES_SIN"></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_REGIONES_BCA');" id="COLAPSO_DTR_REGIONES_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_REGIONES_BCA.csv</span>Resultados de las Regiones de Precios<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_REGIONES_BCA"></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_REGIONES_BCS');" id="COLAPSO_DTR_REGIONES_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_REGIONES_BCS.csv</span>Resultados de las Regiones de Precios<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_REGIONES_BCS"></div>
 
                             <!-- Resultados de los Nodos Eléctricos de la Red -->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_NODOS_');" id="col_res_nodos_elec_red">
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_NODOS_1');" id="COLAPSO_DTR_NODOS_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_NODOS_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de los Nodos Eléctricos de la Red<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_NODOS_1.csv</span>Resultados de los Nodos Eléctricos de la Red<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_NODOS_" id="res_nodos_elec_red" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_NODOS_ A" id="DTR_NODOS_$" data-contenedor="res_nodos_elec_red" data-colapso="col_res_nodos_elec_red">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_NODOS_1" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_NODOS_SIN');" id="COLAPSO_DTR_NODOS_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_NODOS_SIN.csv</span>Resultados de los Nodos Eléctricos de la Red<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_NODOS_SIN" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_NODOS_BCA');" id="COLAPSO_DTR_NODOS_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_NODOS_BCA.csv</span>Resultados de los Nodos Eléctricos de la Red<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_NODOS_BCA" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_NODOS_BCS');" id="COLAPSO_DTR_NODOS_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_NODOS_BCS.csv</span>Resultados de los Nodos Eléctricos de la Red<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_NODOS_BCS" ></div>
 
                             <!-- Resultados de las Unidades Programables -->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_UNIDADES_');" id="col_res_unidades_prog">
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_UNIDADES_1');" id="COLAPSO_DTR_UNIDADES_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_UNIDADES_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de las Unidades Programables<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_UNIDADES_1.csv</span>Resultados de las Unidades Programables<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_UNIDADES_" id="res_unidades_prog" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_UNIDADES_ A" id="DTR_UNIDADES_$" data-contenedor="res_unidades_prog" data-colapso="col_res_unidades_prog">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_UNIDADES_1" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_UNIDADES_SIN');" id="COLAPSO_DTR_UNIDADES_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_UNIDADES_SIN.csv</span>Resultados de las Unidades Programables<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_UNIDADES_SIN" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_UNIDADES_BCS');" id="COLAPSO_DTR_UNIDADES_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_UNIDADES_BCS.csv</span>Resultados de las Unidades Programables<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_UNIDADES_BCS" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_UNIDADES_BCA');" id="COLAPSO_DTR_UNIDADES_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_UNIDADES_BCA.csv</span>Resultados de las Unidades Programables<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_DTR_UNIDADES_BCA" ></div>
 
                             <!-- Resumen de Unidades de Generación -->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'RESUMEN_UNIDADES');" id="col_res_unidades_gen">
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_RESUMEN_UNIDADES');" id="COLAPSO_RESUMEN_UNIDADES">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-RESUMEN_UNIDADES" class="span-archivo-res">ARCHIVO.csv</span>Resumen de Unidades de Generación<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">RESUMEN_UNIDADES.csv</span>Resumen de Unidades de Generación<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res div-contenedor-mediana invisible CONT-RESUMEN_UNIDADES" id="res_unidades_gen" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res RESUMEN_UNIDADES A" id="RESUMEN_UNIDADES" data-contenedor="res_unidades_gen" data-colapso="col_res_unidades_gen">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
+                            <div class="row colapsable div-tabla-res A invisible" id="COLAPSABLE_RESUMEN_UNIDADES" ></div>
 
                             <!-- Resultados de Flujos en Grupos de Ramas Restringidas -->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_ENLACES_');" id="col_res_flujo_ramas_res">
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_ENLACES_1');" id="COLAPSO_DTR_ENLACES_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_ENLACES_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de Flujos en Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_ENLACES_1.csv</span>Resultados de Flujos en Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_ENLACES_" id="res_flujo_ramas_res" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_ENLACES_ A" id="DTR_ENLACES_$" data-contenedor="res_flujo_ramas_res" data-colapso="col_res_flujo_ramas_res">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_ENLACES_1" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_ENLACES_SIN');" id="COLAPSO_DTR_ENLACES_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ENLACES_SIN.csv</span>Resultados de Flujos en Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_ENLACES_SIN" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_ENLACES_BCA');" id="COLAPSO_DTR_ENLACES_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ENLACES_BCA.csv</span>Resultados de Flujos en Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_ENLACES_BCA" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_ENLACES_BCS');" id="COLAPSO_DTR_ENLACES_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ENLACES_BCS.csv</span>Resultados de Flujos en Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_ENLACES_BCS" ></div>
 
                             <!-- Resultados de flujos en las ramas que conforman los grupos de ramas restringidas -->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_RAMAS_ENL_');" id="col_res_flujos_com_ramas_res">
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_RAMAS_ENL_1');" id="COLAPSO_DTR_RAMAS_ENL_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_RAMAS_ENL_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de Flujos en las Ramas en los Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_RAMAS_ENL_1.csv</span>Resultados de Flujos en las Ramas en los Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_RAMAS_ENL_" id="res_flujos_com_ramas_res" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_RAMAS_ENL_ A" id="DTR_RAMAS_ENL_$" data-contenedor="res_flujos_com_ramas_res" data-colapso="col_res_flujos_com_ramas_res">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_RAMAS_ENL_1" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_RAMAS_ENL_SIN');" id="COLAPSO_DTR_RAMAS_ENL_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_RAMAS_ENL_SIN.csv</span>Resultados de Flujos en las Ramas en los Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_RAMAS_ENL_SIN" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_RAMAS_ENL_BCA');" id="COLAPSO_DTR_RAMAS_ENL_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_RAMAS_ENL_BCA.csv</span>Resultados de Flujos en las Ramas en los Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_RAMAS_ENL_BCA" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_RAMAS_ENL_BCS');" id="COLAPSO_DTR_RAMAS_ENL_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_RAMAS_ENL_BCS.csv</span>Resultados de Flujos en las Ramas en los Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_RAMAS_ENL_BCS" ></div>
 
                             <!-- Resultados de Asignación de Energía por Embalse (SIN _ )-->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_EMBALSES');" id="col_res_embalses1_res">
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_EMBALSES');" id="COLAPSO_DTR_EMBALSES">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_EMBALSES" class="span-archivo-res">ARCHIVO.csv</span>Resultados de Asignación de Energía por Embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">ARCHIVO.csv</span>Resultados de Asignación de Energía por Embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_EMBALSES" id="res_embalses1_res" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_EMBALSES A" id="DTR_EMBALSES" data-contenedor="res_embalses1_res" data-colapso="col_res_embalses1_res">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_EMBALSES" ></div>
 
                             <!-- Resultados de Asignación de Energía por Embalse -->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_EMBALSES_');" id="col_res_embalses_res">
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_EMBALSES_1');" id="COLAPSO_DTR_EMBALSES_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_EMBALSES_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de Asignación de Energía por Embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_EMBALSES_1.csv</span>Resultados de Asignación de Energía por Embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_EMBALSES_" id="res_embalses_res" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_EMBALSES_ A" id="DTR_EMBALSES_$" data-contenedor="res_embalses_res" data-colapso="col_res_embalses_res">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_EMBALSES_1" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_EMBALSES_SIN');" id="COLAPSO_DTR_EMBALSES_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_EMBALSES_SIN.csv</span>Resultados de Asignación de Energía por Embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_EMBALSES_SIN" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_EMBALSES_BCA');" id="COLAPSO_DTR_EMBALSES_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_EMBALSES_BCA.csv</span>Resultados de Asignación de Energía por Embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_EMBALSES_BCA" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_EMBALSES_BCS');" id="COLAPSO_DTR_EMBALSES_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_EMBALSES_BCS.csv</span>Resultados de Asignación de Energía por Embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_EMBALSES_BCS" ></div>
 
                             <!-- Resultado de Reservas del CENACE por Sistema -->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_SISTEMA_RESERVA_');" id="col_res_reservas_sistema">
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_SISTEMA_RESERVA_1');" id="COLAPSO_DTR_SISTEMA_RESERVA_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_SISTEMA_RESERVA_" class="span-archivo-res">ARCHIVO.csv</span>Resultado de Reservas del CENACE por Sistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_SISTEMA_RESERVA_1.csv</span>Resultado de Reservas del CENACE por Sistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_SISTEMA_RESERVA_" id="res_reservas_sistema" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_SISTEMA_RESERVA_ A" id="DTR_SISTEMA_RESERVA_$" data-contenedor="res_reservas_sistema" data-colapso="col_res_reservas_sistema">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_SISTEMA_RESERVA_1" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_SISTEMA_RESERVA_SIN');" id="COLAPSO_DTR_SISTEMA_RESERVA_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_SISTEMA_RESERVA_SIN.csv</span>Resultado de Reservas del CENACE por Sistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_SISTEMA_RESERVA_SIN" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_SISTEMA_RESERVA_BCA');" id="COLAPSO_DTR_SISTEMA_RESERVA_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_SISTEMA_RESERVA_BCA.csv</span>Resultado de Reservas del CENACE por Sistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_SISTEMA_RESERVA_BCA" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_SISTEMA_RESERVA_BCS');" id="COLAPSO_DTR_SISTEMA_RESERVA_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_SISTEMA_RESERVA_BCS.csv</span>Resultado de Reservas del CENACE por Sistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_SISTEMA_RESERVA_BCS" ></div>
 
                             <!-- DTR AREAS -->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_AREAS_');" id="col_res_dtr_areas">
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_AREAS_1');" id="COLAPSO_DTR_AREAS_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_AREAS_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de Generación y Demanda por Área<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_AREAS_1.csv</span>Resultados de Generación y Demanda por Área<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_AREAS_" id="res_dtr_areas" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_AREAS_ A" id="DTR_AREAS_$" data-contenedor="res_dtr_areas" data-colapso="col_res_dtr_areas">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_AREAS_1"></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_AREAS_SIN');" id="COLAPSO_DTR_AREAS_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_AREAS_SIN.csv</span>Resultados de Generación y Demanda por Área<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_AREAS_SIN"></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_AREAS_BCS');" id="COLAPSO_DTR_AREAS_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_AREAS_BCS.csv</span>Resultados de Generación y Demanda por Área<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_AREAS_BCS"></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_AREAS_BCA');" id="COLAPSO_DTR_AREAS_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_AREAS_BCA.csv</span>Resultados de Generación y Demanda por Área<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_AREAS_BCA"></div>
 
                             <!-- DTR SISTEMA -->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DTR_SISTEMA_');" id="col_res_dtr_sistemas">
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_SISTEMA_1');" id="COLAPSO_DTR_SISTEMA_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_SISTEMA_" class="span-archivo-res">ARCHIVO.csv</span>DTR SISTEMA<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_SISTEMA_1.csv</span>DTR SISTEMA<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_SISTEMA_" id="res_dtr_sistemas" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_SISTEMA_ A" id="DTR_SISTEMA_$" data-contenedor="res_dtr_sistemas" data-colapso="col_res_dtr_sistemas">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_SISTEMA_1" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_SISTEMA_SIN');" id="COLAPSO_DTR_SISTEMA_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_SISTEMA_SIN.csv</span>DTR SISTEMA<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_SISTEMA_SIN" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_SISTEMA_BCA');" id="COLAPSO_DTR_SISTEMA_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_SISTEMA_BCA.csv</span>DTR SISTEMA<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_SISTEMA_BCA" ></div>
+
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_DTR_SISTEMA_BCS');" id="COLAPSO_DTR_SISTEMA_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_SISTEMA_BCS.csv</span>DTR SISTEMA<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_DTR_SISTEMA_BCS" ></div>
 
                             <!-- BANDERAS PARA INDICAR PROBLEMAS EN LA SOLUCION -->
-                            <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'SEMAFOROSDERS');" id="col_res_banderas_problemas">
+                            <div class="row justify-content-center celda-header-res A" onclick="toggleColapso(this,'COLAPSABLE_SEMAFOROSDERS');" id="COLAPSO_SEMAFOROSDERS">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-SEMAFOROSDERS" class="span-archivo-res">ARCHIVO.csv</span>Banderas para Indicar Problemas en la Solución<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">SEMAFOROSDERS.csv</span>Banderas para Indicar Problemas en la Solución<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row div-tabla-res colapsable-res invisible CONT-SEMAFOROSDERS" id="res_dtr_sistemas" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res SEMAFOROSDERS A" id="SEMAFOROSDERS" data-contenedor="res_banderas_problemas" data-colapso="col_res_banderas_problemas">
-                                        <thead class="tabla-head">
-                                            <th></th>
-                                            <th >Bandera</th>
-                                            <th >Descripción</th>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
+                            <div class="row div-tabla-res A colapsable invisible" id="COLAPSABLE_SEMAFOROSDERS" ></div>
 
                         </div>
                         <!-- FIN DE CONTENEDOR INFORMACION GENERAL -->
@@ -294,262 +386,342 @@
                             <label id="label_idResB" style="color:darkslategray;">Escenario: ---</label>
 
                             <!-- DATOS DE COSTOS -->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DATOS_COSTOS');" id="col_datos_costos">
-                                <span class="span-costos"><i class="demo-icon  icon-money-1"></i></span>
-                                <div class="col"><span id="ARCH-DATOS_COSTOS" class="span-archivo-res">r_desphora1.csv</span>COSTOS E INGRESOS<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_r_desphora1');" id="COLAPSO_r_desphora1">
+                                <span class="span-costos"><i class="demo-icon icon-money-1"></i></span>
+                                <div class="col"><span class="span-archivo">r_desphora1.csv</span>COSTOS E INGRESOS<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-DATOS_COSTOS" id="datos_costos">
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DATOS_COSTOS B" id="DATOS_COSTOS" data-contenedor="datos_costos" data-colapso="col_datos_costos">
-                                        <thead class="tabla-head">
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_r_desphora1"></div>
 
                             <!-- RESUMEN DE RESULTADOS GLOBALES -->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DERS_I_TOTALES_');" id="col_res_global_i">
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DERS_I_TOTALES_1');" id="COLAPSO_DERS_I_TOTALES_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DERS_I_TOTALES_" class="span-archivo-res">ARCHIVO.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DERS_I_TOTALES_1.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-DERS_I_TOTALES_" id="res_global_i">
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DERS_I_TOTALES_ B" id="DERS_I_TOTALES_$" data-contenedor="res_global_i" data-colapso="col_res_global_i">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DERS_I_TOTALES_1"></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DERS_I_TOTALES_SIN');" id="COLAPSO_DERS_I_TOTALES_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DERS_I_TOTALES_SIN.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DERS_I_TOTALES_SIN"></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DERS_I_TOTALES_BCA');" id="COLAPSO_DERS_I_TOTALES_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DERS_I_TOTALES_BCA.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DERS_I_TOTALES_BCA"></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DERS_I_TOTALES_BCS');" id="COLAPSO_DERS_I_TOTALES_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DERS_I_TOTALES_BCS.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DERS_I_TOTALES_BCS"></div>
 
                             <!-- RESUMEN DE RESULTADOS GLOBALES -->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DERS_MI_TOTALES_AREA');" id="col_res_global_mi">
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DERS_MI_TOTALES_AREA');" id="COLAPSO_DERS_MI_TOTALES_AREA">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DERS_MI_TOTALES_AREA" class="span-archivo-res">ARCHIVO.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DERS_MI_TOTALES_AREA.csv</span>Resumen de Resultados Globales<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-DERS_MI_TOTALES_AREA" id="res_global_mi">
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DERS_MI_TOTALES_AREA B" id="DERS_MI_TOTALES_AREA" data-contenedor="res_global_mi" data-colapso="col_res_global_mi">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DERS_MI_TOTALES_AREA"></div>
 
                             <!-- FALTA PRECIOS POR ZONAS DE CARGA  -->
 
                             <!-- Resultado de Reservas del CENACE por Zona -->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_ZONAS_RESERVA_');" id="col_res_reeservas_zona">
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_ZONAS_RESERVA_1');" id="COLAPSO_DTR_ZONAS_RESERVA_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_ZONAS_RESERVA_" class="span-archivo-res">ARCHIVO.csv</span>Resultado de Reservas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_ZONAS_RESERVA_1.csv</span>Resultado de Reservas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_ZONAS_RESERVA_" id="res_reeservas_zona">
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_ZONAS_RESERVA_ B" id="DTR_ZONAS_RESERVA_$" data-contenedor="res_reeservas_zona" data-colapso="col_res_reeservas_zona">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_ZONAS_RESERVA_1"></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_ZONAS_RESERVA_BCA');" id="COLAPSO_DTR_ZONAS_RESERVA_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ZONAS_RESERVA_BCA.csv</span>Resultado de Reservas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_ZONAS_RESERVA_BCA"></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_ZONAS_RESERVA_SIN');" id="COLAPSO_DTR_ZONAS_RESERVA_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ZONAS_RESERVA_SIN.csv</span>Resultado de Reservas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_ZONAS_RESERVA_SIN"></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_ZONAS_RESERVA_BCS');" id="COLAPSO_DTR_ZONAS_RESERVA_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ZONAS_RESERVA_BCS.csv</span>Resultado de Reservas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_ZONAS_RESERVA_BCS"></div>
+
 
                             <!-- Resultado de cargas del CENACE por Zona -->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_ZONAS_CARGA_');" id="col_res_cargas_zona">
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_ZONAS_CARGA_1');" id="COLAPSO_DTR_ZONAS_CARGA_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_ZONAS_CARGA_" class="span-archivo-res">ARCHIVO.csv</span>Resultado de Cargas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_ZONAS_CARGA_1.csv</span>Resultado de Cargas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_ZONAS_CARGA_" id="res_cargas_zona">
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_ZONAS_CARGA_ B" id="DTR_ZONAS_CARGA_$" data-contenedor="res_cargas_zona" data-colapso="col_res_cargas_zona">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_ZONAS_CARGA_1"></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_ZONAS_CARGA_SIN');" id="COLAPSO_DTR_ZONAS_CARGA_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ZONAS_CARGA_SIN.csv</span>Resultado de Cargas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_ZONAS_CARGA_SIN"></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_ZONAS_CARGA_BCA');" id="COLAPSO_DTR_ZONAS_CARGA_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ZONAS_CARGA_BCA.csv</span>Resultado de Cargas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_ZONAS_CARGA_BCA"></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_ZONAS_CARGA_BCS');" id="COLAPSO_DTR_ZONAS_CARGA_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ZONAS_CARGA_BCS.csv</span>Resultado de Cargas del CENACE por Zona<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_ZONAS_CARGA_BCS"></div>
 
                             <!-- Resultados de las Regiones de Precios -->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_REGIONES_');" id="col_res_region_precios">
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_REGIONES_1');" id="COLAPSO_DTR_REGIONES_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_REGIONES_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de las Regiones de Precios<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_REGIONES_1.csv</span>Resultados de las Regiones de Precios<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_REGIONES_" id="res_region_precios">
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_REGIONES_ B" id="DTR_REGIONES_$" data-contenedor="res_region_precios" data-colapso="col_res_region_precios">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_REGIONES_1"></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_REGIONES_SIN');" id="COLAPSO_DTR_REGIONES_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_REGIONES_SIN.csv</span>Resultados de las Regiones de Precios<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_REGIONES_SIN"></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_REGIONES_BCA');" id="COLAPSO_DTR_REGIONES_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_REGIONES_BCA.csv</span>Resultados de las Regiones de Precios<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_REGIONES_BCA"></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_REGIONES_BCS');" id="COLAPSO_DTR_REGIONES_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_REGIONES_BCS.csv</span>Resultados de las Regiones de Precios<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_REGIONES_BCS"></div>
 
                             <!-- Resultados de los Nodos Eléctricos de la Red -->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_NODOS_');" id="col_res_nodos_elec_red">
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_NODOS_1');" id="COLAPSO_DTR_NODOS_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_NODOS_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de los Nodos Eléctricos de la Red<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_NODOS_1.csv</span>Resultados de los Nodos Eléctricos de la Red<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_NODOS_" id="res_nodos_elec_red" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_NODOS_ B" id="DTR_NODOS_$" data-contenedor="res_nodos_elec_red" data-colapso="col_res_nodos_elec_red">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_NODOS_1" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_NODOS_SIN');" id="COLAPSO_DTR_NODOS_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_NODOS_SIN.csv</span>Resultados de los Nodos Eléctricos de la Red<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_NODOS_SIN" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_NODOS_BCA');" id="COLAPSO_DTR_NODOS_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_NODOS_BCA.csv</span>Resultados de los Nodos Eléctricos de la Red<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_NODOS_BCA" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_NODOS_BCS');" id="COLAPSO_DTR_NODOS_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_NODOS_BCS.csv</span>Resultados de los Nodos Eléctricos de la Red<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_NODOS_BCS" ></div>
 
                             <!-- Resultados de las Unidades Programables -->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_UNIDADES_');" id="col_res_unidades_prog">
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_UNIDADES_1');" id="COLAPSO_DTR_UNIDADES_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_UNIDADES_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de las Unidades Programables<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_UNIDADES_1.csv</span>Resultados de las Unidades Programables<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-DTR_UNIDADES_" id="res_unidades_prog" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_UNIDADES_ B" id="DTR_UNIDADES_$" data-contenedor="res_unidades_prog" data-colapso="col_res_unidades_prog">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_UNIDADES_1" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_UNIDADES_SIN');" id="COLAPSO_DTR_UNIDADES_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_UNIDADES_SIN.csv</span>Resultados de las Unidades Programables<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_UNIDADES_SIN" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_UNIDADES_BCS');" id="COLAPSO_DTR_UNIDADES_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_UNIDADES_BCS.csv</span>Resultados de las Unidades Programables<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_UNIDADES_BCS" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_UNIDADES_BCA');" id="COLAPSO_DTR_UNIDADES_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_UNIDADES_BCA.csv</span>Resultados de las Unidades Programables<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_DTR_UNIDADES_BCA" ></div>
 
                             <!-- Resumen de Unidades de Generación -->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'RESUMEN_UNIDADES');" id="col_res_unidades_gen">
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_RESUMEN_UNIDADES');" id="COLAPSO_RESUMEN_UNIDADES">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-RESUMEN_UNIDADES" class="span-archivo-res">ARCHIVO.csv</span>Resumen de Unidades de Generación<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">RESUMEN_UNIDADES.csv</span>Resumen de Unidades de Generación<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-RESUMEN_UNIDADES" id="res_unidades_gen" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res RESUMEN_UNIDADES B" id="RESUMEN_UNIDADES" data-contenedor="res_unidades_gen" data-colapso="col_res_unidades_gen">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
+                            <div class="row colapsable div-tabla-res B invisible" id="COLAPSABLE_RESUMEN_UNIDADES" ></div>
 
                             <!-- Resultados de Flujos en Grupos de Ramas Restringidas -->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_ENLACES_');" id="col_res_flujo_ramas_res">
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_ENLACES_1');" id="COLAPSO_DTR_ENLACES_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_ENLACES_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de Flujos en Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_ENLACES_1.csv</span>Resultados de Flujos en Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_ENLACES_" id="res_flujo_ramas_res" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_ENLACES_ B" id="DTR_ENLACES_$" data-contenedor="res_flujo_ramas_res" data-colapso="col_res_flujo_ramas_res">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_ENLACES_1" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_ENLACES_SIN');" id="COLAPSO_DTR_ENLACES_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ENLACES_SIN.csv</span>Resultados de Flujos en Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_ENLACES_SIN" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_ENLACES_BCA');" id="COLAPSO_DTR_ENLACES_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ENLACES_BCA.csv</span>Resultados de Flujos en Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_ENLACES_BCA" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_ENLACES_BCS');" id="COLAPSO_DTR_ENLACES_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_ENLACES_BCS.csv</span>Resultados de Flujos en Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_ENLACES_BCS" ></div>
 
                             <!-- Resultados de flujos en las ramas que conforman los grupos de ramas restringidas -->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_RAMAS_ENL_');" id="col_res_flujos_com_ramas_res">
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_RAMAS_ENL_1');" id="COLAPSO_DTR_RAMAS_ENL_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_RAMAS_ENL_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de Flujos en las Ramas en los Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_RAMAS_ENL_1.csv</span>Resultados de Flujos en las Ramas en los Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_RAMAS_ENL_" id="res_flujos_com_ramas_res" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_RAMAS_ENL_ B" id="DTR_RAMAS_ENL_$" data-contenedor="res_flujos_com_ramas_res" data-colapso="col_res_flujos_com_ramas_res">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_RAMAS_ENL_1" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_RAMAS_ENL_SIN');" id="COLAPSO_DTR_RAMAS_ENL_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_RAMAS_ENL_SIN.csv</span>Resultados de Flujos en las Ramas en los Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_RAMAS_ENL_SIN" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_RAMAS_ENL_BCA');" id="COLAPSO_DTR_RAMAS_ENL_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_RAMAS_ENL_BCA.csv</span>Resultados de Flujos en las Ramas en los Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_RAMAS_ENL_BCA" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_RAMAS_ENL_BCS');" id="COLAPSO_DTR_RAMAS_ENL_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_RAMAS_ENL_BCS.csv</span>Resultados de Flujos en las Ramas en los Grupos de Ramas Restringidas<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_RAMAS_ENL_BCS" ></div>
 
                             <!-- Resultados de Asignación de Energía por Embalse (SIN _ )-->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_EMBALSES');" id="col_res_embalses1_res">
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_EMBALSES');" id="COLAPSO_DTR_EMBALSES">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_EMBALSES" class="span-archivo-res">ARCHIVO.csv</span>Resultados de Asignación de Energía por Embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">ARCHIVO.csv</span>Resultados de Asignación de Energía por Embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_EMBALSES" id="res_embalses1_res" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_EMBALSES B" id="DTR_EMBALSES" data-contenedor="res_embalses1_res" data-colapso="col_res_embalses1_res">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_EMBALSES" ></div>
 
                             <!-- Resultados de Asignación de Energía por Embalse -->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_EMBALSES_');" id="col_res_embalses_res">
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_EMBALSES_1');" id="COLAPSO_DTR_EMBALSES_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_EMBALSES_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de Asignación de Energía por Embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_EMBALSES_1.csv</span>Resultados de Asignación de Energía por Embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_EMBALSES_" id="res_embalses_res" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_EMBALSES_ B" id="DTR_EMBALSES_$" data-contenedor="res_embalses_res" data-colapso="col_res_embalses_res">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_EMBALSES_1" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_EMBALSES_SIN');" id="COLAPSO_DTR_EMBALSES_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_EMBALSES_SIN.csv</span>Resultados de Asignación de Energía por Embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_EMBALSES_SIN" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_EMBALSES_BCA');" id="COLAPSO_DTR_EMBALSES_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_EMBALSES_BCA.csv</span>Resultados de Asignación de Energía por Embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_EMBALSES_BCA" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_EMBALSES_BCS');" id="COLAPSO_DTR_EMBALSES_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_EMBALSES_BCS.csv</span>Resultados de Asignación de Energía por Embalse<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_EMBALSES_BCS" ></div>
 
                             <!-- Resultado de Reservas del CENACE por Sistema -->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_SISTEMA_RESERVA_');" id="col_res_reservas_sistema">
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_SISTEMA_RESERVA_1');" id="COLAPSO_DTR_SISTEMA_RESERVA_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_SISTEMA_RESERVA_" class="span-archivo-res">ARCHIVO.csv</span>Resultado de Reservas del CENACE por Sistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_SISTEMA_RESERVA_1.csv</span>Resultado de Reservas del CENACE por Sistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_SISTEMA_RESERVA_" id="res_reservas_sistema" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_SISTEMA_RESERVA_ B" id="DTR_SISTEMA_RESERVA_$" data-contenedor="res_reservas_sistema" data-colapso="col_res_reservas_sistema">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_SISTEMA_RESERVA_1" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_SISTEMA_RESERVA_SIN');" id="COLAPSO_DTR_SISTEMA_RESERVA_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_SISTEMA_RESERVA_SIN.csv</span>Resultado de Reservas del CENACE por Sistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_SISTEMA_RESERVA_SIN" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_SISTEMA_RESERVA_BCA');" id="COLAPSO_DTR_SISTEMA_RESERVA_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_SISTEMA_RESERVA_BCA.csv</span>Resultado de Reservas del CENACE por Sistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_SISTEMA_RESERVA_BCA" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_SISTEMA_RESERVA_BCS');" id="COLAPSO_DTR_SISTEMA_RESERVA_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_SISTEMA_RESERVA_BCS.csv</span>Resultado de Reservas del CENACE por Sistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_SISTEMA_RESERVA_BCS" ></div>
 
                             <!-- DTR AREAS -->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_AREAS_');" id="col_res_dtr_areas">
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_AREAS_1');" id="COLAPSO_DTR_AREAS_1">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_AREAS_" class="span-archivo-res">ARCHIVO.csv</span>Resultados de Generación y Demanda por Área<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_AREAS_1.csv</span>Resultados de Generación y Demanda por Área<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_AREAS_" id="res_dtr_areas" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_AREAS_ B" id="DTR_AREAS_$" data-contenedor="res_dtr_areas" data-colapso="col_res_dtr_areas">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_AREAS_1"></div>
 
-                            <!-- DTR SISTEMAS -->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'DTR_SISTEMA_');" id="col_res_dtr_sistemas">
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_AREAS_SIN');" id="COLAPSO_DTR_AREAS_SIN">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-DTR_SISTEMA_" class="span-archivo-res">ARCHIVO.csv</span>DTR SISTEMAS<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">DTR_AREAS_SIN.csv</span>Resultados de Generación y Demanda por Área<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row div-tabla-res colapsable-res invisible CONT-DTR_SISTEMA_" id="res_dtr_sistemas" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DTR_SISTEMA_ B" id="DTR_SISTEMA_$" data-contenedor="res_dtr_sistemas" data-colapso="col_res_dtr_sistemas">
-                                        <thead class="tabla-head">
-                                            <tr></tr>
-                                        </thead>
-                                    </table>
-                                </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_AREAS_SIN"></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_AREAS_BCS');" id="COLAPSO_DTR_AREAS_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_AREAS_BCS.csv</span>Resultados de Generación y Demanda por Área<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_AREAS_BCS"></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_AREAS_BCA');" id="COLAPSO_DTR_AREAS_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_AREAS_BCA.csv</span>Resultados de Generación y Demanda por Área<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_AREAS_BCA"></div>
+
+                            <!-- DTR SISTEMA -->
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_SISTEMA_1');" id="COLAPSO_DTR_SISTEMA_1">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_SISTEMA_1.csv</span>DTR SISTEMA<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_SISTEMA_1" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_SISTEMA_SIN');" id="COLAPSO_DTR_SISTEMA_SIN">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_SISTEMA_SIN.csv</span>DTR SISTEMA<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_SISTEMA_SIN" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_SISTEMA_BCA');" id="COLAPSO_DTR_SISTEMA_BCA">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_SISTEMA_BCA.csv</span>DTR SISTEMA<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_SISTEMA_BCA" ></div>
+
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_DTR_SISTEMA_BCS');" id="COLAPSO_DTR_SISTEMA_BCS">
+                                <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
+                                <div class="col"><span class="span-archivo">DTR_SISTEMA_BCS.csv</span>DTR SISTEMA<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_DTR_SISTEMA_BCS" ></div>
 
                             <!-- BANDERAS PARA INDICAR PROBLEMAS EN LA SOLUCION -->
-                            <div class="row justify-content-center celda-header-res B" onclick="colapsarResultado(this,'SEMAFOROSDERS');" id="col_res_banderas_problemas">
+                            <div class="row justify-content-center celda-header-res B" onclick="toggleColapso(this,'COLAPSABLE_SEMAFOROSDERS');" id="COLAPSO_SEMAFOROSDERS">
                                 <span class="invisible"><i class="demo-icon icon-pin-1"></i></span>
-                                <div class="col"><span id="ARCH-SEMAFOROSDERS" class="span-archivo-res">ARCHIVO.csv</span>Banderas para Indicar Problemas en la Solución<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                                <div class="col"><span class="span-archivo">SEMAFOROSDERS.csv</span>Banderas para Indicar Problemas en la Solución<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
-                            <div class="row div-tabla-res colapsable-res invisible CONT-SEMAFOROSDERS" id="res_dtr_sistemas" >
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this);">
-                                    <table class="table table-sm table-striped table-bordered tabla-res SEMAFOROSDERS B" id="SEMAFOROSDERS" data-contenedor="res_banderas_problemas" data-colapso="col_res_banderas_problemas">
-                                        <thead class="tabla-head">
-                                            <th></th>
-                                            <th >Bandera</th>
-                                            <th >Descripción</th>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
+                            <div class="row div-tabla-res B colapsable invisible" id="COLAPSABLE_SEMAFOROSDERS" ></div>
 
                         </div>
                         <!-- FIN DE CONTENEDOR INFORMACION GENERAL -->
