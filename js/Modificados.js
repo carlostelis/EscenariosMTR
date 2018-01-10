@@ -1,7 +1,3 @@
-// Espera definicion
-while (typeof ipcRenderer === 'undefined') {
-    console.log('Espera definicion');
-}
 
 function consultarAniosEscOriginales() {
     if (select_mod_algoritmo.value === 'defecto') {
@@ -150,7 +146,7 @@ function cargarSelectMod(select, lista, defecto) {
     });
 }
 
-function colapsarMod(trigger, id) {
+function toggleColapsoMod(trigger, id) {
     // Si esta inactivo no hace nada
     if (trigger.classList.contains('inactivo')) {
         trigger.desplegado = false;
@@ -158,61 +154,24 @@ function colapsarMod(trigger, id) {
     }
 
     let iconoAbajo = false;
-    let tabla_buscada;
-
-    // La busca en el arreglo en vez de ir al dom
-    for (let tabla of tablas_mod) {
-        if (tabla.id === id || tabla.id.replace('$', '') === id) {
-            tabla_buscada = tabla;
-            break;
-        }
-    }
+    let contenedor_buscado = $('#' + id);
 
     if (!typeof trigger.desplegado === 'undefined') {
         trigger.desplegado = false;
     }
 
-    if (tabla_buscada) {
-        // let contenedor = document.getElementById(tabla_buscada.dataset.contenedor);
-        let contenedor = colapsables_mod.find((col_info) => {
-            return col_info.id === tabla_buscada.dataset.contenedor;
-        });
-
-        if (contenedor) {
-            // La muestra
-            if (!trigger.desplegado) {
-                for (let nodo of contenedor.childNodes) {
-                    if (nodo.nodeName.toLowerCase() === 'div') {
-                        contenedor.classList.remove('invisible');
-                        contenedor.classList.add('visible');
-                        iconoAbajo = false;
-
-                        // Inserta la tabla al dom
-                        for (let nodo of contenedor.childNodes) {
-                            if (nodo.nodeName.toLowerCase() === 'div') {
-                                nodo.appendChild(tabla_buscada);
-                            }
-                        }
-                    }
-                }
-            }
-            // la oculta
-            else {
-                for (let nodo of contenedor.childNodes) {
-                    if (nodo.nodeName.toLowerCase() === 'div') {
-                        contenedor.classList.add('invisible');
-                        contenedor.classList.remove('visible');
-                        iconoAbajo = true;
-
-                        // Inserta la tabla al dom
-                        for (let nodo of contenedor.childNodes) {
-                            if (nodo.nodeName.toLowerCase() === 'div') {
-                                nodo.removeChild(tabla_buscada);
-                            }
-                        }
-                    }
-                }
-            }
+    if (contenedor_buscado) {
+        // Si no esta desplegado, lo muestra
+        if (!trigger.desplegado) {
+            contenedor_buscado.removeClass('invisible');
+            contenedor_buscado.addClass('visible');
+            iconoAbajo = false;
+        }
+        // la oculta
+        else {
+            contenedor_buscado.addClass('invisible');
+            contenedor_buscado.removeClass('visible');
+            iconoAbajo = true;
         }
     }
 
@@ -221,7 +180,7 @@ function colapsarMod(trigger, id) {
         // div hijo
         if (nodoA.nodeName.toLowerCase() === 'div') {
             for (let nodoB of nodoA.childNodes) {
-                if (nodoB.nodeName.toLowerCase() === 'span') {
+                if (nodoB.nodeName.toLowerCase() === 'span' && nodoB.classList.length === 0) {
                     for (let nodoC of nodoB.childNodes) {
                         if (nodoC.nodeName.toLowerCase() === 'i') {
                             if (iconoAbajo) {
@@ -243,6 +202,54 @@ function colapsarMod(trigger, id) {
 
     // Marca el div como colapsado
     trigger.desplegado = !iconoAbajo;
+
+    return trigger.desplegado;
+}
+
+function colapsarMod(trigger, id) {
+    // Si esta inactivo no hace nada
+    if (trigger.classList.contains('inactivo')) {
+        trigger.desplegado = false;
+        return;
+    }
+
+    let iconoAbajo = true;
+    let contenedor_buscado = $('#' + id);
+
+    if (!typeof trigger.desplegado === 'undefined') {
+        trigger.desplegado = false;
+    }
+
+    if (contenedor_buscado) {
+        contenedor_buscado.addClass('invisible');
+        contenedor_buscado.removeClass('visible');
+        iconoAbajo = false;
+    }
+
+    // Cambia el icono
+    for (let nodoA of trigger.childNodes) {
+        // div hijo
+        if (nodoA.nodeName.toLowerCase() === 'div') {
+            for (let nodoB of nodoA.childNodes) {
+                if (nodoB.nodeName.toLowerCase() === 'span' && nodoB.classList.length === 0) {
+                    for (let nodoC of nodoB.childNodes) {
+                        if (nodoC.nodeName.toLowerCase() === 'i') {
+                            nodoC.classList.add('fa-caret-square-o-down');
+                            nodoC.classList.remove('fa-caret-square-o-up');
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            break;
+        }
+    }
+
+    // Marca el div como colapsado
+    trigger.desplegado = iconoAbajo;
+
+    return trigger.desplegado;
 }
 
 function mostrarContenedorMod(id, trigger) {
@@ -475,69 +482,6 @@ function cargarEscenarioModActual2() {
 
             resolve();
         }).then(() => {
-            // Oculta todas
-            colapsarTodasMod(true);
-
-            // Muestra las tablas para que esten en el dom
-            mostrarTodasMod();
-            // Borra los periodos
-            borrarThPeriodosMod();
-            // Vacia los datos de las tablas (desde el dom)
-            vaciarTablasMod();
-
-            // Obtiene el numero de periodos por algoritmo
-            let periodos = 0;
-            SESION.config.algoritmos.forEach((algoritmo) => {
-                if (algoritmo.carpeta === SESION.algoritmo) {
-                    periodos = algoritmo.periodos;
-                }
-            });
-            console.log('>>> Periodos:', periodos);
-
-            // Tablas de Periodos 1-N
-            for (let thead of thead_periodo_mod) {
-                for (let nodoA of thead.childNodes) {
-                    if (nodoA.nodeName.toLowerCase() === 'tr') {
-                        // Agrega las cabeceras de los periodos
-                        for (let i = 1; i <= periodos; i++) {
-                            let th = document.createElement('th');
-                            th.classList.add('th-periodo-mod');
-                            let texto = document.createTextNode(`Periodo ${i}`);
-
-                            th.appendChild(texto);
-                            nodoA.appendChild(th);
-                        }
-                        break;
-                    }
-                }
-            }
-
-            // Tablas de de intervalos min y max 1-N
-            for (let tabla of thead_periodo_i_mod) {
-                for (let nodoA of tabla.childNodes) {
-                    if (nodoA.nodeName.toLowerCase() === 'tr') {
-                        // Agrega las cabeceras de los periodos
-                        for (let i = 1; i <= periodos; i++) {
-                            let thmin = document.createElement('th');
-                            let thmax = document.createElement('th');
-
-                            thmin.classList.add('th-periodo-mod');
-                            thmax.classList.add('th-periodo-mod');
-
-                            let texto_min = document.createTextNode(`Flujo mínimo en I_${i}`);
-                            let texto_max = document.createTextNode(`Flujo máximo en I_${i}`);
-
-                            thmin.appendChild(texto_min);
-                            thmax.appendChild(texto_max);
-
-                            nodoA.appendChild(thmin);
-                            nodoA.appendChild(thmax);
-                        }
-                        break;
-                    }
-                }
-            }
-
             // Desactiva todos los colapsos
             desactivarColapsosMod();
 
@@ -548,14 +492,14 @@ function cargarEscenarioModActual2() {
                 promesas_mod.push(new Promise((resolve, reject) => {
                     to += 20;
                     setTimeout(() => {
-                        crearTablaMod(obj_archivo);
+                        crearTablaModKendo(obj_archivo);
                         resolve();
                     }, to);
                 }));
             });
 
             // Oculta todas
-            colapsarTodasMod(true);
+            // colapsarTodasMod(true);
 
             Promise.all(promesas_mod).then(() => {
                 banner.ok();
@@ -620,78 +564,16 @@ function cargarEscenarioMod() {
 ipcRenderer.on('escenarios_mod:leido_todo', (event, obj) => {
     console.log('Recibe contenedor de archivos:', obj.lista.length);
 
-    setTimeout(() => {
-        // Oculta todas
-        colapsarTodasMod(true);
-
-        // Muestra las tablas para que esten en el dom
-        mostrarTodasMod();
-        // Borra los periodos
-        borrarThPeriodosMod();
-        // Vacia los datos de las tablas (desde el dom)
-        vaciarTablasMod();
-
-        // Obtiene el numero de periodos por algoritmo
-        let periodos = 0;
-        SESION.config.algoritmos.forEach((algoritmo) => {
-            if (algoritmo.carpeta === SESION.algoritmo) {
-                periodos = algoritmo.periodos;
-            }
-        });
-        console.log('>>> Periodos:', periodos);
-
-        // Tablas de Periodos 1-N
-        for (let thead of thead_periodo_mod) {
-            for (let nodoA of thead.childNodes) {
-                if (nodoA.nodeName.toLowerCase() === 'tr') {
-                    // Agrega las cabeceras de los periodos
-                    for (let i = 1; i <= periodos; i++) {
-                        let th = document.createElement('th');
-                        th.classList.add('th-periodo-mod');
-                        let texto = document.createTextNode(`Periodo ${i}`);
-
-                        th.appendChild(texto);
-                        nodoA.appendChild(th);
-                    }
-                    break;
-                }
-            }
-        }
-
-        // Tablas de de intervalos min y max 1-N
-        for (let tabla of thead_periodo_i_mod) {
-            for (let nodoA of tabla.childNodes) {
-                if (nodoA.nodeName.toLowerCase() === 'tr') {
-                    // Agrega las cabeceras de los periodos
-                    for (let i = 1; i <= periodos; i++) {
-                        let thmin = document.createElement('th');
-                        let thmax = document.createElement('th');
-
-                        thmin.classList.add('th-periodo-mod');
-                        thmax.classList.add('th-periodo-mod');
-
-                        let texto_min = document.createTextNode(`Flujo mínimo en I_${i}`);
-                        let texto_max = document.createTextNode(`Flujo máximo en I_${i}`);
-
-                        thmin.appendChild(texto_min);
-                        thmax.appendChild(texto_max);
-
-                        nodoA.appendChild(thmin);
-                        nodoA.appendChild(thmax);
-                    }
-                    break;
-                }
-            }
-        }
-
-        // Desactiva todos los colapsos
-        desactivarColapsosMod();
-    }, 100);
+    // Desactiva todos los colapsos
+    desactivarColapsosMod();
 
     // Recibe el contenedor
     objEscVistaMod = obj;
     objEscVistaMod.contador = 0;
     promesas_archivos = [];
+
+    // Vacía la lista de grids
+    gridsMod = [];
 
     // Obtiene los COMENTARIOS
     ipcRenderer.send('archivo:leer', objEscVistaMod.ruta, ['comentarios.txt'], 'MOD_COMENTARIOS');
@@ -705,12 +587,12 @@ ipcRenderer.on('escenarios_mod:archivo_leido', (event, obj_archivo) => {
     objEscVistaMod.contador++;
 
     // Agrega lista de promesas
-    setTimeout(() => {
+    // setTimeout(() => {
         promesas_archivos.push(new Promise((resolve, reject) => {
-            crearTablaMod(obj_archivo);
+            crearTablaModKendo(obj_archivo);
             resolve();
         }));
-    });
+    // });
 
     if (objEscVistaMod.contador === objEscVistaMod.numArchivos) {
         setTimeout(() => {
@@ -735,413 +617,563 @@ ipcRenderer.on('escenarios_mod:archivo_leido', (event, obj_archivo) => {
     }
 });
 
-function crearTablaMod(objArchivo, copia) {
-    let id = objArchivo.archivo.toUpperCase().split('.CSV')[0];
+// function crearTablaMod(objArchivo, copia) {
+//     let id = objArchivo.archivo.toUpperCase().split('.CSV')[0];
+//
+//     // REvisa si es copia
+//     if (typeof copia !== 'undefined' && copia === true) {
+//         // Agrega copia del identificador
+//         id += '_COPIA';
+//     }
+//
+//     // Busca la tabla en la lista, no en el dom
+//     let tabla = null;
+//     for (let t of tablas_mod) {
+//         if (t.id === id || t.id.replace('$', '1') === id || t.id.replace('$', SESION.sistema) === id) {
+//             tabla = t;
+//             break;
+//         }
+//     }
+//
+//     if (typeof tabla === 'undefined' || tabla === null) {
+//         // console.log('No existe la tabla', id);
+//         return;
+//     }
+//
+//     // MEnsaje a pantalla
+//     banner.setMensaje(`Procesando archivo:<br><font style="color:lightgreen;">${objArchivo.archivo}</font>`);
+//
+//     // Nodo tr anterior
+//     let tr_anterior = null;
+//     let num_columnas = 0;
+//
+//     // filas filtro de la tabla
+//     tabla.filas = [];
+//     tabla.filasFiltro = [];
+//     tabla.paginacion = null;
+//     tabla.ultimoFiltro = '';
+//
+//     // Borra el tbody anterior
+//     for (let nodo of tabla.childNodes) {
+//         if (nodo.nodeName.toLowerCase() === 'thead') {
+//             for (let nodoA of nodo.childNodes) {
+//                 if (nodoA.nodeName.toLowerCase() === 'tr') {
+//                     // Clona el encabezado
+//                     objArchivo.trHeader_aux = document.createElement('tr');
+//                     objArchivo.trHeader_aux.classList.add('tr-aux');
+//
+//                     let col_pos = 0;
+//                     for (let nodoB of nodoA.childNodes) {
+//                         if (nodoB.nodeName.toLowerCase() === 'th') {
+//                             // Busca input de filtro
+//                             nodoB.colPos = col_pos++;
+//                             for (let nodoC of nodoB.childNodes) {
+//                                 if (nodoC.nodeName.toLowerCase() === 'input') {
+//                                     nodoC.onkeyup = (event) => {
+//                                         if (nodoC.value === tabla.ultimoFiltro) {
+//                                             // Si no hay diferencia, no hace nada
+//                                             return;
+//                                         }
+//
+//                                         tabla.filasFiltro = [];
+//                                         if (nodoC.value === '') {
+//                                             // Todas visibles
+//                                             tabla.filasFiltro = tabla.filasFiltro.concat(tabla.filas);
+//                                         } else {
+//                                             // console.log('Buscando', nodoC.value, nodoC.colPos);
+//
+//                                             // En el arreglo de filas busca el filtro
+//                                             tabla.filas.forEach((fila) => {
+//                                                 // Busca la columna asociada
+//                                                 let colAsociada = fila.columnasFiltro[nodoB.colPos];
+//                                                 if (colAsociada.input === null) {
+//                                                     // Compara el valor como cadena
+//                                                     if (colAsociada.innerHTML.startsWith(`${nodoC.value}`)) {
+//                                                         tabla.filasFiltro.push(fila);
+//                                                     }
+//                                                 } else {
+//                                                     if (colAsociada.input.value.startsWith(`${nodoC.value}`)) {
+//                                                         tabla.filasFiltro.push(fila);
+//                                                     }
+//                                                 }
+//                                             });
+//                                         }
+//
+//                                         // Si la tabla tiene paginacion, controla la vista  através de ella
+//                                         if (typeof tabla.paginacion !== 'undefined' && tabla.paginacion !== null) {
+//                                             // Valida filas, solo se hace aca
+//                                             // ya que es el botón que se invoca cuando se filtran
+//                                             tabla.paginacion.validarFilas();
+//                                             tabla.paginacion.liPrimero.onclick();
+//                                         } else {
+//                                             tabla.tbody.innerHTML = '';
+//                                             tabla.filasFiltro.forEach((fila) => {
+//                                                 tabla.tbody.appendChild(fila);
+//                                             });
+//                                         }
+//
+//                                         tabla.ultimoFiltro = nodoC.value;
+//                                     };
+//                                 }
+//                             }
+//
+//                             // Inserta a auxiliar
+//                             let td = document.createElement('td');
+//                             td.innerHTML = nodoB.innerHTML;
+//
+//                             // revisa si hay un input de filtro
+//                             for (let nodoC of td.childNodes) {
+//                                 if (nodoC.nodeName.toLowerCase() === 'input') {
+//                                     nodoC.disabled = true;
+//                                     nodoC.value = nodoC.placeholder;
+//                                 }
+//                             }
+//
+//                             objArchivo.trHeader_aux.appendChild(td);
+//                             num_columnas++;
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//
+//         if (nodo.nodeName.toLowerCase() === 'tbody') {
+//             tabla.removeChild(nodo);
+//         }
+//     }
+//
+//     // Crea tbody
+//     let tbody = document.createElement('tbody');
+//     tbody.classList.add('tabla-body');
+//     tabla.tbody = tbody;
+//
+//     let flag_primera = true;
+//     let num_fila = 1;
+//     // Crea las filas
+//     objArchivo.filas.forEach((fila) => {
+//         // si es la primer fila, procesa las cabeceras
+//
+//         // SEMAFOROSDERS no trae cabeceras
+//         /* *************************************************** */
+//         /* Temporal mientras queda el archivo de configuracion */
+//         /* *************************************************** */
+//
+//         if (flag_primera && tabla.id !== 'SEMAFOROSDERS' && objArchivo.isResultado === true) {
+//             for (let nodoA of tabla.childNodes) {
+//                 if (nodoA.nodeName.toLowerCase() === 'thead') {
+//                     for (let nodoB of nodoA.childNodes) {
+//                         if (nodoB.nodeName.toLowerCase() === 'tr') {
+//                             // Clona el encabezado
+//                             objArchivo.trHeader_aux = document.createElement('tr');
+//                             objArchivo.trHeader_aux.classList.add('tr-aux');
+//
+//                             nodoB.innerHTML = "";
+//                             // Inserta los valores en la fila
+//                             // La primer columna es el número de fila
+//                             let th = document.createElement('th');
+//                             nodoB.appendChild(th);
+//
+//                             // Inserta a auxiliar
+//                             let td = document.createElement('td');
+//                             objArchivo.trHeader_aux.appendChild(td);
+//
+//                             let cont_filtro = 0;
+//
+//                             fila.forEach((objHeader) => {
+//                                 th = document.createElement('th');
+//                                 th.colPos = cont_filtro;
+//
+//                                 // Para filtro de busqueda
+//                                 if (objHeader.valor === 'UNIDAD') {
+//                                     let input = document.createElement('input');
+//                                     input.classList.add('input-filtro');
+//                                     // input.style.width = '5vw'; // Si no se
+//                                     input.placeholder = `${String.fromCharCode(0xf50d)} ${objHeader.valor}`;
+//                                     input.indice = cont_filtro++;
+//
+//                                     input.onkeyup = (event, cadena) => {
+//                                         let filtro;
+//
+//                                         // Si es cadena, el metodo se invocó desde su tabla par
+//                                         // de lo contrario, el usuario esta escribiendo en el input
+//                                         if (typeof cadena === 'string') {
+//                                             filtro = cadena;
+//                                             input.value = cadena;
+//                                         } else {
+//                                             filtro = input.value;
+//                                         }
+//
+//                                         if (filtro === tabla.ultimoFiltro) {
+//                                             // Si no hay diferencia, no hace nada
+//                                             return;
+//                                         }
+//
+//                                         tabla.filasFiltro = [];
+//                                         if (filtro === '') {
+//                                             // Todas visibles
+//                                             tabla.filasFiltro = tabla.filasFiltro.concat(tabla.filas);
+//                                         } else {
+//                                             // En el arreglo de filas busca el filtro
+//                                             tabla.filas.forEach((fila_tr) => {
+//                                                 // Busca la columna asociada
+//                                                 let colAsociada = fila_tr.columnasFiltro[th.colPos];
+//                                                 // Compara el valor como cadena
+//                                                 if (colAsociada.innerHTML.includes(`${filtro}`)) {
+//                                                     tabla.filasFiltro.push(fila_tr);
+//                                                 }
+//                                             });
+//                                         }
+//
+//                                         // Si la tabla tiene paginacion, controla la vista  através de ella
+//                                         if (typeof tabla.paginacion !== 'undefined' && tabla.paginacion !== null) {
+//                                             // Valida filas, solo se hace aca
+//                                             // ya que es el botón que se invoca cuando se filtran
+//                                             tabla.paginacion.validarFilas();
+//                                             tabla.paginacion.liPrimero.onclick();
+//                                         } else {
+//                                             tabla.tbody.innerHTML = '';
+//                                             tabla.filasFiltro.forEach((fila) => {
+//                                                 tabla.tbody.appendChild(fila);
+//                                             });
+//                                         }
+//
+//                                         tabla.ultimoFiltro = filtro;
+//                                     };
+//
+//                                     th.appendChild(input);
+//                                 } else {
+//                                     let texto = document.createTextNode(objHeader.valor);
+//                                     th.appendChild(texto);
+//                                 }
+//
+//                                 nodoB.appendChild(th);
+//
+//                                 // Inserta a auxiliar
+//                                 td = document.createElement('td');
+//                                 td.appendChild(document.createTextNode(objHeader.valor));
+//                                 objArchivo.trHeader_aux.appendChild(td);
+//                             });
+//
+//                             break;
+//                         }
+//                     }
+//
+//                     break;
+//                 }
+//             }
+//             flag_primera = false;
+//         } else {
+//             // Fila
+//             let tr = document.createElement('tr');
+//
+//             // Fila aux
+//             tr.tr_anterior = tr_anterior;
+//             tr.modificado = false;
+//
+//             // Agrega numero de registro
+//             let td_fila = document.createElement('td');
+//             let texto_fila = document.createTextNode(num_fila);
+//             td_fila.appendChild(texto_fila);
+//             td_fila.style.fontWeight = 'bold';
+//             td_fila.style.textShadow = '0px 0px 1px';
+//             tr.appendChild(td_fila);
+//
+//             tr.columnasFiltro = [];
+//             tr.columnasFiltro.push(td_fila);
+//
+//             // Crea columnas
+//             let num_col = 1;
+//             fila.forEach((objDato) => {
+//                 let td = document.createElement('td');
+//                 td.data = objDato;
+//
+//                 let valor;
+//                 if (objDato.valor.length > 15) {
+//                     let valorFloat = parseFloat(objDato.valor);
+//                     // Si es numero y tiene más de 6 decimales
+//                     if (!isNaN(valorFloat) && objDato.valor.includes('.') && objDato.valor.split('.')[1].length > 10) {
+//                         valor = `${valorFloat.toFixed(10)}`;
+//                     } else {
+//                         valor = objDato.valor;
+//                     }
+//                 } else {
+//                     valor = objDato.valor;
+//                 }
+//
+//                 let texto = document.createTextNode(valor);
+//                 td.appendChild(texto);
+//
+//                 tr.appendChild(td);
+//                 tr.columnasFiltro.push(td);
+//             });
+//
+//             // Si trae menos columnas, completa
+//             for (let i = num_col; i < num_columnas; i++) {
+//                 td = document.createElement('td');
+//                 tr.appendChild(td);
+//             }
+//
+//             // Eventos mouse
+//             // hover
+//             tr.onmouseover = () => {
+//                 // Inserta header para guia
+//                 if (objArchivo.trHeader_aux && tr.tr_anterior != null) {
+//                     // Si no es la fila proxima al header principal
+//                     if (tr.flagTop === false) {
+//                         try {
+//                             // Inserta el header auxiliar
+//                             tbody.insertBefore(objArchivo.trHeader_aux, tr.tr_anterior);
+//                         } catch (e) {}
+//
+//                         try {
+//                             // Quita la fila anterior
+//                             tbody.removeChild(tr.tr_anterior);
+//                         } catch (e) {}
+//                     }
+//                 }
+//             };
+//
+//             tr.onmouseout = () => {
+//                 // Inserta header para guia
+//                 if (objArchivo.trHeader_aux && tr.tr_anterior != null) {
+//                     // Si no es la fila proxima al header principal
+//                     if (tr.flagTop === false) {
+//                         // Reinserta la fila antes del header aux
+//                         try {
+//                             tbody.insertBefore(tr.tr_anterior, objArchivo.trHeader_aux);
+//                         } catch (e) {}
+//
+//                         try {
+//                             // Quita  el header aux del dom
+//                             tbody.removeChild(objArchivo.trHeader_aux);
+//                         } catch (e) {}
+//                     }
+//                 }
+//             };
+//
+//             num_fila++;
+//             tbody.appendChild(tr);
+//
+//             tabla.filas.push(tr);
+//
+//             // Fila auxiliar
+//             tr_anterior = tr;
+//         }
+//     });
+//
+//     tabla.appendChild(tbody);
+//
+//     // Por defecto agrega todas las filas a la vista
+//     tabla.filasFiltro = [].concat(tabla.filas);
+//
+//     // Verifica si require paginacion
+//     if (objArchivo.filas.length > MAX_ROWS) {
+//         // Si ya existe el objeto, solo reconstruye
+//         if (typeof tabla.paginacion !== 'undefined' && tabla.paginacion !== null) {
+//             tabla.paginacion.init();
+//         } else {
+//             tabla.paginacion = new Paginacion(tabla);
+//         }
+//     } else {
+//         // Elimina paginacion anterior
+//         if (typeof tabla.tfoot !== 'undefined') {
+//             tabla.tfoot.innerHTML = '';
+//         }
+//     }
+//
+//     let colapso = null;
+//     for (let col of colapsos_mod) {
+//         if (col.id === tabla.dataset.colapso) {
+//             colapso = col;
+//             break;
+//         }
+//     }
+//
+//     // Habilita su colapso si hubo datos
+//     if (colapso) {
+//         if (objArchivo.numFilas > 0) {
+//             colapso.classList.remove('inactivo');
+//             colapso.classList.remove('vacio');
+//         } else {
+//             // console.log(id, 'no tiene datos');
+//             colapso.classList.remove('inactivo');
+//             colapso.classList.add('vacio');
+//         }
+//     }
+//
+//     /* ********************** */
+//     /* Busca copias de tabla  */
+//     /* ********************** */
+//     if (id === 'ZONASRES_DERS') {
+//         console.log('Copiando ZONASRES_DERS');
+//         crearTablaMod(objArchivo, true);
+//     }
+//
+//     if (id === 'AUSUBSIS_DERS') {
+//         console.log('Copiando AUSUBSIS_DERS_COPIA');
+//         crearTablaMod(objArchivo, true);
+//     }
+//
+//     // Verifica su archivo para el nombre en el span del colapso
+//     if (objArchivo.isResultado === true) {
+//         spans_archivos.forEach((span) => {
+//             if (span.id.startsWith('ARCH')) {
+//                 let arch_id = span.id.replace('ARCH-', '');
+//                 if (id.startsWith(arch_id)) {
+//                     span.innerHTML = `${id}.csv`;
+//                 }
+//             }
+//         });
+//     }
+// }
 
-    // REvisa si es copia
-    if (typeof copia !== 'undefined' && copia === true) {
-        // Agrega copia del identificador
-        id += '_COPIA';
-    }
+function crearTablaModKendo(objData) {
+	// Remueve el contenido anterior
+	// Busca el contenedor
+	let id_cont = '#COLAPSABLE_MOD_' + objData.insumo.modelo.id;
+	let contenedor = $(id_cont);
+	// Vacia su contenido
+	contenedor.html('');
+	// Inserta una nueva tabla
+	let nueva_tabla = document.createElement('table');
+	nueva_tabla.classList.add('table');
+	nueva_tabla.classList.add('table-sm');
+	nueva_tabla.classList.add('table-striped');
+	nueva_tabla.id = objData.insumo.modelo.id + '_MOD';
+	// Inserta la nueva tabla
+	contenedor.append(nueva_tabla);
 
-    // Busca la tabla en la lista, no en el dom
-    let tabla = null;
-    for (let t of tablas_mod) {
-        if (t.id === id || t.id.replace('$', '1') === id || t.id.replace('$', SESION.sistema) === id) {
-            tabla = t;
-            break;
+	// Id de la tabla (nombre del archivo)
+	let id = nueva_tabla.id;
+
+    banner.trabajando();
+    banner.setMensaje(`Procesando archivo:<br><font style="color:lightgreen;">${objData.archivo}</font>`);
+
+	if (!id.startsWith('#')) {
+		id = '#' + id;
+	}
+
+    // Determina el tamano de paginacion
+    let page_size = 10;
+    if (typeof objData.insumo.segmentos === 'number' && objData.insumo.segmentos > 0) {
+        page_size = objData.insumo.segmentos;
+        // Si es un numero pequeño
+        if (page_size < 5) {
+            page_size *= 3;
+        } else if (page_size < 10) {
+            page_size *= 2;
         }
     }
 
-    if (typeof tabla === 'undefined' || tabla === null) {
-        // console.log('No existe la tabla', id);
-        return;
-    }
-
-    // MEnsaje a pantalla
-    banner.setMensaje(`Procesando archivo:<br><font style="color:lightgreen;">${objArchivo.archivo}</font>`);
-
-    // Nodo tr anterior
-    let tr_anterior = null;
-    let num_columnas = 0;
-
-    // filas filtro de la tabla
-    tabla.filas = [];
-    tabla.filasFiltro = [];
-    tabla.paginacion = null;
-    tabla.ultimoFiltro = '';
-
-    // Borra el tbody anterior
-    for (let nodo of tabla.childNodes) {
-        if (nodo.nodeName.toLowerCase() === 'thead') {
-            for (let nodoA of nodo.childNodes) {
-                if (nodoA.nodeName.toLowerCase() === 'tr') {
-                    // Clona el encabezado
-                    objArchivo.trHeader_aux = document.createElement('tr');
-                    objArchivo.trHeader_aux.classList.add('tr-aux');
-
-                    let col_pos = 0;
-                    for (let nodoB of nodoA.childNodes) {
-                        if (nodoB.nodeName.toLowerCase() === 'th') {
-                            // Busca input de filtro
-                            nodoB.colPos = col_pos++;
-                            for (let nodoC of nodoB.childNodes) {
-                                if (nodoC.nodeName.toLowerCase() === 'input') {
-                                    nodoC.onkeyup = (event) => {
-                                        if (nodoC.value === tabla.ultimoFiltro) {
-                                            // Si no hay diferencia, no hace nada
-                                            return;
-                                        }
-
-                                        tabla.filasFiltro = [];
-                                        if (nodoC.value === '') {
-                                            // Todas visibles
-                                            tabla.filasFiltro = tabla.filasFiltro.concat(tabla.filas);
-                                        } else {
-                                            // console.log('Buscando', nodoC.value, nodoC.colPos);
-
-                                            // En el arreglo de filas busca el filtro
-                                            tabla.filas.forEach((fila) => {
-                                                // Busca la columna asociada
-                                                let colAsociada = fila.columnasFiltro[nodoB.colPos];
-                                                if (colAsociada.input === null) {
-                                                    // Compara el valor como cadena
-                                                    if (colAsociada.innerHTML.startsWith(`${nodoC.value}`)) {
-                                                        tabla.filasFiltro.push(fila);
-                                                    }
-                                                } else {
-                                                    if (colAsociada.input.value.startsWith(`${nodoC.value}`)) {
-                                                        tabla.filasFiltro.push(fila);
-                                                    }
-                                                }
-                                            });
-                                        }
-
-                                        // Si la tabla tiene paginacion, controla la vista  através de ella
-                                        if (typeof tabla.paginacion !== 'undefined' && tabla.paginacion !== null) {
-                                            // Valida filas, solo se hace aca
-                                            // ya que es el botón que se invoca cuando se filtran
-                                            tabla.paginacion.validarFilas();
-                                            tabla.paginacion.liPrimero.onclick();
-                                        } else {
-                                            tabla.tbody.innerHTML = '';
-                                            tabla.filasFiltro.forEach((fila) => {
-                                                tabla.tbody.appendChild(fila);
-                                            });
-                                        }
-
-                                        tabla.ultimoFiltro = nodoC.value;
-                                    };
-                                }
-                            }
-
-                            // Inserta a auxiliar
-                            let td = document.createElement('td');
-                            td.innerHTML = nodoB.innerHTML;
-
-                            // revisa si hay un input de filtro
-                            for (let nodoC of td.childNodes) {
-                                if (nodoC.nodeName.toLowerCase() === 'input') {
-                                    nodoC.disabled = true;
-                                    nodoC.value = nodoC.placeholder;
-                                }
-                            }
-
-                            objArchivo.trHeader_aux.appendChild(td);
-                            num_columnas++;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (nodo.nodeName.toLowerCase() === 'tbody') {
-            tabla.removeChild(nodo);
-        }
-    }
-
-    // Crea tbody
-    let tbody = document.createElement('tbody');
-    tbody.classList.add('tabla-body');
-    tabla.tbody = tbody;
-
-    let flag_primera = true;
-    let num_fila = 1;
-    // Crea las filas
-    objArchivo.filas.forEach((fila) => {
-        // si es la primer fila, procesa las cabeceras
-
-        // SEMAFOROSDERS no trae cabeceras
-        /* *************************************************** */
-        /* Temporal mientras queda el archivo de configuracion */
-        /* *************************************************** */
-
-        if (flag_primera && tabla.id !== 'SEMAFOROSDERS' && objArchivo.isResultado === true) {
-            for (let nodoA of tabla.childNodes) {
-                if (nodoA.nodeName.toLowerCase() === 'thead') {
-                    for (let nodoB of nodoA.childNodes) {
-                        if (nodoB.nodeName.toLowerCase() === 'tr') {
-                            // Clona el encabezado
-                            objArchivo.trHeader_aux = document.createElement('tr');
-                            objArchivo.trHeader_aux.classList.add('tr-aux');
-
-                            nodoB.innerHTML = "";
-                            // Inserta los valores en la fila
-                            // La primer columna es el número de fila
-                            let th = document.createElement('th');
-                            nodoB.appendChild(th);
-
-                            // Inserta a auxiliar
-                            let td = document.createElement('td');
-                            objArchivo.trHeader_aux.appendChild(td);
-
-                            let cont_filtro = 0;
-
-                            fila.forEach((objHeader) => {
-                                th = document.createElement('th');
-                                th.colPos = cont_filtro;
-
-                                // Para filtro de busqueda
-                                if (objHeader.valor === 'UNIDAD') {
-                                    let input = document.createElement('input');
-                                    input.classList.add('input-filtro');
-                                    // input.style.width = '5vw'; // Si no se
-                                    input.placeholder = `${String.fromCharCode(0xf50d)} ${objHeader.valor}`;
-                                    input.indice = cont_filtro++;
-
-                                    input.onkeyup = (event, cadena) => {
-                                        let filtro;
-
-                                        // Si es cadena, el metodo se invocó desde su tabla par
-                                        // de lo contrario, el usuario esta escribiendo en el input
-                                        if (typeof cadena === 'string') {
-                                            filtro = cadena;
-                                            input.value = cadena;
-                                        } else {
-                                            filtro = input.value;
-                                        }
-
-                                        if (filtro === tabla.ultimoFiltro) {
-                                            // Si no hay diferencia, no hace nada
-                                            return;
-                                        }
-
-                                        tabla.filasFiltro = [];
-                                        if (filtro === '') {
-                                            // Todas visibles
-                                            tabla.filasFiltro = tabla.filasFiltro.concat(tabla.filas);
-                                        } else {
-                                            // En el arreglo de filas busca el filtro
-                                            tabla.filas.forEach((fila_tr) => {
-                                                // Busca la columna asociada
-                                                let colAsociada = fila_tr.columnasFiltro[th.colPos];
-                                                // Compara el valor como cadena
-                                                if (colAsociada.innerHTML.includes(`${filtro}`)) {
-                                                    tabla.filasFiltro.push(fila_tr);
-                                                }
-                                            });
-                                        }
-
-                                        // Si la tabla tiene paginacion, controla la vista  através de ella
-                                        if (typeof tabla.paginacion !== 'undefined' && tabla.paginacion !== null) {
-                                            // Valida filas, solo se hace aca
-                                            // ya que es el botón que se invoca cuando se filtran
-                                            tabla.paginacion.validarFilas();
-                                            tabla.paginacion.liPrimero.onclick();
-                                        } else {
-                                            tabla.tbody.innerHTML = '';
-                                            tabla.filasFiltro.forEach((fila) => {
-                                                tabla.tbody.appendChild(fila);
-                                            });
-                                        }
-
-                                        tabla.ultimoFiltro = filtro;
-                                    };
-
-                                    th.appendChild(input);
-                                } else {
-                                    let texto = document.createTextNode(objHeader.valor);
-                                    th.appendChild(texto);
-                                }
-
-                                nodoB.appendChild(th);
-
-                                // Inserta a auxiliar
-                                td = document.createElement('td');
-                                td.appendChild(document.createTextNode(objHeader.valor));
-                                objArchivo.trHeader_aux.appendChild(td);
-                            });
-
-                            break;
-                        }
-                    }
-
-                    break;
-                }
-            }
-            flag_primera = false;
-        } else {
-            // Fila
-            let tr = document.createElement('tr');
-
-            // Fila aux
-            tr.tr_anterior = tr_anterior;
-            tr.modificado = false;
-
-            // Agrega numero de registro
-            let td_fila = document.createElement('td');
-            let texto_fila = document.createTextNode(num_fila);
-            td_fila.appendChild(texto_fila);
-            td_fila.style.fontWeight = 'bold';
-            td_fila.style.textShadow = '0px 0px 1px';
-            tr.appendChild(td_fila);
-
-            tr.columnasFiltro = [];
-            tr.columnasFiltro.push(td_fila);
-
-            // Crea columnas
-            let num_col = 1;
-            fila.forEach((objDato) => {
-                let td = document.createElement('td');
-                td.data = objDato;
-
-                let valor;
-                if (objDato.valor.length > 15) {
-                    let valorFloat = parseFloat(objDato.valor);
-                    // Si es numero y tiene más de 6 decimales
-                    if (!isNaN(valorFloat) && objDato.valor.includes('.') && objDato.valor.split('.')[1].length > 10) {
-                        valor = `${valorFloat.toFixed(10)}`;
-                    } else {
-                        valor = objDato.valor;
-                    }
-                } else {
-                    valor = objDato.valor;
-                }
-
-                let texto = document.createTextNode(valor);
-                td.appendChild(texto);
-
-                tr.appendChild(td);
-                tr.columnasFiltro.push(td);
-            });
-
-            // Si trae menos columnas, completa
-            for (let i = num_col; i < num_columnas; i++) {
-                td = document.createElement('td');
-                tr.appendChild(td);
-            }
-
-            // Eventos mouse
-            // hover
-            tr.onmouseover = () => {
-                // Inserta header para guia
-                if (objArchivo.trHeader_aux && tr.tr_anterior != null) {
-                    // Si no es la fila proxima al header principal
-                    if (tr.flagTop === false) {
-                        try {
-                            // Inserta el header auxiliar
-                            tbody.insertBefore(objArchivo.trHeader_aux, tr.tr_anterior);
-                        } catch (e) {}
-
-                        try {
-                            // Quita la fila anterior
-                            tbody.removeChild(tr.tr_anterior);
-                        } catch (e) {}
-                    }
-                }
-            };
-
-            tr.onmouseout = () => {
-                // Inserta header para guia
-                if (objArchivo.trHeader_aux && tr.tr_anterior != null) {
-                    // Si no es la fila proxima al header principal
-                    if (tr.flagTop === false) {
-                        // Reinserta la fila antes del header aux
-                        try {
-                            tbody.insertBefore(tr.tr_anterior, objArchivo.trHeader_aux);
-                        } catch (e) {}
-
-                        try {
-                            // Quita  el header aux del dom
-                            tbody.removeChild(objArchivo.trHeader_aux);
-                        } catch (e) {}
-                    }
-                }
-            };
-
-            num_fila++;
-            tbody.appendChild(tr);
-
-            tabla.filas.push(tr);
-
-            // Fila auxiliar
-            tr_anterior = tr;
-        }
+    // Deshabilita edicion
+    objData.insumo.columnas.forEach((col) => {
+        objData.insumo.modelo.fields[col.field].editable = false;
     });
 
-    tabla.appendChild(tbody);
+	// Inserta el modelo y los datos en el dataSource
+	let dataSourceObj = {
+        pageSize: page_size,
+		schema: {
+			model: objData.insumo.modelo
+		},
+		data: objData.filas
+	};
 
-    // Por defecto agrega todas las filas a la vista
-    tabla.filasFiltro = [].concat(tabla.filas);
+    // Colapso de la tabla
+	let colapso = colapsos_mod.find((col) => { return col.id === 'COLAPSO_MOD_'  + objData.insumo.modelo.id; });
+    console.log(objData.insumo.modelo.id, 'dataSourceObj',dataSourceObj, colapso);
 
-    // Verifica si require paginacion
-    if (objArchivo.filas.length > MAX_ROWS) {
-        // Si ya existe el objeto, solo reconstruye
-        if (typeof tabla.paginacion !== 'undefined' && tabla.paginacion !== null) {
-            tabla.paginacion.init();
-        } else {
-            tabla.paginacion = new Paginacion(tabla);
-        }
-    } else {
-        // Elimina paginacion anterior
-        if (typeof tabla.tfoot !== 'undefined') {
-            tabla.tfoot.innerHTML = '';
-        }
-    }
+	try {
+		let dataSource = new kendo.data.DataSource(dataSourceObj);
+		// Valida campos dependientes del algoritmo
+		if (objData.insumo.algDep === true) {
+			let periodos = 8;
+			if (objData.algoritmo === 'dersmi') {
+				periodos = 4;
+			} else if (objData.algoritmo === 'dersi') {
+				periodos = 1;
+			}
+			console.log('>>>> Periodos', periodos);
 
-    let colapso = null;
-    for (let col of colapsos_mod) {
-        if (col.id === tabla.dataset.colapso) {
-            colapso = col;
-            break;
-        }
-    }
+            // Oculta la columna de periodo que no aplica
+			objData.insumo.columnas.forEach((columna) => {
+				if (typeof columna.periodo === 'number' && columna.periodo > periodos) {
+					columna.hidden = true;
+				}
+			});
+		}
+
+		// En el objeto del grid inserta las columnas
+        gridsMod.push($(id).kendoGrid({
+			dataSource: dataSource,
+			columns: objData.insumo.columnas,
+			sortable: {
+				showIndexes: true,
+				mode: "multiple"
+			},
+			filterable: {
+				messages: {
+					and: "Y",
+					or: "O",
+					filter: "Aplicar Filtro",
+					clear: "Limpiar Filtro",
+					info: "Elementos filtrados por"
+				},
+				operators: {
+					string: {
+						eq: "Igual que",
+						neq: "Diferente que",
+						startswith: "Comienza con",
+						endswith: "Termina con",
+						contains: "Contiene",
+						doesnotcontains: "No contiene",
+						isnull: "Es nula",
+						isnotnull: "No es nula",
+						isempty: "Está vacía",
+						isnotempty: "No está vacía"
+					},
+					number: {
+						eq: "Igual que",
+						neq: "Diferente que",
+						gt: "Mayor que",
+						gte: "Mayor o igual que",
+						lt: "Menor que",
+						lte: "Menor o igual que",
+						isnull: "Es nulo",
+						isnotnull: "No es nulo",
+					}
+				}
+			},
+			scrollable: {endless: true},
+			navigatable: true,
+			pageable: {
+				messages: {
+					display: "Mostrando {0}-{1} de {2} registros",
+					empty: "No hay registros en el archivo"
+				}
+			},
+			reorderable: false,
+			groupable: false,
+			resizable: true,
+			columnMenu: false,
+			editable: false
+		}));
+	} catch (e) {
+		console.log(' ERROR >>>', e);
+	}
 
     // Habilita su colapso si hubo datos
     if (colapso) {
-        if (objArchivo.numFilas > 0) {
-            colapso.classList.remove('inactivo');
-            colapso.classList.remove('vacio');
-        } else {
-            // console.log(id, 'no tiene datos');
-            colapso.classList.remove('inactivo');
-            colapso.classList.add('vacio');
-        }
-    }
+		colapso.classList.remove('inactivo');
+        // Si no tiene datos, marca como vacio
+		if (objData.filas.length > 0) {
+			colapso.classList.remove('vacio');
+		} else {
+			colapso.classList.add('vacio');
+		}
 
-    /* ********************** */
-    /* Busca copias de tabla  */
-    /* ********************** */
-    if (id === 'ZONASRES_DERS') {
-        console.log('Copiando ZONASRES_DERS');
-        crearTablaMod(objArchivo, true);
-    }
-
-    if (id === 'AUSUBSIS_DERS') {
-        console.log('Copiando AUSUBSIS_DERS_COPIA');
-        crearTablaMod(objArchivo, true);
-    }
-
-    // Verifica su archivo para el nombre en el span del colapso
-    if (objArchivo.isResultado === true) {
-        spans_archivos.forEach((span) => {
-            if (span.id.startsWith('ARCH')) {
-                let arch_id = span.id.replace('ARCH-', '');
-                if (id.startsWith(arch_id)) {
-                    span.innerHTML = `${id}.csv`;
-                }
-            }
-        });
+        // Colapsa el contenedor
+    	colapsarMod(colapso, 'COLAPSABLE_MOD_' + objData.insumo.modelo.id);
     }
 }
 

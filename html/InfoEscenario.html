@@ -87,13 +87,6 @@
                             </div>
                             <div class="row colapsable div-tabla invisible" id="COLAPSABLE_HORIZODERS"></div>
 
-                            <!-- SUBSISTEMA -->
-                            <!-- <div class="row justify-content-center celda-header-info" onclick="toggleColapso(this,'COLAPSABLE_AUSUBSIS_DERS');" id="COLAPSO_AUSUBSIS_DERS">
-                                <span class="invisible"><i class="demo-icon icon-edit"></i></span>
-                                <div class="col"><span class="span-archivo">AUSUBSIS_DERS.csv</span>Subsistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
-                            </div>
-                            <div class="row colapsable div-tabla invisible" id="COLAPSABLE_AUSUBSIS_DERS"></div> -->
-
                             <!-- AREAS -->
                             <div class="row justify-content-center celda-header-info" onclick="toggleColapso(this,'COLAPSABLE_AREAS_DERS');" id="COLAPSO_AREAS_DERS">
                                 <span class="invisible"><i class="demo-icon icon-edit"></i></span>
@@ -107,13 +100,6 @@
                                 <div class="col"><span class="span-archivo">ZONAS_CARGA.csv</span>Zonas de Carga<span><i class="fa fa-caret-square-o-down"></i></span></div>
                             </div>
                             <div class="row colapsable div-tabla invisible" id="COLAPSABLE_ZONAS_CARGA"></div>
-
-                            <!-- ZONAS DE RESERVA -->
-                            <!-- <div class="row justify-content-center celda-header-info" onclick="toggleColapso(this,'COLAPSABLE_ZONASRES_DERS');" id="COLAPSO_ZONASRES_DERS">
-                                <span class="invisible"><i class="demo-icon icon-edit"></i></span>
-                                <div class="col"><span class="span-archivo">ZONASRES_DERS.csv</span>Zonas de Reserva<span><i class="fa fa-caret-square-o-down"></i></span></div>
-                            </div>
-                            <div class="row colapsable div-tabla invisible" id="COLAPSABLE_ZONASRES_DERS"></div> -->
 
                             <!-- PRECIOS TOPE Y PISOS -->
                             <div class="row justify-content-center celda-header-info" onclick="toggleColapso(this,'COLAPSABLE_PRETOPEPISO');" id="COLAPSO_PRETOPEPISO">
@@ -1496,18 +1482,18 @@
                         <div class="col-4">
                             <div class="row container">
                                 <div class="col col-comentarios">
-                                    <button class="button_gral boton-info" id="boton_nuevoFolio" onclick="guardarEscenario(false);"><span><i class="demo-icon icon-folder-add"></i></span>Nuevo Folio</button>
+                                    <button class="button_gral boton-info" id="boton_nuevoFolio" data-toggle="tooltip" data-placement="left" title="Generar un nuevo escenario modificado con nuevo folio." onclick="guardarEscenario(false);"><span><i class="demo-icon icon-folder-add"></i></span>Nuevo Folio</button>
                                 </div>
                                 <div class="col col-comentarios">
-                                    <button class="button_gral boton-info" id="boton_actualizarEscenario" onclick="guardarEscenario(true);" disabled><span><i class="demo-icon icon-floppy"></i></span>Guardar Cambios</button>
+                                    <button class="button_gral boton-info" id="boton_actualizarEscenario" data-toggle="tooltip" data-placement="left" title="Guardar los cambios en el escenario modificado actual." onclick="guardarEscenario(true);" disabled><span><i class="demo-icon icon-floppy"></i></span>Guardar Cambios</button>
                                 </div>
                             </div>
                             <div class="row container">
                                 <div class="col col-comentarios">
-                                    <button class="button_gral boton-info" id="boton_resultadoOriginal" onclick="mostrarSalidaAlgoritmoOriginal();"><span><i class="demo-icon icon-terminal-1"></i></span>Resultado Original</button>
+                                    <button class="button_gral boton-info" id="boton_resultadoOriginal" data-toggle="tooltip" data-placement="left" title="Mostrar resultados de ejecución del algoritmo original." onclick="mostrarSalidaAlgoritmoOriginal();"><span><i class="demo-icon icon-terminal-1"></i></span>Resultado Original</button>
                                 </div>
                                 <div class="col col-comentarios">
-                                    <button class="button_gral boton-info boton-ejecutar" id="boton_ejecutarEscenario" disabled onclick="ejecutarAlgoritmo();"><span><i class="demo-icon icon-play-2"></i></span>Ejecutar</button>
+                                    <button class="button_gral boton-info boton-ejecutar" id="boton_ejecutarEscenario" data-toggle="tooltip" data-placement="left" title="Ejecutar algoritmo en el escenario modificado actual." disabled onclick="ejecutarAlgoritmo();"><span><i class="demo-icon icon-play-2"></i></span>Ejecutar</button>
                                 </div>
                             </div>
                         </div>

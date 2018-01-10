@@ -922,7 +922,7 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
     }  else if (obj.opc === 'MOD_COSTOS') {
         let arg_islas = obj.res.replace(new RegExp('=?', 'g'), '').split('Isla :');
         let datos_costos = arg_islas[arg_islas.length - 1].split('Solucion Final para la Isla')[1].trim().replace(new RegExp('\s*:', 'g'), '').split(new RegExp('\s*\n\s*', 'g'));
-        console.log();
+        console.log('MOD_COSTOS');
         // Lo guarda en el objeto original
         objEscVistaMod.costo_total = '---';
         objEscVistaMod.costo_gen = '---';
@@ -962,50 +962,77 @@ ipcRenderer.on('archivo:leido', (event, obj) => {
             }
         });
 
-        for (let col of colapsos_mod) {
-            if (col.id ==='col_info_datos_costos') {
-                // Busca el icono para mostrarlo
-                for (let nodo of col.childNodes) {
-                    if (nodo.nodeName.toLowerCase() === 'span') {
-                        nodo.classList.remove('invisible');
-                        console.log('muestra icono', nodo.classList.contains('invisible'));
-                    }
-                }
 
-                // Quita la clase inactivo
-                col.classList.remove('inactivo');
-                // Busca la tabla
-                let tabla_encontrada;
-                for (let tabla of tablas_mod) {
-                    if (tabla.id === 'DATOS_COSTOS') {
-                        // Borra el tbody anterior
-                        if (typeof tabla.tbody !== "undefined" && tabla.tbody !== null) {
-                            try {
-                                tabla.removeChild(tabla.tbody);
-                            } catch (e) {}
-                        }
-                        // Crea el tbody
-                        tabla.tbody = document.createElement('tbody');
-                        tabla.tbody.classList.add('tabla-body');
-                        tabla.appendChild(tabla.tbody);
-
-                        tabla.filas = [];
-
-                        crearFilaCosto(tabla, 'Costo Total', objEscVistaMod.costo_total);
-                        crearFilaCosto(tabla, 'Costo Generación', objEscVistaMod.costo_gen);
-                        crearFilaCosto(tabla, 'Costo Generación RD', objEscVistaMod.costo_gen_rd);
-                        crearFilaCosto(tabla, 'Costo Generación RC', objEscVistaMod.costo_gen_rc);
-                        crearFilaCosto(tabla, 'Beneficio Social', objEscVistaMod.beneficio_social);
-                        crearFilaCosto(tabla, 'Costo Arranque', objEscVistaMod.costo_arranque);
-                        crearFilaCosto(tabla, 'Costo Reservas', objEscVistaMod.costo_reservas);
-                        crearFilaCosto(tabla, 'Ingreso Total', objEscVistaMod.ingreso_total);
-                        crearFilaCosto(tabla, 'Ingreso Demanda', objEscVistaMod.ingreso_demanda);
-                        crearFilaCosto(tabla, 'Ingreso Reservas', objEscVistaMod.ingreso_reservas);
-
-                        tabla_encontrada = tabla;
-                    }
+        let colapso = colapsos_mod.find((col) => { return col.id === 'COLAPSO_MOD_r_desphora1'});
+        let colapsable = $('#COLAPSABLE_MOD_r_desphora1');
+        console.log('>>>>', colapso, colapsable);
+        if (typeof colapso !== 'undefined' && typeof colapsable !== 'undefined') {
+            // Busca el icono para mostrarlo
+            for (let nodo of colapso.childNodes) {
+                if (nodo.nodeName.toLowerCase() === 'span') {
+                    nodo.classList.remove('invisible');
+                    console.log('muestra icono', nodo.classList.contains('invisible'));
                 }
             }
+
+            // Quita la clase inactivo
+            colapso.classList.remove('inactivo');
+
+            // Vacia su contenido
+            colapsable.html('');
+            // Inserta una nueva tabla
+            let nueva_tabla = document.createElement('table');
+            nueva_tabla.classList.add('table');
+            nueva_tabla.classList.add('table-sm');
+            nueva_tabla.classList.add('table-striped');
+            nueva_tabla.id = 'MOD_r_desphora1';
+            // Inserta la nueva tabla
+            colapsable.append(nueva_tabla);
+
+            let dataSourceObj = {
+                schema: {
+                    model: {
+                        id: "MOD_r_desphora1",
+                        fields: {
+                            campo: { type: "string", editable: false, nullable: false },
+                            valor: { type: "number", editable: false, nullable: false }
+                        },
+                    },
+                },
+                data: [
+                    { campo: 'Costo Total', valor: objEscVistaMod.costo_total},
+                    { campo: 'Costo Generación', valor: objEscVistaMod.costo_gen},
+                    { campo: 'Costo Generación RD', valor: objEscVistaMod.costo_gen_rd},
+                    { campo: 'Costo Generación RC', valor: objEscVistaMod.costo_gen_rc},
+                    { campo: 'Beneficio Social', valor: objEscVistaMod.beneficio_social},
+                    { campo: 'Costo Arranque', valor: objEscVistaMod.costo_arranque},
+                    { campo: 'Costo Reservas', valor: objEscVistaMod.costo_reservas},
+                    { campo: 'Ingreso Total', valor: objEscVistaMod.ingreso_total},
+                    { campo: 'Ingreso Demanda', valor: objEscVistaMod.ingreso_demanda},
+                    { campo: 'Ingreso Reservas', valor: objEscVistaMod.ingreso_reservas},
+                ]
+            };
+
+            console.log('dataSourceObj', dataSourceObj);
+            let dataSource = new kendo.data.DataSource(dataSourceObj);
+
+            $('#' + nueva_tabla.id).kendoGrid({
+                dataSource: dataSource,
+                columns: [
+                    { field: "campo", title: "Concepto", sortable: false, filterable: false},
+                    { field: "valor", format: "{0:c2}", title: "Valor", sortable: false, filterable: false}
+                ],
+                sortable: false,
+                filterable: false,
+                scrollable: true,
+                navigatable: true,
+                pageable: false,
+                reorderable: false,
+                groupable: false,
+                resizable: true,
+                columnMenu: false,
+                editable: false
+            });
         }
     } else if (obj.opc === 'MOD_COMENTARIOS') {
         if (obj.res.startsWith('ERROR')) {

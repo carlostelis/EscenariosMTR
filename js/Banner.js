@@ -95,6 +95,9 @@ class Banner {
     }
 
     mostrar() {
+        // Oculta tooltips, de repente se cuelgan con el banner
+        $("[data-toggle='tooltip']").tooltip('hide');
+        
         this.contenedor.appendChild(this.divBanner);
         setTimeout(() => {
             try {

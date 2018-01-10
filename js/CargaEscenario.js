@@ -1,11 +1,3 @@
-// Al ser la misma página, los objetos se
-// comparten entre scripts
-// electron, ipcRenderer y body definidos en general
-
-// Espera definicion
-while (typeof ipcRenderer === 'undefined') {
-    console.log('Espera definicion');
-}
 
 // Progreso de descarga de directorio
 ipcRenderer.on('directorio:progreso', (event, res) => {

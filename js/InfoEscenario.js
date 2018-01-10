@@ -145,6 +145,9 @@ function colapsar(trigger, id) {
 }
 
 function mostrarContenedor(id, trigger) {
+    // Oculta tooltips, de repente se cuelgan con el banner
+    $("[data-toggle='tooltip']").tooltip('hide');
+
     for (let cont of contenedores_info) {
         if (cont.id === id) {
             cont.style.display = 'block';
@@ -1101,8 +1104,7 @@ function crearTablaInfoKendo(objData) {
 
 	// Inserta el modelo y los datos en el dataSource
 	let dataSourceObj = {
-        // batch: true,
-		pageSize: page_size,
+        pageSize: page_size,
 		schema: {
 			model: objData.insumo.modelo
 		},
@@ -1126,6 +1128,7 @@ function crearTablaInfoKendo(objData) {
 			}
 			console.log('>>>> Periodos', periodos);
 
+            // Oculta la columna de periodo que no aplica
 			objData.insumo.columnas.forEach((columna) => {
 				if (typeof columna.periodo === 'number' && columna.periodo > periodos) {
 					columna.hidden = true;
@@ -1612,11 +1615,18 @@ ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
         // Si no hubo infactibilidad, se habilita resultados
         // consolaExe.habilitarBoton('resultados', true);
 
-        actualizarResultadoInfo(true);
-
         if (res.exito === true) {
             consolaExe.appendTexto(`<font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`);
             mensajeConsola(`Fin de ejecución del algoritmo; terminación normal`, true);
+
+            setTimeout(() => {
+                actualizarResultadoInfo(true);
+            }, 250);
+        } else {
+            // Habilita botones
+            consolaExe.habilitarBoton('ejecutar', true);
+            consolaExe.habilitarBoton('cerrar', true);
+            consolaExe.habilitarBoton('resultados', false);
         }
     }
 

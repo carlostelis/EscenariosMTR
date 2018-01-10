@@ -1153,7 +1153,7 @@ ipcMain.on('escenarios_mod_modificados:leer', (event, algoritmo, anio, mes, dia,
 ipcMain.on('escenarios_mod:leer_todo', (event, algoritmo, anio, mes, dia, id_ori, id_mod) => {
     let ruta_escenario = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio, mes, dia, id_ori, id_mod);
 
-    escenario.parseEscenario(ruta_escenario, algoritmo).then((obj) => {
+    escenario.parseEscenarioNew(ruta_escenario, algoritmo).then((obj) => {
         let objetoTodos = {
             ruta: obj.ruta,
             algoritmo: obj.algoritmo,

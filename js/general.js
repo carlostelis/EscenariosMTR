@@ -15,7 +15,7 @@ require('electron-context-menu')({
 
 // Inicializa tooltips
 $(function () {
-	$('[data-toggle="tooltip"]').tooltip({delay: {show: 1000, hide: 100}});
+	$('[data-toggle="tooltip"]').tooltip({delay: {show: 1000, hide: 100}, trigger: 'hover'});
 });
 
 // Mute al debug de la librería
@@ -118,6 +118,7 @@ let boton_guardaBDEscenarioMod;
 let boton_cargaEscenarioMod_estado;
 let boton_cargaEscenarioModActual_estado;
 let flag_guardandoBD = false;
+let gridsMod = [];
 
 // Comparacion de resultados
 let tablas_res = null;
