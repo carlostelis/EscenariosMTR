@@ -4531,7 +4531,6 @@ module.exports = [
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
-        "algDep": true,
         "modelo": {
             "id": "DTR_ZONAS_RESERVA_1"
         }

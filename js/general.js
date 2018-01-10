@@ -144,6 +144,8 @@ let promesas_archivos_A = [];
 let promesas_archivos_B = [];
 let flag_A_cargado;
 let flag_B_cargado;
+let gridsRes = [];
+let listaRebote = [];
 
 // Modificados
 let select_mod_anio;

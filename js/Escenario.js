@@ -866,20 +866,19 @@ class Escenario {
                     console.log('Comparando archivo', archivoB.archivo);
                     if (archivoA.filas.length === archivoB.filas.length) {
                         for (let i = 0; i < archivoA.filas.length; i++) {
-                            for (let j = 0; j < archivoB.filas[i].length; j++) {
-                                try {
-                                    let objDatoA = archivoA.filas[i][j];
-                                    let objDatoB = archivoB.filas[i][j];
-                                    // SI hay diferencia en el dato correspondiente, se marca como diferente en B
-                                    if (objDatoA.valor !== objDatoB.valor) {
-                                        objDatoB.diferencia = true;
-                                        objDatoA.diferencia = true;
-                                        // console.log('Diferencia', archivoA.archivo, objDatoA.valor, "->", objDatoB.valor);
-                                    } else {
-                                        archivoB.filas[i][j].diferencia = false;
-                                    }
-                                } catch (e) {}
-                            }
+                            archivoA.insumo.columnas.forEach((col) => {
+                                let objDatoA = archivoA.filas[i];
+                                let objDatoB = archivoB.filas[i];
+                                // SI hay diferencia en el dato correspondiente, se marca como diferente en B
+                                if (objDatoA[col] !== objDatoB[col]) {
+                                    objDatoB.diferencia = true;
+                                    objDatoA.diferencia = true;
+                                    // console.log('Diferencia', archivoA.archivo, objDatoA.valor, "->", objDatoB.valor);
+                                } else {
+                                    objDatoB.diferencia = false;
+                                    objDatoA.diferencia = false;
+                                }
+                            });
                         }
                     } else {
                         console.log(archivoA.archivo, archivoB.archivo, 'tienen diferente numero de filas');

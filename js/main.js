@@ -801,9 +801,9 @@ ipcMain.on('escenario_resultados:leer', (event, ruta_escenario, algoritmo) => {
 ipcMain.on('escenario_resultados:leerComparar', (event, ruta_escenario_A, ruta_escenario_B, algoritmo) => {
     // LEe el escenario A
     console.log('--------');
-    escenario.parseEscenario(ruta_escenario_A, algoritmo, 'RESULTADOS').then((objA) => {
+    escenario.parseEscenarioNew(ruta_escenario_A, algoritmo, 'RESULTADOS').then((objA) => {
         // LEe el escenario B
-        escenario.parseEscenario(ruta_escenario_B, algoritmo, 'RESULTADOS').then((objB) => {
+        escenario.parseEscenarioNew(ruta_escenario_B, algoritmo, 'RESULTADOS').then((objB) => {
             // Realiza comparacion
             escenario.compararResultados(objA, objB).then(() => {
                 // Manda objetos contenedores
@@ -837,7 +837,7 @@ ipcMain.on('escenario_resultados:leerComparar', (event, ruta_escenario_A, ruta_e
                             let factor_adicional = parseInt(objA.lista[i].filas.length / 1000) * 200;
                             promesas.push(new Promise((resolve, reject) => {
                                 setTimeout(() => {
-                                    console.log('Envia archivo', objA.lista[i].archivo, factor_to, factor_adicional);
+                                    console.log('Envia archivo comparado', objA.lista[i].archivo, factor_to, factor_adicional);
                                     win.webContents.send('escenario_resultados:archivo_leidoComparado', objA.lista[i], 'A');
                                     resolve();
                                 }, (i * factor_to) + factor_adicional);
@@ -858,7 +858,7 @@ ipcMain.on('escenario_resultados:leerComparar', (event, ruta_escenario_A, ruta_e
                                 let factor_adicional = parseInt(objB.lista[i].filas.length / 1000) * 200;
                                 // Ya no usa promesas para el escenario B
                                 setTimeout(() => {
-                                    console.log('Envia archivo', objB.lista[i].archivo, factor_to, factor_adicional);
+                                    console.log('Envia archivo comparado', objB.lista[i].archivo, factor_to, factor_adicional);
                                     win.webContents.send('escenario_resultados:archivo_leidoComparado', objB.lista[i], 'B');
                                 }, (i * factor_to) + factor_adicional);
                             }
