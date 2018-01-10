@@ -15,7 +15,7 @@ require('electron-context-menu')({
 
 // Inicializa tooltips
 $(function () {
-	$('[data-toggle="tooltip"]').tooltip();
+	$('[data-toggle="tooltip"]').tooltip({delay: {show: 1000, hide: 100}});
 });
 
 // Mute al debug de la librería

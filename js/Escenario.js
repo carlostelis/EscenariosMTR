@@ -452,8 +452,8 @@ class Escenario {
         });
 
         // Si hay más de 1 ciclo, conserva el último
-        console.log('>>>>> Eliminando', ultimo_ciclo, 'registros, hay', objDatos.numFilas);
         if (cont_ciclos >= 1) {
+            console.log('>>>>> Eliminando', ultimo_ciclo, 'registros, hay', objDatos.numFilas);
             for (let i = 0; i <= ultimo_ciclo; i++) {
                 objDatos.filas.shift();
             }
@@ -866,17 +866,23 @@ class Escenario {
                     console.log('Comparando archivo', archivoB.archivo);
                     if (archivoA.filas.length === archivoB.filas.length) {
                         for (let i = 0; i < archivoA.filas.length; i++) {
+                            // Referencias a la fila de cada archivo
+                            let objFilaA = archivoA.filas[i];
+                            let objFilaB = archivoB.filas[i];
+
+                            // Marca sin diferencias
+                            objFilaB.hayDiferencia = false;
+                            objFilaA.hayDiferencia = false;
+
                             archivoA.insumo.columnas.forEach((col) => {
-                                let objDatoA = archivoA.filas[i];
-                                let objDatoB = archivoB.filas[i];
                                 // SI hay diferencia en el dato correspondiente, se marca como diferente en B
-                                if (objDatoA[col] !== objDatoB[col]) {
-                                    objDatoB.diferencia = true;
-                                    objDatoA.diferencia = true;
-                                    // console.log('Diferencia', archivoA.archivo, objDatoA.valor, "->", objDatoB.valor);
-                                } else {
-                                    objDatoB.diferencia = false;
-                                    objDatoA.diferencia = false;
+                                if (objFilaA[col.field] !== objFilaB[col.field]) {
+                                    // console.log('Diferencia', archivoA.archivo, objFilaA[col.field], "->", objFilaB[col.field]);
+                                    objFilaA[col.field] = objFilaA[col.field] + '*+*';
+                                    objFilaB[col.field] = objFilaB[col.field] + '*+*';
+                                    // Marca diferencias
+                                    objFilaB.hayDiferencia = true;
+                                    objFilaA.hayDiferencia = true;
                                 }
                             });
                         }

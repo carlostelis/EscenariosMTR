@@ -268,6 +268,7 @@ ipcRenderer.on('escenario_completo:leido', (event, obj) => {
 
     // Limpia la lista de celdas modificadas
     listaFilasColumnas = [];
+    gridsInfo = [];
 
     // Recibe el contenedor
     objEscOriginal = obj;
@@ -1304,6 +1305,9 @@ function actualizarResultadoInfo(flag_banner) {
         return;
     }
 
+    salida_algoritmo += '<br>Actualizando resultados...';
+    consolaExe.setTexto(salida_algoritmo);
+
     mensajeConsola('Cargando resultados en información del escenario...', false);
     banner.setMensaje('Actualizando Resultados...');
     banner.actualizando();
@@ -1358,8 +1362,16 @@ ipcRenderer.on('escenario_resultados:archivo_leido', (event, obj_archivo) => {
                 // Manda a leer el archivo de costos e ingresos
                 ipcRenderer.send('archivo:leer', objEscModificado.ruta, ['dirres', 'r_desphora1.res'], 'INFO_COSTOS');
 
+                salida_algoritmo += '. Hecho';
+                consolaExe.setTexto(salida_algoritmo);
+
                 setTimeout(() => {
                     banner.ocultar();
+
+                    // Habilita botones
+                    consolaExe.habilitarBoton('ejecutar', true);
+                    consolaExe.habilitarBoton('cerrar', true);
+                    consolaExe.habilitarBoton('resultados', true);
                 }, 1000);
 
                 promesas_archivos = [];
@@ -1541,7 +1553,7 @@ function ejecutarAlgoritmo() {
     consolaExe.addBoton('cerrar', 'Cerrar', () => {
         consolaExe.ocultar();
         // Actualiza la info resultados
-        actualizarResultadoInfo(true);
+        // actualizarResultadoInfo(true);
     });
 
     consolaExe.habilitarBoton('ejecutar', false);
@@ -1572,11 +1584,12 @@ ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
 
     consolaExe.setTexto(salida_algoritmo);
     consolaExe.salto();
-    consolaExe.habilitarBoton('cerrar', true);
+    // consolaExe.habilitarBoton('cerrar', true);
 
     // Marca el escenario como ejecutado
     objEscModificado.ejecutado = true;
     objEscModificado.resActualizados = false;
+    objEscModificado.infactible = res.infactible;
 
     // Invo0ca diagnostico
     if (res.infactible === true) {
@@ -1590,9 +1603,16 @@ ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
             consolaExe.appendTexto(`<font color='red'>Error de ejecución del algoritmo: ${res.mensaje}</font>`);
             mensajeConsola(`Error de ejecución del algoritmo: ${res.mensaje}`, true);
         }
+
+        // Habilita botones
+        consolaExe.habilitarBoton('ejecutar', true);
+        consolaExe.habilitarBoton('cerrar', true);
+        consolaExe.habilitarBoton('resultados', false);
     } else {
         // Si no hubo infactibilidad, se habilita resultados
-        consolaExe.habilitarBoton('resultados', true);
+        // consolaExe.habilitarBoton('resultados', true);
+
+        actualizarResultadoInfo(true);
 
         if (res.exito === true) {
             consolaExe.appendTexto(`<font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`);
@@ -1600,7 +1620,7 @@ ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
         }
     }
 
-    consolaExe.habilitarBoton('ejecutar', true);
+    // consolaExe.habilitarBoton('ejecutar', true);
     setTimeout(() => {
         consolaExe.ocultarBanner();
     }, 500);

@@ -1068,6 +1068,11 @@ ipcMain.on('algoritmo:diagnosticar', (event, ruta_escenario, opc) => {
 ipcMain.on('escenarios_mod:leer', (event, ruta_escenario_mod) => {
     console.log('Folios de', ruta_escenario_mod);
     escenario.leerEscenariosModificados(ruta_escenario_mod).then((lista) => {
+        // Filta elementos validos
+        lista = lista.filter((item) => {
+            return item.length == 12;
+        });
+
         win.webContents.send('escenarios_mod:leidos', {estado:true, lista:lista});
     }, (err) => {
         console.log(err);

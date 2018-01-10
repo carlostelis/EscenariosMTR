@@ -13,7 +13,7 @@
                     <select class="sel-folios-mod" onchange="folio_selecciona();"></select>
                 </div>
                 <div class="col-2 div-header-res">
-                    <button id="boton_cargarFolios" class="button_gral btn-folio-res" onclick="mostrarResultadosSeleccionados();">Comparar</button>
+                    <button id="boton_cargarFolios" class="button_gral btn-folio-res" data-toggle="tooltip" data-placement="left" title="Carga y compara los resultados de los escenarios seleccionados."  onclick="mostrarResultadosSeleccionados();">Comparar</button>
                 </div>
             </div>
             <div class="row" style="height:calc(94% - 1vh);">
@@ -21,20 +21,6 @@
                     <div class="row subseccion" style="height:100%; margin-right:-1vh;">
                         <div class="container-fluid div-scroll-res" style=""  onscroll="scrollContenedor(this);">
                             <label id="label_idResA" style="color:darkred;">Escenario: ---</label>
-
-                            <!-- DATOS DE COSTOS -->
-                            <!-- <div class="row justify-content-center celda-header-res A" onclick="colapsarResultado(this,'DATOS_COSTOS');" id="col_datos_costos">
-                                <span class="span-costos"><i class="demo-icon  icon-money-1"></i></span>
-                                <div class="col"><span id="ARCH-DATOS_COSTOS" class="span-archivo-res">r_desphora1.csv</span>COSTOS E INGRESOS<span><i class="fa fa-caret-square-o-down"></i></span></div>
-                            </div>
-                            <div class="row colapsable-res div-tabla-res invisible CONT-DATOS_COSTOS" id="datos_costos">
-                                <div class="col-12 table-responsive scroll-res" onscroll="scrollTabla(this, 'this');">
-                                    <table class="table table-sm table-striped table-bordered tabla-res DATOS_COSTOS A" id="DATOS_COSTOS" data-contenedor="datos_costos" data-colapso="col_datos_costos">
-                                        <thead class="tabla-head">
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div> -->
 
                             <!-- DATOS DE COSTOS -->
                             <div class="row justify-content-center celda-header-res A" onclick="toggleColapsoResultado(this,'COLAPSABLE_r_desphora1');" id="COLAPSO_A_r_desphora1">

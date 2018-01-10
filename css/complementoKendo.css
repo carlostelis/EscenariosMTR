@@ -133,17 +133,24 @@ li > span.k-state-selected {
 }
 
 /* Celdas en modificada */
-.fila-modificada td {
+tr.fila-modificada td {
     border-style: dashed !important;
     border-color: darksalmon !important;
     border-width: 1px;
 }
 
 /* Celda modificada */
-.celda-modificada {
+/* .celda-modificada {
     background-color: darksalmon;
     text-shadow: 0px 0px 1px;
-    border-color: black !important;
+
+} */
+
+/* Borde de la celda modificada */
+tr.fila-modificada td.celda-modificada {
+    background-color: darksalmon;
+    text-shadow: 0px 0px 1px;
+    border-color: firebrick !important;
 }
 
 /* Celda seleccionada con navegacion */
