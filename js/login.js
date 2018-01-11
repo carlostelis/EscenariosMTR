@@ -2,11 +2,6 @@
 // comparten entre scripts
 // electron, ipcRenderer y body definidos en general
 
-// Espera definicion
-while (typeof ipcRenderer === 'undefined') {
-    console.log('Espera definicion');
-}
-
 // Escucha instruccion para cerrar sesion,
 // carga los componentes de login
 ipcRenderer.on('sesion:cerrar', (event) => {
@@ -110,23 +105,6 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
     banner.setMensaje('Carga completa');
 
     mensajeConsola('Inicialización completa');
-
-    // Oculta banner
-    setTimeout(() => {
-        banner.ocultar();
-    }, 1000);
-});
-
-// BD SQLITE
-ipcRenderer.on('bd_autr:progreso', (event, progreso) => {
-    banner.mostrarProgreso();
-    banner.setProgreso(progreso);
-});
-
-// BD SQLITE
-ipcRenderer.on('bd_autr:creada', (event, res) => {
-    banner.ok();
-    banner.setMensaje('Carga completa');
 
     // Oculta banner
     setTimeout(() => {
@@ -273,14 +251,11 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
             	boton_resultadoOriginal.disabled = true;
                 boton_cargarFolios.disabled = true;
 
-
-                // menuModifica.classList.add('invalido');
-                // menuAdmin.classList.add('invalido');
-
-
-
-                // Resetea tablas de modificados
+                // Resetea y oculta las tablas
                 ocultarTodasMod();
+                ocultarTodasInfo();
+                ocultarTodasResultados();
+
                 // DEsactiva botones
                 boton_cargaEscenarioModActual.disabled = true;
                 boton_cargaEscenarioMod.disabled = true;

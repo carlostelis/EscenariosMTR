@@ -61,119 +61,9 @@ function clickEscenarioBotonListaEliminar(boton) {
     }
 }
 
-ipcRenderer.on('escenario_modificado_local:leido_comentarios', (event, obj_res) => {
-    console.log('Recibe comentarios', obj_res);
-    if (obj_res.estado === true) {
-        botonModTemp.obj.infoMod.comentarios = obj_res.res;
-        div_comentarios_eliminar_local.innerHTML = `<label style="display:block;text-align:center;font-weight:bold;">Comentarios del escenario</label><br>${botonModTemp.obj.infoMod.comentarios.trim() === '' ? 'Sin Comentarios' : botonModTemp.obj.infoMod.comentarios}`;
-    } else {
-        botonModTemp.obj.infoMod.comentarios = '';
-        div_comentarios_eliminar_local.innerHTML = `<label style="display:block;text-align:center;font-weight:bold;">Comentarios del escenario</label><br>Sin Comentarios`;
-    }
-});
-
-ipcRenderer.on('escenario_modificado_local:leidaLista', (event, lista) => {
-    console.log('Recibidos:', lista.length);
-    console.log(lista);
-
-    // Guarda la lista
-    lista_mod_eliminar = lista;
-    // Limpia el contenedor
-    lista_mod_local.innerHTML = '';
-    lista_mod_local.botones = [];
-    div_comentarios_eliminar_local.innerHTML = '';
-
-    // Crea los items en la lista desplegable
-    lista_mod_eliminar.forEach((item) => {
-        let boton = document.createElement('button');
-        boton.classList.add('boton-lista-eliminar');
-        boton.classList.add('mod-local');
-        boton.obj = item;
-        boton.subclase = 'mod-local';
-        boton.onclick = function () { clickEscenarioBotonListaEliminar(this); };
-        let span = document.createElement('span');
-        let i = document.createElement('i');
-        i.classList.add('demo-icon');
-        i.classList.add('icon-play-1');
-        span.appendChild(i);
-        boton.innerHTML = `<font style="color:darkgray;">${item.algoritmo.toUpperCase()}</font> ${item.infoMod.anio}/${item.infoMod.mes}/${item.infoMod.dia} ${item.infoMod.hora}:${item.infoMod.min}`;
-        boton.appendChild(span);
-
-        lista_mod_local.appendChild(boton);
-        lista_mod_local.botones.push(boton);
-    });
-});
-
 function consultarOriginalesTodos() {
     ipcRenderer.send('escenario_original_local:leertodos');
 }
-
-ipcRenderer.on('escenario_original_local:leidotodos', (event, lista) => {
-    console.log('Recibidos:', lista.length);
-    console.log(lista);
-
-    // Guarda la lista
-    lista_ori_eliminar = lista;
-    // Limpia el contenedor
-    lista_ori_local.innerHTML = '';
-    lista_ori_local.botones = [];
-
-    div_comentarios_eliminar_local.innerHTML = '';
-
-    // Crea los items en la lista desplegable
-    lista_ori_eliminar.forEach((item) => {
-        let boton = document.createElement('button');
-        boton.classList.add('boton-lista-eliminar');
-        boton.classList.add('ori-local');
-        boton.obj = item;
-        boton.subclase = 'ori-local';
-        boton.onclick = function () { clickEscenarioBotonListaEliminar(this); };
-        let span = document.createElement('span');
-        let i = document.createElement('i');
-        i.classList.add('demo-icon');
-        i.classList.add('icon-play-1');
-        span.appendChild(i);
-        boton.innerHTML = `<font style="color:darkgray;">${item.algoritmo.toUpperCase()}</font> <font style="text-decoration:underline;">${item.anio}/${item.mes}/${item.dia}</font> Hora: <b>${item.hora}</b> Int: <b>${item.int}</b> GMT<b>${item.gmt}</b>`;
-        boton.appendChild(span);
-
-        lista_ori_local.appendChild(boton);
-        lista_ori_local.botones.push(boton);
-    });
-
-    // Agrega valores a los filtros
-    select_eliminar_algoritmo_local.innerHTML = '';
-    crearOption(select_eliminar_algoritmo_local, 'Sin Filtro', 'ninguno');
-    select_eliminar_algoritmo_local.lista = [];
-    select_eliminar_algoritmo_local.listaObj = [];
-
-    select_eliminar_anio_local.innerHTML = '';
-    crearOption(select_eliminar_anio_local, 'Sin Filtro', 'ninguno');
-    select_eliminar_anio_local.lista = [];
-    select_eliminar_anio_local.listaObj = [];
-    select_eliminar_anio_local.disabled = true;
-
-    select_eliminar_mes_local.innerHTML = '';
-    crearOption(select_eliminar_mes_local, 'Sin Filtro', 'ninguno');
-    select_eliminar_mes_local.lista = [];
-    select_eliminar_mes_local.listaObj = [];
-    select_eliminar_mes_local.disabled = true;
-
-    select_eliminar_dia_local.innerHTML = '';
-    crearOption(select_eliminar_dia_local, 'Sin Filtro', 'ninguno');
-    select_eliminar_dia_local.lista = [];
-    select_eliminar_dia_local.listaObj = [];
-    select_eliminar_dia_local.disabled = true;
-
-    lista_ori_eliminar.forEach((item) => {
-        // Carga unicamente los algoritmos
-        if (typeof select_eliminar_algoritmo_local.lista.find((alg) => { return alg === item.algoritmo}) === 'undefined') {
-            // Agrega a la lista y crea option
-            select_eliminar_algoritmo_local.lista.push(item.algoritmo);
-            select_eliminar_algoritmo_local.listaObj.push(item);
-            crearOption(select_eliminar_algoritmo_local, item.algoritmo.toUpperCase(), item.algoritmo.toLowerCase());
-        }
-    });
-});
 
 function borrarEscenarioOriginalLocal() {
     if (botonOriLocalSel !== null) {
@@ -252,6 +142,168 @@ function consultarFoliosOriginalesBD_Init() {
     select_eliminar_dia_db.innerHTML = '';
 }
 
+function borrarEscenarioOriginalBD() {
+    if (botonOriDBSel !== null) {
+        console.log('Borrar', botonOriDBSel.obj);
+        banner.trabajando();
+        banner.vistaCompacta();
+        banner.setMensaje(`Eliminando escenario <font style="text-decoration:underline">${botonOriDBSel.obj.id_original}</font>`);
+        banner.ocultarBoton();
+        banner.mostrar();
+
+        let obj = {
+            opc: 3,
+            folio: botonOriDBSel.obj.id_original,
+            usuario: botonOriDBSel.obj.usuario,
+            id: botonOriDBSel.obj.id_original,
+            algoritmo: botonOriDBSel.obj.algoritmo,
+            estado: 4,
+            ruta: botonOriDBSel.obj.ruta,
+            sistema: SESION.sistema
+        };
+
+        console.log(obj);
+
+        ipcRenderer.send('escenario_bd:operacion', obj, 'escenario:eliminar_ori_BD');
+    }
+}
+
+function borrarEscenarioModificadoBD() {
+    if (botonModDBSel !== null) {
+        console.log('Borrar', botonModDBSel.obj.ruta);
+        banner.trabajando();
+        banner.vistaCompacta();
+        banner.setMensaje(`Eliminando escenario <font style="text-decoration:underline">${botonModDBSel.obj.folio}</font>`);
+        banner.ocultarBoton();
+        banner.mostrar();
+
+        let obj = {
+            opc: 3,
+            folio: botonModDBSel.obj.folio,
+            usuario: botonModDBSel.obj.usuario,
+            id: botonModDBSel.obj.id_original,
+            algoritmo: botonModDBSel.obj.algoritmo,
+            estado: 5,
+            ruta: botonModDBSel.obj.ruta,
+            sistema: SESION.sistema
+        };
+
+        console.log(obj);
+
+        ipcRenderer.send('escenario_bd:operacion', obj, 'escenario:eliminar_mod_BD');
+    }
+}
+
+ipcRenderer.on('escenario_original_local:leidotodos', (event, lista) => {
+    console.log('Recibidos:', lista.length);
+    console.log(lista);
+
+    // Guarda la lista
+    lista_ori_eliminar = lista;
+    // Limpia el contenedor
+    lista_ori_local.innerHTML = '';
+    lista_ori_local.botones = [];
+
+    div_comentarios_eliminar_local.innerHTML = '';
+
+    // Crea los items en la lista desplegable
+    lista_ori_eliminar.forEach((item) => {
+        let boton = document.createElement('button');
+        boton.classList.add('boton-lista-eliminar');
+        boton.classList.add('ori-local');
+        boton.obj = item;
+        boton.subclase = 'ori-local';
+        boton.onclick = function () { clickEscenarioBotonListaEliminar(this); };
+        let span = document.createElement('span');
+        let i = document.createElement('i');
+        i.classList.add('demo-icon');
+        i.classList.add('icon-play-1');
+        span.appendChild(i);
+        boton.innerHTML = `<font style="color:darkgray;">${item.algoritmo.toUpperCase()}</font> <font style="text-decoration:underline;">${item.anio}/${item.mes}/${item.dia}</font> Hora: <b>${item.hora}</b> Int: <b>${item.int}</b> GMT<b>${item.gmt}</b>`;
+        boton.appendChild(span);
+
+        lista_ori_local.appendChild(boton);
+        lista_ori_local.botones.push(boton);
+    });
+
+    // Agrega valores a los filtros
+    select_eliminar_algoritmo_local.innerHTML = '';
+    crearOption(select_eliminar_algoritmo_local, 'Sin Filtro', 'ninguno');
+    select_eliminar_algoritmo_local.lista = [];
+    select_eliminar_algoritmo_local.listaObj = [];
+
+    select_eliminar_anio_local.innerHTML = '';
+    crearOption(select_eliminar_anio_local, 'Sin Filtro', 'ninguno');
+    select_eliminar_anio_local.lista = [];
+    select_eliminar_anio_local.listaObj = [];
+    select_eliminar_anio_local.disabled = true;
+
+    select_eliminar_mes_local.innerHTML = '';
+    crearOption(select_eliminar_mes_local, 'Sin Filtro', 'ninguno');
+    select_eliminar_mes_local.lista = [];
+    select_eliminar_mes_local.listaObj = [];
+    select_eliminar_mes_local.disabled = true;
+
+    select_eliminar_dia_local.innerHTML = '';
+    crearOption(select_eliminar_dia_local, 'Sin Filtro', 'ninguno');
+    select_eliminar_dia_local.lista = [];
+    select_eliminar_dia_local.listaObj = [];
+    select_eliminar_dia_local.disabled = true;
+
+    lista_ori_eliminar.forEach((item) => {
+        // Carga unicamente los algoritmos
+        if (typeof select_eliminar_algoritmo_local.lista.find((alg) => { return alg === item.algoritmo}) === 'undefined') {
+            // Agrega a la lista y crea option
+            select_eliminar_algoritmo_local.lista.push(item.algoritmo);
+            select_eliminar_algoritmo_local.listaObj.push(item);
+            crearOption(select_eliminar_algoritmo_local, item.algoritmo.toUpperCase(), item.algoritmo.toLowerCase());
+        }
+    });
+});
+
+ipcRenderer.on('escenario_modificado_local:leido_comentarios', (event, obj_res) => {
+    console.log('Recibe comentarios', obj_res);
+    if (obj_res.estado === true) {
+        botonModTemp.obj.infoMod.comentarios = obj_res.res;
+        div_comentarios_eliminar_local.innerHTML = `<label style="display:block;text-align:center;font-weight:bold;">Comentarios del escenario</label><br>${botonModTemp.obj.infoMod.comentarios.trim() === '' ? 'Sin Comentarios' : botonModTemp.obj.infoMod.comentarios}`;
+    } else {
+        botonModTemp.obj.infoMod.comentarios = '';
+        div_comentarios_eliminar_local.innerHTML = `<label style="display:block;text-align:center;font-weight:bold;">Comentarios del escenario</label><br>Sin Comentarios`;
+    }
+});
+
+ipcRenderer.on('escenario_modificado_local:leidaLista', (event, lista) => {
+    console.log('Recibidos:', lista.length);
+    console.log(lista);
+
+    // Guarda la lista
+    lista_mod_eliminar = lista;
+    // Limpia el contenedor
+    lista_mod_local.innerHTML = '';
+    lista_mod_local.botones = [];
+    div_comentarios_eliminar_local.innerHTML = '';
+
+    // Crea los items en la lista desplegable
+    lista_mod_eliminar.forEach((item) => {
+        let boton = document.createElement('button');
+        boton.classList.add('boton-lista-eliminar');
+        boton.classList.add('mod-local');
+        boton.obj = item;
+        boton.subclase = 'mod-local';
+        boton.onclick = function () { clickEscenarioBotonListaEliminar(this); };
+        let span = document.createElement('span');
+        let i = document.createElement('i');
+        i.classList.add('demo-icon');
+        i.classList.add('icon-play-1');
+        span.appendChild(i);
+        boton.innerHTML = `<font style="color:darkgray;">${item.algoritmo.toUpperCase()}</font> ${item.infoMod.anio}/${item.infoMod.mes}/${item.infoMod.dia} ${item.infoMod.hora}:${item.infoMod.min}`;
+        boton.appendChild(span);
+
+        lista_mod_local.appendChild(boton);
+        lista_mod_local.botones.push(boton);
+    });
+});
+
 ipcRenderer.on('escenario_original_local:borrado', (event, res) => {
     console.log('Estado: ', res.estado);
     if (res.estado === true) {
@@ -286,6 +338,9 @@ ipcRenderer.on('escenario_original_local:borrado', (event, res) => {
         // Desactiva el boton
         boton_eliminar_ori_local.disabled = true;
 
+        // Limpia el div de comentarios
+        div_comentarios_eliminar_local.innerHTML = '';
+
         banner.setBoton('Aceptar', () => {
             banner.ocultar();
         });
@@ -318,6 +373,9 @@ ipcRenderer.on('escenario_modificado_local:borrado', (event, res) => {
 
         // Desactiva el boton
         boton_eliminar_mod_local.disabled = true;
+
+        // Limpia el div de comentarios
+        div_comentarios_eliminar_local.innerHTML = '';
 
         banner.setBoton('Aceptar', () => {
             banner.ocultar();
@@ -497,32 +555,6 @@ ipcRenderer.on('escenarios_eliminar_folio_mod:leidos', (event, lista) => {
     bannerIcono.ocultar();
 });
 
-function borrarEscenarioOriginalBD() {
-    if (botonOriDBSel !== null) {
-        console.log('Borrar', botonOriDBSel.obj);
-        banner.trabajando();
-        banner.vistaCompacta();
-        banner.setMensaje(`Eliminando escenario <font style="text-decoration:underline">${botonOriDBSel.obj.id_original}</font>`);
-        banner.ocultarBoton();
-        banner.mostrar();
-
-        let obj = {
-            opc: 3,
-            folio: botonOriDBSel.obj.id_original,
-            usuario: botonOriDBSel.obj.usuario,
-            id: botonOriDBSel.obj.id_original,
-            algoritmo: botonOriDBSel.obj.algoritmo,
-            estado: 4,
-            ruta: botonOriDBSel.obj.ruta,
-            sistema: SESION.sistema
-        };
-
-        console.log(obj);
-
-        ipcRenderer.send('escenario_bd:operacion', obj, 'escenario:eliminar_ori_BD');
-    }
-}
-
 ipcRenderer.on('escenario:eliminar_ori_BD', (event, res) => {
     if (res.estado === true) {
         banner.ok();
@@ -547,32 +579,6 @@ ipcRenderer.on('escenario:eliminar_ori_BD', (event, res) => {
         banner.mostrarBoton();
     }
 });
-
-function borrarEscenarioModificadoBD() {
-    if (botonModDBSel !== null) {
-        console.log('Borrar', botonModDBSel.obj.ruta);
-        banner.trabajando();
-        banner.vistaCompacta();
-        banner.setMensaje(`Eliminando escenario <font style="text-decoration:underline">${botonModDBSel.obj.folio}</font>`);
-        banner.ocultarBoton();
-        banner.mostrar();
-
-        let obj = {
-            opc: 3,
-            folio: botonModDBSel.obj.folio,
-            usuario: botonModDBSel.obj.usuario,
-            id: botonModDBSel.obj.id_original,
-            algoritmo: botonModDBSel.obj.algoritmo,
-            estado: 5,
-            ruta: botonModDBSel.obj.ruta,
-            sistema: SESION.sistema
-        };
-
-        console.log(obj);
-
-        ipcRenderer.send('escenario_bd:operacion', obj, 'escenario:eliminar_mod_BD');
-    }
-}
 
 ipcRenderer.on('escenario:eliminar_mod_BD', (event, res) => {
     if (res.estado === true) {

@@ -116,7 +116,6 @@ ipcRenderer.on('algoritmo:descargado', (event, res) => {
         }
 
         // Pasa al menu de información
-        // ipcRenderer.send('escenario_entradas:leer', rutaEscenarioOriginal, SESION.algoritmo);
         ipcRenderer.send('escenario_completo:leer', rutaEscenarioOriginal, SESION.algoritmo);
 
         // Deshabilita botón ejecutar y actualizar

@@ -711,34 +711,6 @@ function parseFechaAlgoritmo(id) {
     return {id:id, inicio: inicio, fin: fin};
 }
 
-ipcMain.on('escenario_entradas:leer', (event, ruta_escenario, algoritmo) => {
-    escenario.parseEscenario(ruta_escenario, algoritmo, 'ENTRADAS').then((obj) => {
-        let objetoEntradas = {
-            ruta: obj.ruta,
-            algoritmo: obj.algoritmo,
-            numArchivos: obj.numArchivos,
-            lista: []
-        };
-        console.log('Manda contenedor archivos de entrada', obj.numArchivos);
-        win.webContents.send('escenario_entradas:leido', objetoEntradas);
-
-        // Guarda el objeto para modificaciones
-        objEscenario = obj;
-
-        // Dosifica el envio
-        let factor_to = (SESION.sistema === 'SIN' ? TO_PROC_SIN : TO_PROC_BCAS)
-        for (let i = 0; i < obj.lista.length; i++) {
-            let factor_adicional = parseInt(obj.lista[i].filas.length / 1000) * 100;
-            setTimeout(() => {
-                console.log('Envia archivo', obj.lista[i].archivo, factor_to, factor_adicional);
-                win.webContents.send('escenario_entradas:archivo_leido', obj.lista[i]);
-            }, (i * factor_to) + factor_adicional);
-        }
-    }, () => {
-        console.log('Error leyendo los archivos');
-    });
-});
-
 ipcMain.on('escenario_completo:leer', (event, ruta_escenario, algoritmo, folio) => {
     escenario.parseEscenarioNew(ruta_escenario, algoritmo).then((obj) => {
         let objetoEntradas = {
