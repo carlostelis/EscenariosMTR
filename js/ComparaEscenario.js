@@ -146,106 +146,6 @@ function ocultarTodasResultados() {
     }
 }
 
-ipcRenderer.on('escenario_resultados:leidoComparado', (event, objA, objB) => {
-    console.log('Recibe archivos resultados:', objA.lista.length, objB.lista.length);
-
-    objEscA_res = objA;
-    objEscB_res = objB;
-
-    objEscA_res.contador = 0;
-    objEscB_res.contador = 0;
-
-    flag_A_cargado = false;
-    flag_B_cargado = false;
-
-    // Vacía la lista de grids
-    gridsRes = [];
-
-    // Vacia los datos de las tablas (desde el dom)
-    // vaciarTablasResulados();
-    // Desactiva todos los colapsos
-    desactivarColapsosResultados();
-});
-
-ipcRenderer.on('escenario_resultados:archivo_leidoComparado', (event, obj_archivo, marco) => {
-    console.log('Recibe resultado:', obj_archivo.archivo);
-
-    let ban;
-    let objContenedor;
-    let promesas;
-    let label;
-    let string_opc;
-    if (marco === 'A') {
-        ban = banner_resA;
-        objContenedor = objEscA_res;
-        promesas = promesas_archivos_A;
-        label = label_resA;
-        string_opc = 'RES_COSTOS_A';
-    } else if (marco === 'B') {
-        ban = banner_resB;
-        objContenedor = objEscB_res;
-        promesas = promesas_archivos_B;
-        label = label_resB;
-        string_opc = 'RES_COSTOS_B';
-    }
-
-    objContenedor.lista.push(obj_archivo);
-    objContenedor.contador++;
-
-    // Al recibir archivo cambia icono a procesando
-    ban.trabajando();
-
-    // Agrega lista de promesas
-    // setTimeout(() => {
-    promesas.push(new Promise((resolve, reject) => {
-        ban.setMensaje(`Procesando archivo:<br><font style="color:lightgreen;">${obj_archivo.archivo}</font>`);
-        crearTablaInfoKendoResultado(obj_archivo, marco);
-        resolve();
-    }));
-    // });
-
-    // Si recibió todos los archivos
-    if (objContenedor.contador >= objContenedor.numArchivos) {
-        setTimeout(() => {
-            Promise.all(promesas).then(() => {
-                ban.ok();
-                ban.setMensaje('Completado');
-                mensajeConsola(`Resultados de algoritmo (${objContenedor.algoritmo}) cargados en marco ${marco}`, false);
-                label.innerHTML = `<font color="black">Escenario:</font> <b>${objContenedor.id}</b> (${objContenedor.id.length > 12 ? 'Original' : 'Modificado'})<span onclick="mostrarSalidasAlgoritmo();"><i class="demo-icon icon-terminal"></i></span>`;
-
-                // Carga los costos A
-                ipcRenderer.send('archivo:leer', objContenedor.ruta, ['dirres', 'r_desphora1.res'], string_opc);
-
-                if (marco === 'A') {
-                    flag_A_cargado = true;
-                } else if (marco === 'B') {
-                    flag_B_cargado = true;
-                }
-
-                // Si se completaron ambas
-                if (flag_A_cargado === true && flag_B_cargado === true) {
-                    // Oculta banners
-                    setTimeout(() => {
-                        banner_resA.ocultar();
-                        banner_resB.ocultar();
-                    }, 1000);
-
-                    // Esta banera solo se activa cuando se carga comparacion desde ejecucion de algoritmo
-                    if (SESION.flag_cargarFolios === true) {
-                        // 3 segundos después del segundo resultado, solicita la lista de modificados
-                        setTimeout(() => {
-                            console.log('Carga folios modificados');
-                            ipcRenderer.send('escenarios_mod:leer', objEscOriginal.ruta.replace('escenario_original', 'escenario_modificado'));
-                        }, 500);
-                    }
-                }
-            }, () => {
-                console.log(`Error cargando resultados en marco ${marco}`);
-            });
-        });
-    }
-});
-
 function crearTablaInfoKendoResultado(objData, marco) {
     // Remueve el contenido anterior
     // Busca el contenedor
@@ -298,9 +198,6 @@ function crearTablaInfoKendoResultado(objData, marco) {
                 return grid[0].id === nueva_tabla.id;
             });
             if (grid) {
-                let pagina = grid.data('kendoGrid').dataSource.page();
-                console.log('Cambia pagina', nueva_tabla.id, pagina);
-
                 // Obtiene el id del grid a buscar
                 let id_grid_otro = objData.insumo.modelo.id;
                 if (marco === 'A') {
@@ -313,12 +210,53 @@ function crearTablaInfoKendoResultado(objData, marco) {
                 let grid_otro = gridsRes.find((grid) => {
                     return grid[0].id === id_grid_otro;
                 });
+
                 console.log('grid_otro', grid_otro);
+
                 if (grid_otro) {
+                    // Pagina
+                    let pagina = grid.data('kendoGrid').dataSource.page();
+                    console.log('Cambia pagina', nueva_tabla.id, pagina);
+
                     if (grid_otro.data('kendoGrid').dataSource.page() !== pagina) {
                         grid_otro.data('kendoGrid').dataSource.page(pagina);
                     }
+
+                    if (grid_otro.data('kendoGrid').dataSource.page() !== pagina) {
+                        grid_otro.data('kendoGrid').dataSource.page(pagina);
+                    }
+
+                    // Filtro
+                    let filtro = grid.data('kendoGrid').dataSource.filter();
+                    console.log('Cambia filtro', nueva_tabla.id, filtro);
+
+                    // Verifica si el otro tiene filtro
+                    let filtro_otro = grid_otro.data('kendoGrid').dataSource.filter();
+                    if (filtro_otro) {
+                        if (!isEquivalent(filtro_otro, filtro)) {
+                            grid_otro.data('kendoGrid').dataSource.filter(filtro);
+                        }
+                    } else {
+                        // Si no tiene también lo aplica
+                        grid_otro.data('kendoGrid').dataSource.filter(filtro);
+                    }
+
+                    // Filtro
+                    let sort = grid.data('kendoGrid').dataSource.sort();
+                    console.log('Cambia orden', nueva_tabla.id, sort);
+
+                    // Verifica si el otro tiene orden
+                    let sort_otro = grid_otro.data('kendoGrid').dataSource.sort();
+                    if (sort_otro) {
+                        if (!isEquivalent(sort_otro, sort)) {
+                            grid_otro.data('kendoGrid').dataSource.sort(sort);
+                        }
+                    } else {
+                        // Si no tiene también lo aplica
+                        grid_otro.data('kendoGrid').dataSource.sort(sort);
+                    }
                 }
+
             }
         }
     };
@@ -448,6 +386,25 @@ function crearTablaInfoKendoResultado(objData, marco) {
     colapsarResultado(colapso, 'COLAPSABLE_' + objData.insumo.modelo.id, marco);
 }
 
+function isEquivalent(a, b) {
+    var aProps = Object.getOwnPropertyNames(a);
+    var bProps = Object.getOwnPropertyNames(b);
+
+    if (aProps.length != bProps.length) {
+        return false;
+    }
+
+    for (var i = 0; i < aProps.length; i++) {
+        var propName = aProps[i];
+
+        if (a[propName] !== b[propName]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 function getClaseCeldaRes(valor) {
     if (`${valor}`.endsWith('*+*')) {
         return 'celda-modificada';
@@ -497,437 +454,6 @@ function mostrarSalidasAlgoritmo() {
     consola_resB.mostrar();
 }
 
-ipcRenderer.on('archivo:leido', (event, obj) => {
-    if (obj.opc === 'RES_COMPARA') {
-        obj.res = obj.res.replace(new RegExp('\n+\s*', 'g'), '<br>')
-
-        // VErifica infactibilidad
-        if (obj.res.includes('PROBLEMA INFACTIBLE')) {
-            console.log('Verificando infactibilidad');
-            obj.res += `<br><font color='red'>Infactibilidad encontrada durante la ejecución</font>`;
-
-            // Resalta en la salida
-            obj.res = obj.res.replace('PROBLEMA INFACTIBLE', '<font style="color:red; font-weight:bold; text-decoration:underline;">PROBLEMA INFACTIBLE</font>');
-
-            ipcRenderer.send('algoritmo:diagnosticar', obj.rutaBase, 'RES_COMPARA');
-        } else if (obj.res.includes('TERMINACION NORMAL')) {
-            // Resalta en la salida
-            obj.res = obj.res.replace('TERMINACION NORMAL', '<font style="color:green; font-weight:bold; text-decoration:underline;">TERMINACION NORMAL</font>');
-
-            obj.res += `<br><font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`;
-        } else {
-            obj.res += `<br><font color='red'>Error de ejecución del algoritmo</font>`;
-        }
-
-        let con = null;
-
-        if (obj.rutaBase === objEscA_res.ruta) {
-            flag_resOutput_A = true;
-            con = consola_resA;
-        } else if (obj.rutaBase === objEscB_res.ruta) {
-            flag_resOutput_B = true;
-            con = consola_resB;
-        }
-
-        if (con !== null) {
-            con.ocultarBanner();
-            con.setTexto(obj.res);
-        }
-    } else if (obj.opc === 'RES_ORIGINAL') {
-        obj.res = obj.res.replace(new RegExp('\n+\s*', 'g'), '<br>')
-
-        // VErifica infactibilidad
-        if (obj.res.includes('PROBLEMA INFACTIBLE')) {
-            obj.res += `<br><font color='red'>Infactibilidad encontrada durante la ejecución</font>`;
-
-            // Resalta en la salida
-            obj.res = obj.res.replace('PROBLEMA INFACTIBLE', '<font style="color:red; font-weight:bold; text-decoration:underline;">PROBLEMA INFACTIBLE</font>');
-
-            console.log('Verificando infactibilidad');
-            ipcRenderer.send('algoritmo:diagnosticar', obj.rutaBase, 'RES_ORIGINAL');
-        } else if (obj.res.includes('TERMINACION NORMAL')) {
-            // Resalta en la salida
-            obj.res = obj.res.replace('TERMINACION NORMAL', '<font style="color:green; font-weight:bold; text-decoration:underline;">TERMINACION NORMAL</font>');
-
-            obj.res += `<br><font color='lawngreen'>Fin de ejecución del algoritmo; terminación normal</font>`;
-        } else {
-            obj.res += `<br><font color='red'>Error de ejecución del algoritmo</font>`;
-        }
-
-        // banner.promptQuitaEspera();
-        consolaExe.ocultarBanner();
-        consolaExe.setTexto(obj.res);
-    } else if (obj.opc.startsWith('RES_COSTOS_')) {
-        let arg_islas = obj.res.replace(new RegExp('=?', 'g'), '').split('Isla :');
-        let datos_costos = arg_islas[arg_islas.length - 1].split('Solucion Final para la Isla')[1].trim().replace(new RegExp('\s*:', 'g'), '').split(new RegExp('\s*\n\s*', 'g'));
-        let marco = obj.opc.charAt(obj.opc.length - 1);
-        let objDatos = marco === 'A' ? objEscA_res : objEscB_res;
-
-        // console.log(datos_costos);
-        objDatos.costo_total = '---';
-        objDatos.costo_gen = '---';
-        objDatos.costo_gen_rd = '---';
-        objDatos.costo_gen_rc = '---';
-        objDatos.beneficio_social = '---';
-        objDatos.costo_arranque = '---';
-        objDatos.costo_reservas = '---';
-        objDatos.ingreso_total = '---';
-        objDatos.ingreso_demanda = '---';
-        objDatos.ingreso_reservas = '---';
-
-        datos_costos.forEach((dato) => {
-            let linea = dato.trim();
-            if (linea !== '') {
-                if (linea.includes('Costo Total') === true) {
-                    objDatos.costo_total = linea.replace('Costo Total', '').trim();
-                } else if (linea.includes('Costo Generacion RD') === true) {
-                    objDatos.costo_gen_rd = linea.replace('Costo Generacion RD', '').trim();
-                } else if (linea.includes('Costo Generacion RC') === true) {
-                    objDatos.costo_gen_rc = linea.replace('Costo Generacion RC', '').trim();
-                } else if (linea.includes('Costo Generacion') === true) {
-                    objDatos.costo_gen = linea.replace('Costo Generacion', '').trim();
-                } else if (linea.includes('Beneficio Social') === true) {
-                    objDatos.beneficio_social = linea.replace('Beneficio Social', '').trim();
-                } else if (linea.includes('Costo de Arranque') === true) {
-                    objDatos.costo_arranque = linea.replace('Costo de Arranque', '').trim();
-                } else if (linea.includes('Costo de Reservas') === true) {
-                    objDatos.costo_reservas = linea.replace('Costo de Reservas', '').trim();
-                } else if (linea.includes('Ingreso Total') === true) {
-                    objDatos.ingreso_total = linea.replace('Ingreso Total', '').trim();
-                } else if (linea.includes('Ingreso demanda') === true) {
-                    objDatos.ingreso_demanda = linea.replace('Ingreso demanda', '').trim();
-                } else if (linea.includes('Ingreso Reservas') === true) {
-                    objDatos.ingreso_reservas = linea.replace('Ingreso Reservas', '').trim();
-                }
-            }
-        });
-
-        let colapso = colapsos_res.find((col) => { return col.id === `COLAPSO_${marco}_r_desphora1`; });
-        let colapsable = $(`.COLAPSABLE_r_desphora1.${marco}`);
-        console.log('costos', colapso, colapsable);
-
-        if (typeof colapso !== 'undefined' && typeof colapsable !== 'undefined') {
-            // Busca el icono para mostrarlo
-            for (let nodo of colapso.childNodes) {
-                if (nodo.nodeName.toLowerCase() === 'span') {
-                    nodo.classList.remove('invisible');
-                    console.log('muestra icono', nodo.classList.contains('invisible'));
-                }
-            }
-
-            // Quita la clase inactivo
-            colapso.classList.remove('inactivo');
-
-            // Vacia su contenido
-            colapsable.html('');
-            // Inserta una nueva tabla
-            let nueva_tabla = document.createElement('table');
-            nueva_tabla.classList.add('table');
-            nueva_tabla.classList.add('table-sm');
-            nueva_tabla.classList.add('table-striped');
-            nueva_tabla.id = `r_desphora1_${marco}`;
-            // Inserta la nueva tabla
-            colapsable.append(nueva_tabla);
-
-            let dataSourceObj = {
-                schema: {
-                    model: {
-                        id: nueva_tabla.id,
-                        fields: {
-                            campo: { type: "string", editable: false, nullable: false },
-                            valor: { type: "number", editable: false, nullable: false }
-                        },
-                    },
-                },
-                data: [
-                    { campo: 'Costo Total', valor: objDatos.costo_total},
-                    { campo: 'Costo Generación', valor: objDatos.costo_gen},
-                    { campo: 'Costo Generación RD', valor: objDatos.costo_gen_rd},
-                    { campo: 'Costo Generación RC', valor: objDatos.costo_gen_rc},
-                    { campo: 'Beneficio Social', valor: objDatos.beneficio_social},
-                    { campo: 'Costo Arranque', valor: objDatos.costo_arranque},
-                    { campo: 'Costo Reservas', valor: objDatos.costo_reservas},
-                    { campo: 'Ingreso Total', valor: objDatos.ingreso_total},
-                    { campo: 'Ingreso Demanda', valor: objDatos.ingreso_demanda},
-                    { campo: 'Ingreso Reservas', valor: objDatos.ingreso_reservas},
-                ],
-                autoSync: true
-            };
-
-            console.log('dataSourceObj', dataSourceObj);
-            let dataSource = new kendo.data.DataSource(dataSourceObj);
-
-            $('#' + nueva_tabla.id).kendoGrid({
-                dataSource: dataSource,
-                columns: [
-                    { field: "campo", title: "Concepto", sortable: false, filterable: false},
-                    { field: "valor", format: "{0:c2}", title: "Valor", sortable: false, filterable: false}
-                ],
-                sortable: false,
-                filterable: false,
-                scrollable: true,
-                navigatable: true,
-                pageable: false,
-                reorderable: false,
-                groupable: false,
-                resizable: true,
-                columnMenu: false,
-                editable: false
-            });
-        }
-    } else if (obj.opc === 'INFO_COSTOS') {
-        console.log('Procesando INFO_COSTOS');
-        let arg_islas = obj.res.replace(new RegExp('=?', 'g'), '').split('Isla :');
-        let datos_costos;
-        try {
-            datos_costos = arg_islas[arg_islas.length - 1].split('Solucion Final para la Isla')[1].trim().replace(new RegExp('\s*:', 'g'), '').split(new RegExp('\s*\n\s*', 'g'));
-        } catch (e) {
-            console.log('Error generando costos');
-            return;
-        }
-
-        // Lo guarda en el objeto original
-        objEscOriginal.costo_total = '---';
-        objEscOriginal.costo_gen = '---';
-        objEscOriginal.costo_gen_rd = '---';
-        objEscOriginal.costo_gen_rc = '---';
-        objEscOriginal.beneficio_social = '---';
-        objEscOriginal.costo_arranque = '---';
-        objEscOriginal.costo_reservas = '---';
-        objEscOriginal.ingreso_total = '---';
-        objEscOriginal.ingreso_demanda = '---';
-        objEscOriginal.ingreso_reservas = '---';
-
-        datos_costos.forEach((dato) => {
-            let linea = dato.trim();
-            if (linea !== '') {
-                if (linea.includes('Costo Total') === true) {
-                    objEscOriginal.costo_total = linea.replace('Costo Total', '').trim();
-                } else if (linea.includes('Costo Generacion RD') === true) {
-                    objEscOriginal.costo_gen_rd = linea.replace('Costo Generacion RD', '').trim();
-                } else if (linea.includes('Costo Generacion RC') === true) {
-                    objEscOriginal.costo_gen_rc = linea.replace('Costo Generacion RC', '').trim();
-                } else if (linea.includes('Costo Generacion') === true) {
-                    objEscOriginal.costo_gen = linea.replace('Costo Generacion', '').trim();
-                } else if (linea.includes('Beneficio Social') === true) {
-                    objEscOriginal.beneficio_social = linea.replace('Beneficio Social', '').trim();
-                } else if (linea.includes('Costo de Arranque') === true) {
-                    objEscOriginal.costo_arranque = linea.replace('Costo de Arranque', '').trim();
-                } else if (linea.includes('Costo de Reservas') === true) {
-                    objEscOriginal.costo_reservas = linea.replace('Costo de Reservas', '').trim();
-                } else if (linea.includes('Ingreso Total') === true) {
-                    objEscOriginal.ingreso_total = linea.replace('Ingreso Total', '').trim();
-                } else if (linea.includes('Ingreso demanda') === true) {
-                    objEscOriginal.ingreso_demanda = linea.replace('Ingreso demanda', '').trim();
-                } else if (linea.includes('Ingreso Reservas') === true) {
-                    objEscOriginal.ingreso_reservas = linea.replace('Ingreso Reservas', '').trim();
-                }
-            }
-        });
-
-        let colapso = colapsos.find((col) => { return col.id === 'COLAPSO_r_desphora1'});
-        let colapsable = $('#COLAPSABLE_r_desphora1');
-
-        if (typeof colapso !== 'undefined' && typeof colapsable !== 'undefined') {
-            // Busca el icono para mostrarlo
-            for (let nodo of colapso.childNodes) {
-                if (nodo.nodeName.toLowerCase() === 'span') {
-                    nodo.classList.remove('invisible');
-                    console.log('muestra icono', nodo.classList.contains('invisible'));
-                }
-            }
-
-            // Quita la clase inactivo
-            colapso.classList.remove('inactivo');
-
-            // Vacia su contenido
-            colapsable.html('');
-            // Inserta una nueva tabla
-            let nueva_tabla = document.createElement('table');
-            nueva_tabla.classList.add('table');
-            nueva_tabla.classList.add('table-sm');
-            nueva_tabla.classList.add('table-striped');
-            nueva_tabla.id = 'r_desphora1';
-            // Inserta la nueva tabla
-            colapsable.append(nueva_tabla);
-
-            let dataSourceObj = {
-                schema: {
-                    model: {
-                        id: "r_desphora1",
-                        fields: {
-                            campo: { type: "string", editable: false, nullable: false },
-                            valor: { type: "number", editable: false, nullable: false }
-                        },
-                    },
-                },
-                data: [
-                    { campo: 'Costo Total', valor: objEscOriginal.costo_total},
-                    { campo: 'Costo Generación', valor: objEscOriginal.costo_gen},
-                    { campo: 'Costo Generación RD', valor: objEscOriginal.costo_gen_rd},
-                    { campo: 'Costo Generación RC', valor: objEscOriginal.costo_gen_rc},
-                    { campo: 'Beneficio Social', valor: objEscOriginal.beneficio_social},
-                    { campo: 'Costo Arranque', valor: objEscOriginal.costo_arranque},
-                    { campo: 'Costo Reservas', valor: objEscOriginal.costo_reservas},
-                    { campo: 'Ingreso Total', valor: objEscOriginal.ingreso_total},
-                    { campo: 'Ingreso Demanda', valor: objEscOriginal.ingreso_demanda},
-                    { campo: 'Ingreso Reservas', valor: objEscOriginal.ingreso_reservas},
-                ],
-                autoSync: true
-            };
-
-            console.log('dataSourceObj', dataSourceObj);
-            let dataSource = new kendo.data.DataSource(dataSourceObj);
-
-            $('#r_desphora1').kendoGrid({
-                dataSource: dataSource,
-                columns: [
-                    { field: "campo", title: "Concepto", sortable: false, filterable: false},
-                    { field: "valor", format: "{0:c2}", title: "Valor", sortable: false, filterable: false}
-                ],
-                sortable: false,
-                filterable: false,
-                scrollable: true,
-                navigatable: true,
-                pageable: false,
-                reorderable: false,
-                groupable: false,
-                resizable: true,
-                columnMenu: false,
-                editable: false
-            });
-        }
-    }  else if (obj.opc === 'MOD_COSTOS') {
-        let arg_islas = obj.res.replace(new RegExp('=?', 'g'), '').split('Isla :');
-        let datos_costos = arg_islas[arg_islas.length - 1].split('Solucion Final para la Isla')[1].trim().replace(new RegExp('\s*:', 'g'), '').split(new RegExp('\s*\n\s*', 'g'));
-        console.log('MOD_COSTOS');
-        // Lo guarda en el objeto original
-        objEscVistaMod.costo_total = '---';
-        objEscVistaMod.costo_gen = '---';
-        objEscVistaMod.costo_gen_rd = '---';
-        objEscVistaMod.costo_gen_rc = '---';
-        objEscVistaMod.beneficio_social = '---';
-        objEscVistaMod.costo_arranque = '---';
-        objEscVistaMod.costo_reservas = '---';
-        objEscVistaMod.ingreso_total = '---';
-        objEscVistaMod.ingreso_demanda = '---';
-        objEscVistaMod.ingreso_reservas = '---';
-
-        datos_costos.forEach((dato) => {
-            let linea = dato.trim();
-            if (linea !== '') {
-                if (linea.includes('Costo Total') === true) {
-                    objEscVistaMod.costo_total = linea.replace('Costo Total', '').trim();
-                } else if (linea.includes('Costo Generacion RD') === true) {
-                    objEscVistaMod.costo_gen_rd = linea.replace('Costo Generacion RD', '').trim();
-                } else if (linea.includes('Costo Generacion RC') === true) {
-                    objEscVistaMod.costo_gen_rc = linea.replace('Costo Generacion RC', '').trim();
-                } else if (linea.includes('Costo Generacion') === true) {
-                    objEscVistaMod.costo_gen = linea.replace('Costo Generacion', '').trim();
-                } else if (linea.includes('Beneficio Social') === true) {
-                    objEscVistaMod.beneficio_social = linea.replace('Beneficio Social', '').trim();
-                } else if (linea.includes('Costo de Arranque') === true) {
-                    objEscVistaMod.costo_arranque = linea.replace('Costo de Arranque', '').trim();
-                } else if (linea.includes('Costo de Reservas') === true) {
-                    objEscVistaMod.costo_reservas = linea.replace('Costo de Reservas', '').trim();
-                } else if (linea.includes('Ingreso Total') === true) {
-                    objEscVistaMod.ingreso_total = linea.replace('Ingreso Total', '').trim();
-                } else if (linea.includes('Ingreso demanda') === true) {
-                    objEscVistaMod.ingreso_demanda = linea.replace('Ingreso demanda', '').trim();
-                } else if (linea.includes('Ingreso Reservas') === true) {
-                    objEscVistaMod.ingreso_reservas = linea.replace('Ingreso Reservas', '').trim();
-                }
-            }
-        });
-
-
-        let colapso = colapsos_mod.find((col) => { return col.id === 'COLAPSO_MOD_r_desphora1'});
-        let colapsable = $('#COLAPSABLE_MOD_r_desphora1');
-        console.log('>>>>', colapso, colapsable);
-        if (typeof colapso !== 'undefined' && typeof colapsable !== 'undefined') {
-            // Busca el icono para mostrarlo
-            for (let nodo of colapso.childNodes) {
-                if (nodo.nodeName.toLowerCase() === 'span') {
-                    nodo.classList.remove('invisible');
-                    console.log('muestra icono', nodo.classList.contains('invisible'));
-                }
-            }
-
-            // Quita la clase inactivo
-            colapso.classList.remove('inactivo');
-
-            // Vacia su contenido
-            colapsable.html('');
-            // Inserta una nueva tabla
-            let nueva_tabla = document.createElement('table');
-            nueva_tabla.classList.add('table');
-            nueva_tabla.classList.add('table-sm');
-            nueva_tabla.classList.add('table-striped');
-            nueva_tabla.id = 'MOD_r_desphora1';
-            // Inserta la nueva tabla
-            colapsable.append(nueva_tabla);
-
-            let dataSourceObj = {
-                schema: {
-                    model: {
-                        id: "MOD_r_desphora1",
-                        fields: {
-                            campo: { type: "string", editable: false, nullable: false },
-                            valor: { type: "number", editable: false, nullable: false }
-                        },
-                    },
-                },
-                data: [
-                    { campo: 'Costo Total', valor: objEscVistaMod.costo_total},
-                    { campo: 'Costo Generación', valor: objEscVistaMod.costo_gen},
-                    { campo: 'Costo Generación RD', valor: objEscVistaMod.costo_gen_rd},
-                    { campo: 'Costo Generación RC', valor: objEscVistaMod.costo_gen_rc},
-                    { campo: 'Beneficio Social', valor: objEscVistaMod.beneficio_social},
-                    { campo: 'Costo Arranque', valor: objEscVistaMod.costo_arranque},
-                    { campo: 'Costo Reservas', valor: objEscVistaMod.costo_reservas},
-                    { campo: 'Ingreso Total', valor: objEscVistaMod.ingreso_total},
-                    { campo: 'Ingreso Demanda', valor: objEscVistaMod.ingreso_demanda},
-                    { campo: 'Ingreso Reservas', valor: objEscVistaMod.ingreso_reservas},
-                ]
-            };
-
-            console.log('dataSourceObj', dataSourceObj);
-            let dataSource = new kendo.data.DataSource(dataSourceObj);
-
-            $('#' + nueva_tabla.id).kendoGrid({
-                dataSource: dataSource,
-                columns: [
-                    { field: "campo", title: "Concepto", sortable: false, filterable: false},
-                    { field: "valor", format: "{0:c2}", title: "Valor", sortable: false, filterable: false}
-                ],
-                sortable: false,
-                filterable: false,
-                scrollable: true,
-                navigatable: true,
-                pageable: false,
-                reorderable: false,
-                groupable: false,
-                resizable: true,
-                columnMenu: false,
-                editable: false
-            });
-        }
-    } else if (obj.opc === 'MOD_COMENTARIOS') {
-        if (obj.res.startsWith('ERROR')) {
-            console.log(obj.res);
-        } else {
-            textarea_comentarios_mod.value = obj.res;
-        }
-
-    } else if (obj.opc === 'FOLIO_COMENTARIOS') {
-        if (obj.res.startsWith('ERROR')) {
-            console.log(obj.res);
-        } else {
-            textarea_comentarios_info.value = obj.res;
-        }
-    }
-});
-
 function scrollContenedor(elemento) {
     if (!elemento.isScrolling) {
         elemento.div_par.isScrolling = true;
@@ -944,7 +470,7 @@ function scrollTabla(elemento, clase) {
     });
 }
 
-function mostrarResultados() { console.clear()
+function mostrarResultados() {
     // Habilita el menu info
     menuCompara.classList.remove('deshabilitado');
     menuCompara.onclick();
@@ -1023,6 +549,106 @@ function mostrarResultadosSeleccionados() {
     SESION.flag_cargarFolios = false;
     ipcRenderer.send('escenario_resultados:leerComparar', ruta_A, ruta_B, SESION.algoritmo);
 }
+
+ipcRenderer.on('escenario_resultados:leidoComparado', (event, objA, objB) => {
+    console.log('Recibe archivos resultados:', objA.lista.length, objB.lista.length);
+
+    objEscA_res = objA;
+    objEscB_res = objB;
+
+    objEscA_res.contador = 0;
+    objEscB_res.contador = 0;
+
+    flag_A_cargado = false;
+    flag_B_cargado = false;
+
+    // Vacía la lista de grids
+    gridsRes = [];
+
+    // Vacia los datos de las tablas (desde el dom)
+    // vaciarTablasResulados();
+    // Desactiva todos los colapsos
+    desactivarColapsosResultados();
+});
+
+ipcRenderer.on('escenario_resultados:archivo_leidoComparado', (event, obj_archivo, marco) => {
+    console.log('Recibe resultado:', obj_archivo.archivo);
+
+    let ban;
+    let objContenedor;
+    let promesas;
+    let label;
+    let string_opc;
+    if (marco === 'A') {
+        ban = banner_resA;
+        objContenedor = objEscA_res;
+        promesas = promesas_archivos_A;
+        label = label_resA;
+        string_opc = 'RES_COSTOS_A';
+    } else if (marco === 'B') {
+        ban = banner_resB;
+        objContenedor = objEscB_res;
+        promesas = promesas_archivos_B;
+        label = label_resB;
+        string_opc = 'RES_COSTOS_B';
+    }
+
+    objContenedor.lista.push(obj_archivo);
+    objContenedor.contador++;
+
+    // Al recibir archivo cambia icono a procesando
+    ban.trabajando();
+
+    // Agrega lista de promesas
+    // setTimeout(() => {
+    promesas.push(new Promise((resolve, reject) => {
+        ban.setMensaje(`Procesando archivo:<br><font style="color:lightgreen;">${obj_archivo.archivo}</font>`);
+        crearTablaInfoKendoResultado(obj_archivo, marco);
+        resolve();
+    }));
+    // });
+
+    // Si recibió todos los archivos
+    if (objContenedor.contador >= objContenedor.numArchivos) {
+        setTimeout(() => {
+            Promise.all(promesas).then(() => {
+                ban.ok();
+                ban.setMensaje('Completado');
+                mensajeConsola(`Resultados de algoritmo (${objContenedor.algoritmo}) cargados en marco ${marco}`, false);
+                label.innerHTML = `<font color="black">Escenario:</font> <b>${objContenedor.id}</b> (${objContenedor.id.length > 12 ? 'Original' : 'Modificado'})<span onclick="mostrarSalidasAlgoritmo();"><i class="demo-icon icon-terminal"></i></span>`;
+
+                // Carga los costos A
+                ipcRenderer.send('archivo:leer', objContenedor.ruta, ['dirres', 'r_desphora1.res'], string_opc);
+
+                if (marco === 'A') {
+                    flag_A_cargado = true;
+                } else if (marco === 'B') {
+                    flag_B_cargado = true;
+                }
+
+                // Si se completaron ambas
+                if (flag_A_cargado === true && flag_B_cargado === true) {
+                    // Oculta banners
+                    setTimeout(() => {
+                        banner_resA.ocultar();
+                        banner_resB.ocultar();
+                    }, 1000);
+
+                    // Esta banera solo se activa cuando se carga comparacion desde ejecucion de algoritmo
+                    if (SESION.flag_cargarFolios === true) {
+                        // 3 segundos después del segundo resultado, solicita la lista de modificados
+                        setTimeout(() => {
+                            console.log('Carga folios modificados');
+                            ipcRenderer.send('escenarios_mod:leer', objEscOriginal.ruta.replace('escenario_original', 'escenario_modificado'));
+                        }, 500);
+                    }
+                }
+            }, () => {
+                console.log(`Error cargando resultados en marco ${marco}`);
+            });
+        });
+    }
+});
 
 ipcRenderer.on('escenarios_mod:leidos', (event, res) => {
     let flag_primero = true;

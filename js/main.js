@@ -712,7 +712,7 @@ function parseFechaAlgoritmo(id) {
 }
 
 ipcMain.on('escenario_completo:leer', (event, ruta_escenario, algoritmo, folio) => {
-    escenario.parseEscenarioNew(ruta_escenario, algoritmo).then((obj) => {
+    escenario.parseEscenario(ruta_escenario, algoritmo).then((obj) => {
         let objetoEntradas = {
             ruta: obj.ruta,
             algoritmo: obj.algoritmo,
@@ -746,7 +746,7 @@ ipcMain.on('escenario_completo:leer', (event, ruta_escenario, algoritmo, folio) 
 });
 
 ipcMain.on('escenario_resultados:leer', (event, ruta_escenario, algoritmo) => {
-    escenario.parseEscenarioNew(ruta_escenario, algoritmo, 'RESULTADOS').then((obj) => {
+    escenario.parseEscenario(ruta_escenario, algoritmo, 'RESULTADOS').then((obj) => {
         let objetoEntradas = {
             ruta: obj.ruta,
             algoritmo: obj.algoritmo,
@@ -773,9 +773,9 @@ ipcMain.on('escenario_resultados:leer', (event, ruta_escenario, algoritmo) => {
 ipcMain.on('escenario_resultados:leerComparar', (event, ruta_escenario_A, ruta_escenario_B, algoritmo) => {
     // LEe el escenario A
     console.log('--------');
-    escenario.parseEscenarioNew(ruta_escenario_A, algoritmo, 'RESULTADOS').then((objA) => {
+    escenario.parseEscenario(ruta_escenario_A, algoritmo, 'RESULTADOS').then((objA) => {
         // LEe el escenario B
-        escenario.parseEscenarioNew(ruta_escenario_B, algoritmo, 'RESULTADOS').then((objB) => {
+        escenario.parseEscenario(ruta_escenario_B, algoritmo, 'RESULTADOS').then((objB) => {
             // Realiza comparacion
             escenario.compararResultados(objA, objB).then(() => {
                 // Manda objetos contenedores
@@ -1125,7 +1125,7 @@ ipcMain.on('escenarios_mod_modificados:leer', (event, algoritmo, anio, mes, dia,
 ipcMain.on('escenarios_mod:leer_todo', (event, algoritmo, anio, mes, dia, id_ori, id_mod) => {
     let ruta_escenario = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio, mes, dia, id_ori, id_mod);
 
-    escenario.parseEscenarioNew(ruta_escenario, algoritmo).then((obj) => {
+    escenario.parseEscenario(ruta_escenario, algoritmo).then((obj) => {
         let objetoTodos = {
             ruta: obj.ruta,
             algoritmo: obj.algoritmo,

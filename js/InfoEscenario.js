@@ -233,7 +233,7 @@ function crearTablaInfoKendo(objData) {
 
     // Colapso de la tabla
 	let colapso = colapsos.find((col) => { return col.id === 'COLAPSO_'  + objData.insumo.modelo.id; });
-    console.log(objData.insumo.modelo.id, 'dataSourceObj',dataSourceObj, colapso);
+    console.log(objData.insumo.modelo.id, 'dataSourceObj',dataSourceObj);
 
 	try {
 		let dataSource = new kendo.data.DataSource(dataSourceObj);
@@ -265,14 +265,16 @@ function crearTablaInfoKendo(objData) {
 					// Si es numerico crea un editor para validacion
 					if (campo.type === 'number') {
                         if (typeof campo.validation !== 'undefined') {
-                            console.log('Aplicando editor personalizado:', campo.validation);
+                            // console.log('Aplicando editor personalizado:', campo.validation);
+                            // Aplica editor personalizado
                             columna.editor = function (container, options) {
                                 $('<input name="' + options.field + '"/>')
                                  .appendTo(container)
                                  .kendoNumericTextBox(campo.validation)
                             };
                         } else {
-                            console.log('Aplicando editor basico');
+                            // console.log('Aplicando editor basico');
+                            // Aplica editor básico
                             columna.editor = function (container, options) {
                                 $('<input name="' + options.field + '"/>')
                                  .appendTo(container)
@@ -665,7 +667,7 @@ ipcRenderer.on('escenario_resultados:leido', (event, obj) => {
 });
 
 ipcRenderer.on('escenario_resultados:archivo_leido', (event, obj_archivo) => {
-    console.log('Recibe archivo:', obj_archivo.archivo);
+    console.log('Recibe archivo:', obj_archivo.archivo, 'Filas', obj_archivo.filas.length);
 
     // Busca el obj en el arreglo y lo reemplaza
     for (let i = 0; i < objEscModificado.lista.length; i++) {
@@ -809,7 +811,7 @@ ipcRenderer.on('escenario_completo:leido', (event, obj) => {
 });
 
 ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
-    console.log('Recibe archivo:', obj_archivo.archivo, obj_archivo.filas.length);
+    console.log('Recibe archivo:', obj_archivo.archivo, 'Filas', obj_archivo.filas.length);
 
     // Recibe el contenedor
     objEscOriginal.lista.push(obj_archivo);

@@ -4531,468 +4531,1634 @@ module.exports = [
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_ZONAS_RESERVA_1"
-        }
+            "id": "DTR_ZONAS_RESERVA_1",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_ZONA_RESERVA": { "type": "string", "editable": false, "nullable": false },
+                "REQ_MW_RREG": { "type": "number", "editable": false, "nullable": false },
+                "MW_RREG_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RREG": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_RR10": { "type": "number", "editable": false, "nullable": false },
+                "MW_RR10_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RR10": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_R10": { "type": "number", "editable": false, "nullable": false },
+                "MW_R10_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_R10": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_RS": { "type": "number", "editable": false, "nullable": false },
+                "MW_RS_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RS": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "CLV_ZONA_RESERVA", "title": "Zona Reserva", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "REQ_MW_RREG", "title": " Req. MW RREG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RREG_ASIGNADOS", "title": "MW. RREG Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RREG", "title": "Costo Marginal RREG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+			{ "field": "REQ_MW_RR10", "title": "Req. MW RR10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RR10_ASIGNADOS", "title": "MW RR10 Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RR10", "title": "Costo Marginal RR10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_R10", "title": "Req. MW R10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_R10_ASIGNADOS", "title": "MW R10 Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_R10", "title": "Costo Marginal R10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_RS", "title": "Req. MW RS", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RS_ASIGNADOS", "title": "MW RS Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RS", "title": "Costo Marginal RS", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DTR_ZONAS_RESERVA_SIN.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_ZONAS_RESERVA_SIN"
-        }
+            "id": "DTR_ZONAS_RESERVA_SIN",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_ZONA_RESERVA": { "type": "string", "editable": false, "nullable": false },
+                "REQ_MW_RREG": { "type": "number", "editable": false, "nullable": false },
+                "MW_RREG_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RREG": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_RR10": { "type": "number", "editable": false, "nullable": false },
+                "MW_RR10_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RR10": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_R10": { "type": "number", "editable": false, "nullable": false },
+                "MW_R10_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_R10": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_RS": { "type": "number", "editable": false, "nullable": false },
+                "MW_RS_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RS": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "CLV_ZONA_RESERVA", "title": "Zona Reserva", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "REQ_MW_RREG", "title": " Req. MW RREG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RREG_ASIGNADOS", "title": "MW. RREG Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RREG", "title": "Costo Marginal RREG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+			{ "field": "REQ_MW_RR10", "title": "Req. MW RR10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RR10_ASIGNADOS", "title": "MW RR10 Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RR10", "title": "Costo Marginal RR10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_R10", "title": "Req. MW R10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_R10_ASIGNADOS", "title": "MW R10 Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_R10", "title": "Costo Marginal R10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_RS", "title": "Req. MW RS", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RS_ASIGNADOS", "title": "MW RS Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RS", "title": "Costo Marginal RS", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DTR_ZONAS_RESERVA_BCA.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_ZONAS_RESERVA_BCA"
-        }
+            "id": "DTR_ZONAS_RESERVA_BCA",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_ZONA_RESERVA": { "type": "string", "editable": false, "nullable": false },
+                "REQ_MW_RREG": { "type": "number", "editable": false, "nullable": false },
+                "MW_RREG_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RREG": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_RR10": { "type": "number", "editable": false, "nullable": false },
+                "MW_RR10_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RR10": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_R10": { "type": "number", "editable": false, "nullable": false },
+                "MW_R10_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_R10": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_RS": { "type": "number", "editable": false, "nullable": false },
+                "MW_RS_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RS": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "CLV_ZONA_RESERVA", "title": "Zona Reserva", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "REQ_MW_RREG", "title": " Req. MW RREG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RREG_ASIGNADOS", "title": "MW. RREG Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RREG", "title": "Costo Marginal RREG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+			{ "field": "REQ_MW_RR10", "title": "Req. MW RR10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RR10_ASIGNADOS", "title": "MW RR10 Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RR10", "title": "Costo Marginal RR10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_R10", "title": "Req. MW R10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_R10_ASIGNADOS", "title": "MW R10 Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_R10", "title": "Costo Marginal R10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_RS", "title": "Req. MW RS", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RS_ASIGNADOS", "title": "MW RS Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RS", "title": "Costo Marginal RS", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DTR_ZONAS_RESERVA_BCS.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_ZONAS_RESERVA_BCS"
-        }
+            "id": "DTR_ZONAS_RESERVA_BCS",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_ZONA_RESERVA": { "type": "string", "editable": false, "nullable": false },
+                "REQ_MW_RREG": { "type": "number", "editable": false, "nullable": false },
+                "MW_RREG_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RREG": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_RR10": { "type": "number", "editable": false, "nullable": false },
+                "MW_RR10_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RR10": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_R10": { "type": "number", "editable": false, "nullable": false },
+                "MW_R10_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_R10": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_RS": { "type": "number", "editable": false, "nullable": false },
+                "MW_RS_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RS": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "CLV_ZONA_RESERVA", "title": "Zona Reserva", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "REQ_MW_RREG", "title": " Req. MW RREG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RREG_ASIGNADOS", "title": "MW. RREG Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RREG", "title": "Costo Marginal RREG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+			{ "field": "REQ_MW_RR10", "title": "Req. MW RR10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RR10_ASIGNADOS", "title": "MW RR10 Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RR10", "title": "Costo Marginal RR10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_R10", "title": "Req. MW R10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_R10_ASIGNADOS", "title": "MW R10 Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_R10", "title": "Costo Marginal R10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_RS", "title": "Req. MW RS", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RS_ASIGNADOS", "title": "MW RS Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RS", "title": "Costo Marginal RS", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DERS_I_TOTALES_1.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DERS_I_TOTALES_1"
-        }
+            "id": "DERS_I_TOTALES_1",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "Demanda": { "type": "number", "editable": false, "nullable": false },
+                "Generacion": { "type": "number", "editable": false, "nullable": false },
+                "NoProgramable": { "type": "number", "editable": false, "nullable": false },
+                "Intercambio": { "type": "number", "editable": false, "nullable": false },
+                "DualBalance": { "type": "number", "editable": false, "nullable": false },
+                "Corte": { "type": "number", "editable": false, "nullable": false },
+                "Perdida": { "type": "number", "editable": false, "nullable": false },
+                "ECA": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Generacion", "title": "Generación", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "NoProgramable", "title": "No Programable", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Intercambio", "title": "Intercambio", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "Corte", "title": "Corte (Excedente)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Perdida", "title": "Pérdida", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "ECA", "title": "Error Control Área", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DERS_I_TOTALES_SIN.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DERS_I_TOTALES_SIN"
-        }
+            "id": "DERS_I_TOTALES_SIN",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "Demanda": { "type": "number", "editable": false, "nullable": false },
+                "Generacion": { "type": "number", "editable": false, "nullable": false },
+                "NoProgramable": { "type": "number", "editable": false, "nullable": false },
+                "Intercambio": { "type": "number", "editable": false, "nullable": false },
+                "DualBalance": { "type": "number", "editable": false, "nullable": false },
+                "Corte": { "type": "number", "editable": false, "nullable": false },
+                "Perdida": { "type": "number", "editable": false, "nullable": false },
+                "ECA": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Generacion", "title": "Generación", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "NoProgramable", "title": "No Programable", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Intercambio", "title": "Intercambio", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "Corte", "title": "Corte (Excedente)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Perdida", "title": "Pérdida", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "ECA", "title": "Error Control Área", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DERS_I_TOTALES_BCA.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DERS_I_TOTALES_BCA"
-        }
+            "id": "DERS_I_TOTALES_BCA",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "Demanda": { "type": "number", "editable": false, "nullable": false },
+                "Generacion": { "type": "number", "editable": false, "nullable": false },
+                "NoProgramable": { "type": "number", "editable": false, "nullable": false },
+                "Intercambio": { "type": "number", "editable": false, "nullable": false },
+                "DualBalance": { "type": "number", "editable": false, "nullable": false },
+                "Corte": { "type": "number", "editable": false, "nullable": false },
+                "Perdida": { "type": "number", "editable": false, "nullable": false },
+                "ECA": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Generacion", "title": "Generación", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "NoProgramable", "title": "No Programable", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Intercambio", "title": "Intercambio", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "Corte", "title": "Corte (Excedente)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Perdida", "title": "Pérdida", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "ECA", "title": "Error Control Área", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DERS_I_TOTALES_BCS.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DERS_I_TOTALES_BCS"
-        }
+            "id": "DERS_I_TOTALES_BCS",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "Demanda": { "type": "number", "editable": false, "nullable": false },
+                "Generacion": { "type": "number", "editable": false, "nullable": false },
+                "NoProgramable": { "type": "number", "editable": false, "nullable": false },
+                "Intercambio": { "type": "number", "editable": false, "nullable": false },
+                "DualBalance": { "type": "number", "editable": false, "nullable": false },
+                "Corte": { "type": "number", "editable": false, "nullable": false },
+                "Perdida": { "type": "number", "editable": false, "nullable": false },
+                "ECA": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Generacion", "title": "Generación", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "NoProgramable", "title": "No Programable", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Intercambio", "title": "Intercambio", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "Corte", "title": "Corte (Excedente)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Perdida", "title": "Pérdida", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "ECA", "title": "Error Control Área", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DERS_MI_TOTALES_AREA.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DERS_MI_TOTALES_AREA"
-        }
+            "id": "DERS_MI_TOTALES_AREA",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "Intervalo": { "type": "number", "editable": false, "nullable": false },
+                "Demanda": { "type": "number", "editable": false, "nullable": false },
+                "Generacion": { "type": "number", "editable": false, "nullable": false },
+                "NoProgramable": { "type": "number", "editable": false, "nullable": false },
+                "Intercambio": { "type": "number", "editable": false, "nullable": false },
+                "DualBalance": { "type": "number", "editable": false, "nullable": false },
+                "Corte": { "type": "number", "editable": false, "nullable": false },
+                "Perdida": { "type": "number", "editable": false, "nullable": false },
+                "Area": { "type": "string", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "Intervalo", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Generacion", "title": "Generación", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "NoProgramable", "title": "No Programable", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Intercambio", "title": "Intercambio", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "Corte", "title": "Corte (Excedente)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Perdida", "title": "Pérdida", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Area", "title": "Área", "sortable": true, "filterable": true, "width": "15vw"}
+        ]
     },
     {
         "nombre":"DTR_ZONAS_CARGA_1.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_ZONAS_CARGA_1"
-        }
+            "id": "DTR_ZONAS_CARGA_1",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_ZONA": { "type": "string", "editable": false, "nullable": false },
+                "PML": { "type": "number", "editable": false, "nullable": false },
+                "PML_ENE": { "type": "number", "editable": false, "nullable": false },
+                "PML_PER": { "type": "number", "editable": false, "nullable": false },
+                "PML_CNG": { "type": "number", "editable": false, "nullable": false },
+                "PML_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_ENE_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_CNG_ORI": { "type": "number", "editable": false, "nullable": false },
+                "DEMANDA": { "type": "string", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_ZONA", "title": "CLV Zona", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PML", "title": "PML", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE", "title": "PML_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_PER", "title": "PML_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_CNG", "title": "PML_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "PML_ORI", "title": "PML_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE_ORI", "title": "PML_ENE_ORI", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "PML_CNG_ORI", "title": "PML_CNG_ORI", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "DEMANDA", "title": "Demanda", "sortable": true, "filterable": true, "width": "15vw"}
+        ]
     },
     {
         "nombre":"DTR_ZONAS_CARGA_SIN.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_ZONAS_CARGA_SIN"
-        }
+            "id": "DTR_ZONAS_CARGA_1",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_ZONA": { "type": "string", "editable": false, "nullable": false },
+                "PML": { "type": "number", "editable": false, "nullable": false },
+                "PML_ENE": { "type": "number", "editable": false, "nullable": false },
+                "PML_PER": { "type": "number", "editable": false, "nullable": false },
+                "PML_CNG": { "type": "number", "editable": false, "nullable": false },
+                "PML_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_ENE_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_CNG_ORI": { "type": "number", "editable": false, "nullable": false },
+                "DEMANDA": { "type": "string", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_ZONA", "title": "CLV Zona", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PML", "title": "PML", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE", "title": "PML_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_PER", "title": "PML_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_CNG", "title": "PML_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "PML_ORI", "title": "PML_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE_ORI", "title": "PML_ENE_ORI", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "PML_CNG_ORI", "title": "PML_CNG_ORI", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "DEMANDA", "title": "Demanda", "sortable": true, "filterable": true, "width": "15vw"}
+        ]
     },
     {
         "nombre":"DTR_ZONAS_CARGA_BCA.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_ZONAS_CARGA_BCA"
-        }
+            "id": "DTR_ZONAS_CARGA_1",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_ZONA": { "type": "string", "editable": false, "nullable": false },
+                "PML": { "type": "number", "editable": false, "nullable": false },
+                "PML_ENE": { "type": "number", "editable": false, "nullable": false },
+                "PML_PER": { "type": "number", "editable": false, "nullable": false },
+                "PML_CNG": { "type": "number", "editable": false, "nullable": false },
+                "PML_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_ENE_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_CNG_ORI": { "type": "number", "editable": false, "nullable": false },
+                "DEMANDA": { "type": "string", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_ZONA", "title": "CLV Zona", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PML", "title": "PML", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE", "title": "PML_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_PER", "title": "PML_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_CNG", "title": "PML_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "PML_ORI", "title": "PML_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE_ORI", "title": "PML_ENE_ORI", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "PML_CNG_ORI", "title": "PML_CNG_ORI", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "DEMANDA", "title": "Demanda", "sortable": true, "filterable": true, "width": "15vw"}
+        ]
     },
     {
         "nombre":"DTR_ZONAS_CARGA_BCS.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_ZONAS_CARGA_BCS"
-        }
+            "id": "DTR_ZONAS_CARGA_1",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_ZONA": { "type": "string", "editable": false, "nullable": false },
+                "PML": { "type": "number", "editable": false, "nullable": false },
+                "PML_ENE": { "type": "number", "editable": false, "nullable": false },
+                "PML_PER": { "type": "number", "editable": false, "nullable": false },
+                "PML_CNG": { "type": "number", "editable": false, "nullable": false },
+                "PML_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_ENE_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_CNG_ORI": { "type": "number", "editable": false, "nullable": false },
+                "DEMANDA": { "type": "string", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_ZONA", "title": "CLV Zona", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PML", "title": "PML", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE", "title": "PML_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_PER", "title": "PML_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_CNG", "title": "PML_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "PML_ORI", "title": "PML_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE_ORI", "title": "PML_ENE_ORI", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "PML_CNG_ORI", "title": "PML_CNG_ORI", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "DEMANDA", "title": "Demanda", "sortable": true, "filterable": true, "width": "15vw"}
+        ]
     },
     {
         "nombre":"DTR_REGIONES_1.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_REGIONES_1"
-        }
+            "id": "DTR_REGIONES_1",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_REGION": { "type": "string", "editable": false, "nullable": false },
+                "CLV_AREA": { "type": "string", "editable": false, "nullable": false },
+                "PM_PROM": { "type": "number", "editable": false, "nullable": false },
+                "PM_PROM_ENE": { "type": "number", "editable": false, "nullable": false },
+                "PM_PROM_PER": { "type": "number", "editable": false, "nullable": false },
+                "PM_PROM_CNG": { "type": "number", "editable": false, "nullable": false },
+                "PM_POND_GEN": { "type": "number", "editable": false, "nullable": false },
+                "PM_POND_CRG": { "type": "number", "editable": false, "nullable": false },
+                "CORTE_MDO": { "type": "number", "editable": false, "nullable": false },
+                "EXCEDENTE_MDO": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_REGION", "title": "CLV Región", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_AREA", "title": "CLV Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PM_PROM", "title": "PM_PROM", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PM_PROM_ENE", "title": "PM_PROM_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PM_PROM_PER", "title": "PM_PROM_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PM_PROM_CNG", "title": "PM_PROM_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "PM_POND_GEN", "title": "PM_POND_GEN", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PM_POND_CRG", "title": "PM_POND_CRG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CORTE_MDO", "title": "CORTE_MDO", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "EXCEDENTE_MDO", "title": "EXCEDENTE_MDO", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"DTR_REGIONES_SIN.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_REGIONES_SIN"
-        }
+            "id": "DTR_REGIONES_SIN",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_REGION": { "type": "string", "editable": false, "nullable": false },
+                "CLV_AREA": { "type": "string", "editable": false, "nullable": false },
+                "PM_PROM": { "type": "number", "editable": false, "nullable": false },
+                "PM_PROM_ENE": { "type": "number", "editable": false, "nullable": false },
+                "PM_PROM_PER": { "type": "number", "editable": false, "nullable": false },
+                "PM_PROM_CNG": { "type": "number", "editable": false, "nullable": false },
+                "PM_POND_GEN": { "type": "number", "editable": false, "nullable": false },
+                "PM_POND_CRG": { "type": "number", "editable": false, "nullable": false },
+                "CORTE_MDO": { "type": "number", "editable": false, "nullable": false },
+                "EXCEDENTE_MDO": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_REGION", "title": "CLV Región", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_AREA", "title": "CLV Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PM_PROM", "title": "PM_PROM", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PM_PROM_ENE", "title": "PM_PROM_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PM_PROM_PER", "title": "PM_PROM_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PM_PROM_CNG", "title": "PM_PROM_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "PM_POND_GEN", "title": "PM_POND_GEN", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PM_POND_CRG", "title": "PM_POND_CRG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CORTE_MDO", "title": "CORTE_MDO", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "EXCEDENTE_MDO", "title": "EXCEDENTE_MDO", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"DTR_REGIONES_BCA.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_REGIONES_BCA"
-        }
+            "id": "DTR_REGIONES_BCA",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_REGION": { "type": "string", "editable": false, "nullable": false },
+                "CLV_AREA": { "type": "string", "editable": false, "nullable": false },
+                "PM_PROM": { "type": "number", "editable": false, "nullable": false },
+                "PM_PROM_ENE": { "type": "number", "editable": false, "nullable": false },
+                "PM_PROM_PER": { "type": "number", "editable": false, "nullable": false },
+                "PM_PROM_CNG": { "type": "number", "editable": false, "nullable": false },
+                "PM_POND_GEN": { "type": "number", "editable": false, "nullable": false },
+                "PM_POND_CRG": { "type": "number", "editable": false, "nullable": false },
+                "CORTE_MDO": { "type": "number", "editable": false, "nullable": false },
+                "EXCEDENTE_MDO": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_REGION", "title": "CLV Región", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_AREA", "title": "CLV Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PM_PROM", "title": "PM_PROM", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PM_PROM_ENE", "title": "PM_PROM_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PM_PROM_PER", "title": "PM_PROM_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PM_PROM_CNG", "title": "PM_PROM_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "PM_POND_GEN", "title": "PM_POND_GEN", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PM_POND_CRG", "title": "PM_POND_CRG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CORTE_MDO", "title": "CORTE_MDO", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "EXCEDENTE_MDO", "title": "EXCEDENTE_MDO", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"DTR_REGIONES_BCS.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_REGIONES_BCS"
-        }
+            "id": "DTR_REGIONES_BCS",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_REGION": { "type": "string", "editable": false, "nullable": false },
+                "CLV_AREA": { "type": "string", "editable": false, "nullable": false },
+                "PM_PROM": { "type": "number", "editable": false, "nullable": false },
+                "PM_PROM_ENE": { "type": "number", "editable": false, "nullable": false },
+                "PM_PROM_PER": { "type": "number", "editable": false, "nullable": false },
+                "PM_PROM_CNG": { "type": "number", "editable": false, "nullable": false },
+                "PM_POND_GEN": { "type": "number", "editable": false, "nullable": false },
+                "PM_POND_CRG": { "type": "number", "editable": false, "nullable": false },
+                "CORTE_MDO": { "type": "number", "editable": false, "nullable": false },
+                "EXCEDENTE_MDO": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_REGION", "title": "CLV Región", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_AREA", "title": "CLV Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PM_PROM", "title": "PM_PROM", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PM_PROM_ENE", "title": "PM_PROM_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PM_PROM_PER", "title": "PM_PROM_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PM_PROM_CNG", "title": "PM_PROM_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "PM_POND_GEN", "title": "PM_POND_GEN", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PM_POND_CRG", "title": "PM_POND_CRG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CORTE_MDO", "title": "CORTE_MDO", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "EXCEDENTE_MDO", "title": "EXCEDENTE_MDO", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"DTR_NODOS_1.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_NODOS_1"
-        }
+            "id": "DTR_NODOS_1",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_NODO": { "type": "string", "editable": false, "nullable": false },
+                "TIPO_NODO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_AREA": { "type": "string", "editable": false, "nullable": false },
+                "CLV_REGION": { "type": "string", "editable": false, "nullable": false },
+                "PML": { "type": "number", "editable": false, "nullable": false },
+                "PML_ENE": { "type": "number", "editable": false, "nullable": false },
+                "PML_PER": { "type": "number", "editable": false, "nullable": false },
+                "PML_CNG": { "type": "number", "editable": false, "nullable": false },
+                "DEMANDA": { "type": "number", "editable": false, "nullable": false },
+                "CORTE": { "type": "number", "editable": false, "nullable": false },
+                "EXCEDENTE": { "type": "number", "editable": false, "nullable": false },
+                "PML_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_ENE_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_PER_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_CNG_ORI": { "type": "number", "editable": false, "nullable": false },
+                "B_DIP": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_NODO", "title": "CLV Nodo", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "TIPO_NODO", "title": "Tipo Nodo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_AREA", "title": "CLV Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_REGION", "title": "CLV Región", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PML", "title": "PML", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE", "title": "PML_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "PML_PER", "title": "PML_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_CNG", "title": "PML_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "DEMANDA", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CORTE", "title": "Corte", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "EXCEDENTE", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ORI", "title": "PML_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE_ORI", "title": "PML_ENE_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_PER_ORI", "title": "PML_PER_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_CNG_ORI", "title": "PML_CNG_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "B_DIP", "title": "B_DIP", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"DTR_NODOS_SIN.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_NODOS_SIN"
-        }
+            "id": "DTR_NODOS_SIN",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_NODO": { "type": "string", "editable": false, "nullable": false },
+                "TIPO_NODO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_AREA": { "type": "string", "editable": false, "nullable": false },
+                "CLV_REGION": { "type": "string", "editable": false, "nullable": false },
+                "PML": { "type": "number", "editable": false, "nullable": false },
+                "PML_ENE": { "type": "number", "editable": false, "nullable": false },
+                "PML_PER": { "type": "number", "editable": false, "nullable": false },
+                "PML_CNG": { "type": "number", "editable": false, "nullable": false },
+                "DEMANDA": { "type": "number", "editable": false, "nullable": false },
+                "CORTE": { "type": "number", "editable": false, "nullable": false },
+                "EXCEDENTE": { "type": "number", "editable": false, "nullable": false },
+                "PML_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_ENE_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_PER_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_CNG_ORI": { "type": "number", "editable": false, "nullable": false },
+                "B_DIP": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_NODO", "title": "CLV Nodo", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "TIPO_NODO", "title": "Tipo Nodo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_AREA", "title": "CLV Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_REGION", "title": "CLV Región", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PML", "title": "PML", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE", "title": "PML_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "PML_PER", "title": "PML_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_CNG", "title": "PML_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "DEMANDA", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CORTE", "title": "Corte", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "EXCEDENTE", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ORI", "title": "PML_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE_ORI", "title": "PML_ENE_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_PER_ORI", "title": "PML_PER_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_CNG_ORI", "title": "PML_CNG_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "B_DIP", "title": "B_DIP", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"DTR_NODOS_BCA.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_NODOS_BCA"
-        }
+            "id": "DTR_NODOS_BCA",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_NODO": { "type": "string", "editable": false, "nullable": false },
+                "TIPO_NODO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_AREA": { "type": "string", "editable": false, "nullable": false },
+                "CLV_REGION": { "type": "string", "editable": false, "nullable": false },
+                "PML": { "type": "number", "editable": false, "nullable": false },
+                "PML_ENE": { "type": "number", "editable": false, "nullable": false },
+                "PML_PER": { "type": "number", "editable": false, "nullable": false },
+                "PML_CNG": { "type": "number", "editable": false, "nullable": false },
+                "DEMANDA": { "type": "number", "editable": false, "nullable": false },
+                "CORTE": { "type": "number", "editable": false, "nullable": false },
+                "EXCEDENTE": { "type": "number", "editable": false, "nullable": false },
+                "PML_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_ENE_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_PER_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_CNG_ORI": { "type": "number", "editable": false, "nullable": false },
+                "B_DIP": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_NODO", "title": "CLV Nodo", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "TIPO_NODO", "title": "Tipo Nodo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_AREA", "title": "CLV Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_REGION", "title": "CLV Región", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PML", "title": "PML", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE", "title": "PML_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "PML_PER", "title": "PML_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_CNG", "title": "PML_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "DEMANDA", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CORTE", "title": "Corte", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "EXCEDENTE", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ORI", "title": "PML_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE_ORI", "title": "PML_ENE_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_PER_ORI", "title": "PML_PER_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_CNG_ORI", "title": "PML_CNG_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "B_DIP", "title": "B_DIP", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"DTR_NODOS_BCS.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_NODOS_BCS"
-        }
+            "id": "DTR_NODOS_BCS",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_NODO": { "type": "string", "editable": false, "nullable": false },
+                "TIPO_NODO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_AREA": { "type": "string", "editable": false, "nullable": false },
+                "CLV_REGION": { "type": "string", "editable": false, "nullable": false },
+                "PML": { "type": "number", "editable": false, "nullable": false },
+                "PML_ENE": { "type": "number", "editable": false, "nullable": false },
+                "PML_PER": { "type": "number", "editable": false, "nullable": false },
+                "PML_CNG": { "type": "number", "editable": false, "nullable": false },
+                "DEMANDA": { "type": "number", "editable": false, "nullable": false },
+                "CORTE": { "type": "number", "editable": false, "nullable": false },
+                "EXCEDENTE": { "type": "number", "editable": false, "nullable": false },
+                "PML_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_ENE_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_PER_ORI": { "type": "number", "editable": false, "nullable": false },
+                "PML_CNG_ORI": { "type": "number", "editable": false, "nullable": false },
+                "B_DIP": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_NODO", "title": "CLV Nodo", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "TIPO_NODO", "title": "Tipo Nodo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_AREA", "title": "CLV Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_REGION", "title": "CLV Región", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PML", "title": "PML", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE", "title": "PML_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "PML_PER", "title": "PML_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_CNG", "title": "PML_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "DEMANDA", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CORTE", "title": "Corte", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "EXCEDENTE", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ORI", "title": "PML_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE_ORI", "title": "PML_ENE_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_PER_ORI", "title": "PML_PER_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_CNG_ORI", "title": "PML_CNG_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "B_DIP", "title": "B_DIP", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"DTR_UNIDADES_1.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_UNIDADES_1"
-        }
+            "id": "DTR_UNIDADES_1",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_UNIDAD": { "type": "string", "editable": false, "nullable": false },
+                "CLV_NODO": { "type": "string", "editable": false, "nullable": false },
+                "TIPO_OFERTA": { "type": "string", "editable": false, "nullable": false },
+                "MODO": { "type": "number", "editable": false, "nullable": false },
+                "ESTADO": { "type": "number", "editable": false, "nullable": false },
+                "POTENCIA": { "type": "number", "editable": false, "nullable": false },
+                "RR10_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
+                "RNR10_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
+                "RRS_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
+                "RNRS_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
+                "RREG_ASIGNADA": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_UNIDAD", "title": "CLV Unidad", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_NODO", "title": "CLV Nodo", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "TIPO_OFERTA", "title": "Tipo Oferta", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "MODO", "title": "Modo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "ESTADO", "title": "Estado", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "POTENCIA", "title": "Potencia", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "RR10_ASIGNADA", "title": "Reserva Rod. 10 Min. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RNR10_ASIGNADA", "title": "Reserva No Rod. 10 Min. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RRS_ASIGNADA", "title": "Reserva Rod. Sec. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RNRS_ASIGNADA", "title": "Reserva No Rod. Sec. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RREG_ASIGNADA", "title": "Reserva Reg. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"DTR_UNIDADES_SIN.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_UNIDADES_SIN"
-        }
+            "id": "DTR_UNIDADES_SIN",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_UNIDAD": { "type": "string", "editable": false, "nullable": false },
+                "CLV_NODO": { "type": "string", "editable": false, "nullable": false },
+                "TIPO_OFERTA": { "type": "string", "editable": false, "nullable": false },
+                "MODO": { "type": "number", "editable": false, "nullable": false },
+                "ESTADO": { "type": "number", "editable": false, "nullable": false },
+                "POTENCIA": { "type": "number", "editable": false, "nullable": false },
+                "RR10_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
+                "RNR10_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
+                "RRS_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
+                "RNRS_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
+                "RREG_ASIGNADA": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_UNIDAD", "title": "CLV Unidad", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_NODO", "title": "CLV Nodo", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "TIPO_OFERTA", "title": "Tipo Oferta", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "MODO", "title": "Modo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "ESTADO", "title": "Estado", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "POTENCIA", "title": "Potencia", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "RR10_ASIGNADA", "title": "Reserva Rod. 10 Min. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RNR10_ASIGNADA", "title": "Reserva No Rod. 10 Min. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RRS_ASIGNADA", "title": "Reserva Rod. Sec. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RNRS_ASIGNADA", "title": "Reserva No Rod. Sec. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RREG_ASIGNADA", "title": "Reserva Reg. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"DTR_UNIDADES_BCA.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_UNIDADES_BCA"
-        }
+            "id": "DTR_UNIDADES_BCA",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_UNIDAD": { "type": "string", "editable": false, "nullable": false },
+                "CLV_NODO": { "type": "string", "editable": false, "nullable": false },
+                "TIPO_OFERTA": { "type": "string", "editable": false, "nullable": false },
+                "MODO": { "type": "number", "editable": false, "nullable": false },
+                "ESTADO": { "type": "number", "editable": false, "nullable": false },
+                "POTENCIA": { "type": "number", "editable": false, "nullable": false },
+                "RR10_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
+                "RNR10_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
+                "RRS_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
+                "RNRS_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
+                "RREG_ASIGNADA": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_UNIDAD", "title": "CLV Unidad", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_NODO", "title": "CLV Nodo", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "TIPO_OFERTA", "title": "Tipo Oferta", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "MODO", "title": "Modo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "ESTADO", "title": "Estado", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "POTENCIA", "title": "Potencia", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "RR10_ASIGNADA", "title": "Reserva Rod. 10 Min. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RNR10_ASIGNADA", "title": "Reserva No Rod. 10 Min. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RRS_ASIGNADA", "title": "Reserva Rod. Sec. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RNRS_ASIGNADA", "title": "Reserva No Rod. Sec. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RREG_ASIGNADA", "title": "Reserva Reg. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"DTR_UNIDADES_BCS.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_UNIDADES_BCS"
-        }
+            "id": "DTR_UNIDADES_BCS",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_UNIDAD": { "type": "string", "editable": false, "nullable": false },
+                "CLV_NODO": { "type": "string", "editable": false, "nullable": false },
+                "TIPO_OFERTA": { "type": "string", "editable": false, "nullable": false },
+                "MODO": { "type": "number", "editable": false, "nullable": false },
+                "ESTADO": { "type": "number", "editable": false, "nullable": false },
+                "POTENCIA": { "type": "number", "editable": false, "nullable": false },
+                "RR10_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
+                "RNR10_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
+                "RRS_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
+                "RNRS_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
+                "RREG_ASIGNADA": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_UNIDAD", "title": "CLV Unidad", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_NODO", "title": "CLV Nodo", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "TIPO_OFERTA", "title": "Tipo Oferta", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "MODO", "title": "Modo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "ESTADO", "title": "Estado", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "POTENCIA", "title": "Potencia", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "RR10_ASIGNADA", "title": "Reserva Rod. 10 Min. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RNR10_ASIGNADA", "title": "Reserva No Rod. 10 Min. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RRS_ASIGNADA", "title": "Reserva Rod. Sec. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RNRS_ASIGNADA", "title": "Reserva No Rod. Sec. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RREG_ASIGNADA", "title": "Reserva Rod. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"RESUMEN_UNIDADES.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "RESUMEN_UNIDADES"
-        }
+            "id": "RESUMEN_UNIDADES",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "UNIDAD": { "type": "string", "editable": false, "nullable": false },
+                "TIPO": { "type": "string", "editable": false, "nullable": false },
+                "CI": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "POTENCIA": { "type": "number", "editable": false, "nullable": false },
+                "LIM_INF": { "type": "number", "editable": false, "nullable": false },
+                "LIM_SUP": { "type": "number", "editable": false, "nullable": false },
+                "REG": { "type": "number", "editable": false, "nullable": false },
+                "RR10": { "type": "number", "editable": false, "nullable": false },
+                "RRS": { "type": "number", "editable": false, "nullable": false },
+                "RNR10": { "type": "number", "editable": false, "nullable": false },
+                "RNRS": { "type": "number", "editable": false, "nullable": false },
+                "DISPONIBILIDAD": { "type": "number", "editable": false, "nullable": false },
+                "ASIGNABILIDAD": { "type": "number", "editable": false, "nullable": false },
+                "COORDINABILIDAD": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "UNIDAD", "title": "Unidad", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "TIPO", "title": "Tipo Unidad", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CI", "title": "Condicion Inicial", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "POTENCIA", "title": "Potencia", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "LIM_INF", "title": "Límite Inferior", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n0}"},
+            { "field": "LIM_SUP", "title": "Límite Superior", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REG", "title": "Regulación", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RR10", "title": "Reserva Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RRS", "title": "Reserva Rod. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RNR10", "title": "Reserva No Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RNRS", "title": "Reserva No Rod. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "DISPONIBILIDAD", "title": "Disponibilidad", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n0}"},
+            { "field": "ASIGNABILIDAD", "title": "Asignabilidad", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n0}"},
+            { "field": "COORDINABILIDAD", "title": "Coordinabilidad", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n0}"}
+        ]
     },
     {
         "nombre":"DTR_ENLACES_1.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_ENLACES_1"
-        }
+            "id": "DTR_ENLACES_1",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_ENLACE": { "type": "string", "editable": false, "nullable": false },
+                "LIM_DES_ORI": { "type": "number", "editable": false, "nullable": false },
+                "LIM_ORI_DES": { "type": "number", "editable": false, "nullable": false },
+                "FLUJO": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_ENLACE", "title": "CLV Enlace", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "LIM_DES_ORI", "title": "Límite Des Ori", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "LIM_ORI_DES", "title": "Límite Ori Des", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "FLUJO", "title": "Flujo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CST_MARG", "title": "Costo Marginal", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DTR_ENLACES_SIN.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_ENLACES_SIN"
-        }
+            "id": "DTR_ENLACES_SIN",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_ENLACE": { "type": "string", "editable": false, "nullable": false },
+                "LIM_DES_ORI": { "type": "number", "editable": false, "nullable": false },
+                "LIM_ORI_DES": { "type": "number", "editable": false, "nullable": false },
+                "FLUJO": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_ENLACE", "title": "CLV Enlace", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "LIM_DES_ORI", "title": "Límite Des Ori", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "LIM_ORI_DES", "title": "Límite Ori Des", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "FLUJO", "title": "Flujo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CST_MARG", "title": "Costo Marginal", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DTR_ENLACES_BCA.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_ENLACES_BCA"
-        }
+            "id": "DTR_ENLACES_BCA",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_ENLACE": { "type": "string", "editable": false, "nullable": false },
+                "LIM_DES_ORI": { "type": "number", "editable": false, "nullable": false },
+                "LIM_ORI_DES": { "type": "number", "editable": false, "nullable": false },
+                "FLUJO": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_ENLACE", "title": "CLV Enlace", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "LIM_DES_ORI", "title": "Límite Des Ori", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "LIM_ORI_DES", "title": "Límite Ori Des", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "FLUJO", "title": "Flujo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CST_MARG", "title": "Costo Marginal", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DTR_ENLACES_BCS.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_ENLACES_BCS"
-        }
+            "id": "DTR_ENLACES_BCS",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_ENLACE": { "type": "string", "editable": false, "nullable": false },
+                "LIM_DES_ORI": { "type": "number", "editable": false, "nullable": false },
+                "LIM_ORI_DES": { "type": "number", "editable": false, "nullable": false },
+                "FLUJO": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_ENLACE", "title": "CLV Enlace", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "LIM_DES_ORI", "title": "Límite Des Ori", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "LIM_ORI_DES", "title": "Límite Ori Des", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "FLUJO", "title": "Flujo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CST_MARG", "title": "Costo Marginal", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DTR_RAMAS_ENL_1.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_RAMAS_ENL_1"
-        }
+            "id": "DTR_RAMAS_ENL_1",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_ENLACE": { "type": "string", "editable": false, "nullable": false },
+                "CLV_RAMA": { "type": "string", "editable": false, "nullable": false },
+                "NODO_ORIGEN": { "type": "string", "editable": false, "nullable": false },
+                "NODO_DESTINO": { "type": "string", "editable": false, "nullable": false },
+                "SENTIDO": { "type": "number", "editable": false, "nullable": false },
+                "FLUJO": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_ENLACE", "title": "CLV Enlace", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_RAMA", "title": "CLV Rama", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "NODO_ORIGEN", "title": "Nodo Origen", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "NODO_DESTINO", "title": "Nodo Destino", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "SENTIDO", "title": "Sentido", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "FLUJO", "title": "Flujo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DTR_RAMAS_ENL_SIN.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_RAMAS_ENL_SIN"
-        }
+            "id": "DTR_RAMAS_ENL_SIN",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_ENLACE": { "type": "string", "editable": false, "nullable": false },
+                "CLV_RAMA": { "type": "string", "editable": false, "nullable": false },
+                "NODO_ORIGEN": { "type": "string", "editable": false, "nullable": false },
+                "NODO_DESTINO": { "type": "string", "editable": false, "nullable": false },
+                "SENTIDO": { "type": "number", "editable": false, "nullable": false },
+                "FLUJO": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_ENLACE", "title": "CLV Enlace", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_RAMA", "title": "CLV Rama", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "NODO_ORIGEN", "title": "Nodo Origen", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "NODO_DESTINO", "title": "Nodo Destino", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "SENTIDO", "title": "Sentido", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "FLUJO", "title": "Flujo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DTR_RAMAS_ENL_BCA.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_RAMAS_ENL_BCA"
-        }
+            "id": "DTR_RAMAS_ENL_BCA",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_ENLACE": { "type": "string", "editable": false, "nullable": false },
+                "CLV_RAMA": { "type": "string", "editable": false, "nullable": false },
+                "NODO_ORIGEN": { "type": "string", "editable": false, "nullable": false },
+                "NODO_DESTINO": { "type": "string", "editable": false, "nullable": false },
+                "SENTIDO": { "type": "number", "editable": false, "nullable": false },
+                "FLUJO": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_ENLACE", "title": "CLV Enlace", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_RAMA", "title": "CLV Rama", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "NODO_ORIGEN", "title": "Nodo Origen", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "NODO_DESTINO", "title": "Nodo Destino", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "SENTIDO", "title": "Sentido", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "FLUJO", "title": "Flujo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DTR_RAMAS_ENL_BCS.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_RAMAS_ENL_BCS"
-        }
+            "id": "DTR_RAMAS_ENL_BCS",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_ENLACE": { "type": "string", "editable": false, "nullable": false },
+                "CLV_RAMA": { "type": "string", "editable": false, "nullable": false },
+                "NODO_ORIGEN": { "type": "string", "editable": false, "nullable": false },
+                "NODO_DESTINO": { "type": "string", "editable": false, "nullable": false },
+                "SENTIDO": { "type": "number", "editable": false, "nullable": false },
+                "FLUJO": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_ENLACE", "title": "CLV Enlace", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_RAMA", "title": "CLV Rama", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "NODO_ORIGEN", "title": "Nodo Origen", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "NODO_DESTINO", "title": "Nodo Destino", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "SENTIDO", "title": "Sentido", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "FLUJO", "title": "Flujo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"}
+        ]
     },
     {
-        "nombre":"COLAPSABLE_DTR_EMBALSES.csv",
+        "nombre":"DTR_EMBALSES.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "COLAPSABLE_DTR_EMBALSES"
-        }
-    },
-    {
-        "nombre":"Archivo.csv",
-        "editable": false,
-        "archivoResultados": true,
-        "algoritmos": ["dersi", "dersmi", "autr"],
-        "modelo": {
-            "id": "Archivo"
-        }
-    },
-    {
-        "nombre":"COLAPSABLE_DTR_EMBALSES_1.csv",
-        "editable": false,
-        "archivoResultados": true,
-        "algoritmos": ["dersi", "dersmi", "autr"],
-        "modelo": {
-            "id": "COLAPSABLE_DTR_EMBALSES_1"
-        }
-    },
-    {
-        "nombre":"COLAPSABLE_DTR_EMBALSES_SIN.csv",
-        "editable": false,
-        "archivoResultados": true,
-        "algoritmos": ["dersi", "dersmi", "autr"],
-        "modelo": {
-            "id": "COLAPSABLE_DTR_EMBALSES_SIN"
-        }
-    },
-    {
-        "nombre":"COLAPSABLE_DTR_EMBALSES_BCA.csv",
-        "editable": false,
-        "archivoResultados": true,
-        "algoritmos": ["dersi", "dersmi", "autr"],
-        "modelo": {
-            "id": "COLAPSABLE_DTR_EMBALSES_BCA"
-        }
-    },
-    {
-        "nombre":"COLAPSABLE_DTR_EMBALSES_BCS.csv",
-        "editable": false,
-        "archivoResultados": true,
-        "algoritmos": ["dersi", "dersmi", "autr"],
-        "modelo": {
-            "id": "COLAPSABLE_DTR_EMBALSES_BCS"
-        }
+            "id": "DTR_EMBALSES",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "EMBALSE": { "type": "string", "editable": false, "nullable": false },
+                "COSTO_OPORTUNIDAD": { "type": "number", "editable": false, "nullable": false },
+                "LIM_INF_ENERGIA": { "type": "number", "editable": false, "nullable": false },
+                "ENERGIA": { "type": "number", "editable": false, "nullable": false },
+                "LIM_SUP_ENERGIA": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "EMBALSE", "title": "Embalse", "sortable": true, "filterable": true, "width": "10vw", "filterable": true},
+            { "field": "COSTO_OPORTUNIDAD", "title": "Costo Oportunidad", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+            { "field": "LIM_INF_ENERGIA", "title": "Límite Inferior", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "ENERGIA", "title": "Energía", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "LIM_SUP_ENERGIA", "title": "Límite Superior", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"DTR_SISTEMA_RESERVA_1.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_SISTEMA_RESERVA_1"
-        }
+            "id": "DTR_SISTEMA_RESERVA_1",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_SIS_RESERVA": { "type": "string", "editable": false, "nullable": false },
+                "REQ_MW_RREG": { "type": "number", "editable": false, "nullable": false },
+                "MW_RREG_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RREG": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_RR10": { "type": "number", "editable": false, "nullable": false },
+                "MW_RR10_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RR10": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_R10": { "type": "number", "editable": false, "nullable": false },
+                "MW_R10_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_R10": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_RS": { "type": "number", "editable": false, "nullable": false },
+                "MW_RS_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RS": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_SIS_RESERVA", "title": "CLV Sistema Reserva", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "REQ_MW_RREG", "title": "Req. MW Res. Reg.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RREG_ASIGNADOS", "title": "MW Res. Reg. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RREG", "title": "Costo Marginal Res. Reg.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_RR10", "title": "Req. MW Res. Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RR10_ASIGNADOS", "title": "MW Res. Rod. 10 Min. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RR10", "title": "Costo Marginal Res. Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_R10", "title": "Req. MW Res. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_R10_ASIGNADOS", "title": "MW Res. 10 Min. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_R10", "title": "Costo Marginal Res. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_RS", "title": "Req. MW Res. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RS_ASIGNADOS", "title": "MW Res. Sec. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RS", "title": "Costo Marginal Res. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DTR_SISTEMA_RESERVA_SIN.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_SISTEMA_RESERVA_SIN"
-        }
+            "id": "DTR_SISTEMA_RESERVA_SIN",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_SIS_RESERVA": { "type": "string", "editable": false, "nullable": false },
+                "REQ_MW_RREG": { "type": "number", "editable": false, "nullable": false },
+                "MW_RREG_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RREG": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_RR10": { "type": "number", "editable": false, "nullable": false },
+                "MW_RR10_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RR10": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_R10": { "type": "number", "editable": false, "nullable": false },
+                "MW_R10_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_R10": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_RS": { "type": "number", "editable": false, "nullable": false },
+                "MW_RS_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RS": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_SIS_RESERVA", "title": "CLV Sistema Reserva", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "REQ_MW_RREG", "title": "Req. MW Res. Reg.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RREG_ASIGNADOS", "title": "MW Res. Reg. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RREG", "title": "Costo Marginal Res. Reg.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_RR10", "title": "Req. MW Res. Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RR10_ASIGNADOS", "title": "MW Res. Rod. 10 Min. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RR10", "title": "Costo Marginal Res. Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_R10", "title": "Req. MW Res. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_R10_ASIGNADOS", "title": "MW Res. 10 Min. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_R10", "title": "Costo Marginal Res. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_RS", "title": "Req. MW Res. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RS_ASIGNADOS", "title": "MW Res. Sec. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RS", "title": "Costo Marginal Res. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DTR_SISTEMA_RESERVA_BCA.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_SISTEMA_RESERVA_BCA"
-        }
+            "id": "DTR_SISTEMA_RESERVA_BCA",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_SIS_RESERVA": { "type": "string", "editable": false, "nullable": false },
+                "REQ_MW_RREG": { "type": "number", "editable": false, "nullable": false },
+                "MW_RREG_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RREG": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_RR10": { "type": "number", "editable": false, "nullable": false },
+                "MW_RR10_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RR10": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_R10": { "type": "number", "editable": false, "nullable": false },
+                "MW_R10_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_R10": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_RS": { "type": "number", "editable": false, "nullable": false },
+                "MW_RS_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RS": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_SIS_RESERVA", "title": "CLV Sistema Reserva", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "REQ_MW_RREG", "title": "Req. MW Res. Reg.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RREG_ASIGNADOS", "title": "MW Res. Reg. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RREG", "title": "Costo Marginal Res. Reg.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_RR10", "title": "Req. MW Res. Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RR10_ASIGNADOS", "title": "MW Res. Rod. 10 Min. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RR10", "title": "Costo Marginal Res. Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_R10", "title": "Req. MW Res. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_R10_ASIGNADOS", "title": "MW Res. 10 Min. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_R10", "title": "Costo Marginal Res. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_RS", "title": "Req. MW Res. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RS_ASIGNADOS", "title": "MW Res. Sec. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RS", "title": "Costo Marginal Res. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DTR_SISTEMA_RESERVA_BCS.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_SISTEMA_RESERVA_BCS"
-        }
+            "id": "DTR_SISTEMA_RESERVA_BCS",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
+                "CLV_SIS_RESERVA": { "type": "string", "editable": false, "nullable": false },
+                "REQ_MW_RREG": { "type": "number", "editable": false, "nullable": false },
+                "MW_RREG_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RREG": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_RR10": { "type": "number", "editable": false, "nullable": false },
+                "MW_RR10_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RR10": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_R10": { "type": "number", "editable": false, "nullable": false },
+                "MW_R10_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_R10": { "type": "number", "editable": false, "nullable": false },
+                "REQ_MW_RS": { "type": "number", "editable": false, "nullable": false },
+                "MW_RS_ASIGNADOS": { "type": "number", "editable": false, "nullable": false },
+                "CST_MARG_RS": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "CLV_SIS_RESERVA", "title": "CLV Sistema Reserva", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "REQ_MW_RREG", "title": "Req. MW Res. Reg.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RREG_ASIGNADOS", "title": "MW Res. Reg. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RREG", "title": "Costo Marginal Res. Reg.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_RR10", "title": "Req. MW Res. Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RR10_ASIGNADOS", "title": "MW Res. Rod. 10 Min. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RR10", "title": "Costo Marginal Res. Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_R10", "title": "Req. MW Res. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_R10_ASIGNADOS", "title": "MW Res. 10 Min. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_R10", "title": "Costo Marginal Res. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
+            { "field": "REQ_MW_RS", "title": "Req. MW Res. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RS_ASIGNADOS", "title": "MW Res. Sec. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RS", "title": "Costo Marginal Res. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+        ]
     },
     {
         "nombre":"DTR_AREAS_1.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_AREAS_1"
-        }
+            "id": "DTR_AREAS_1",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "Inter": { "type": "number", "editable": false, "nullable": false },
+                "Area": { "type": "string", "editable": false, "nullable": false },
+                "GenTer": { "type": "number", "editable": false, "nullable": false },
+                "GenHid": { "type": "number", "editable": false, "nullable": false },
+                "GenRE": { "type": "number", "editable": false, "nullable": false },
+                "GenNP": { "type": "number", "editable": false, "nullable": false },
+                "GenTot": { "type": "number", "editable": false, "nullable": false },
+                "Demanda": { "type": "number", "editable": false, "nullable": false },
+                "Corte": { "type": "number", "editable": false, "nullable": false },
+                "Excedente": { "type": "number", "editable": false, "nullable": false },
+                "PotInt": { "type": "number", "editable": false, "nullable": false },
+                "Perdidas": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "Inter", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "Area", "title": "Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "GenTer", "title": "Generación U. Térmicas", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenHid", "title": "Generación U. Hidroeléctricas", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenRE", "title": "Generación U. Renovables", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenNP", "title": "Generación U. No Programables", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenTot", "title": "Generación Total", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Corte", "title": "Corte", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Excedente", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PotInt", "title": "Potencia Int.", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Perdidas", "title": "Pérdidas", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"DTR_AREAS_SIN.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_AREAS_SIN"
-        }
+            "id": "DTR_AREAS_SIN",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "Inter": { "type": "number", "editable": false, "nullable": false },
+                "Area": { "type": "string", "editable": false, "nullable": false },
+                "GenTer": { "type": "number", "editable": false, "nullable": false },
+                "GenHid": { "type": "number", "editable": false, "nullable": false },
+                "GenRE": { "type": "number", "editable": false, "nullable": false },
+                "GenNP": { "type": "number", "editable": false, "nullable": false },
+                "GenTot": { "type": "number", "editable": false, "nullable": false },
+                "Demanda": { "type": "number", "editable": false, "nullable": false },
+                "Corte": { "type": "number", "editable": false, "nullable": false },
+                "Excedente": { "type": "number", "editable": false, "nullable": false },
+                "PotInt": { "type": "number", "editable": false, "nullable": false },
+                "Perdidas": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "Inter", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "Area", "title": "Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "GenTer", "title": "Generación U. Térmicas", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenHid", "title": "Generación U. Hidroeléctricas", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenRE", "title": "Generación U. Renovables", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenNP", "title": "Generación U. No Programables", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenTot", "title": "Generación Total", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Corte", "title": "Corte", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Excedente", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PotInt", "title": "Potencia Int.", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Perdidas", "title": "Pérdidas", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"DTR_AREAS_BCA.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_AREAS_BCA"
-        }
+            "id": "DTR_AREAS_BCA",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "Inter": { "type": "number", "editable": false, "nullable": false },
+                "Area": { "type": "string", "editable": false, "nullable": false },
+                "GenTer": { "type": "number", "editable": false, "nullable": false },
+                "GenHid": { "type": "number", "editable": false, "nullable": false },
+                "GenRE": { "type": "number", "editable": false, "nullable": false },
+                "GenNP": { "type": "number", "editable": false, "nullable": false },
+                "GenTot": { "type": "number", "editable": false, "nullable": false },
+                "Demanda": { "type": "number", "editable": false, "nullable": false },
+                "Corte": { "type": "number", "editable": false, "nullable": false },
+                "Excedente": { "type": "number", "editable": false, "nullable": false },
+                "PotInt": { "type": "number", "editable": false, "nullable": false },
+                "Perdidas": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "Inter", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "Area", "title": "Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "GenTer", "title": "Generación U. Térmicas", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenHid", "title": "Generación U. Hidroeléctricas", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenRE", "title": "Generación U. Renovables", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenNP", "title": "Generación U. No Programables", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenTot", "title": "Generación Total", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Corte", "title": "Corte", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Excedente", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PotInt", "title": "Potencia Int.", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Perdidas", "title": "Pérdidas", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"DTR_AREAS_BCS.csv",
         "editable": false,
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
         "modelo": {
-            "id": "DTR_AREAS_BCS"
-        }
-    },
-    {
-        "nombre":"DTR_SISTEMA_1.csv",
-        "editable": false,
-        "archivoResultados": true,
-        "algoritmos": ["dersi", "dersmi", "autr"],
-        "modelo": {
-            "id": "DTR_SISTEMA_1"
-        }
-    },
-    {
-        "nombre":"DTR_SISTEMA_SIN.csv",
-        "editable": false,
-        "archivoResultados": true,
-        "algoritmos": ["dersi", "dersmi", "autr"],
-        "modelo": {
-            "id": "DTR_SISTEMA_SIN"
-        }
-    },
-    {
-        "nombre":"DTR_SISTEMA_BCA.csv",
-        "editable": false,
-        "archivoResultados": true,
-        "algoritmos": ["dersi", "dersmi", "autr"],
-        "modelo": {
-            "id": "DTR_SISTEMA_BCA"
-        }
-    },
-    {
-        "nombre":"DTR_SISTEMA_BCS.csv",
-        "editable": false,
-        "archivoResultados": true,
-        "algoritmos": ["dersi", "dersmi", "autr"],
-        "modelo": {
-            "id": "DTR_SISTEMA_BCS"
-        }
+            "id": "DTR_AREAS_BCS",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "Inter": { "type": "number", "editable": false, "nullable": false },
+                "Area": { "type": "string", "editable": false, "nullable": false },
+                "GenTer": { "type": "number", "editable": false, "nullable": false },
+                "GenHid": { "type": "number", "editable": false, "nullable": false },
+                "GenRE": { "type": "number", "editable": false, "nullable": false },
+                "GenNP": { "type": "number", "editable": false, "nullable": false },
+                "GenTot": { "type": "number", "editable": false, "nullable": false },
+                "Demanda": { "type": "number", "editable": false, "nullable": false },
+                "Corte": { "type": "number", "editable": false, "nullable": false },
+                "Excedente": { "type": "number", "editable": false, "nullable": false },
+                "PotInt": { "type": "number", "editable": false, "nullable": false },
+                "Perdidas": { "type": "number", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "Inter", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "Area", "title": "Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "GenTer", "title": "Generación U. Térmicas", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenHid", "title": "Generación U. Hidroeléctricas", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenRE", "title": "Generación U. Renovables", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenNP", "title": "Generación U. No Programables", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenTot", "title": "Generación Total", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Corte", "title": "Corte", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Excedente", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PotInt", "title": "Potencia Int.", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Perdidas", "title": "Pérdidas", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+        ]
     },
     {
         "nombre":"SEMAFOROSDERS.csv",
