@@ -294,11 +294,33 @@ function crearTablaInfoKendo(objData) {
 			console.log('No trae columnas');
 		}
 
+        let rowTemplateString;
+        let altRowTemplateString;
+
+        // Plantilla para resaltar diferencias
+        rowTemplateString = `<tr class="#: ${objData.insumo.modelo.id === 'SEMAFOROSDERS' ? 'getClaseSEMAFOROSDERS(bandera)' : '' } #" data-indice="#: numFila #" data-uid="#: uid #">`;
+
+        // Recorre las columnas
+        objData.insumo.columnas.forEach((col) => {
+            rowTemplateString += `<td class="
+            #: getClaseVal_DERS_MI_TOTALES_AREA('${objData.insumo.modelo.id}', '${col.field}', ${col.field}) #
+            ${objData.insumo.modelo.id.startsWith('DTR_ZONAS_RESERVA') ? '#: getClaseVal_DTR_ZONAS_RESERVA("' + col.field + '", REQ_MW_RREG, MW_RREG_ASIGNADOS, REQ_MW_RR10, MW_RR10_ASIGNADOS, REQ_MW_R10, MW_R10_ASIGNADOS, REQ_MW_RS, MW_RS_ASIGNADOS) #' : '' } ">
+                #: ${col.field} #
+            </td>`
+        });
+
+        rowTemplateString += '</tr>';
+
+        // plantilla alternativa
+        altRowTemplateString = rowTemplateString.replace('tr class="', 'tr class="k-alt ');
+
 		// En el objeto del grid inserta las columnas
         gridsInfo.push($(id).kendoGrid({
 			dataSource: dataSource,
 			columns: objData.insumo.columnas,
-			sortable: {
+            rowTemplate: rowTemplateString,
+            altRowTemplate: altRowTemplateString,
+            sortable: {
 				showIndexes: true,
 				mode: "multiple"
 			},
@@ -421,6 +443,50 @@ function resaltarCeldas() {
         // console.log('Fila', fila);
         fila.classList.add('fila-modificada');
     });
+}
+
+function getClaseVal_DERS_MI_TOTALES_AREA(id, campo, valor) {
+    if (id === 'DERS_MI_TOTALES_AREA') {
+        if (campo === 'Corte') {
+            if (valor > 0) {
+                return 'corte-excedente-gt-cero';
+            } else if (valor < 0) {
+                return 'corte-excedente-lt-cero';
+            }
+        }
+    } else {
+        return '';
+    }
+}
+
+function getClaseSEMAFOROSDERS(bandera) {
+    if (bandera !== 0) {
+        return 'penalizacion-activada';
+    } else {
+        return '';
+    }
+}
+
+function getClaseVal_DTR_ZONAS_RESERVA(campo, req_mw_rreg, mw_rreg_asignados, req_mw_rr10, mw_rr10_asignados, req_mw_r10, mw_r10_asignados, req_mw_rs, mw_rs_asignados) {
+    if (campo === 'MW_RREG_ASIGNADOS') {
+        if (mw_rreg_asignados < req_mw_rreg) {
+            return 'escasez-reserva';
+        }
+    } else if (campo === 'MW_RR10_ASIGNADOS') {
+        if (mw_rr10_asignados < req_mw_rr10) {
+            return 'escasez-reserva';
+        }
+    } else if (campo === 'MW_R10_ASIGNADOS') {
+        if (mw_r10_asignados < req_mw_r10) {
+            return 'escasez-reserva';
+        }
+    } else if (campo === 'MW_RS_ASIGNADOS') {
+        if (mw_rs_asignados < req_mw_rs) {
+            return 'escasez-reserva';
+        }
+    } else {
+        return '';
+    }
 }
 
 function actualizarResultadoInfo(flag_banner) {

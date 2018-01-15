@@ -4856,10 +4856,10 @@ module.exports = [
             { "field": "Intervalo", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
             { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "Generacion", "title": "Generación", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "NoProgramable", "title": "No Programable", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "NoProgramable", "title": "No Programable", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
             { "field": "Intercambio", "title": "Intercambio", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "Corte", "title": "Corte (Excedente)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+			{ "field": "Corte", "title": "Corte (Excedente)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
             { "field": "Perdida", "title": "Pérdida", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "Area", "title": "Área", "sortable": true, "filterable": true, "width": "15vw"}
         ]

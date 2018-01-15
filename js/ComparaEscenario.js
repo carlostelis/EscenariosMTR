@@ -265,7 +265,7 @@ function crearTablaInfoKendoResultado(objData, marco) {
     let colapso = colapsos_res.find((col) => {
         return col.id === `COLAPSO_${marco}_${objData.insumo.modelo.id}`;
     });
-    console.log(objData.insumo.modelo.id, 'dataSourceObj', dataSourceObj, colapso);
+    console.log(objData.insumo.modelo.id, 'dataSourceObj', dataSourceObj, objData);
 
     // Busca si tiene diferencias
     let hayDiferencias = false;
@@ -290,22 +290,39 @@ function crearTablaInfoKendoResultado(objData, marco) {
         }
     }
 
+    // Agrega sus diferencias a la lista general
+    if (typeof objData.listaDiferencias !== 'undefined') {
+        objData.listaDiferencias.forEach((obj) => {
+            obj.archivo = objData.insumo.modelo.id;
+
+            listaDiferencias.push(obj);
+        });
+    }
+
     // Si hay diferencias, agrega los templates, si no, no es necesario
     let rowTemplateString;
     let altRowTemplateString;
 
-    // if (hayDiferencias) {
-        // Plantilla para resaltar diferencias
-        rowTemplateString = `<tr onmouseover="marcarFilaModificada('${objData.insumo.modelo.id}', '${marco === 'A' ? 'B' : 'A'}', '#: numFila #'); " onmouseout="desmarcarFilaModificada('${objData.insumo.modelo.id}', '${marco === 'A' ? 'B' : 'A'}', '#: numFila #');" class="#: (hayDiferencia === true ? "fila-modificada" : "") # ${objData.insumo.modelo.id} ${marco}" data-indice="#: numFila #" data-uid="#: uid #">`;
-        // Recorre las columnas
-        objData.insumo.columnas.forEach((col) => {
-            rowTemplateString += `<td class="#: getClaseCeldaRes(${col.field}) #">#: getValorSinDiferencia(${col.field}) #</td>`
-        });
-        rowTemplateString += '</tr>';
+    // Plantilla para resaltar diferencias
+    rowTemplateString = `<tr
+    onmouseover="marcarFilaModificada('${objData.insumo.modelo.id}', '${marco === 'A' ? 'B' : 'A'}', '#: numFila #'); "
+    onmouseout="desmarcarFilaModificada('${objData.insumo.modelo.id}', '${marco === 'A' ? 'B' : 'A'}', '#: numFila #');"
+    class="
+        #: (hayDiferencia === true ? "fila-modificada" : "") # ${objData.insumo.modelo.id} ${marco}
+        #: ${objData.insumo.modelo.id === 'SEMAFOROSDERS' ? 'getClaseSEMAFOROSDERS(bandera)' : '' } #"
+    data-indice="#: numFila #" data-uid="#: uid #">`;
 
-        // plantilla alternativa
-        altRowTemplateString = rowTemplateString.replace('tr class="', 'tr class="k-alt ');
-    // }
+    // Recorre las columnas
+    objData.insumo.columnas.forEach((col) => {
+        rowTemplateString += `<td class="#: getClaseCeldaRes('${objData.insumo.modelo.id}', numFila, '${col.field}') #">
+            #: ${col.field} #
+        </td>`
+    });
+
+    rowTemplateString += '</tr>';
+
+    // plantilla alternativa
+    altRowTemplateString = rowTemplateString.replace('tr class="', 'tr class="k-alt ');
 
     try {
         let dataSource = new kendo.data.DataSource(dataSourceObj);
@@ -405,8 +422,12 @@ function isEquivalent(a, b) {
     return true;
 }
 
-function getClaseCeldaRes(valor) {
-    if (`${valor}`.endsWith('*+*')) {
+function getClaseCeldaRes(archivo, numFila, columna) {
+    let obj = listaDiferencias.find((obj) => {
+        return obj.archivo === archivo && obj.numFila === numFila && obj.columna === columna;
+    });
+
+    if (obj) {
         return 'celda-modificada';
     } else {
         return '';
@@ -564,6 +585,9 @@ ipcRenderer.on('escenario_resultados:leidoComparado', (event, objA, objB) => {
 
     // Vacía la lista de grids
     gridsRes = [];
+
+    // Limpia la lista de diferencias
+    listaDiferencias = [];
 
     // Vacia los datos de las tablas (desde el dom)
     // vaciarTablasResulados();

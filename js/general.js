@@ -147,6 +147,7 @@ let flag_A_cargado;
 let flag_B_cargado;
 let gridsRes = [];
 let listaRebote = [];
+let listaDiferencias = [];
 
 // Modificados
 let select_mod_anio;

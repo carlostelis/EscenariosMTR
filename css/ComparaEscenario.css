@@ -230,3 +230,25 @@
     background-color: darkseagreen !important;
     text-shadow: 0px 0px 1px;
 }
+
+.corte-excedente-gt-cero {
+    background-color: lightyellow !important;
+    border-color: lightgreen !important;
+}
+
+.corte-excedente-lt-cero {
+    background-color: darkorange !important;
+    border-color: chocolate !important;
+}
+
+.escasez-reserva {
+    background-color: darkred !important;
+    border-color: black !important;
+    color: white !important;
+}
+
+.penalizacion-activada {
+    background-color: darkred !important;
+    border-color: black !important;
+    color: white !important;
+}

@@ -577,11 +577,16 @@ class Escenario {
     compararResultados(resultados_A, resultados_B) {
         console.log('Comparando escenarios...');
         return new Promise((resolve, reject) => {
+
+            // Ingresa contenedores
             resultados_A.lista.forEach((archivoA) => {
                 let archivoB = resultados_B.lista.find((f) => {
                     // Busca su recíproco del escenario
                     return f.archivo === archivoA.archivo;
                 });
+
+                archivoA.listaDiferencias = [];
+                archivoB.listaDiferencias = [];
 
                 if (archivoB) {
                     console.log('Comparando archivo', archivoB.archivo);
@@ -599,11 +604,14 @@ class Escenario {
                                 // SI hay diferencia en el dato correspondiente, se marca como diferente en B
                                 if (objFilaA[col.field] !== objFilaB[col.field]) {
                                     // console.log('Diferencia', archivoA.archivo, objFilaA[col.field], "->", objFilaB[col.field]);
-                                    objFilaA[col.field] = objFilaA[col.field] + '*+*';
-                                    objFilaB[col.field] = objFilaB[col.field] + '*+*';
+
                                     // Marca diferencias
                                     objFilaB.hayDiferencia = true;
                                     objFilaA.hayDiferencia = true;
+
+                                    // Marca en las filas las columnas editadas
+                                    archivoA.listaDiferencias.push({ numFila: objFilaA['numFila'], columna: col.field });
+                                    archivoB.listaDiferencias.push({ numFila: objFilaB['numFila'], columna: col.field });
                                 }
                             });
                         }
