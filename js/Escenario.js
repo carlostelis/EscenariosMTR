@@ -288,6 +288,7 @@ class Escenario {
                     });
 
                     if (filaPreverc) {
+                        fila.SEGMENTO = segmento;
                         fila.PRECIO_SEGMENTO = filaPreverc.preVentaP1;
                         console.log('Precio:', filaPreverc.preVentaP1);
                     }

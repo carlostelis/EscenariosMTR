@@ -5511,7 +5511,8 @@ module.exports = [
                 "COORDINABILIDAD": { "type": "number", "editable": false, "nullable": false },
                 "MARGEN_SUBIR": { "type": "number", "editable": false, "nullable": false },
                 "MARGEN_BAJAR": { "type": "number", "editable": false, "nullable": false },
-                "PRECIO_SEGMENTO": { "type": "number", "editable": false, "nullable": false }
+                "PRECIO_SEGMENTO": { "type": "number", "editable": false, "nullable": false },
+                "SEGMENTO": { "type": "number", "editable": false, "nullable": false }
             }
         },
         "columnas": [
@@ -5533,7 +5534,8 @@ module.exports = [
             { "field": "COORDINABILIDAD", "title": "Coordinabilidad", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n0}"},
             { "field": "MARGEN_SUBIR", "title": "Margen para subir", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}", "template": "#= kendo.toString(MARGEN_SUBIR, 'n3')#"},
             { "field": "MARGEN_BAJAR", "title": "Margen para bajar", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}", "template": "#= kendo.toString(MARGEN_BAJAR, 'n3')#"},
-            { "field": "PRECIO_SEGMENTO", "title": "Precio de Segmento", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"}
+            { "field": "PRECIO_SEGMENTO", "title": "Precio de Segmento", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "SEGMENTO", "title": "Segmento", "sortable": true, "hidden": true, "filterable": true, "width": "15vw", "format": "{0:n2}"}
         ]
     },
     {
