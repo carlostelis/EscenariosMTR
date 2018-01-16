@@ -309,12 +309,19 @@ function crearTablaInfoKendoResultado(objData, marco) {
     onmouseout="desmarcarFilaModificada('${objData.insumo.modelo.id}', '${marco === 'A' ? 'B' : 'A'}', '#: numFila #');"
     class="
         #: (hayDiferencia === true ? "fila-modificada" : "") # ${objData.insumo.modelo.id} ${marco}
-        #: ${objData.insumo.modelo.id === 'SEMAFOROSDERS' ? 'getClaseSEMAFOROSDERS(bandera)' : '' } #"
+        ${objData.insumo.modelo.id === 'SEMAFOROSDERS' ? '#: getClaseSEMAFOROSDERS(bandera) #' : '' }
+        ${objData.insumo.modelo.id === 'RESUMEN_UNIDADES' ? '#: getClaseFilaRESUMEN_UNIDADES(DISPONIBILIDAD, COORDINABILIDAD) #' : '' }"
     data-indice="#: numFila #" data-uid="#: uid #">`;
 
     // Recorre las columnas
     objData.insumo.columnas.forEach((col) => {
-        rowTemplateString += `<td class="#: getClaseCeldaRes('${objData.insumo.modelo.id}', numFila, '${col.field}') #">
+        rowTemplateString += `<td
+        class="
+        #: getClaseCeldaRes('${objData.insumo.modelo.id}', numFila, '${col.field}') #
+        #: getClaseVal_DERS_MI_TOTALES_AREA('${objData.insumo.modelo.id}', '${col.field}', ${col.field}) #
+        #: getClaseColumnaRESUMEN_UNIDADES('${objData.insumo.modelo.id}', '${col.field}', ${col.field}) #
+        ${objData.insumo.modelo.id.startsWith('DTR_ZONAS_RESERVA') ? '#: getClaseVal_DTR_ZONAS_RESERVA("' + col.field + '", REQ_MW_RREG, MW_RREG_ASIGNADOS, REQ_MW_RR10, MW_RR10_ASIGNADOS, REQ_MW_R10, MW_R10_ASIGNADOS, REQ_MW_RS, MW_RS_ASIGNADOS) #' : '' }
+        ">
             #: ${col.field} #
         </td>`
     });

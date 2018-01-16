@@ -298,16 +298,23 @@ function crearTablaInfoKendo(objData) {
         let altRowTemplateString;
 
         // Plantilla para resaltar diferencias
-        rowTemplateString = `<tr class="#: ${objData.insumo.modelo.id === 'SEMAFOROSDERS' ? 'getClaseSEMAFOROSDERS(bandera)' : '' } #" data-indice="#: numFila #" data-uid="#: uid #">`;
+        rowTemplateString = `<tr
+        class="
+            ${objData.insumo.modelo.id === 'SEMAFOROSDERS' ? '#: getClaseSEMAFOROSDERS(bandera) #' : '' }
+            ${objData.insumo.modelo.id === 'RESUMEN_UNIDADES' ? '#: getClaseFilaRESUMEN_UNIDADES(DISPONIBILIDAD, COORDINABILIDAD) #' : '' }"
+        data-indice="#: numFila #" data-uid="#: uid #">`;
 
         // Recorre las columnas
         objData.insumo.columnas.forEach((col) => {
             rowTemplateString += `<td class="
             #: getClaseVal_DERS_MI_TOTALES_AREA('${objData.insumo.modelo.id}', '${col.field}', ${col.field}) #
+            #: getClaseColumnaRESUMEN_UNIDADES('${objData.insumo.modelo.id}', '${col.field}', ${col.field}) #
             ${objData.insumo.modelo.id.startsWith('DTR_ZONAS_RESERVA') ? '#: getClaseVal_DTR_ZONAS_RESERVA("' + col.field + '", REQ_MW_RREG, MW_RREG_ASIGNADOS, REQ_MW_RR10, MW_RR10_ASIGNADOS, REQ_MW_R10, MW_R10_ASIGNADOS, REQ_MW_RS, MW_RS_ASIGNADOS) #' : '' } ">
                 #: ${col.field} #
             </td>`
         });
+
+        getClaseColumnaRESUMEN_UNIDADES
 
         rowTemplateString += '</tr>';
 
@@ -454,9 +461,9 @@ function getClaseVal_DERS_MI_TOTALES_AREA(id, campo, valor) {
                 return 'corte-excedente-lt-cero';
             }
         }
-    } else {
-        return '';
     }
+
+    return '';
 }
 
 function getClaseSEMAFOROSDERS(bandera) {
@@ -465,6 +472,32 @@ function getClaseSEMAFOROSDERS(bandera) {
     } else {
         return '';
     }
+}
+
+function getClaseFilaRESUMEN_UNIDADES(disponibilidad, coordinabilidad) {
+    if (disponibilidad === 0) {
+        return 'unidad-no-disponible';
+    } else {
+        if (coordinabilidad === 0) {
+            return 'unidad-no-coordinable';
+        }
+    }
+
+    return '';
+}
+
+function getClaseColumnaRESUMEN_UNIDADES(archivo, campo, valor) {
+    if (archivo === 'RESUMEN_UNIDADES') {
+        if (campo === 'MARGEN_SUBIR' || campo === 'MARGEN_BAJAR') {
+            if (valor === 0) {
+                return 'unidad-sin-margen';
+            } else {
+                return 'unidad-con-margen';
+            }
+        }
+    }
+
+    return '';
 }
 
 function getClaseVal_DTR_ZONAS_RESERVA(campo, req_mw_rreg, mw_rreg_asignados, req_mw_rr10, mw_rr10_asignados, req_mw_r10, mw_r10_asignados, req_mw_rs, mw_rs_asignados) {
@@ -484,9 +517,9 @@ function getClaseVal_DTR_ZONAS_RESERVA(campo, req_mw_rreg, mw_rreg_asignados, re
         if (mw_rs_asignados < req_mw_rs) {
             return 'escasez-reserva';
         }
-    } else {
-        return '';
     }
+
+    return '';
 }
 
 function actualizarResultadoInfo(flag_banner) {

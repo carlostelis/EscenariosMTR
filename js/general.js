@@ -877,7 +877,6 @@ function crearOption(select, texto, valor) {
     select.appendChild(option);
 }
 
-
 ipcRenderer.on('archivo:leido', (event, obj) => {
     if (obj.opc === 'RES_COMPARA') {
         obj.res = obj.res.replace(new RegExp('\n+\s*', 'g'), '<br>')

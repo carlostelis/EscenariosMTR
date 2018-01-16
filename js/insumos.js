@@ -4703,38 +4703,6 @@ module.exports = [
         ]
     },
     {
-        "nombre":"DERS_I_TOTALES_1.csv",
-        "editable": false,
-        "archivoResultados": true,
-        "algoritmos": ["dersi", "dersmi", "autr"],
-        "ignorarCabecera": true,
-        "modelo": {
-            "id": "DERS_I_TOTALES_1",
-            "fields": {
-                "numFila": { "type": "number", "editable": false, "nullable": false },
-                "Demanda": { "type": "number", "editable": false, "nullable": false },
-                "Generacion": { "type": "number", "editable": false, "nullable": false },
-                "NoProgramable": { "type": "number", "editable": false, "nullable": false },
-                "Intercambio": { "type": "number", "editable": false, "nullable": false },
-                "DualBalance": { "type": "number", "editable": false, "nullable": false },
-                "Corte": { "type": "number", "editable": false, "nullable": false },
-                "Perdida": { "type": "number", "editable": false, "nullable": false },
-                "ECA": { "type": "number", "editable": false, "nullable": false }
-            }
-        },
-        "columnas": [
-            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "Generacion", "title": "Generación", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "NoProgramable", "title": "No Programable", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "Intercambio", "title": "Intercambio", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "Corte", "title": "Corte (Excedente)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "Perdida", "title": "Pérdida", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "ECA", "title": "Error Control Área", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
-        ]
-    },
-    {
         "nombre":"DERS_I_TOTALES_SIN.csv",
         "editable": false,
         "archivoResultados": true,
@@ -4828,6 +4796,42 @@ module.exports = [
 			{ "field": "Corte", "title": "Corte (Excedente)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "Perdida", "title": "Pérdida", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "ECA", "title": "Error Control Área", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+        ]
+    },
+    {
+        "nombre":"DERS_I_TOTALES_AREA.csv",
+        "editable": false,
+        "archivoResultados": true,
+        "algoritmos": ["dersi", "dersmi", "autr"],
+        "ignorarCabecera": true,
+        "modelo": {
+            "id": "DERS_I_TOTALES_AREA",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "Intervalo": { "type": "number", "editable": false, "nullable": false },
+                "Demanda": { "type": "number", "editable": false, "nullable": false },
+                "Generacion": { "type": "number", "editable": false, "nullable": false },
+                "NoProgramable": { "type": "number", "editable": false, "nullable": false },
+                "Intercambio": { "type": "number", "editable": false, "nullable": false },
+                "DualBalance": { "type": "number", "editable": false, "nullable": false },
+                "Corte": { "type": "number", "editable": false, "nullable": false },
+                "Perdida": { "type": "number", "editable": false, "nullable": false },
+                "ECA": { "type": "number", "editable": false, "nullable": false },
+                "Area": { "type": "string", "editable": false, "nullable": false }
+            }
+        },
+        "columnas": [
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "Intervalo", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Generacion", "title": "Generación", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "NoProgramable", "title": "No Programable", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "Intercambio", "title": "Intercambio", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+			{ "field": "Corte", "title": "Corte (Excedente)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "Perdida", "title": "Pérdida", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "ECA", "title": "Error de Control de Área", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Area", "title": "Área", "sortable": true, "filterable": true, "width": "15vw"}
         ]
     },
     {
@@ -5361,46 +5365,6 @@ module.exports = [
         ]
     },
     {
-        "nombre":"DTR_UNIDADES_1.csv",
-        "editable": false,
-        "archivoResultados": true,
-        "algoritmos": ["dersi", "dersmi", "autr"],
-        "ignorarCabecera": true,
-        "modelo": {
-            "id": "DTR_UNIDADES_1",
-            "fields": {
-                "numFila": { "type": "number", "editable": false, "nullable": false },
-                "INTERVALO": { "type": "number", "editable": false, "nullable": false },
-                "CLV_UNIDAD": { "type": "string", "editable": false, "nullable": false },
-                "CLV_NODO": { "type": "string", "editable": false, "nullable": false },
-                "TIPO_OFERTA": { "type": "string", "editable": false, "nullable": false },
-                "MODO": { "type": "number", "editable": false, "nullable": false },
-                "ESTADO": { "type": "number", "editable": false, "nullable": false },
-                "POTENCIA": { "type": "number", "editable": false, "nullable": false },
-                "RR10_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
-                "RNR10_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
-                "RRS_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
-                "RNRS_ASIGNADA": { "type": "number", "editable": false, "nullable": false },
-                "RREG_ASIGNADA": { "type": "number", "editable": false, "nullable": false }
-            }
-        },
-        "columnas": [
-            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_UNIDAD", "title": "CLV Unidad", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CLV_NODO", "title": "CLV Nodo", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "TIPO_OFERTA", "title": "Tipo Oferta", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "MODO", "title": "Modo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "ESTADO", "title": "Estado", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "POTENCIA", "title": "Potencia", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "RR10_ASIGNADA", "title": "Reserva Rod. 10 Min. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RNR10_ASIGNADA", "title": "Reserva No Rod. 10 Min. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RRS_ASIGNADA", "title": "Reserva Rod. Sec. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RNRS_ASIGNADA", "title": "Reserva No Rod. Sec. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RREG_ASIGNADA", "title": "Reserva Reg. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
-        ]
-    },
-    {
         "nombre":"DTR_UNIDADES_SIN.csv",
         "editable": false,
         "archivoResultados": true,
@@ -5544,7 +5508,10 @@ module.exports = [
                 "RNRS": { "type": "number", "editable": false, "nullable": false },
                 "DISPONIBILIDAD": { "type": "number", "editable": false, "nullable": false },
                 "ASIGNABILIDAD": { "type": "number", "editable": false, "nullable": false },
-                "COORDINABILIDAD": { "type": "number", "editable": false, "nullable": false }
+                "COORDINABILIDAD": { "type": "number", "editable": false, "nullable": false },
+                "MARGEN_SUBIR": { "type": "number", "editable": false, "nullable": false },
+                "MARGEN_BAJAR": { "type": "number", "editable": false, "nullable": false },
+                "PRECIO_SEGMENTO": { "type": "number", "editable": false, "nullable": false }
             }
         },
         "columnas": [
@@ -5563,7 +5530,10 @@ module.exports = [
             { "field": "RNRS", "title": "Reserva No Rod. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
             { "field": "DISPONIBILIDAD", "title": "Disponibilidad", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n0}"},
             { "field": "ASIGNABILIDAD", "title": "Asignabilidad", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n0}"},
-            { "field": "COORDINABILIDAD", "title": "Coordinabilidad", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n0}"}
+            { "field": "COORDINABILIDAD", "title": "Coordinabilidad", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n0}"},
+            { "field": "MARGEN_SUBIR", "title": "Margen para subir", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}", "template": "#= kendo.toString(MARGEN_SUBIR, 'n3')#"},
+            { "field": "MARGEN_BAJAR", "title": "Margen para bajar", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}", "template": "#= kendo.toString(MARGEN_BAJAR, 'n3')#"},
+            { "field": "PRECIO_SEGMENTO", "title": "Precio de Segmento", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"}
         ]
     },
     {

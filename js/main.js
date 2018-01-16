@@ -1,13 +1,22 @@
-const { app, BrowserWindow, Menu, ipcMain, remote, dialog } = require('electron');;
+// Del objeto Electron, se obtienen los objetos y clases para gestión de la aplicación
+// + app es objeto que controla de manera global la aplicación. Tiene eventos y acciones
+//      para cargar y finalizar.
+// + BrowserWindow es una clase para la creación y gestión de las ventanas (paginas);
+//      el analizador se diseñó de forma que solo se cargue una ventana y se actualice
+//      dinamicamente su contenido.
+// + Menu es una clase para manejo de menus de la ventana
+// + ipcMain es un objeto que permite la comuicación con los renderers (ventanas)
+// + dialog es un objeto que permite la invocación de dialogos de confirmacion
+const { app, BrowserWindow, Menu, ipcMain, dialog } = require('electron');
 
 /////////          Para la generacion del instalador             //////////////
-
-// this should be placed at top of main.js to handle setup events quickly
 if (handleSquirrelEvent(app)) {
     // squirrel event handled and app will exit in 1000ms, so don't do anything else
     return;
 }
 
+// handleSquirrelEvent es una funcion que se llama desde la aplicacion que
+// genera el instalador. Para fines del analizador no se requiere editar mas
 function handleSquirrelEvent(application) {
     if (process.argv.length === 1) {
         return false;
@@ -65,6 +74,7 @@ function handleSquirrelEvent(application) {
     }
 };
 
+// Definiciones e instancias
 const rm = require('rimraf');
 const fs = require('fs');
 const fse = require('fs-extra');
@@ -99,7 +109,8 @@ let objEscenario;
 
 let SESION;
 
-// Versión de la aplicacion
+// Versión de la aplicacion.
+// el valor 'production' debe asignarse siempre que se genere un instalador
 // process.env.NODE_ENV = 'production';
 
 // Si es la primera ejecución se cierra (para instalador winstaller)
@@ -114,7 +125,10 @@ if (process.env.NODE_ENV === 'production' && !fs.existsSync('first')) {
 /*       IPC MAIN      */
 /***********************/
 
+// en el evento 'ready' de app se crea la ventana y la pagina principal
+// tambien se inicializan valores que se usarán a lo largo de la aplicacion
 app.on('ready', () => {
+    // Se crea la ventana
     win = new BrowserWindow({
         width: 1440,
         height: 900,
@@ -125,10 +139,12 @@ app.on('ready', () => {
         }
     });
 
+    // la ventana se muestra hasta que esta totalmente cargada
     win.once('ready-to-show', () => {
         win.show();
     });
 
+    // Se controla el cierre de la aplicacion a traves del metodo finalizar()
     win.on('close', (event) => {
         if (!app.finalizar()) {
             event.preventDefault();
@@ -136,6 +152,8 @@ app.on('ready', () => {
     });
 
     // Establece path
+    // En productivo toma la libreria de la carpeta de instalacion
+    // De lo contrario la lee desde la carpeta del proyecto
     let ruta_path;
     if (process.env.NODE_ENV === 'production') {
         ruta_path = path.join(process.cwd(), 'resources', 'app', 'algoritmo', 'chtpc', 'ILOG');
@@ -143,6 +161,7 @@ app.on('ready', () => {
         ruta_path = path.join(process.cwd(), 'algoritmo', 'chtpc', 'ILOG');
     }
 
+    // Se agrega la ruta al PATH de node
     if (!process.env.PATH.includes(ruta_path)) {
         process.env.PATH = `${process.env.PATH};${ruta_path}`
     }
@@ -155,13 +174,14 @@ app.on('ready', () => {
         win.setTitle(`Analizador de Escenarios del MTR`);
     }, 2000);
 
-    // Inserta Menú de la ventana
+    // Inserta Menú de la ventana a partir de un template (MenuTemplate.js)
     const mainMenu = Menu.buildFromTemplate(crearMenu(app, win, dialog));
     Menu.setApplicationMenu(mainMenu);
 
-    // Verifica los directorios
+    // Verifica e inicializa los directorios
     listaArchivos.init();
 
+    // Si no está en productivo se habilitan las herramientas de desarrollo
     if (process.env.NODE_ENV !== 'production') {
         win.toggleDevTools();
     }
@@ -187,17 +207,19 @@ app.finalizar = function () {
     return false;
 }
 
+// Confirmacion del cierre de la aplicacion
 app.on('will-quit', () => {
     app.exit(0);
     app.quit();
 });
 
-// Bitacora de usuario
+// Evento escucha para escribir un mensaje al archivo de bitacora
+// ${mensaje} es el contenido a escribir en el archivo
 ipcMain.on('bitacora:escribir', (event, mensaje) => {
     bitacoraUsuario.escribir(mensaje);
 });
 
-// Consulta de sistemas a la base de datos
+// Consulta de sistemas del archivo de configuracion
 ipcMain.on('sistemas:solicitar', (event) => {
     console.log(`Login cargado, sistemas solicitados...`);
     win.setTitle(`Analizador de escenarios del MTR - Login`);
@@ -211,6 +233,8 @@ ipcMain.on('sistemas:solicitar', (event) => {
     });
 });
 
+// Evento escucha para obtener informacion de un usuario en la base de datos
+// ${usuario} es el nombre del usuario a consutar
 ipcMain.on('usuario:solicitar', (event, usuario) => {
     console.log(`Solicitando usuario ${usuario}`);
 
@@ -225,11 +249,11 @@ ipcMain.on('usuario:solicitar', (event, usuario) => {
     //
     // return;
 
-    setTimeout(() => {
-        win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'USUARIO TEST', perfil: 'Usuario', contrasena:'test', estado:true, Mensaje: 'Consulta realizada correctamente'});
-    }, 1000);
-
-    return;
+    // setTimeout(() => {
+    //     win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'USUARIO TEST', perfil: 'Usuario', contrasena:'test', estado:true, Mensaje: 'Consulta realizada correctamente'});
+    // }, 1000);
+    //
+    // return;
 
     // conexión con la BD
     comandos.obtenerUsuario(usuario).then((json) => {
@@ -246,7 +270,7 @@ ipcMain.on('usuario:solicitar', (event, usuario) => {
     });
 });
 
-// Leer de disco los docs html para las funciones
+// Evento de escucha para leer los documentos HTML de la aplicacion
 ipcMain.on('paginas:leer', (event) => {
     let paginas = [];
     let ruta = path.join(__dirname, '../html/CargaEscenario.html');
@@ -287,7 +311,7 @@ ipcMain.on('paginas:leer', (event) => {
     win.webContents.send('paginas:envia', paginas);
 });
 
-// Consultar si es login o layout para cierre de sesion
+// Evento de escucha para recibir el despliegue actual de la ventana
 ipcMain.on('paginaActual:respuesta', (event, pagina) => {
     // ya esta en login
     if (pagina === 'login') {
@@ -310,7 +334,7 @@ ipcMain.on('paginaActual:respuesta', (event, pagina) => {
     }
 });
 
-// Lista de archivos de directorio
+// Evento de escucha que devuelve la lista de archivos del directorio de trabajo
 ipcMain.on('listaHtml:solicita', () => {
     console.log('Solicita lista archivos');
     listaArchivos.update().then((res) => {
@@ -323,17 +347,19 @@ ipcMain.on('listaHtml:solicita', () => {
     });
 });
 
+// Evento de escucha que lee el contenido de un directorio especifico del dir de trabajo
 ipcMain.on('listaHtml:solicitaDirectorio', (event, directorio) => {
     console.log("Envia lista archivos", directorio);
     win.webContents.send('listaHtml:recibeDirectorio', listaArchivos.leerDirectorio(directorio));
 });
 
+// Evento de escucha que lee el contenido de la carpeta base del dir de trabajo
 ipcMain.on('listaHtml:solicitaBase', () => {
     console.log("Envia lista archivos");
     win.webContents.send('listaHtml:recibeBase', listaArchivos.generarBase());
 });
 
-// Lista de archivos de directorio
+// Evento de escucha que actualiza la informacion de la sesion actual
 ipcMain.on('info:sesion', (event, info) => {
     if (typeof info !== 'undefined') {
         SESION = info;
@@ -350,7 +376,7 @@ ipcMain.on('info:sesion', (event, info) => {
     }
 });
 
-// Consulta de UTC
+// Evento de escucha que realiza una consulta de UTC de una fecha y zona dada
 ipcMain.on('utc:consulta', (event, fecha, zona) => {
     console.log(fecha, zona);
     comandos.obtenerUTC(fecha, zona).then((json) => {
@@ -362,11 +388,14 @@ ipcMain.on('utc:consulta', (event, fecha, zona) => {
     });
 });
 
+// Evento de escucha que inicializa la bitacora de un escenario
 ipcMain.on('bitacora:inicializa', (event, ruta) => {
     console.log('Inicializando bitácora de escenario:', ruta);
     bitacoraUsuario.init(ruta);
 });
 
+// Evento de escucha que realiza la descarga de un escenario
+// $(data) es un objeto que contiene la información del escenario a descargar
 ipcMain.on('directorio:descarga', (event, data) => {
     let dirRemoto = data.dirRemoto;
     let replace;
@@ -552,6 +581,10 @@ ipcMain.on('directorio:descarga', (event, data) => {
     });
 });
 
+// Evento de escucha que realiza la descarga del algoritmo del escenario
+// $(ruta_escenario) es la ruta del escenario local
+// ${algoritmo} nombre del algoritmo asociado al escenario
+// ${evento} nombre del evento al cual responder al terminar
 ipcMain.on('algoritmo:descarga', (event, ruta_escenario, algoritmo, evento) => {
     let alg;
     if (algoritmo === 'dersi') {
@@ -674,6 +707,9 @@ ipcMain.on('algoritmo:descarga', (event, ruta_escenario, algoritmo, evento) => {
     });
 });
 
+// Metodo para interpretar los rangos de fechas de las carpetas del directorio
+// de algoritmos del servidor
+// ${id} es el identificador de la carpeta
 function parseFechaAlgoritmo(id) {
     let inicio = {};
     let fin = {};
@@ -711,6 +747,10 @@ function parseFechaAlgoritmo(id) {
     return {id:id, inicio: inicio, fin: fin};
 }
 
+// Evento de escucha que realiza la lectura de entradas y resultados de un escenario
+// ${ruta_escenario} es el directorio del escenario a leer
+// ${algoritmo} es el algoritmo asociado al escenario
+// ${folio} es el folio del escenario modificado
 ipcMain.on('escenario_completo:leer', (event, ruta_escenario, algoritmo, folio) => {
     escenario.parseEscenario(ruta_escenario, algoritmo).then((obj) => {
         let objetoEntradas = {
@@ -745,6 +785,9 @@ ipcMain.on('escenario_completo:leer', (event, ruta_escenario, algoritmo, folio) 
     });
 });
 
+// Evento de escucha que realiza la lectura de los resultados de un escenario
+// ${ruta_escenario} es el directorio del escenario a leer
+// ${algoritmo} es el algoritmo asociado al escenario
 ipcMain.on('escenario_resultados:leer', (event, ruta_escenario, algoritmo) => {
     escenario.parseEscenario(ruta_escenario, algoritmo, 'RESULTADOS').then((obj) => {
         let objetoEntradas = {
@@ -770,6 +813,11 @@ ipcMain.on('escenario_resultados:leer', (event, ruta_escenario, algoritmo) => {
     });
 });
 
+// Evento de escucha que realiza la lectura de los resultados de dos escenarios
+// y compara los resultados para resaltar diferencias
+// ${ruta_escenario_A} es el directorio del escenario (1) a leer
+// ${ruta_escenario_B} es el directorio del escenario (2) a leer
+// ${algoritmo} es el algoritmo asociado al escenario
 ipcMain.on('escenario_resultados:leerComparar', (event, ruta_escenario_A, ruta_escenario_B, algoritmo) => {
     // LEe el escenario A
     console.log('--------');
@@ -848,6 +896,14 @@ ipcMain.on('escenario_resultados:leerComparar', (event, ruta_escenario_A, ruta_e
     });
 });
 
+// Evento de escueha para realizar la copia de un escenario original a un modificado
+// ${ruta_origen} es la ruta del escenario origen
+// ${ruta_destino} es la ruta del escenario destino
+// ${nuevo_folio} es el folio del escenario modificado
+// ${listaArchivos} son los archivos que contienen diferencias para actualizar
+// ${flag_copiar} bandera que permite identificar se copiara el directorio completo
+//  o solo habra actualizacion de valores
+// ${comentarios} es la cadena de comentarios para actualizar en el archivo comentarios.txt del escenario
 ipcMain.on('escenario_original:copiar', (event, ruta_origen, ruta_destino, nuevo_folio, listaArchivos, flag_copiar, comentarios) => {
     ruta_origen = path.normalize(ruta_origen);
     ruta_destino = path.normalize(ruta_destino);
@@ -927,8 +983,12 @@ ipcMain.on('escenario_original:copiar', (event, ruta_origen, ruta_destino, nuevo
     }
 });
 
+// Método que se re-define para verificar los archivos modificados durante una copia
 function verificarModificados() {}
 
+// Metodo que actualiza el contenido de un archivo
+// ${ruta} es la ubicación del archivo
+// ${obj} es el objeto que contiene las modificaciones
 function modificarArchivo(ruta, obj) {
     console.log('Modificado: ', ruta);
     return new Promise((resolve, reject) => {
@@ -979,6 +1039,9 @@ function modificarArchivo(ruta, obj) {
     });
 }
 
+// EVento de escucha que manda a ejecutar el algoritmo de un escenario
+// ${ruta_escenario} es la ruta del escenario
+// ${algoritmo} es el algoritmo asociado
 ipcMain.on('algoritmo:ejecutar', (event, ruta_escenario, algoritmo) => {
     let archivo_eje;
     if (algoritmo === 'dersi') {
@@ -996,6 +1059,10 @@ ipcMain.on('algoritmo:ejecutar', (event, ruta_escenario, algoritmo) => {
     });
 });
 
+// Evento de escucha que obtiene un diagnostico de infactibilidad cuando
+//  un escenario falló durante la ejecución
+// ${ruta_escenario} ruta del escenario
+// ${opc} es un valor para indicar el despliegue a partir del cual se solicita
 ipcMain.on('algoritmo:diagnosticar', (event, ruta_escenario, opc) => {
     // Revisa si existe el programa
     let ruta_diagnostico = path.join(ruta_escenario, 'mens_cplex.exe');
@@ -1037,6 +1104,8 @@ ipcMain.on('algoritmo:diagnosticar', (event, ruta_escenario, opc) => {
     }
 });
 
+// Evento de escucha que lee los escenarios modificados de un escenario original
+// ${ruta_escenario_mod} es la ruta de la carpeta de escenarios modificados
 ipcMain.on('escenarios_mod:leer', (event, ruta_escenario_mod) => {
     console.log('Folios de', ruta_escenario_mod);
     escenario.leerEscenariosModificados(ruta_escenario_mod).then((lista) => {
@@ -1052,6 +1121,10 @@ ipcMain.on('escenarios_mod:leer', (event, ruta_escenario_mod) => {
     });
 });
 
+// Evento de escucha que lee el contenido de un archivo dado.
+// ${ruta} es la ruta base del archivo
+// ${elementos} componentes extras de la ruta
+// ${opcion} valor para indicar el despliegue a partir del cual se solicita
 ipcMain.on('archivo:leer', (event, ruta, elementos, opcion) => {
     let ruta_archivo = ruta;
 
@@ -1072,6 +1145,8 @@ ipcMain.on('archivo:leer', (event, ruta, elementos, opcion) => {
     });
 });
 
+// Evento de escucha que lee los años disponibles en los escenarios locales
+// ${algoritmo} es el algoritmo asociado
 ipcMain.on('escenarios_mod_anios:leer', (event, algoritmo) => {
     let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_original');
 
@@ -1082,6 +1157,9 @@ ipcMain.on('escenarios_mod_anios:leer', (event, algoritmo) => {
     });
 });
 
+// Evento de escucha que lee los meses disponibles en los escenarios locales
+// ${algoritmo} es el algoritmo asociado a filtrar
+// ${anio} es el anio a filtrar
 ipcMain.on('escenarios_mod_meses:leer', (event, algoritmo, anio) => {
     let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_original', anio);
 
@@ -1092,6 +1170,10 @@ ipcMain.on('escenarios_mod_meses:leer', (event, algoritmo, anio) => {
     });
 });
 
+// Evento de escucha que lee los dias disponibles en los escenarios locales
+// ${algoritmo} es el algoritmo asociado a filtrar
+// ${anio} es el anio a filtrar
+// ${mes} es el mes a filtrar
 ipcMain.on('escenarios_mod_dias:leer', (event, algoritmo, anio, mes) => {
     let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_original', anio, mes);
 
@@ -1102,6 +1184,11 @@ ipcMain.on('escenarios_mod_dias:leer', (event, algoritmo, anio, mes) => {
     });
 });
 
+// Evento de escucha que lee los escenarios originales disponibles en los escenarios locales
+// ${algoritmo} es el algoritmo asociado a filtrar
+// ${anio} es el anio a filtrar
+// ${mes} es el mes a filtrar
+// ${dia} es el dia a filtrar
 ipcMain.on('escenarios_mod_originales:leer', (event, algoritmo, anio, mes, dia) => {
     let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_original', anio, mes, dia);
 
@@ -1112,6 +1199,12 @@ ipcMain.on('escenarios_mod_originales:leer', (event, algoritmo, anio, mes, dia) 
     });
 });
 
+// Evento de escucha que lee los escenarios modificados disponibles en los escenarios locales
+// ${algoritmo} es el algoritmo asociado a filtrar
+// ${anio} es el anio a filtrar
+// ${mes} es el mes a filtrar
+// ${dia} es el dia a filtrar
+// ${id} es el id del escenario original a filtrar
 ipcMain.on('escenarios_mod_modificados:leer', (event, algoritmo, anio, mes, dia, id) => {
     let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio, mes, dia, id);
 
@@ -1122,6 +1215,13 @@ ipcMain.on('escenarios_mod_modificados:leer', (event, algoritmo, anio, mes, dia,
     });
 });
 
+// Evento de escucha que realiza la lectura de entradas y resultados de un escenario
+// ${algoritmo} es el algoritmo asociado a filtrar
+// ${anio} es el anio a filtrar
+// ${mes} es el mes a filtrar
+// ${dia} es el dia a filtrar
+// ${id_ori} es el id del escenario original a filtrar
+// ${id_mod} es el folio del escenario modificado a filtrar
 ipcMain.on('escenarios_mod:leer_todo', (event, algoritmo, anio, mes, dia, id_ori, id_mod) => {
     let ruta_escenario = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio, mes, dia, id_ori, id_mod);
 
@@ -1149,6 +1249,8 @@ ipcMain.on('escenarios_mod:leer_todo', (event, algoritmo, anio, mes, dia, id_ori
     });
 });
 
+// Evento de escucha para leer los folios de un escenario original dado
+// ${obj} es el objeto con la información asociada
 ipcMain.on('escenarios_folios:leer', (event, obj) => {
     let ruta_escenario_mod = path.join(config.local.escenarios, SESION.sistema, obj.algoritmo, 'escenario_modificado', obj.anio, obj.mes, obj.dia, obj.id_escenario);
     console.log('Folios de', ruta_escenario_mod);
@@ -1160,6 +1262,8 @@ ipcMain.on('escenarios_folios:leer', (event, obj) => {
     });
 });
 
+// Evento de escucha que lee los años disponibles en los escenarios locales y rn BD
+// ${algoritmo} es el algoritmo asociado
 ipcMain.on('escenarios_folio_anios:leer', (event, algoritmo) => {
     let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado');
 
@@ -1194,6 +1298,9 @@ ipcMain.on('escenarios_folio_anios:leer', (event, algoritmo) => {
     });
 });
 
+// Evento de escucha que lee los meses disponibles en los escenarios locales y rn BD
+// ${algoritmo} es el algoritmo asociado
+// ${anio} es el anio a filtrar
 ipcMain.on('escenarios_folio_meses:leer', (event, algoritmo, anio) => {
     let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio);
 
@@ -1230,6 +1337,10 @@ ipcMain.on('escenarios_folio_meses:leer', (event, algoritmo, anio) => {
 
 });
 
+// Evento de escucha que lee los dias disponibles en los escenarios locales y rn BD
+// ${algoritmo} es el algoritmo asociado
+// ${anio} es el anio a filtrar
+// ${mes} es el mes a filtrar
 ipcMain.on('escenarios_folio_dias:leer', (event, algoritmo, anio, mes) => {
     let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio, mes);
 
@@ -1265,6 +1376,11 @@ ipcMain.on('escenarios_folio_dias:leer', (event, algoritmo, anio, mes) => {
     });
 });
 
+// Evento de escucha que lee los folios disponibles en los escenarios locales y rn BD
+// ${algoritmo} es el algoritmo asociado
+// ${anio} es el anio a filtrar
+// ${mes} es el mes a filtrar
+// ${dia} es el dia a filtrar
 ipcMain.on('escenarios_folio_escenarios:leer', (event, algoritmo, anio, mes, dia) => {
     let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_modificado', anio, mes, dia);
     let ruta_id;
@@ -1349,6 +1465,9 @@ ipcMain.on('escenarios_folio_escenarios:leer', (event, algoritmo, anio, mes, dia
     });
 });
 
+// Evento de escucha para comprimir un escenario dado
+// ${ruta_escenario} es la ruta del escenario a comprimir
+// ${evento} es el evento de respuesta al finalizar el proceso
 ipcMain.on('escenario_bd:comprimir', (event, ruta_escenario, evento) => {
     ruta_escenario = path.normalize(ruta_escenario);
     let ruta_destino = '';
@@ -1412,6 +1531,8 @@ ipcMain.on('escenario_bd:comprimir', (event, ruta_escenario, evento) => {
     });
 });
 
+// Eventop de escucha que permite borrar un archivo
+// ${ruta} es la ruta del archivo a borrar
 ipcMain.on('archivo:borrar', (event, ruta) => {
     console.log('Borrando archivo', ruta);
     try {
@@ -1421,6 +1542,9 @@ ipcMain.on('archivo:borrar', (event, ruta) => {
     }
 });
 
+// Evento de escucha que que permite realizar operaciones de BD de un escenario
+// ${obj} es el objeto con los datos del escenario
+// ${evento} es el evento de respuesta al finalizar la operacion
 ipcMain.on('escenario_bd:operacion', (event, obj, evento) => {
     console.log('operacion en BD', evento);
     console.log(obj);
@@ -1438,10 +1562,14 @@ ipcMain.on('escenario_bd:operacion', (event, obj, evento) => {
     });
 });
 
+// Metodo que permite enviar el progreso de una operación en BD
+// ${valor} es el valor del progreso
+// ${estado} es el estado del proceso
 function enviarProgresoBD(valor, estado) {
     win.webContents.send('escenario_bd:progreso', {progreso:valor, estado:estado});
 }
 
+// Evento de escucha que permite leer todos los escenarios locales
 ipcMain.on('escenario_original_local:leertodos', (event) => {
     let ruta_base = path.join(config.local.escenarios, SESION.sistema);
     console.log('Ruta base', ruta_base);
@@ -1499,6 +1627,8 @@ ipcMain.on('escenario_original_local:leertodos', (event) => {
     win.webContents.send('escenario_original_local:leidotodos', lista_id);
 });
 
+// Evento de escucha que permite leer la lista de escenarios modificados de una carpeta
+// ${obj} es el obj con la información asociada
 ipcMain.on('escenario_modificado_local:leerLista', (event, obj) => {
     let listaObj = [];
     console.log('Leyendo modificados del original', obj.id);
@@ -1524,6 +1654,8 @@ ipcMain.on('escenario_modificado_local:leerLista', (event, obj) => {
     });
 });
 
+// Evento de escucha que permite leer el archivo de comentarios de un escenario
+// ${obj} es el obj con la información asociada
 ipcMain.on('escenario_modificado_local:leer_comentarios', (event, obj) => {
     let ruta_archivo = path.join(obj.infoMod.ruta, 'comentarios.txt');
 
@@ -1537,6 +1669,8 @@ ipcMain.on('escenario_modificado_local:leer_comentarios', (event, obj) => {
     });
 });
 
+// Evento de escucha que permite borrar un escenario original local
+// ${ruta} es la ruta del escenario a borrar
 ipcMain.on('escenario_original_local:borrar', (event, ruta) => {
     let ruta_modificados = ruta.replace('escenario_original', 'escenario_modificado');
 
@@ -1559,6 +1693,8 @@ ipcMain.on('escenario_original_local:borrar', (event, ruta) => {
     });
 });
 
+// Evento de escucha que permite borrar un escenario modificado local
+// ${ruta} es la ruta del escenario a borrar
 ipcMain.on('escenario_modificado_local:borrar', (event, ruta) => {
     console.log('Borrando escenario modificado', ruta);
     rm(ruta, (err) => {
@@ -1571,6 +1707,8 @@ ipcMain.on('escenario_modificado_local:borrar', (event, ruta) => {
     });
 });
 
+// Evento de escucha que permite descargar un escenario comprimido de la BD
+// ${obj_info} es el obj con la información asociada
 ipcMain.on('escenario_bd:descargar', (event, obj_info) => {
     console.log('Descargando escenarios de BD: ', obj_info.usuario, obj_info.algoritmo, obj_info.folio);
     let algoritmoBD = getAlgoritmoBD(obj_info.algoritmo);
@@ -1616,6 +1754,7 @@ ipcMain.on('escenario_bd:descargar', (event, obj_info) => {
     });
 });
 
+// Método que permite devolver un objeto con información del sistema
 function getInfoSistema() {
     switch (SESION.sistema) {
         case 'BCA':
@@ -1623,14 +1762,15 @@ function getInfoSistema() {
                 esquema: config.exadata.bca.bd,
                 password: config.exadata.bca.password,
                 url: config.exadata.bca.url
-            }
+            };
+
             break;
         case 'SIN':
             return {
                 esquema: config.exadata.sin.bd,
                 password: config.exadata.sin.password,
                 url: config.exadata.sin.url
-            }
+            };
 
             break;
         case 'BCS':
@@ -1638,12 +1778,14 @@ function getInfoSistema() {
                 esquema: config.exadata.bcs.bd,
                 password: config.exadata.bcs.password,
                 url: config.exadata.bcs.url
-            }
+            };
 
             break;
     }
 }
 
+// Método que convierte una cadena de algoritmo local a una cadena para BD
+// ${algoritmo} es el algoritmo a convertir
 function getAlgoritmoBD(algoritmo) {
     switch (algoritmo) {
         case "dersi": return 'DERS_I'; break;
@@ -1653,6 +1795,8 @@ function getAlgoritmoBD(algoritmo) {
     }
 }
 
+// Evento de escucha que lee los años disponibles en los escenarios locales y en BD
+// ${algoritmo} es el algoritmo asociado
 ipcMain.on('escenarios_eliminar_folio_anios:leer', (event, algoritmo) => {
     console.log('Consultando eliminar anios BD: ', SESION.usuario, algoritmo);
     let algoritmoBD = getAlgoritmoBD(algoritmo);
@@ -1691,6 +1835,9 @@ ipcMain.on('escenarios_eliminar_folio_anios:leer', (event, algoritmo) => {
     });
 });
 
+// Evento de escucha que lee los meses disponibles en los escenarios en BD
+// ${algoritmo} es el algoritmo asociado
+// ${anio} es el anio a filtrar
 ipcMain.on('escenarios_eliminar_folio_meses:leer', (event, algoritmo, anio) => {
     // Lee de BD
     console.log('Consultando meses (eliminar): ', SESION.sistema, algoritmo, anio);
@@ -1729,6 +1876,9 @@ ipcMain.on('escenarios_eliminar_folio_meses:leer', (event, algoritmo, anio) => {
     });
 });
 
+// Evento de escucha que lee los meses disponibles en los escenarios en BD
+// ${algoritmo} es el algoritmo asociado
+// ${anio} es el anio a filtrar
 ipcMain.on('escenarios_eliminar_folio_dias:leer', (event, algoritmo, anio, mes) => {
     // Consulta en BD
     console.log('Consultando dias (eliminar): ', SESION.sistema, algoritmo, anio, mes);
@@ -1765,6 +1915,10 @@ ipcMain.on('escenarios_eliminar_folio_dias:leer', (event, algoritmo, anio, mes) 
     });
 });
 
+// Evento de escucha que lee los dias disponibles en los escenarios en BD
+// ${algoritmo} es el algoritmo asociado
+// ${anio} es el anio a filtrar
+// ${mes} es el mes a filtrar
 ipcMain.on('escenarios_eliminar_folio:leer', (event, algoritmo, anio, mes, dia) => {
     console.log('Consultando eliminar algoritmos BD: ', SESION.usuario);
     let algoritmoBD = getAlgoritmoBD(algoritmo);
@@ -1804,6 +1958,9 @@ ipcMain.on('escenarios_eliminar_folio:leer', (event, algoritmo, anio, mes, dia) 
     });
 });
 
+// Evento de escucha que lee los escenarios disponibles en BD
+// ${algoritmo} es el algoritmo asociado
+// ${id_original} es el id del escenario original a filtrar
 ipcMain.on('escenarios_eliminar_folio_mod:leer', (event, algoritmo, id_original) => {
     console.log('Consultando folios modificados por ID: ', SESION.usuario, algoritmo, id_original);
     let algoritmoBD = getAlgoritmoBD(algoritmo);
@@ -1849,6 +2006,8 @@ ipcMain.on('escenarios_eliminar_folio_mod:leer', (event, algoritmo, id_original)
     });
 });
 
+// Evento de escucha que verifica si existe un archivo .bd en un escenario
+// ${ruta_escenario} es la ruta del escenario
 ipcMain.on('archivo_bd:verificar', (event, ruta_escenario) => {
     let ruta_archivo = path.join(ruta_escenario, '.bd');;
 
@@ -1857,6 +2016,11 @@ ipcMain.on('archivo_bd:verificar', (event, ruta_escenario) => {
     win.webContents.send('archivo_bd:verificado', {existe:flag_existe});
 });
 
+// Método que permite generar un objeto con la información de un escenario y agregarlo
+// a una lista para enviar.
+// ${escenario} es el identificador del escenario
+// ${algoritmo} es el algoritmo asociado
+// ${lista_folios} es la lista donde se almacenará el objeto
 function generarObjInfoOriginalBD(escenario, algoritmo, lista_folios) {
     let anio = escenario.folio.slice(0, 4);
     let mes = escenario.folio.slice(4, 6);

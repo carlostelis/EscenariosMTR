@@ -89,6 +89,16 @@ class Escenario {
                             this.asociarSubsistemas(datosArchivo);
                         });
 
+                        // Procesa los archivos 'especiales'
+                        archivosJSON.lista.forEach((datosArchivo) => {
+                            // Si es DERS_MI_TOTALES_AREA devuelve el último ciclo
+                            if (datosArchivo.archivo === 'DERS_MI_TOTALES_AREA.csv' || datosArchivo.archivo === 'DERS_I_TOTALES_AREA.csv') {
+                                this.validarDERS_MI_TOTALES_AREAS(datosArchivo);
+                            } else if (datosArchivo.archivo === 'RESUMEN_UNIDADES.csv') {
+                                this.validarRESUMEN_UNIDADES(datosArchivo, archivosJSON.lista);
+                            }
+                        });
+
                         resolve(archivosJSON);
                     }, () => {
                         console.log('>>>> FALLA');
@@ -156,11 +166,6 @@ class Escenario {
 
                             datosArchivo.filas = this.parseData(data, datosArchivo.insumo);
                             datosArchivo.numFilas = datosArchivo.filas.length;
-
-                            // Si es DERS_MI_TOTALES_AREA devuelve el último ciclo
-                            if (datosArchivo.archivo === 'DERS_MI_TOTALES_AREA.csv') {
-                                this.validarDERS_MI_TOTALES_AREAS(datosArchivo);
-                            }
                         }
                     });
 
@@ -208,7 +213,87 @@ class Escenario {
             objDatos.numFilas = objDatos.filas.length;
             console.log('Quedaron', objDatos.numFilas);
         }
+    }
 
+    validarRESUMEN_UNIDADES(objDatos, listaObjetos) {
+        console.log('Validando RESUMEN UNIDADES');
+
+        // Busca POTVERC_DERS y PREVERC_DERS, solo es para unidades RC
+        let objPotverc = listaObjetos.find((obj) => {
+            return obj.archivo === 'POTVERC_DERS.csv';
+        });
+        let objPreverc = listaObjetos.find((obj) => {
+            return obj.archivo === 'PREVERC_DERS.csv';
+        });
+
+        objDatos.filas.forEach((fila) => {
+            // Margen para subir
+            fila.MARGEN_SUBIR = parseFloat((fila.LIM_SUP - (fila.POTENCIA + fila.REG + fila.RR10 + fila.RRS + fila.RNR10 + fila.RNRS)).toFixed(3));
+            // Margen para bajar
+            if (fila.POTENCIA !== 0) {
+                fila.MARGEN_BAJAR = parseFloat(((fila.POTENCIA - fila.REG) - fila.LIM_INF).toFixed(3));
+            } else {
+                fila.MARGEN_BAJAR = 0;
+            }
+
+            // Precio de segmento
+            fila.PRECIO_SEGMENTO = 0;
+
+            let segmento;
+            let filaSegmento;
+            let potenciaAcumulada;
+
+            if (objPotverc) {
+                // RANGO CONTINUO
+                if (fila.TIPO === 'RC') {
+                    // Ubica la primer fila de la unidad
+                    let i;
+                    for (i = 0; i < objPotverc.filas.length; i++) {
+                        if (objPotverc.filas[i].nombreUnidad === fila.UNIDAD) {
+                            break;
+                        }
+                    }
+
+                    segmento = -1;
+                    potenciaAcumulada = 0;
+                    // Recorre los segmentos
+                    for (let j = 0; j < 11; j++, i++) {
+                        if (typeof objPotverc.filas[i] !== 'undefined') {
+                            if (potenciaAcumulada === 0) {
+                                potenciaAcumulada = fila.LIM_INF + objPotverc.filas[i].potVentaP1;
+                            } else {
+                                potenciaAcumulada += objPotverc.filas[i].potVentaP1;
+                            }
+
+                            // REgistra la fila
+                            filaSegmento = objPotverc.filas[i].numFila;
+
+                            // console.log(fila.UNIDAD, fila.POTENCIA, ' <-> ', potenciaAcumulada);
+                            if (potenciaAcumulada >= fila.POTENCIA) {
+                                segmento = j + 1;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (segmento === -1) {
+                        segmento = 11;
+                    }
+
+                    console.log(fila.UNIDAD, 'segmento', segmento, 'fila', filaSegmento);
+
+                    // Obtiene el precio de venta con la fila asociada
+                    let filaPreverc = objPreverc.filas.find((f) => {
+                        return f.numFila === filaSegmento;
+                    });
+
+                    if (filaPreverc) {
+                        fila.PRECIO_SEGMENTO = filaPreverc.preVentaP1;
+                        console.log('Precio:', filaPreverc.preVentaP1);
+                    }
+                }
+            }
+        });
     }
 
     asociarUnidades(objDatos) {
@@ -256,7 +341,7 @@ class Escenario {
                 }
             } else {
                 console.log('U> Validando unidades', objDatos.insumo.nombre);
-
+                console.log(objDatos.filas.length, objDatosUnidades.filas.length);
                 try {
                     for (let i = 0; i < objDatos.filas.length; i++) {
                         objDatos.filas[i].nombreUnidad = objDatosUnidades.filas[i].nombreUnidad;

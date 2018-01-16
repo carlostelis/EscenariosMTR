@@ -135,7 +135,7 @@ li > span.k-state-selected {
 /* Celdas en modificada */
 tr.fila-modificada td {
     border-style: dashed !important;
-    border-color: darksalmon !important;
+    border-color: brown !important;
     border-width: 1px;
 }
 
@@ -156,4 +156,43 @@ tr.fila-modificada td.celda-modificada {
 /* Celda seleccionada con navegacion */
 .k-state-focused {
     border-color: gray;
+}
+
+.corte-excedente-gt-cero {
+    background-color: lightyellow !important;
+    border-color: lightgreen !important;
+}
+
+.corte-excedente-lt-cero {
+    background-color: darkorange !important;
+    border-color: chocolate !important;
+}
+
+.escasez-reserva {
+    background-color: darkred !important;
+    border-color: black !important;
+    color: white !important;
+}
+
+.penalizacion-activada {
+    background-color: darkred !important;
+    border-color: black !important;
+    color: white !important;
+}
+
+.unidad-no-disponible {
+    background-color: darkgray !important;
+}
+
+.unidad-no-coordinable {
+    background-color: khaki !important;
+}
+
+.unidad-con-margen {
+    background-color: limegreen !important;
+}
+
+.unidad-sin-margen {
+    background-color: firebrick !important;
+    color: white;
 }
