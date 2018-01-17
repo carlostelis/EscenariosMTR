@@ -536,7 +536,7 @@ module.exports = [
         "nombre":"UNITRC_DERS.csv",
         "editable": false,
         "unidades": true,
-        "archivoResultados": false,
+        "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": false,
         "modelo": {
@@ -663,7 +663,7 @@ module.exports = [
     {
         "nombre":"POTVERC_DERS.csv",
         "editable": true,
-        "archivoResultados": false,
+        "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "origen_unidades":"UNITRC_DERS.csv",
@@ -697,7 +697,7 @@ module.exports = [
     {
         "nombre":"PREVERC_DERS.csv",
         "editable": true,
-        "archivoResultados": false,
+        "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "origen_unidades":"UNITRC_DERS.csv",

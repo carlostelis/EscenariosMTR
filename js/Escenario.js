@@ -288,7 +288,7 @@ class Escenario {
                     if (filaPreverc) {
                         fila.SEGMENTO = segmento;
                         fila.PRECIO_SEGMENTO = filaPreverc.preVentaP1;
-                        console.log(fila.UNIDAD, 'segmento', segmento, 'fila', filaSegmento, 'Precio:', filaPreverc.preVentaP1);
+                        console.log(fila.UNIDAD, 'segmento', fila.SEGMENTO, 'fila', filaSegmento, 'Precio:', fila.PRECIO_SEGMENTO);
                     }
                 }
             }
@@ -340,7 +340,6 @@ class Escenario {
                 }
             } else {
                 console.log('U> Validando unidades', objDatos.insumo.nombre);
-                console.log(objDatos.filas.length, objDatosUnidades.filas.length);
                 try {
                     for (let i = 0; i < objDatos.filas.length; i++) {
                         objDatos.filas[i].nombreUnidad = objDatosUnidades.filas[i].nombreUnidad;

@@ -592,6 +592,11 @@ function cargaComponentes() {
 
     // selecciona el primero
     menuCarga.onclick();
+
+	// Sin esta linea, kendo toma formato americano y los valores numéricos negativos
+	// Se colocan entre paréntesis
+	console.log('Aplicando formato moneda');
+	kendo.culture().numberFormat.currency.pattern[0] = "-$n";
 }
 
 function folio_selecciona() {

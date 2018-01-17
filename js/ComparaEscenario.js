@@ -265,6 +265,13 @@ function crearTablaInfoKendoResultado(objData, marco) {
     let colapso = colapsos_res.find((col) => {
         return col.id === `COLAPSO_${marco}_${objData.insumo.modelo.id}`;
     });
+
+    // Si no existe el colapso, no existe esa tabla en la vista
+    if (!colapso) {
+        console.log('No existe', objData.insumo.modelo.id, 'finalizando...');
+        return;
+    }
+
     console.log(objData.insumo.modelo.id, 'dataSourceObj', dataSourceObj, objData);
 
     // Busca si tiene diferencias
@@ -317,6 +324,7 @@ function crearTablaInfoKendoResultado(objData, marco) {
     objData.insumo.columnas.forEach((col) => {
         rowTemplateString += `<td
         class="
+        ${col.hidden === true ? 'celda-oculta ' : '' }
         #: getClaseCeldaRes('${objData.insumo.modelo.id}', numFila, '${col.field}') #
         #: getClaseVal_DERS_MI_TOTALES_AREA('${objData.insumo.modelo.id}', '${col.field}', ${col.field}) #
         #: getClaseColumnaRESUMEN_UNIDADES('${objData.insumo.modelo.id}', '${col.field}', ${col.field}) #
