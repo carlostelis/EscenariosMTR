@@ -310,11 +310,9 @@ function crearTablaInfoKendo(objData) {
             #: getClaseVal_DERS_MI_TOTALES_AREA('${objData.insumo.modelo.id}', '${col.field}', ${col.field}) #
             #: getClaseColumnaRESUMEN_UNIDADES('${objData.insumo.modelo.id}', '${col.field}', ${col.field}) #
             ${objData.insumo.modelo.id.startsWith('DTR_ZONAS_RESERVA') ? '#: getClaseVal_DTR_ZONAS_RESERVA("' + col.field + '", REQ_MW_RREG, MW_RREG_ASIGNADOS, REQ_MW_RR10, MW_RR10_ASIGNADOS, REQ_MW_R10, MW_R10_ASIGNADOS, REQ_MW_RS, MW_RS_ASIGNADOS) #' : '' } ">
-                #: ${col.field} #
+                #: kendo.toString(${col.field}, "${typeof col.format !== 'undefined' ? col.format.replace('{0:', '').replace('}', '') : ''}") #
             </td>`
         });
-
-        getClaseColumnaRESUMEN_UNIDADES
 
         rowTemplateString += '</tr>';
 
@@ -323,7 +321,15 @@ function crearTablaInfoKendo(objData) {
 
 		// En el objeto del grid inserta las columnas
         gridsInfo.push($(id).kendoGrid({
-			dataSource: dataSource,
+            toolbar: (objData.filas.length > 0 ? [ {
+                name: "excel",
+                text: "Exportar a Excel"
+            } ] : undefined),
+            excel: (objData.filas.length > 0 ? {
+                fileName: `${objData.insumo.modelo.id}.xlsx`,
+                allPages: true
+            } : undefined),
+            dataSource: dataSource,
 			columns: objData.insumo.columnas,
             rowTemplate: rowTemplateString,
             altRowTemplate: altRowTemplateString,
@@ -416,6 +422,12 @@ function crearTablaInfoKendo(objData) {
                     listaFilasColumnas.push({id: objData.insumo.modelo.id, fila: ultimaFila, columna: ultimaColumna, modificado: false});
                 }
 			},
+            excelExport: function(e) {
+                var sheet = e.workbook.sheets[0];
+                for (var i = 0; i < sheet.columns.length; i++) {
+                    sheet.columns[i].width = 100;
+                }
+            }
 		}));
 	} catch (e) {
 		console.log(' ERROR >>>', e);

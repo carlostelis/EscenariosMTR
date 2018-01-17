@@ -102,10 +102,19 @@ li > span.k-state-selected {
 }
 
 /* Boton encabezado tabla */
+.k-header.k-grid-toolbar {
+    padding-top: 0;
+    padding-bottom: 1px;
+    padding-left: 0;
+}
+
 .k-header.k-grid-toolbar > a.k-button.k-button-icontext {
-    background-color: #1B9258;
+    background-color: firebrick;
     color: white;
     text-shadow: 0px 0px 1px;
+    height: 3vh;
+    font-size: 1.5vh;
+    border-radius: 20px;
 }
 
 /* Ajuste de control en input de edicion */
@@ -148,7 +157,7 @@ tr.fila-modificada td {
 
 /* Borde de la celda modificada */
 tr.fila-modificada td.celda-modificada {
-    background-color: darksalmon;
+    background-color: #f1baa7;
     text-shadow: 0px 0px 1px;
     border-color: firebrick !important;
 }
@@ -189,10 +198,10 @@ tr.fila-modificada td.celda-modificada {
 }
 
 .unidad-con-margen {
-    background-color: limegreen !important;
+    background-color: #2db92d !important;
 }
 
 .unidad-sin-margen {
-    background-color: firebrick !important;
+    background-color: #bf4040!important;
     color: white;
 }

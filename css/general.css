@@ -532,7 +532,7 @@ label {
 }
 
 .tooltip > .tooltip-inner {
-    background-color: darkgreen!important;
+    background-color: #af411d !important;
     border-radius: 10px;
 }
 

@@ -280,8 +280,6 @@ class Escenario {
                         segmento = 11;
                     }
 
-                    console.log(fila.UNIDAD, 'segmento', segmento, 'fila', filaSegmento);
-
                     // Obtiene el precio de venta con la fila asociada
                     let filaPreverc = objPreverc.filas.find((f) => {
                         return f.numFila === filaSegmento;
@@ -290,7 +288,7 @@ class Escenario {
                     if (filaPreverc) {
                         fila.SEGMENTO = segmento;
                         fila.PRECIO_SEGMENTO = filaPreverc.preVentaP1;
-                        console.log('Precio:', filaPreverc.preVentaP1);
+                        console.log(fila.UNIDAD, 'segmento', segmento, 'fila', filaSegmento, 'Precio:', filaPreverc.preVentaP1);
                     }
                 }
             }

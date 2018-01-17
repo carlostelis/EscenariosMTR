@@ -650,14 +650,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "costoGenMinP1", "title": "Costo Generación Mínimo P1", "sortable": true, "filterable": true, "width": "10vw", "periodo": 1},
-			{ "field": "costoGenMinP2", "title": "Costo Generación Mínimo P2", "sortable": true, "filterable": true, "width": "10vw", "periodo": 2},
-            { "field": "costoGenMinP3", "title": "Costo Generación Mínimo P3", "sortable": true, "filterable": true, "width": "10vw", "periodo": 3},
-            { "field": "costoGenMinP4", "title": "Costo Generación Mínimo P4", "sortable": true, "filterable": true, "width": "10vw", "periodo": 4},
-            { "field": "costoGenMinP5", "title": "Costo Generación Mínimo P5", "sortable": true, "filterable": true, "width": "10vw", "periodo": 5},
-            { "field": "costoGenMinP6", "title": "Costo Generación Mínimo P6", "sortable": true, "filterable": true, "width": "10vw", "periodo": 6},
-            { "field": "costoGenMinP7", "title": "Costo Generación Mínimo P7", "sortable": true, "filterable": true, "width": "10vw", "periodo": 7},
-            { "field": "costoGenMinP8", "title": "Costo Generación Mínimo P8", "sortable": true, "filterable": true, "width": "10vw", "periodo": 8}
+            { "field": "costoGenMinP1", "title": "Costo Generación Mínimo P1", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}", "periodo": 1},
+			{ "field": "costoGenMinP2", "title": "Costo Generación Mínimo P2", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}", "periodo": 2},
+            { "field": "costoGenMinP3", "title": "Costo Generación Mínimo P3", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}", "periodo": 3},
+            { "field": "costoGenMinP4", "title": "Costo Generación Mínimo P4", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}", "periodo": 4},
+            { "field": "costoGenMinP5", "title": "Costo Generación Mínimo P5", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}", "periodo": 5},
+            { "field": "costoGenMinP6", "title": "Costo Generación Mínimo P6", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}", "periodo": 6},
+            { "field": "costoGenMinP7", "title": "Costo Generación Mínimo P7", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}", "periodo": 7},
+            { "field": "costoGenMinP8", "title": "Costo Generación Mínimo P8", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}", "periodo": 8}
 		]
     },
     {
@@ -1608,14 +1608,14 @@ module.exports = [
         },
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "costoGenMinModP1", "title":"Costo Generación Min. P1", "sortable": true, "filterable": true, "width": "10vw", "periodo": 1},
-            { "field": "costoGenMinModP2", "title":"Costo Generación Min. P2", "sortable": true, "filterable": true, "width": "10vw", "periodo": 2},
-            { "field": "costoGenMinModP3", "title":"Costo Generación Min. P3", "sortable": true, "filterable": true, "width": "10vw", "periodo": 3},
-            { "field": "costoGenMinModP4", "title":"Costo Generación Min. P4", "sortable": true, "filterable": true, "width": "10vw", "periodo": 4},
-            { "field": "costoGenMinModP5", "title":"Costo Generación Min. P5", "sortable": true, "filterable": true, "width": "10vw", "periodo": 5},
-            { "field": "costoGenMinModP6", "title":"Costo Generación Min. P6", "sortable": true, "filterable": true, "width": "10vw", "periodo": 6},
-            { "field": "costoGenMinModP7", "title":"Costo Generación Min. P7", "sortable": true, "filterable": true, "width": "10vw", "periodo": 7},
-            { "field": "costoGenMinModP8", "title":"Costo Generación Min. P8", "sortable": true, "filterable": true, "width": "10vw", "periodo": 8}
+            { "field": "costoGenMinModP1", "title":"Costo Generación Min. P1", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}", "periodo": 1},
+            { "field": "costoGenMinModP2", "title":"Costo Generación Min. P2", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}", "periodo": 2},
+            { "field": "costoGenMinModP3", "title":"Costo Generación Min. P3", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}", "periodo": 3},
+            { "field": "costoGenMinModP4", "title":"Costo Generación Min. P4", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}", "periodo": 4},
+            { "field": "costoGenMinModP5", "title":"Costo Generación Min. P5", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}", "periodo": 5},
+            { "field": "costoGenMinModP6", "title":"Costo Generación Min. P6", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}", "periodo": 6},
+            { "field": "costoGenMinModP7", "title":"Costo Generación Min. P7", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}", "periodo": 7},
+            { "field": "costoGenMinModP8", "title":"Costo Generación Min. P8", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}", "periodo": 8}
         ]
     },
     {
@@ -5522,20 +5522,20 @@ module.exports = [
             { "field": "CI", "title": "Condicion Inicial", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
             { "field": "POTENCIA", "title": "Potencia", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "LIM_INF", "title": "Límite Inferior", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n0}"},
-            { "field": "LIM_SUP", "title": "Límite Superior", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REG", "title": "Regulación", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RR10", "title": "Reserva Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RRS", "title": "Reserva Rod. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RNR10", "title": "Reserva No Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RNRS", "title": "Reserva No Rod. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "DISPONIBILIDAD", "title": "Disponibilidad", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n0}"},
-            { "field": "ASIGNABILIDAD", "title": "Asignabilidad", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n0}"},
-            { "field": "COORDINABILIDAD", "title": "Coordinabilidad", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n0}"},
-            { "field": "MARGEN_SUBIR", "title": "Margen para subir", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}", "template": "#= kendo.toString(MARGEN_SUBIR, 'n3')#"},
-            { "field": "MARGEN_BAJAR", "title": "Margen para bajar", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}", "template": "#= kendo.toString(MARGEN_BAJAR, 'n3')#"},
-            { "field": "PRECIO_SEGMENTO", "title": "Precio de Segmento", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
-            { "field": "SEGMENTO", "title": "Segmento", "sortable": true, "hidden": true, "filterable": true, "width": "15vw", "format": "{0:n2}"}
+            { "field": "LIM_INF", "title": "Límite Inferior", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "LIM_SUP", "title": "Límite Superior", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+            { "field": "REG", "title": "Regulación", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "RR10", "title": "Reserva Rod. 10 Min.", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "RRS", "title": "Reserva Rod. Sec.", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "RNR10", "title": "Reserva No Rod. 10 Min.", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "RNRS", "title": "Reserva No Rod. Sec.", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "DISPONIBILIDAD", "title": "Disponibilidad", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "ASIGNABILIDAD", "title": "Asignabilidad", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "COORDINABILIDAD", "title": "Coordinabilidad", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "MARGEN_SUBIR", "title": "Margen para subir", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "MARGEN_BAJAR", "title": "Margen para bajar", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PRECIO_SEGMENTO", "title": "Precio de Segmento", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "SEGMENTO", "title": "Segmento", "sortable": true, "hidden": true, "filterable": true, "width": "10vw", "format": "{0:n2}"}
         ]
     },
     {
