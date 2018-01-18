@@ -1,3 +1,9 @@
+// EliminarEscenario.js - Javascript con funciones y eventos asociados a la
+// eliminación de escenarios locales y en BD
+
+// Función para cambiar de tipo de eliminación LOCAL o BD
+// ${trigger} es la pestaña que activa la función
+// ${id_div} es el id del div contenedor a mostrar
 function switchTipoEscenario(trigger, id_div) {
     pestanias_eliminar.forEach((pestania) => {
         pestania.classList.add('inactiva');
@@ -14,6 +20,9 @@ function switchTipoEscenario(trigger, id_div) {
     });
 }
 
+// Función llada desde cada opción de lista de escenarios; permite seleccionar
+// un elemento de la lista y desplegar su información
+// ${boton} es el boton que invoca la función
 function clickEscenarioBotonListaEliminar(boton) {
     let botones = Array.from(document.getElementsByClassName('boton-lista-eliminar'));
 
@@ -61,10 +70,13 @@ function clickEscenarioBotonListaEliminar(boton) {
     }
 }
 
+// Función que consulta todos los escenarios originales locales
 function consultarOriginalesTodos() {
     ipcRenderer.send('escenario_original_local:leertodos');
 }
 
+// Función que borra un escenario original local y todos los escenarios
+// modificados asociados
 function borrarEscenarioOriginalLocal() {
     if (botonOriLocalSel !== null) {
         banner.trabajando();
@@ -77,6 +89,7 @@ function borrarEscenarioOriginalLocal() {
     }
 }
 
+// Función que borra un escenario modificado local
 function borrarEscenarioModificadoLocal() {
     if (botonModLocalSel !== null) {
         banner.trabajando();
@@ -89,6 +102,7 @@ function borrarEscenarioModificadoLocal() {
     }
 }
 
+// Función que obtiene la lista de años de escenarios originales locales
 function consultarAniosOriginalesBD() {
     if (select_eliminar_algoritmo_db.value === 'ninguno') {
         consultarFoliosOriginalesBD_Init();
@@ -103,6 +117,7 @@ function consultarAniosOriginalesBD() {
     select_eliminar_dia_db.innerHTML = '';
 }
 
+// Función que obtiene la lista de meses de escenarios originales locales
 function consultarMesesOriginalesBD() {
     if (select_eliminar_anio_db.value === 'ninguno') {
         consultarAniosOriginalesBD();
@@ -115,6 +130,7 @@ function consultarMesesOriginalesBD() {
     select_eliminar_dia_db.innerHTML = '';
 }
 
+// Función que obtiene la lista de días de escenarios originales locales
 function consultarDiasOriginalesBD() {
     if (select_eliminar_mes_db.value === 'ninguno') {
         consultarMesesOriginalesBD();
@@ -126,11 +142,14 @@ function consultarDiasOriginalesBD() {
     bannerIcono.mostrar();
 }
 
+// Función que obtiene la lista de identificadores de escenarios originales locales
 function consultarFoliosOriginalesBD() {
     bannerIcono.mostrar();
     ipcRenderer.send('escenarios_eliminar_folio:leer', select_eliminar_algoritmo_db.value, select_eliminar_anio_db.value, select_eliminar_mes_db.value, select_eliminar_dia_db.value);
 }
 
+// Función que consulta los algoritmos de los escnearios disponibles en BD
+// asociados al usuario actual
 function consultarFoliosOriginalesBD_Init() {
     bannerIcono.mostrar();
     ipcRenderer.send('escenarios_eliminar_folio:leer', '', '', '', '');
@@ -142,6 +161,7 @@ function consultarFoliosOriginalesBD_Init() {
     select_eliminar_dia_db.innerHTML = '';
 }
 
+// Función que elimina un escenario original de la BD y sus escenarios originales asociados
 function borrarEscenarioOriginalBD() {
     if (botonOriDBSel !== null) {
         console.log('Borrar', botonOriDBSel.obj);
@@ -168,6 +188,7 @@ function borrarEscenarioOriginalBD() {
     }
 }
 
+// Función que elimina un escenario modificado de la BD y su escenario original asociado
 function borrarEscenarioModificadoBD() {
     if (botonModDBSel !== null) {
         console.log('Borrar', botonModDBSel.obj.ruta);
@@ -194,6 +215,8 @@ function borrarEscenarioModificadoBD() {
     }
 }
 
+// Evento que recibe todos los identificadores de escnearios originales locales
+// ${lista} es la lista de escenarios originales locales
 ipcRenderer.on('escenario_original_local:leidotodos', (event, lista) => {
     console.log('Recibidos:', lista.length);
     console.log(lista);
@@ -261,6 +284,7 @@ ipcRenderer.on('escenario_original_local:leidotodos', (event, lista) => {
     });
 });
 
+// Evento que recibe el contenido del archivo de comentarios de un escenario modificado
 ipcRenderer.on('escenario_modificado_local:leido_comentarios', (event, obj_res) => {
     console.log('Recibe comentarios', obj_res);
     if (obj_res.estado === true) {
@@ -272,6 +296,7 @@ ipcRenderer.on('escenario_modificado_local:leido_comentarios', (event, obj_res) 
     }
 });
 
+// Evento que recibe la lista de escenarios modificados y los procesa en una lista
 ipcRenderer.on('escenario_modificado_local:leidaLista', (event, lista) => {
     console.log('Recibidos:', lista.length);
     console.log(lista);
@@ -304,6 +329,8 @@ ipcRenderer.on('escenario_modificado_local:leidaLista', (event, lista) => {
     });
 });
 
+// Evento que recibe la respuesta del borrado de un escenario original local
+// ${res} es un objeto que contiene el estado del proceso
 ipcRenderer.on('escenario_original_local:borrado', (event, res) => {
     console.log('Estado: ', res.estado);
     if (res.estado === true) {
@@ -354,6 +381,8 @@ ipcRenderer.on('escenario_original_local:borrado', (event, res) => {
     }
 });
 
+// Evento que recibe la respuesta del borrado de un escenario modificado local
+// ${res} es un objeto que contiene el estado del proceso
 ipcRenderer.on('escenario_modificado_local:borrado', (event, res) => {
     console.log('Estado: ', res.estado);
     if (res.estado === true) {
@@ -390,6 +419,8 @@ ipcRenderer.on('escenario_modificado_local:borrado', (event, res) => {
     }
 });
 
+// Evento que recibe la lista de algoritmos de escenarios en BD
+// ${lista} es la lista de algoritmos de escenarios
 ipcRenderer.on('escenarios_eliminar_folio_algoritmos:leidos', (event, lista) => {
     console.log('algoritmos', lista);
 
@@ -417,6 +448,8 @@ ipcRenderer.on('escenarios_eliminar_folio_algoritmos:leidos', (event, lista) => 
     select_eliminar_dia_db.disabled = true;
 });
 
+// Evento que recibe la lista de años de escenarios en BD
+// ${lista} es la lista de años de escenarios
 ipcRenderer.on('escenarios_eliminar_folio_anios:leidos', (event, lista) => {
     console.log('anios', lista);
 
@@ -442,6 +475,8 @@ ipcRenderer.on('escenarios_eliminar_folio_anios:leidos', (event, lista) => {
     select_eliminar_dia_db.disabled = true;
 });
 
+// Evento que recibe la lista de meses de escenarios en BD
+// ${lista} es la lista de meses de escenarios
 ipcRenderer.on('escenarios_eliminar_folio_meses:leidos', (event, lista) => {
     console.log('meses', lista);
 
@@ -466,6 +501,8 @@ ipcRenderer.on('escenarios_eliminar_folio_meses:leidos', (event, lista) => {
     select_eliminar_dia_db.disabled = true;
 });
 
+// Evento que recibe la lista de días de escenarios en BD
+// ${lista} es la lista de días de escenarios
 ipcRenderer.on('escenarios_eliminar_folio_dias:leidos', (event, lista) => {
     console.log('dias', lista);
 
@@ -488,6 +525,8 @@ ipcRenderer.on('escenarios_eliminar_folio_dias:leidos', (event, lista) => {
     });
 });
 
+// Evento que recibe la lista de folios originales de escenarios en BD
+// ${lista} es la lista de folios originales de escenarios
 ipcRenderer.on('escenarios_eliminar_folio:leidos', (event, lista) => {
     console.log('folios', lista);
 
@@ -523,6 +562,8 @@ ipcRenderer.on('escenarios_eliminar_folio:leidos', (event, lista) => {
     bannerIcono.ocultar();
 });
 
+// Evento que recibe la lista de folios de escenarios en BD
+// ${lista} es la lista de folios de escenarios
 ipcRenderer.on('escenarios_eliminar_folio_mod:leidos', (event, lista) => {
     console.log('folios mod', lista);
 
@@ -555,6 +596,8 @@ ipcRenderer.on('escenarios_eliminar_folio_mod:leidos', (event, lista) => {
     bannerIcono.ocultar();
 });
 
+// Evento que recibe la respuesta de eliminación de un escenario original de BD
+// ${res} es un objeto que contiene la respuesta del proceso
 ipcRenderer.on('escenario:eliminar_ori_BD', (event, res) => {
     if (res.estado === true) {
         banner.ok();
@@ -580,6 +623,8 @@ ipcRenderer.on('escenario:eliminar_ori_BD', (event, res) => {
     }
 });
 
+// Evento que recibe la respuesta de eliminación de un escenario modificado de BD
+// ${res} es un objeto que contiene la respuesta del proceso
 ipcRenderer.on('escenario:eliminar_mod_BD', (event, res) => {
     if (res.estado === true) {
         banner.ok();

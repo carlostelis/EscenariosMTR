@@ -1,3 +1,10 @@
+// JSON de configuración con datos de la aplicación
+// exadata: contiene datos de las conexiones a BD
+// exalogic: contiene datos de conexión al servidor exalogic
+// exalogicPruebas: contiene datos de conexión al BCS pruebas
+// sistemas: es la lista de sistemas y sus datos
+// algoritmos: es la lista de algoritmos y sus datos
+// local: datos para administración de escenarios local
 module.exports = {
     exadata: {
         sin: {

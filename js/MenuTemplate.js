@@ -1,4 +1,7 @@
-
+// Función que devuelve un template para el menú de la ventana
+// ${app} es el objeto app de electron
+// ${win} es un objeto BrowserWindow
+// ${dialog} es un objeto dialog
 module.exports = function(app, win, dialog) {
     var menuTemplate = [
         {

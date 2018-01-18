@@ -1,4 +1,10 @@
 
+// ComparaEscenario.js - Javascript con funciones y eventos asociados al despliegue
+// de Comparación de escenarios
+
+// Función para invertir el estado de un colapso de una tabla
+// ${trigger} es el elemento que lanza la función
+// ${id} es el nombre del contenedor a colapsar
 function toggleColapsoResultado(trigger, clase) {
     // Si esta inactivo no hace nada
     if (trigger.classList.contains('inactivo') || trigger.classList.contains('vacio')) {
@@ -59,6 +65,10 @@ function toggleColapsoResultado(trigger, clase) {
     }
 }
 
+// Función para colapsar un colapso de una tabla
+// ${trigger} es el elemento que lanza la función
+// ${id} es el nombre del contenedor a colapsar
+// ${marco} es el tag A|B del marco del escenario
 function colapsarResultado(trigger, id, marco) {
     console.log('Colapsa Resltado', trigger, id, marco);
     // Si esta inactivo no hace nada
@@ -100,6 +110,52 @@ function colapsarResultado(trigger, id, marco) {
     }
 }
 
+// Función para colapsar un colapso de una tabla
+// ${trigger} es el elemento que lanza la función
+// ${id} es el nombre del contenedor a colapsar
+// ${marco} es el tag A|B del marco del escenario
+function colapsarResultado(trigger, id, marco) {
+    console.log('Colapsa Resultado', trigger, id, marco);
+    // Si esta inactivo no hace nada
+    if (trigger.classList.contains('inactivo') || trigger.classList.contains('vacio')) {
+        trigger.desplegado = false;
+        return;
+    }
+
+    let iconoAbajo = true;
+
+    // Busca los contenedores con la clase marco asociada
+    // Y los hace visibles
+    let contenedor_buscado = $(`.${id}.${marco}`);
+    console.log('contenedor_buscado', contenedor_buscado);
+    if (contenedor_buscado) {
+        contenedor_buscado.addClass('invisible');
+        contenedor_buscado.removeClass('visible');
+    }
+
+    // Invierte el incono de los colapsos con el mismo id
+    // Cambia el icono
+    for (let nodoA of trigger.childNodes) {
+        // div hijo
+        if (nodoA.nodeName.toLowerCase() === 'div') {
+            for (let nodoB of nodoA.childNodes) {
+                if (nodoB.nodeName.toLowerCase() === 'span' && nodoB.classList.length === 0) {
+                    for (let nodoC of nodoB.childNodes) {
+                        if (nodoC.nodeName.toLowerCase() === 'i') {
+                            nodoC.classList.add('fa-caret-square-o-down');
+                            nodoC.classList.remove('fa-caret-square-o-up');
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            break;
+        }
+    }
+}
+
+// Función para desactivar (ocultar) todos los colapsos
 function desactivarColapsosResultados() {
     // Reestablece los colapsos
     for (let col of colapsos_res) {
@@ -108,32 +164,7 @@ function desactivarColapsosResultados() {
     }
 }
 
-function colapsarTodasResultados(flagClass) {
-    for (let col of colapsos_res) {
-        let flagInactivo = col.classList.contains('inactivo');
-        let flagVacio = col.classList.contains('vacio');
-
-        // Forzar inactivos y vacio
-        if (typeof flagClass !== 'undefined' && flagClass === true) {
-            col.classList.remove('inactivo');
-            col.classList.remove('vacio');
-        }
-
-        while (col.desplegado !== false) {
-            col.onclick();
-        }
-
-        if (typeof flagClass !== 'undefined' && flagClass === true) {
-            if (flagInactivo) {
-                col.classList.add('inactivo');
-            }
-            if (flagVacio) {
-                col.classList.add('vacio');
-            }
-        }
-    }
-}
-
+// Función para ocultar todas las tablas
 function ocultarTodasResultados() {
     // Reestablece los colapsos
     for (let col of colapsos_res) {
@@ -146,6 +177,9 @@ function ocultarTodasResultados() {
     }
 }
 
+// Función que permite generar una tabla Kendo
+// ${objData} es el objeto de archivo con información y metadatos de insumo
+// ${marco} es un indicador del marco A|B al cual se va a insertar
 function crearTablaInfoKendoResultado(objData, marco) {
     // Remueve el contenido anterior
     // Busca el contenedor
@@ -432,6 +466,7 @@ function crearTablaInfoKendoResultado(objData, marco) {
     colapsarResultado(colapso, 'COLAPSABLE_' + objData.insumo.modelo.id, marco);
 }
 
+// Función que permite determinar si dos objetos JSON son iguales
 function isEquivalent(a, b) {
     var aProps = Object.getOwnPropertyNames(a);
     var bProps = Object.getOwnPropertyNames(b);
@@ -451,6 +486,10 @@ function isEquivalent(a, b) {
     return true;
 }
 
+// Funcón para determinar la clase (css) para una celda, vacía o con diferencias
+// ${archivo} es el nombre del archivo que se procesa
+// ${numFila} es el número de la fila asociada
+// ${columna} es el nombre de la columna asociada
 function getClaseCeldaRes(archivo, numFila, columna) {
     let obj = listaDiferencias.find((obj) => {
         return obj.archivo === archivo && obj.numFila === numFila && obj.columna === columna;
@@ -463,10 +502,10 @@ function getClaseCeldaRes(archivo, numFila, columna) {
     }
 }
 
-function getValorSinDiferencia(valor) {
-    return `${valor}`.replace('*+*', '');
-}
-
+// Función que permite aplicar un estilo resaltado a las filas con hover
+// ${clase} es la clase (nombre del archivo) de la fila
+// ${marco} es indicador del marco al que pertenece
+// ${numFila} es el número de la fila
 function marcarFilaModificada(clase, marco, numFila) {
     // console.log(`marca tr.${clase}.${marco}[data-numFila="${numFila}"]`);
     let fila = $(`tr.${clase}.${marco}[data-indice="${numFila}"]`);
@@ -474,6 +513,10 @@ function marcarFilaModificada(clase, marco, numFila) {
     fila.addClass('hover-grid-simulado');
 }
 
+// Función que permite aplicar un estilo resaltado a las filas con hover
+// ${clase} es la clase (nombre del archivo) de la fila
+// ${marco} es indicador del marco al que pertenece
+// ${numFila} es el número de la fila
 function desmarcarFilaModificada(clase, marco, numFila) {
     // console.log(`desmarca tr.${clase}.${marco}[data-numFila="${numFila}"]`);
     let fila = $(`tr.${clase}.${marco}[data-indice="${numFila}"]`);
@@ -481,6 +524,8 @@ function desmarcarFilaModificada(clase, marco, numFila) {
     fila.removeClass('hover-grid-simulado');
 }
 
+// Función que invoca la lectura de los archivos bitacora.res de los escenarios
+// comparados
 function mostrarSalidasAlgoritmo() {
     consola_resA.setTitulo(`Ejecución del escenario ${objEscA_res.id}`);
     consola_resB.setTitulo(`Ejecución del escenario ${objEscB_res.id}`);
@@ -496,14 +541,22 @@ function mostrarSalidasAlgoritmo() {
         consola_resB.mostrarBanner();
         ipcRenderer.send('archivo:leer', objEscB_res.ruta, ['dirres', 'bitacora.res'], 'RES_COMPARA');
     }
+
     // Colapsa todas
-    colapsarTodasResultados(true);
+    colapsos_res.forEach((col) => {
+        if (col.classList.contains('A')) {
+            colapsarResultado(col, col.id.replace('COLAPSO_A', 'COLAPSABLE'), 'A');
+        } else {
+            colapsarResultado(col, col.id.replace('COLAPSO_B', 'COLAPSABLE'), 'B');
+        }
+    });
 
     // Muestra banners
     consola_resA.mostrar();
     consola_resB.mostrar();
 }
 
+// Función que permite sincronizar el scroll vertical de los marcos de comparación
 function scrollContenedor(elemento) {
     if (!elemento.isScrolling) {
         elemento.div_par.isScrolling = true;
@@ -512,6 +565,7 @@ function scrollContenedor(elemento) {
     elemento.isScrolling = false;
 }
 
+// Función que permite sincronizar el scroll horizontal de las tablas
 function scrollTabla(elemento, clase) {
     divs_res.forEach((div) => {
         if (div.classList.contains(clase)) {
@@ -520,6 +574,8 @@ function scrollTabla(elemento, clase) {
     });
 }
 
+// Función que invoca la lectura de los archivos de resultados de los escenarios
+// modificado y original
 function mostrarResultados() {
     // Habilita el menu info
     menuCompara.classList.remove('deshabilitado');
@@ -544,7 +600,7 @@ function mostrarResultados() {
     banner_resB.mostrar();
 
     // Colapsa resultados
-    colapsarTodasResultados(true);
+    // colapsarTodasResultados(true);
     SESION.flag_cargarFolios = true;
 
     mensajeConsola('Cargando resultados de los escenarios...', false);
@@ -552,6 +608,8 @@ function mostrarResultados() {
     ipcRenderer.send('escenario_resultados:leerComparar', objEscOriginal.ruta, objEscModificado.ruta, SESION.algoritmo);
 }
 
+// Función que invoca la lectura de los archivos de resultados de los escenarios
+// seleccionados en las listas desplegables
 function mostrarResultadosSeleccionados() {
     flag_resOutput_A = false;
     flag_resOutput_B = false;
@@ -572,7 +630,7 @@ function mostrarResultadosSeleccionados() {
     banner_resB.mostrar();
 
     // Colapsa resultados
-    colapsarTodasResultados(true);
+    // colapsarTodasResultados(true);
 
     mensajeConsola('Cargando resultados de los escenarios...', false);
 
@@ -600,6 +658,9 @@ function mostrarResultadosSeleccionados() {
     ipcRenderer.send('escenario_resultados:leerComparar', ruta_A, ruta_B, SESION.algoritmo);
 }
 
+// Evento que recibe la inicialización del contenedor de archivos de resultados de un escenario
+// ${objA} es un json con los valores de inicialización del escenario A
+// ${objB} es un json con los valores de inicialización del escenario A
 ipcRenderer.on('escenario_resultados:leidoComparado', (event, objA, objB) => {
     console.log('Recibe archivos resultados:', objA.lista.length, objB.lista.length);
 
@@ -624,6 +685,10 @@ ipcRenderer.on('escenario_resultados:leidoComparado', (event, objA, objB) => {
     desactivarColapsosResultados();
 });
 
+// Evento que recibe un archivo de resultados leido y procesado (comparado)
+// ${obj_archivo} es un objeto con la información necesaria de un archivo para
+//  visualizarse en el despliegue
+// ${marco} es el marco al que será insertado
 ipcRenderer.on('escenario_resultados:archivo_leidoComparado', (event, obj_archivo, marco) => {
     console.log('Recibe resultado:', obj_archivo.archivo);
 
@@ -703,6 +768,8 @@ ipcRenderer.on('escenario_resultados:archivo_leidoComparado', (event, obj_archiv
     }
 });
 
+// Evento que recibe la lista de escenarios modificados del escenario original actual
+// para desplegarlos en las listas
 ipcRenderer.on('escenarios_mod:leidos', (event, res) => {
     let flag_primero = true;
     if (res.estado === true) {

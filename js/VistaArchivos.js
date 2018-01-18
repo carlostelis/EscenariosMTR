@@ -1,8 +1,12 @@
+// Obtiene objeto del módulo path
 const path = require('path');
 const MAX_NIVEL = 0;
 
+// Clase que permite visualizar la lista de archivos del directorio de trabajo
 class VistaArchivos {
-
+    // Constructor de la clase
+    // ${parent} es el contenedor del objeto
+    // ${ipcRenderer} es el objeto del canal de comunicación
     constructor(parent, ipcRenderer) {
         // Ruta base, para windows
         this.rutaSeleccionada = '';
@@ -12,6 +16,9 @@ class VistaArchivos {
         this.folderListener = null;
     }
 
+    // Método que permite inicializar la vista
+    // ${parent} es el contenedor del objeto
+    // ${ipcRenderer} es el objeto del canal de comunicación
     set(parent, ipcRenderer) {
         if (typeof parent === 'undefined' && typeof ipcRenderer === 'undefined') {
             return;
@@ -87,6 +94,7 @@ class VistaArchivos {
             this.actualizar();
         };
 
+        // Solicita la raíz de la carpeta de trabajo
         this.ipcRenderer.on('listaHtml:recibeBase', (event, respuesta) => {
             this.arbol = respuesta;
             this.html(respuesta).then((code) => {
@@ -107,6 +115,8 @@ class VistaArchivos {
         });
     }
 
+    // Genera un arreglo de componentes
+    // ${json} arreglo de valores para convertir a elementos html
     html(json) {
         return new Promise((resolve, reject) => {
             let nodo_ul = document.createElement('ul');
@@ -117,13 +127,16 @@ class VistaArchivos {
         });
     }
 
+    // Método para construir un elemento a un elemento de lista HTML
+    // ${elemento} es el elemento a convertir
+    // ${nivel} es el nivel de tabulación
     toLI(elemento, nivel) {
         let promesas = [];
         // console.log(elemento);
         // crea elemento li
         let nodo_li = document.createElement('li');
         nodo_li.classList.add('li_vista-archivos');
-        
+
         // crea icono
         let nodo_i = document.createElement('i');
         nodo_i.classList.add('fa');
@@ -254,6 +267,7 @@ class VistaArchivos {
         return nodo_li;
     }
 
+    // Método que actualiza la raíz de la carpeta de trabajo
     actualizar() {
         this.banner.trabajando();
         this.banner.mostrar();
@@ -264,10 +278,12 @@ class VistaArchivos {
         }, 500);
     }
 
+    // Método que devuelve la ruta de la carpeta de trabajo
     getRutaBase() {
         return this.rutaBase;
     }
 
+    // Método que devuelve la ruta del elemento seleccionado
     getRutaSeleccionada() {
         return this.rutaSeleccionada;
     }

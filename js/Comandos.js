@@ -1,6 +1,9 @@
+// funciones del módulo child_process
 const { execFile, exec, spawn } = require('child_process');
 
+// Clase que permite ejecutar llamadas a aplicativos fuera de node
 class Comandos {
+    // Constructor de la clase
     constructor() {
         this.config = require('./config.js');
         this.path = require('path');
@@ -11,6 +14,8 @@ class Comandos {
         this.flag_fin_exe = false;
     }
 
+    // Método para obtener la información de un usuario dado
+    // ${usuario} es el usuario a consultar
     obtenerUsuario(usuario) {
         return new Promise((resolve, reject) => {
             let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
@@ -59,7 +64,12 @@ class Comandos {
         });
     }
 
-    descomprimir(archivoTar, dia, id_escenario, carpeta, eliminar) {
+    // Método para descomprimir un archivo tar a través de Java
+    // ${archivoTar} ruta del archivo tar
+    // ${dia} es el dia a buscar
+    // ${id_escenario} es el identificador del escenario a descomprimir
+    // ${carpeta} es la carpeta destino del escenario descomprimido
+    descomprimir(archivoTar, dia, id_escenario, carpeta) {
         return new Promise((resolve, reject) => {
             let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
 
@@ -111,6 +121,9 @@ class Comandos {
         });
     }
 
+    // Método para obtener el UTC de una fecha y zona a través de Java
+    // ${fecha} es la fecha a consultar
+    // %{zona} es la zona horaria a consultar
     obtenerUTC(fecha, zona) {
         return new Promise((resolve, reject) => {
             let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
@@ -152,6 +165,10 @@ class Comandos {
         });
     }
 
+    // Método que permite ejecutar el algoritmo de un escenario
+    // ${ruta_escenario} es la ruta del escenario
+    // ${archivo_exe} es el nombre del ejecutable del algoritmo
+    // ${win} es la referencia a webContents de un objeto ipcMain
     ejecutarAlgoritmo(ruta_escenario, archivo_exe, win) {
         return new Promise((resolve, reject) => {
             try {
@@ -227,6 +244,8 @@ class Comandos {
         });
     }
 
+    // Método que permite enviar una salida parcial del algoritmo a un proceso renderer
+    // ${win} es una referencia a un objeto webContents
     enviarSalida(win) {
         // Envia datos cada 3 segundos
         setTimeout(() => {
@@ -239,6 +258,9 @@ class Comandos {
         }, 1000);
     }
 
+    // Método que permite ejecutar un diagnóstico de un escenario infactible
+    // ${ruta_escenario} es la ruta del escenario
+    // ${archivo_exe} es el nombre del ejecutable
     ejecutarDiagnostico(ruta_escenario, archivo_exe) {
         return new Promise((resolve, reject) => {
             try {
@@ -283,6 +305,9 @@ class Comandos {
         });
     }
 
+    // Método para comprimir una carpeta a través de Java
+    // ${rutaOrigen} es la ruta de la carpeta origen
+    // ${rutaDestino} es la tua del archivo zip destino
     comprimirCarpeta(rutaOrigen, rutaDestino) {
         return new Promise((resolve, reject) => {
             let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
@@ -333,70 +358,13 @@ class Comandos {
         });
     }
 
-    comprimirCarpeta2(rutaOrigen, rutaDestino) {
-        return new Promise((resolve, reject) => {
-            try {
-                let ruta = this.path.join(__dirname, '..', 'jar', 'BD_MTR.jar');
-
-                // Borra el archivo primero
-                if (this.fs.existsSync(rutaDestino)) {
-                    try {
-                        this.fs.unlinkSync(rutaDestino);
-                    } catch (e) {
-                        console.log('Compresion2 err: ', e.message);
-                    }
-                }
-
-                console.log('spawn');
-                const exe = spawn('java', ['-jar', ruta, '--opc=zip', `--zipSource=${rutaOrigen}`, `--zipDestino=${rutaDestino}`]);
-                let flag_error = false;
-                let mensaje = '';
-
-                exe.stdout.on('data', (data) => {
-                    if (data.startsWith('ERROR')) {
-                        flag_error = true;
-                        mensaje = stdout.split('->')[1];
-                        console.log('Error', data);
-                    }
-                });
-
-                exe.stderr.on('data', (data) => {
-                    if (data.startsWith('ERROR')) {
-                        flag_error = true;
-                        mensaje = stdout.split('->')[1];
-                        console.log('Error', data);
-                    }
-                });
-
-                exe.on('close', (code) => {
-                    console.log(`Finaliza ejecución BD, código: ${code}`);
-
-                    if (flag_error === true) {
-                        var jsonErr = {
-                            mensaje: stdout.split('->')[1],
-                            estado: false,
-                        };
-                        console.log(jsonErr);
-                        reject(jsonErr);
-                    } else {
-                        const json = {
-                            estado: true,
-                            mensaje: 'Compresion realizada correctamente'
-                        };
-
-                        console.log(JSON.stringify(json));
-                        resolve(json);
-                    }
-                });
-            } catch (e) {
-                codigo = -12345;
-                mensaje = `Error de ejecución ${e.message}`;
-
-                reject({estado:false, mensaje:mensaje});
-            }
-        });
-    }
-
+    // Método para obtener los anios de los escenarios modificados en BD a través de Java
+    // {usuario} es el nombre de usuario de los escenarios
+    // ${url} es la url de la BD
+    // ${esquema} es el esquema de la BD
+    // ${password} es la contraseña del esquema
+    // ${algoritmo} es el algoritmo del escenario
+    // ${tipo} indica si es original o modificado ORI|MOD
     obtenerAniosFolios(usuario, url, esquema, password, algoritmo, tipo) {
         return new Promise((resolve, reject) => {
             try {
@@ -416,6 +384,14 @@ class Comandos {
         });
     }
 
+    // Método para obtener los meses de los escenarios modificados en BD a través de Java
+    // {usuario} es el nombre de usuario de los escenarios
+    // ${url} es la url de la BD
+    // ${esquema} es el esquema de la BD
+    // ${password} es la contraseña del esquema
+    // ${algoritmo} es el algoritmo del escenario
+    // ${anio} es el anio a filtrar en la consulta
+    // ${tipo} indica si es original o modificado ORI|MOD
     obtenerMesesFolios(usuario, url, esquema, password, algoritmo, anio, tipo) {
         return new Promise((resolve, reject) => {
             try {
@@ -435,6 +411,15 @@ class Comandos {
         });
     }
 
+    // Método para obtener los dias de los escenarios modificados en BD a través de Java
+    // {usuario} es el nombre de usuario de los escenarios
+    // ${url} es la url de la BD
+    // ${esquema} es el esquema de la BD
+    // ${password} es la contraseña del esquema
+    // ${algoritmo} es el algoritmo del escenario
+    // ${anio} es el anio a filtrar en la consulta
+    // ${mes} es el mes a filtrar en la consulta
+    // ${tipo} indica si es original o modificado ORI|MOD
     obtenerDiasFolios(usuario, url, esquema, password, algoritmo, anio, mes, tipo) {
         return new Promise((resolve, reject) => {
             try {
@@ -454,6 +439,16 @@ class Comandos {
         });
     }
 
+    // Método para obtener los folios de los escenarios modificados en BD a través de Java
+    // {usuario} es el nombre de usuario de los escenarios
+    // ${url} es la url de la BD
+    // ${esquema} es el esquema de la BD
+    // ${password} es la contraseña del esquema
+    // ${algoritmo} es el algoritmo del escenario
+    // ${anio} es el anio a filtrar en la consulta
+    // ${mes} es el mes a filtrar en la consulta
+    // ${mes} es el dia a filtrar en la consulta
+    // ${tipo} indica si es original o modificado ORI|MOD
     obtenerFolios(usuario, url, esquema, password, algoritmo, anio, mes, dia, tipo) {
         return new Promise((resolve, reject) => {
             try {
@@ -473,6 +468,13 @@ class Comandos {
         });
     }
 
+    // Método para obtener los folios de los escenarios modificados en BD a través de Java
+    // {usuario} es el nombre de usuario de los escenarios
+    // ${url} es la url de la BD
+    // ${esquema} es el esquema de la BD
+    // ${password} es la contraseña del esquema
+    // ${algoritmo} es el algoritmo del escenario
+    // ${id} es el identificador del escenario original a filtrar
     obtenerFoliosPorID(usuario, url, esquema, password, algoritmo, id) {
         return new Promise((resolve, reject) => {
             try {
@@ -492,6 +494,11 @@ class Comandos {
         });
     }
 
+    // Método para obtener los escenarios originales en BD a través de Java
+    // {usuario} es el nombre de usuario de los escenarios
+    // ${url} es la url de la BD
+    // ${esquema} es el esquema de la BD
+    // ${password} es la contraseña del esquema
     obtenerAlgoritmosOriBD(usuario, url, esquema, password) {
         return new Promise((resolve, reject) => {
             try {
@@ -511,6 +518,9 @@ class Comandos {
         });
     }
 
+    // Método para descargar un escenario modificado desde BD a través de Java
+    // {data} es el objeto con la información del escenario:
+    // url, esquema, password, usuario, algoritmo, folio y carpeta destino
     descargarEscenarioModBD(data) {
         return new Promise((resolve, reject) => {
             try {
@@ -530,6 +540,9 @@ class Comandos {
         });
     }
 
+    // Método para descargar un escenario original desde BD a través de Java
+    // {data} es el objeto con la información del escenario:
+    // url, esquema, password, usuario, algoritmo, folio y carpeta destino
     descargarEscenarioOriBD(data) {
         return new Promise((resolve, reject) => {
             try {
@@ -549,6 +562,9 @@ class Comandos {
         });
     }
 
+    // Método para ejecutar un comando genérico
+    // ${comando} es el comando a ejecutar
+    // ${params} es la lista de parámetros del comando
     ejecutarExecFile(comando, params) {
         return new Promise((resolve, reject) => {
             const jar = execFile(comando, params, {timeout: 10000}, (error, stdout, stderr) => {
@@ -578,6 +594,9 @@ class Comandos {
         });
     }
 
+    // Método para realizar una operación en base de datos (alta, baja, modificadión) de escenarios mediante Java
+    // {data} es el objeto con la información del escenario:
+    // opcion, folio, usuario, id del escenario, algoritmo, estado, ruta local, sistema
     operacionEnBaseDatos(data, cb_progreso) {
         return new Promise((resolve, reject) => {
             try {

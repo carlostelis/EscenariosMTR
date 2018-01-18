@@ -1,4 +1,7 @@
+// Modificados.js - Javascript con funciones y eventos asociados al despliegue
+// de escenarios modificados > BD
 
+// Función para consultar los años de los escenarios originales locales
 function consultarAniosEscOriginales() {
     if (select_mod_algoritmo.value === 'defecto') {
         return;
@@ -17,6 +20,7 @@ function consultarAniosEscOriginales() {
     ipcRenderer.send('escenarios_mod_anios:leer', select_mod_algoritmo.value);
 }
 
+// Función para consultar los meses de los escenarios originales locales
 function consultarMesesEscOriginales() {
     if (select_mod_anio.value === 'defecto') {
         return;
@@ -34,6 +38,7 @@ function consultarMesesEscOriginales() {
     ipcRenderer.send('escenarios_mod_meses:leer', select_mod_algoritmo.value, select_mod_anio.value);
 }
 
+// Función para consultar los días de los escenarios originales locales
 function consultarDiasEscOriginales() {
     if (select_mod_mes.value === 'defecto') {
         return;
@@ -50,6 +55,7 @@ function consultarDiasEscOriginales() {
     ipcRenderer.send('escenarios_mod_dias:leer', select_mod_algoritmo.value, select_mod_anio.value, select_mod_mes.value);
 }
 
+// Función para consultar los identificadores de los escenarios originales locales
 function consultarEscOriginales() {
     if (select_mod_dia.value === 'defecto') {
         return;
@@ -65,6 +71,8 @@ function consultarEscOriginales() {
     ipcRenderer.send('escenarios_mod_originales:leer', select_mod_algoritmo.value, select_mod_anio.value, select_mod_mes.value, select_mod_dia.value);
 }
 
+// Función para consultar los folios de los escenarios modificados al escenario
+// original seleccionado
 function consultarEscOriginalesMod() {
     if (select_mod_esc_original.value === 'defecto') {
         return;
@@ -79,6 +87,8 @@ function consultarEscOriginalesMod() {
     ipcRenderer.send('escenarios_mod_modificados:leer', select_mod_algoritmo.value, select_mod_anio.value, select_mod_mes.value, select_mod_dia.value, select_mod_esc_original.value);
 }
 
+// Función que verifica el habilitar/deshabiliotar el botón de carga de escenario
+// en base al folio seleccionado
 function verificarDatosEscenarioMod() {
     if (select_mod_esc_modificado.value === 'defecto' || typeof select_mod_esc_modificado.value === 'undefined') {
         boton_cargaEscenarioMod.disabled = true;
@@ -87,6 +97,10 @@ function verificarDatosEscenarioMod() {
     }
 }
 
+// Función para cargar una lista de elementos a una lista desplegable
+// ${select} es el elemento html a llenar
+// ${lista} es la lista de items a incluir
+// ${defecto} es el valor por defecto de la primera opción de la lista
 function cargarSelectMod(select, lista, defecto) {
     select.innerHTML = '';
 
@@ -106,6 +120,9 @@ function cargarSelectMod(select, lista, defecto) {
     });
 }
 
+// Función para invertir el estado de un colapso de una tabla
+// ${trigger} es el elemento que lanza la función
+// ${id} es el nombre del contenedor a colapsar
 function toggleColapsoMod(trigger, id) {
     // Si esta inactivo no hace nada
     if (trigger.classList.contains('inactivo')) {
@@ -166,6 +183,9 @@ function toggleColapsoMod(trigger, id) {
     return trigger.desplegado;
 }
 
+// Función para colapsar un colapso de una tabla
+// ${trigger} es el elemento que lanza la función
+// ${id} es el nombre del contenedor a colapsar
 function colapsarMod(trigger, id) {
     // Si esta inactivo no hace nada
     if (trigger.classList.contains('inactivo')) {
@@ -212,6 +232,9 @@ function colapsarMod(trigger, id) {
     return trigger.desplegado;
 }
 
+// Función para mostrar un contenedor de sección de información
+// ${id} es el identificador del contenedor a mostrar
+// ${trigger} es el elemento que invoca la función
 function mostrarContenedorMod(id, trigger) {
     for (let cont of contenedores_mod) {
         if (cont.id === id) {
@@ -227,6 +250,7 @@ function mostrarContenedorMod(id, trigger) {
     trigger.classList.add('active');
 }
 
+// Función para ocultar todas las tablas
 function ocultarTodasMod() {
     // Reestablece los colapsos
     for (let col of colapsos_mod) {
@@ -239,6 +263,7 @@ function ocultarTodasMod() {
     }
 }
 
+// Función para desactivar (ocultar) todos los colapsos
 function desactivarColapsosMod() {
     // Reestablece los colapsos
     for (let col of colapsos_mod) {
@@ -246,6 +271,7 @@ function desactivarColapsosMod() {
     }
 }
 
+// Función para cargar en Modificados el escenario cargado en información de escenario
 function cargarEscenarioModActual() {
     // Configura banner
     banner.vistaCompacta();
@@ -274,6 +300,7 @@ function cargarEscenarioModActual() {
                 promesas_mod.push(new Promise((resolve, reject) => {
                     to += 20;
                     setTimeout(() => {
+                        obj_archivo.dataSource = undefined;
                         crearTablaModKendo(obj_archivo);
                         resolve();
                     }, to);
@@ -298,6 +325,7 @@ function cargarEscenarioModActual() {
     }, 1000);
 }
 
+// Función para cargar el escenario con el folio seleccionado
 function cargarEscenarioMod() {
     let algoritmo = select_mod_algoritmo.value;
     let anio = select_mod_anio.value;
@@ -340,10 +368,14 @@ function cargarEscenarioMod() {
     ipcRenderer.send('escenarios_mod:leer_todo', algoritmo, anio, mes, dia, esc_ori, esc_mod);
 }
 
-function crearTablaModKendo(objData) {
+// Función que permite generar una tabla Kendo
+// ${objData} es el objeto de archivo con información y metadatos de insumo
+// ${flag_copia} es una bandera indicando si el archivo actual se está
+//  generando en una tabla copia
+function crearTablaModKendo(objData, flag_copia) {
 	// Remueve el contenido anterior
 	// Busca el contenedor
-	let id_cont = '#COLAPSABLE_MOD_' + objData.insumo.modelo.id;
+	let id_cont = '#COLAPSABLE_MOD_' + objData.insumo.modelo.id + `${flag_copia === true ? '_COPIA' : ''}`;
 	let contenedor = $(id_cont);
 	// Vacia su contenido
 	contenedor.html('');
@@ -352,7 +384,7 @@ function crearTablaModKendo(objData) {
 	nueva_tabla.classList.add('table');
 	nueva_tabla.classList.add('table-sm');
 	nueva_tabla.classList.add('table-striped');
-	nueva_tabla.id = objData.insumo.modelo.id + '_MOD';
+	nueva_tabla.id = objData.insumo.modelo.id + '_MOD' + `${flag_copia === true ? '_COPIA' : ''}`;
 	// Inserta la nueva tabla
 	contenedor.append(nueva_tabla);
 
@@ -383,38 +415,41 @@ function crearTablaModKendo(objData) {
         objData.insumo.modelo.fields[col.field].editable = false;
     });
 
-	// Inserta el modelo y los datos en el dataSource
-	let dataSourceObj = {
-        pageSize: page_size,
-		schema: {
-			model: objData.insumo.modelo
-		},
-		data: objData.filas
-	};
-
     // Colapso de la tabla
-	let colapso = colapsos_mod.find((col) => { return col.id === 'COLAPSO_MOD_'  + objData.insumo.modelo.id; });
-    console.log(objData.insumo.modelo.id, 'dataSourceObj',dataSourceObj, colapso);
+	let colapso = colapsos_mod.find((col) => { return col.id === 'COLAPSO_MOD_'  + objData.insumo.modelo.id + `${flag_copia === true ? '_COPIA' : ''}`; });
 
 	try {
-		let dataSource = new kendo.data.DataSource(dataSourceObj);
-		// Valida campos dependientes del algoritmo
-		if (objData.insumo.algDep === true) {
-			let periodos = 8;
-			if (objData.algoritmo === 'dersmi') {
-				periodos = 4;
-			} else if (objData.algoritmo === 'dersi') {
-				periodos = 1;
-			}
-			console.log('>>>> Periodos', periodos);
+        if (typeof objData.dataSource === 'undefined') {
+            // Inserta el modelo y los datos en el dataSource
+        	let dataSourceObj = {
+                pageSize: page_size,
+        		schema: {
+        			model: objData.insumo.modelo
+        		},
+        		data: objData.filas
+        	};
 
-            // Oculta la columna de periodo que no aplica
-			objData.insumo.columnas.forEach((columna) => {
-				if (typeof columna.periodo === 'number' && columna.periodo > periodos) {
-					columna.hidden = true;
-				}
-			});
-		}
+            console.log(objData.insumo.modelo.id, 'dataSourceObj',dataSourceObj, colapso);
+
+            objData.dataSource = new kendo.data.DataSource(dataSourceObj);
+    		// Valida campos dependientes del algoritmo
+    		if (objData.insumo.algDep === true) {
+    			let periodos = 8;
+    			if (objData.algoritmo === 'dersmi') {
+    				periodos = 4;
+    			} else if (objData.algoritmo === 'dersi') {
+    				periodos = 1;
+    			}
+    			console.log('>>>> Periodos', periodos);
+
+                // Oculta la columna de periodo que no aplica
+    			objData.insumo.columnas.forEach((columna) => {
+    				if (typeof columna.periodo === 'number' && columna.periodo > periodos) {
+    					columna.hidden = true;
+    				}
+    			});
+    		}
+        }
 
         let rowTemplateString;
         let altRowTemplateString;
@@ -432,7 +467,7 @@ function crearTablaModKendo(objData) {
             ${col.hidden === true ? 'celda-oculta ' : '' }
             #: getClaseVal_DERS_MI_TOTALES_AREA('${objData.insumo.modelo.id}', '${col.field}', ${col.field}) #
             #: getClaseColumnaRESUMEN_UNIDADES('${objData.insumo.modelo.id}', '${col.field}', ${col.field}) #
-            ${objData.insumo.modelo.id.startsWith('DTR_ZONAS_RESERVA') ? '#: getClaseVal_DTR_ZONAS_RESERVA("' + col.field + '", REQ_MW_RREG, MW_RREG_ASIGNADOS, REQ_MW_RR10, MW_RR10_ASIGNADOS, REQ_MW_R10, MW_R10_ASIGNADOS, REQ_MW_RS, MW_RS_ASIGNADOS) #' : '' } ">
+            ${objData.insumo.modelo.id.startsWith('DTR_ZONAS_RESERVA') ? '#: getClaseVal_DTR_ZONAS_RESERVA("' + col.field + '", REQ_MW_RREG, MW_RREG_ASIGNADOS, REQ_MW_RR10, MW_RR10_ASIGNADOS, REQ_MW_R10, MW_R10_ASIGNADOS, REQ_MW_RS, MW_RS_ASIGNADOS) #' : '' } " data-archivo="${objData.insumo.modelo.id + (flag_copia === true ? '_COPIA' : '')}">
                 #: kendo.toString(${col.field}, "${typeof col.format !== 'undefined' ? col.format.replace('{0:', '').replace('}', '') : ''}") #
             </td>`
         });
@@ -452,7 +487,7 @@ function crearTablaModKendo(objData) {
                 fileName: `${objData.insumo.modelo.id}.xlsx`,
                 allPages: true
             } : undefined),
-            dataSource: dataSource,
+            dataSource: objData.dataSource,
 			columns: objData.insumo.columnas,
             rowTemplate: rowTemplateString,
             altRowTemplate: altRowTemplateString,
@@ -528,10 +563,16 @@ function crearTablaModKendo(objData) {
 		}
 
         // Colapsa el contenedor
-    	colapsarMod(colapso, 'COLAPSABLE_MOD_' + objData.insumo.modelo.id);
+    	colapsarMod(colapso, 'COLAPSABLE_MOD_' + objData.insumo.modelo.id + `${flag_copia === true ? '_COPIA' : ''}`);
+
+        if (objData.insumo.tieneCopia === true && flag_copia !== true) {
+            console.log('>>>>>>>>>>>>>>>>>>>>> Creando copia de ', objData.insumo.modelo.id);
+            crearTablaModKendo(objData, true);
+        }
     }
 }
 
+// Función para solicitar el registro de un escenario en la BD
 function guardarEnBaseDatos() {
     // Para ALE
     bannerBD.vistaCompacta();
@@ -554,6 +595,9 @@ function guardarEnBaseDatos() {
     // ipcRenderer.send('escenario_bd:comprimir', objEscVistaMod.ruta, 'escenario_bd:comprimido_modificado');
 }
 
+// Evento que recibe la lista de anños de escenarios originales locales
+// ${flag_estado} es una bandera que indica el estado de la operación
+// ${lista} es la lista de años
 ipcRenderer.on('escenarios_mod_anios:leidos', (event, flag_estado, lista) => {
     if (flag_estado === true) {
         if (lista !== null && typeof lista !== 'undefined') {
@@ -562,6 +606,9 @@ ipcRenderer.on('escenarios_mod_anios:leidos', (event, flag_estado, lista) => {
     }
 });
 
+// Evento que recibe la lista de meses de escenarios originales locales
+// ${flag_estado} es una bandera que indica el estado de la operación
+// ${lista} es la lista de meses
 ipcRenderer.on('escenarios_mod_meses:leidos', (event, flag_estado, lista) => {
     if (flag_estado === true) {
         if (lista !== null && typeof lista !== 'undefined') {
@@ -570,6 +617,9 @@ ipcRenderer.on('escenarios_mod_meses:leidos', (event, flag_estado, lista) => {
     }
 });
 
+// Evento que recibe la lista de días de escenarios originales locales
+// ${flag_estado} es una bandera que indica el estado de la operación
+// ${lista} es la lista de días
 ipcRenderer.on('escenarios_mod_dias:leidos', (event, flag_estado, lista) => {
     if (flag_estado === true) {
         if (lista !== null && typeof lista !== 'undefined') {
@@ -578,6 +628,9 @@ ipcRenderer.on('escenarios_mod_dias:leidos', (event, flag_estado, lista) => {
     }
 });
 
+// Evento que recibe la lista de identificadores de escenarios originales locales
+// ${flag_estado} es una bandera que indica el estado de la operación
+// ${lista} es la lista de identificadores
 ipcRenderer.on('escenarios_mod_originales:leidos', (event, flag_estado, lista) => {
     if (flag_estado === true) {
         if (lista !== null && typeof lista !== 'undefined') {
@@ -586,6 +639,9 @@ ipcRenderer.on('escenarios_mod_originales:leidos', (event, flag_estado, lista) =
     }
 });
 
+// Evento que recibe la lista de folios de escenarios modificados locales
+// ${flag_estado} es una bandera que indica el estado de la operación
+// ${lista} es la lista de folios
 ipcRenderer.on('escenarios_mod_modificados:leidos', (event, flag_estado, lista) => {
     if (flag_estado === true) {
         if (lista !== null && typeof lista !== 'undefined') {
@@ -594,6 +650,8 @@ ipcRenderer.on('escenarios_mod_modificados:leidos', (event, flag_estado, lista) 
     }
 });
 
+// Evento que recibe la inicialización del contenedor de archivos de entrada de un escenario
+// ${obj} es un json con los valores de inicialización
 ipcRenderer.on('escenario_entradas:leido', (event, obj) => {
     console.log('Recibe contenedor de archivos:', obj.lista.length);
 
@@ -671,6 +729,8 @@ ipcRenderer.on('escenario_entradas:leido', (event, obj) => {
     promesas_archivos = [];
 });
 
+// Evento que recibe la inicialización del contenedor de archivos de un escenario
+// ${obj} es un json con los valores de inicialización
 ipcRenderer.on('escenarios_mod:leido_todo', (event, obj) => {
     console.log('Recibe contenedor de archivos:', obj.lista.length);
 
@@ -689,6 +749,9 @@ ipcRenderer.on('escenarios_mod:leido_todo', (event, obj) => {
     ipcRenderer.send('archivo:leer', objEscVistaMod.ruta, ['comentarios.txt'], 'MOD_COMENTARIOS');
 });
 
+// Evento que recibe un archivo leido y procesado
+// ${obj_archivo} es un objeto con la información necesaria de un archivo para
+//  visualizarse en el despliegue
 ipcRenderer.on('escenarios_mod:archivo_leido', (event, obj_archivo) => {
     console.log('Recibe archivo:', obj_archivo.archivo);
 
@@ -699,6 +762,7 @@ ipcRenderer.on('escenarios_mod:archivo_leido', (event, obj_archivo) => {
     // Agrega lista de promesas
     // setTimeout(() => {
         promesas_archivos.push(new Promise((resolve, reject) => {
+            obj_archivo.dataSource = undefined;
             crearTablaModKendo(obj_archivo);
             resolve();
         }));
@@ -724,6 +788,8 @@ ipcRenderer.on('escenarios_mod:archivo_leido', (event, obj_archivo) => {
     }
 });
 
+// Evento que recibe la respuestade la compresión de un escenario modificado
+// ${res} es un objeto que incluye el estado de la operación
 ipcRenderer.on('escenario_bd:comprimido_modificado', (event, res) => {
     if (res.estado === true) {
         console.log('ZIP modificado:', res.rutaZip);
@@ -743,6 +809,8 @@ ipcRenderer.on('escenario_bd:comprimido_modificado', (event, res) => {
     }
 });
 
+// Evento que recibe la respuestade la compresión de un escenario original
+// ${res} es un objeto que incluye el estado de la operación
 ipcRenderer.on('escenario_bd:comprimido_original', (event, res) => {
     if (res.estado === true) {
         console.log('ZIP original:', res.rutaZip);
@@ -787,6 +855,8 @@ ipcRenderer.on('escenario_bd:comprimido_original', (event, res) => {
     }
 });
 
+// Evento que recibe la verificación de un escenario local guardado en BD
+// ${res} es un objeto que incluye la bandera
 ipcRenderer.on('archivo_bd:verificado', (event, res) => {
     let elementos = objEscVistaMod.ruta.split('\\');
     let json = {
@@ -822,6 +892,8 @@ ipcRenderer.on('archivo_bd:verificado', (event, res) => {
     ipcRenderer.send('escenario_bd:operacion', json, 'escenario:guardarBD');
 });
 
+// Evento que recibe el progreso de una operación en BD
+// ${res} es un objeto que incluye el estado y progreso de la operación
 ipcRenderer.on('escenario_bd:progreso', (event, res) => {
     console.log('Finalizado progreso, estado:', res.estado);
     if (res.estado === true) {
@@ -842,6 +914,8 @@ ipcRenderer.on('escenario_bd:progreso', (event, res) => {
     }
 });
 
+// Evento recibido al finalizar el registro de un escenario en BD
+// ${res} es un objeto que incluye el estado de la operación
 ipcRenderer.on('escenario:guardarBD', (event, res) => {
     if (res.estado === true) {
         botonProgresoBD.setProgreso(100);

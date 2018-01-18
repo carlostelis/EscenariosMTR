@@ -1,13 +1,18 @@
+// objetos de los modulos file system y path
 const fs = require('fs');
 const path = require('path');
 
+// Clase que controla la lectura de archivos para el árbol de archivos de la aplicación
 class ListaArchivos {
+    // Constructor de la clase
+    // ${_ruta} es la ruta base de la carpeta de trabajo de la app
     constructor(_ruta) {
         this.rutaInit = path.normalize(_ruta);
         this.json = undefined;
         this.config = require('./config.js');
     }
 
+    // Método para inicializar la clase y verificar estructuras de carpetas
     init() {
         // Verifica que exista la carpeta original
         if (!fs.existsSync(this.rutaInit)) {
@@ -27,6 +32,8 @@ class ListaArchivos {
         });
     }
 
+    // Método para verificar las subcarpetas de cada carpeta de sistema
+    // ${ruta} es la ruta de la carpeta a verificar
     verificarSubcarpetas(ruta) {
         let ruta_nueva = path.join(ruta, 'dersi');
         if (!fs.existsSync(ruta_nueva)) {
@@ -47,6 +54,8 @@ class ListaArchivos {
         this.verificarSubcarpetasEscenarios(ruta_nueva);
     }
 
+    // Método para verificar las carpetas de cada algoritmo
+    // ${ruta} es la ruta de la carpeta
     verificarSubcarpetasEscenarios(ruta) {
         let subruta = path.join(ruta, 'escenario_original');
         if (!fs.existsSync(subruta)) {
@@ -58,6 +67,7 @@ class ListaArchivos {
         }
     }
 
+    // Método que genera un JSON con la información base del árbol de archivos
     generarBase() {
         return {
             nombre: path.basename(this.rutaInit),
@@ -67,6 +77,8 @@ class ListaArchivos {
         };
     }
 
+    // Método para leer un directorio local
+    // ${_ruta} es la ruta del directorio a leer
     leerDirectorio(_ruta) {
         var elementos = [];
 
@@ -105,16 +117,22 @@ class ListaArchivos {
         return elementos;
     }
 
+    // Método para marcar un escenario y escribir un archivo de comentarios vacio
+    // ${ruta} es la ruta del escenario a marcar
     marcarDescargado(ruta) {
         fs.writeFileSync(path.join(ruta, '.descargado'), `Descargado ${ruta}`);
         // Crea también el archivo de comentarios
         fs.writeFileSync(path.join(ruta, 'comentarios.txt'), '');
     }
 
+    // Método para marcar un esnceario guardado en BD
+    // ${ruta} es la ruta del escenario a marcar
     marcarDescargadoBD(ruta) {
         fs.writeFileSync(path.join(ruta, '.bd'), `Descargado BD ${ruta}`);
     }
 
+    // Método para consultar si un escenario ha sido descargado
+    // ${ruta} es la ruta del escenario a consultar
     isDescargado(ruta) {
         return fs.existsSync(path.join(ruta, '.descargado'));
     }

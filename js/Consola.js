@@ -1,4 +1,8 @@
+// Clase que permite crear un banner con un contenedor de texto a modo de prompt
 class Consola {
+    // Constructor de la clase
+    // ${parent} es el contenedor padre asociado
+    //  puede ser un objeto o un identificador
     constructor(parent) {
         if (typeof parent !== 'object') {
             this.contenedor = document.querySelector('#' + parent);
@@ -66,10 +70,11 @@ class Consola {
         this.botones = [];
     }
 
+    // Método que permite mostrar la consola
     mostrar() {
         // Oculta tooltips, de repente se cuelgan con el banner
         $("[data-toggle='tooltip']").tooltip('hide');
-        
+        // Lo agrega al dom
         this.contenedor.appendChild(this.divConsola);
         setTimeout(() => {
             try {
@@ -79,6 +84,7 @@ class Consola {
         }, 25);
     }
 
+    // Método para ocultar la consola
     ocultar() {
         this.divConsola.style.opacity = '0';
         setTimeout(() => {
@@ -88,14 +94,20 @@ class Consola {
         }, 300);
     }
 
+    // Método para agregar un botón a la consola
+    // ${id} es el pseudo-identificador del botón
+    // ${contenido} es el titulo del botón
+    // ${callback} es la acción del botón
     addBoton(id, contenido, callback) {
         let boton;
         let divCol;
 
+        // Verifica si hay un botón con el mismo identificador
         boton = this.botones.find((boton) => {
             return boton.id === `boton_consola_${id}`;
         });
 
+        // Si no lo hay, crea uno
         if (typeof boton === 'undefined') {
             boton = document.createElement('button');
             this.botones.push(boton);
@@ -106,6 +118,7 @@ class Consola {
             divCol = boton.div;
         }
 
+        // Asigna las propiedades
         boton.id = `boton_consola_${id}`;
         boton.innerHTML = contenido;
         boton.onclick = callback;
@@ -113,10 +126,13 @@ class Consola {
         boton.classList.add('button_gral');
         boton.classList.add('boton_consola');
 
+        // Se inserta al dom
         divCol.appendChild(boton);
         this.divBotonesRow.appendChild(divCol);
     }
 
+    // Método para ocultar un botón
+    // ${id} es el identificador del botón
     ocultarBoton(id) {
         this.botones.forEach((boton) => {
             if (boton.id === `boton_consola_${id}`) {
@@ -125,6 +141,8 @@ class Consola {
         });
     }
 
+    // Método para mostrar un botón
+    // ${id} es el identificador del botón
     mostrarBoton(id) {
         this.botones.forEach((boton) => {
             if (boton.id === `boton_consola_${id}`) {
@@ -133,6 +151,9 @@ class Consola {
         });
     }
 
+    // Método para habilitar un botón
+    // ${id} es el identificador del botón
+    // ${flag} es un valor a establecer, true|false
     habilitarBoton(id, flag) {
         this.botones.forEach((boton) => {
             if (boton.id === `boton_consola_${id}`) {
@@ -145,6 +166,8 @@ class Consola {
         });
     }
 
+    // Método para obtener un botón
+    // ${id} es el identificador del botón
     getBoton(id) {
         let b;
         this.botones.forEach((boton) => {
@@ -156,34 +179,43 @@ class Consola {
         return b;
     }
 
+    // Método para establecer el título de la consola
     setTitulo(titulo) {
         this.divTituloSalida.innerHTML = titulo;
     }
 
+    // Método para establecer el texto de la consola
+    // ${texto} es el texto a agregar
     setTexto(texto) {
         this.divSalidaTxt.classList.remove('espera');
         this.divSalidaTxt.innerHTML = `${texto}`;
         this.divSalidaTxt.scrollTop = this.divSalidaTxt.scrollHeight;
     }
 
+    // Método para agregar texto a la consola
+    // ${texto} es el texto a agregar
     appendTexto(texto) {
         this.divSalidaTxt.innerHTML = `${this.divSalidaTxt.innerHTML}<br>${texto}`;
         this.divSalidaTxt.scrollTop = this.divSalidaTxt.scrollHeight;
     }
 
+    // Método para agregar un salto de línea a la consola
     salto() {
         this.divSalidaTxt.innerHTML += `<br>`;
         this.divSalidaTxt.scrollTop = this.divSalidaTxt.scrollHeight;
     }
 
+    // Método para obtener el contenido de la consola
     getSalida() {
         return this.divSalidaTxt.innerHTML;
     }
 
+    // Método para mostrar un banner interno en la consola
     mostrarBanner() {
         this.divSalidaTxt.classList.add('salida-banneo');
     }
 
+    // Método para ocultar el banner interno
     ocultarBanner() {
         this.divSalidaTxt.classList.remove('salida-banneo');
     }

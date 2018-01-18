@@ -2,9 +2,12 @@
 // comparten entre scripts
 // electron, ipcRenderer y body definidos en general
 
+// Inicializa electron
 const electron = require('electron');
+// ipcRenderer es el objeto que permite la comunicación con el proceso main.
 const { ipcRenderer } = electron;
 
+// Instancia que permite abrir el menu contextual del clic derecho en modo desarrollo
 require('electron-context-menu')({
 	prepend: (params, browserWindow) => [{
 		label: 'Rainbow',
@@ -13,14 +16,17 @@ require('electron-context-menu')({
 	}]
 });
 
-// Inicializa tooltips
+// Inicializa tooltips en todos los elementos que contengan el atributo data-toggle="tooltip"
+// Añade 1000ms de delay para mostrar y 100ms de delay para ocultar
 $(function () {
 	$('[data-toggle="tooltip"]').tooltip({delay: {show: 1000, hide: 100}, trigger: 'hover'});
 });
 
 // Mute al debug de la librería
+// Sin esto salen muchos mensajes a la consola
 jQuery.migrateMute = true;
 
+// Creación de objetos, variables y constantes
 const body = document.querySelector("body");
 const div_msg_consola = document.getElementById('div_msg_consola');
 const banner = new Banner(body);
@@ -87,17 +93,10 @@ let objEscFolio = null;
 let contenedores_info = [];
 let opciones_menu_info = [];
 let colapsos = [];
-let th_periodos = [];
-let tablas_info = [];
-let thead_periodo = [];
-let thead_periodo_i = [];
-let colapsables_info = [];
-let tr_modificados = [];
 let promesas_archivos = [];
 let salida_algoritmo;
 let res_algoritmo;
 let textarea_comentarios_info;
-let spans_archivos_info = [];
 let listaFilasColumnas = [];
 let gridsInfo = [];
 let ultimaFila;
@@ -107,10 +106,6 @@ let ultimaColumna;
 let contenedores_mod = [];
 let opciones_menu_mod = [];
 let colapsos_mod = [];
-let tablas_mod = [];
-let thead_periodo_mod = [];
-let thead_periodo_i_mod = [];
-let colapsables_mod = [];
 let objEscVistaMod;
 let boton_cargaEscenarioMod;
 let boton_cargaEscenarioModActual;
@@ -121,7 +116,6 @@ let flag_guardandoBD = false;
 let gridsMod = [];
 
 // Comparacion de resultados
-let tablas_res = null;
 let divs_res = null;
 let colapsos_res = null;
 let objEscA_res = null;
@@ -135,12 +129,10 @@ let consola_resB = null;
 let flag_espera_esc = false;
 let folios_mod = null;
 let botones_folio_res = null;
-let colapsables_res = null;
 let label_resA = null;
 let label_resB = null;
 let flag_resOutput_A = false;
 let flag_resOutput_B = false;
-let spans_archivos_res = [];
 let promesas_archivos_A = [];
 let promesas_archivos_B = [];
 let flag_A_cargado;
@@ -206,7 +198,7 @@ let boton_nuevoFolio = null;
 let boton_resultadoOriginal = null;
 
 // Al cargar la pagina es inicio de sesion, se consultan
-// sistemas disponibles y cargan documentos en el area de trabajo
+// sistemas disponibles y cargan elementos en el area de trabajo
 body.onload = () => {
     body.style.opacity = '1';
 	div_msg_consola.innerHTML = '';
@@ -219,9 +211,7 @@ body.onload = () => {
 	bannerIcono.setMensaje('');
 	bannerIcono.ocultarProgreso();
 
-
 	// Componentes de vistas y menus desde index
-
 	menusOpcion = Array.from(document.getElementsByClassName('opcion-menu'));
 	vistasOpcion = Array.from(document.getElementsByClassName('opc-vista'));
 	contenedor = Array.from(document.getElementById('vistas_contenedor'));
@@ -255,6 +245,7 @@ body.onload = () => {
 	vistaCompara.funcion = null;
 	vistaAdmin.funcion = consultarOriginalesTodos;
 
+    // Invoca el evento para leer las paginas de los despliegues
     ipcRenderer.send('paginas:leer');
 };
 
@@ -263,6 +254,7 @@ window.onbeforeunload = function(e) {
 };
 
 // Lee los datos de las paginas para los paneles
+// ${paginas} es un arreglo con las paginas marcadas con identificador
 ipcRenderer.on('paginas:envia', (event, paginas) => {
     paginas.forEach((pagina) => {
         vistasOpcion.forEach((vista) => {
@@ -327,57 +319,10 @@ function cargaComponentes() {
 		}
 	});
 
-	cont_temp = Array.from(document.getElementsByClassName('tabla-info'));
-	cont_temp.forEach((item) => {
-		if (item.classList.contains('tabla-mod')) {
-			tablas_mod.push(item);
-		} else {
-			tablas_info.push(item);
-		}
-	});
-
-	cont_temp = Array.from(document.getElementsByClassName('alg-dep'));
-	cont_temp.forEach((item) => {
-		if (item.classList.contains('alg-dep-mod')) {
-			thead_periodo_mod.push(item);
-		} else {
-			thead_periodo.push(item);
-		}
-	});
-
-	cont_temp = Array.from(document.getElementsByClassName('alg-dep-i'));
-	cont_temp.forEach((item) => {
-		if (item.classList.contains('alg-dep-i-mod')) {
-			thead_periodo_i_mod.push(item);
-		} else {
-			thead_periodo_i.push(item);
-		}
-	});
-
-	cont_temp = Array.from(document.getElementsByClassName('colapsable'));
-	cont_temp.forEach((item) => {
-		if (item.classList.contains('colapsable-mod')) {
-			colapsables_mod.push(item);
-		} else {
-			colapsables_info.push(item);
-		}
-	});
-
-	cont_temp = Array.from(document.getElementsByClassName('th-periodo'));
-	cont_temp.forEach((item) => {
-		if (item.classList.contains('th-periodo-mod')) {
-			th_periodos_mod.push(item);
-		} else {
-			th_periodos.push(item);
-		}
-	});
-
-	spans_archivos_info = Array.from(document.getElementsByClassName('span-archivo-res-info'));
 	textarea_comentarios_info = document.getElementById('textarea_comentarios_info');
 	spans_archivos = Array.from(document.getElementsByClassName('span-archivo'));
 
     // Comparacion de resultados
-    tablas_res = Array.from(document.getElementsByClassName('tabla-res'));
     divs_res = Array.from(document.getElementsByClassName('div-tabla-res'));
     colapsos_res = Array.from(document.getElementsByClassName('celda-header-res'));
     divsScrollRes = Array.from(document.getElementsByClassName('div-scroll-res'));
@@ -386,39 +331,14 @@ function cargaComponentes() {
     vistasContenedor = document.getElementById('vistas_contenedor');
 	label_resA = document.getElementById('label_idResA');
 	label_resB = document.getElementById('label_idResB');
-	spans_archivos_res = Array.from(document.getElementsByClassName('span-archivo-res'));
-
-    // Empareja tablas para resultados
-    let tablas_res_a = [];
-    let tablas_res_b = [];
-    for (let tabla of tablas_res) {
-        if (tabla.classList.contains('A')) {
-            tablas_res_a.push(tabla);
-            tabla.marco = 'A';
-        } else if (tabla.classList.contains('B')) {
-            tablas_res_b.push(tabla);
-            tabla.marco = 'B';
-        }
-    }
-
-    tablas_res_a.forEach((tabla_a) => {
-        tablas_res_b.forEach((tabla_b) => {
-            if (tabla_a.id === tabla_b.id) {
-                tabla_a.tabla_par = tabla_b;
-                tabla_b.tabla_par = tabla_a;
-            }
-        });
-    });
-    tablas_res_a = null;
-    tablas_res_b = null;
 
     // EMpareja divs scroll res
     if (divsScrollRes.length > 1) {
-        divsScrollRes[0].div_par = divsScrollRes[1];
+		divsScrollRes[0].div_par = divsScrollRes[1];
         divsScrollRes[0].isScrolling = false;
         divsScrollRes[1].div_par = divsScrollRes[0];
         divsScrollRes[1].isScrolling = false;
-
+		
         // Agrega banner a cada div
         banner_resA = new Banner(divsScrollRes[0]);
         banner_resB = new Banner(divsScrollRes[1]);
@@ -599,6 +519,7 @@ function cargaComponentes() {
 	kendo.culture().numberFormat.currency.pattern[0] = "-$n";
 }
 
+// Método que se asigna a los combos de compara escenario
 function folio_selecciona() {
 	if ((!objEscA_res.ruta.endsWith(folios_mod[0].value) && !objEscB_res.ruta.endsWith(folios_mod[0].value)) || (!objEscA_res.ruta.endsWith(folios_mod[1].value) && !objEscB_res.ruta.endsWith(folios_mod[1].value))) {
 		boton_cargarFolios.disabled = false;
@@ -614,6 +535,9 @@ function folio_selecciona() {
 	}
 }
 
+// Método que permite mandar mensajes a la bitácora en pantalla y el archivo
+// ${mensaje} es el texto a enviar
+// ${flagArchivo} es una bandera indicando si se manda también al archivo
 function mensajeConsola(mensaje, flagArchivo) {
 	// Agrega la estampa de tiempo
 	let mensaje_consola = `<b>[${moment().format('YYYY-MM-DD HH:mm:ss')}]</b>\t${mensaje}`;
@@ -625,8 +549,10 @@ function mensajeConsola(mensaje, flagArchivo) {
 		div_msg_consola.innerHTML += `<br>${mensaje_consola}`;
 	}
 
+    // Baja el scroll del div
 	div_msg_consola.scrollTop = div_msg_consola.scrollHeight;
 
+    // Si la bandera es true, se manda a electron para que escriba en el archivo
 	if (typeof flagArchivo !== 'undefined' && flagArchivo === true) {
 		let mensaje_bitacora = moment().format('YYYY-MM-DD HH:mm:ss') + '\t' + mensaje;
 
@@ -635,6 +561,9 @@ function mensajeConsola(mensaje, flagArchivo) {
 	}
 }
 
+// Método para cambiar de vista (despliegue)
+// ${vistaMostrar} es la vista a desplegar
+// ${menu} es la opción del menu que invoca el evento
 function mostrarVista(vistaMostrar, menu) {
 	if (menu.classList.contains('deshabilitado')) {
 		return;
@@ -651,6 +580,7 @@ function mostrarVista(vistaMostrar, menu) {
 		}, 10);
 	}
 
+    // Habilita/Deshabilita menus
 	for (let menuItem of menusOpcion) {
 		if (menuItem === menu) {
 			// deshabilita el boton
@@ -662,6 +592,7 @@ function mostrarVista(vistaMostrar, menu) {
 		}
 	}
 
+    // Oculta las otras vistas
 	for (let vista of vistasOpcion) {
 		if (vista !== vistaMostrar) {
 			vista.classList.remove('visible');
@@ -677,9 +608,10 @@ function mostrarVista(vistaMostrar, menu) {
 		}
 	}
 
+    // Añade la vista al dom
 	vistasContenedor.appendChild(vistaMostrar);
 
-	// Aca está opaco aun
+	// Muestra la vista con opacidad
 	setTimeout(() => {
 		vistaMostrar.style.display = 'initial';
 		setTimeout(() => {
@@ -688,6 +620,7 @@ function mostrarVista(vistaMostrar, menu) {
 	}, 300);
 }
 
+// Método asignado al combo algoritmo de eliminar escenarios locales
 function fun_select_eliminar_algoritmo_local() {
 	// Si no selecciona filtro, muestra todos
 	if (select_eliminar_algoritmo_local.value === 'ninguno') {
@@ -716,6 +649,7 @@ function fun_select_eliminar_algoritmo_local() {
 	actualizarOptions('anio');
 }
 
+// Método asignado al combo año de eliminar escenarios locales
 function fun_select_eliminar_anio_local() {
 	// Si no selecciona filtro, muestra todos
 	if (select_eliminar_anio_local.value === 'ninguno') {
@@ -746,6 +680,7 @@ function fun_select_eliminar_anio_local() {
 	actualizarOptions('mes');
 }
 
+// Método asignado al combo mes de eliminar escenarios locales
 function fun_select_eliminar_mes_local() {
 	// Si no selecciona filtro, muestra todos
 	if (select_eliminar_mes_local.value === 'ninguno') {
@@ -774,6 +709,7 @@ function fun_select_eliminar_mes_local() {
 	actualizarOptions('dia');
 }
 
+// Método asignado al combo dia de eliminar escenarios locales
 function fun_select_eliminar_dia_local() {
 	// Si no selecciona filtro, muestra todos
 	if (select_eliminar_dia_local.value === 'ninguno') {
@@ -796,6 +732,8 @@ function fun_select_eliminar_dia_local() {
 	}
 }
 
+// Método que actualiza la lista de escenarios locales en eliminación
+// ${opcion} opcion con la cual se actualizará
 function actualizarOptions(opcion) {
 	if (opcion === 'anio') {
 		select_eliminar_anio_local.innerHTML = '';
@@ -875,6 +813,7 @@ function actualizarOptions(opcion) {
 	}
 }
 
+// Método que permite crear una opción de lista
 function crearOption(select, texto, valor) {
     let option = document.createElement('option');
     option.value = valor;
@@ -882,6 +821,8 @@ function crearOption(select, texto, valor) {
     select.appendChild(option);
 }
 
+// Evento que recibe la lectura de un archivo
+// ${obj} es un objeto con los datos del archivo leido
 ipcRenderer.on('archivo:leido', (event, obj) => {
     if (obj.opc === 'RES_COMPARA') {
         obj.res = obj.res.replace(new RegExp('\n+\s*', 'g'), '<br>')

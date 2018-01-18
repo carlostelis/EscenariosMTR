@@ -5,6 +5,19 @@ class Escenario {
         this.fs = require('fs');
 
         // Lista de insumos JSON
+        this.insumos;
+        // Entradas
+        this.insumosEntradas;
+        // Resultados
+        this.insumosResultados;
+        // Unidades
+        this.insumosUnidades;
+        // Unidades leidas
+        this.listaObjUnidades;
+    }
+
+    cargarInsumos() {
+        // Lista de insumos JSON
         this.insumos = require('./insumos.js');
         // Entradas
         this.insumosEntradas = this.insumos.filter((archivo) => {
@@ -30,6 +43,9 @@ class Escenario {
         console.log(ruta_escenario, algoritmo);
 
         return new Promise((resolve, reject) => {
+            // Lee los insumos
+            this.cargarInsumos();
+
             let promesas = [];
             // Establece la carpeta dirdat, donde se encuentran los archivos csv
             let ruta_dirdat = this.path.join(ruta_escenario, 'dirdat');
@@ -77,16 +93,6 @@ class Escenario {
                         // Se hace al final porque no se sabe el orden enq ue se leen los archivos
                         archivosJSON.lista.forEach((datosArchivo) => {
                             this.asociarUnidades(datosArchivo);
-                        });
-
-                        // Verifica si requiere zonas de reserva
-                        archivosJSON.lista.forEach((datosArchivo) => {
-                            this.asociarZonasReserva(datosArchivo);
-                        });
-
-                        // Verifica si requiere subsistemas
-                        archivosJSON.lista.forEach((datosArchivo) => {
-                            this.asociarSubsistemas(datosArchivo);
                         });
 
                         // Procesa los archivos 'especiales'
@@ -249,7 +255,7 @@ class Escenario {
                     // Ubica la primer fila de la unidad
                     let i;
                     for (i = 0; i < objPotverc.filas.length; i++) {
-                        if (objPotverc.filas[i].nombreUnidad === fila.UNIDAD) {
+                        if (objPotverc.filas[i].nombre === fila.UNIDAD) {
                             break;
                         }
                     }
@@ -310,7 +316,7 @@ class Escenario {
 
         if (typeof insumoOrigen !== 'undefined' && typeof objDatosUnidades !== 'undefined') {
             // Agrega campo al modelo
-            objDatos.insumo.modelo.fields['nombreUnidad'] = {
+            objDatos.insumo.modelo.fields['nombre'] = {
                 editable: false,
                 type: "string",
                 nullable: false
@@ -318,8 +324,8 @@ class Escenario {
 
             // Agrega la columna
             objDatos.insumo.columnas.splice(1, 0, {
-                field: 'nombreUnidad',
-                title: 'Nombre Unidad',
+                field: 'nombre',
+                title: `Nombre ${typeof objDatosUnidades.insumo.tagUnidad !== 'undefined' ? objDatosUnidades.insumo.tagUnidad : '' }`,
                 sortable: true,
                 filterable: true,
                 width: "10vw",
@@ -334,7 +340,7 @@ class Escenario {
                     console.log('U> Validando segmentos', objDatos.insumo.nombre);
                     for (let i = 0, u = 0; i < objDatos.filas.length; i+=objDatos.insumo.segmentos, u++) {
                         for (let j = 0; j < objDatos.insumo.segmentos; j++) {
-                            objDatos.filas[i + j].nombreUnidad = objDatosUnidades.filas[u].nombreUnidad;
+                            objDatos.filas[i + j].nombre = objDatosUnidades.filas[u].nombre;
                         }
                     }
                 }
@@ -342,7 +348,7 @@ class Escenario {
                 console.log('U> Validando unidades', objDatos.insumo.nombre);
                 try {
                     for (let i = 0; i < objDatos.filas.length; i++) {
-                        objDatos.filas[i].nombreUnidad = objDatosUnidades.filas[i].nombreUnidad;
+                        objDatos.filas[i].nombre = objDatosUnidades.filas[i].nombre;
                     }
                 } catch (e) {
                     console.log(e);

@@ -174,7 +174,7 @@ tr.fila-modificada td.celda-modificada {
 
 .corte-excedente-gt-cero {
     background-color: lightyellow !important;
-    border-color: lightgreen !important;
+    border-color: khaki !important;
 }
 
 .corte-excedente-lt-cero {

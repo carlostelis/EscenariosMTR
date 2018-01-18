@@ -1,6 +1,11 @@
+// Clase del módulo ftp
 var Client = require('ftp');
 
+// Clase que permite administrar las conexiones FTP
 class FTP {
+    // constructor de la clase
+    // ${config} es un objeto con datos de la conexión
+    // ${base} es la referencia a la configuración local
     constructor (config, base) {
         this.config = config;
         this.fs = require('fs');
@@ -12,6 +17,7 @@ class FTP {
         this.c = null;
     }
 
+    // Método que permite conectar con los parámetros establecidos en config
     conectar() {
         return new Promise((resolve, reject) => {
             if (this.c !== null) {
@@ -38,6 +44,7 @@ class FTP {
         });
     }
 
+    // Método para finalizar la conexión
     desconectar() {
         this.c.end();
         this.c = null;
@@ -45,6 +52,8 @@ class FTP {
         this.progresoArchivo = 0;
     }
 
+    // Método para obtener el tamaño de un archivo
+    // ${obj} es el objeto con la información del archivo
     obtenerTamanoArchivoFTP(obj) {
         return new Promise((resolve, reject) => {
             obj.rutaRemota = obj.rutaRemota.replace(new RegExp('\\' + this.path.sep, 'g'), '/');
@@ -64,6 +73,8 @@ class FTP {
         });
     }
 
+    // Método para descargar un directorio
+    // ${listaDir} es la lista de archivos del directorio
     descargarDirectorioFTP(listaDir) {
         return new Promise((resolve, reject) => {
             let promesas = [];
@@ -85,6 +96,7 @@ class FTP {
         });
     }
 
+    // Método para verificar y establecer el progreso de una descarga
     verificarProgresoDescarga(listaDir) {
         setTimeout(() => {
             let cont = 0;
@@ -103,14 +115,18 @@ class FTP {
         }, 1000);
     }
 
+    // Método para obtener el prgreso de la descarga de un directorio
     getProgresoLista() {
         return this.progresoLista;
     }
 
+    // Método para obtener el prgreso de la descarga de un archivo
     getProgresoArchivo() {
         return this.progresoArchivo;
     }
 
+    // Método para descargar un archivo
+    // ${info} es un objeto con la información del archivo
     descargarArchivoFTP(info) {
         return new Promise((resolve, reject) => {
             if (typeof info.rutaRemota === 'undefined') {
@@ -170,6 +186,9 @@ class FTP {
         });
     }
 
+    // Método para descargar un archivo sin cálculo de progreso
+    // ${rutaRemota} es la ruta del archivo a descargar
+    // ${rutaLocal} es la ruta destino del archivo
     descargarArchivoFTPSimple(rutaRemota, rutaLocal) {
         return new Promise((resolve, reject) => {
             if (typeof rutaRemota === 'undefined') {
@@ -199,6 +218,11 @@ class FTP {
         });
     }
 
+    // Método para obtener la lista de directorios de un directorio
+    // ${ruta} es la ruta del directorio remoto
+    // ${rutaReplace} es una ruta remota a sustituir en la ruta local
+    // ${rutaLocal} es la ruta local sustituta
+    // ${listaDir} es la lista de directorios
     obtenerListaDirectorio(ruta, rutaReplace, rutaLocal, listaDir) {
         // forzar separador linux
         ruta = ruta.replace(new RegExp('\\' + this.path.sep, 'g'), '/');
@@ -246,6 +270,8 @@ class FTP {
         });
     }
 
+    // Método para obtener la lista de archivos de un directorio
+    // ${ruta} es la ruta del directorio
     obtenerListaDirectorioSimple(ruta) {
         // forzar separador linux
         ruta = ruta.replace(new RegExp('\\' + this.path.sep, 'g'), '/');
@@ -262,6 +288,11 @@ class FTP {
         });
     }
 
+    // Método para obtener la lista de archivos de un directorio
+    // ${ruta} es la ruta del directorio remoto
+    // ${rutaReplace} es una ruta remota a sustituir en la ruta local
+    // ${rutaLocal} es la ruta local sustituta
+    // ${listaDir} es la lista de directorios
     obtenerListaArchivosDir(ruta, rutaReplace, rutaLocal, listaDir) {
         // forzar separador linux
         ruta = ruta.replace(new RegExp('\\' + this.path.sep, 'g'), '/');

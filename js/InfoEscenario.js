@@ -1,4 +1,10 @@
 
+// InfoEscenario.js - Javascript con funciones y eventos asociados al despliegue
+// de Informaicón de escenarios
+
+// Función para invertir el estado de un colapso de una tabla
+// ${trigger} es el elemento que lanza la función
+// ${id} es el nombre del contenedor a colapsar
 function toggleColapso(trigger, id) {
     // Si esta inactivo no hace nada
     if (trigger.classList.contains('inactivo')) {
@@ -59,6 +65,9 @@ function toggleColapso(trigger, id) {
     return trigger.desplegado;
 }
 
+// Función para expandir un colapso de una tabla
+// ${trigger} es el elemento que lanza la función
+// ${id} es el nombre del contenedor a colapsar
 function expandir(trigger, id) {
     // Si esta inactivo no hace nada
     if (trigger.classList.contains('inactivo')) {
@@ -98,6 +107,9 @@ function expandir(trigger, id) {
     }
 }
 
+// Función para colapsar un colapso de una tabla
+// ${trigger} es el elemento que lanza la función
+// ${id} es el nombre del contenedor a colapsar
 function colapsar(trigger, id) {
     // Si esta inactivo no hace nada
     if (trigger.classList.contains('inactivo')) {
@@ -144,6 +156,9 @@ function colapsar(trigger, id) {
     return trigger.desplegado;
 }
 
+// Función para mostrar un contenedor de sección de información
+// ${id} es el identificador del contenedor a mostrar
+// ${trigger} es el elemento que invoca la función
 function mostrarContenedor(id, trigger) {
     // Oculta tooltips, de repente se cuelgan con el banner
     $("[data-toggle='tooltip']").tooltip('hide');
@@ -162,6 +177,7 @@ function mostrarContenedor(id, trigger) {
     trigger.classList.add('active');
 }
 
+// Función para desactivar (ocultar) todos los colapsos
 function desactivarColapsos() {
     console.log('Oculta colapsos');
     // Reestablece los colapsos
@@ -170,6 +186,7 @@ function desactivarColapsos() {
     }
 }
 
+// Función para ocultar todas las tablas
 function ocultarTodasInfo() {
     // Reestablece los colapsos
     for (let col of colapsos) {
@@ -182,10 +199,14 @@ function ocultarTodasInfo() {
     }
 }
 
-function crearTablaInfoKendo(objData) {
+// Función que permite generar una tabla Kendo
+// ${objData} es el objeto de archivo con información y metadatos de insumo
+// ${flag_copia} es una bandera indicando si el archivo actual se está
+//  generando en una tabla copia
+function crearTablaInfoKendo(objData, flag_copia) {
 	// Remueve el contenido anterior
 	// Busca el contenedor
-	let id_cont = '#COLAPSABLE_' + objData.insumo.modelo.id;
+	let id_cont = '#COLAPSABLE_' + objData.insumo.modelo.id + `${flag_copia === true ? '_COPIA' : ''}`;
 	let contenedor = $(id_cont);
 	// Vacia su contenido
 	contenedor.html('');
@@ -194,12 +215,12 @@ function crearTablaInfoKendo(objData) {
 	nueva_tabla.classList.add('table');
 	nueva_tabla.classList.add('table-sm');
 	nueva_tabla.classList.add('table-striped');
-	nueva_tabla.id = objData.insumo.modelo.id;
+	nueva_tabla.id = objData.insumo.modelo.id + `${flag_copia === true ? '_COPIA' : ''}`;
 	// Inserta la nueva tabla
 	contenedor.append(nueva_tabla);
 
 	// Id de la tabla (nombre del archivo)
-	let id = objData.insumo.modelo.id;
+	let id = objData.insumo.modelo.id + `${flag_copia === true ? '_COPIA' : ''}`;
 
     banner.trabajando();
     banner.setMensaje(`Procesando archivo:<br><font style="color:lightgreen;">${objData.archivo}</font>`);
@@ -221,22 +242,26 @@ function crearTablaInfoKendo(objData) {
         }
     }
 
-	// Inserta el modelo y los datos en el dataSource
-	let dataSourceObj = {
-        pageSize: page_size,
-		schema: {
-			model: objData.insumo.modelo
-		},
-		data: objData.filas,
-		autoSync: true
-	};
-
     // Colapso de la tabla
-	let colapso = colapsos.find((col) => { return col.id === 'COLAPSO_'  + objData.insumo.modelo.id; });
-    console.log(objData.insumo.modelo.id, 'dataSourceObj',dataSourceObj);
+    let colapso = colapsos.find((col) => { return col.id === 'COLAPSO_'  + objData.insumo.modelo.id + `${flag_copia === true ? '_COPIA' : ''}`; });
 
-	try {
-		let dataSource = new kendo.data.DataSource(dataSourceObj);
+    try {
+        if (typeof objData.dataSource === 'undefined') {
+            // Inserta el modelo y los datos en el dataSource
+        	let dataSourceObj = {
+                pageSize: page_size,
+        		schema: {
+        			model: objData.insumo.modelo
+        		},
+        		data: objData.filas,
+        		autoSync: true
+        	};
+
+            console.log(objData.insumo.modelo.id + `${flag_copia === true ? '_COPIA' : ''}`, 'dataSourceObj',dataSourceObj);
+
+    		objData.dataSource = new kendo.data.DataSource(dataSourceObj);
+        }
+
 		// Valida campos dependientes del algoritmo
 		if (objData.insumo.algDep === true) {
 			let periodos = 8;
@@ -310,7 +335,7 @@ function crearTablaInfoKendo(objData) {
             ${col.hidden === true ? 'celda-oculta ' : '' }
             #: getClaseVal_DERS_MI_TOTALES_AREA('${objData.insumo.modelo.id}', '${col.field}', ${col.field}) #
             #: getClaseColumnaRESUMEN_UNIDADES('${objData.insumo.modelo.id}', '${col.field}', ${col.field}) #
-            ${objData.insumo.modelo.id.startsWith('DTR_ZONAS_RESERVA') ? '#: getClaseVal_DTR_ZONAS_RESERVA("' + col.field + '", REQ_MW_RREG, MW_RREG_ASIGNADOS, REQ_MW_RR10, MW_RR10_ASIGNADOS, REQ_MW_R10, MW_R10_ASIGNADOS, REQ_MW_RS, MW_RS_ASIGNADOS) #' : '' } ">
+            ${objData.insumo.modelo.id.startsWith('DTR_ZONAS_RESERVA') ? '#: getClaseVal_DTR_ZONAS_RESERVA("' + col.field + '", REQ_MW_RREG, MW_RREG_ASIGNADOS, REQ_MW_RR10, MW_RR10_ASIGNADOS, REQ_MW_R10, MW_R10_ASIGNADOS, REQ_MW_RS, MW_RS_ASIGNADOS) #' : '' } " data-archivo="${objData.insumo.modelo.id + (flag_copia === true ? '_COPIA' : '')}">
                 #: kendo.toString(${col.field}, "${typeof col.format !== 'undefined' ? col.format.replace('{0:', '').replace('}', '') : ''}") #
             </td>`
         });
@@ -330,7 +355,7 @@ function crearTablaInfoKendo(objData) {
                 fileName: `${objData.insumo.modelo.id}.xlsx`,
                 allPages: true
             } : undefined),
-            dataSource: dataSource,
+            dataSource: objData.dataSource,
 			columns: objData.insumo.columnas,
             rowTemplate: rowTemplateString,
             altRowTemplate: altRowTemplateString,
@@ -386,12 +411,12 @@ function crearTablaInfoKendo(objData) {
 			editable: true,
 			save: function (e) {
                 // Confirma la celda modificada
-                let objCelda = listaFilasColumnas.find((obj) => { return obj.id === objData.insumo.modelo.id && obj.fila === ultimaFila && obj.columna === ultimaColumna});
+                let objCelda = listaFilasColumnas.find((obj) => { return obj.id === objData.insumo.modelo.id + `${flag_copia === true ? '_COPIA' : ''}` && obj.fila === ultimaFila && obj.columna === ultimaColumna});
                 if (objCelda) {
-                    console.log('Celda modificada');
+                    // console.log('Celda modificada');
                     objCelda.modificado = true;
                     // Actualiza las filas
-                    objData.filas = gridsInfo.find((grid) => {return grid[0].id === objData.insumo.modelo.id}).data('kendoGrid').dataSource.data();
+                    objData.filas = gridsInfo.find((grid) => {return grid[0].id === objData.insumo.modelo.id + `${flag_copia === true ? '_COPIA' : ''}`}).data('kendoGrid').dataSource.data();
                 }
 
                 // Marca el colapso como editado
@@ -420,7 +445,7 @@ function crearTablaInfoKendo(objData) {
 
                 // los registra en la lista de modificados
                 if (!listaFilasColumnas.find((obj) => { return obj.id === objData.insumo.modelo.id && obj.fila === ultimaFila && obj.columna === ultimaColumna})) {
-                    listaFilasColumnas.push({id: objData.insumo.modelo.id, fila: ultimaFila, columna: ultimaColumna, modificado: false});
+                    listaFilasColumnas.push({id: objData.insumo.modelo.id + `${flag_copia === true ? '_COPIA' : ''}`, fila: ultimaFila, columna: ultimaColumna, modificado: false});
                 }
 			},
             excelExport: function(e) {
@@ -443,19 +468,24 @@ function crearTablaInfoKendo(objData) {
 		} else {
 			colapso.classList.add('vacio');
 		}
-    }
 
-	// Colapsa el contenedor
-	colapsar(colapso, 'COLAPSABLE_' + objData.insumo.modelo.id);
+        // Colapsa el contenedor
+    	colapsar(colapso, 'COLAPSABLE_' + objData.insumo.modelo.id + `${flag_copia === true ? '_COPIA' : ''}`);
+        if (objData.insumo.tieneCopia === true && flag_copia !== true) {
+            console.log('>>>>>>>>>>>>>>>>>>>>> Creando copia de ', objData.insumo.modelo.id);
+            crearTablaInfoKendo(objData, true);
+        }
+    }
 }
 
+// Función para resaltar las celdas modificadas
 function resaltarCeldas() {
     // Quita los objetos sin modificacion confirmada
     listaFilasColumnas = listaFilasColumnas.filter((obj) => {return obj.modificado === true});
     console.log('Filtrando modificados', listaFilasColumnas);
 
     listaFilasColumnas.forEach((obj) => {
-        let columna = $(`tr[data-uid='${obj.fila}'] > td:nth-child(${obj.columna + 1})`);
+        let columna = $(`tr[data-uid='${obj.fila}'] > td:nth-child(${obj.columna + 1})[data-archivo='${obj.id}']`);
         // console.log('Columna', columna[0]);
         columna[0].classList.add('celda-modificada');
 
@@ -465,6 +495,7 @@ function resaltarCeldas() {
     });
 }
 
+// Función que procesa las validaciones visuales del archivo DERS_MI_TOTALES_AREA
 function getClaseVal_DERS_MI_TOTALES_AREA(id, campo, valor) {
     if (id === 'DERS_MI_TOTALES_AREA') {
         if (campo === 'Corte') {
@@ -479,6 +510,7 @@ function getClaseVal_DERS_MI_TOTALES_AREA(id, campo, valor) {
     return '';
 }
 
+// Función que procesa las validaciones visuales del archivo SEMAFOROSDERS
 function getClaseSEMAFOROSDERS(bandera) {
     if (bandera !== 0) {
         return 'penalizacion-activada';
@@ -487,6 +519,7 @@ function getClaseSEMAFOROSDERS(bandera) {
     }
 }
 
+// Función que procesa las validaciones visuales del archivo RESUMEN_UNIDADES (filas)
 function getClaseFilaRESUMEN_UNIDADES(disponibilidad, coordinabilidad) {
     if (disponibilidad === 0) {
         return 'unidad-no-disponible';
@@ -499,6 +532,7 @@ function getClaseFilaRESUMEN_UNIDADES(disponibilidad, coordinabilidad) {
     return '';
 }
 
+// Función que procesa las validaciones visuales del archivo RESUMEN_UNIDADES (columnas)
 function getClaseColumnaRESUMEN_UNIDADES(archivo, campo, valor) {
     if (archivo === 'RESUMEN_UNIDADES') {
         if (campo === 'MARGEN_SUBIR' || campo === 'MARGEN_BAJAR') {
@@ -513,6 +547,7 @@ function getClaseColumnaRESUMEN_UNIDADES(archivo, campo, valor) {
     return '';
 }
 
+// Función que procesa las validaciones visuales del archivo DTR_ZONAS_RESERVA
 function getClaseVal_DTR_ZONAS_RESERVA(campo, req_mw_rreg, mw_rreg_asignados, req_mw_rr10, mw_rr10_asignados, req_mw_r10, mw_r10_asignados, req_mw_rs, mw_rs_asignados) {
     if (campo === 'MW_RREG_ASIGNADOS') {
         if (mw_rreg_asignados < req_mw_rreg) {
@@ -535,6 +570,8 @@ function getClaseVal_DTR_ZONAS_RESERVA(campo, req_mw_rreg, mw_rreg_asignados, re
     return '';
 }
 
+// Función que solicita la actualización de las tablas de resultados luego de
+// la ejecución del algoritmo
 function actualizarResultadoInfo(flag_banner) {
     if (objEscModificado.resActualizados === true) {
         console.log();
@@ -554,6 +591,7 @@ function actualizarResultadoInfo(flag_banner) {
     ipcRenderer.send('escenario_resultados:leer', objEscModificado.ruta, SESION.algoritmo);
 }
 
+// Función que muestra la salida del archivo bitacora.res del escenario original
 function mostrarSalidaAlgoritmoOriginal() {
     ipcRenderer.send('archivo:leer', objEscOriginal.ruta, ['dirres', 'bitacora.res'], 'RES_ORIGINAL');
 
@@ -576,6 +614,9 @@ function mostrarSalidaAlgoritmoOriginal() {
     consolaExe.mostrar();
 }
 
+// función que permite guardar un escenario
+// ${flag_actualizar} bandera para indicar si el proceso es una actualización
+//  del escenario mnodificado actual o se generará un folio nuevo
 function guardarEscenario(flag_actualizar) {
     let folio;
     let flag_copiar;
@@ -621,7 +662,11 @@ function guardarEscenario(flag_actualizar) {
             }
         });
 
-        listaArchivos = objEscOriginal.lista.filter((archivo) => { return sublista.find((item) => {return item === archivo.insumo.modelo.id}) });
+        listaArchivos = objEscOriginal.lista.filter((archivo) => {
+             return sublista.find((item) => {
+                 return item === archivo.insumo.modelo.id || item === archivo.insumo.modelo.id + '_COPIA';
+             });
+         });
         console.log('listaArchivos', listaArchivos);
     }
 
@@ -638,6 +683,7 @@ function guardarEscenario(flag_actualizar) {
     }, 250);
 }
 
+// Función que invoca la ejecución del algoritmo en el escenario modificado actual
 function ejecutarAlgoritmo() {
     consolaExe.setTitulo(`Ejecución de algoritmo ${SESION.algoritmo} para folio ${objEscModificado.folio}`);
     consolaExe.addBoton('resultados', 'Resultados', () => {
@@ -686,6 +732,8 @@ function ejecutarAlgoritmo() {
     }
 }
 
+// Evento que recibe el resultado de la copia del escenario original
+// ${res} es un objeto con el estado del proceso
 ipcRenderer.on('escenario_original:copiado', (event, res) => {
     if (res.estado) {
         banner.ok();
@@ -770,6 +818,8 @@ ipcRenderer.on('escenario_original:copiado', (event, res) => {
     }
 });
 
+// Evento que recibe la inicialización del contenedor de archivos de resultados de un escenario
+// ${obj} es un json con los valores de inicialización
 ipcRenderer.on('escenario_resultados:leido', (event, obj) => {
     console.log('Recibe contenedor de archivos resultado:', obj.lista.length);
 
@@ -778,6 +828,9 @@ ipcRenderer.on('escenario_resultados:leido', (event, obj) => {
     objEscModificado.contadorResultados = 0;
 });
 
+// Evento que recibe un archivo de resultados leido y procesado
+// ${obj_archivo} es un objeto con la información necesaria de un archivo para
+//  visualizarse en el despliegue
 ipcRenderer.on('escenario_resultados:archivo_leido', (event, obj_archivo) => {
     console.log('Recibe archivo:', obj_archivo.archivo, 'Filas', obj_archivo.filas.length);
 
@@ -826,11 +879,15 @@ ipcRenderer.on('escenario_resultados:archivo_leido', (event, obj_archivo) => {
     }
 });
 
+// Evento que recibe información de la salida de ejecución de algoritmo en proceso
+// ${output} es una cadena de resultado parcial para concatenar
 ipcRenderer.on('algoritmo:ejecucionParcial', (event, output) => {
     salida_algoritmo += output;
     consolaExe.setTexto(salida_algoritmo);
 });
 
+// Evento que se recibe cuando finaliza la ejecucón del algoritmo
+// ${res} es un objeto con el estado de ejecución del algoritmo
 ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
     salida_algoritmo += res.cadena;
 
@@ -885,6 +942,8 @@ ipcRenderer.on('algoritmo:ejecutado', (event, res) => {
     }, 500);
 });
 
+// Evento que recibe el resultado de diagnóstico de un escenario infactible
+// ${res} contiene el mensaje de respuesta del diagnóstico
 ipcRenderer.on('algoritmo:diagnosticado', (event, res) => {
     if (res.codigo >= 0) {
         if (res.opc === 'RES_EJECUCION') {
@@ -905,6 +964,8 @@ ipcRenderer.on('algoritmo:diagnosticado', (event, res) => {
     }
 });
 
+// Evento que recibe la inicialización del contenedor de archivos de un escenario
+// ${obj} es un json con los valores de inicialización
 ipcRenderer.on('escenario_completo:leido', (event, obj) => {
     console.log('Recibe contenedor de archivos:', obj.lista.length);
     textarea_comentarios_info.innerHTML = '';
@@ -922,6 +983,9 @@ ipcRenderer.on('escenario_completo:leido', (event, obj) => {
     promesas_archivos = [];
 });
 
+// Evento que recibe un archivo leido y procesado
+// ${obj_archivo} es un objeto con la información necesaria de un archivo para
+//  visualizarse en el despliegue
 ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
     console.log('Recibe archivo:', obj_archivo.archivo, 'Filas', obj_archivo.filas.length);
 

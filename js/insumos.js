@@ -22,15 +22,17 @@ module.exports = [
     {
         "nombre":"AUSUBSIS_DERS.csv",
         "unidades": true,
-        "editable": false,
+        "tagUnidad": "Subsistema",
+        "editable": true,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "tieneCopia": true,
         "modelo": {
             "id": "AUSUBSIS_DERS",
             "fields": {
                 "numFila": { "type": "number",	"editable": false, "nullable": false },
                 "numero": { "type": "number",	"editable": false, "nullable": false },
-                "nombreSubsistema": { "type": "string", "editable": false, "nullable": false },
+                "nombre": { "type": "string", "editable": false, "nullable": false },
                 "estado": { "type": "number", "editable": false, "nullable": false },
                 "nodoReferencia": { "type": "number", "editable": false, "nullable": false }
             }
@@ -38,7 +40,7 @@ module.exports = [
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false},
             { "field": "numero", "title": "Número", "sortable": true, "filterable": false},
-			{ "field": "nombreSubsistema", "title": "Nombre", "sortable": true, "filterable": true},
+			{ "field": "nombre", "title": "Nombre", "sortable": true, "filterable": true},
             { "field": "estado", "title": "Estado", "sortable": true, "filterable": false},
             { "field": "nodoReferencia", "title": "Nodo Referencia", "sortable": true, "filterable": true}
 		]
@@ -90,22 +92,24 @@ module.exports = [
     {
         "nombre":"ZONASRES_DERS.csv",
         "unidades":true,
-        "editable": false,
+        "tagUnidad": "Zona",
+        "editable": true,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "tieneCopia": true,
         "modelo": {
             "id": "ZONASRES_DERS",
             "fields": {
                 "numFila": { "type": "number",	"editable": false, "nullable": false },
                 "numero": { "type": "number",	"editable": false, "nullable": false },
-                "nombreZona": { "type": "string", "editable": false, "nullable": false },
+                "nombre": { "type": "string", "editable": false, "nullable": false },
                 "subsistema": { "type": "string", "editable": false, "nullable": false }
             }
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false},
             { "field": "numero", "title": "Número", "sortable": true, "filterable": false},
-			{ "field": "nombreZona", "title": "Nombre", "sortable": true, "filterable": true},
+			{ "field": "nombre", "title": "Nombre", "sortable": true, "filterable": true},
             { "field": "subsistema", "title": "Subsistema", "sortable": true, "filterable": true}
 		]
     },
@@ -118,8 +122,8 @@ module.exports = [
             "id": "PRETOPEPISO",
             "fields": {
                 "numFila": { "type": "number",	"editable": false, "nullable": false },
-                "precioMaximo": { "type": "number",	"editable": false, "nullable": false },
-                "precioMinimo": { "type": "number", "editable": false, "nullable": false }
+                "precioMaximo": { "type": "number",	"editable": true, "nullable": false },
+                "precioMinimo": { "type": "number", "editable": true, "nullable": false }
             }
         },
         "columnas": [
@@ -185,8 +189,8 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false},
-            { "field": "banderaParam", "title": "Número Nodo", "sortable": true, "filterable": true},
-			{ "field": "descripcion", "title": "Número Nodo EMS", "sortable": true, "filterable": true}
+            { "field": "banderaParam", "title": "Bandera Parámetro", "sortable": true, "filterable": true},
+			{ "field": "descripcion", "title": "Descripción", "sortable": true, "filterable": true}
 		]
     },
     // RED Y ENLACES
@@ -345,7 +349,7 @@ module.exports = [
                 "numFila": { "type": "number",	"editable": false, "nullable": false },
                 "numGrupoRamas": { "type": "number",	"editable": false, "nullable": false },
                 "nombreGrupoRamas": { "type": "string",	"editable": false, "nullable": false },
-                "bandera": { "type": "number",	"editable": false, "nullable": false },
+                "bandera": { "type": "number",	"editable": true, "nullable": false, "validation": { "format":"n", "decimals": 0, "min": 0, "max": 1} },
             }
         },
         "columnas": [
@@ -441,13 +445,15 @@ module.exports = [
     {
         "nombre":"CARGAS_DERS.csv",
         "editable": true,
+        "unidades": true,
+        "tagUnidad": "Carga",
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "modelo": {
             "id": "CARGAS_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "nombreCp": { "type": "string", "editable": false, "nullable": false },
+                "nombre": { "type": "string", "editable": false, "nullable": false },
                 "propiedad": { "type": "string", "editable": false, "nullable": false },
                 "tipo": { "type": "string",	"editable": false, "nullable": false },
                 "numeroNodoAsoc": { "type": "number",	"editable": false, "nullable": false },
@@ -457,7 +463,7 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "nombreCp", "title": "Nombre Carga", "sortable": true, "filterable": true, "width": "12vw"},
+            { "field": "nombre", "title": "Nombre Carga", "sortable": true, "filterable": true, "width": "12vw"},
 			{ "field": "propiedad", "title": "Propiedad", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "tipo", "title": "Tipo", "sortable": true, "filterable": true, "width": "8vw"},
             { "field": "numeroNodoAsoc", "title": "Número Nodo Asociado", "sortable": true, "filterable": true, "width": "12vw"},
@@ -471,6 +477,7 @@ module.exports = [
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
+        "origen_unidades":"CARGAS_DERS.csv",
         "modelo": {
             "id": "NODOSCAR_DERS",
             "fields": {
@@ -503,6 +510,7 @@ module.exports = [
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
+        "origen_unidades":"CARGAS_DERS.csv",
         "modelo": {
             "id": "PRODEM_DERS",
             "fields": {
@@ -536,6 +544,7 @@ module.exports = [
         "nombre":"UNITRC_DERS.csv",
         "editable": false,
         "unidades": true,
+        "tagUnidad": "Unidad",
         "archivoResultados": true,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": false,
@@ -543,7 +552,7 @@ module.exports = [
             "id": "UNITRC_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "nombreUnidad": { "type": "string", "editable": false, "nullable": false },
+                "nombre": { "type": "string", "editable": false, "nullable": false },
                 "tipoUnidad": { "type": "string", "editable": false, "nullable": false },
                 "propiedad": { "type": "string", "editable": false, "nullable": false },
                 "participante": { "type": "string", "editable": false, "nullable": false },
@@ -557,7 +566,7 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "nombreUnidad", "title": "Nombre Unidad", "sortable": true, "filterable": true, "width": "10vw" },
+            { "field": "nombre", "title": "Nombre Unidad", "sortable": true, "filterable": true, "width": "10vw" },
 			{ "field": "tipoUnidad", "title": "Tipo Unidad", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "propiedad", "title": "Propiedad", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "participante", "title": "Participante", "sortable": true, "filterable": true, "width": "11vw"},
@@ -586,11 +595,12 @@ module.exports = [
             "id": "ARRARC_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false },
-                "potSinc": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24} },
-                "potSincRNR10M": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24}},
-                "potSincRNRS": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24} },
-                "rampaSubida": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24} },
-                "numPeriodos": { "type": "number", "editable": false, "nullable": false }
+                "potSinc": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24} },
+                "potSincRNR10M": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24}},
+                "potSincRNRS": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24} },
+                "rampaSubida": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24} },
+                "numPeriodos": { "type": "number", "editable": false, "nullable": false },
+                "costoArranque": { "type": "number", "editable": false, "nullable": false }
             }
         },
         "columnas": [
@@ -599,7 +609,8 @@ module.exports = [
 			{ "field": "potSincRNR10M", "title": "Pot. Sincro. RNR 10 Min", "sortable": true, "filterable": true, "width": "15vw"},
             { "field": "potSincRNRS", "title": "Pot. Sincro. RNRS", "sortable": true, "filterable": true, "width": "15vw"},
             { "field": "rampaSubida", "title": "Rampa Subida", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "numPeriodos", "title": "Periodos", "sortable": true, "filterable": true, "width": "10vw"}
+            { "field": "numPeriodos", "title": "Periodos", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "costoArranque", "title": "Costo Arranque", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"}
 		]
     },
     {
@@ -937,66 +948,66 @@ module.exports = [
             "id": "GPORC_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "unidadGpo01": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo02": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo03": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo04": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo05": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo06": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo07": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo08": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo09": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo10": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo11": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo12": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo13": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo14": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo15": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo16": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo17": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo18": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo19": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo20": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo21": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo22": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo23": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo24": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo25": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo26": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo27": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo28": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo29": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo30": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo31": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo32": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo33": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo34": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo35": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo36": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo37": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo38": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo39": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo40": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo41": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo42": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo43": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo44": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo45": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo46": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo47": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo48": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo49": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo50": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo51": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo52": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo53": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo54": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo55": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo56": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo57": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo58": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo59": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo60": { "type": "number", "editable": true, "nullable": false }
+                "unidadGpo01": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo02": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo03": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo04": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo05": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo06": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo07": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo08": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo09": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo10": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo11": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo12": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo13": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo14": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo15": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo16": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo17": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo18": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo19": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo20": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo21": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo22": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo23": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo24": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo25": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo26": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo27": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo28": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo29": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo30": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo31": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo32": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo33": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo34": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo35": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo36": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo37": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo38": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo39": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo40": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo41": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo42": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo43": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo44": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo45": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo46": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo47": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo48": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo49": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo50": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo51": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo52": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo53": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo54": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo55": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo56": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo57": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo58": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo59": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo60": { "type": "number", "editable": false, "nullable": false }
             }
         },
         "columnas": [
@@ -1115,16 +1126,16 @@ module.exports = [
             "id": "ZONASRESURC_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "unidadZona01": { "type": "number", "editable": true, "nullable": false },
-                "unidadZona02": { "type": "number", "editable": true, "nullable": false },
-                "unidadZona03": { "type": "number", "editable": true, "nullable": false },
-                "unidadZona04": { "type": "number", "editable": true, "nullable": false },
-                "unidadZona05": { "type": "number", "editable": true, "nullable": false },
-                "unidadZona06": { "type": "number", "editable": true, "nullable": false },
-                "unidadZona07": { "type": "number", "editable": true, "nullable": false },
-                "unidadZona08": { "type": "number", "editable": true, "nullable": false },
-                "unidadZona09": { "type": "number", "editable": true, "nullable": false },
-                "unidadZona10": { "type": "number", "editable": true, "nullable": false }
+                "unidadZona01": { "type": "number", "editable": false, "nullable": false },
+                "unidadZona02": { "type": "number", "editable": false, "nullable": false },
+                "unidadZona03": { "type": "number", "editable": false, "nullable": false },
+                "unidadZona04": { "type": "number", "editable": false, "nullable": false },
+                "unidadZona05": { "type": "number", "editable": false, "nullable": false },
+                "unidadZona06": { "type": "number", "editable": false, "nullable": false },
+                "unidadZona07": { "type": "number", "editable": false, "nullable": false },
+                "unidadZona08": { "type": "number", "editable": false, "nullable": false },
+                "unidadZona09": { "type": "number", "editable": false, "nullable": false },
+                "unidadZona10": { "type": "number", "editable": false, "nullable": false }
             }
         },
         "columnas": [
@@ -1152,14 +1163,14 @@ module.exports = [
             "id": "POTRESRO10RC_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potResRodP1": { "type": "number", "editable": true, "nullable": false },
-                "potResRodP2": { "type": "number", "editable": true, "nullable": false },
-                "potResRodP3": { "type": "number", "editable": true, "nullable": false },
-                "potResRodP4": { "type": "number", "editable": true, "nullable": false },
-                "potResRodP5": { "type": "number", "editable": true, "nullable": false },
-                "potResRodP6": { "type": "number", "editable": true, "nullable": false },
-                "potResRodP7": { "type": "number", "editable": true, "nullable": false },
-                "potResRodP8": { "type": "number", "editable": true, "nullable": false }
+                "potResRodP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000}},
+                "potResRodP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -1185,14 +1196,14 @@ module.exports = [
             "id": "PRERESRO10RC_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "preResRodP1": { "type": "number", "editable": true, "nullable": false },
-                "preResRodP2": { "type": "number", "editable": true, "nullable": false },
-                "preResRodP3": { "type": "number", "editable": true, "nullable": false },
-                "preResRodP4": { "type": "number", "editable": true, "nullable": false },
-                "preResRodP5": { "type": "number", "editable": true, "nullable": false },
-                "preResRodP6": { "type": "number", "editable": true, "nullable": false },
-                "preResRodP7": { "type": "number", "editable": true, "nullable": false },
-                "preResRodP8": { "type": "number", "editable": true, "nullable": false }
+                "preResRodP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -1218,14 +1229,14 @@ module.exports = [
             "id": "POTRESNR10RC_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potResNRodP1": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodP2": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodP3": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodP4": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodP5": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodP6": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodP7": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodP8": { "type": "number", "editable": true, "nullable": false }
+                "potResNRodP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -1251,14 +1262,14 @@ module.exports = [
             "id": "PRERESNR10RC_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "preResNRodP1": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodP2": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodP3": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodP4": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodP5": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodP6": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodP7": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodP8": { "type": "number", "editable": true, "nullable": false }
+                "preResNRodP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -1284,14 +1295,14 @@ module.exports = [
             "id": "POTRESROSURC_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potResRodSupP1": { "type": "number", "editable": true, "nullable": false },
-                "potResRodSupP2": { "type": "number", "editable": true, "nullable": false },
-                "potResRodSupP3": { "type": "number", "editable": true, "nullable": false },
-                "potResRodSupP4": { "type": "number", "editable": true, "nullable": false },
-                "potResRodSupP5": { "type": "number", "editable": true, "nullable": false },
-                "potResRodSupP6": { "type": "number", "editable": true, "nullable": false },
-                "potResRodSupP7": { "type": "number", "editable": true, "nullable": false },
-                "potResRodSupP8": { "type": "number", "editable": true, "nullable": false }
+                "potResRodSupP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -1317,14 +1328,14 @@ module.exports = [
             "id": "PRERESROSURC_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "preResRodSupP1": { "type": "number", "editable": true, "nullable": false },
-                "preResRodSupP2": { "type": "number", "editable": true, "nullable": false },
-                "preResRodSupP3": { "type": "number", "editable": true, "nullable": false },
-                "preResRodSupP4": { "type": "number", "editable": true, "nullable": false },
-                "preResRodSupP5": { "type": "number", "editable": true, "nullable": false },
-                "preResRodSupP6": { "type": "number", "editable": true, "nullable": false },
-                "preResRodSupP7": { "type": "number", "editable": true, "nullable": false },
-                "preResRodSupP8": { "type": "number", "editable": true, "nullable": false }
+                "preResRodSupP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -1350,14 +1361,14 @@ module.exports = [
             "id": "POTRESNRSURC_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potResNRodSupP1": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodSupP2": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodSupP3": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodSupP4": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodSupP5": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodSupP6": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodSupP7": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodSupP8": { "type": "number", "editable": true, "nullable": false }
+                "potResNRodSupP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -1383,14 +1394,14 @@ module.exports = [
             "id": "PRERESNRSURC_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "preResNRodSupP1": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodSupP2": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodSupP3": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodSupP4": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodSupP5": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodSupP6": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodSupP7": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodSupP8": { "type": "number", "editable": true, "nullable": false }
+                "preResNRodSupP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -1416,14 +1427,14 @@ module.exports = [
             "id": "POTRESRESERC_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potResSecP1": { "type": "number", "editable": true, "nullable": false },
-                "potResSecP2": { "type": "number", "editable": true, "nullable": false },
-                "potResSecP3": { "type": "number", "editable": true, "nullable": false },
-                "potResSecP4": { "type": "number", "editable": true, "nullable": false },
-                "potResSecP5": { "type": "number", "editable": true, "nullable": false },
-                "potResSecP6": { "type": "number", "editable": true, "nullable": false },
-                "potResSecP7": { "type": "number", "editable": true, "nullable": false },
-                "potResSecP8": { "type": "number", "editable": true, "nullable": false }
+                "potResSecP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -1449,14 +1460,14 @@ module.exports = [
             "id": "PRERESRESERC_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "preResSecP1": { "type": "number", "editable": true, "nullable": false },
-                "preResSecP2": { "type": "number", "editable": true, "nullable": false },
-                "preResSecP3": { "type": "number", "editable": true, "nullable": false },
-                "preResSecP4": { "type": "number", "editable": true, "nullable": false },
-                "preResSecP5": { "type": "number", "editable": true, "nullable": false },
-                "preResSecP6": { "type": "number", "editable": true, "nullable": false },
-                "preResSecP7": { "type": "number", "editable": true, "nullable": false },
-                "preResSecP8": { "type": "number", "editable": true, "nullable": false }
+                "preResSecP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -1502,6 +1513,7 @@ module.exports = [
         "nombre":"UNITRD_DERS.csv",
         "unidades": true,
         "editable": false,
+        "tagUnidad": "Unidad",
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": false,
@@ -1509,7 +1521,7 @@ module.exports = [
             "id": "UNITRD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "nombreUnidad": { "type": "string", "editable": false, "nullable": false },
+                "nombre": { "type": "string", "editable": false, "nullable": false },
                 "tipo": { "type": "string", "editable": false, "nullable": false },
                 "propiedad": { "type": "string", "editable": false, "nullable": false },
                 "participante": { "type": "string", "editable": false, "nullable": false },
@@ -1524,7 +1536,7 @@ module.exports = [
         },
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "nombreUnidad", "title": "Nombre Unidad", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "nombre", "title": "Nombre Unidad", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "tipo", "title": "Tipo Unidad", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "propiedad", "title": "Propiedad", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "participante", "title": "Participante", "sortable": true, "filterable": true, "width": "11vw"},
@@ -1862,66 +1874,66 @@ module.exports = [
             "id": "GPORD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "unidadGpo01": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo02": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo03": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo04": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo05": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo06": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo07": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo08": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo09": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo10": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo11": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo12": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo13": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo14": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo15": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo16": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo17": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo18": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo19": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo20": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo21": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo22": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo23": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo24": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo25": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo26": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo27": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo28": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo29": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo30": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo31": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo32": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo33": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo34": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo35": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo36": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo37": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo38": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo39": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo40": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo41": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo42": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo43": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo44": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo45": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo46": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo47": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo48": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo49": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo50": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo51": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo52": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo53": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo54": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo55": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo56": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo57": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo58": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo59": { "type": "number", "editable": true, "nullable": false },
-                "unidadGpo60": { "type": "number", "editable": true, "nullable": false }
+                "unidadGpo01": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo02": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo03": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo04": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo05": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo06": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo07": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo08": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo09": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo10": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo11": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo12": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo13": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo14": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo15": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo16": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo17": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo18": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo19": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo20": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo21": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo22": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo23": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo24": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo25": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo26": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo27": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo28": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo29": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo30": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo31": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo32": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo33": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo34": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo35": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo36": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo37": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo38": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo39": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo40": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo41": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo42": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo43": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo44": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo45": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo46": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo47": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo48": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo49": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo50": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo51": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo52": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo53": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo54": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo55": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo56": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo57": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo58": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo59": { "type": "number", "editable": false, "nullable": false },
+                "unidadGpo60": { "type": "number", "editable": false, "nullable": false }
             }
         },
         "columnas": [
@@ -2030,14 +2042,14 @@ module.exports = [
             "id": "POTRESRO10RD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potResRodP1": { "type": "number", "editable": true, "nullable": false },
-                "potResRodP2": { "type": "number", "editable": true, "nullable": false },
-                "potResRodP3": { "type": "number", "editable": true, "nullable": false },
-                "potResRodP4": { "type": "number", "editable": true, "nullable": false },
-                "potResRodP5": { "type": "number", "editable": true, "nullable": false },
-                "potResRodP6": { "type": "number", "editable": true, "nullable": false },
-                "potResRodP7": { "type": "number", "editable": true, "nullable": false },
-                "potResRodP8": { "type": "number", "editable": true, "nullable": false }
+                "potResRodP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2063,14 +2075,14 @@ module.exports = [
             "id": "PRERESRO10RD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "preResRodP1": { "type": "number", "editable": true, "nullable": false },
-                "preResRodP2": { "type": "number", "editable": true, "nullable": false },
-                "preResRodP3": { "type": "number", "editable": true, "nullable": false },
-                "preResRodP4": { "type": "number", "editable": true, "nullable": false },
-                "preResRodP5": { "type": "number", "editable": true, "nullable": false },
-                "preResRodP6": { "type": "number", "editable": true, "nullable": false },
-                "preResRodP7": { "type": "number", "editable": true, "nullable": false },
-                "preResRodP8": { "type": "number", "editable": true, "nullable": false }
+                "preResRodP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2096,14 +2108,14 @@ module.exports = [
             "id": "POTRESNR10RD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potResNRodP1": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodP2": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodP3": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodP4": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodP5": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodP6": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodP7": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodP8": { "type": "number", "editable": true, "nullable": false }
+                "potResNRodP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2129,14 +2141,14 @@ module.exports = [
             "id": "PRERESNR10RD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "preResNRodP1": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodP2": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodP3": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodP4": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodP5": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodP6": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodP7": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodP8": { "type": "number", "editable": true, "nullable": false }
+                "preResNRodP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2162,14 +2174,14 @@ module.exports = [
             "id": "POTRESROSURD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potResRodSupP1": { "type": "number", "editable": true, "nullable": false },
-                "potResRodSupP2": { "type": "number", "editable": true, "nullable": false },
-                "potResRodSupP3": { "type": "number", "editable": true, "nullable": false },
-                "potResRodSupP4": { "type": "number", "editable": true, "nullable": false },
-                "potResRodSupP5": { "type": "number", "editable": true, "nullable": false },
-                "potResRodSupP6": { "type": "number", "editable": true, "nullable": false },
-                "potResRodSupP7": { "type": "number", "editable": true, "nullable": false },
-                "potResRodSupP8": { "type": "number", "editable": true, "nullable": false }
+                "potResRodSupP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2195,14 +2207,14 @@ module.exports = [
             "id": "PRERESROSURD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "preResRodSupP1": { "type": "number", "editable": true, "nullable": false },
-                "preResRodSupP2": { "type": "number", "editable": true, "nullable": false },
-                "preResRodSupP3": { "type": "number", "editable": true, "nullable": false },
-                "preResRodSupP4": { "type": "number", "editable": true, "nullable": false },
-                "preResRodSupP5": { "type": "number", "editable": true, "nullable": false },
-                "preResRodSupP6": { "type": "number", "editable": true, "nullable": false },
-                "preResRodSupP7": { "type": "number", "editable": true, "nullable": false },
-                "preResRodSupP8": { "type": "number", "editable": true, "nullable": false }
+                "preResRodSupP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2228,14 +2240,14 @@ module.exports = [
             "id": "POTRESNRSURD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potResNRodSupP1": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodSupP2": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodSupP3": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodSupP4": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodSupP5": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodSupP6": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodSupP7": { "type": "number", "editable": true, "nullable": false },
-                "potResNRodSupP8": { "type": "number", "editable": true, "nullable": false }
+                "potResNRodSupP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2261,14 +2273,14 @@ module.exports = [
             "id": "PRERESNRSURD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "preResNRodSupP1": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodSupP2": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodSupP3": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodSupP4": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodSupP5": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodSupP6": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodSupP7": { "type": "number", "editable": true, "nullable": false },
-                "preResNRodSupP8": { "type": "number", "editable": true, "nullable": false }
+                "preResNRodSupP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2294,14 +2306,14 @@ module.exports = [
             "id": "POTRESRESERD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potResSecP1": { "type": "number", "editable": true, "nullable": false },
-                "potResSecP2": { "type": "number", "editable": true, "nullable": false },
-                "potResSecP3": { "type": "number", "editable": true, "nullable": false },
-                "potResSecP4": { "type": "number", "editable": true, "nullable": false },
-                "potResSecP5": { "type": "number", "editable": true, "nullable": false },
-                "potResSecP6": { "type": "number", "editable": true, "nullable": false },
-                "potResSecP7": { "type": "number", "editable": true, "nullable": false },
-                "potResSecP8": { "type": "number", "editable": true, "nullable": false }
+                "potResSecP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2327,14 +2339,14 @@ module.exports = [
             "id": "PRERESRESERD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "preResSecP1": { "type": "number", "editable": true, "nullable": false },
-                "preResSecP2": { "type": "number", "editable": true, "nullable": false },
-                "preResSecP3": { "type": "number", "editable": true, "nullable": false },
-                "preResSecP4": { "type": "number", "editable": true, "nullable": false },
-                "preResSecP5": { "type": "number", "editable": true, "nullable": false },
-                "preResSecP6": { "type": "number", "editable": true, "nullable": false },
-                "preResSecP7": { "type": "number", "editable": true, "nullable": false },
-                "preResSecP8": { "type": "number", "editable": true, "nullable": false }
+                "preResSecP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2711,6 +2723,7 @@ module.exports = [
     {
         "nombre":"UNIHDERS.csv",
         "unidades": true,
+        "tagUnidad": "Unidad",
         "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
@@ -2719,17 +2732,17 @@ module.exports = [
             "id": "UNIHDERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "nombreUnidad": { "type": "string", "editable": true, "nullable": false },
-                "tipo": { "type": "string", "editable": true, "nullable": false },
-                "modelo": { "type": "string", "editable": true, "nullable": false },
-                "propiedad": { "type": "string", "editable": true, "nullable": false },
-                "dueno": { "type": "string", "editable": true, "nullable": false },
-                "nodoAsociado": { "type": "string", "editable": true, "nullable": false }
+                "nombre": { "type": "string", "editable": false, "nullable": false },
+                "tipo": { "type": "string", "editable": false, "nullable": false },
+                "modelo": { "type": "string", "editable": false, "nullable": false },
+                "propiedad": { "type": "string", "editable": false, "nullable": false },
+                "dueno": { "type": "string", "editable": false, "nullable": false },
+                "nodoAsociado": { "type": "string", "editable": false, "nullable": false }
             }
         },
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "nombreUnidad", "title": "Nombre Unidad", "sortable": true, "filterable": true},
+            { "field": "nombre", "title": "Nombre Unidad", "sortable": true, "filterable": true},
             { "field": "tipo", "title": "Tipo Unidad", "sortable": true, "filterable": true},
             { "field": "modelo", "title": "Modelo", "sortable": true, "filterable": true},
             { "field": "propiedad", "title": "Propiedad", "sortable": true, "filterable": true},
@@ -2785,14 +2798,14 @@ module.exports = [
         },
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "costoOpP1", "title": "Costo Operación P1", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "costoOpP2", "title": "Costo Operación P2", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "costoOpP3", "title": "Costo Operación P3", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "costoOpP4", "title": "Costo Operación P4", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "costoOpP5", "title": "Costo Operación P5", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "costoOpP6", "title": "Costo Operación P6", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "costoOpP7", "title": "Costo Operación P7", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "costoOpP8", "title": "Costo Operación P8", "sortable": true, "filterable": true, "width": "12vw"}
+            { "field": "costoOpP1", "title": "Costo Operación P1", "sortable": true, "filterable": true, "width": "12vw", "periodo": 1},
+            { "field": "costoOpP2", "title": "Costo Operación P2", "sortable": true, "filterable": true, "width": "12vw", "periodo": 2},
+            { "field": "costoOpP3", "title": "Costo Operación P3", "sortable": true, "filterable": true, "width": "12vw", "periodo": 3},
+            { "field": "costoOpP4", "title": "Costo Operación P4", "sortable": true, "filterable": true, "width": "12vw", "periodo": 4},
+            { "field": "costoOpP5", "title": "Costo Operación P5", "sortable": true, "filterable": true, "width": "12vw", "periodo": 5},
+            { "field": "costoOpP6", "title": "Costo Operación P6", "sortable": true, "filterable": true, "width": "12vw", "periodo": 6},
+            { "field": "costoOpP7", "title": "Costo Operación P7", "sortable": true, "filterable": true, "width": "12vw", "periodo": 7},
+            { "field": "costoOpP8", "title": "Costo Operación P8", "sortable": true, "filterable": true, "width": "12vw", "periodo": 8}
         ]
     },
     {
@@ -2818,14 +2831,14 @@ module.exports = [
         },
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "limInfP1", "title": "Límite Inferior P1", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "limInfP2", "title": "Límite Inferior P2", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "limInfP3", "title": "Límite Inferior P3", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "limInfP4", "title": "Límite Inferior P4", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "limInfP5", "title": "Límite Inferior P5", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "limInfP6", "title": "Límite Inferior P6", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "limInfP7", "title": "Límite Inferior P7", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "limInfP8", "title": "Límite Inferior P8", "sortable": true, "filterable": true, "width": "12vw"}
+            { "field": "limInfP1", "title": "Límite Inferior P1", "sortable": true, "filterable": true, "width": "12vw", "periodo": 1},
+            { "field": "limInfP2", "title": "Límite Inferior P2", "sortable": true, "filterable": true, "width": "12vw", "periodo": 2},
+            { "field": "limInfP3", "title": "Límite Inferior P3", "sortable": true, "filterable": true, "width": "12vw", "periodo": 3},
+            { "field": "limInfP4", "title": "Límite Inferior P4", "sortable": true, "filterable": true, "width": "12vw", "periodo": 4},
+            { "field": "limInfP5", "title": "Límite Inferior P5", "sortable": true, "filterable": true, "width": "12vw", "periodo": 5},
+            { "field": "limInfP6", "title": "Límite Inferior P6", "sortable": true, "filterable": true, "width": "12vw", "periodo": 6},
+            { "field": "limInfP7", "title": "Límite Inferior P7", "sortable": true, "filterable": true, "width": "12vw", "periodo": 7},
+            { "field": "limInfP8", "title": "Límite Inferior P8", "sortable": true, "filterable": true, "width": "12vw", "periodo": 8}
         ]
     },
     {
@@ -2851,14 +2864,14 @@ module.exports = [
         },
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "limSupP1", "title": "Límite Superior P1", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "limSupP2", "title": "Límite Superior P2", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "limSupP3", "title": "Límite Superior P3", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "limSupP4", "title": "Límite Superior P4", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "limSupP5", "title": "Límite Superior P5", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "limSupP6", "title": "Límite Superior P6", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "limSupP7", "title": "Límite Superior P7", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "limSupP8", "title": "Límite Superior P8", "sortable": true, "filterable": true, "width": "12vw"}
+            { "field": "limSupP1", "title": "Límite Superior P1", "sortable": true, "filterable": true, "width": "12vw", "periodo": 1},
+            { "field": "limSupP2", "title": "Límite Superior P2", "sortable": true, "filterable": true, "width": "12vw", "periodo": 2},
+            { "field": "limSupP3", "title": "Límite Superior P3", "sortable": true, "filterable": true, "width": "12vw", "periodo": 3},
+            { "field": "limSupP4", "title": "Límite Superior P4", "sortable": true, "filterable": true, "width": "12vw", "periodo": 4},
+            { "field": "limSupP5", "title": "Límite Superior P5", "sortable": true, "filterable": true, "width": "12vw", "periodo": 5},
+            { "field": "limSupP6", "title": "Límite Superior P6", "sortable": true, "filterable": true, "width": "12vw", "periodo": 6},
+            { "field": "limSupP7", "title": "Límite Superior P7", "sortable": true, "filterable": true, "width": "12vw", "periodo": 7},
+            { "field": "limSupP8", "title": "Límite Superior P8", "sortable": true, "filterable": true, "width": "12vw", "periodo": 8}
         ]
     },
     {
@@ -2884,14 +2897,14 @@ module.exports = [
         },
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "disponibilidadP1", "title": "Disponibilidad P1", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "disponibilidadP2", "title": "Disponibilidad P2", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "disponibilidadP3", "title": "Disponibilidad P3", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "disponibilidadP4", "title": "Disponibilidad P4", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "disponibilidadP5", "title": "Disponibilidad P5", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "disponibilidadP6", "title": "Disponibilidad P6", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "disponibilidadP7", "title": "Disponibilidad P7", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "disponibilidadP8", "title": "Disponibilidad P8", "sortable": true, "filterable": true, "width": "12vw"}
+            { "field": "disponibilidadP1", "title": "Disponibilidad P1", "sortable": true, "filterable": true, "width": "12vw", "periodo": 1},
+            { "field": "disponibilidadP2", "title": "Disponibilidad P2", "sortable": true, "filterable": true, "width": "12vw", "periodo": 2},
+            { "field": "disponibilidadP3", "title": "Disponibilidad P3", "sortable": true, "filterable": true, "width": "12vw", "periodo": 3},
+            { "field": "disponibilidadP4", "title": "Disponibilidad P4", "sortable": true, "filterable": true, "width": "12vw", "periodo": 4},
+            { "field": "disponibilidadP5", "title": "Disponibilidad P5", "sortable": true, "filterable": true, "width": "12vw", "periodo": 5},
+            { "field": "disponibilidadP6", "title": "Disponibilidad P6", "sortable": true, "filterable": true, "width": "12vw", "periodo": 6},
+            { "field": "disponibilidadP7", "title": "Disponibilidad P7", "sortable": true, "filterable": true, "width": "12vw", "periodo": 7},
+            { "field": "disponibilidadP8", "title": "Disponibilidad P8", "sortable": true, "filterable": true, "width": "12vw", "periodo": 8}
         ]
     },
     {
@@ -2917,14 +2930,14 @@ module.exports = [
         },
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "asignabilidadP1", "title": "Asignabilidad P1", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "asignabilidadP2", "title": "Asignabilidad P2", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "asignabilidadP3", "title": "Asignabilidad P3", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "asignabilidadP4", "title": "Asignabilidad P4", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "asignabilidadP5", "title": "Asignabilidad P5", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "asignabilidadP6", "title": "Asignabilidad P6", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "asignabilidadP7", "title": "Asignabilidad P7", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "asignabilidadP8", "title": "Asignabilidad P8", "sortable": true, "filterable": true, "width": "12vw"}
+            { "field": "asignabilidadP1", "title": "Asignabilidad P1", "sortable": true, "filterable": true, "width": "12vw", "periodo": 1},
+            { "field": "asignabilidadP2", "title": "Asignabilidad P2", "sortable": true, "filterable": true, "width": "12vw", "periodo": 2},
+            { "field": "asignabilidadP3", "title": "Asignabilidad P3", "sortable": true, "filterable": true, "width": "12vw", "periodo": 3},
+            { "field": "asignabilidadP4", "title": "Asignabilidad P4", "sortable": true, "filterable": true, "width": "12vw", "periodo": 4},
+            { "field": "asignabilidadP5", "title": "Asignabilidad P5", "sortable": true, "filterable": true, "width": "12vw", "periodo": 5},
+            { "field": "asignabilidadP6", "title": "Asignabilidad P6", "sortable": true, "filterable": true, "width": "12vw", "periodo": 6},
+            { "field": "asignabilidadP7", "title": "Asignabilidad P7", "sortable": true, "filterable": true, "width": "12vw", "periodo": 7},
+            { "field": "asignabilidadP8", "title": "Asignabilidad P8", "sortable": true, "filterable": true, "width": "12vw", "periodo": 8}
         ]
     },
     {
@@ -2950,14 +2963,14 @@ module.exports = [
         },
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "coordinabilidadP1", "title": "Coordinabilidad P1", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "coordinabilidadP2", "title": "Coordinabilidad P2", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "coordinabilidadP3", "title": "Coordinabilidad P3", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "coordinabilidadP4", "title": "Coordinabilidad P4", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "coordinabilidadP5", "title": "Coordinabilidad P5", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "coordinabilidadP6", "title": "Coordinabilidad P6", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "coordinabilidadP7", "title": "Coordinabilidad P7", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "coordinabilidadP8", "title": "Coordinabilidad P8", "sortable": true, "filterable": true, "width": "12vw"}
+            { "field": "coordinabilidadP1", "title": "Coordinabilidad P1", "sortable": true, "filterable": true, "width": "12vw", "periodo": 1},
+            { "field": "coordinabilidadP2", "title": "Coordinabilidad P2", "sortable": true, "filterable": true, "width": "12vw", "periodo": 2},
+            { "field": "coordinabilidadP3", "title": "Coordinabilidad P3", "sortable": true, "filterable": true, "width": "12vw", "periodo": 3},
+            { "field": "coordinabilidadP4", "title": "Coordinabilidad P4", "sortable": true, "filterable": true, "width": "12vw", "periodo": 4},
+            { "field": "coordinabilidadP5", "title": "Coordinabilidad P5", "sortable": true, "filterable": true, "width": "12vw", "periodo": 5},
+            { "field": "coordinabilidadP6", "title": "Coordinabilidad P6", "sortable": true, "filterable": true, "width": "12vw", "periodo": 6},
+            { "field": "coordinabilidadP7", "title": "Coordinabilidad P7", "sortable": true, "filterable": true, "width": "12vw", "periodo": 7},
+            { "field": "coordinabilidadP8", "title": "Coordinabilidad P8", "sortable": true, "filterable": true, "width": "12vw", "periodo": 8}
         ]
     },
     {
@@ -2983,14 +2996,14 @@ module.exports = [
         },
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "nodoUnidadP1", "title": "Nodo Unidad P1", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "nodoUnidadP2", "title": "Nodo Unidad P2", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "nodoUnidadP3", "title": "Nodo Unidad P3", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "nodoUnidadP4", "title": "Nodo Unidad P4", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "nodoUnidadP5", "title": "Nodo Unidad P5", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "nodoUnidadP6", "title": "Nodo Unidad P6", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "nodoUnidadP7", "title": "Nodo Unidad P7", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "nodoUnidadP8", "title": "Nodo Unidad P8", "sortable": true, "filterable": true, "width": "12vw"}
+            { "field": "nodoUnidadP1", "title": "Nodo Unidad P1", "sortable": true, "filterable": true, "width": "12vw", "periodo": 1},
+            { "field": "nodoUnidadP2", "title": "Nodo Unidad P2", "sortable": true, "filterable": true, "width": "12vw", "periodo": 2},
+            { "field": "nodoUnidadP3", "title": "Nodo Unidad P3", "sortable": true, "filterable": true, "width": "12vw", "periodo": 3},
+            { "field": "nodoUnidadP4", "title": "Nodo Unidad P4", "sortable": true, "filterable": true, "width": "12vw", "periodo": 4},
+            { "field": "nodoUnidadP5", "title": "Nodo Unidad P5", "sortable": true, "filterable": true, "width": "12vw", "periodo": 5},
+            { "field": "nodoUnidadP6", "title": "Nodo Unidad P6", "sortable": true, "filterable": true, "width": "12vw", "periodo": 6},
+            { "field": "nodoUnidadP7", "title": "Nodo Unidad P7", "sortable": true, "filterable": true, "width": "12vw", "periodo": 7},
+            { "field": "nodoUnidadP8", "title": "Nodo Unidad P8", "sortable": true, "filterable": true, "width": "12vw", "periodo": 8}
         ]
     },
     {
@@ -3016,14 +3029,14 @@ module.exports = [
         },
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "banderaCompSincP1", "title": "Bandera Compensador Sinc P1", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "banderaCompSincP2", "title": "Bandera Compensador Sinc P2", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "banderaCompSincP3", "title": "Bandera Compensador Sinc P3", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "banderaCompSincP4", "title": "Bandera Compensador Sinc P4", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "banderaCompSincP5", "title": "Bandera Compensador Sinc P5", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "banderaCompSincP6", "title": "Bandera Compensador Sinc P6", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "banderaCompSincP7", "title": "Bandera Compensador Sinc P7", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "banderaCompSincP8", "title": "Bandera Compensador Sinc P8", "sortable": true, "filterable": true, "width": "15vw"}
+            { "field": "banderaCompSincP1", "title": "Bandera Compensador Sinc P1", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
+            { "field": "banderaCompSincP2", "title": "Bandera Compensador Sinc P2", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
+            { "field": "banderaCompSincP3", "title": "Bandera Compensador Sinc P3", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
+            { "field": "banderaCompSincP4", "title": "Bandera Compensador Sinc P4", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
+            { "field": "banderaCompSincP5", "title": "Bandera Compensador Sinc P5", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
+            { "field": "banderaCompSincP6", "title": "Bandera Compensador Sinc P6", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
+            { "field": "banderaCompSincP7", "title": "Bandera Compensador Sinc P7", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
+            { "field": "banderaCompSincP8", "title": "Bandera Compensador Sinc P8", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
         ]
     },
     {
@@ -3052,14 +3065,14 @@ module.exports = [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "rampaEmergencia", "title": "Rampa Emergencia", "sortable": true, "filterable": true, "width": "12vw"},
             { "field": "rampaRegulacion", "title": "Rampa Regulación", "sortable": true, "filterable": true, "width": "12vw"},
-            { "field": "limMinZonaProhibida1", "title": "Límite Min. Zona Prohibida 01", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "limMaxZonaProhibida1", "title": "Límite Max. Zona Prohibida 01", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "limMinZonaProhibida2", "title": "Límite Min. Zona Prohibida 02", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "limMaxZonaProhibida2", "title": "Límite Max. Zona Prohibida 02", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "limMinZonaProhibida3", "title": "Límite Min. Zona Prohibida 03", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "limMaxZonaProhibida3", "title": "Límite Max. Zona Prohibida 03", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "limMinZonaProhibida4", "title": "Límite Min. Zona Prohibida 04", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "limMaxZonaProhibida4", "title": "Límite Max. Zona Prohibida 04", "sortable": true, "filterable": true, "width": "15vw"}
+            { "field": "limMinZonaProhibida1", "title": "Límite Min. Zona Prohibida 01", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
+            { "field": "limMaxZonaProhibida1", "title": "Límite Max. Zona Prohibida 01", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
+            { "field": "limMinZonaProhibida2", "title": "Límite Min. Zona Prohibida 02", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
+            { "field": "limMaxZonaProhibida2", "title": "Límite Max. Zona Prohibida 02", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
+            { "field": "limMinZonaProhibida3", "title": "Límite Min. Zona Prohibida 03", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
+            { "field": "limMaxZonaProhibida3", "title": "Límite Max. Zona Prohibida 03", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
+            { "field": "limMinZonaProhibida4", "title": "Límite Min. Zona Prohibida 04", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
+            { "field": "limMaxZonaProhibida4", "title": "Límite Max. Zona Prohibida 04", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
         ]
     },
     {
@@ -3433,11 +3446,10 @@ module.exports = [
     },
 
     // RENOVABLES
-
-
     {
         "nombre":"UNITRE_DERS.csv",
         "unidades": true,
+        "tagUnidad": "Unidad",
         "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
@@ -3446,16 +3458,16 @@ module.exports = [
             "id": "UNITRE_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "nombreUnidad": { "type": "string", "editable": true, "nullable": false },
-                "tipo": { "type": "string", "editable": true, "nullable": false },
-                "propiedad": { "type": "string", "editable": true, "nullable": false },
-                "propietario": { "type": "string", "editable": true, "nullable": false },
-                "numNodos": { "type": "number", "editable": true, "nullable": false }
+                "nombre": { "type": "string", "editable": false, "nullable": false },
+                "tipo": { "type": "string", "editable": false, "nullable": false },
+                "propiedad": { "type": "string", "editable": false, "nullable": false },
+                "propietario": { "type": "string", "editable": false, "nullable": false },
+                "numNodos": { "type": "number", "editable": false, "nullable": false }
             }
         },
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "nombreUnidad", "title": "Nombre Unidad", "sortable": true, "filterable": true},
+            { "field": "nombre", "title": "Nombre Unidad", "sortable": true, "filterable": true},
             { "field": "tipo", "title": "Tipo Unidad", "sortable": true, "filterable": true},
             { "field": "propiedad", "title": "Propiedad", "sortable": true, "filterable": true},
             { "field": "propietario", "title": "Propietario", "sortable": true, "filterable": true},
@@ -3700,6 +3712,7 @@ module.exports = [
     {
         "nombre":"PLNOPRDERS.csv",
         "unidades": true,
+        "tagUnidad": "Unidad",
         "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
@@ -3708,19 +3721,19 @@ module.exports = [
             "id": "PLNOPRDERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "nombreUnidad": { "type": "string", "editable": true, "nullable": false },
-                "tipoUnidad": { "type": "string", "editable": true, "nullable": false },
-                "propiedad": { "type": "string", "editable": true, "nullable": false },
-                "participante": { "type": "string", "editable": true, "nullable": false },
-                "numeroNodo": { "type": "number", "editable": true, "nullable": false },
-                "banderaNodoDist": { "type": "number", "editable": true, "nullable": false },
-                "indiceArchivoFDG": { "type": "number", "editable": true, "nullable": false },
-                "numComp": { "type": "number", "editable": true, "nullable": false }
+                "nombre": { "type": "string", "editable": false, "nullable": false },
+                "tipoUnidad": { "type": "string", "editable": false, "nullable": false },
+                "propiedad": { "type": "string", "editable": false, "nullable": false },
+                "participante": { "type": "string", "editable": false, "nullable": false },
+                "numeroNodo": { "type": "number", "editable": false, "nullable": false },
+                "banderaNodoDist": { "type": "number", "editable": false, "nullable": false },
+                "indiceArchivoFDG": { "type": "number", "editable": false, "nullable": false },
+                "numComp": { "type": "number", "editable": false, "nullable": false }
             }
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "nombreUnidad", "title": "Nombre Unidad", "sortable": true, "filterable": true, "width": "10vw", "periodo": 1},
+            { "field": "nombre", "title": "Nombre Unidad", "sortable": true, "filterable": true, "width": "10vw", "periodo": 1},
 			{ "field": "tipoUnidad", "title": "Tipo Unidad", "sortable": true, "filterable": true, "width": "10vw", "periodo": 2},
             { "field": "propiedad", "title": "Propiedad", "sortable": true, "filterable": true, "width": "10vw", "periodo": 3},
             { "field": "participante", "title": "Participante", "sortable": true, "filterable": true, "width": "10vw", "periodo": 4},
@@ -3805,7 +3818,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
-        "origen_zonas": "ZONASRES_DERS.csv",
+        "origen_unidades": "ZONASRES_DERS.csv",
         "modelo": {
             "id": "RRERO10Z_DERS",
             "fields": {
@@ -3839,7 +3852,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
-        "origen_zonas": "ZONASRES_DERS.csv",
+        "origen_unidades": "ZONASRES_DERS.csv",
         "modelo": {
             "id": "PRERO10Z_DERS",
             "fields": {
@@ -3873,7 +3886,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
-        "origen_zonas": "ZONASRES_DERS.csv",
+        "origen_unidades": "ZONASRES_DERS.csv",
         "modelo": {
             "id": "RRE10Z_DERS",
             "fields": {
@@ -3907,7 +3920,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
-        "origen_zonas": "ZONASRES_DERS.csv",
+        "origen_unidades": "ZONASRES_DERS.csv",
         "modelo": {
             "id": "PRE10Z_DERS",
             "fields": {
@@ -3941,7 +3954,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
-        "origen_zonas": "ZONASRES_DERS.csv",
+        "origen_unidades": "ZONASRES_DERS.csv",
         "modelo": {
             "id": "RRESUZ_DERS",
             "fields": {
@@ -3975,7 +3988,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
-        "origen_zonas": "ZONASRES_DERS.csv",
+        "origen_unidades": "ZONASRES_DERS.csv",
         "modelo": {
             "id": "PRE10Z_DERS",
             "fields": {
@@ -4009,7 +4022,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
-        "origen_zonas": "ZONASRES_DERS.csv",
+        "origen_unidades": "ZONASRES_DERS.csv",
         "modelo": {
             "id": "RRERESEZ_DERS",
             "fields": {
@@ -4043,7 +4056,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
-        "origen_zonas": "ZONASRES_DERS.csv",
+        "origen_unidades": "ZONASRES_DERS.csv",
         "modelo": {
             "id": "PRERESEZ_DERS",
             "fields": {
@@ -4079,7 +4092,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
-        "origen_subsistemas": "AUSUBSIS_DERS.csv",
+        "origen_unidades": "AUSUBSIS_DERS.csv",
         "modelo": {
             "id": "RRERO10S_DERS",
             "fields": {
@@ -4113,7 +4126,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
-        "origen_subsistemas": "AUSUBSIS_DERS.csv",
+        "origen_unidades": "AUSUBSIS_DERS.csv",
         "modelo": {
             "id": "PRERO10S_DERS",
             "fields": {
@@ -4147,7 +4160,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
-        "origen_subsistemas": "AUSUBSIS_DERS.csv",
+        "origen_unidades": "AUSUBSIS_DERS.csv",
         "modelo": {
             "id": "RRE10S_DERS",
             "fields": {
@@ -4181,7 +4194,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
-        "origen_subsistemas": "AUSUBSIS_DERS.csv",
+        "origen_unidades": "AUSUBSIS_DERS.csv",
         "modelo": {
             "id": "PRE10S_DERS",
             "fields": {
@@ -4215,7 +4228,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
-        "origen_subsistemas": "AUSUBSIS_DERS.csv",
+        "origen_unidades": "AUSUBSIS_DERS.csv",
         "modelo": {
             "id": "RRESUS_DERS",
             "fields": {
@@ -4249,7 +4262,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
-        "origen_subsistemas": "AUSUBSIS_DERS.csv",
+        "origen_unidades": "AUSUBSIS_DERS.csv",
         "modelo": {
             "id": "PRESUS_DERS",
             "fields": {
@@ -4283,7 +4296,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
-        "origen_subsistemas": "AUSUBSIS_DERS.csv",
+        "origen_unidades": "AUSUBSIS_DERS.csv",
         "modelo": {
             "id": "RRERESES_DERS",
             "fields": {
@@ -4317,7 +4330,7 @@ module.exports = [
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
         "segmentos": 3,
-        "origen_subsistemas": "AUSUBSIS_DERS.csv",
+        "origen_unidades": "AUSUBSIS_DERS.csv",
         "modelo": {
             "id": "PRERESES_DERS",
             "fields": {

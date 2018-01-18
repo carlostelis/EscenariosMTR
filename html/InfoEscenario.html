@@ -101,6 +101,20 @@
                             </div>
                             <div class="row colapsable div-tabla invisible" id="COLAPSABLE_ZONAS_CARGA"></div>
 
+                            <!-- ZONAS DE RESERVA -->
+                            <div class="row justify-content-center celda-header-info" onclick="toggleColapso(this,'COLAPSABLE_ZONASRES_DERS');" id="COLAPSO_ZONASRES_DERS">
+                                <span class="invisible"><i class="demo-icon icon-edit"></i></span>
+                                <div class="col"><span class="span-archivo">ZONASRES_DERS.csv</span>Zonas de Reserva<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="COLAPSABLE_ZONASRES_DERS"></div>
+
+                            <!-- SUBSISTEMA -->
+                            <div class="row justify-content-center celda-header-info" onclick="toggleColapso(this,'COLAPSABLE_AUSUBSIS_DERS');" id="COLAPSO_AUSUBSIS_DERS">
+                                <span class="invisible"><i class="demo-icon icon-edit"></i></span>
+                                <div class="col"><span class="span-archivo">AUSUBSIS_DERS.csv</span>Subsistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
+                            </div>
+                            <div class="row colapsable div-tabla invisible" id="COLAPSABLE_AUSUBSIS_DERS"></div>
+
                             <!-- PRECIOS TOPE Y PISOS -->
                             <div class="row justify-content-center celda-header-info" onclick="toggleColapso(this,'COLAPSABLE_PRETOPEPISO');" id="COLAPSO_PRETOPEPISO">
                                 <span class="invisible"><i class="demo-icon icon-edit"></i></span>
@@ -926,13 +940,6 @@
                     <div id="cont-req-cenace-zonas-reserva-info" class="row contenedor-info subseccion">
                         <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
 
-                            <!-- ZONAS DE RESERVA -->
-                            <div class="row justify-content-center celda-header-info" onclick="toggleColapso(this,'COLAPSABLE_ZONASRES_DERS');" id="COLAPSO_ZONASRES_DERS">
-                                <span class="invisible"><i class="demo-icon icon-edit"></i></span>
-                                <div class="col"><span class="span-archivo">ZONASRES_DERS.csv</span>Zonas de Reserva<span><i class="fa fa-caret-square-o-down"></i></span></div>
-                            </div>
-                            <div class="row colapsable div-tabla invisible" id="COLAPSABLE_ZONASRES_DERS"></div>
-
                             <!-- ZONAS DE RESERVA COPIA -->
                             <div class="row justify-content-center celda-header-info" onclick="toggleColapso(this,'COLAPSABLE_ZONASRES_DERS_COPIA');" id="COLAPSO_ZONASRES_DERS_COPIA">
                                 <span class="invisible"><i class="demo-icon icon-edit"></i></span>
@@ -1003,13 +1010,6 @@
                     <!-- CONTENEDOR REQ. CENACE SUBSISTEMA -->
                     <div id="cont-req-cenace-subsistema-info" class="row contenedor-info subseccion">
                         <div class="container-fluid div-contenedor-gral-vertical" style="overflow-y: scroll; height: 100%;">
-
-                            <!-- SUBSISTEMA -->
-                            <div class="row justify-content-center celda-header-info" onclick="toggleColapso(this,'COLAPSABLE_AUSUBSIS_DERS');" id="COLAPSO_AUSUBSIS_DERS">
-                                <span class="invisible"><i class="demo-icon icon-edit"></i></span>
-                                <div class="col"><span class="span-archivo">AUSUBSIS_DERS.csv</span>Subsistema<span><i class="fa fa-caret-square-o-down"></i></span></div>
-                            </div>
-                            <div class="row colapsable div-tabla invisible" id="COLAPSABLE_AUSUBSIS_DERS"></div>
 
                             <!-- SUBSISTEMA COPIA -->
                             <div class="row justify-content-center celda-header-info" onclick="toggleColapso(this,'COLAPSABLE_AUSUBSIS_DERS_COPIA');" id="COLAPSO_AUSUBSIS_DERS_COPIA">
