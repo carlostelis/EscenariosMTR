@@ -184,8 +184,8 @@ module.exports = [
         "modelo": {
             "id": "DERSPRMTS",
             "fields": {
-                "numFila": { "type": "number",	"editable": false, "nullable": false },
-                "banderaParam": { "type": "number",	"editable": false, "nullable": false },
+                "numFila": { "type": "number",	"editable": true, "nullable": false },
+                "banderaParam": { "type": "number",	"editable": true, "nullable": false, "validation": { "format":"n", "decimals": 0, "min": 0, "max": 100000000} },
                 "descripcion": { "type": "string", "editable": false, "nullable": false }
             }
         },
@@ -193,7 +193,28 @@ module.exports = [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false},
             { "field": "banderaParam", "title": "Bandera Parámetro", "sortable": true, "filterable": true},
 			{ "field": "descripcion", "title": "Descripción", "sortable": true, "filterable": true}
-		]
+		],
+        "registrosExcluir": [
+            "Considerar Unidades de Rango Continuo ( 1 = si, 0 = no )",
+            "Considerar Unidades de Rango Discontinuo ( 1 = si, 0 = no )",
+            "Considerar Unidades Hidro ( 1 = si, 0 = no )",
+            "Considerar Unidades Renovables ( 1 = si, 0 = no )",
+            "Considerar Ofertas de demanda ( 1 = si, 0 = no )",
+            "Considerar Ofertas de reserva ( 1 = si, 0 = no )",
+            "Considerar Ofertas de compra de reserva por zona ( 1 = si, 0 = no )",
+            "Considerar Ofertas de compra de reserva por sistema ( 1 = si, 0 = no )",
+            "Considerar Ofertas de demandas controlables ( 1 = si, 0 = no )",
+            "Considerar limitaciones de energia hidro ( 1 = si, 0 = no )",
+            "Considerar limitaciones de energia termo ( 1 = si, 0 = no )",
+            "Considerar limitaciones de transmision ( 1 = si, 0 = no )",
+            "Considerar perdidas en transmision ( 1 = si, 0 = no )",
+            "Usar Conjunto Activo para Transmision ( 1 = si, 0 = no )",
+            "Considerar cortes de carga ( 1 = si, 0 = no )",
+            "Considerar excedentes ( 1 = si, 0 = no )",
+            "Considerar artificiales transmision ( 1 = si, 0 = no )",
+            "Precio del excedente de energia",
+            "Considerar bandas prohibidas ( 1 = si, 0 = no )"
+        ]
     },
     // RED Y ENLACES
     {
@@ -323,6 +344,8 @@ module.exports = [
     {
         "nombre":"GRUPOSRAMAS_DERS.csv",
         "editable": false,
+        "unidades": true,
+        "tagUnidad": "Grupo Rama",
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "modelo": {
@@ -330,14 +353,14 @@ module.exports = [
             "fields": {
                 "numFila": { "type": "number",	"editable": false, "nullable": false },
                 "numGrupoRamas": { "type": "number", "editable": false, "nullable": false },
-                "nombreGrupoRamas": { "type": "string",	"editable": false, "nullable": false },
+                "nombre": { "type": "string",	"editable": false, "nullable": false },
                 "bandera": { "type": "number",	"editable": false, "nullable": false},
             }
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false},
             { "field": "numGrupoRamas", "title": "Número Grupo Ramas", "sortable": true, "filterable": true},
-			{ "field": "nombreGrupoRamas", "title": "Nombre Grupo Ramas", "sortable": true, "filterable": true},
+			{ "field": "nombre", "title": "Nombre Grupo Ramas", "sortable": true, "filterable": true},
             { "field": "bandera", "title": "Bandera", "sortable": true, "filterable": false},
 		]
     },
@@ -347,6 +370,7 @@ module.exports = [
         "algDep": true,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
+        "origen_unidades": "GRUPOSRAMAS_DERS.csv",
         "modelo": {
             "id": "GRUPOSRAMASLIM_DERS",
             "fields": {
@@ -1112,7 +1136,7 @@ module.exports = [
     },
     {
         "nombre":"ZONASRESURC_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": false,
@@ -1121,16 +1145,16 @@ module.exports = [
             "id": "ZONASRESURC_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "unidadZona01": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "unidadZona02": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "unidadZona03": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "unidadZona04": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "unidadZona05": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "unidadZona06": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "unidadZona07": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "unidadZona08": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "unidadZona09": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "unidadZona10": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} }
+                "unidadZona01": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "unidadZona02": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "unidadZona03": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "unidadZona04": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "unidadZona05": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "unidadZona06": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "unidadZona07": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "unidadZona08": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "unidadZona09": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "unidadZona10": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} }
             }
         },
         "columnas": [

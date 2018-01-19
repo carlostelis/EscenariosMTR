@@ -257,7 +257,7 @@ function crearTablaInfoKendo(objData, flag_copia) {
         		autoSync: true
         	};
 
-            console.log(objData.insumo.modelo.id + `${flag_copia === true ? '_COPIA' : ''}`, 'dataSourceObj',dataSourceObj);
+            console.log(objData.insumo.modelo.id + `${flag_copia === true ? '_COPIA' : ''}`, 'dataSourceObj',dataSourceObj, "excluir");
 
     		objData.dataSource = new kendo.data.DataSource(dataSourceObj);
         }
@@ -287,30 +287,56 @@ function crearTablaInfoKendo(objData, flag_copia) {
 				try {
 					let campo = objData.insumo.modelo.fields[columna.field];
 
-					// Si es numerico crea un editor para validacion
-					if (campo.type === 'number') {
-                        if (typeof campo.validation !== 'undefined') {
-                            // console.log('Aplicando editor personalizado:', campo.validation);
-                            // Aplica editor personalizado
-                            columna.editor = function (container, options) {
-                                $('<input name="' + options.field + '"/>')
-                                 .appendTo(container)
-                                 .kendoNumericTextBox(campo.validation)
-                            };
-                        } else {
-                            // console.log('Aplicando editor basico');
-                            // Aplica editor básico
-                            columna.editor = function (container, options) {
-                                $('<input name="' + options.field + '"/>')
-                                 .appendTo(container)
-                                 .kendoNumericTextBox({
-                                     decimals: 2,
-                                     format: 'n',
-                                     round: false
-                                 })
-                            };
-                        }
-					}
+                    // Si es DERSPRMTS se usa un editor específico
+                    if (objData.insumo.modelo.id === 'DERSPRMTS' && typeof objData.insumo.registrosExcluir === 'object') {
+                        console.log('>>>>>> PARAMETROS SINTONIZACION EDITOR');
+                        columna.editor = function (container, options) {
+                            // Verifica si el valor se encuentra en la lista a excluir
+                            let obj = objData.insumo.registrosExcluir.find((item) => {
+                                return item === options.model.descripcion;
+                            });
+
+                            // Si no se encontró, se edita normal
+                            if (typeof obj === 'undefined') {
+                                if (campo.type === 'number') {
+                                    $('<input name="' + options.field + '"/>')
+                                     .appendTo(container)
+                                     .kendoNumericTextBox(campo.validation)
+                                }
+                            } else {
+                                var input = kendo.toString(options.model[options.field]);
+                                $(container).text(input);
+                                $(container).toggleClass("k-edit-cell");
+
+                                alert('No se puede modificar la fila seleccionada');
+                            }
+                        };
+                    } else {
+                        // Si es numerico crea un editor para validacion
+    					if (campo.type === 'number') {
+                            if (typeof campo.validation !== 'undefined') {
+                                // console.log('Aplicando editor personalizado:', campo.validation);
+                                // Aplica editor personalizado
+                                columna.editor = function (container, options) {
+                                    $('<input name="' + options.field + '"/>')
+                                     .appendTo(container)
+                                     .kendoNumericTextBox(campo.validation)
+                                };
+                            } else {
+                                // console.log('Aplicando editor basico');
+                                // Aplica editor básico
+                                columna.editor = function (container, options) {
+                                    $('<input name="' + options.field + '"/>')
+                                     .appendTo(container)
+                                     .kendoNumericTextBox({
+                                         decimals: 2,
+                                         format: 'n',
+                                         round: false
+                                     })
+                                };
+                            }
+    					}
+                    }
 				} catch (e) {
 					console.log('ERR EDITOR', objData.insumo.modelo.id, e);
 				}
@@ -373,12 +399,12 @@ function crearTablaInfoKendo(objData, flag_copia) {
 				},
 				operators: {
 					string: {
+                        contains: "Contiene",
+                        doesnotcontains: "No contiene",
 						eq: "Igual que",
 						neq: "Diferente que",
 						startswith: "Comienza con",
 						endswith: "Termina con",
-						contains: "Contiene",
-						doesnotcontains: "No contiene",
 						isnull: "Es nula",
 						isnotnull: "No es nula",
 						isempty: "Está vacía",
@@ -439,13 +465,16 @@ function crearTablaInfoKendo(objData, flag_copia) {
 			edit: function(e) {
                 // Obtiene el indice de la celda y el uid de la fila
                 let inputCell = e.container.find("input")[0];
-                let tdPadre = inputCell.parentNode.parentNode.parentNode;
-                ultimaColumna = e.container[0].cellIndex;
-                ultimaFila = tdPadre.parentNode.dataset.uid;
+                // Si encuentra el input, se registra el cambio
+                if (inputCell) {
+                    let tdPadre = inputCell.parentNode.parentNode.parentNode;
+                    ultimaColumna = e.container[0].cellIndex;
+                    ultimaFila = tdPadre.parentNode.dataset.uid;
 
-                // los registra en la lista de modificados
-                if (!listaFilasColumnas.find((obj) => { return obj.id === objData.insumo.modelo.id && obj.fila === ultimaFila && obj.columna === ultimaColumna})) {
-                    listaFilasColumnas.push({id: objData.insumo.modelo.id + `${flag_copia === true ? '_COPIA' : ''}`, fila: ultimaFila, columna: ultimaColumna, modificado: false});
+                    // los registra en la lista de modificados
+                    if (!listaFilasColumnas.find((obj) => { return obj.id === objData.insumo.modelo.id && obj.fila === ultimaFila && obj.columna === ultimaColumna})) {
+                        listaFilasColumnas.push({id: objData.insumo.modelo.id + `${flag_copia === true ? '_COPIA' : ''}`, fila: ultimaFila, columna: ultimaColumna, modificado: false});
+                    }
                 }
 			},
             excelExport: function(e) {
