@@ -553,14 +553,31 @@ module.exports = [
             { "field": "nodoAsociado", "title": "Nodo Asociado", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "banderaNodoDist", "title": "Bandera Nodo", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "IndiceArchivoFDG", "title": "Indice FDG", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "numComp", "title": "Número Comp", "sortable": true, "filterable": true, "width": "10vw"}
+            { "field": "numComp", "title": "Número Componente", "sortable": true, "filterable": true, "width": "10vw"}
 		]
     },
     {
         "nombre":"OPPARORC_DERS.csv",
-        "editable": true,
-        "origen_unidades":"UNITRC_DERS.csv"
-        // NO EXISTE BD
+        "editable": false,
+        "archivoResultados": false,
+        "algoritmos": ["dersi", "dersmi", "autr"],
+        "algDep": false,
+        "origen_unidades":"UNITRC_DERS.csv",
+        "modelo": {
+            "id": "OPPARORC_DERS",
+            "fields": {
+                "numFila": { "type": "number", "editable": false, "nullable": false },
+                "minPeriodoParo": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 100} },
+                "minPeriodoOp": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 100} },
+                "maxParos": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 100} }
+            }
+        },
+        "columnas": [
+			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "minPeriodoParo", "title": "Mínimo Periodo en Paro", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}" },
+			{ "field": "minPeriodoOp", "title": "Mínimo Periodo en Operación", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "maxParos", "title": "Máximo Número de Paros (Planeación)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"}
+		]
     },
     {
         "nombre":"ARRARC_DERS.csv",
@@ -1529,7 +1546,7 @@ module.exports = [
     },
     {
         "nombre":"ARRARD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": false,
@@ -1538,10 +1555,10 @@ module.exports = [
             "id": "ARRARD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potSinc": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24} },
-                "potSincRNRS": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24} },
-                "potSincRNR10M": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24} },
-                "rampaSubSinc": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24} }
+                "potSinc": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24} },
+                "potSincRNRS": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24} },
+                "potSincRNR10M": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24} },
+                "rampaSubSinc": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24} }
             }
         },
         "columnas": [
@@ -1554,7 +1571,7 @@ module.exports = [
     },
     {
         "nombre":"UNITRDCI_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": false,
@@ -1563,9 +1580,9 @@ module.exports = [
             "id": "UNITRDCI_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "estado": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "numPeriodosCI": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24} },
-                "generacionCI": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
+                "estado": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "numPeriodosCI": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 24} },
+                "generacionCI": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -1577,7 +1594,7 @@ module.exports = [
     },
     {
         "nombre":"CGMRD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -1586,14 +1603,14 @@ module.exports = [
             "id": "CGMRD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "costoGenMinModP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "costoGenMinModP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "costoGenMinModP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "costoGenMinModP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "costoGenMinModP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "costoGenMinModP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "costoGenMinModP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "costoGenMinModP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
+                "costoGenMinModP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "costoGenMinModP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "costoGenMinModP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "costoGenMinModP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "costoGenMinModP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "costoGenMinModP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "costoGenMinModP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "costoGenMinModP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -1610,7 +1627,7 @@ module.exports = [
     },
     {
         "nombre":"POTVERD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -1620,14 +1637,14 @@ module.exports = [
             "id": "POTVERD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potVentaSegModP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potVentaSegModP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potVentaSegModP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potVentaSegModP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potVentaSegModP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potVentaSegModP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potVentaSegModP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potVentaSegModP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
+                "potVentaSegModP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potVentaSegModP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potVentaSegModP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potVentaSegModP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potVentaSegModP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potVentaSegModP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potVentaSegModP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potVentaSegModP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -1644,7 +1661,7 @@ module.exports = [
     },
     {
         "nombre":"PREVERD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -1654,14 +1671,14 @@ module.exports = [
             "id": "PREVERD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "preVentaSegModP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preVentaSegModP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preVentaSegModP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preVentaSegModP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preVentaSegModP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preVentaSegModP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preVentaSegModP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preVentaSegModP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
+                "preVentaSegModP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preVentaSegModP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preVentaSegModP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preVentaSegModP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preVentaSegModP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preVentaSegModP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preVentaSegModP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preVentaSegModP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -1678,7 +1695,7 @@ module.exports = [
     },
     {
         "nombre":"LIUNITRD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -1687,14 +1704,14 @@ module.exports = [
             "id": "LIUNITRD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "limInfGenP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limInfGenP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limInfGenP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limInfGenP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limInfGenP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limInfGenP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limInfGenP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limInfGenP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
+                "limInfGenP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limInfGenP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limInfGenP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limInfGenP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limInfGenP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limInfGenP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limInfGenP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limInfGenP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -1711,7 +1728,7 @@ module.exports = [
     },
     {
         "nombre":"LSUNITRD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -1720,14 +1737,14 @@ module.exports = [
             "id": "LSUNITRD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "limSupGenP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limSupGenP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limSupGenP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limSupGenP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limSupGenP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limSupGenP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limSupGenP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limSupGenP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
+                "limSupGenP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limSupGenP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limSupGenP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limSupGenP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limSupGenP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limSupGenP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limSupGenP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limSupGenP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -1744,7 +1761,7 @@ module.exports = [
     },
     {
         "nombre":"DISPORD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -1753,14 +1770,14 @@ module.exports = [
             "id": "DISPORD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "disponibilidadP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "disponibilidadP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "disponibilidadP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "disponibilidadP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "disponibilidadP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "disponibilidadP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "disponibilidadP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "disponibilidadP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} }
+                "disponibilidadP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "disponibilidadP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "disponibilidadP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "disponibilidadP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "disponibilidadP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "disponibilidadP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "disponibilidadP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "disponibilidadP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} }
             }
         },
         "columnas": [
@@ -1777,7 +1794,7 @@ module.exports = [
     },
     {
         "nombre":"ASIGNRD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -1786,14 +1803,14 @@ module.exports = [
             "id": "ASIGNRD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "asignabilidadP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "asignabilidadP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "asignabilidadP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "asignabilidadP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "asignabilidadP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "asignabilidadP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "asignabilidadP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "asignabilidadP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} }
+                "asignabilidadP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "asignabilidadP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "asignabilidadP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "asignabilidadP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "asignabilidadP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "asignabilidadP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "asignabilidadP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "asignabilidadP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} }
             }
         },
         "columnas": [
@@ -1810,7 +1827,7 @@ module.exports = [
     },
     {
         "nombre":"COORDRD.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -1819,14 +1836,14 @@ module.exports = [
             "id": "COORDRD",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "coordinabilidadP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "coordinabilidadP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "coordinabilidadP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "coordinabilidadP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "coordinabilidadP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "coordinabilidadP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "coordinabilidadP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
-                "coordinabilidadP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} }
+                "coordinabilidadP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "coordinabilidadP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "coordinabilidadP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "coordinabilidadP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "coordinabilidadP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "coordinabilidadP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "coordinabilidadP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} },
+                "coordinabilidadP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1} }
             }
         },
         "columnas": [
@@ -1915,72 +1932,72 @@ module.exports = [
             }
         },
         "columnas": [
-			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
+            { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "unidadGpo01", "title": "Grupo 01", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo02", "title": "Grupo 02", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo02", "title": "Grupo 02", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo03", "title": "Grupo 03", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo04", "title": "Grupo 04", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo05", "title": "Grupo 05", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo06", "title": "Grupo 06", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo06", "title": "Grupo 06", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo07", "title": "Grupo 07", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo08", "title": "Grupo 08", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo09", "title": "Grupo 09", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo10", "title": "Grupo 10", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo10", "title": "Grupo 10", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo11", "title": "Grupo 11", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo12", "title": "Grupo 12", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo12", "title": "Grupo 12", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo13", "title": "Grupo 13", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo14", "title": "Grupo 14", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo15", "title": "Grupo 15", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo16", "title": "Grupo 16", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo16", "title": "Grupo 16", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo17", "title": "Grupo 17", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo18", "title": "Grupo 18", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo19", "title": "Grupo 19", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo20", "title": "Grupo 20", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo20", "title": "Grupo 20", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo21", "title": "Grupo 21", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo22", "title": "Grupo 22", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo22", "title": "Grupo 22", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo23", "title": "Grupo 23", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo24", "title": "Grupo 24", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo25", "title": "Grupo 25", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo26", "title": "Grupo 26", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo26", "title": "Grupo 26", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo27", "title": "Grupo 27", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo28", "title": "Grupo 28", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo29", "title": "Grupo 29", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo30", "title": "Grupo 30", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo30", "title": "Grupo 30", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo31", "title": "Grupo 31", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo32", "title": "Grupo 32", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo32", "title": "Grupo 32", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo33", "title": "Grupo 33", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo34", "title": "Grupo 34", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo35", "title": "Grupo 35", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo36", "title": "Grupo 36", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo36", "title": "Grupo 36", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo37", "title": "Grupo 37", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo38", "title": "Grupo 38", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo39", "title": "Grupo 39", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo40", "title": "Grupo 40", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo40", "title": "Grupo 40", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo41", "title": "Grupo 41", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo42", "title": "Grupo 42", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo42", "title": "Grupo 42", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo43", "title": "Grupo 43", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo44", "title": "Grupo 44", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo45", "title": "Grupo 45", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo46", "title": "Grupo 46", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo46", "title": "Grupo 46", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo47", "title": "Grupo 47", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo48", "title": "Grupo 48", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo49", "title": "Grupo 49", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo50", "title": "Grupo 50", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo50", "title": "Grupo 50", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo51", "title": "Grupo 51", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo52", "title": "Grupo 52", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo52", "title": "Grupo 52", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo53", "title": "Grupo 53", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo54", "title": "Grupo 54", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo55", "title": "Grupo 55", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo56", "title": "Grupo 56", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "unidadGpo56", "title": "Grupo 56", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo57", "title": "Grupo 57", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo58", "title": "Grupo 58", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "unidadGpo59", "title": "Grupo 59", "sortable": true, "filterable": true, "width": "10vw"},
-			{ "field": "unidadGpo60", "title": "Grupo 60", "sortable": true, "filterable": true, "width": "10vw"}
-		]
+            { "field": "unidadGpo60", "title": "Grupo 60", "sortable": true, "filterable": true, "width": "10vw"}
+        ]
     },
     {
         "nombre":"RAMPASRD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": false,
@@ -1989,10 +2006,10 @@ module.exports = [
             "id": "RAMPASRD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "rampaSubida": { "type": "number", "editable": true, "nullable": false },
-                "rampaBajada": { "type": "number", "editable": true, "nullable": false },
-                "rampaEmergencia": { "type": "number", "editable": true, "nullable": false },
-                "rampaRegulacion": { "type": "number", "editable": true, "nullable": false }
+                "rampaSubida": { "type": "number", "editable": false, "nullable": false },
+                "rampaBajada": { "type": "number", "editable": false, "nullable": false },
+                "rampaEmergencia": { "type": "number", "editable": false, "nullable": false },
+                "rampaRegulacion": { "type": "number", "editable": false, "nullable": false }
             }
         },
         "columnas": [
@@ -2011,7 +2028,7 @@ module.exports = [
     },
     {
         "nombre":"POTRESRO10RD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -2020,14 +2037,14 @@ module.exports = [
             "id": "POTRESRO10RD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potResRodP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResRodP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResRodP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResRodP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResRodP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResRodP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResRodP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResRodP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
+                "potResRodP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2044,7 +2061,7 @@ module.exports = [
     },
     {
         "nombre":"PRERESRO10RD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -2053,14 +2070,14 @@ module.exports = [
             "id": "PRERESRO10RD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "preResRodP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResRodP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResRodP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResRodP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResRodP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResRodP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResRodP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResRodP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
+                "preResRodP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2077,7 +2094,7 @@ module.exports = [
     },
     {
         "nombre":"POTRESNR10RD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -2086,14 +2103,14 @@ module.exports = [
             "id": "POTRESNR10RD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potResNRodP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResNRodP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResNRodP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResNRodP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResNRodP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResNRodP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResNRodP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResNRodP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
+                "potResNRodP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2110,7 +2127,7 @@ module.exports = [
     },
     {
         "nombre":"PRERESNR10RD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -2119,14 +2136,14 @@ module.exports = [
             "id": "PRERESNR10RD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "preResNRodP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResNRodP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResNRodP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResNRodP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResNRodP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResNRodP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResNRodP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResNRodP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
+                "preResNRodP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2143,7 +2160,7 @@ module.exports = [
     },
     {
         "nombre":"POTRESROSURD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -2152,14 +2169,14 @@ module.exports = [
             "id": "POTRESROSURD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potResRodSupP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResRodSupP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResRodSupP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResRodSupP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResRodSupP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResRodSupP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResRodSupP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResRodSupP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
+                "potResRodSupP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResRodSupP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2176,7 +2193,7 @@ module.exports = [
     },
     {
         "nombre":"PRERESROSURD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -2185,14 +2202,14 @@ module.exports = [
             "id": "PRERESROSURD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "preResRodSupP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResRodSupP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResRodSupP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResRodSupP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResRodSupP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResRodSupP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResRodSupP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResRodSupP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
+                "preResRodSupP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResRodSupP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2209,7 +2226,7 @@ module.exports = [
     },
     {
         "nombre":"POTRESNRSURD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -2218,14 +2235,14 @@ module.exports = [
             "id": "POTRESNRSURD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potResNRodSupP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResNRodSupP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResNRodSupP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResNRodSupP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResNRodSupP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResNRodSupP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResNRodSupP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResNRodSupP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
+                "potResNRodSupP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResNRodSupP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2242,7 +2259,7 @@ module.exports = [
     },
     {
         "nombre":"PRERESNRSURD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -2251,14 +2268,14 @@ module.exports = [
             "id": "PRERESNRSURD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "preResNRodSupP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResNRodSupP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResNRodSupP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResNRodSupP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResNRodSupP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResNRodSupP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResNRodSupP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResNRodSupP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
+                "preResNRodSupP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResNRodSupP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2275,7 +2292,7 @@ module.exports = [
     },
     {
         "nombre":"POTRESRESERD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -2284,14 +2301,14 @@ module.exports = [
             "id": "POTRESRESERD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "potResSecP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResSecP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResSecP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResSecP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResSecP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResSecP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResSecP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "potResSecP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
+                "potResSecP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "potResSecP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2308,7 +2325,7 @@ module.exports = [
     },
     {
         "nombre":"PRERESRESERD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": true,
@@ -2317,14 +2334,14 @@ module.exports = [
             "id": "PRERESRESERD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "preResSecP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResSecP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResSecP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResSecP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResSecP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResSecP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResSecP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
-                "preResSecP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
+                "preResSecP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} },
+                "preResSecP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"c", "decimals": 2, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -2341,7 +2358,7 @@ module.exports = [
     },
     {
         "nombre":"COSTRANSRD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": false,
@@ -2350,17 +2367,17 @@ module.exports = [
             "id": "COSTRANSRD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "costoTransModo1": { "type": "number", "editable": true, "nullable": false },
-                "costoArranqueModo1": { "type": "number", "editable": true, "nullable": false },
-                "costoArranqueModo2": { "type": "number", "editable": true, "nullable": false },
-                "costoArranqueModo3": { "type": "number", "editable": true, "nullable": false },
-                "costoArranqueModo4": { "type": "number", "editable": true, "nullable": false },
-                "costoArranqueModo5": { "type": "number", "editable": true, "nullable": false },
-                "costoArranqueModo6": { "type": "number", "editable": true, "nullable": false },
-                "costoArranqueModo7": { "type": "number", "editable": true, "nullable": false },
-                "costoArranqueModo8": { "type": "number", "editable": true, "nullable": false },
-                "costoArranqueModo9": { "type": "number", "editable": true, "nullable": false },
-                "costoArranqueModo10": { "type": "number", "editable": true, "nullable": false }
+                "costoTransModo1": { "type": "number", "editable": false, "nullable": false },
+                "costoArranqueModo1": { "type": "number", "editable": false, "nullable": false },
+                "costoArranqueModo2": { "type": "number", "editable": false, "nullable": false },
+                "costoArranqueModo3": { "type": "number", "editable": false, "nullable": false },
+                "costoArranqueModo4": { "type": "number", "editable": false, "nullable": false },
+                "costoArranqueModo5": { "type": "number", "editable": false, "nullable": false },
+                "costoArranqueModo6": { "type": "number", "editable": false, "nullable": false },
+                "costoArranqueModo7": { "type": "number", "editable": false, "nullable": false },
+                "costoArranqueModo8": { "type": "number", "editable": false, "nullable": false },
+                "costoArranqueModo9": { "type": "number", "editable": false, "nullable": false },
+                "costoArranqueModo10": { "type": "number", "editable": false, "nullable": false }
             }
         },
         "columnas": [
@@ -2380,7 +2397,7 @@ module.exports = [
     },
     {
         "nombre":"TIETRANSRD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": false,
@@ -2389,16 +2406,16 @@ module.exports = [
             "id": "TIETRANSRD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "tiempoTransModo1": { "type": "number", "editable": true, "nullable": false },
-                "tiempoTransModo2": { "type": "number", "editable": true, "nullable": false },
-                "tiempoTransModo3": { "type": "number", "editable": true, "nullable": false },
-                "tiempoTransModo4": { "type": "number", "editable": true, "nullable": false },
-                "tiempoTransModo5": { "type": "number", "editable": true, "nullable": false },
-                "tiempoTransModo6": { "type": "number", "editable": true, "nullable": false },
-                "tiempoTransModo7": { "type": "number", "editable": true, "nullable": false },
-                "tiempoTransModo8": { "type": "number", "editable": true, "nullable": false },
-                "tiempoTransModo9": { "type": "number", "editable": true, "nullable": false },
-                "tiempoTransModo10": { "type": "number", "editable": true, "nullable": false }
+                "tiempoTransModo1": { "type": "number", "editable": false, "nullable": false },
+                "tiempoTransModo2": { "type": "number", "editable": false, "nullable": false },
+                "tiempoTransModo3": { "type": "number", "editable": false, "nullable": false },
+                "tiempoTransModo4": { "type": "number", "editable": false, "nullable": false },
+                "tiempoTransModo5": { "type": "number", "editable": false, "nullable": false },
+                "tiempoTransModo6": { "type": "number", "editable": false, "nullable": false },
+                "tiempoTransModo7": { "type": "number", "editable": false, "nullable": false },
+                "tiempoTransModo8": { "type": "number", "editable": false, "nullable": false },
+                "tiempoTransModo9": { "type": "number", "editable": false, "nullable": false },
+                "tiempoTransModo10": { "type": "number", "editable": false, "nullable": false }
             }
         },
         "columnas": [
@@ -2417,7 +2434,7 @@ module.exports = [
     },
     {
         "nombre":"TMINMODRD_DERS.csv",
-        "editable": true,
+        "editable": false,
         "archivoResultados": false,
         "algoritmos": ["dersi", "dersmi", "autr"],
         "algDep": false,
@@ -2426,16 +2443,16 @@ module.exports = [
             "id": "TMINMODRD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "tiempoMinModo1": { "type": "number", "editable": true, "nullable": false },
-                "tiempoMinModo2": { "type": "number", "editable": true, "nullable": false },
-                "tiempoMinModo3": { "type": "number", "editable": true, "nullable": false },
-                "tiempoMinModo4": { "type": "number", "editable": true, "nullable": false },
-                "tiempoMinModo5": { "type": "number", "editable": true, "nullable": false },
-                "tiempoMinModo6": { "type": "number", "editable": true, "nullable": false },
-                "tiempoMinModo7": { "type": "number", "editable": true, "nullable": false },
-                "tiempoMinModo8": { "type": "number", "editable": true, "nullable": false },
-                "tiempoMinModo9": { "type": "number", "editable": true, "nullable": false },
-                "tiempoMinModo10": { "type": "number", "editable": true, "nullable": false }
+                "tiempoMinModo1": { "type": "number", "editable": false, "nullable": false },
+                "tiempoMinModo2": { "type": "number", "editable": false, "nullable": false },
+                "tiempoMinModo3": { "type": "number", "editable": false, "nullable": false },
+                "tiempoMinModo4": { "type": "number", "editable": false, "nullable": false },
+                "tiempoMinModo5": { "type": "number", "editable": false, "nullable": false },
+                "tiempoMinModo6": { "type": "number", "editable": false, "nullable": false },
+                "tiempoMinModo7": { "type": "number", "editable": false, "nullable": false },
+                "tiempoMinModo8": { "type": "number", "editable": false, "nullable": false },
+                "tiempoMinModo9": { "type": "number", "editable": false, "nullable": false },
+                "tiempoMinModo10": { "type": "number", "editable": false, "nullable": false }
             }
         },
         "columnas": [
@@ -2463,16 +2480,16 @@ module.exports = [
             "id": "TRANSRD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "modoOp1": { "type": "number", "editable": true, "nullable": false },
-                "modoOp2": { "type": "number", "editable": true, "nullable": false },
-                "modoOp3": { "type": "number", "editable": true, "nullable": false },
-                "modoOp4": { "type": "number", "editable": true, "nullable": false },
-                "modoOp5": { "type": "number", "editable": true, "nullable": false },
-                "modoOp6": { "type": "number", "editable": true, "nullable": false },
-                "modoOp7": { "type": "number", "editable": true, "nullable": false },
-                "modoOp8": { "type": "number", "editable": true, "nullable": false },
-                "modoOp9": { "type": "number", "editable": true, "nullable": false },
-                "modoOp10": { "type": "number", "editable": true, "nullable": false }
+                "modoOp1": { "type": "number", "editable": false, "nullable": false },
+                "modoOp2": { "type": "number", "editable": false, "nullable": false },
+                "modoOp3": { "type": "number", "editable": false, "nullable": false },
+                "modoOp4": { "type": "number", "editable": false, "nullable": false },
+                "modoOp5": { "type": "number", "editable": false, "nullable": false },
+                "modoOp6": { "type": "number", "editable": false, "nullable": false },
+                "modoOp7": { "type": "number", "editable": false, "nullable": false },
+                "modoOp8": { "type": "number", "editable": false, "nullable": false },
+                "modoOp9": { "type": "number", "editable": false, "nullable": false },
+                "modoOp10": { "type": "number", "editable": false, "nullable": false }
             }
         },
         "columnas": [
@@ -2500,9 +2517,9 @@ module.exports = [
             "id": "COMPOURD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "nombre": { "type": "string", "editable": true, "nullable": false },
-                "tipo": { "type": "string", "editable": true, "nullable": false },
-                "nodoAsociado": { "type": "string", "editable": true, "nullable": false }
+                "nombre": { "type": "string", "editable": false, "nullable": false },
+                "tipo": { "type": "string", "editable": false, "nullable": false },
+                "nodoAsociado": { "type": "string", "editable": false, "nullable": false }
             }
         },
         "columnas": [
@@ -2523,14 +2540,14 @@ module.exports = [
             "id": "NODOSCOMPOURD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "nodoCompP1": { "type": "number", "editable": true, "nullable": false },
-                "nodoCompP2": { "type": "number", "editable": true, "nullable": false },
-                "nodoCompP3": { "type": "number", "editable": true, "nullable": false },
-                "nodoCompP4": { "type": "number", "editable": true, "nullable": false },
-                "nodoCompP5": { "type": "number", "editable": true, "nullable": false },
-                "nodoCompP6": { "type": "number", "editable": true, "nullable": false },
-                "nodoCompP7": { "type": "number", "editable": true, "nullable": false },
-                "nodoCompP8": { "type": "number", "editable": true, "nullable": false }
+                "nodoCompP1": { "type": "number", "editable": false, "nullable": false },
+                "nodoCompP2": { "type": "number", "editable": false, "nullable": false },
+                "nodoCompP3": { "type": "number", "editable": false, "nullable": false },
+                "nodoCompP4": { "type": "number", "editable": false, "nullable": false },
+                "nodoCompP5": { "type": "number", "editable": false, "nullable": false },
+                "nodoCompP6": { "type": "number", "editable": false, "nullable": false },
+                "nodoCompP7": { "type": "number", "editable": false, "nullable": false },
+                "nodoCompP8": { "type": "number", "editable": false, "nullable": false }
             }
         },
         "columnas": [
@@ -2556,16 +2573,16 @@ module.exports = [
             "id": "COMPXMODO_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "compModoOp1": { "type": "number", "editable": true, "nullable": false },
-                "compModoOp2": { "type": "number", "editable": true, "nullable": false },
-                "compModoOp3": { "type": "number", "editable": true, "nullable": false },
-                "compModoOp4": { "type": "number", "editable": true, "nullable": false },
-                "compModoOp5": { "type": "number", "editable": true, "nullable": false },
-                "compModoOp6": { "type": "number", "editable": true, "nullable": false },
-                "compModoOp7": { "type": "number", "editable": true, "nullable": false },
-                "compModoOp8": { "type": "number", "editable": true, "nullable": false },
-                "compModoOp9": { "type": "number", "editable": true, "nullable": false },
-                "compModoOp10": { "type": "number", "editable": true, "nullable": false }
+                "compModoOp1": { "type": "number", "editable": false, "nullable": false },
+                "compModoOp2": { "type": "number", "editable": false, "nullable": false },
+                "compModoOp3": { "type": "number", "editable": false, "nullable": false },
+                "compModoOp4": { "type": "number", "editable": false, "nullable": false },
+                "compModoOp5": { "type": "number", "editable": false, "nullable": false },
+                "compModoOp6": { "type": "number", "editable": false, "nullable": false },
+                "compModoOp7": { "type": "number", "editable": false, "nullable": false },
+                "compModoOp8": { "type": "number", "editable": false, "nullable": false },
+                "compModoOp9": { "type": "number", "editable": false, "nullable": false },
+                "compModoOp10": { "type": "number", "editable": false, "nullable": false }
             }
         },
         "columnas": [
@@ -2593,16 +2610,16 @@ module.exports = [
             "id": "GECOXMOD_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "fracComModOp1": { "type": "number", "editable": true, "nullable": false },
-                "fracComModOp2": { "type": "number", "editable": true, "nullable": false },
-                "fracComModOp3": { "type": "number", "editable": true, "nullable": false },
-                "fracComModOp4": { "type": "number", "editable": true, "nullable": false },
-                "fracComModOp5": { "type": "number", "editable": true, "nullable": false },
-                "fracComModOp6": { "type": "number", "editable": true, "nullable": false },
-                "fracComModOp7": { "type": "number", "editable": true, "nullable": false },
-                "fracComModOp8": { "type": "number", "editable": true, "nullable": false },
-                "fracComModOp9": { "type": "number", "editable": true, "nullable": false },
-                "fracComModOp10": { "type": "number", "editable": true, "nullable": false }
+                "fracComModOp1": { "type": "number", "editable": false, "nullable": false },
+                "fracComModOp2": { "type": "number", "editable": false, "nullable": false },
+                "fracComModOp3": { "type": "number", "editable": false, "nullable": false },
+                "fracComModOp4": { "type": "number", "editable": false, "nullable": false },
+                "fracComModOp5": { "type": "number", "editable": false, "nullable": false },
+                "fracComModOp6": { "type": "number", "editable": false, "nullable": false },
+                "fracComModOp7": { "type": "number", "editable": false, "nullable": false },
+                "fracComModOp8": { "type": "number", "editable": false, "nullable": false },
+                "fracComModOp9": { "type": "number", "editable": false, "nullable": false },
+                "fracComModOp10": { "type": "number", "editable": false, "nullable": false }
             }
         },
         "columnas": [
