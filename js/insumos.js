@@ -3156,8 +3156,6 @@ module.exports = [
             { "field": "preResRodP8", "title": "Precio Reserva Rodante P8", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
         ]
     },
-
-
     {
         "nombre":"POTRESNR10H_DERS.csv",
         "editable": true,
@@ -3510,14 +3508,14 @@ module.exports = [
         },
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "preVentaP1", "title": "Precio Venta P1 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
-            { "field": "preVentaP2", "title": "Precio Venta P2 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
-            { "field": "preVentaP3", "title": "Precio Venta P3 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
-            { "field": "preVentaP4", "title": "Precio Venta P4 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
-            { "field": "preVentaP5", "title": "Precio Venta P5 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
-            { "field": "preVentaP6", "title": "Precio Venta P6 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
-            { "field": "preVentaP7", "title": "Precio Venta P7 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
-            { "field": "preVentaP8", "title": "Precio Venta P8 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
+            { "field": "preVentaP1", "title": "Precio Venta P1 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
+            { "field": "preVentaP2", "title": "Precio Venta P2 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
+            { "field": "preVentaP3", "title": "Precio Venta P3 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
+            { "field": "preVentaP4", "title": "Precio Venta P4 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
+            { "field": "preVentaP5", "title": "Precio Venta P5 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
+            { "field": "preVentaP6", "title": "Precio Venta P6 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
+            { "field": "preVentaP7", "title": "Precio Venta P7 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
+            { "field": "preVentaP8", "title": "Precio Venta P8 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
         ]
     },
     {
@@ -3564,14 +3562,14 @@ module.exports = [
             "id": "LSUNITRE_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "limSupP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limSupP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limSupP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limSupP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limSupP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limSupP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limSupP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
-                "limSupP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
+                "limSupP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limSupP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limSupP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limSupP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limSupP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limSupP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limSupP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} },
+                "limSupP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 3, "min": 0, "max": 1000000} }
             }
         },
         "columnas": [
@@ -3630,14 +3628,14 @@ module.exports = [
             "id": "NODOSRE_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "nodoUnidadP1": { "type": "number", "editable": true, "nullable": false },
-                "nodoUnidadP2": { "type": "number", "editable": true, "nullable": false },
-                "nodoUnidadP3": { "type": "number", "editable": true, "nullable": false },
-                "nodoUnidadP4": { "type": "number", "editable": true, "nullable": false },
-                "nodoUnidadP5": { "type": "number", "editable": true, "nullable": false },
-                "nodoUnidadP6": { "type": "number", "editable": true, "nullable": false },
-                "nodoUnidadP7": { "type": "number", "editable": true, "nullable": false },
-                "nodoUnidadP8": { "type": "number", "editable": true, "nullable": false }
+                "nodoUnidadP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 100} },
+                "nodoUnidadP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 100} },
+                "nodoUnidadP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 100} },
+                "nodoUnidadP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 100} },
+                "nodoUnidadP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 100} },
+                "nodoUnidadP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 100} },
+                "nodoUnidadP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 100} },
+                "nodoUnidadP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 100} }
             }
         },
         "columnas": [
@@ -3765,14 +3763,14 @@ module.exports = [
             "id": "NODOSPLNOPR_DERS",
             "fields": {
                 "numFila": { "type": "number", "editable": false, "nullable": false },
-                "nodoP1": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1000} },
-                "nodoP2": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1000} },
-                "nodoP3": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1000} },
-                "nodoP4": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1000} },
-                "nodoP5": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1000} },
-                "nodoP6": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1000} },
-                "nodoP7": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1000} },
-                "nodoP8": { "type": "number", "editable": true, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1000} }
+                "nodoP1": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1000} },
+                "nodoP2": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1000} },
+                "nodoP3": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1000} },
+                "nodoP4": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1000} },
+                "nodoP5": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1000} },
+                "nodoP6": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1000} },
+                "nodoP7": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1000} },
+                "nodoP8": { "type": "number", "editable": false, "nullable": false, "validation": { "round": false, "format":"n", "decimals": 0, "min": 0, "max": 1000} }
             }
         },
         "columnas": [
@@ -3813,14 +3811,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "reqResRod10mP1", "title": "Reserva Rodante 10 Min. P1", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
-			{ "field": "reqResRod10mP2", "title": "Reserva Rodante 10 Min. P2", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
-            { "field": "reqResRod10mP3", "title": "Reserva Rodante 10 Min. P3", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
-            { "field": "reqResRod10mP4", "title": "Reserva Rodante 10 Min. P4", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
-            { "field": "reqResRod10mP5", "title": "Reserva Rodante 10 Min. P5", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
-            { "field": "reqResRod10mP6", "title": "Reserva Rodante 10 Min. P6", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
-            { "field": "reqResRod10mP7", "title": "Reserva Rodante 10 Min. P7", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
-            { "field": "reqResRod10mP8", "title": "Reserva Rodante 10 Min. P8", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
+            { "field": "reqResRod10mP1", "title": "Reserva Rodante 10 Min. P1 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
+			{ "field": "reqResRod10mP2", "title": "Reserva Rodante 10 Min. P2 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
+            { "field": "reqResRod10mP3", "title": "Reserva Rodante 10 Min. P3 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
+            { "field": "reqResRod10mP4", "title": "Reserva Rodante 10 Min. P4 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
+            { "field": "reqResRod10mP5", "title": "Reserva Rodante 10 Min. P5 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
+            { "field": "reqResRod10mP6", "title": "Reserva Rodante 10 Min. P6 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
+            { "field": "reqResRod10mP7", "title": "Reserva Rodante 10 Min. P7 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
+            { "field": "reqResRod10mP8", "title": "Reserva Rodante 10 Min. P8 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
 		]
     },
     {
@@ -3847,14 +3845,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "preResRod10mP1", "title": "Precio Reserva Rodante 10 Min. P1 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
-			{ "field": "preResRod10mP2", "title": "Precio Reserva Rodante 10 Min. P2 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
-            { "field": "preResRod10mP3", "title": "Precio Reserva Rodante 10 Min. P3 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
-            { "field": "preResRod10mP4", "title": "Precio Reserva Rodante 10 Min. P4 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
-            { "field": "preResRod10mP5", "title": "Precio Reserva Rodante 10 Min. P5 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
-            { "field": "preResRod10mP6", "title": "Precio Reserva Rodante 10 Min. P6 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
-            { "field": "preResRod10mP7", "title": "Precio Reserva Rodante 10 Min. P7 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
-            { "field": "preResRod10mP8", "title": "Precio Reserva Rodante 10 Min. P8 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
+            { "field": "preResRod10mP1", "title": "Precio Reserva Rodante 10 Min. P1 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
+			{ "field": "preResRod10mP2", "title": "Precio Reserva Rodante 10 Min. P2 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
+            { "field": "preResRod10mP3", "title": "Precio Reserva Rodante 10 Min. P3 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
+            { "field": "preResRod10mP4", "title": "Precio Reserva Rodante 10 Min. P4 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
+            { "field": "preResRod10mP5", "title": "Precio Reserva Rodante 10 Min. P5 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
+            { "field": "preResRod10mP6", "title": "Precio Reserva Rodante 10 Min. P6 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
+            { "field": "preResRod10mP7", "title": "Precio Reserva Rodante 10 Min. P7 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
+            { "field": "preResRod10mP8", "title": "Precio Reserva Rodante 10 Min. P8 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
 		]
     },
     {
@@ -3881,14 +3879,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "reqRes10mP1", "title": "Reserva 10 Min. P1", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
-			{ "field": "reqRes10mP2", "title": "Reserva 10 Min. P2", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
-            { "field": "reqRes10mP3", "title": "Reserva 10 Min. P3", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
-            { "field": "reqRes10mP4", "title": "Reserva 10 Min. P4", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
-            { "field": "reqRes10mP5", "title": "Reserva 10 Min. P5", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
-            { "field": "reqRes10mP6", "title": "Reserva 10 Min. P6", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
-            { "field": "reqRes10mP7", "title": "Reserva 10 Min. P7", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
-            { "field": "reqRes10mP8", "title": "Reserva 10 Min. P8", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
+            { "field": "reqRes10mP1", "title": "Reserva 10 Min. P1 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
+			{ "field": "reqRes10mP2", "title": "Reserva 10 Min. P2 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
+            { "field": "reqRes10mP3", "title": "Reserva 10 Min. P3 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
+            { "field": "reqRes10mP4", "title": "Reserva 10 Min. P4 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
+            { "field": "reqRes10mP5", "title": "Reserva 10 Min. P5 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
+            { "field": "reqRes10mP6", "title": "Reserva 10 Min. P6 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
+            { "field": "reqRes10mP7", "title": "Reserva 10 Min. P7 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
+            { "field": "reqRes10mP8", "title": "Reserva 10 Min. P8 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
 		]
     },
     {
@@ -3915,14 +3913,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "preRes10mP1", "title": "Precio Reserva 10 Min. P1 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
-			{ "field": "preRes10mP2", "title": "Precio Reserva 10 Min. P2 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
-            { "field": "preRes10mP3", "title": "Precio Reserva 10 Min. P3 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
-            { "field": "preRes10mP4", "title": "Precio Reserva 10 Min. P4 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
-            { "field": "preRes10mP5", "title": "Precio Reserva 10 Min. P5 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
-            { "field": "preRes10mP6", "title": "Precio Reserva 10 Min. P6 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
-            { "field": "preRes10mP7", "title": "Precio Reserva 10 Min. P7 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
-            { "field": "preRes10mP8", "title": "Precio Reserva 10 Min. P8 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
+            { "field": "preRes10mP1", "title": "Precio Reserva 10 Min. P1 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
+			{ "field": "preRes10mP2", "title": "Precio Reserva 10 Min. P2 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
+            { "field": "preRes10mP3", "title": "Precio Reserva 10 Min. P3 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
+            { "field": "preRes10mP4", "title": "Precio Reserva 10 Min. P4 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
+            { "field": "preRes10mP5", "title": "Precio Reserva 10 Min. P5 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
+            { "field": "preRes10mP6", "title": "Precio Reserva 10 Min. P6 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
+            { "field": "preRes10mP7", "title": "Precio Reserva 10 Min. P7 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
+            { "field": "preRes10mP8", "title": "Precio Reserva 10 Min. P8 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
 		]
     },
     {
@@ -3949,14 +3947,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "reqResSupP1", "title": "Reserva Suplementaria P1", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
-			{ "field": "reqResSupP2", "title": "Reserva Suplementaria P2", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
-            { "field": "reqResSupP3", "title": "Reserva Suplementaria P3", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
-            { "field": "reqResSupP4", "title": "Reserva Suplementaria P4", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
-            { "field": "reqResSupP5", "title": "Reserva Suplementaria P5", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
-            { "field": "reqResSupP6", "title": "Reserva Suplementaria P6", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
-            { "field": "reqResSupP7", "title": "Reserva Suplementaria P7", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
-            { "field": "reqResSupP8", "title": "Reserva Suplementaria P8", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
+            { "field": "reqResSupP1", "title": "Reserva Suplementaria P1 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
+			{ "field": "reqResSupP2", "title": "Reserva Suplementaria P2 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
+            { "field": "reqResSupP3", "title": "Reserva Suplementaria P3 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
+            { "field": "reqResSupP4", "title": "Reserva Suplementaria P4 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
+            { "field": "reqResSupP5", "title": "Reserva Suplementaria P5 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
+            { "field": "reqResSupP6", "title": "Reserva Suplementaria P6 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
+            { "field": "reqResSupP7", "title": "Reserva Suplementaria P7 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
+            { "field": "reqResSupP8", "title": "Reserva Suplementaria P8 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
 		]
     },
     {
@@ -3983,14 +3981,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "preResSupP1", "title": "Precio Reserva Suplementaria P1 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
-			{ "field": "preResSupP2", "title": "Precio Reserva Suplementaria P2 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
-            { "field": "preResSupP3", "title": "Precio Reserva Suplementaria P3 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
-            { "field": "preResSupP4", "title": "Precio Reserva Suplementaria P4 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
-            { "field": "preResSupP5", "title": "Precio Reserva Suplementaria P5 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
-            { "field": "preResSupP6", "title": "Precio Reserva Suplementaria P6 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
-            { "field": "preResSupP7", "title": "Precio Reserva Suplementaria P7 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
-            { "field": "preResSupP8", "title": "Precio Reserva Suplementaria P8 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
+            { "field": "preResSupP1", "title": "Precio Reserva Suplementaria P1 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
+			{ "field": "preResSupP2", "title": "Precio Reserva Suplementaria P2 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
+            { "field": "preResSupP3", "title": "Precio Reserva Suplementaria P3 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
+            { "field": "preResSupP4", "title": "Precio Reserva Suplementaria P4 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
+            { "field": "preResSupP5", "title": "Precio Reserva Suplementaria P5 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
+            { "field": "preResSupP6", "title": "Precio Reserva Suplementaria P6 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
+            { "field": "preResSupP7", "title": "Precio Reserva Suplementaria P7 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
+            { "field": "preResSupP8", "title": "Precio Reserva Suplementaria P8 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
 		]
     },
     {
@@ -4017,14 +4015,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "reqResRegSecP1", "title": "Reserva Regulación Sec. P1", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
-			{ "field": "reqResRegSecP2", "title": "Reserva Regulación Sec. P2", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
-            { "field": "reqResRegSecP3", "title": "Reserva Regulación Sec. P3", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
-            { "field": "reqResRegSecP4", "title": "Reserva Regulación Sec. P4", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
-            { "field": "reqResRegSecP5", "title": "Reserva Regulación Sec. P5", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
-            { "field": "reqResRegSecP6", "title": "Reserva Regulación Sec. P6", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
-            { "field": "reqResRegSecP7", "title": "Reserva Regulación Sec. P7", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
-            { "field": "reqResRegSecP8", "title": "Reserva Regulación Sec. P8", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
+            { "field": "reqResRegSecP1", "title": "Reserva Regulación Sec. P1 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
+			{ "field": "reqResRegSecP2", "title": "Reserva Regulación Sec. P2 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
+            { "field": "reqResRegSecP3", "title": "Reserva Regulación Sec. P3 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
+            { "field": "reqResRegSecP4", "title": "Reserva Regulación Sec. P4 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
+            { "field": "reqResRegSecP5", "title": "Reserva Regulación Sec. P5 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
+            { "field": "reqResRegSecP6", "title": "Reserva Regulación Sec. P6 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
+            { "field": "reqResRegSecP7", "title": "Reserva Regulación Sec. P7 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
+            { "field": "reqResRegSecP8", "title": "Reserva Regulación Sec. P8 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
 		]
     },
     {
@@ -4051,14 +4049,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "preResRegSecP1", "title": "Precio Reserva Regulación Sec. P1 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
-			{ "field": "preResRegSecP2", "title": "Precio Reserva Regulación Sec. P2 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
-            { "field": "preResRegSecP3", "title": "Precio Reserva Regulación Sec. P3 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
-            { "field": "preResRegSecP4", "title": "Precio Reserva Regulación Sec. P4 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
-            { "field": "preResRegSecP5", "title": "Precio Reserva Regulación Sec. P5 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
-            { "field": "preResRegSecP6", "title": "Precio Reserva Regulación Sec. P6 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
-            { "field": "preResRegSecP7", "title": "Precio Reserva Regulación Sec. P7 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
-            { "field": "preResRegSecP8", "title": "Precio Reserva Regulación Sec. P8 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
+            { "field": "preResRegSecP1", "title": "Precio Reserva Regulación Sec. P1 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
+			{ "field": "preResRegSecP2", "title": "Precio Reserva Regulación Sec. P2 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
+            { "field": "preResRegSecP3", "title": "Precio Reserva Regulación Sec. P3 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
+            { "field": "preResRegSecP4", "title": "Precio Reserva Regulación Sec. P4 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
+            { "field": "preResRegSecP5", "title": "Precio Reserva Regulación Sec. P5 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
+            { "field": "preResRegSecP6", "title": "Precio Reserva Regulación Sec. P6 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
+            { "field": "preResRegSecP7", "title": "Precio Reserva Regulación Sec. P7 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
+            { "field": "preResRegSecP8", "title": "Precio Reserva Regulación Sec. P8 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
 		]
     },
 
@@ -4087,14 +4085,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "reqResRod10MinP1", "title": "Reserva Rodante 10 Min. P1", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
-			{ "field": "reqResRod10MinP2", "title": "Reserva Rodante 10 Min. P2", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
-            { "field": "reqResRod10MinP3", "title": "Reserva Rodante 10 Min. P3", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
-            { "field": "reqResRod10MinP4", "title": "Reserva Rodante 10 Min. P4", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
-            { "field": "reqResRod10MinP5", "title": "Reserva Rodante 10 Min. P5", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
-            { "field": "reqResRod10MinP6", "title": "Reserva Rodante 10 Min. P6", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
-            { "field": "reqResRod10MinP7", "title": "Reserva Rodante 10 Min. P7", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
-            { "field": "reqResRod10MinP8", "title": "Reserva Rodante 10 Min. P8", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
+            { "field": "reqResRod10MinP1", "title": "Reserva Rodante 10 Min. P1 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
+			{ "field": "reqResRod10MinP2", "title": "Reserva Rodante 10 Min. P2 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
+            { "field": "reqResRod10MinP3", "title": "Reserva Rodante 10 Min. P3 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
+            { "field": "reqResRod10MinP4", "title": "Reserva Rodante 10 Min. P4 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
+            { "field": "reqResRod10MinP5", "title": "Reserva Rodante 10 Min. P5 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
+            { "field": "reqResRod10MinP6", "title": "Reserva Rodante 10 Min. P6 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
+            { "field": "reqResRod10MinP7", "title": "Reserva Rodante 10 Min. P7 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
+            { "field": "reqResRod10MinP8", "title": "Reserva Rodante 10 Min. P8 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
 		]
     },
     {
@@ -4121,14 +4119,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "preResRod10MinP1", "title": "Precio Reserva Rodante 10 Min. P1 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
-			{ "field": "preResRod10MinP2", "title": "Precio Reserva Rodante 10 Min. P2 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
-            { "field": "preResRod10MinP3", "title": "Precio Reserva Rodante 10 Min. P3 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
-            { "field": "preResRod10MinP4", "title": "Precio Reserva Rodante 10 Min. P4 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
-            { "field": "preResRod10MinP5", "title": "Precio Reserva Rodante 10 Min. P5 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
-            { "field": "preResRod10MinP6", "title": "Precio Reserva Rodante 10 Min. P6 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
-            { "field": "preResRod10MinP7", "title": "Precio Reserva Rodante 10 Min. P7 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
-            { "field": "preResRod10MinP8", "title": "Precio Reserva Rodante 10 Min. P8 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
+            { "field": "preResRod10MinP1", "title": "Precio Reserva Rodante 10 Min. P1 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
+			{ "field": "preResRod10MinP2", "title": "Precio Reserva Rodante 10 Min. P2 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
+            { "field": "preResRod10MinP3", "title": "Precio Reserva Rodante 10 Min. P3 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
+            { "field": "preResRod10MinP4", "title": "Precio Reserva Rodante 10 Min. P4 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
+            { "field": "preResRod10MinP5", "title": "Precio Reserva Rodante 10 Min. P5 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
+            { "field": "preResRod10MinP6", "title": "Precio Reserva Rodante 10 Min. P6 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
+            { "field": "preResRod10MinP7", "title": "Precio Reserva Rodante 10 Min. P7 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
+            { "field": "preResRod10MinP8", "title": "Precio Reserva Rodante 10 Min. P8 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
 		]
     },
     {
@@ -4155,14 +4153,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "reqRes10MinP1", "title": "Reserva 10 Min. P1", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
-			{ "field": "reqRes10MinP2", "title": "Reserva 10 Min. P2", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
-            { "field": "reqRes10MinP3", "title": "Reserva 10 Min. P3", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
-            { "field": "reqRes10MinP4", "title": "Reserva 10 Min. P4", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
-            { "field": "reqRes10MinP5", "title": "Reserva 10 Min. P5", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
-            { "field": "reqRes10MinP6", "title": "Reserva 10 Min. P6", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
-            { "field": "reqRes10MinP7", "title": "Reserva 10 Min. P7", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
-            { "field": "reqRes10MinP8", "title": "Reserva 10 Min. P8", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
+            { "field": "reqRes10MinP1", "title": "Reserva 10 Min. P1 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
+			{ "field": "reqRes10MinP2", "title": "Reserva 10 Min. P2 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
+            { "field": "reqRes10MinP3", "title": "Reserva 10 Min. P3 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
+            { "field": "reqRes10MinP4", "title": "Reserva 10 Min. P4 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
+            { "field": "reqRes10MinP5", "title": "Reserva 10 Min. P5 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
+            { "field": "reqRes10MinP6", "title": "Reserva 10 Min. P6 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
+            { "field": "reqRes10MinP7", "title": "Reserva 10 Min. P7 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
+            { "field": "reqRes10MinP8", "title": "Reserva 10 Min. P8 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
 		]
     },
     {
@@ -4189,14 +4187,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "preRes10MinP1", "title": "Precio Reserva 10 Min. P1 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
-			{ "field": "preRes10MinP2", "title": "Precio Reserva 10 Min. P2 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
-            { "field": "preRes10MinP3", "title": "Precio Reserva 10 Min. P3 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
-            { "field": "preRes10MinP4", "title": "Precio Reserva 10 Min. P4 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
-            { "field": "preRes10MinP5", "title": "Precio Reserva 10 Min. P5 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
-            { "field": "preRes10MinP6", "title": "Precio Reserva 10 Min. P6 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
-            { "field": "preRes10MinP7", "title": "Precio Reserva 10 Min. P7 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
-            { "field": "preRes10MinP8", "title": "Precio Reserva 10 Min. P8 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
+            { "field": "preRes10MinP1", "title": "Precio Reserva 10 Min. P1 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
+			{ "field": "preRes10MinP2", "title": "Precio Reserva 10 Min. P2 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
+            { "field": "preRes10MinP3", "title": "Precio Reserva 10 Min. P3 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
+            { "field": "preRes10MinP4", "title": "Precio Reserva 10 Min. P4 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
+            { "field": "preRes10MinP5", "title": "Precio Reserva 10 Min. P5 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
+            { "field": "preRes10MinP6", "title": "Precio Reserva 10 Min. P6 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
+            { "field": "preRes10MinP7", "title": "Precio Reserva 10 Min. P7 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
+            { "field": "preRes10MinP8", "title": "Precio Reserva 10 Min. P8 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
 		]
     },
     {
@@ -4223,14 +4221,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "reqResSupP1", "title": "Reserva Suplementaria P1", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
-			{ "field": "reqResSupP2", "title": "Reserva Suplementaria P2", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
-            { "field": "reqResSupP3", "title": "Reserva Suplementaria P3", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
-            { "field": "reqResSupP4", "title": "Reserva Suplementaria P4", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
-            { "field": "reqResSupP5", "title": "Reserva Suplementaria P5", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
-            { "field": "reqResSupP6", "title": "Reserva Suplementaria P6", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
-            { "field": "reqResSupP7", "title": "Reserva Suplementaria P7", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
-            { "field": "reqResSupP8", "title": "Reserva Suplementaria P8", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
+            { "field": "reqResSupP1", "title": "Reserva Suplementaria P1 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
+			{ "field": "reqResSupP2", "title": "Reserva Suplementaria P2 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
+            { "field": "reqResSupP3", "title": "Reserva Suplementaria P3 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
+            { "field": "reqResSupP4", "title": "Reserva Suplementaria P4 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
+            { "field": "reqResSupP5", "title": "Reserva Suplementaria P5 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
+            { "field": "reqResSupP6", "title": "Reserva Suplementaria P6 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
+            { "field": "reqResSupP7", "title": "Reserva Suplementaria P7 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
+            { "field": "reqResSupP8", "title": "Reserva Suplementaria P8 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
 		]
     },
     {
@@ -4257,14 +4255,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "preResSupP1", "title": "Precio Reserva Suplementaria P1 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
-			{ "field": "preResSupP2", "title": "Precio Reserva Suplementaria P2 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
-            { "field": "preResSupP3", "title": "Precio Reserva Suplementaria P3 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
-            { "field": "preResSupP4", "title": "Precio Reserva Suplementaria P4 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
-            { "field": "preResSupP5", "title": "Precio Reserva Suplementaria P5 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
-            { "field": "preResSupP6", "title": "Precio Reserva Suplementaria P6 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
-            { "field": "preResSupP7", "title": "Precio Reserva Suplementaria P7 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
-            { "field": "preResSupP8", "title": "Precio Reserva Suplementaria P8 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
+            { "field": "preResSupP1", "title": "Precio Reserva Suplementaria P1 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
+			{ "field": "preResSupP2", "title": "Precio Reserva Suplementaria P2 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
+            { "field": "preResSupP3", "title": "Precio Reserva Suplementaria P3 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
+            { "field": "preResSupP4", "title": "Precio Reserva Suplementaria P4 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
+            { "field": "preResSupP5", "title": "Precio Reserva Suplementaria P5 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
+            { "field": "preResSupP6", "title": "Precio Reserva Suplementaria P6 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
+            { "field": "preResSupP7", "title": "Precio Reserva Suplementaria P7 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
+            { "field": "preResSupP8", "title": "Precio Reserva Suplementaria P8 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
 		]
     },
     {
@@ -4291,14 +4289,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "reqResRegSecP1", "title": "Reserva Regulación Sec. P1", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
-			{ "field": "reqResRegSecP2", "title": "Reserva Regulación Sec. P2", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
-            { "field": "reqResRegSecP3", "title": "Reserva Regulación Sec. P3", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
-            { "field": "reqResRegSecP4", "title": "Reserva Regulación Sec. P4", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
-            { "field": "reqResRegSecP5", "title": "Reserva Regulación Sec. P5", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
-            { "field": "reqResRegSecP6", "title": "Reserva Regulación Sec. P6", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
-            { "field": "reqResRegSecP7", "title": "Reserva Regulación Sec. P7", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
-            { "field": "reqResRegSecP8", "title": "Reserva Regulación Sec. P8", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
+            { "field": "reqResRegSecP1", "title": "Reserva Regulación Sec. P1 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
+			{ "field": "reqResRegSecP2", "title": "Reserva Regulación Sec. P2 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
+            { "field": "reqResRegSecP3", "title": "Reserva Regulación Sec. P3 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
+            { "field": "reqResRegSecP4", "title": "Reserva Regulación Sec. P4 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
+            { "field": "reqResRegSecP5", "title": "Reserva Regulación Sec. P5 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
+            { "field": "reqResRegSecP6", "title": "Reserva Regulación Sec. P6 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
+            { "field": "reqResRegSecP7", "title": "Reserva Regulación Sec. P7 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
+            { "field": "reqResRegSecP8", "title": "Reserva Regulación Sec. P8 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
 		]
     },
     {
@@ -4325,14 +4323,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "preResRegSecP1", "title": "Precio Reserva Regulación Sec. P1 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
-			{ "field": "preResRegSecP2", "title": "Precio Reserva Regulación Sec. P2 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
-            { "field": "preResRegSecP3", "title": "Precio Reserva Regulación Sec. P3 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
-            { "field": "preResRegSecP4", "title": "Precio Reserva Regulación Sec. P4 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
-            { "field": "preResRegSecP5", "title": "Precio Reserva Regulación Sec. P5 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
-            { "field": "preResRegSecP6", "title": "Precio Reserva Regulación Sec. P6 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
-            { "field": "preResRegSecP7", "title": "Precio Reserva Regulación Sec. P7 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
-            { "field": "preResRegSecP8", "title": "Precio Reserva Regulación Sec. P8 ($)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
+            { "field": "preResRegSecP1", "title": "Precio Reserva Regulación Sec. P1 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 1},
+			{ "field": "preResRegSecP2", "title": "Precio Reserva Regulación Sec. P2 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 2},
+            { "field": "preResRegSecP3", "title": "Precio Reserva Regulación Sec. P3 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 3},
+            { "field": "preResRegSecP4", "title": "Precio Reserva Regulación Sec. P4 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 4},
+            { "field": "preResRegSecP5", "title": "Precio Reserva Regulación Sec. P5 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 5},
+            { "field": "preResRegSecP6", "title": "Precio Reserva Regulación Sec. P6 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 6},
+            { "field": "preResRegSecP7", "title": "Precio Reserva Regulación Sec. P7 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 7},
+            { "field": "preResRegSecP8", "title": "Precio Reserva Regulación Sec. P8 ($/Mw)", "sortable": true, "filterable": true, "format": "{0:c2}", "width": "15vw", "periodo": 8}
 		]
     },
 
@@ -4391,14 +4389,14 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "nodDisCarP1", "title": "Nodos Dist. Cargas P1", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
-			{ "field": "nodDisCarP2", "title": "Nodos Dist. Cargas P2", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
-            { "field": "nodDisCarP3", "title": "Nodos Dist. Cargas P3", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
-            { "field": "nodDisCarP4", "title": "Nodos Dist. Cargas P4", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
-            { "field": "nodDisCarP5", "title": "Nodos Dist. Cargas P5", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
-            { "field": "nodDisCarP6", "title": "Nodos Dist. Cargas P6", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
-            { "field": "nodDisCarP7", "title": "Nodos Dist. Cargas P7", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
-            { "field": "nodDisCarP8", "title": "Nodos Dist. Cargas P8", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
+            { "field": "nodDisCarP1", "title": "Nodos Cargas P1", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
+			{ "field": "nodDisCarP2", "title": "Nodos Cargas P2", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
+            { "field": "nodDisCarP3", "title": "Nodos Cargas P3", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
+            { "field": "nodDisCarP4", "title": "Nodos Cargas P4", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
+            { "field": "nodDisCarP5", "title": "Nodos Cargas P5", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
+            { "field": "nodDisCarP6", "title": "Nodos Cargas P6", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
+            { "field": "nodDisCarP7", "title": "Nodos Cargas P7", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
+            { "field": "nodDisCarP8", "title": "Nodos Cargas P8", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
 		]
     },
     {
@@ -4505,14 +4503,14 @@ module.exports = [
             { "field": "indiceNum", "title": "Índice Numerado", "sortable": true, "filterable": false, "width": "12vw"},
             { "field": "tipoUnidad", "title": "Tipo Unidad", "sortable": true, "filterable": false, "width": "10vw"},
             { "field": "clvUnidad", "title": "CLV Unidad", "sortable": true, "filterable": false, "width": "10vw"},
-            { "field": "nodDisGenP1", "title": "Nodo Dist. Generación P1", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
-			{ "field": "nodDisGenP2", "title": "Nodo Dist. Generación P2", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
-            { "field": "nodDisGenP3", "title": "Nodo Dist. Generación P3", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
-            { "field": "nodDisGenP4", "title": "Nodo Dist. Generación P4", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
-            { "field": "nodDisGenP5", "title": "Nodo Dist. Generación P5", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
-            { "field": "nodDisGenP6", "title": "Nodo Dist. Generación P6", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
-            { "field": "nodDisGenP7", "title": "Nodo Dist. Generación P7", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
-            { "field": "nodDisGenP8", "title": "Nodo Dist. Generación P8", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
+            { "field": "nodDisGenP1", "title": "Nodo Generación P1", "sortable": true, "filterable": true, "width": "15vw", "periodo": 1},
+			{ "field": "nodDisGenP2", "title": "Nodo Generación P2", "sortable": true, "filterable": true, "width": "15vw", "periodo": 2},
+            { "field": "nodDisGenP3", "title": "Nodo Generación P3", "sortable": true, "filterable": true, "width": "15vw", "periodo": 3},
+            { "field": "nodDisGenP4", "title": "Nodo Generación P4", "sortable": true, "filterable": true, "width": "15vw", "periodo": 4},
+            { "field": "nodDisGenP5", "title": "Nodo Generación P5", "sortable": true, "filterable": true, "width": "15vw", "periodo": 5},
+            { "field": "nodDisGenP6", "title": "Nodo Generación P6", "sortable": true, "filterable": true, "width": "15vw", "periodo": 6},
+            { "field": "nodDisGenP7", "title": "Nodo Generación P7", "sortable": true, "filterable": true, "width": "15vw", "periodo": 7},
+            { "field": "nodDisGenP8", "title": "Nodo Generación P8", "sortable": true, "filterable": true, "width": "15vw", "periodo": 8}
 		]
     },
 
@@ -4547,18 +4545,18 @@ module.exports = [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "15vw"},
             { "field": "CLV_ZONA_RESERVA", "title": "Zona Reserva", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "REQ_MW_RREG", "title": " Req. MW RREG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RREG_ASIGNADOS", "title": "MW. RREG Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RREG", "title": "Costo Marginal RREG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-			{ "field": "REQ_MW_RR10", "title": "Req. MW RR10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RR10_ASIGNADOS", "title": "MW RR10 Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RR10", "title": "Costo Marginal RR10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_R10", "title": "Req. MW R10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_R10_ASIGNADOS", "title": "MW R10 Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_R10", "title": "Costo Marginal R10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_RS", "title": "Req. MW RS", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RS_ASIGNADOS", "title": "MW RS Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RS", "title": "Costo Marginal RS", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+            { "field": "REQ_MW_RREG", "title": " Req. RREG (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RREG_ASIGNADOS", "title": "RREG Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RREG", "title": "Costo Marginal RREG ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+			{ "field": "REQ_MW_RR10", "title": "Req. RR10 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RR10_ASIGNADOS", "title": "RR10 Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RR10", "title": "Costo Marginal RR10 ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_R10", "title": "Req. R10 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_R10_ASIGNADOS", "title": "R10 Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_R10", "title": "Costo Marginal R10 ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_RS", "title": "Req. RS (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RS_ASIGNADOS", "title": "RS Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RS", "title": "Costo Marginal RS ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"}
         ]
     },
     {
@@ -4591,18 +4589,18 @@ module.exports = [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "15vw"},
             { "field": "CLV_ZONA_RESERVA", "title": "Zona Reserva", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "REQ_MW_RREG", "title": " Req. MW RREG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RREG_ASIGNADOS", "title": "MW. RREG Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RREG", "title": "Costo Marginal RREG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-			{ "field": "REQ_MW_RR10", "title": "Req. MW RR10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RR10_ASIGNADOS", "title": "MW RR10 Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RR10", "title": "Costo Marginal RR10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_R10", "title": "Req. MW R10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_R10_ASIGNADOS", "title": "MW R10 Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_R10", "title": "Costo Marginal R10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_RS", "title": "Req. MW RS", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RS_ASIGNADOS", "title": "MW RS Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RS", "title": "Costo Marginal RS", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+            { "field": "REQ_MW_RREG", "title": " Req. RREG (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RREG_ASIGNADOS", "title": "RREG Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RREG", "title": "Costo Marginal RREG ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+			{ "field": "REQ_MW_RR10", "title": "Req. RR10 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RR10_ASIGNADOS", "title": "RR10 Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RR10", "title": "Costo Marginal RR10 ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_R10", "title": "Req. R10 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_R10_ASIGNADOS", "title": "R10 Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_R10", "title": "Costo Marginal R10 ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_RS", "title": "Req. RS (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RS_ASIGNADOS", "title": "RS Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RS", "title": "Costo Marginal RS ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"}
         ]
     },
     {
@@ -4635,18 +4633,18 @@ module.exports = [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "15vw"},
             { "field": "CLV_ZONA_RESERVA", "title": "Zona Reserva", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "REQ_MW_RREG", "title": " Req. MW RREG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RREG_ASIGNADOS", "title": "MW. RREG Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RREG", "title": "Costo Marginal RREG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-			{ "field": "REQ_MW_RR10", "title": "Req. MW RR10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RR10_ASIGNADOS", "title": "MW RR10 Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RR10", "title": "Costo Marginal RR10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_R10", "title": "Req. MW R10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_R10_ASIGNADOS", "title": "MW R10 Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_R10", "title": "Costo Marginal R10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_RS", "title": "Req. MW RS", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RS_ASIGNADOS", "title": "MW RS Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RS", "title": "Costo Marginal RS", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+            { "field": "REQ_MW_RREG", "title": " Req. RREG (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RREG_ASIGNADOS", "title": "RREG Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RREG", "title": "Costo Marginal RREG ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+			{ "field": "REQ_MW_RR10", "title": "Req. RR10 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RR10_ASIGNADOS", "title": "RR10 Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RR10", "title": "Costo Marginal RR10 ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_R10", "title": "Req. R10 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_R10_ASIGNADOS", "title": "R10 Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_R10", "title": "Costo Marginal R10 ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_RS", "title": "Req. RS (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RS_ASIGNADOS", "title": "RS Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RS", "title": "Costo Marginal RS ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"}
         ]
     },
     {
@@ -4679,18 +4677,18 @@ module.exports = [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "15vw"},
             { "field": "CLV_ZONA_RESERVA", "title": "Zona Reserva", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "REQ_MW_RREG", "title": " Req. MW RREG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RREG_ASIGNADOS", "title": "MW. RREG Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RREG", "title": "Costo Marginal RREG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-			{ "field": "REQ_MW_RR10", "title": "Req. MW RR10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RR10_ASIGNADOS", "title": "MW RR10 Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RR10", "title": "Costo Marginal RR10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_R10", "title": "Req. MW R10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_R10_ASIGNADOS", "title": "MW R10 Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_R10", "title": "Costo Marginal R10", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_RS", "title": "Req. MW RS", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RS_ASIGNADOS", "title": "MW RS Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RS", "title": "Costo Marginal RS", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+            { "field": "REQ_MW_RREG", "title": " Req. RREG (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RREG_ASIGNADOS", "title": "RREG Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RREG", "title": "Costo Marginal RREG ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+			{ "field": "REQ_MW_RR10", "title": "Req. RR10 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RR10_ASIGNADOS", "title": "RR10 Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RR10", "title": "Costo Marginal RR10 ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_R10", "title": "Req. R10 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_R10_ASIGNADOS", "title": "R10 Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_R10", "title": "Costo Marginal R10 ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_RS", "title": "Req. RS (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RS_ASIGNADOS", "title": "RS Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RS", "title": "Costo Marginal RS ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"}
         ]
     },
     {
@@ -4719,10 +4717,10 @@ module.exports = [
             { "field": "Generacion", "title": "Generación", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "NoProgramable", "title": "No Programable", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "Intercambio", "title": "Intercambio", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+            { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
 			{ "field": "Corte", "title": "Corte (Excedente)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "Perdida", "title": "Pérdida", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "ECA", "title": "Error Control Área", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+            { "field": "ECA", "title": "Error Control Área", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"}
         ]
     },
     {
@@ -4751,10 +4749,10 @@ module.exports = [
             { "field": "Generacion", "title": "Generación", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "NoProgramable", "title": "No Programable", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "Intercambio", "title": "Intercambio", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+            { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
 			{ "field": "Corte", "title": "Corte (Excedente)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "Perdida", "title": "Pérdida", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "ECA", "title": "Error Control Área", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+            { "field": "ECA", "title": "Error Control Área", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"}
         ]
     },
     {
@@ -4783,10 +4781,10 @@ module.exports = [
             { "field": "Generacion", "title": "Generación", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "NoProgramable", "title": "No Programable", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "Intercambio", "title": "Intercambio", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+            { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
 			{ "field": "Corte", "title": "Corte (Excedente)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "Perdida", "title": "Pérdida", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "ECA", "title": "Error Control Área", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+            { "field": "ECA", "title": "Error Control Área", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"}
         ]
     },
     {
@@ -4818,7 +4816,7 @@ module.exports = [
             { "field": "Generacion", "title": "Generación", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "NoProgramable", "title": "No Programable", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
             { "field": "Intercambio", "title": "Intercambio", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+            { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
 			{ "field": "Corte", "title": "Corte (Excedente)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
             { "field": "Perdida", "title": "Pérdida", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "ECA", "title": "Error de Control de Área", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
@@ -4849,13 +4847,13 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "Intervalo", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "Generacion", "title": "Generación", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "NoProgramable", "title": "No Programable", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "Intercambio", "title": "Intercambio", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "DualBalance", "title": "DualBalance", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "Corte", "title": "Corte (Excedente)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "Perdida", "title": "Pérdida", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Demanda", "title": "Demanda (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Generacion", "title": "Generación (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "NoProgramable", "title": "No Programable (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "Intercambio", "title": "Intercambio (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "DualBalance", "title": "Balance de Potencia - Dual ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+			{ "field": "Corte", "title": "Corte o Excedente", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "Perdida", "title": "Pérdida (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "Area", "title": "Área", "sortable": true, "filterable": true, "width": "15vw"}
         ]
     },
@@ -4884,15 +4882,15 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_ZONA", "title": "CLV Zona", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "PML", "title": "PML", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ENE", "title": "PML_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_PER", "title": "PML_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_CNG", "title": "PML_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "PML_ORI", "title": "PML_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ENE_ORI", "title": "PML_ENE_ORI", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "PML_CNG_ORI", "title": "PML_CNG_ORI", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "DEMANDA", "title": "Demanda", "sortable": true, "filterable": true, "width": "15vw"}
+            { "field": "CLV_ZONA", "title": "Clave Zona", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PML", "title": "Precio Marginal Local (PML) ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_ENE", "title": "PML ENE ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_PER", "title": "PML PER ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_CNG", "title": "PML CNG ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+			{ "field": "PML_ORI", "title": "PML ORI ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_ENE_ORI", "title": "PML ENE-ORI ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "PML_CNG_ORI", "title": "PML CNG-ORI ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "DEMANDA", "title": "Demanda (Mw)", "sortable": true, "filterable": true, "width": "15vw"}
         ]
     },
     {
@@ -4920,15 +4918,15 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_ZONA", "title": "CLV Zona", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "PML", "title": "PML", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ENE", "title": "PML_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_PER", "title": "PML_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_CNG", "title": "PML_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "PML_ORI", "title": "PML_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ENE_ORI", "title": "PML_ENE_ORI", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "PML_CNG_ORI", "title": "PML_CNG_ORI", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "DEMANDA", "title": "Demanda", "sortable": true, "filterable": true, "width": "15vw"}
+            { "field": "CLV_ZONA", "title": "Clave Zona", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PML", "title": "Precio Marginal Local (PML) ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_ENE", "title": "PML ENE ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_PER", "title": "PML PER ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_CNG", "title": "PML CNG ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+			{ "field": "PML_ORI", "title": "PML ORI ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_ENE_ORI", "title": "PML ENE-ORI ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "PML_CNG_ORI", "title": "PML CNG-ORI ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "DEMANDA", "title": "Demanda (Mw)", "sortable": true, "filterable": true, "width": "15vw"}
         ]
     },
     {
@@ -4956,15 +4954,15 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_ZONA", "title": "CLV Zona", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "PML", "title": "PML", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ENE", "title": "PML_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_PER", "title": "PML_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_CNG", "title": "PML_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "PML_ORI", "title": "PML_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ENE_ORI", "title": "PML_ENE_ORI", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "PML_CNG_ORI", "title": "PML_CNG_ORI", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "DEMANDA", "title": "Demanda", "sortable": true, "filterable": true, "width": "15vw"}
+            { "field": "CLV_ZONA", "title": "Clave Zona", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PML", "title": "Precio Marginal Local (PML) ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_ENE", "title": "PML ENE ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_PER", "title": "PML PER ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_CNG", "title": "PML CNG ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+			{ "field": "PML_ORI", "title": "PML ORI ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_ENE_ORI", "title": "PML ENE-ORI ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "PML_CNG_ORI", "title": "PML CNG-ORI ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "DEMANDA", "title": "Demanda (Mw)", "sortable": true, "filterable": true, "width": "15vw"}
         ]
     },
     {
@@ -4992,15 +4990,15 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_ZONA", "title": "CLV Zona", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "PML", "title": "PML", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ENE", "title": "PML_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_PER", "title": "PML_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_CNG", "title": "PML_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "PML_ORI", "title": "PML_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ENE_ORI", "title": "PML_ENE_ORI", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "PML_CNG_ORI", "title": "PML_CNG_ORI", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "DEMANDA", "title": "Demanda", "sortable": true, "filterable": true, "width": "15vw"}
+            { "field": "CLV_ZONA", "title": "Clave Zona", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PML", "title": "Precio Marginal Local (PML) ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_ENE", "title": "PML ENE ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_PER", "title": "PML PER ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_CNG", "title": "PML CNG ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+			{ "field": "PML_ORI", "title": "PML ORI ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_ENE_ORI", "title": "PML ENE-ORI ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "PML_CNG_ORI", "title": "PML CNG-ORI ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "DEMANDA", "title": "Demanda (Mw)", "sortable": true, "filterable": true, "width": "15vw"}
         ]
     },
     {
@@ -5029,16 +5027,16 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_REGION", "title": "CLV Región", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CLV_AREA", "title": "CLV Área", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "PM_PROM", "title": "PM_PROM", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PM_PROM_ENE", "title": "PM_PROM_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PM_PROM_PER", "title": "PM_PROM_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PM_PROM_CNG", "title": "PM_PROM_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "PM_POND_GEN", "title": "PM_POND_GEN", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PM_POND_CRG", "title": "PM_POND_CRG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CORTE_MDO", "title": "CORTE_MDO", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "EXCEDENTE_MDO", "title": "EXCEDENTE_MDO", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
+            { "field": "CLV_REGION", "title": "Clave Región", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_AREA", "title": "Clave Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PM_PROM", "title": "Precio Marginal Promedio (PMP) ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "PM_PROM_ENE", "title": "PMP ENE ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PM_PROM_PER", "title": "PMP PER ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PM_PROM_CNG", "title": "PMP CNG ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+			{ "field": "PM_POND_GEN", "title": "PMP Ponderado GEN ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PM_POND_CRG", "title": "PMP Ponderado CRG ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "CORTE_MDO", "title": "Corte de Carga", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "EXCEDENTE_MDO", "title": "Excedente (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -5067,16 +5065,16 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_REGION", "title": "CLV Región", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CLV_AREA", "title": "CLV Área", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "PM_PROM", "title": "PM_PROM", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PM_PROM_ENE", "title": "PM_PROM_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PM_PROM_PER", "title": "PM_PROM_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PM_PROM_CNG", "title": "PM_PROM_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "PM_POND_GEN", "title": "PM_POND_GEN", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PM_POND_CRG", "title": "PM_POND_CRG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CORTE_MDO", "title": "CORTE_MDO", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "EXCEDENTE_MDO", "title": "EXCEDENTE_MDO", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
+            { "field": "CLV_REGION", "title": "Clave Región", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_AREA", "title": "Clave Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PM_PROM", "title": "Precio Marginal Promedio (PMP) ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "PM_PROM_ENE", "title": "PMP ENE ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PM_PROM_PER", "title": "PMP PER ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PM_PROM_CNG", "title": "PMP CNG ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+			{ "field": "PM_POND_GEN", "title": "PMP Ponderado GEN ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PM_POND_CRG", "title": "PMP Ponderado CRG ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "CORTE_MDO", "title": "Corte de Carga", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "EXCEDENTE_MDO", "title": "Excedente (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -5105,16 +5103,16 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_REGION", "title": "CLV Región", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CLV_AREA", "title": "CLV Área", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "PM_PROM", "title": "PM_PROM", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PM_PROM_ENE", "title": "PM_PROM_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PM_PROM_PER", "title": "PM_PROM_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PM_PROM_CNG", "title": "PM_PROM_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "PM_POND_GEN", "title": "PM_POND_GEN", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PM_POND_CRG", "title": "PM_POND_CRG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CORTE_MDO", "title": "CORTE_MDO", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "EXCEDENTE_MDO", "title": "EXCEDENTE_MDO", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
+            { "field": "CLV_REGION", "title": "Clave Región", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_AREA", "title": "Clave Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PM_PROM", "title": "Precio Marginal Promedio (PMP) ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "PM_PROM_ENE", "title": "PMP ENE ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PM_PROM_PER", "title": "PMP PER ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PM_PROM_CNG", "title": "PMP CNG ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+			{ "field": "PM_POND_GEN", "title": "PMP Ponderado GEN ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PM_POND_CRG", "title": "PMP Ponderado CRG ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "CORTE_MDO", "title": "Corte de Carga", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "EXCEDENTE_MDO", "title": "Excedente (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -5143,16 +5141,16 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_REGION", "title": "CLV Región", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CLV_AREA", "title": "CLV Área", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "PM_PROM", "title": "PM_PROM", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PM_PROM_ENE", "title": "PM_PROM_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PM_PROM_PER", "title": "PM_PROM_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PM_PROM_CNG", "title": "PM_PROM_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "PM_POND_GEN", "title": "PM_POND_GEN", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PM_POND_CRG", "title": "PM_POND_CRG", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CORTE_MDO", "title": "CORTE_MDO", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "EXCEDENTE_MDO", "title": "EXCEDENTE_MDO", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
+            { "field": "CLV_REGION", "title": "Clave Región", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_AREA", "title": "Clave Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PM_PROM", "title": "Precio Marginal Promedio (PMP) ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "PM_PROM_ENE", "title": "PMP ENE ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PM_PROM_PER", "title": "PMP PER ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PM_PROM_CNG", "title": "PMP CNG ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+			{ "field": "PM_POND_GEN", "title": "PMP Ponderado GEN ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PM_POND_CRG", "title": "PMP Ponderado CRG ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "CORTE_MDO", "title": "Corte de Carga", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "EXCEDENTE_MDO", "title": "Excedente (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -5187,22 +5185,22 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_NODO", "title": "CLV Nodo", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_NODO", "title": "Clave Nodo", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "TIPO_NODO", "title": "Tipo Nodo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_AREA", "title": "CLV Área", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CLV_REGION", "title": "CLV Región", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "PML", "title": "PML", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ENE", "title": "PML_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "PML_PER", "title": "PML_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_CNG", "title": "PML_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "DEMANDA", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CLV_AREA", "title": "Clave Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_REGION", "title": "Clave Región", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PML", "title": "Precio Marginal Local (PML) ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_ENE", "title": "PML ENE ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+			{ "field": "PML_PER", "title": "PML PER ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_CNG", "title": "PML CNG ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "DEMANDA", "title": "Demanda (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "CORTE", "title": "Corte", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "EXCEDENTE", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ORI", "title": "PML_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ENE_ORI", "title": "PML_ENE_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_PER_ORI", "title": "PML_PER_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_CNG_ORI", "title": "PML_CNG_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "B_DIP", "title": "B_DIP", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+            { "field": "EXCEDENTE", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_ORI", "title": "PML ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE_ORI", "title": "PML ENE-ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_PER_ORI", "title": "PML PER-ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_CNG_ORI", "title": "PML CNG-ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "B_DIP", "title": "Bandera Disponibilidad", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -5237,22 +5235,22 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_NODO", "title": "CLV Nodo", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_NODO", "title": "Clave Nodo", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "TIPO_NODO", "title": "Tipo Nodo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_AREA", "title": "CLV Área", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CLV_REGION", "title": "CLV Región", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "PML", "title": "PML", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ENE", "title": "PML_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "PML_PER", "title": "PML_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_CNG", "title": "PML_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "DEMANDA", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CLV_AREA", "title": "Clave Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_REGION", "title": "Clave Región", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PML", "title": "Precio Marginal Local (PML) ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_ENE", "title": "PML ENE ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+			{ "field": "PML_PER", "title": "PML PER ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_CNG", "title": "PML CNG ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "DEMANDA", "title": "Demanda (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "CORTE", "title": "Corte", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "EXCEDENTE", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ORI", "title": "PML_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ENE_ORI", "title": "PML_ENE_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_PER_ORI", "title": "PML_PER_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_CNG_ORI", "title": "PML_CNG_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "B_DIP", "title": "B_DIP", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+            { "field": "EXCEDENTE", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_ORI", "title": "PML ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE_ORI", "title": "PML ENE-ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_PER_ORI", "title": "PML PER-ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_CNG_ORI", "title": "PML CNG-ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "B_DIP", "title": "Bandera Disponibilidad", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -5287,22 +5285,22 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_NODO", "title": "CLV Nodo", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_NODO", "title": "Clave Nodo", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "TIPO_NODO", "title": "Tipo Nodo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_AREA", "title": "CLV Área", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CLV_REGION", "title": "CLV Región", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "PML", "title": "PML", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ENE", "title": "PML_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "PML_PER", "title": "PML_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_CNG", "title": "PML_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "DEMANDA", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CLV_AREA", "title": "Clave Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_REGION", "title": "Clave Región", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PML", "title": "Precio Marginal Local (PML) ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_ENE", "title": "PML ENE ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+			{ "field": "PML_PER", "title": "PML PER ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_CNG", "title": "PML CNG ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "DEMANDA", "title": "Demanda (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "CORTE", "title": "Corte", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "EXCEDENTE", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ORI", "title": "PML_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ENE_ORI", "title": "PML_ENE_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_PER_ORI", "title": "PML_PER_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_CNG_ORI", "title": "PML_CNG_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "B_DIP", "title": "B_DIP", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+            { "field": "EXCEDENTE", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_ORI", "title": "PML ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE_ORI", "title": "PML ENE-ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_PER_ORI", "title": "PML PER-ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_CNG_ORI", "title": "PML CNG-ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "B_DIP", "title": "Bandera Disponibilidad", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -5337,22 +5335,22 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_NODO", "title": "CLV Nodo", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_NODO", "title": "Clave Nodo", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "TIPO_NODO", "title": "Tipo Nodo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_AREA", "title": "CLV Área", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CLV_REGION", "title": "CLV Región", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "PML", "title": "PML", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ENE", "title": "PML_ENE", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "PML_PER", "title": "PML_PER", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_CNG", "title": "PML_CNG", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "DEMANDA", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CLV_AREA", "title": "Clave Área", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_REGION", "title": "Clave Región", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "PML", "title": "Precio Marginal Local (PML) ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_ENE", "title": "PML ENE ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+			{ "field": "PML_PER", "title": "PML PER ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_CNG", "title": "PML CNG ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "DEMANDA", "title": "Demanda (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "CORTE", "title": "Corte", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "EXCEDENTE", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ORI", "title": "PML_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_ENE_ORI", "title": "PML_ENE_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_PER_ORI", "title": "PML_PER_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PML_CNG_ORI", "title": "PML_CNG_ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "B_DIP", "title": "B_DIP", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+            { "field": "EXCEDENTE", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_ORI", "title": "PML ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PML_ENE_ORI", "title": "PML ENE-ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_PER_ORI", "title": "PML PER-ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "PML_CNG_ORI", "title": "PML CNG-ORI", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "B_DIP", "title": "Bandera Disponibilidad", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -5382,17 +5380,17 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_UNIDAD", "title": "CLV Unidad", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CLV_NODO", "title": "CLV Nodo", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_UNIDAD", "title": "Clave Unidad", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_NODO", "title": "Clave Nodo", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "TIPO_OFERTA", "title": "Tipo Oferta", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "MODO", "title": "Modo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
             { "field": "ESTADO", "title": "Estado", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "POTENCIA", "title": "Potencia (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "RR10_ASIGNADA", "title": "Reserva Rod. 10 Min. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RNR10_ASIGNADA", "title": "Reserva No Rod. 10 Min. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RRS_ASIGNADA", "title": "Reserva Rod. Sec. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RNRS_ASIGNADA", "title": "Reserva No Rod. Sec. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RREG_ASIGNADA", "title": "Reserva Reg. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
+            { "field": "POTENCIA", "title": "Potencia (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+			{ "field": "RR10_ASIGNADA", "title": "Reserva RR10 Asignada (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RNR10_ASIGNADA", "title": "Reserva RN10 Asignada (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RRS_ASIGNADA", "title": "Reserva RRS (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RNRS_ASIGNADA", "title": "Reserva RNRS (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RREG_ASIGNADA", "title": "RREG Asignada (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -5422,17 +5420,17 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_UNIDAD", "title": "CLV Unidad", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CLV_NODO", "title": "CLV Nodo", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_UNIDAD", "title": "Clave Unidad", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_NODO", "title": "Clave Nodo", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "TIPO_OFERTA", "title": "Tipo Oferta", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "MODO", "title": "Modo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
             { "field": "ESTADO", "title": "Estado", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "POTENCIA", "title": "Potencia", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "RR10_ASIGNADA", "title": "Reserva Rod. 10 Min. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RNR10_ASIGNADA", "title": "Reserva No Rod. 10 Min. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RRS_ASIGNADA", "title": "Reserva Rod. Sec. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RNRS_ASIGNADA", "title": "Reserva No Rod. Sec. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RREG_ASIGNADA", "title": "Reserva Reg. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
+            { "field": "POTENCIA", "title": "Potencia (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+			{ "field": "RR10_ASIGNADA", "title": "Reserva RR10 Asignada (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RNR10_ASIGNADA", "title": "Reserva RN10 Asignada (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RRS_ASIGNADA", "title": "Reserva RRS (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RNRS_ASIGNADA", "title": "Reserva RNRS (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RREG_ASIGNADA", "title": "RREG Asignada (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -5462,17 +5460,17 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_UNIDAD", "title": "CLV Unidad", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CLV_NODO", "title": "CLV Nodo", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_UNIDAD", "title": "Clave Unidad", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_NODO", "title": "Clave Nodo", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "TIPO_OFERTA", "title": "Tipo Oferta", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "MODO", "title": "Modo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
             { "field": "ESTADO", "title": "Estado", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "POTENCIA", "title": "Potencia", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-			{ "field": "RR10_ASIGNADA", "title": "Reserva Rod. 10 Min. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RNR10_ASIGNADA", "title": "Reserva No Rod. 10 Min. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RRS_ASIGNADA", "title": "Reserva Rod. Sec. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RNRS_ASIGNADA", "title": "Reserva No Rod. Sec. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "RREG_ASIGNADA", "title": "Reserva Rod. Asignada", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
+            { "field": "POTENCIA", "title": "Potencia (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+			{ "field": "RR10_ASIGNADA", "title": "Reserva RR10 Asignada (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RNR10_ASIGNADA", "title": "Reserva RN10 Asignada (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RRS_ASIGNADA", "title": "Reserva RRS (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RNRS_ASIGNADA", "title": "Reserva RNRS (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "RREG_ASIGNADA", "title": "RREG Asignada (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -5510,22 +5508,22 @@ module.exports = [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "UNIDAD", "title": "Unidad", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "TIPO", "title": "Tipo Unidad", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CI", "title": "Condicion Inicial", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CI", "title": "Condicion Inicial (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "POTENCIA", "title": "Potencia", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "LIM_INF", "title": "Límite Inferior", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "LIM_SUP", "title": "Límite Superior", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
+            { "field": "POTENCIA", "title": "Potencia (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "LIM_INF", "title": "Límite Inferior (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
+            { "field": "LIM_SUP", "title": "Límite Superior (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
             { "field": "REG", "title": "Regulación", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "RR10", "title": "Reserva Rod. 10 Min.", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "RRS", "title": "Reserva Rod. Sec.", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "RNR10", "title": "Reserva No Rod. 10 Min.", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "RNRS", "title": "Reserva No Rod. Sec.", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "RR10", "title": "RR10 (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "RRS", "title": "RRS (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "RNR10", "title": "RN10 (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "RNRS", "title": "RNRS (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
             { "field": "DISPONIBILIDAD", "title": "Disponibilidad", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
             { "field": "ASIGNABILIDAD", "title": "Asignabilidad", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
             { "field": "COORDINABILIDAD", "title": "Coordinabilidad", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "MARGEN_SUBIR", "title": "Margen para subir", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "MARGEN_BAJAR", "title": "Margen para bajar", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PRECIO_SEGMENTO", "title": "Precio de Segmento", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "MARGEN_SUBIR", "title": "Margen para subir (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "MARGEN_BAJAR", "title": "Margen para bajar (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PRECIO_SEGMENTO", "title": "Precio de Segmento ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
             { "field": "SEGMENTO", "title": "Segmento", "sortable": true, "hidden": true, "filterable": true, "width": "10vw", "format": "{0:n2}"}
         ]
     },
@@ -5550,11 +5548,11 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_ENLACE", "title": "CLV Enlace", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "LIM_DES_ORI", "title": "Límite Des Ori", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "LIM_ORI_DES", "title": "Límite Ori Des", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "FLUJO", "title": "Flujo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "CST_MARG", "title": "Costo Marginal", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"}
+            { "field": "CLV_ENLACE", "title": "Clave Enlace", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "LIM_DES_ORI", "title": "Límite Superior en el FLujo (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "LIM_ORI_DES", "title": "Límite Inferior el Flujo (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "FLUJO", "title": "Flujo (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CST_MARG", "title": "Costo Marginal ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"}
         ]
     },
     {
@@ -5578,11 +5576,11 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_ENLACE", "title": "CLV Enlace", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "LIM_DES_ORI", "title": "Límite Des Ori", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "LIM_ORI_DES", "title": "Límite Ori Des", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "FLUJO", "title": "Flujo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "CST_MARG", "title": "Costo Marginal", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"}
+            { "field": "CLV_ENLACE", "title": "Clave Enlace", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "LIM_DES_ORI", "title": "Límite Superior en el FLujo (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "LIM_ORI_DES", "title": "Límite Inferior el Flujo (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "FLUJO", "title": "Flujo (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CST_MARG", "title": "Costo Marginal ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"}
         ]
     },
     {
@@ -5606,11 +5604,11 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_ENLACE", "title": "CLV Enlace", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "LIM_DES_ORI", "title": "Límite Des Ori", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "LIM_ORI_DES", "title": "Límite Ori Des", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "FLUJO", "title": "Flujo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "CST_MARG", "title": "Costo Marginal", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"}
+            { "field": "CLV_ENLACE", "title": "Clave Enlace", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "LIM_DES_ORI", "title": "Límite Superior en el FLujo (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "LIM_ORI_DES", "title": "Límite Inferior el Flujo (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "FLUJO", "title": "Flujo (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CST_MARG", "title": "Costo Marginal ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"}
         ]
     },
     {
@@ -5634,11 +5632,11 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_ENLACE", "title": "CLV Enlace", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "LIM_DES_ORI", "title": "Límite Des Ori", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "LIM_ORI_DES", "title": "Límite Ori Des", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "FLUJO", "title": "Flujo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "CST_MARG", "title": "Costo Marginal", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"}
+            { "field": "CLV_ENLACE", "title": "Clave Enlace", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "LIM_DES_ORI", "title": "Límite Superior en el FLujo (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "LIM_ORI_DES", "title": "Límite Inferior el Flujo (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "FLUJO", "title": "Flujo (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "CST_MARG", "title": "Costo Marginal ($/Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"}
         ]
     },
     {
@@ -5663,12 +5661,12 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_ENLACE", "title": "CLV Enlace", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CLV_RAMA", "title": "CLV Rama", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_ENLACE", "title": "Clave Enlace", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_RAMA", "title": "Clave Rama", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "NODO_ORIGEN", "title": "Nodo Origen", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "NODO_DESTINO", "title": "Nodo Destino", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "SENTIDO", "title": "Sentido", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "FLUJO", "title": "Flujo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"}
+            { "field": "FLUJO", "title": "Flujo (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -5693,12 +5691,12 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_ENLACE", "title": "CLV Enlace", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CLV_RAMA", "title": "CLV Rama", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_ENLACE", "title": "Clave Enlace", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_RAMA", "title": "Clave Rama", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "NODO_ORIGEN", "title": "Nodo Origen", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "NODO_DESTINO", "title": "Nodo Destino", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "SENTIDO", "title": "Sentido", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "FLUJO", "title": "Flujo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"}
+            { "field": "FLUJO", "title": "Flujo (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -5723,12 +5721,12 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_ENLACE", "title": "CLV Enlace", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CLV_RAMA", "title": "CLV Rama", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_ENLACE", "title": "Clave Enlace", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_RAMA", "title": "Clave Rama", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "NODO_ORIGEN", "title": "Nodo Origen", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "NODO_DESTINO", "title": "Nodo Destino", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "SENTIDO", "title": "Sentido", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "FLUJO", "title": "Flujo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"}
+            { "field": "FLUJO", "title": "Flujo (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -5753,12 +5751,12 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_ENLACE", "title": "CLV Enlace", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "CLV_RAMA", "title": "CLV Rama", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_ENLACE", "title": "Clave Enlace", "sortable": true, "filterable": true, "width": "10vw"},
+            { "field": "CLV_RAMA", "title": "Clave Rama", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "NODO_ORIGEN", "title": "Nodo Origen", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "NODO_DESTINO", "title": "Nodo Destino", "sortable": true, "filterable": true, "width": "10vw"},
             { "field": "SENTIDO", "title": "Sentido", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "FLUJO", "title": "Flujo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"}
+            { "field": "FLUJO", "title": "Flujo (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -5780,11 +5778,11 @@ module.exports = [
         },
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
-            { "field": "EMBALSE", "title": "Embalse", "sortable": true, "filterable": true, "width": "10vw", "filterable": true},
-            { "field": "COSTO_OPORTUNIDAD", "title": "Costo Oportunidad", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c3}"},
-            { "field": "LIM_INF_ENERGIA", "title": "Límite Inferior", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "ENERGIA", "title": "Energía", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "LIM_SUP_ENERGIA", "title": "Límite Superior", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+            { "field": "EMBALSE", "title": "Clave Embalse", "sortable": true, "filterable": true, "width": "10vw", "filterable": true},
+            { "field": "COSTO_OPORTUNIDAD", "title": "Costo Oportunidad ($/Mwh)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:c2}"},
+            { "field": "LIM_INF_ENERGIA", "title": "Límite Inferior (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "ENERGIA", "title": "Energía (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "LIM_SUP_ENERGIA", "title": "Límite Superior (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -5816,19 +5814,19 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_SIS_RESERVA", "title": "CLV Sistema Reserva", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "REQ_MW_RREG", "title": "Req. MW Res. Reg.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RREG_ASIGNADOS", "title": "MW Res. Reg. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RREG", "title": "Costo Marginal Res. Reg.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_RR10", "title": "Req. MW Res. Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RR10_ASIGNADOS", "title": "MW Res. Rod. 10 Min. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RR10", "title": "Costo Marginal Res. Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_R10", "title": "Req. MW Res. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_R10_ASIGNADOS", "title": "MW Res. 10 Min. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_R10", "title": "Costo Marginal Res. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_RS", "title": "Req. MW Res. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RS_ASIGNADOS", "title": "MW Res. Sec. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RS", "title": "Costo Marginal Res. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+            { "field": "CLV_SIS_RESERVA", "title": "Clave Sistema", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "REQ_MW_RREG", "title": "Req. RREG (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RREG_ASIGNADOS", "title": "RREG Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RREG", "title": "Costo Marginal RREG ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_RR10", "title": "Req. RR10 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RR10_ASIGNADOS", "title": "RR10 Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RR10", "title": "Costo Marginal RR10 ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_R10", "title": "Req. R10 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_R10_ASIGNADOS", "title": "R10 Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_R10", "title": "Costo Marginal Res. 10 Min. ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_RS", "title": "Req. RS (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RS_ASIGNADOS", "title": "RS Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RS", "title": "Costo Marginal RS ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"}
         ]
     },
     {
@@ -5860,19 +5858,19 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_SIS_RESERVA", "title": "CLV Sistema Reserva", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "REQ_MW_RREG", "title": "Req. MW Res. Reg.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RREG_ASIGNADOS", "title": "MW Res. Reg. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RREG", "title": "Costo Marginal Res. Reg.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_RR10", "title": "Req. MW Res. Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RR10_ASIGNADOS", "title": "MW Res. Rod. 10 Min. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RR10", "title": "Costo Marginal Res. Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_R10", "title": "Req. MW Res. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_R10_ASIGNADOS", "title": "MW Res. 10 Min. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_R10", "title": "Costo Marginal Res. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_RS", "title": "Req. MW Res. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RS_ASIGNADOS", "title": "MW Res. Sec. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RS", "title": "Costo Marginal Res. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+            { "field": "CLV_SIS_RESERVA", "title": "Clave Sistema", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "REQ_MW_RREG", "title": "Req. RREG (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RREG_ASIGNADOS", "title": "RREG Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RREG", "title": "Costo Marginal RREG ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_RR10", "title": "Req. RR10 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RR10_ASIGNADOS", "title": "RR10 Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RR10", "title": "Costo Marginal RR10 ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_R10", "title": "Req. R10 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_R10_ASIGNADOS", "title": "R10 Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_R10", "title": "Costo Marginal Res. 10 Min. ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_RS", "title": "Req. RS (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RS_ASIGNADOS", "title": "RS Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RS", "title": "Costo Marginal RS ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"}
         ]
     },
     {
@@ -5904,19 +5902,19 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_SIS_RESERVA", "title": "CLV Sistema Reserva", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "REQ_MW_RREG", "title": "Req. MW Res. Reg.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RREG_ASIGNADOS", "title": "MW Res. Reg. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RREG", "title": "Costo Marginal Res. Reg.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_RR10", "title": "Req. MW Res. Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RR10_ASIGNADOS", "title": "MW Res. Rod. 10 Min. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RR10", "title": "Costo Marginal Res. Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_R10", "title": "Req. MW Res. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_R10_ASIGNADOS", "title": "MW Res. 10 Min. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_R10", "title": "Costo Marginal Res. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_RS", "title": "Req. MW Res. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RS_ASIGNADOS", "title": "MW Res. Sec. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RS", "title": "Costo Marginal Res. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+            { "field": "CLV_SIS_RESERVA", "title": "Clave Sistema", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "REQ_MW_RREG", "title": "Req. RREG (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RREG_ASIGNADOS", "title": "RREG Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RREG", "title": "Costo Marginal RREG ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_RR10", "title": "Req. RR10 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RR10_ASIGNADOS", "title": "RR10 Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RR10", "title": "Costo Marginal RR10 ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_R10", "title": "Req. R10 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_R10_ASIGNADOS", "title": "R10 Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_R10", "title": "Costo Marginal Res. 10 Min. ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_RS", "title": "Req. RS (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RS_ASIGNADOS", "title": "RS Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RS", "title": "Costo Marginal RS ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"}
         ]
     },
     {
@@ -5948,19 +5946,19 @@ module.exports = [
         "columnas": [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "INTERVALO", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
-            { "field": "CLV_SIS_RESERVA", "title": "CLV Sistema Reserva", "sortable": true, "filterable": true, "width": "15vw"},
-            { "field": "REQ_MW_RREG", "title": "Req. MW Res. Reg.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RREG_ASIGNADOS", "title": "MW Res. Reg. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RREG", "title": "Costo Marginal Res. Reg.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_RR10", "title": "Req. MW Res. Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RR10_ASIGNADOS", "title": "MW Res. Rod. 10 Min. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RR10", "title": "Costo Marginal Res. Rod. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_R10", "title": "Req. MW Res. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_R10_ASIGNADOS", "title": "MW Res. 10 Min. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_R10", "title": "Costo Marginal Res. 10 Min.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"},
-            { "field": "REQ_MW_RS", "title": "Req. MW Res. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "MW_RS_ASIGNADOS", "title": "MW Res. Sec. Asignados", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "CST_MARG_RS", "title": "Costo Marginal Res. Sec.", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c3}"}
+            { "field": "CLV_SIS_RESERVA", "title": "Clave Sistema", "sortable": true, "filterable": true, "width": "15vw"},
+            { "field": "REQ_MW_RREG", "title": "Req. RREG (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RREG_ASIGNADOS", "title": "RREG Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RREG", "title": "Costo Marginal RREG ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_RR10", "title": "Req. RR10 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RR10_ASIGNADOS", "title": "RR10 Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RR10", "title": "Costo Marginal RR10 ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_R10", "title": "Req. R10 (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_R10_ASIGNADOS", "title": "R10 Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_R10", "title": "Costo Marginal Res. 10 Min. ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"},
+            { "field": "REQ_MW_RS", "title": "Req. RS (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "MW_RS_ASIGNADOS", "title": "RS Asignados (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "CST_MARG_RS", "title": "Costo Marginal RS ($/Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:c2}"}
         ]
     },
     {
@@ -5991,16 +5989,16 @@ module.exports = [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "Inter", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
             { "field": "Area", "title": "Área", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "GenTer", "title": "Generación U. Térmicas", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "GenHid", "title": "Generación U. Hidroeléctricas", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "GenRE", "title": "Generación U. Renovables", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "GenNP", "title": "Generación U. No Programables", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "GenTot", "title": "Generación Total", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "Corte", "title": "Corte", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "Excedente", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PotInt", "title": "Potencia Int.", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "Perdidas", "title": "Pérdidas", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+            { "field": "GenTer", "title": "Generación U. Térmicas (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenHid", "title": "Generación U. Hidroeléctricas (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenRE", "title": "Generación U. Renovables (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenNP", "title": "Generación U. No Programables (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenTot", "title": "Generación Total (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "Demanda", "title": "Demanda (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Corte", "title": "Corte (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Excedente", "title": "Excedente (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PotInt", "title": "Potencia (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Perdidas", "title": "Pérdidas (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -6031,16 +6029,16 @@ module.exports = [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "Inter", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
             { "field": "Area", "title": "Área", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "GenTer", "title": "Generación U. Térmicas", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "GenHid", "title": "Generación U. Hidroeléctricas", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "GenRE", "title": "Generación U. Renovables", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "GenNP", "title": "Generación U. No Programables", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "GenTot", "title": "Generación Total", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "Corte", "title": "Corte", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "Excedente", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PotInt", "title": "Potencia Int.", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "Perdidas", "title": "Pérdidas", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+            { "field": "GenTer", "title": "Generación U. Térmicas (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenHid", "title": "Generación U. Hidroeléctricas (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenRE", "title": "Generación U. Renovables (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenNP", "title": "Generación U. No Programables (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenTot", "title": "Generación Total (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "Demanda", "title": "Demanda (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Corte", "title": "Corte (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Excedente", "title": "Excedente (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PotInt", "title": "Potencia (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Perdidas", "title": "Pérdidas (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -6071,16 +6069,16 @@ module.exports = [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "Inter", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
             { "field": "Area", "title": "Área", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "GenTer", "title": "Generación U. Térmicas", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "GenHid", "title": "Generación U. Hidroeléctricas", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "GenRE", "title": "Generación U. Renovables", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "GenNP", "title": "Generación U. No Programables", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "GenTot", "title": "Generación Total", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "Corte", "title": "Corte", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "Excedente", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PotInt", "title": "Potencia Int.", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "Perdidas", "title": "Pérdidas", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+            { "field": "GenTer", "title": "Generación U. Térmicas (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenHid", "title": "Generación U. Hidroeléctricas (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenRE", "title": "Generación U. Renovables (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenNP", "title": "Generación U. No Programables (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenTot", "title": "Generación Total (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "Demanda", "title": "Demanda (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Corte", "title": "Corte (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Excedente", "title": "Excedente (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PotInt", "title": "Potencia (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Perdidas", "title": "Pérdidas (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
         ]
     },
     {
@@ -6111,16 +6109,16 @@ module.exports = [
             { "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw"},
             { "field": "Inter", "title": "Intervalo", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n0}"},
             { "field": "Area", "title": "Área", "sortable": true, "filterable": true, "width": "10vw"},
-            { "field": "GenTer", "title": "Generación U. Térmicas", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "GenHid", "title": "Generación U. Hidroeléctricas", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "GenRE", "title": "Generación U. Renovables", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "GenNP", "title": "Generación U. No Programables", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "GenTot", "title": "Generación Total", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
-            { "field": "Demanda", "title": "Demanda", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "Corte", "title": "Corte", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "Excedente", "title": "Excedente", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "PotInt", "title": "Potencia Int.", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
-            { "field": "Perdidas", "title": "Pérdidas", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
+            { "field": "GenTer", "title": "Generación U. Térmicas (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenHid", "title": "Generación U. Hidroeléctricas (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenRE", "title": "Generación U. Renovables (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenNP", "title": "Generación U. No Programables (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "GenTot", "title": "Generación Total (Mw)", "sortable": true, "filterable": true, "width": "15vw", "format": "{0:n3}"},
+            { "field": "Demanda", "title": "Demanda (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Corte", "title": "Corte (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Excedente", "title": "Excedente (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "PotInt", "title": "Potencia (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"},
+            { "field": "Perdidas", "title": "Pérdidas (Mw)", "sortable": true, "filterable": true, "width": "10vw", "format": "{0:n3}"}
         ]
     },
     {
