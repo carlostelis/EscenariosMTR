@@ -167,15 +167,6 @@ function desactivarColapsosResultados() {
 
 // Función para ocultar todas las tablas
 function ocultarTodasResultados() {
-    // Reestablece los colapsos
-    // for (let col of colapsos_res) {
-    //     col.classList.add('inactivo');
-    //
-    //     // Siesta desplegado, lo colpasa
-    //     if (col.desplegado === true) {
-    //         col.onclick();
-    //     }
-    // }
     console.log('~ Resetea Compara Escenario ~');
 
     desactivarColapsosResultados();

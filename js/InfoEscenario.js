@@ -188,15 +188,6 @@ function desactivarColapsos() {
 
 // Función para ocultar todas las tablas
 function ocultarTodasInfo() {
-    // Reestablece los colapsos
-    // for (let col of colapsos) {
-    //     col.classList.add('inactivo');
-    //
-    //     // Siesta desplegado, lo colpasa
-    //     if (col.desplegado === true) {
-    //         col.onclick();
-    //     }
-    // }
     console.log('~ Resetea Información Escenario ~');
 
     desactivarColapsos();

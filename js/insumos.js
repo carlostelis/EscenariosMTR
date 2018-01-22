@@ -184,7 +184,7 @@ module.exports = [
         "modelo": {
             "id": "DERSPRMTS",
             "fields": {
-                "numFila": { "type": "number",	"editable": true, "nullable": false },
+                "numFila": { "type": "number",	"editable": false, "nullable": false },
                 "banderaParam": { "type": "number",	"editable": true, "nullable": false, "validation": { "format":"n", "decimals": 0, "min": 0, "max": 100000000} },
                 "descripcion": { "type": "string", "editable": false, "nullable": false }
             }

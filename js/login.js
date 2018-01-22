@@ -112,7 +112,7 @@ ipcRenderer.on('sistemas:obtenidos', (event, json) => {
     }, 1000);
 });
 
-// habilitar banner
+// Función para solicitar la lista de sistemas del archivo de configuración
 function solicitarSistemas() {
     if (primeraVez) {
         banner.mostrar();
@@ -137,21 +137,21 @@ function solicitarSistemas() {
     }
 }
 
-// para validacion de entrada
+// Función para los inputs del login (focus)
 function onFocusInput(input, icono) {
     var icono = document.getElementById(icono);
     icono.style.color = "darkblue";
     icono.style.fontWeight = "bold";
 }
 
-// para validacion de entrada
+// Función para los inputs del login (blur)
 function lostFocusInput(input, icono) {
     var icono = document.getElementById(icono);
     icono.style.color = "#464a4c";
     icono.style.fontWeight = "normal";
 }
 
-// para validacion de entrada y acceso a las funciones
+// Función que solicita la información de un usuario para autenticar
 function solicitarAutenticacion() {
     // Valida nombre
     if (inputNombre.value.trim().length === 0) {
@@ -201,6 +201,8 @@ function solicitarAutenticacion() {
     }, 50);
 }
 
+// Evento que recibe la información del usuario y valida los datos
+// ${json} contiene los datos del usuario
 ipcRenderer.on('usuario:obtenido', (event, json) => {
     console.log('usuario obtenido');
     console.log(json);
