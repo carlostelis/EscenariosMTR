@@ -93,6 +93,7 @@ let objEscFolio = null;
 let contenedores_info = [];
 let opciones_menu_info = [];
 let colapsos = [];
+let colapsables = [];
 let promesas_archivos = [];
 let salida_algoritmo;
 let res_algoritmo;
@@ -118,6 +119,7 @@ let gridsMod = [];
 // Comparacion de resultados
 let divs_res = null;
 let colapsos_res = null;
+let colapsables_res = [];
 let objEscA_res = null;
 let objEscB_res = null;
 let marcoSeleccionado = null;
@@ -152,6 +154,7 @@ let th_periodos_mod = [];
 let spans_archivos = [];
 let textarea_comentarios_mod;
 let botonProgresoBD;
+let colapsables_mod;
 
 // Eliminar Escenario
 let pestanias_eliminar = null;
@@ -291,6 +294,13 @@ function cargaComponentes() {
 	boton_cargarEscenarioFolio = document.getElementById('boton_cargarEscenarioFolio');
 
 	// Informacion de escenario
+
+	colapsables = Array.from(document.getElementsByClassName('colapsable'));
+	colapsables_mod = Array.from(document.getElementsByClassName('colapsable-mod'));
+	colapsables_res = Array.from(document.getElementsByClassName('div-tabla-res'));
+
+	// console.log(colapsables_mod);
+
 	// Separa objetos de de seccion de informacion y seccion modificados
 	let cont_temp = Array.from(document.getElementsByClassName('contenedor-info'));
 	cont_temp.forEach((item) => {
@@ -338,7 +348,7 @@ function cargaComponentes() {
         divsScrollRes[0].isScrolling = false;
         divsScrollRes[1].div_par = divsScrollRes[0];
         divsScrollRes[1].isScrolling = false;
-		
+
         // Agrega banner a cada div
         banner_resA = new Banner(divsScrollRes[0]);
         banner_resB = new Banner(divsScrollRes[1]);

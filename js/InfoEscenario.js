@@ -179,24 +179,39 @@ function mostrarContenedor(id, trigger) {
 
 // Función para desactivar (ocultar) todos los colapsos
 function desactivarColapsos() {
-    console.log('Oculta colapsos');
     // Reestablece los colapsos
     for (let col of colapsos) {
         col.classList.add('inactivo');
+        col.desplegado = false;
     }
 }
 
 // Función para ocultar todas las tablas
 function ocultarTodasInfo() {
     // Reestablece los colapsos
-    for (let col of colapsos) {
-        col.classList.add('inactivo');
+    // for (let col of colapsos) {
+    //     col.classList.add('inactivo');
+    //
+    //     // Siesta desplegado, lo colpasa
+    //     if (col.desplegado === true) {
+    //         col.onclick();
+    //     }
+    // }
+    console.log('~ Resetea Información Escenario ~');
 
-        // Siesta desplegado, lo colpasa
-        if (col.desplegado === true) {
-            col.onclick();
-        }
-    }
+    desactivarColapsos();
+
+    // Destruye las tablas kendo
+    colapsables.forEach((col) => {
+        col.innerHTML = '';
+        col.classList.remove('visible');
+        col.classList.add('invisible');
+    });
+
+    gridsInfo = [];
+
+    objEscOriginal = undefined;
+    objEscModificado = undefined;
 }
 
 // Función que permite generar una tabla Kendo
@@ -865,8 +880,8 @@ ipcRenderer.on('escenario_resultados:archivo_leido', (event, obj_archivo) => {
 
     // Busca el obj en el arreglo y lo reemplaza
     for (let i = 0; i < objEscModificado.lista.length; i++) {
-        if (objEscModificado.lista.archivo === obj_archivo.archivo) {
-            objEscModificado.splice(i, 1, obj_archivo);
+        if (objEscModificado.lista[i].archivo === obj_archivo.archivo) {
+            objEscModificado.lista.splice(i, 1, obj_archivo);
             break;
         }
     }

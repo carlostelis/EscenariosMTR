@@ -253,14 +253,28 @@ function mostrarContenedorMod(id, trigger) {
 // Función para ocultar todas las tablas
 function ocultarTodasMod() {
     // Reestablece los colapsos
-    for (let col of colapsos_mod) {
-        col.classList.add('inactivo');
+    // for (let col of colapsos_mod) {
+    //     col.classList.add('inactivo');
+    //
+    //     // Siesta desplegado, lo colpasa
+    //     if (col.desplegado === true) {
+    //         col.onclick();
+    //     }
+    // }
+    console.log('~ Resetea Escenarios Modificados ~');
 
-        // Siesta desplegado, lo colpasa
-        if (col.desplegado === true) {
-            col.onclick();
-        }
-    }
+    desactivarColapsosMod();
+
+    // Destruye las tablas kendo
+    colapsables_mod.forEach((col) => {
+        col.innerHTML = '';
+        col.classList.remove('visible');
+        col.classList.add('invisible');
+    });
+
+    gridsMod = [];
+
+    objEscVistaMod = undefined;
 }
 
 // Función para desactivar (ocultar) todos los colapsos
@@ -268,6 +282,7 @@ function desactivarColapsosMod() {
     // Reestablece los colapsos
     for (let col of colapsos_mod) {
         col.classList.add('inactivo');
+        col.desplegado = false;
     }
 }
 

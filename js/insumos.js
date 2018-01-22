@@ -85,10 +85,10 @@ module.exports = [
         },
         "columnas": [
 			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false},
-            { "field": "indiceZonaCarga", "title": "Índice Zona Carga", "sortable": true, "filterable": false},
+            { "field": "indiceZonaCarga", "title": "Índice Zona", "sortable": true, "filterable": false},
 			{ "field": "subsistema", "title": "Subsistema", "sortable": true, "filterable": true},
-            { "field": "nombreZc", "title": "Nombre ZC", "sortable": true, "filterable": false},
-            { "field": "indiceEmsZc", "title": "Indice EMS ZC", "sortable": true, "filterable": true}
+            { "field": "nombreZc", "title": "Nombre Zona", "sortable": true, "filterable": false},
+            { "field": "indiceEmsZc", "title": "Indice EMS", "sortable": true, "filterable": true}
 		]
     },
     {

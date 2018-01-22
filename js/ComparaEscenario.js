@@ -161,20 +161,34 @@ function desactivarColapsosResultados() {
     for (let col of colapsos_res) {
         // if (col.classList.contains(marcoSeleccionado))
         col.classList.add('inactivo');
+        col.desplegado = false;
     }
 }
 
 // Función para ocultar todas las tablas
 function ocultarTodasResultados() {
     // Reestablece los colapsos
-    for (let col of colapsos_res) {
-        col.classList.add('inactivo');
+    // for (let col of colapsos_res) {
+    //     col.classList.add('inactivo');
+    //
+    //     // Siesta desplegado, lo colpasa
+    //     if (col.desplegado === true) {
+    //         col.onclick();
+    //     }
+    // }
+    console.log('~ Resetea Compara Escenario ~');
 
-        // Siesta desplegado, lo colpasa
-        if (col.desplegado === true) {
-            col.onclick();
-        }
-    }
+    desactivarColapsosResultados();
+
+    // Destruye las tablas kendo
+    colapsables_res.forEach((col) => {
+        col.innerHTML = '';
+    });
+
+    gridsRes = [];
+
+    objEscA_res = undefined;
+    objEscB_res = undefined;
 }
 
 // Función que permite generar una tabla Kendo

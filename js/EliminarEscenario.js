@@ -364,6 +364,8 @@ ipcRenderer.on('escenario_original_local:borrado', (event, res) => {
 
         // Desactiva el boton
         boton_eliminar_ori_local.disabled = true;
+        // Desactiva el boton de los modificados
+        boton_eliminar_mod_local.disabled = true;
 
         // Limpia el div de comentarios
         div_comentarios_eliminar_local.innerHTML = '';
