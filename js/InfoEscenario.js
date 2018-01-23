@@ -358,6 +358,7 @@ function crearTablaInfoKendo(objData, flag_copia) {
         rowTemplateString = `<tr
         class="
             ${objData.insumo.modelo.id === 'SEMAFOROSDERS' ? '#: getClaseSEMAFOROSDERS(bandera) #' : '' }
+            ${objData.insumo.modelo.id === 'DERSPRMTS' ? '#: getClaseDERSPRMTS(descripcion) #' : '' }
             ${objData.insumo.modelo.id === 'RESUMEN_UNIDADES' ? '#: getClaseFilaRESUMEN_UNIDADES(DISPONIBILIDAD, COORDINABILIDAD) #' : '' }"
         data-indice="#: numFila #" data-uid="#: uid #">`;
 
@@ -369,7 +370,7 @@ function crearTablaInfoKendo(objData, flag_copia) {
             #: getClaseColumnaRESUMEN_UNIDADES('${objData.insumo.modelo.id}', '${col.field}', ${col.field}) #
             ${objData.insumo.modelo.id.startsWith('DTR_ZONAS_RESERVA') ? '#: getClaseVal_DTR_ZONAS_RESERVA("' + col.field + '", REQ_MW_RREG, MW_RREG_ASIGNADOS, REQ_MW_RR10, MW_RR10_ASIGNADOS, REQ_MW_R10, MW_R10_ASIGNADOS, REQ_MW_RS, MW_RS_ASIGNADOS) #' : '' } " data-archivo="${objData.insumo.modelo.id + (flag_copia === true ? '_COPIA' : '')}">
                 #: kendo.toString(${col.field}, "${typeof col.format !== 'undefined' ? col.format.replace('{0:', '').replace('}', '') : ''}") #
-            </td>`
+            </td>`;
         });
 
         rowTemplateString += '</tr>';
@@ -528,6 +529,20 @@ function resaltarCeldas() {
         // console.log('Fila', fila);
         fila.classList.add('fila-modificada');
     });
+}
+
+function getClaseDERSPRMTS(descripcion) {
+    let objData = objEscOriginal.lista.find((obj) => {
+        return obj.insumo.modelo.id === 'DERSPRMTS';
+    });
+
+    if (objData) {
+        if (typeof objData.insumo.registrosExcluir !== 'undefined' && objData.insumo.registrosExcluir.find((item) => { return item === descripcion; })) {
+            return 'ROW-DERSPRMTS-NEDIT';
+        }
+    }
+
+    return '';
 }
 
 // Función que procesa las validaciones visuales del archivo DERS_MI_TOTALES_AREA
@@ -837,7 +852,7 @@ ipcRenderer.on('escenario_original:copiado', (event, res) => {
             boton_ejecutarEscenario.innerHTML = '<span class=""><i class="demo-icon icon-play-2"></i></span>Ejecutar';
         } else {
             boton_ejecutarEscenario.disabled = true;
-            boton_ejecutarEscenario.innerHTML = '<span class=""><i class="demo-icon icon-warning" style="color:yellow;"></i></span>No hay algoritmo';
+            boton_ejecutarEscenario.innerHTML = '<span class=""><i class="demo-icon icon-warning" style="color:yellow;"></i></span>Sin algoritmo';
         }
 
         setTimeout(() => {

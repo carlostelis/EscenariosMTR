@@ -190,8 +190,8 @@ module.exports = [
             }
         },
         "columnas": [
-			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false},
-            { "field": "banderaParam", "title": "Bandera Parámetro", "sortable": true, "filterable": true},
+			{ "field": "numFila", "virtual": true, "title": "#", "sortable": true, "filterable": false, "width": "3vw" },
+            { "field": "banderaParam", "title": "Bandera Parámetro", "sortable": true, "filterable": true, "width": "20vw" },
 			{ "field": "descripcion", "title": "Descripción", "sortable": true, "filterable": true}
 		],
         "registrosExcluir": [
@@ -343,7 +343,7 @@ module.exports = [
     },
     {
         "nombre":"GRUPOSRAMAS_DERS.csv",
-        "editable": false,
+        "editable": true,
         "unidades": true,
         "tagUnidad": "Grupo Rama",
         "archivoResultados": false,
@@ -354,7 +354,7 @@ module.exports = [
                 "numFila": { "type": "number",	"editable": false, "nullable": false },
                 "numGrupoRamas": { "type": "number", "editable": false, "nullable": false },
                 "nombre": { "type": "string",	"editable": false, "nullable": false },
-                "bandera": { "type": "number",	"editable": false, "nullable": false},
+                "bandera": { "type": "number",	"editable": true, "nullable": false},
             }
         },
         "columnas": [

@@ -210,3 +210,14 @@ tr.fila-modificada td.celda-modificada {
     background-color: #bf4040!important;
     color: white;
 }
+
+tr.ROW-DERSPRMTS-NEDIT td {
+    background: -webkit-repeating-linear-gradient(45deg, #f2f2f2, #e6e6e6 2px, transparent 10px, transparent 10px);
+    color: slategray;
+}
+
+.k-grid tbody tr.ROW-DERSPRMTS-NEDIT:hover td {
+    background: none;
+    background-color: darkseagreen !important;
+    text-shadow: 0px 0px 1px;
+}
