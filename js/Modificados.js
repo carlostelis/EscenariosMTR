@@ -581,24 +581,24 @@ function crearTablaModKendo(objData, flag_copia) {
 // Función para solicitar el registro de un escenario en la BD
 function guardarEnBaseDatos() {
     // Para ALE
-    bannerBD.vistaCompacta();
-    bannerBD.ocultarProgreso();
-    bannerBD.setBoton('Aceptar', () => {
-        bannerBD.ocultar();
-    });
-    bannerBD.mostrarBoton();
-    bannerBD.setMensaje(`<span class="">Función deshabilitada<i style="color: greenyellow;font-size: 3vh;margin-left: 5px;" class="demo-icon icon-emo-unhappy"></i></span>`);
-    bannerBD.alerta();
-    bannerBD.mostrar();
-
-    // Primero genera el archivo zip del escenario modificado
     // bannerBD.vistaCompacta();
     // bannerBD.ocultarProgreso();
-    // bannerBD.ocultarBoton();
-    // bannerBD.setMensaje('Preparando escenario modificado');
-    // bannerBD.trabajando();
+    // bannerBD.setBoton('Aceptar', () => {
+    //     bannerBD.ocultar();
+    // });
+    // bannerBD.mostrarBoton();
+    // bannerBD.setMensaje(`<span class="">Función deshabilitada<i style="color: greenyellow;font-size: 3vh;margin-left: 5px;" class="demo-icon icon-emo-unhappy"></i></span>`);
+    // bannerBD.alerta();
     // bannerBD.mostrar();
-    // ipcRenderer.send('escenario_bd:comprimir', objEscVistaMod.ruta, 'escenario_bd:comprimido_modificado');
+
+    // Primero genera el archivo zip del escenario modificado
+    bannerBD.vistaCompacta();
+    bannerBD.ocultarProgreso();
+    bannerBD.ocultarBoton();
+    bannerBD.setMensaje('Preparando escenario modificado');
+    bannerBD.trabajando();
+    bannerBD.mostrar();
+    ipcRenderer.send('escenario_bd:comprimir', objEscVistaMod.ruta, 'escenario_bd:comprimido_modificado');
 }
 
 // Evento que recibe la lista de anños de escenarios originales locales

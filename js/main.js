@@ -131,9 +131,9 @@ app.on('ready', () => {
     // Se crea la ventana
     win = new BrowserWindow({
         width: 1440,
-        height: 900,
+        height: 800,
         minWidth: 1440,
-        minHeight: 900,
+        minHeight: 800,
         webPreferences: {
             devTools: true
         }

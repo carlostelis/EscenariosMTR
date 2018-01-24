@@ -113,7 +113,8 @@
     width: 12vw;
     margin-right: 0px;
     display: inline-block;
-    float: right;
+    /* float: right; */
+    margin-left: 5vw;
 }
 
 .fila-bloque-izq {
