@@ -1018,7 +1018,8 @@ ipcRenderer.on('algoritmo:diagnosticado', (event, res) => {
 // ${obj} es un json con los valores de inicialización
 ipcRenderer.on('escenario_completo:leido', (event, obj) => {
     console.log('Recibe contenedor de archivos:', obj.lista.length);
-    textarea_comentarios_info.innerHTML = '';
+    textarea_comentarios_info.value = '';
+    console.log('>>> Limpia comentarios');
 
     // Desactiva todos los colapsos
     desactivarColapsos();

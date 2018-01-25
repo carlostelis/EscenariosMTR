@@ -329,6 +329,9 @@ ipcRenderer.on('algoritmo:descargado', (event, res) => {
         banner.alerta();
         // banner.setMensaje(`Error durante la descarga del algoritmo: ${res.error}`);
         banner.setMensaje('No hay una versión del algoritmo para el escenario, favor de comunicar a Luisa Aquino <font style="color:greenyellow;text-decoration:underline;">alba.aquino@ineel.mx</font>');
+        // Escribe en la consola el mensaje
+        mensajeConsola('No hay una versión del algoritmo para el escenario, favor de comunicar a Luisa Aquino <font style="color:blue;text-decoration:underline;">alba.aquino@ineel.mx</font>');
+
         to_lectura = 3000;
     }
 
