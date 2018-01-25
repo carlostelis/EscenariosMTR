@@ -103,7 +103,7 @@ function borrarEscenarioModificadoLocal() {
 }
 
 // Función que obtiene la lista de años de escenarios originales locales
-function consultarAniosOriginalesBD() {
+function consultarAniosOriginalesBD() {console.log('Consulta anios BD');
     if (select_eliminar_algoritmo_db.value === 'ninguno') {
         consultarFoliosOriginalesBD_Init();
         return;
@@ -118,7 +118,7 @@ function consultarAniosOriginalesBD() {
 }
 
 // Función que obtiene la lista de meses de escenarios originales locales
-function consultarMesesOriginalesBD() {
+function consultarMesesOriginalesBD() {console.log('Consulta meses BD');
     if (select_eliminar_anio_db.value === 'ninguno') {
         consultarAniosOriginalesBD();
         return;
@@ -131,9 +131,9 @@ function consultarMesesOriginalesBD() {
 }
 
 // Función que obtiene la lista de días de escenarios originales locales
-function consultarDiasOriginalesBD() {
+function consultarDiasOriginalesBD() {console.log('Consulta dias BD');
     if (select_eliminar_mes_db.value === 'ninguno') {
-        consultarMesesOriginalesBD();
+        consultarMesesOriginalesBD(false);
         return;
     } else {
         ipcRenderer.send('escenarios_eliminar_folio_dias:leer', select_eliminar_algoritmo_db.value, select_eliminar_anio_db.value, select_eliminar_mes_db.value);
@@ -143,7 +143,7 @@ function consultarDiasOriginalesBD() {
 }
 
 // Función que obtiene la lista de identificadores de escenarios originales locales
-function consultarFoliosOriginalesBD() {
+function consultarFoliosOriginalesBD() {console.log('Consulta originales BD');
     bannerIcono.mostrar();
     ipcRenderer.send('escenarios_eliminar_folio:leer', select_eliminar_algoritmo_db.value, select_eliminar_anio_db.value, select_eliminar_mes_db.value, select_eliminar_dia_db.value);
 }
@@ -152,7 +152,7 @@ function consultarFoliosOriginalesBD() {
 // asociados al usuario actual
 function consultarFoliosOriginalesBD_Init() {
     bannerIcono.mostrar();
-    ipcRenderer.send('escenarios_eliminar_folio:leer', '', '', '', '');
+    ipcRenderer.send('escenarios_eliminar_folio:leer', '', '', '', '', true);
     select_eliminar_anio_db.disabled = true;
     select_eliminar_anio_db.innerHTML = '';
     select_eliminar_mes_db.disabled = true;
@@ -226,6 +226,7 @@ ipcRenderer.on('escenario_original_local:leidotodos', (event, lista) => {
     // Limpia el contenedor
     lista_ori_local.innerHTML = '';
     lista_ori_local.botones = [];
+    lista_mod_local.innerHTML = '';
 
     div_comentarios_eliminar_local.innerHTML = '';
 
@@ -242,7 +243,7 @@ ipcRenderer.on('escenario_original_local:leidotodos', (event, lista) => {
         i.classList.add('demo-icon');
         i.classList.add('icon-play-1');
         span.appendChild(i);
-        boton.innerHTML = `<font style="color:darkgray;">${item.algoritmo.toUpperCase()}</font> <font style="text-decoration:underline;">${item.anio}/${item.mes}/${item.dia}</font> Hora: <b>${item.hora}</b> Int: <b>${item.int}</b> GMT<b>${item.gmt}</b>`;
+        boton.innerHTML = `<font style="color:darkgray;">${item.algoritmo.toUpperCase()}</font> <font style="text-decoration:underline;">${item.anio}/${item.mes.toString().length > 1 ? item.mes : `0${item.mes}`}/${item.dia.toString().length > 1 ? item.dia : `0${item.dia}`}</font> Hora: <b>${item.hora}</b> Int: <b>${item.int}</b> GMT<b>${item.gmt}</b>`;
         boton.appendChild(span);
 
         lista_ori_local.appendChild(boton);
@@ -446,8 +447,11 @@ ipcRenderer.on('escenarios_eliminar_folio_algoritmos:leidos', (event, lista) => 
     });
 
     select_eliminar_anio_db.disabled = true;
+    crearOption(select_eliminar_anio_db, 'Sin Filtro', 'ninguno');
     select_eliminar_mes_db.disabled = true;
+    crearOption(select_eliminar_mes_db, 'Sin Filtro', 'ninguno');
     select_eliminar_dia_db.disabled = true;
+    crearOption(select_eliminar_dia_db, 'Sin Filtro', 'ninguno');
 });
 
 // Evento que recibe la lista de años de escenarios en BD
@@ -474,7 +478,9 @@ ipcRenderer.on('escenarios_eliminar_folio_anios:leidos', (event, lista) => {
     });
 
     select_eliminar_mes_db.disabled = true;
+    crearOption(select_eliminar_mes_db, 'Sin Filtro', 'ninguno');
     select_eliminar_dia_db.disabled = true;
+    crearOption(select_eliminar_dia_db, 'Sin Filtro', 'ninguno');
 });
 
 // Evento que recibe la lista de meses de escenarios en BD
@@ -501,6 +507,7 @@ ipcRenderer.on('escenarios_eliminar_folio_meses:leidos', (event, lista) => {
     });
 
     select_eliminar_dia_db.disabled = true;
+    crearOption(select_eliminar_dia_db, 'Sin Filtro', 'ninguno');
 });
 
 // Evento que recibe la lista de días de escenarios en BD

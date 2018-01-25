@@ -258,6 +258,9 @@ ipcRenderer.on('usuario:obtenido', (event, json) => {
                 ocultarTodasInfo();
                 ocultarTodasResultados();
 
+                // Escenarios locales en eliminar
+                pestanias_eliminar[0].onclick();
+
                 // DEsactiva botones
                 boton_cargaEscenarioModActual.disabled = true;
                 boton_cargaEscenarioMod.disabled = true;

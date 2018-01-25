@@ -673,6 +673,17 @@ class Comandos {
             }
         });
     }
+
+    abrirExploradorEscenario(ruta, tipo) {
+        let ruta_real = this.path.normalize(ruta);
+
+        if (tipo !== 'directorio') {
+            ruta_real = this.path.dirname(ruta_real);
+        }
+
+        console.log('Abriendo ', ruta_real);
+        exec(`start ${ruta_real}`);
+    }
 }
 
 module.exports = Comandos;

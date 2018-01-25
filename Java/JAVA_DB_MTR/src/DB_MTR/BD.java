@@ -175,7 +175,7 @@ public class BD {
         try {
             this.stmt = this.con.createStatement(); 
 
-            String query = "SELECT SUBSTR(CONTROL_ESCEN_MODIFICADOS.ID_ESCENARIO, 1, 4) AS ANIO FROM CONTROL_ESCEN_MODIFICADOS "
+            String query = "SELECT SUBSTR(CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL, 1, 4) AS ANIO FROM CONTROL_ESCEN_MODIFICADOS "
                     + "INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_MODIFICADOS.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
                     + "WHERE CAT_ALGORITMOS.NOMBRE_ALGORITMO = '" + algoritmo + "'";
             
@@ -217,7 +217,7 @@ public class BD {
         try {
             this.stmt = this.con.createStatement(); 
 
-            String query = "SELECT SUBSTR(CONTROL_ESCEN_MODIFICADOS.ID_ESCENARIO, 5, 2) AS MES FROM CONTROL_ESCEN_MODIFICADOS "
+            String query = "SELECT SUBSTR(CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL, 5, 2) AS MES FROM CONTROL_ESCEN_MODIFICADOS "
                     + "INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_MODIFICADOS.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
                     + "WHERE CAT_ALGORITMOS.NOMBRE_ALGORITMO = '" + algoritmo + "' AND CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL LIKE '" + anio + "%'";
             
@@ -259,7 +259,7 @@ public class BD {
         try {
             this.stmt = this.con.createStatement(); 
             
-            String query = "SELECT SUBSTR(CONTROL_ESCEN_MODIFICADOS.ID_ESCENARIO, 7, 2) AS DIA FROM CONTROL_ESCEN_MODIFICADOS "
+            String query = "SELECT SUBSTR(CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL, 7, 2) AS DIA FROM CONTROL_ESCEN_MODIFICADOS "
                     + "INNER JOIN CAT_ALGORITMOS ON CONTROL_ESCEN_MODIFICADOS.FK_ALGORITMO = CAT_ALGORITMOS.ID_ALGORITMO "
                     + "WHERE CAT_ALGORITMOS.NOMBRE_ALGORITMO = '" + algoritmo + "' AND CONTROL_ESCEN_MODIFICADOS.FOLIO_ORIGINAL LIKE '" + anio + mes + "%'";
             

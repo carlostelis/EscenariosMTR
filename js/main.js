@@ -1430,6 +1430,7 @@ ipcMain.on('escenarios_folio_escenarios:leer', (event, algoritmo, anio, mes, dia
     console.log(lista_folios.length);
     comandos.obtenerFolios('', url, esquema, password, algoritmoBD, anio, mes, dia, 'MOD').then((res) => {
         // Junta los resultados
+        console.log(res);
         if (typeof res.escenario !== 'undefined') {
             res.escenario.forEach((escenario) => {
                 // Si no encuentra los elementos los agrega
@@ -1919,26 +1920,28 @@ ipcMain.on('escenarios_eliminar_folio_dias:leer', (event, algoritmo, anio, mes) 
 // ${algoritmo} es el algoritmo asociado
 // ${anio} es el anio a filtrar
 // ${mes} es el mes a filtrar
-ipcMain.on('escenarios_eliminar_folio:leer', (event, algoritmo, anio, mes, dia) => {
+ipcMain.on('escenarios_eliminar_folio:leer', (event, algoritmo, anio, mes, dia, flag_algoritmos) => {
     console.log('Consultando eliminar algoritmos BD: ', SESION.usuario);
     let algoritmoBD = getAlgoritmoBD(algoritmo);
     let {esquema, password, url } = getInfoSistema();
     let lista = [];
     let lista_folios = [];
 
-    // Lista de anios en BD
-    comandos.obtenerAlgoritmosOriBD(SESION.usuario, url, esquema, password).then((res) => {
-        // Junta los resultados
-        if (typeof res.algoritmo !== 'undefined') {
-            res.algoritmo.forEach((anio) => {
-                lista.push(anio);
-            });
-        }
+    if (flag_algoritmos === true) {
+        // Lista de anios en BD
+        comandos.obtenerAlgoritmosOriBD(SESION.usuario, url, esquema, password).then((res) => {
+            // Junta los resultados
+            if (typeof res.algoritmo !== 'undefined') {
+                res.algoritmo.forEach((anio) => {
+                    lista.push(anio);
+                });
+            }
 
-        win.webContents.send('escenarios_eliminar_folio_algoritmos:leidos', lista);
-    }, (res_err) => {
-        win.webContents.send('escenarios_eliminar_folio_algoritmos:leidos', lista);
-    });
+            win.webContents.send('escenarios_eliminar_folio_algoritmos:leidos', lista);
+        }, (res_err) => {
+            win.webContents.send('escenarios_eliminar_folio_algoritmos:leidos', lista);
+        });
+    }
 
     console.log('Consultando folios: ', SESION.usuario, algoritmo, anio, mes, dia);
 
@@ -1954,6 +1957,7 @@ ipcMain.on('escenarios_eliminar_folio:leer', (event, algoritmo, anio, mes, dia) 
 
         win.webContents.send('escenarios_eliminar_folio:leidos', lista_folios);
     }, (res_err) => {
+        console.log('Error consulta BD', lista_folios);
         win.webContents.send('escenarios_eliminar_folio:leidos', lista_folios);
     });
 });
@@ -2046,3 +2050,7 @@ function generarObjInfoOriginalBD(escenario, algoritmo, lista_folios) {
         usuario: SESION.usuario
     });
 }
+
+ipcMain.on('escenario:explorar', (event, ruta, tipo) => {
+    comandos.abrirExploradorEscenario(ruta, tipo);
+});

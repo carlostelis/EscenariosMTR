@@ -234,3 +234,20 @@
 .boton-eliminar {
     width: 17vw;
 }
+
+.span-update-escenarios {
+    float:right;
+}
+
+.span-update-escenarios > i {
+    font-size: 4vh;
+    text-shadow: 0px 0px 2px grey;
+}
+
+.span-update-escenarios > i:hover {
+    color: darkgreen;
+}
+
+.span-update-escenarios > i:active {
+    color: yellowgreen;
+}

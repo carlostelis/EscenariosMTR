@@ -154,7 +154,7 @@ class VistaArchivos {
             this.rutaBase = elemento.rutaBase;
             nodo_label.ruta = this.rutaBase;
         } else {
-            nodo_label.ruta = path.join(elemento.ruta, elemento.nombre);
+            nodo_label.ruta = elemento.ruta; //path.join(elemento.ruta, elemento.nombre);
         }
 
         // metodo click
@@ -173,6 +173,10 @@ class VistaArchivos {
 
             // Nuevo seleccionado
             this.seleccionAnterior = nodo_label;
+        };
+
+        nodo_label.ondblclick = () => {
+            ipcRenderer.send('escenario:explorar', nodo_label.ruta, elemento.tipo);
         };
 
         if (elemento.tipo === 'directorio') {
