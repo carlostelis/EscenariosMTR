@@ -1104,3 +1104,12 @@ function crearTablaKendoCostos(objEsc, id_grid) {
 		editable: false
 	});
 }
+
+function actualizarTooltipsKendo() {
+	console.log('Actualiza tooltips');
+	$('.k-header.k-grid-toolbar > a.k-button.k-button-icontext').attr('data-placement', 'right');
+	$('.k-header.k-grid-toolbar > a.k-button.k-button-icontext').attr('data-toggle', 'tooltip');
+	$('.k-header.k-grid-toolbar > a.k-button.k-button-icontext').attr('title', 'Exportar tabla a archivo de Excel (.xlsx)');
+
+	$('[data-toggle="tooltip"]').tooltip({delay: {show: 1000, hide: 100}, trigger: 'hover'});
+}

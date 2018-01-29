@@ -314,7 +314,9 @@ function crearTablaInfoKendo(objData, flag_copia) {
                                 $(container).text(input);
                                 $(container).toggleClass("k-edit-cell");
 
-                                alert('No se puede modificar la fila seleccionada');
+                                // alert('No se puede modificar la fila seleccionada');
+                                // console.log('No se puede modificar la fila seleccionada');
+                                ipcRenderer.send('dialogo:alerta', 'No se puede modificar la fila seleccionada');
                             }
                         };
                     } else {
@@ -924,6 +926,9 @@ ipcRenderer.on('escenario_resultados:archivo_leido', (event, obj_archivo) => {
                 }, 1000);
 
                 promesas_archivos = [];
+
+                // Actualiza tooltips de botones excel
+                actualizarTooltipsKendo();
             });
         });
     }
@@ -1097,6 +1102,9 @@ ipcRenderer.on('escenario_completo:archivo_leido', (event, obj_archivo) => {
                     } else {
                         guardarEscenario(false);
                     }
+
+                    // Actualiza tooltips de botones excel
+                    actualizarTooltipsKendo();
                 }, 1000);
             });
         }, 1000);

@@ -755,6 +755,9 @@ ipcRenderer.on('escenario_resultados:archivo_leidoComparado', (event, obj_archiv
                     setTimeout(() => {
                         banner_resA.ocultar();
                         banner_resB.ocultar();
+
+                        // Actualiza tooltips de botones excel
+                        actualizarTooltipsKendo();
                     }, 1000);
 
                     // Esta banera solo se activa cuando se carga comparacion desde ejecucion de algoritmo

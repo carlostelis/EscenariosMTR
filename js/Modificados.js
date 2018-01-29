@@ -326,6 +326,9 @@ function cargarEscenarioModActual() {
                 setTimeout(() => {
                     banner.ocultar();
                 }, 1000);
+
+                // Actualiza tooltips de botones excel
+                actualizarTooltipsKendo();
             });
         });
     }, 1000);
@@ -785,6 +788,9 @@ ipcRenderer.on('escenarios_mod:archivo_leido', (event, obj_archivo) => {
 
                 // Manda a leer el archivo de costos e ingresos
                 ipcRenderer.send('archivo:leer', objEscVistaMod.ruta, ['dirres', 'r_desphora1.res'], 'MOD_COSTOS');
+
+                // Actualiza tooltips de botones excel
+                actualizarTooltipsKendo();
 
                 setTimeout(() => {
                     banner.ocultar();

@@ -207,6 +207,17 @@ app.finalizar = function () {
     return false;
 }
 
+ipcMain.on('dialogo:alerta', (event, mensaje) => {
+    console.log('Dialogo:', mensaje);
+    dialog.showMessageBox(win, {
+            type: 'info',
+            buttons: ['Aceptar'],
+            title: 'Analizador de Escenarios del MTR',
+            message: mensaje
+        }
+    );
+});
+
 // Confirmacion del cierre de la aplicacion
 app.on('will-quit', () => {
     app.exit(0);
