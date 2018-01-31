@@ -243,8 +243,10 @@ function cargarEscenarioEnDiscoCE() {
     banner.ocultarProgreso();
     banner.ocultarBoton();
 
+    console.log('Algoritmo', select_algoritmo_folio.value);
+
     // Verifica el algoritmo del escenario
-    ipcRenderer.send('algoritmo:descarga', objEscFolio.ruta, select_algoritmo.value, 'algoritmo_folio:descargado');
+    ipcRenderer.send('algoritmo:descarga', objEscFolio.ruta + '\\' + objEscFolio.folio, select_algoritmo_folio.value, 'algoritmo_folio:descargado');
 
     // Deshabilita botón ejecutar y actualizar
     boton_ejecutarEscenario.disabled = true;

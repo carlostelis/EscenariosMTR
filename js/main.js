@@ -598,6 +598,7 @@ ipcMain.on('directorio:descarga', (event, data) => {
 // ${evento} nombre del evento al cual responder al terminar
 ipcMain.on('algoritmo:descarga', (event, ruta_escenario, algoritmo, evento) => {
     let alg;
+    console.log('>>', algoritmo);
     if (algoritmo === 'dersi') {
         alg = 'DERSI';
     } else {

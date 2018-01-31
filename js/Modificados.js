@@ -870,6 +870,8 @@ ipcRenderer.on('escenario_bd:comprimido_original', (event, res) => {
 // Evento que recibe la verificación de un escenario local guardado en BD
 // ${res} es un objeto que incluye la bandera
 ipcRenderer.on('archivo_bd:verificado', (event, res) => {
+    console.clear();
+    
     let elementos = objEscVistaMod.ruta.split('\\');
     let json = {
         opc: '1',
@@ -902,6 +904,8 @@ ipcRenderer.on('archivo_bd:verificado', (event, res) => {
 
     // Envía la peticion
     ipcRenderer.send('escenario_bd:operacion', json, 'escenario:guardarBD');
+
+    console.log('JSON BD:', json);
 });
 
 // Evento que recibe el progreso de una operación en BD
