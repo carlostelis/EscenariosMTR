@@ -28,7 +28,7 @@ public class ClaseCatalogoConfiguracion {
     public void setLIMITE_REG_MODIFICADOS(int LIMITE_REG_MODIFICADOS) {
         this.LIMITE_REG_MODIFICADOS = LIMITE_REG_MODIFICADOS;
     }
-    
-    
-            
+
+
+
 }

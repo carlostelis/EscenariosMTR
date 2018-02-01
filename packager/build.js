@@ -10,7 +10,7 @@ var settings = {
     // The name of the Author of the app (the name of your company)
     authors: 'Yo',
     // The name of the executable of your built
-    exe: 'escenarios_mtr.exe',
+    exe: 'Escenarios_MTR.exe',
 };
 
 resultPromise = electronInstaller.createWindowsInstaller(settings);

@@ -35,7 +35,7 @@ public class ModuloBaseDatos implements Runnable {
     private final int indice;
     private final String rutaa;
     private static String idRegistro;
-    private final Thread me;     
+    private final Thread me;
     private static ClaseInformacionArchivo archivo = null;
     private static HashMap<String, String> hmSQLocal = new HashMap<String, String>();
     private static ArrayList<String> listaArchivos= new ArrayList<String>();
@@ -51,12 +51,12 @@ public class ModuloBaseDatos implements Runnable {
     private static String fk_algoritmo;
     private static String sistema;
     private static String fecha;
-    
+
     /* PARAMETROS CONFIGURABLES: CAMBIAR DE ACUERDO AL SISTEMA BCA/BCS/SIN */
     private static String IDzonahoraria =null;
     private static String ambiente = null;   ///////// PRUEBAS!!!!!!!!!!!!!!
-    
-    
+
+
     public ModuloBaseDatos(String nombreh, Connection conexionh, int i, String rutaa, String idReg){
         this.nombrehilo = nombreh;
         this.conexionhilos = conexionh;
@@ -65,7 +65,7 @@ public class ModuloBaseDatos implements Runnable {
         this.idRegistro = idReg;
         me = new Thread(this, nombrehilo);
     }
-    
+
     @Override
     public void run(){
         ModeloEscenarios inserthilos = new ModeloEscenarios(conexionhilos, sistema);
@@ -77,26 +77,26 @@ public class ModuloBaseDatos implements Runnable {
                 estatusfinal = false;
             }
         }
-        
+
     }
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, Exception{
-        /* PARA PROBAR 
+        /* PARA PROBAR
         int accion = 2; // 1-REGISTRAR, 2-ACTUALIZAR, 3 - ELIMINAR
         //idEscenario = "201712052104";
         idEscenario = "201712052005";
         fkUsuario= "ALEJANDRA";
-        estado= "2"; //"0" eliminar registro y actualizar CONTROL_ESCEN_MODIFICADOS, "2" eliminación completa   
+        estado= "2"; //"0" eliminar registro y actualizar CONTROL_ESCEN_MODIFICADOS, "2" eliminación completa
         sistema = "BCA";
-        //foliooriginal = "201712050010_-08"; 
+        //foliooriginal = "201712050010_-08";
         foliooriginal = "201712050011_-08";
-        fk_algoritmo = "DERSI"; 
+        fk_algoritmo = "DERSI";
         String rutaraiz = "\\AppAnalizadorEscenarios\\"+sistema+"\\"+fk_algoritmo.toLowerCase()+"\\escenario_modificado\\2017\\12\\05\\"+foliooriginal+"\\"+idEscenario+"\\";
          FIN PARA PROBAR */
-        
+
         long tInicio, tFin, tDiferencia;
         tInicio = System.currentTimeMillis();
         int cantmodificados = 0;
@@ -104,16 +104,16 @@ public class ModuloBaseDatos implements Runnable {
         int accion = Integer.parseInt(args[0]); // REGISTRAR, ACTUALIZAR, ELIMINAR
 
             idEscenario = String.format(args[1]);
-            fkUsuario = String.format(args[2]); 
+            fkUsuario = String.format(args[2]);
             foliooriginal = String.format(args[3]);
             fk_algoritmo = String.format(args[4]);
-            estado = String.format(args[5]); 
+            estado = String.format(args[5]);
 
         String rutaraiz= String.format(args[6]);
         sistema = args[7];
         ModulosProcesamiento.setSistema(sistema);
         util.setSistema(sistema);
-        
+
         /* PARAMETROS CONFIGURABLES: CAMBIAR DE ACUERDO AL SISTEMA BCA/BCS/SIN */
         if(sistema.equals("BCA"))
         {
@@ -134,7 +134,7 @@ public class ModuloBaseDatos implements Runnable {
             ambiente = EnumDataBase.pruebas.getAmbiente();
         }
         /* FIN PARAMETROS CONFIGURABLES: CAMBIAR DE ACUERDO AL SISTEMA BCA/BCS/SIN */
-        
+
         fecha = util.ObtenerFechaZonaHoraria(IDzonahoraria);
         System.out.println("Inicio de ejecucion:    "+ fecha);
         logger.info("Inicio de ejecucion:    "+ fecha);
@@ -142,7 +142,7 @@ public class ModuloBaseDatos implements Runnable {
         rutacondirdat = rutaraiz+dirdat;
         rutasindirdat = rutaraiz;
         idRegistro = util.getUUID();
-        
+
             ClaseControlEscenarios dtoEscen = new ClaseControlEscenarios();
             dtoEscen.setId_registro(idRegistro);
             dtoEscen.setId_escenario(idEscenario);
@@ -157,14 +157,14 @@ public class ModuloBaseDatos implements Runnable {
             case 1 : //REGISTRAR ESCENARIOS POR PRIMERA VEZ
                 System.out.println("********* Se inicia el registro de la información de los archivos CSV en la Base de Datos de " + sistema + " ********* ");
                 System.out.println("Identificador de registro = " + idRegistro + ". Identificador de escenario ="+idEscenario+". Usuario = "+fkUsuario);
-                
+
                 logger.info("********* Se inicia el registro de la información de los archivos CSV en la Base de Datos de " + sistema + " ********* ");
                 logger.info("Identificador de registro = " + idRegistro + ". Identificador de escenario ="+idEscenario+". Usuario = "+fkUsuario);
-                
-                Conn_BD_ESCEN_SIS poolconwrite = new Conn_BD_ESCEN_SIS();  
+
+                Conn_BD_ESCEN_SIS poolconwrite = new Conn_BD_ESCEN_SIS();
                 Connection conlocal = null;
-        
-                /* Obtener tablas y campos de tablas */  
+
+                /* Obtener tablas y campos de tablas */
                 try {
                     poolconwrite.createPoolConnection(sBD_write, IDzonahoraria, ambiente);
                     conlocal = poolconwrite.getConnectionTransactional(sBD_write, IDzonahoraria);
@@ -190,7 +190,7 @@ public class ModuloBaseDatos implements Runnable {
                         System.out.println("ERROR: Se ha excedido el límite de registros de los escenarios originales.");
                         logger.error("ERROR: Se ha excedido el límite de registros de los escenarios originales. ");
                     }
-                
+
                 } catch (SQLException ex) {
                     System.out.println("ERROR: Error de conexión. No se pueden leer las tablas y campos de la Base de datos. "+ ex.getMessage());
                     logger.error("ERROR: Error de conexión. No se pueden leer las tablas y campos de la Base de datos. "+ ex.getMessage());
@@ -207,51 +207,51 @@ public class ModuloBaseDatos implements Runnable {
                     logger.debug("Error al cerrar la conexión. " + ex.getMessage());
                 }
 
-                
+
                 break;
             case 2: // ACTUALIZACION DE REGISTROS    P E N D I E N T E
                 System.out.println("********* Se inicia la actualización de la información. ********* ");
                 System.out.println("Identificador de registro = " + idRegistro + ". Identificador de escenario ="+idEscenario+". Usuario = "+fkUsuario);
-                
+
                 logger.info("********* Se inicia la actualización de la información. ********* ");
                 logger.info("Identificador de registro = " + idRegistro + ". Identificador de escenario ="+idEscenario+". Usuario = "+fkUsuario);
-                
-                
+
+
                 ActualizarRegistros(dtoEscen);
-                
+
                 break;
             case 3: // ELIMINA REGISTROS (3-POR FALLO, 4-DESDE ORIGINAL, 5-DESDE MODIFICADO)
                 System.out.println("********* Se inicia la eliminación de registros en la Base de Datos. ********* ");
                 System.out.println("Identificador de registro = " + idRegistro + ". Identificador de escenario ="+idEscenario+". Usuario = "+fkUsuario);
-                
+
                 logger.info("********* Se inicia la eliminación de registros en la Base de Datos. ********* ");
                 logger.info("Identificador de registro = " + idRegistro + ". Identificador de escenario ="+idEscenario+". Usuario = "+fkUsuario);
-                
+
                 EliminarRegistros(dtoEscen, estado);
-                
+
                 break;
             default:
                 break;
         }
-        
-        
+
+
         tFin = System.currentTimeMillis();
         System.out.println("Fin de ejecucion:    "+ fecha);
         logger.info("Fin de ejecucion:    "+ fecha);
-        
+
         tDiferencia = tFin - tInicio;
         System.out.println("Tiempo total en seg: " + (tDiferencia / 1000));
         logger.info("Tiempo total en seg: " + (tDiferencia / 1000));
-        
+
     }
-    
+
     private static void IniciarProceso(ClaseControlEscenarios dtoEscen, String ruta, String clavealeatoria) {
         boolean estatusmod = false ;
         boolean estatusorig = false ;
-        Conn_BD_ESCEN_SIS poolconwrite = new Conn_BD_ESCEN_SIS();  
+        Conn_BD_ESCEN_SIS poolconwrite = new Conn_BD_ESCEN_SIS();
         Connection conlocal = null;
-        
-        /* Obtener tablas y campos de tablas */  
+
+        /* Obtener tablas y campos de tablas */
         try {
             poolconwrite.createPoolConnection(sBD_write, IDzonahoraria, ambiente);
             conlocal = poolconwrite.getConnectionTransactional(sBD_write, IDzonahoraria);
@@ -264,17 +264,17 @@ public class ModuloBaseDatos implements Runnable {
             System.out.println("ERROR: "+e.getMessage());
             logger.error("ERROR: "+e.getMessage());
         }
-        
+
         listaArchivos = ModulosProcesamiento.ObtenerArchivosEnDirdat(ruta, hmSQLocal, fk_algoritmo);
         if(listaArchivos != null)
         {
             /* Enviar registro a control_escenarios */
             ModeloEscenarios query = new ModeloEscenarios(conlocal, dtoEscen, sistema);
-            
+
             estatusorig = query.RegistrarControlEscenOriginales(rutasindirdat.replace("escenario_modificado", "escenario_original").replace(idEscenario + "\\", "") + dtoEscen.getFolio() + ".zip");
             estatusmod = query.RegistrarControlEscenModificados(rutasindirdat + dtoEscen.getId_escenario()+ ".zip");
-            
-            if ( (estatusmod != false) ) { 
+
+            if ( (estatusmod != false) ) {
                 try {
                     /* Enviar registro a control_registro */
                     query.RegistrarControlRegistros();
@@ -282,7 +282,7 @@ public class ModuloBaseDatos implements Runnable {
                     System.out.println("ERROR: Error al insertar el registro del escenario. " + ex.getMessage());
                     logger.error("Error al insertar el registro del escenario. " + ex.getMessage());
                 } finally {
-                    
+
                     try {
                         /* CERRANDO CONEXIÓN */
                         conlocal.commit();
@@ -291,9 +291,9 @@ public class ModuloBaseDatos implements Runnable {
                     } catch (SQLException ex) {
                         logger.error("Error al cerrar la conexión. " + ex.getMessage());
                     }
-                    
+
                 }
-                
+
                 /* HILOS */
                 int num_puntos_total = 0;
                 num_puntos_total = listaArchivos.size();
@@ -360,7 +360,7 @@ public class ModuloBaseDatos implements Runnable {
                             //logger.info(listaArchivos.get(estadohilos[i][0]) + " ***> " + hilos[estadohilos[i][0]].me.getName() + " ---> estado: terminado");
                         }
                     }//for hilos paralelos
-                }//Fin de while   
+                }//Fin de while
 
                 // VERIFICA TERMINACION DE LOS ULTIMOS N HILOS EJECUTADOS E INSETAR A LA BD
                 while (hilosejecutados < num_puntos_total + hilosparalelos) {
@@ -389,25 +389,25 @@ public class ModuloBaseDatos implements Runnable {
                         else{
                             logger.error("Registro ++"+ (hilosejecutados+1) +" de " + num_puntos_total);
                         }
-                    }//for hilos paralelos     
+                    }//for hilos paralelos
                 }//Fin de while
 
-                
+
                 logger.info("hilosejecutados " + hilosejecutados+"    "+ (num_puntos_total + hilosparalelos));
-                
+
                 /* FIN HILOS */
-                
+
             } else {
                 logger.error("ERROR: No se guardó el registro del escenario.");
             }
-            
+
         }
         else
         {
             System.out.println("ERROR: No hay información para proceder a la ejecución.");
             logger.error("ERROR: No hay información para proceder a la ejecución.");
         }
-        
+
         if (estatusfinal == false) {
             EliminarRegistros(dtoEscen, EnumEstados.porfallo.getEstado());
         }
@@ -416,16 +416,16 @@ public class ModuloBaseDatos implements Runnable {
             logger.info("********* EXITO: Ejecución terminada con éxito. *********");
         }
     }
-    
+
 
     private static void EliminarRegistros(ClaseControlEscenarios dtoEscen, String estado){
-        
+
         Conn_BD_ESCEN_SIS poolconwrite = new Conn_BD_ESCEN_SIS();
         Connection condelete =null;
         boolean estatusescenm;
         boolean estatusesceno;
-        boolean estatusreg;
-        
+        //boolean estatusreg;
+
         try {
             poolconwrite.createPoolConnection(sBD_write, IDzonahoraria, ambiente);
             condelete = poolconwrite.getConnectionTransactional(sBD_write, IDzonahoraria);
@@ -433,25 +433,25 @@ public class ModuloBaseDatos implements Runnable {
             ModeloEscenarios delete = new ModeloEscenarios(condelete, dtoEscen, estado, sistema);
             if(estado.equals(EnumEstados.porfallo.getEstado())) // ESTADO 3, POR FALLO
             {
-                estatusreg = delete.EliminarRegistro();
-                estatusescenm = delete.EliminarEscenarioModif();
+                //estatusreg = delete.EliminarRegistro();
                 estatusesceno = delete.EliminarEscenarioOrig();
-                logger.debug("ELIMINAR POR ESTADO 3-FALLO + estatusreg "+estatusreg+" estatusescenm "+estatusescenm+" estatusesceno "+estatusesceno);
+                estatusescenm = delete.EliminarEscenarioModif();
+                logger.debug("ELIMINAR POR ESTADO 3-FALLO + estatusescenm "+estatusescenm+" estatusesceno "+estatusesceno);
             }
             else if(estado.equals(EnumEstados.desdeoriginal.getEstado())) // ESTADO 4, DESDE ORIGINAL
             {
                 estatusesceno = delete.EliminarEscenarioOrig();
                 estatusescenm = delete.EliminarEscenarioModif();
-                estatusreg = delete.EliminarRegistro();
-                logger.debug("ELIMINAR POR ESTADO 4-ORIGINAL + estatusreg "+estatusreg+" estatusescenm "+estatusescenm+" estatusesceno "+estatusesceno);
+                //estatusreg = delete.EliminarRegistro();
+                logger.debug("ELIMINAR POR ESTADO 4-ORIGINAL + estatusescenm "+estatusescenm+" estatusesceno "+estatusesceno);
             }
             else if(estado.equals(EnumEstados.desdemodificado.getEstado())) // ESTADO 5, DESDE MODIFICADO
             {
                 estatusescenm = delete.EliminarEscenarioModif();
-                estatusreg = delete.EliminarRegistro();
-                logger.debug("ELIMINAR POR ESTADO 5-MODIFICADO + estatusreg "+estatusreg+" estatusescenm "+estatusescenm);
+                //estatusreg = delete.EliminarRegistro();
+                logger.debug("ELIMINAR POR ESTADO 5-MODIFICADO + estatusescenm "+estatusescenm);
             }
-            
+
         } catch (SQLException ex) {
             logger.error("Ocurrió un error");
         } catch (Exception e) {
@@ -465,26 +465,27 @@ public class ModuloBaseDatos implements Runnable {
                 logger.error("No se pudo cerrar la conexión");
             }
         }
-        
+
     }
- 
+
     private static void ActualizarRegistros(ClaseControlEscenarios dtoEscen) {
         Conn_BD_ESCEN_SIS poolconwrite = new Conn_BD_ESCEN_SIS();
         Connection conupdate =null;
-        boolean estatusregm = false;
-        boolean estatusrego = false;
+        //boolean estatusregm = false;
+        //boolean estatusrego = false;
         boolean estatuselimm = false;
-        boolean estatuselimo = false;
-        
+        //boolean estatuselimo = false;
+
         try {
             poolconwrite.createPoolConnection(sBD_write, IDzonahoraria, ambiente);
             conupdate = poolconwrite.getConnectionTransactional(sBD_write, IDzonahoraria);
 
             ModeloEscenarios update = new ModeloEscenarios(conupdate, dtoEscen, estado, sistema);
             estatuselimm = update.EliminarEscenarioModif();
-            estatuselimo = update.EliminarRegistro();
-            
-            if(estatuselimm = true && estatuselimo == true){
+            //estatuselimo = update.EliminarRegistro();
+
+            //if(estatuselimm = true && estatuselimo == true){
+            if(estatuselimm = true){
                 //estatusregm = update.RegistrarControlEscenModificados(rutasindirdat + dtoEscen.getId_escenario()+ ".zip");
                 //estatusrego = update.RegistrarControlRegistros();
                 IniciarProceso(dtoEscen, rutacondirdat, idRegistro);
@@ -492,9 +493,9 @@ public class ModuloBaseDatos implements Runnable {
                 System.out.println("ERROR: No se pudo eliminar el registro.");
             logger.error("ERROR: No se pudo eliminar el registro.");
             }
-            
+
             //estatus = update.ActualizarEstado();
-            
+
         } catch (SQLException ex) {
             logger.error("Ocurrió un error");
         } catch (Exception e) {
@@ -508,8 +509,8 @@ public class ModuloBaseDatos implements Runnable {
                 logger.error("No se pudo cerrar la conexión");
             }
         }
-        
+
     }
-    
-    
+
+
 }

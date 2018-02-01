@@ -432,6 +432,7 @@ public class ModeloEscenarios {
         
     }
     
+    /*
     public boolean EliminarRegistro(){
         Statement statement = null;
         boolean estatus;
@@ -439,6 +440,7 @@ public class ModeloEscenarios {
         
         if(estado.equals(EnumEstados.desdeoriginal.getEstado()))
         {
+            //No se utiliza... el registro se elimina desde la tabla CONTROL_ESCEN_MODIFICADOS
             deletereg = "DELETE FROM CONTROL_REGISTROS WHERE FK_USUARIO = '"+dtoEscen.getFk_usuario()+"'";
         }
         else{
@@ -473,6 +475,7 @@ public class ModeloEscenarios {
         }
         return estatus;
     }   
+    */
     
     public boolean EliminarEscenarioModif(){
         Statement statement = null;
@@ -534,7 +537,7 @@ public class ModeloEscenarios {
         String propietario = ObtenerPropietario(dtoEscen.getFolio(), dtoEscen.getFk_algoritmo());
         int validarnombreexis = u.ValidarNombreExistenteParaEliminar(propietario, dtoEscen.getFk_usuario());
         
-        logger.debug("=> "+ propietario+" "+dtoEscen.getId_escenario()+" "+dtoEscen.getFk_usuario());
+        logger.debug("=> "+ propietario+ " "+dtoEscen.getId_escenario()+ " "+dtoEscen.getFk_usuario());
         logger.debug("validarnombreexis " +validarnombreexis);
         
         if( validarnombreexis == 2) // si existe un nomre y son más de 1, se quita de propietario y se actualiza el campo
