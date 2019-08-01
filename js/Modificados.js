@@ -609,6 +609,7 @@ function guardarEnBaseDatos() {
 // ${lista} es la lista de años
 ipcRenderer.on('escenarios_mod_anios:leidos', (event, flag_estado, lista) => {
     if (flag_estado === true) {
+        console.log("Lista", lista);
         if (lista !== null && typeof lista !== 'undefined') {
             cargarSelectMod(select_mod_anio, lista, 'Año');
         }
@@ -871,7 +872,7 @@ ipcRenderer.on('escenario_bd:comprimido_original', (event, res) => {
 // ${res} es un objeto que incluye la bandera
 ipcRenderer.on('archivo_bd:verificado', (event, res) => {
     console.clear();
-    
+
     let elementos = objEscVistaMod.ruta.split('\\');
     let json = {
         opc: '1',

@@ -1,4 +1,4 @@
-
+// Clase que controla la lectura y configuración de los escenarios y sus archivos.
 class Escenario {
     constructor () {
         this.path = require('path');
@@ -16,6 +16,8 @@ class Escenario {
         this.listaObjUnidades;
     }
 
+    // Carga la lista de insumos, filtrándolos en 3 listas:
+    // Entradas, resultados y unidades para asociación más ágil.
     cargarInsumos() {
         // Lista de insumos JSON
         this.insumos = require('./insumos.js');
@@ -39,11 +41,16 @@ class Escenario {
         console.log('Unidades', this.insumosUnidades.length);
     }
 
+    // Genera un objeto de escenario con la información de cada archivo y su configuración
+    // #{ruta_escenario} ubicación del escenario.
+    // ${algoritmo} algoritmo de operación
+    // ${filtro} cadena para filtrar si es entrada 'ENTRADAS' o resultado 'RESULTADOS'
     parseEscenario(ruta_escenario, algoritmo, filtro) {
         console.log(ruta_escenario, algoritmo);
 
         return new Promise((resolve, reject) => {
             // Lee los insumos
+            console.log("Carga insumos");
             this.cargarInsumos();
 
             let promesas = [];
@@ -115,6 +122,10 @@ class Escenario {
         });
     }
 
+    // Configura un archivo CSV (insumo) y genera objetos de fila por cada registro
+    // #{ruta_archivo} ubicación del archivo.
+    // #{objJSON} objeto donde se guardará la información.
+    // #{algoritmo} algoritmo de operación del escenario.
     parseArchivoCSV(ruta_archivo, objJSON, algoritmo) {
         return new Promise((resolve, reject) => {
             let extension = this.path.extname(ruta_archivo).toLowerCase();
@@ -141,7 +152,7 @@ class Escenario {
                         // Genera una copia del objeto de insumo
                         datosArchivo.insumo = JSON.parse(JSON.stringify(archivoObj));
 
-
+                        // Configuración especial para ARRARD_DERS
                         if (datosArchivo.archivo.startsWith('ARRARC_DERS')) {
                             console.log('Validacion ARRARC_DERS');
                             datosArchivo.insumo.modelo.fields.potSinc.validation = {
@@ -162,7 +173,7 @@ class Escenario {
                     console.log('No hay insumo para', datosArchivo.archivo);
                     resolve();
                 } else {
-                    // Leer datos
+                    // Leer datos del archivo
                     this.fs.readFile(ruta_archivo, 'utf8', (err, data) => {
                         if (err) {
                             console.log('No fue posible leer', ruta_archivo, err.message);
@@ -170,6 +181,7 @@ class Escenario {
                         } else {
                             console.log('Leyendo', datosArchivo.archivo);
 
+                            // Agrega los registros del CSV
                             datosArchivo.filas = this.parseData(data, datosArchivo.insumo);
                             datosArchivo.numFilas = datosArchivo.filas.length;
                         }
@@ -192,6 +204,8 @@ class Escenario {
         });
     }
 
+    // Verificación especial del archivo DERS_MI_TOTALES_AREA
+    // #{objDatos} objeto donde se aplicará la validación.
     validarDERS_MI_TOTALES_AREAS(objDatos) {
         console.log('DERS_MI_TOTALES_AREA, fila inicio ciclo:', objDatos.insumo.modelo.inicio_ciclo);
         if (typeof objDatos.insumo.modelo.inicio_ciclo === 'number' && objDatos.insumo.modelo.inicio_ciclo > 0) {
@@ -221,6 +235,9 @@ class Escenario {
         }
     }
 
+    // Verificación especial del archivo RESUMEN_UNIDADES
+    // #{objDatos} objeto donde se aplicará la validación.
+    // ${listaObjetos} lista para buscar archivos de potencia y precio.
     validarRESUMEN_UNIDADES(objDatos, listaObjetos) {
         console.log('Validando RESUMEN UNIDADES');
 
@@ -301,6 +318,7 @@ class Escenario {
         });
     }
 
+    // #{objDatos} objeto donde se aplicará la validación.
     asociarUnidades(objDatos) {
         if (typeof objDatos.insumo.origen_unidades !== 'string') {
             return;
@@ -359,6 +377,7 @@ class Escenario {
         }
     }
 
+    // #{objDatos} objeto donde se aplicará la validación.
     asociarZonasReserva(objDatos) {
         if (typeof objDatos.insumo.origen_zonas !== 'string') {
             return;
@@ -408,6 +427,7 @@ class Escenario {
         }
     }
 
+    // #{objDatos} objeto donde se aplicará la validación.
     asociarSubsistemas(objDatos) {
         if (typeof objDatos.insumo.origen_subsistemas !== 'string') {
             return;
@@ -457,6 +477,9 @@ class Escenario {
         }
     }
 
+    // Lee el contenido del archivo y lo convierte a registros
+    // ${data} contenido crudo de archivo.
+    // ${objInsumo} objeto del insumo donde se almacenará.
     parseData(data, objInsumo) {
         let lineas = data.split('\n');
 
@@ -650,6 +673,8 @@ class Escenario {
         return filas;
     }
 
+    // Lee los archivos de un escenario modificado
+    // ${ruta_escenario_mod} ubicación del escenario.
     leerEscenariosModificados(ruta_escenario_mod) {
         return new Promise((resolve, reject) => {
             this.fs.readdir(ruta_escenario_mod, (err, files) => {
@@ -663,6 +688,9 @@ class Escenario {
         });
     }
 
+    // Realiza la comparación de dos escenarios
+    // {resultados_A} objeto de resultados del escenario A.
+    // {resultados_B} objeto de resultados del escenario B.
     compararResultados(resultados_A, resultados_B) {
         console.log('Comparando escenarios...');
         return new Promise((resolve, reject) => {
@@ -714,6 +742,8 @@ class Escenario {
         });
     }
 
+    // Lee un archivo
+    // ${ruta_archivo} ubicación del archivo.
     leerArchivo(ruta_archivo) {
         return new Promise((resolve, reject) => {
             // Leer datos
@@ -729,9 +759,12 @@ class Escenario {
         });
     }
 
+    // Lee la carpeta de un directorio modificado
+    // ${ruta} ubicación del directorio.
     leerDirectorioMod(ruta) {
         return new Promise((resolve, reject) => {
             // Lee el directorio
+            console.log("Lee: " + ruta);
             this.fs.readdir(ruta, (err, files) => {
                 if (err) {
                     console.log('Error leyendo directorio', ruta);
@@ -740,8 +773,11 @@ class Escenario {
                     // Filtra solo directorios
                     let lista = [];
                     files.forEach((file) => {
-                        // console.log('Dir elemento', file);
+                        console.log('Dir elemento', file);
+                        console.log('-Dir elemento', this.path.join(ruta, file));
                         let stats = this.fs.statSync(this.path.join(ruta, file));
+                        console.log(stats);
+                        console.log("> ",stats.isDirectory());
                         if (stats.isDirectory() === true) {
                             lista.push(file);
                         }
@@ -753,6 +789,8 @@ class Escenario {
         });
     }
 
+    // Lee un directorio (sin promesa)
+    // ${ruta} ubicación del directorio.
     leerDirectoriosSync(ruta) {
         // Lee el directorio
         let lista = [];
@@ -773,6 +811,9 @@ class Escenario {
         return lista;
     }
 
+    // Genera archivo de comentarios
+    // ${ruta} ubicación del directorio.
+    // ${contenido} cadena de contenido del archivo.
     crearArchivoComentarios(ruta, contenido) {
         this.fs.writeFile(this.path.join(ruta, 'comentarios.txt'), contenido, 'utf8', (err) => {
             if (err) {

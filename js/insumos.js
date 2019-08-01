@@ -1,3 +1,4 @@
+// Objetos de configuración de los insumos (archivos csv) y la configuración de despliegue de su grid.
 module.exports = [
     // INFORMACION GENERAL
     {

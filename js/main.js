@@ -249,6 +249,13 @@ ipcMain.on('sistemas:solicitar', (event) => {
 ipcMain.on('usuario:solicitar', (event, usuario) => {
     console.log(`Solicitando usuario ${usuario}`);
 
+    setTimeout(() => {
+        console.log('manda');
+        win.webContents.send('usuario:obtenido', {caracteristicas: 'Usuario offline', sis_acc: 'BCA,BCS,SIN', nombre:'Usuario Test', perfil: 'Usuario', contrasena:'test', estado:true, Mensaje: 'Consulta realizada correctamente'});
+    }, 2000);
+
+    return;
+
     // Sin red cenace
     /* * * * * * * * * * * */
     /* VERSION TEST URIEL */
@@ -1161,7 +1168,7 @@ ipcMain.on('archivo:leer', (event, ruta, elementos, opcion) => {
 // ${algoritmo} es el algoritmo asociado
 ipcMain.on('escenarios_mod_anios:leer', (event, algoritmo) => {
     let ruta = path.join(config.local.escenarios, SESION.sistema, algoritmo, 'escenario_original');
-
+    console.log("Ruta anios: " + ruta);
     escenario.leerDirectorioMod(ruta).then((lista) => {
         win.webContents.send('escenarios_mod_anios:leidos', true, lista);
     }, () => {
