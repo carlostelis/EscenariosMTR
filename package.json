@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Analisis de Escenarios MTR",
   "main": "./js/main.js",
+  "repository": "https://github.com/carlostelis/EscenariosMTR.git",
   "scripts": {
     "test": "electron .",
     "start": "electron .",
