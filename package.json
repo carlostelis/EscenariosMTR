@@ -23,7 +23,7 @@
     "text-encoding": "^0.6.4"
   },
   "devDependencies": {
-    "electron": "^1.8.1",
+    "electron": "^9.1.0",
     "electron-packager": "^8.7.2",
     "electron-squirrel-startup": "^1.0.0"
   }
